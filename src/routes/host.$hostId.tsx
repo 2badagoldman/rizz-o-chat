@@ -237,7 +237,7 @@ function HostProfile() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <button className="grid h-11 w-11 place-items-center rounded-2xl border border-border bg-background">
+            <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 place-items-center rounded-2xl border border-border bg-background hover:bg-primary/10">
               <Gift className="h-4 w-4" />
             </button>
             <button className="grid h-11 w-11 place-items-center rounded-2xl border border-border bg-background">
@@ -249,9 +249,41 @@ function HostProfile() {
           <Sparkles className="h-4 w-4" /> Unlock {host.name}&apos;s Friends List
         </button>
         <p className="mt-2 text-center text-[10px] text-muted-foreground">
-          Hosts are compensated partners. Base membership required.
+          Cancel anytime · Chat access continues for 30 minutes after cancel.
         </p>
       </div>
+
+      {tipOpen ? (
+        <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50" onClick={() => setTipOpen(false)}>
+          <div className="w-full max-w-[480px] rounded-t-3xl border-t border-border bg-card p-5" onClick={(e) => e.stopPropagation()}>
+            <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Send a tip to</p>
+            <h3 className="mt-1 text-lg font-bold">{host.name}</h3>
+            <div className="mt-4 grid grid-cols-4 gap-2">
+              {[500, 1000, 2500, 5000].map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setTipAmount(c)}
+                  className={`rounded-2xl border px-2 py-3 text-sm font-semibold ${tipAmount === c ? "border-primary bg-primary/10 text-primary" : "border-border bg-background"}`}
+                >
+                  ${(c / 100).toFixed(0)}
+                </button>
+              ))}
+            </div>
+            <label className="mt-4 block text-xs text-muted-foreground">Custom amount (USD)</label>
+            <input
+              type="number"
+              min={1}
+              max={500}
+              value={(tipAmount / 100).toString()}
+              onChange={(e) => setTipAmount(Math.max(100, Math.min(50000, Math.round(Number(e.target.value) * 100))))}
+              className="mt-1 w-full rounded-2xl border border-border bg-background px-3 py-2 text-sm"
+            />
+            <button onClick={sendTip} className="btn-brand mt-4 w-full">Send ${(tipAmount / 100).toFixed(2)}</button>
+          </div>
+        </div>
+      ) : null}
+
+      {checkoutElement}
     </AppShell>
   );
 }
