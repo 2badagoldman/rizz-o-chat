@@ -175,8 +175,8 @@ export function RizzBrainDock() {
               className="flex flex-1 items-center gap-2 rounded-xl px-2 py-1.5 text-left"
               aria-label="Open Rizz AI"
             >
-              <div className="grid h-7 w-7 place-items-center rounded-full bg-gradient-brand shadow-glow">
-                <Sparkles className="h-3.5 w-3.5 text-white" />
+              <div className="h-7 w-7 overflow-hidden rounded-full shadow-glow">
+                <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
               </div>
               <span className="truncate text-xs text-muted-foreground">
                 Ask <span className="text-gradient-brand font-semibold">Rizz AI</span> anything…
