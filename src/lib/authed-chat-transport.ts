@@ -11,10 +11,12 @@ export function createAuthedChatTransport({ api, body }: Options) {
   return new DefaultChatTransport({
     api,
     body,
-    headers: async () => {
+    fetch: async (input, init) => {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token;
-      return token ? { Authorization: `Bearer ${token}` } : {};
+      const headers = new Headers(init?.headers);
+      if (token) headers.set("Authorization", `Bearer ${token}`);
+      return fetch(input, { ...init, headers });
     },
   });
 }

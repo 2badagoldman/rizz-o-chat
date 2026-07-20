@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
 import ReactMarkdown from "react-markdown";
 import { Send, X, ChevronDown } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
@@ -22,7 +22,7 @@ export function RizzBrainDock() {
   }, []);
 
   const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
+    transport: createAuthedChatTransport({ api: "/api/chat" }),
   });
 
   useEffect(() => {

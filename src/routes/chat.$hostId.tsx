@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
 import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Send, Circle, Gift } from "lucide-react";
@@ -34,7 +34,7 @@ function HostChat() {
   const isJen = hostId === "demo-jen";
 
   const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/host-chat", body: { hostId } }),
+    transport: createAuthedChatTransport({ api: "/api/host-chat", body: { hostId } }),
   });
 
   useEffect(() => {

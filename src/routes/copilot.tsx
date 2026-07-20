@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { AppShell } from "@/components/AppShell";
@@ -25,7 +25,7 @@ function Copilot() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
+    transport: createAuthedChatTransport({ api: "/api/chat" }),
   });
 
   useEffect(() => {
