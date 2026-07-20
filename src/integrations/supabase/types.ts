@@ -193,6 +193,7 @@ export type Database = {
       }
       list_memberships: {
         Row: {
+          chat_access_until: string | null
           id: string
           list_id: string
           member_id: string
@@ -202,6 +203,7 @@ export type Database = {
           status: Database["public"]["Enums"]["membership_status"]
         }
         Insert: {
+          chat_access_until?: string | null
           id?: string
           list_id: string
           member_id: string
@@ -211,6 +213,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["membership_status"]
         }
         Update: {
+          chat_access_until?: string | null
           id?: string
           list_id?: string
           member_id?: string
@@ -306,6 +309,7 @@ export type Database = {
           gender: Database["public"]["Enums"]["gender"] | null
           id: string
           interests: string[]
+          platform_tier: Database["public"]["Enums"]["platform_tier"]
           updated_at: string
           verification_status: Database["public"]["Enums"]["verification_status"]
         }
@@ -320,6 +324,7 @@ export type Database = {
           gender?: Database["public"]["Enums"]["gender"] | null
           id: string
           interests?: string[]
+          platform_tier?: Database["public"]["Enums"]["platform_tier"]
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
@@ -334,6 +339,7 @@ export type Database = {
           gender?: Database["public"]["Enums"]["gender"] | null
           id?: string
           interests?: string[]
+          platform_tier?: Database["public"]["Enums"]["platform_tier"]
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
         }
@@ -408,6 +414,57 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          cancel_at_period_end: boolean | null
+          created_at: string | null
+          current_period_end: string | null
+          current_period_start: string | null
+          environment: string
+          host_id: string | null
+          id: string
+          price_id: string
+          product_id: string
+          status: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          cancel_at_period_end?: boolean | null
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          host_id?: string | null
+          id?: string
+          price_id: string
+          product_id: string
+          status?: string
+          stripe_customer_id: string
+          stripe_subscription_id: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean | null
+          created_at?: string | null
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          host_id?: string | null
+          id?: string
+          price_id?: string
+          product_id?: string
+          status?: string
+          stripe_customer_id?: string
+          stripe_subscription_id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -467,6 +524,22 @@ export type Database = {
           transactions: number
         }[]
       }
+      credit_coins: {
+        Args: { _coins: number; _user_id: string }
+        Returns: undefined
+      }
+      friends_list_grace_end: {
+        Args: { _host_id: string; _member_id: string }
+        Returns: undefined
+      }
+      grant_friends_list_access: {
+        Args: { _host_id: string; _member_id: string; _price_cents: number }
+        Returns: undefined
+      }
+      has_chat_access: {
+        Args: { _host_id: string; _member_id: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -484,6 +557,7 @@ export type Database = {
       list_tier: "new" | "rising" | "popular" | "elite"
       membership_status: "trial" | "active" | "cancelled"
       plan_type: "weekly" | "monthly"
+      platform_tier: "free" | "plus" | "vip"
       sub_status: "trial" | "active" | "cancelled" | "expired"
       verification_status: "pending" | "verified" | "rejected"
     }
@@ -620,6 +694,7 @@ export const Constants = {
       list_tier: ["new", "rising", "popular", "elite"],
       membership_status: ["trial", "active", "cancelled"],
       plan_type: ["weekly", "monthly"],
+      platform_tier: ["free", "plus", "vip"],
       sub_status: ["trial", "active", "cancelled", "expired"],
       verification_status: ["pending", "verified", "rejected"],
     },
