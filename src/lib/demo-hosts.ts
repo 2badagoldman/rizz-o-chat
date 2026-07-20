@@ -230,7 +230,8 @@ function buildExtraHosts(): DemoHost[] {
     return {
       id: `demo-${s.name!.toLowerCase()}`,
       handle: `@${s.name!.toLowerCase()}rizz`,
-      age: 21 + (i % 22),
+      // 65% of hosts are 18-24, the rest spread 25-42
+      age: (i % 20) < 13 ? 18 + (i % 7) : 25 + (i % 18),
       bio: `${s.tagline} Come hang — I actually reply.`,
       tier,
       priceMonthly: price,
