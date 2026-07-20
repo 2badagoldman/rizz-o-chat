@@ -46,7 +46,7 @@ export const DEMO_HOSTS: DemoHost[] = [
     id: "demo-jen",
     name: "Jen",
     handle: "@jenrizz",
-    age: 26,
+    age: 23,
     city: "Chicago, IL",
     tagline: "First Rizzla host. Come say hi 💌",
     bio: "Founding host on Rizzla. I'm here to actually reply — tell me about your week and I'll roast your dating life (gently).",
