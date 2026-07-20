@@ -15,6 +15,13 @@ export const Route = createFileRoute("/chat/$hostId")({
   component: HostChat,
 });
 
+const GIFTS: Array<{ emoji: string; label: string; coins: number }> = [
+  { emoji: "🌹", label: "Rose", coins: 100 },
+  { emoji: "🍫", label: "Chocolate", coins: 250 },
+  { emoji: "🧸", label: "Teddy", coins: 500 },
+  { emoji: "💎", label: "Diamond", coins: 2500 },
+];
+
 function HostChat() {
   const { hostId } = Route.useParams();
   const { user, loading } = useAuth();
