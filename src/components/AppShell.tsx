@@ -15,10 +15,9 @@ interface AppShellProps {
 export function AppShell({ children, hideNav, hideDock, theme = "member", footerNote }: AppShellProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const suppressDock = hideNav || hideDock || pathname === "/copilot" || pathname === "/auth";
-  const hideHeader = pathname === "/auth";
   return (
     <div className={`min-h-screen bg-background text-foreground ${theme === "host" ? "host-theme" : ""}`}>
-      {!hideHeader ? (
+      {true ? (
         <header className="sticky top-0 z-30 border-b border-border/60 bg-background/80 backdrop-blur">
           <div className="mx-auto flex w-full max-w-[480px] items-center justify-between px-4 py-2.5">
             <Link to="/" className="flex items-center gap-2" aria-label="Rizzla home">
