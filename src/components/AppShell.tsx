@@ -28,7 +28,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
           </div>
         </header>
       ) : null}
-      <main className="mx-auto w-full max-w-[480px] px-4 pt-4 pb-32">
+      <main key={pathname} className="page-anim mx-auto w-full max-w-[480px] px-4 pt-4 pb-32">
         {children}
         {footerNote ? (
           <p className="mt-8 text-center text-[11px] leading-relaxed text-muted-foreground">

@@ -273,6 +273,7 @@ export type Database = {
           created_at: string
           display_name: string
           flipped_at: string | null
+          gender: Database["public"]["Enums"]["gender"] | null
           id: string
           interests: string[]
           updated_at: string
@@ -286,6 +287,7 @@ export type Database = {
           created_at?: string
           display_name?: string
           flipped_at?: string | null
+          gender?: Database["public"]["Enums"]["gender"] | null
           id: string
           interests?: string[]
           updated_at?: string
@@ -299,6 +301,7 @@ export type Database = {
           created_at?: string
           display_name?: string
           flipped_at?: string | null
+          gender?: Database["public"]["Enums"]["gender"] | null
           id?: string
           interests?: string[]
           updated_at?: string
@@ -447,6 +450,7 @@ export type Database = {
       account_type: "host" | "member"
       app_role: "admin"
       earning_source: "list" | "gift" | "referral"
+      gender: "female" | "male" | "nonbinary" | "other"
       list_tier: "new" | "rising" | "popular" | "elite"
       membership_status: "trial" | "active" | "cancelled"
       plan_type: "weekly" | "monthly"
@@ -582,6 +586,7 @@ export const Constants = {
       account_type: ["host", "member"],
       app_role: ["admin"],
       earning_source: ["list", "gift", "referral"],
+      gender: ["female", "male", "nonbinary", "other"],
       list_tier: ["new", "rising", "popular", "elite"],
       membership_status: ["trial", "active", "cancelled"],
       plan_type: ["weekly", "monthly"],
