@@ -52,7 +52,7 @@ function Dashboard() {
       <header className="pt-4">
         <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Your dashboard</p>
         <h1 className="text-2xl">
-          Hey {data?.profile?.display_name ?? "there"} <span className="text-gradient-brand">✨</span>
+          Hey {data?.profile?.display_name ?? "there"} <img src={rizzAiLogo.url} alt="" className="inline-block h-7 w-7 rounded-full align-[-4px]" />
         </h1>
       </header>
 
