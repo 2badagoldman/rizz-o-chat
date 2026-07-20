@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
-import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Sparkles, Check } from "lucide-react";
+import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Check } from "lucide-react";
 
 const UUID_RE = /^[a-f0-9-]{36}$/i;
 
