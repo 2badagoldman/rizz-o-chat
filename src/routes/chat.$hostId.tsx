@@ -3,7 +3,7 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { ArrowLeft, Send, Circle } from "lucide-react";
+import { ArrowLeft, Send, Circle, Gift } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
