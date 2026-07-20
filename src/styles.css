@@ -45,39 +45,39 @@
 :root {
   --radius: 1rem; /* 16px */
 
-  /* Rizz palette */
-  --background: oklch(0.13 0.02 280);   /* #0B0B12 */
-  --foreground: oklch(0.97 0.005 280);  /* #F4F4F8 */
-  --card: oklch(0.19 0.025 280);        /* #161622 */
-  --card-foreground: oklch(0.97 0.005 280);
-  --popover: oklch(0.19 0.025 280);
-  --popover-foreground: oklch(0.97 0.005 280);
+  /* Rizzla palette — bright, feminine, pink-forward */
+  --background: oklch(0.98 0.015 350);   /* soft blush white */
+  --foreground: oklch(0.20 0.04 340);    /* deep plum ink */
+  --card: oklch(1 0 0);                  /* pure white */
+  --card-foreground: oklch(0.20 0.04 340);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.20 0.04 340);
 
-  --primary: oklch(0.66 0.24 5);        /* pink #FF3D7F */
-  --primary-foreground: oklch(0.98 0.005 280);
-  --secondary: oklch(0.24 0.03 280);
-  --secondary-foreground: oklch(0.97 0.005 280);
-  --muted: oklch(0.24 0.03 280);
-  --muted-foreground: oklch(0.68 0.02 280); /* #9A9AB0 */
-  --accent: oklch(0.62 0.22 300);       /* purple #7C5CFF */
-  --accent-foreground: oklch(0.98 0.005 280);
+  --primary: oklch(0.66 0.26 5);         /* vivid hot pink */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0.03 350);     /* pale pink chip */
+  --secondary-foreground: oklch(0.25 0.05 340);
+  --muted: oklch(0.96 0.02 340);
+  --muted-foreground: oklch(0.48 0.04 340);
+  --accent: oklch(0.72 0.20 340);        /* bright magenta */
+  --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.62 0.25 27);
-  --destructive-foreground: oklch(0.98 0.005 280);
-  --success: oklch(0.78 0.18 150);      /* #3DDC84 */
-  --success-foreground: oklch(0.15 0.02 280);
+  --destructive-foreground: oklch(1 0 0);
+  --success: oklch(0.72 0.18 155);
+  --success-foreground: oklch(1 0 0);
 
-  --brand-pink: oklch(0.66 0.24 5);
-  --brand-purple: oklch(0.62 0.22 300);
+  --brand-pink: oklch(0.66 0.26 5);
+  --brand-purple: oklch(0.72 0.20 340);
 
-  --border: oklch(1 0 0 / 8%);
-  --input: oklch(1 0 0 / 10%);
-  --ring: oklch(0.66 0.24 5 / 60%);
+  --border: oklch(0.20 0.04 340 / 8%);
+  --input: oklch(0.20 0.04 340 / 8%);
+  --ring: oklch(0.66 0.26 5 / 55%);
 
   /* Semantic gradients & shadows */
-  --gradient-brand: linear-gradient(135deg, oklch(0.66 0.24 5), oklch(0.62 0.22 300));
-  --gradient-brand-soft: linear-gradient(135deg, oklch(0.66 0.24 5 / 0.15), oklch(0.62 0.22 300 / 0.15));
-  --shadow-glow: 0 10px 40px -10px oklch(0.66 0.24 5 / 0.35);
-  --shadow-card: 0 4px 20px -8px oklch(0 0 0 / 0.5);
+  --gradient-brand: linear-gradient(135deg, oklch(0.72 0.24 355), oklch(0.68 0.22 320));
+  --gradient-brand-soft: linear-gradient(135deg, oklch(0.72 0.24 355 / 0.15), oklch(0.68 0.22 320 / 0.15));
+  --shadow-glow: 0 12px 40px -12px oklch(0.66 0.26 5 / 0.45);
+  --shadow-card: 0 8px 30px -12px oklch(0.66 0.26 5 / 0.18);
 
   /* Host / Creator Studio theme (warm gold + rose on dark) */
   --host-primary: #E9B872;
