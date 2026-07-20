@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import ReactMarkdown from "react-markdown";
-import { Sparkles, Send, X, ChevronDown } from "lucide-react";
+import { Send, X, ChevronDown } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
+import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 const DISMISS_KEY = "rizz_brain_dock_dismissed_v1";
 
