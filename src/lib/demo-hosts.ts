@@ -123,7 +123,7 @@ export const DEMO_HOSTS: DemoHost[] = [
     id: "demo-remy",
     name: "Remy",
     handle: "@remyriot",
-    age: 25,
+    age: 20,
     city: "Nashville, TN",
     tagline: "Singer-songwriter with commitment issues (to genres).",
     bio: "Writing my second album. I'll send you unreleased demos if you're nice. I'm never nice back tho.",
