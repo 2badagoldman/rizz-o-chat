@@ -102,10 +102,10 @@ async function handleCheckoutCompleted(session: any) {
     const hostShare = Math.floor(gross * 0.65);
     await sb().from('earnings_ledger').insert({
       host_id: meta.hostId,
-      member_id: userId,
       source: 'gift',
       gross_cents: gross,
       host_share_cents: hostShare,
+      split_pct_at_time: 65,
     });
     await sb().from('gifts').insert({
       recipient_host_id: meta.hostId,
