@@ -190,9 +190,11 @@ function Profile() {
           user_id: user.id,
           storage_path: path,
           media_type: isVideo ? "video" : "image",
+          caption: pendingCaption.trim().slice(0, CAPTION_MAX) || null,
         });
         if (dbErr) throw dbErr;
       }
+      setPendingCaption("");
       await loadMedia(user.id);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Upload failed");
@@ -200,6 +202,20 @@ function Profile() {
       setUploadingMedia(false);
       if (mediaInputRef.current) mediaInputRef.current.value = "";
     }
+  };
+
+  const onSaveCaption = async (row: MediaRow) => {
+    const next = editingCaption.trim().slice(0, CAPTION_MAX) || null;
+    setEditingId(null);
+    const { error: err } = await supabase
+      .from("profile_media")
+      .update({ caption: next })
+      .eq("id", row.id);
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    setMedia((prev) => prev.map((m) => (m.id === row.id ? { ...m, caption: next } : m)));
   };
 
   const onDeleteMedia = async (row: MediaRow) => {
