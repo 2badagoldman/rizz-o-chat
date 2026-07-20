@@ -10,8 +10,8 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const { user } = useAuth();
-  const online = DEMO_HOSTS.filter((h) => h.online).slice(0, 6);
-  const featured = DEMO_HOSTS.slice(0, 4);
+  const online = DEMO_HOSTS.filter((h) => h.online).slice(0, 12);
+  const featured = DEMO_HOSTS;
 
   return (
     <AppShell>
