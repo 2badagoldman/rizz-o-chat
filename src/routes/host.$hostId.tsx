@@ -3,9 +3,12 @@ import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierBand, tierLabel } from "@/lib/demo-hosts";
 import { useAuth } from "@/lib/auth";
+import { useStripeCheckout } from "@/hooks/useStripeCheckout";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Sparkles, Check } from "lucide-react";
+
+const UUID_RE = /^[a-f0-9-]{36}$/i;
 
 export const Route = createFileRoute("/host/$hostId")({
   head: ({ params }) => {
@@ -26,6 +29,9 @@ function HostProfile() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [slide, setSlide] = useState(0);
+  const [tipOpen, setTipOpen] = useState(false);
+  const [tipAmount, setTipAmount] = useState(500);
+  const { openCheckout, checkoutElement } = useStripeCheckout();
 
   if (!host) {
     return (
@@ -38,7 +44,6 @@ function HostProfile() {
     );
   }
 
-  // Build carousel slides — a hero, an optional video loop card, then a couple of "locked" tease cards.
   const slides: Array<{ kind: "hero" | "video" | "locked"; label?: string }> = [
     { kind: "hero" },
     ...(host.hasVideo ? [{ kind: "video" as const, label: "Video loop" }] : []),
@@ -46,12 +51,34 @@ function HostProfile() {
     { kind: "locked", label: "Photo 7 of " + host.photoCount },
   ];
 
+  const hostIsReal = UUID_RE.test(host.id);
+
   const onSubscribe = () => {
-    if (!user) {
-      navigate({ to: "/auth" });
+    if (!user) return navigate({ to: "/auth" });
+    if (!hostIsReal) {
+      alert(`${host.name} is a demo profile — checkout will unlock once real hosts sign up.`);
       return;
     }
-    alert(`Subscribe to ${host.name}'s Friends List — Google Play Billing wires up next.`);
+    openCheckout({
+      kind: "friends_list",
+      hostId: host.id,
+      hostName: host.name,
+      priceCents: Math.round(host.priceMonthly * 100),
+    });
+  };
+
+  const onTip = () => {
+    if (!user) return navigate({ to: "/auth" });
+    if (!hostIsReal) {
+      alert(`${host.name} is a demo profile — tips unlock once real hosts sign up.`);
+      return;
+    }
+    setTipOpen(true);
+  };
+
+  const sendTip = () => {
+    setTipOpen(false);
+    openCheckout({ kind: "tip", hostId: host.id, hostName: host.name, amountCents: tipAmount });
   };
 
   return (
@@ -210,7 +237,7 @@ function HostProfile() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <button className="grid h-11 w-11 place-items-center rounded-2xl border border-border bg-background">
+            <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 place-items-center rounded-2xl border border-border bg-background hover:bg-primary/10">
               <Gift className="h-4 w-4" />
             </button>
             <button className="grid h-11 w-11 place-items-center rounded-2xl border border-border bg-background">
@@ -222,9 +249,41 @@ function HostProfile() {
           <Sparkles className="h-4 w-4" /> Unlock {host.name}&apos;s Friends List
         </button>
         <p className="mt-2 text-center text-[10px] text-muted-foreground">
-          Hosts are compensated partners. Base membership required.
+          Cancel anytime · Chat access continues for 30 minutes after cancel.
         </p>
       </div>
+
+      {tipOpen ? (
+        <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50" onClick={() => setTipOpen(false)}>
+          <div className="w-full max-w-[480px] rounded-t-3xl border-t border-border bg-card p-5" onClick={(e) => e.stopPropagation()}>
+            <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Send a tip to</p>
+            <h3 className="mt-1 text-lg font-bold">{host.name}</h3>
+            <div className="mt-4 grid grid-cols-4 gap-2">
+              {[500, 1000, 2500, 5000].map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setTipAmount(c)}
+                  className={`rounded-2xl border px-2 py-3 text-sm font-semibold ${tipAmount === c ? "border-primary bg-primary/10 text-primary" : "border-border bg-background"}`}
+                >
+                  ${(c / 100).toFixed(0)}
+                </button>
+              ))}
+            </div>
+            <label className="mt-4 block text-xs text-muted-foreground">Custom amount (USD)</label>
+            <input
+              type="number"
+              min={1}
+              max={500}
+              value={(tipAmount / 100).toString()}
+              onChange={(e) => setTipAmount(Math.max(100, Math.min(50000, Math.round(Number(e.target.value) * 100))))}
+              className="mt-1 w-full rounded-2xl border border-border bg-background px-3 py-2 text-sm"
+            />
+            <button onClick={sendTip} className="btn-brand mt-4 w-full">Send ${(tipAmount / 100).toFixed(2)}</button>
+          </div>
+        </div>
+      ) : null}
+
+      {checkoutElement}
     </AppShell>
   );
 }
