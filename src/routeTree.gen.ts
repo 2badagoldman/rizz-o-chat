@@ -23,6 +23,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as HostOnboardingRouteImport } from './routes/host.onboarding'
 import { Route as HostHostIdRouteImport } from './routes/host.$hostId'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
+import { Route as ChatHostIdRouteImport } from './routes/chat.$hostId'
+import { Route as ApiHostChatRouteImport } from './routes/api/host-chat'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
@@ -101,6 +103,16 @@ const CheckoutReturnRoute = CheckoutReturnRouteImport.update({
   path: '/checkout/return',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatHostIdRoute = ChatHostIdRouteImport.update({
+  id: '/chat/$hostId',
+  path: '/chat/$hostId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHostChatRoute = ApiHostChatRouteImport.update({
+  id: '/api/host-chat',
+  path: '/api/host-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -157,6 +169,8 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/host-chat': typeof ApiHostChatRoute
+  '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
   '/host/onboarding': typeof HostOnboardingRoute
@@ -180,6 +194,8 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/host-chat': typeof ApiHostChatRoute
+  '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
   '/host/onboarding': typeof HostOnboardingRoute
@@ -204,6 +220,8 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/host-chat': typeof ApiHostChatRoute
+  '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
   '/host/onboarding': typeof HostOnboardingRoute
@@ -229,6 +247,8 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/showcase'
     | '/api/chat'
+    | '/api/host-chat'
+    | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
     | '/host/onboarding'
@@ -252,6 +272,8 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/showcase'
     | '/api/chat'
+    | '/api/host-chat'
+    | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
     | '/host/onboarding'
@@ -275,6 +297,8 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/showcase'
     | '/api/chat'
+    | '/api/host-chat'
+    | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
     | '/host/onboarding'
@@ -298,6 +322,8 @@ export interface RootRouteChildren {
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiHostChatRoute: typeof ApiHostChatRoute
+  ChatHostIdRoute: typeof ChatHostIdRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   HostHostIdRoute: typeof HostHostIdRoute
   HostOnboardingRoute: typeof HostOnboardingRoute
@@ -406,6 +432,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutReturnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat/$hostId': {
+      id: '/chat/$hostId'
+      path: '/chat/$hostId'
+      fullPath: '/chat/$hostId'
+      preLoaderRoute: typeof ChatHostIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/host-chat': {
+      id: '/api/host-chat'
+      path: '/api/host-chat'
+      fullPath: '/api/host-chat'
+      preLoaderRoute: typeof ApiHostChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -484,6 +524,8 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiHostChatRoute: ApiHostChatRoute,
+  ChatHostIdRoute: ChatHostIdRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   HostHostIdRoute: HostHostIdRoute,
   HostOnboardingRoute: HostOnboardingRoute,

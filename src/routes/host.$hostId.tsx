@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
-import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Sparkles, Check } from "lucide-react";
+import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Check } from "lucide-react";
 
 const UUID_RE = /^[a-f0-9-]{36}$/i;
 
@@ -232,26 +232,50 @@ function HostProfile() {
           <div>
             <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Join Friends List</p>
             <p className="text-lg font-bold">
-              ${host.priceMonthly}
-              <span className="text-xs font-normal text-muted-foreground">/mo</span>
+              {host.id === "demo-jen" ? (
+                <span className="text-gradient-brand">Free</span>
+              ) : (
+                <>
+                  ${host.priceMonthly}
+                  <span className="text-xs font-normal text-muted-foreground">/mo</span>
+                </>
+              )}
             </p>
           </div>
           <div className="flex items-center gap-2">
             <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 place-items-center rounded-2xl border border-border bg-background hover:bg-primary/10">
               <Gift className="h-4 w-4" />
             </button>
-            <button className="grid h-11 w-11 place-items-center rounded-2xl border border-border bg-background">
+            <button
+              onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: host.id } })}
+              aria-label="Message"
+              className="grid h-11 w-11 place-items-center rounded-2xl border border-border bg-background hover:bg-primary/10"
+            >
               <MessageCircle className="h-4 w-4" />
             </button>
           </div>
         </div>
-        <button onClick={onSubscribe} className="btn-brand flex w-full items-center justify-center gap-2">
-          <Sparkles className="h-4 w-4" /> Unlock {host.name}&apos;s Friends List
-        </button>
+        {host.id === "demo-jen" ? (
+          <button
+            onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: host.id } })}
+            className="btn-brand flex w-full items-center justify-center gap-2"
+          >
+            <img src={rizzAiLogo.url} alt="" className="h-5 w-5 rounded-full" />
+            Chat Jen — Free
+          </button>
+        ) : (
+          <button onClick={onSubscribe} className="btn-brand flex w-full items-center justify-center gap-2">
+            <img src={rizzAiLogo.url} alt="" className="h-5 w-5 rounded-full" />
+            Unlock {host.name}&apos;s Friends List
+          </button>
+        )}
         <p className="mt-2 text-center text-[10px] text-muted-foreground">
-          Cancel anytime · Chat access continues for 30 minutes after cancel.
+          {host.id === "demo-jen"
+            ? "Jen is our founding host — free to chat while we test."
+            : "Cancel anytime · Chat access continues for 30 minutes after cancel."}
         </p>
       </div>
+
 
       {tipOpen ? (
         <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50" onClick={() => setTipOpen(false)}>
