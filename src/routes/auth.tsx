@@ -146,8 +146,33 @@ function AuthPage() {
               onChange={(e) => setDisplayName(e.target.value)}
               className="rounded-[14px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
             />
+            {role === "host" && (
+              <div>
+                <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Gender <span className="text-muted-foreground/70 normal-case tracking-normal">(women are our focus, all welcome)</span>
+                </p>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {(["female", "male", "nonbinary", "other"] as const).map((g) => (
+                    <button
+                      key={g}
+                      type="button"
+                      onClick={() => setGender(g)}
+                      className="rounded-[10px] border px-2 py-2 text-xs font-semibold capitalize transition"
+                      style={{
+                        borderColor: gender === g ? "transparent" : "var(--color-border)",
+                        background: gender === g ? "var(--gradient-brand-soft)" : "var(--color-card)",
+                        color: gender === g ? "var(--color-foreground)" : "var(--color-muted-foreground)",
+                      }}
+                    >
+                      {g === "nonbinary" ? "Non-binary" : g}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </>
         )}
+
         <input
           required
           type="email"
