@@ -103,15 +103,16 @@ async function handleCheckoutCompleted(session: any) {
     await sb().from('earnings_ledger').insert({
       host_id: meta.hostId,
       member_id: userId,
-      source: 'tip',
+      source: 'gift',
       gross_cents: gross,
       host_share_cents: hostShare,
     });
     await sb().from('gifts').insert({
-      host_id: meta.hostId,
+      recipient_host_id: meta.hostId,
       sender_id: userId,
-      amount_cents: gross,
-    }).then(() => {}, () => {}); // best-effort; ignore if schema differs
+      coin_value: Math.floor(gross / 10), // 10 cents = 1 coin equivalent
+      gift_type: 'tip',
+    });
   }
 }
 
