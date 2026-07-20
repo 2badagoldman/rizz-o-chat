@@ -4,8 +4,10 @@ import { DefaultChatTransport } from "ai";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { AppShell } from "@/components/AppShell";
-import { Sparkles, Send, ArrowLeft } from "lucide-react";
+import { Send, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 
 export const Route = createFileRoute("/copilot")({
   head: () => ({
