@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierLabel, type DemoHost } from "@/lib/demo-hosts";
 import { Search, Sparkles, Users, Circle } from "lucide-react";
+import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/discover")({
   head: () => ({
@@ -133,7 +134,7 @@ function HostCard({ host }: { host: DemoHost }) {
           <Users className="h-3 w-3" /> {host.subscribers}
         </div>
         <div className="flex items-center gap-1 text-xs font-semibold">
-          <Sparkles className="h-3 w-3 text-primary" />
+          <img src={rizzLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" />
           ${host.priceMonthly}/mo
         </div>
       </div>
