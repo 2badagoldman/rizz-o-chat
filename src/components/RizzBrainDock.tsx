@@ -60,8 +60,8 @@ export function RizzBrainDock() {
         <div className="fixed inset-x-0 bottom-0 z-[60] mx-auto flex w-full max-w-[480px] flex-col rounded-t-3xl border-t border-border bg-card shadow-glow" style={{ height: "min(78vh, 640px)" }}>
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <div className="flex items-center gap-2">
-              <div className="grid h-8 w-8 place-items-center rounded-full bg-gradient-brand shadow-glow">
-                <Sparkles className="h-4 w-4 text-white" />
+              <div className="h-8 w-8 overflow-hidden rounded-full shadow-glow">
+                <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
               </div>
               <div>
                 <p className="text-sm font-semibold leading-tight">Rizz AI</p>
