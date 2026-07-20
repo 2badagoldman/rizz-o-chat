@@ -157,7 +157,53 @@ export const DEMO_HOSTS: DemoHost[] = [
     hasVideo: false,
     teaser: "Painting something weird tonight. Wanna see?",
   },
+  ...buildExtraHosts(),
 ];
+
+function buildExtraHosts(): DemoHost[] {
+  const seeds: Array<Partial<DemoHost> & { name: string; city: string; tagline: string; interests: string[]; gradient: string; accent: string }> = [
+    { name: "Sasha", city: "Denver, CO", tagline: "Ski bum with a poetry habit.", interests: ["Skiing", "Poetry", "Whiskey", "Dogs"], gradient: "linear-gradient(135deg,#4FACFE 0%,#00F2FE 100%)", accent: "#4FACFE" },
+    { name: "Elena", city: "Phoenix, AZ", tagline: "Desert energy. Ask about tarot.", interests: ["Tarot", "Hiking", "Cacti", "Vinyl"], gradient: "linear-gradient(135deg,#FBAB7E 0%,#F7CE68 100%)", accent: "#FBAB7E" },
+    { name: "Priya", city: "San Francisco, CA", tagline: "Startup girl who codes AND reads.", interests: ["Tech", "Books", "Ramen", "Yoga"], gradient: "linear-gradient(135deg,#A18CD1 0%,#FBC2EB 100%)", accent: "#A18CD1" },
+    { name: "Camila", city: "Miami, FL", tagline: "Salsa nights, sunrise beach runs.", interests: ["Salsa", "Beach", "Spanish", "Rum"], gradient: "linear-gradient(135deg,#FF9A9E 0%,#FAD0C4 100%)", accent: "#FF9A9E" },
+    { name: "Zoe", city: "Portland, OR", tagline: "Bookstore owner. Big feelings.", interests: ["Books", "Rain", "Coffee", "Cats"], gradient: "linear-gradient(135deg,#667EEA 0%,#764BA2 100%)", accent: "#667EEA" },
+    { name: "Harper", city: "Atlanta, GA", tagline: "Southern with a spicy DM game.", interests: ["Cooking", "R&B", "Wine", "Podcasts"], gradient: "linear-gradient(135deg,#F093FB 0%,#F5576C 100%)", accent: "#F5576C" },
+    { name: "Isla", city: "San Diego, CA", tagline: "Surf instructor + certified over-thinker.", interests: ["Surfing", "Meditation", "Sushi", "Sunsets"], gradient: "linear-gradient(135deg,#43E97B 0%,#38F9D7 100%)", accent: "#43E97B" },
+    { name: "Wren", city: "Brooklyn, NY", tagline: "Photographer. Chronically online.", interests: ["Film", "Vintage", "Coffee", "Memes"], gradient: "linear-gradient(135deg,#30CFD0 0%,#330867 100%)", accent: "#30CFD0" },
+    { name: "Maya", city: "Chicago, IL", tagline: "Med student. Roasts you for free.", interests: ["Medicine", "Board games", "Boba", "Anime"], gradient: "linear-gradient(135deg,#FA709A 0%,#FEE140 100%)", accent: "#FA709A" },
+    { name: "Ivy", city: "Boston, MA", tagline: "Lawyer by day, cocktail nerd by night.", interests: ["Law", "Mixology", "Sailing", "Jazz"], gradient: "linear-gradient(135deg,#5EE7DF 0%,#B490CA 100%)", accent: "#B490CA" },
+    { name: "Rae", city: "Las Vegas, NV", tagline: "Dancer. Pretends she doesn't gamble.", interests: ["Dance", "Poker", "Neon", "Pop"], gradient: "linear-gradient(135deg,#F6D365 0%,#FDA085 100%)", accent: "#FDA085" },
+    { name: "Skye", city: "Salt Lake City, UT", tagline: "Trail runner with dad-joke energy.", interests: ["Trails", "Camping", "Craft beer", "Golden retrievers"], gradient: "linear-gradient(135deg,#89F7FE 0%,#66A6FF 100%)", accent: "#66A6FF" },
+    { name: "Bea", city: "New Orleans, LA", tagline: "Jazz baby. Hot sauce on everything.", interests: ["Jazz", "Creole food", "Ghost tours", "Voodoo doughnuts"], gradient: "linear-gradient(135deg,#FDCB82 0%,#EF476F 100%)", accent: "#EF476F" },
+    { name: "Tess", city: "Minneapolis, MN", tagline: "Ex-figure-skater, current sarcasm champion.", interests: ["Skating", "Podcasts", "Hot dish", "Ice fishing"], gradient: "linear-gradient(135deg,#A1FFCE 0%,#FAFFD1 100%)", accent: "#A1FFCE" },
+    { name: "Val", city: "Houston, TX", tagline: "Astronaut wannabe. Rocket-fuel espresso.", interests: ["Astronomy", "Sci-fi", "BBQ", "Rockets"], gradient: "linear-gradient(135deg,#141E30 0%,#243B55 100%)", accent: "#4FC3F7" },
+    { name: "Kai", city: "Honolulu, HI", tagline: "Beach lifeguard. Aloha, chaos.", interests: ["Surfing", "Poke", "Ukulele", "Hikes"], gradient: "linear-gradient(135deg,#00C6FB 0%,#005BEA 100%)", accent: "#00C6FB" },
+    { name: "Nora", city: "Philadelphia, PA", tagline: "Baker, hoops fan, ruthless in Uno.", interests: ["Baking", "Basketball", "True crime", "IPAs"], gradient: "linear-gradient(135deg,#FF758C 0%,#FF7EB3 100%)", accent: "#FF758C" },
+    { name: "Amara", city: "Washington, DC", tagline: "Policy nerd. Weekends: brunch mafia.", interests: ["Politics", "Brunch", "Museums", "Wine"], gradient: "linear-gradient(135deg,#7F7FD5 0%,#91EAE4 100%)", accent: "#7F7FD5" },
+    { name: "Luna", city: "Santa Fe, NM", tagline: "Painter of skies. Believer in signs.", interests: ["Art", "Astrology", "Turquoise", "Green chile"], gradient: "linear-gradient(135deg,#C471F5 0%,#FA71CD 100%)", accent: "#C471F5" },
+    { name: "Quinn", city: "Toronto, ON", tagline: "Comedy writer. Will make you snort-laugh.", interests: ["Comedy", "Hockey", "Poutine", "Improv"], gradient: "linear-gradient(135deg,#FF5F6D 0%,#FFC371 100%)", accent: "#FF5F6D" },
+  ];
+  const tiers: DemoHost["tier"][] = ["new", "rising", "popular", "elite"];
+  return seeds.map((s, i) => {
+    const tier = tiers[i % tiers.length];
+    const price = tier === "new" ? 4.99 : tier === "rising" ? 14.99 : tier === "popular" ? 29.99 : 59.99;
+    return {
+      id: `demo-${s.name!.toLowerCase()}`,
+      handle: `@${s.name!.toLowerCase()}rizz`,
+      age: 22 + (i % 10),
+      bio: `${s.tagline} Come hang — I actually reply.`,
+      tier,
+      priceMonthly: price,
+      subscribers: 20 + i * 13,
+      online: i % 3 !== 0,
+      photoCount: 6 + (i % 10),
+      hasVideo: i % 2 === 0,
+      teaser: s.tagline,
+      ...s,
+    } as DemoHost;
+  });
+}
+
 
 export function tierLabel(t: DemoHost["tier"]) {
   return { new: "New", rising: "Rising", popular: "Popular", elite: "Elite" }[t];
