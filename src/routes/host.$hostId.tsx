@@ -3,6 +3,8 @@ import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierBand, tierLabel } from "@/lib/demo-hosts";
 import { useAuth } from "@/lib/auth";
+import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Sparkles, Check } from "lucide-react";
 
 export const Route = createFileRoute("/host/$hostId")({
@@ -69,12 +71,13 @@ function HostProfile() {
             {slides[slide].kind === "hero" ? (
               <div className="text-center">
                 <div
-                  className="mx-auto grid h-24 w-24 place-items-center rounded-full text-3xl font-bold text-white"
-                  style={{ background: host.gradient, boxShadow: `0 10px 40px -6px ${host.accent}80` }}
+                  className="mx-auto h-24 w-24 overflow-hidden rounded-full"
+                  style={{ boxShadow: `0 10px 40px -6px ${host.accent}80` }}
                 >
-                  {host.name[0]}
+                  <img src={rizzAiLogo.url} alt={host.name} className="h-full w-full object-cover" />
                 </div>
               </div>
+
             ) : slides[slide].kind === "video" ? (
               <div className="flex flex-col items-center gap-3 text-white">
                 <div className="grid h-16 w-16 place-items-center rounded-full bg-white/15 backdrop-blur">
