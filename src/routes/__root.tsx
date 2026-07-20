@@ -91,8 +91,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Rizz Social — Real conversations with verified hosts" },
       { name: "twitter:description", content: "Rizz Social is a paid social chat platform where verified Hosts run Friends Lists and Members subscribe to join. Hosts are compensated partners." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ad564732-292d-49c0-adc8-8971d9a1557e/id-preview-3f493fc3--cd61e1f6-1e88-484f-9502-865592d00d39.lovable.app-1784519917126.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/ad564732-292d-49c0-adc8-8971d9a1557e/id-preview-3f493fc3--cd61e1f6-1e88-484f-9502-865592d00d39.lovable.app-1784519917126.png" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/QKbM332Aiicb6QWrOX0NvvL74SG3/social-images/social-1784530898145-unnamed.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/QKbM332Aiicb6QWrOX0NvvL74SG3/social-images/social-1784530898145-unnamed.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
