@@ -29,6 +29,9 @@ function HostProfile() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [slide, setSlide] = useState(0);
+  const [tipOpen, setTipOpen] = useState(false);
+  const [tipAmount, setTipAmount] = useState(500);
+  const { openCheckout, checkoutElement } = useStripeCheckout();
 
   if (!host) {
     return (
@@ -41,7 +44,6 @@ function HostProfile() {
     );
   }
 
-  // Build carousel slides — a hero, an optional video loop card, then a couple of "locked" tease cards.
   const slides: Array<{ kind: "hero" | "video" | "locked"; label?: string }> = [
     { kind: "hero" },
     ...(host.hasVideo ? [{ kind: "video" as const, label: "Video loop" }] : []),
@@ -49,12 +51,34 @@ function HostProfile() {
     { kind: "locked", label: "Photo 7 of " + host.photoCount },
   ];
 
+  const hostIsReal = UUID_RE.test(host.id);
+
   const onSubscribe = () => {
-    if (!user) {
-      navigate({ to: "/auth" });
+    if (!user) return navigate({ to: "/auth" });
+    if (!hostIsReal) {
+      alert(`${host.name} is a demo profile — checkout will unlock once real hosts sign up.`);
       return;
     }
-    alert(`Subscribe to ${host.name}'s Friends List — Google Play Billing wires up next.`);
+    openCheckout({
+      kind: "friends_list",
+      hostId: host.id,
+      hostName: host.name,
+      priceCents: Math.round(host.priceMonthly * 100),
+    });
+  };
+
+  const onTip = () => {
+    if (!user) return navigate({ to: "/auth" });
+    if (!hostIsReal) {
+      alert(`${host.name} is a demo profile — tips unlock once real hosts sign up.`);
+      return;
+    }
+    setTipOpen(true);
+  };
+
+  const sendTip = () => {
+    setTipOpen(false);
+    openCheckout({ kind: "tip", hostId: host.id, hostName: host.name, amountCents: tipAmount });
   };
 
   return (
