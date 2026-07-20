@@ -27,6 +27,7 @@ function HostChat() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [input, setInput] = useState("");
+  const [giftOpen, setGiftOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const host = DEMO_HOSTS.find((h) => h.id === hostId);
