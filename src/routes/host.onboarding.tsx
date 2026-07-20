@@ -376,7 +376,7 @@ function HostOnboarding() {
       </section>
 
       <p className="mt-4 text-center text-[11px] text-muted-foreground">
-        Need help? Ask <span className="text-gradient-brand font-semibold">Rizz Brain</span> — she&apos;ll coach you through this whole flow.
+        Need help? Ask <span className="text-gradient-brand font-semibold">Rizz AI</span> — she&apos;ll coach you through this whole flow.
       </p>
     </AppShell>
   );

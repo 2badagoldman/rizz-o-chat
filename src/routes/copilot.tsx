@@ -10,7 +10,7 @@ import { useAuth } from "@/lib/auth";
 export const Route = createFileRoute("/copilot")({
   head: () => ({
     meta: [
-      { title: "Rizz Brain — your copilot" },
+      { title: "Rizz AI — your copilot" },
       { name: "description", content: "The AI copilot inside Rizzla Social. Get walked through every step of the app." },
     ],
   }),
@@ -66,7 +66,7 @@ function Copilot() {
               <Sparkles className="h-4 w-4 text-white" />
             </div>
             <div>
-              <h1 className="text-base font-semibold leading-tight">Rizz Brain</h1>
+              <h1 className="text-base font-semibold leading-tight">Rizz AI</h1>
               <p className="text-[11px] text-muted-foreground">Your in-app copilot</p>
             </div>
           </div>
@@ -76,7 +76,7 @@ function Copilot() {
           {messages.length === 0 ? (
             <div className="rounded-2xl border border-border bg-card p-4">
               <p className="text-sm">
-                Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz Brain</span>. I&apos;ll walk you through
+                Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>. I&apos;ll walk you through
                 anything in the app: applying as a Host, pricing your Friends List, picking who to chat with, or
                 writing your first message. Ask me anything.
               </p>
@@ -119,7 +119,7 @@ function Copilot() {
           })}
 
           {busy && messages[messages.length - 1]?.role === "user" ? (
-            <p className="text-xs text-muted-foreground animate-pulse">Rizz Brain is thinking…</p>
+            <p className="text-xs text-muted-foreground animate-pulse">Rizz AI is thinking…</p>
           ) : null}
         </div>
 
@@ -133,7 +133,7 @@ function Copilot() {
                 submit(e);
               }
             }}
-            placeholder="Ask Rizz Brain anything…"
+            placeholder="Ask Rizz AI anything…"
             rows={1}
             className="min-h-[44px] max-h-32 flex-1 resize-none rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
           />

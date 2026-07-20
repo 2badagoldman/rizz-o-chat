@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import ReactMarkdown from "react-markdown";
-import { Sparkles, Send, X, ChevronDown } from "lucide-react";
+import { Send, X, ChevronDown } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
+import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 const DISMISS_KEY = "rizz_brain_dock_dismissed_v1";
 
@@ -59,11 +60,11 @@ export function RizzBrainDock() {
         <div className="fixed inset-x-0 bottom-0 z-[60] mx-auto flex w-full max-w-[480px] flex-col rounded-t-3xl border-t border-border bg-card shadow-glow" style={{ height: "min(78vh, 640px)" }}>
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <div className="flex items-center gap-2">
-              <div className="grid h-8 w-8 place-items-center rounded-full bg-gradient-brand shadow-glow">
-                <Sparkles className="h-4 w-4 text-white" />
+              <div className="h-8 w-8 overflow-hidden rounded-full shadow-glow">
+                <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
               </div>
               <div>
-                <p className="text-sm font-semibold leading-tight">Rizz Brain</p>
+                <p className="text-sm font-semibold leading-tight">Rizz AI</p>
                 <p className="text-[10px] text-muted-foreground">Your in-app copilot</p>
               </div>
             </div>
@@ -89,7 +90,7 @@ export function RizzBrainDock() {
             {messages.length === 0 ? (
               <div className="rounded-2xl border border-border bg-background/40 p-3">
                 <p className="text-sm">
-                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz Brain</span>. Ask me anything about the app.
+                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>. Ask me anything about the app.
                 </p>
                 <div className="mt-3 grid gap-1.5">
                   {[
@@ -134,7 +135,7 @@ export function RizzBrainDock() {
             })}
 
             {busy && messages[messages.length - 1]?.role === "user" ? (
-              <p className="text-xs text-muted-foreground animate-pulse">Rizz Brain is thinking…</p>
+              <p className="text-xs text-muted-foreground animate-pulse">Rizz AI is thinking…</p>
             ) : null}
           </div>
 
@@ -149,7 +150,7 @@ export function RizzBrainDock() {
                   submit(e);
                 }
               }}
-              placeholder="Ask Rizz Brain…"
+              placeholder="Ask Rizz AI…"
               rows={1}
               className="min-h-[40px] max-h-24 flex-1 resize-none rounded-2xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
             />
@@ -172,18 +173,18 @@ export function RizzBrainDock() {
             <button
               onClick={() => setOpen(true)}
               className="flex flex-1 items-center gap-2 rounded-xl px-2 py-1.5 text-left"
-              aria-label="Open Rizz Brain"
+              aria-label="Open Rizz AI"
             >
-              <div className="grid h-7 w-7 place-items-center rounded-full bg-gradient-brand shadow-glow">
-                <Sparkles className="h-3.5 w-3.5 text-white" />
+              <div className="h-7 w-7 overflow-hidden rounded-full shadow-glow">
+                <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
               </div>
               <span className="truncate text-xs text-muted-foreground">
-                Ask <span className="text-gradient-brand font-semibold">Rizz Brain</span> anything…
+                Ask <span className="text-gradient-brand font-semibold">Rizz AI</span> anything…
               </span>
             </button>
             <button
               onClick={dismiss}
-              aria-label="Dismiss Rizz Brain for this session"
+              aria-label="Dismiss Rizz AI for this session"
               className="rounded-full p-1.5 text-muted-foreground hover:bg-background"
             >
               <X className="h-3.5 w-3.5" />
