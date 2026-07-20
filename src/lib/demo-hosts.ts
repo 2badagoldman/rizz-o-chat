@@ -104,7 +104,7 @@ export const DEMO_HOSTS: DemoHost[] = [
     id: "demo-jade",
     name: "Jade",
     handle: "@jadewilder",
-    age: 29,
+    age: 22,
     city: "New York, NY",
     tagline: "Corporate by day. Chaos by dm.",
     bio: "Finance job I can't tell you about. Weekends are for whiskey, hikes, and sending you unhinged voice memos.",
