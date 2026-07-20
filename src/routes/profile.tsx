@@ -22,8 +22,11 @@ interface MediaRow {
   id: string;
   storage_path: string;
   media_type: "image" | "video";
+  caption: string | null;
   signedUrl?: string;
 }
+
+const CAPTION_MAX = 140;
 
 const BIO_MAX = 500;
 
@@ -38,6 +41,9 @@ function Profile() {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [media, setMedia] = useState<MediaRow[]>([]);
   const [uploadingMedia, setUploadingMedia] = useState(false);
+  const [pendingCaption, setPendingCaption] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingCaption, setEditingCaption] = useState("");
   const [error, setError] = useState<string | null>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const mediaInputRef = useRef<HTMLInputElement>(null);
@@ -65,7 +71,7 @@ function Profile() {
   const loadMedia = async (uid: string) => {
     const { data } = await supabase
       .from("profile_media")
-      .select("id, storage_path, media_type")
+      .select("id, storage_path, media_type, caption")
       .eq("user_id", uid)
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: false });
@@ -184,9 +190,11 @@ function Profile() {
           user_id: user.id,
           storage_path: path,
           media_type: isVideo ? "video" : "image",
+          caption: pendingCaption.trim().slice(0, CAPTION_MAX) || null,
         });
         if (dbErr) throw dbErr;
       }
+      setPendingCaption("");
       await loadMedia(user.id);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Upload failed");
@@ -194,6 +202,20 @@ function Profile() {
       setUploadingMedia(false);
       if (mediaInputRef.current) mediaInputRef.current.value = "";
     }
+  };
+
+  const onSaveCaption = async (row: MediaRow) => {
+    const next = editingCaption.trim().slice(0, CAPTION_MAX) || null;
+    setEditingId(null);
+    const { error: err } = await supabase
+      .from("profile_media")
+      .update({ caption: next })
+      .eq("id", row.id);
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    setMedia((prev) => prev.map((m) => (m.id === row.id ? { ...m, caption: next } : m)));
   };
 
   const onDeleteMedia = async (row: MediaRow) => {
@@ -307,6 +329,21 @@ function Profile() {
             {uploadingMedia ? "Uploading…" : "+ Upload"}
           </button>
         </div>
+        <p className="mt-2 text-[11px] text-muted-foreground">
+          Captions show to everyone — the photo/video only unlocks after they join your Friends List.
+        </p>
+        <div className="mt-3">
+          <input
+            type="text"
+            value={pendingCaption}
+            onChange={(e) => setPendingCaption(e.target.value.slice(0, CAPTION_MAX))}
+            placeholder="Caption for your next upload (optional)"
+            className="w-full rounded-[12px] border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+          />
+          <p className="mt-1 text-right text-[10px] text-muted-foreground">
+            {pendingCaption.length}/{CAPTION_MAX}
+          </p>
+        </div>
         <input
           ref={mediaInputRef}
           type="file"
@@ -322,37 +359,83 @@ function Profile() {
             No media yet. Add photos or videos to show off your vibe.
           </p>
         ) : (
-          <div className="mt-4 grid grid-cols-3 gap-2">
+          <ul className="mt-4 space-y-3">
             {media.map((row) => (
-              <div
+              <li
                 key={row.id}
-                className="group relative aspect-square overflow-hidden rounded-[12px] border border-border bg-background"
+                className="flex gap-3 rounded-[12px] border border-border bg-background/60 p-2"
               >
-                {row.media_type === "video" ? (
-                  <video
-                    src={row.signedUrl}
-                    className="h-full w-full object-cover"
-                    controls
-                    playsInline
-                  />
-                ) : (
-                  <img
-                    src={row.signedUrl}
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                )}
-                <button
-                  type="button"
-                  onClick={() => onDeleteMedia(row)}
-                  className="absolute right-1 top-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-semibold text-white opacity-0 transition group-hover:opacity-100"
-                  aria-label="Delete media"
-                >
-                  ✕
-                </button>
-              </div>
+                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[10px] bg-background">
+                  {row.media_type === "video" ? (
+                    <video src={row.signedUrl} className="h-full w-full object-cover" muted playsInline />
+                  ) : (
+                    <img src={row.signedUrl} alt="" className="h-full w-full object-cover" />
+                  )}
+                </div>
+                <div className="flex min-w-0 flex-1 flex-col">
+                  {editingId === row.id ? (
+                    <>
+                      <textarea
+                        value={editingCaption}
+                        onChange={(e) => setEditingCaption(e.target.value.slice(0, CAPTION_MAX))}
+                        rows={2}
+                        className="w-full resize-none rounded-[10px] border border-border bg-background px-2 py-1.5 text-xs outline-none focus:border-primary"
+                        placeholder="Write a caption…"
+                      />
+                      <div className="mt-1 flex items-center justify-between">
+                        <span className="text-[10px] text-muted-foreground">
+                          {editingCaption.length}/{CAPTION_MAX}
+                        </span>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setEditingId(null)}
+                            className="text-[11px] font-semibold text-muted-foreground"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => onSaveCaption(row)}
+                            className="rounded-full bg-gradient-to-r from-primary to-accent px-3 py-1 text-[11px] font-semibold text-white"
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className="min-h-[36px] whitespace-pre-wrap break-words text-xs text-foreground/90">
+                        {row.caption || (
+                          <span className="italic text-muted-foreground">No caption yet</span>
+                        )}
+                      </p>
+                      <div className="mt-auto flex items-center justify-end gap-3 pt-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingId(row.id);
+                            setEditingCaption(row.caption ?? "");
+                          }}
+                          className="text-[11px] font-semibold text-primary"
+                        >
+                          {row.caption ? "Edit caption" : "Add caption"}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => onDeleteMedia(row)}
+                          className="text-[11px] font-semibold text-destructive"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </section>
 

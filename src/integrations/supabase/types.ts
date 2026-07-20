@@ -266,6 +266,7 @@ export type Database = {
       }
       profile_media: {
         Row: {
+          caption: string | null
           created_at: string
           id: string
           media_type: string
@@ -274,6 +275,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          caption?: string | null
           created_at?: string
           id?: string
           media_type: string
@@ -282,6 +284,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          caption?: string | null
           created_at?: string
           id?: string
           media_type?: string

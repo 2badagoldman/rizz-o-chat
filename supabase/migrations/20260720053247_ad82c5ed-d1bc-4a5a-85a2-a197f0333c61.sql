@@ -1,0 +1,1 @@
+ALTER TABLE public.profile_media ADD COLUMN IF NOT EXISTS caption text;
