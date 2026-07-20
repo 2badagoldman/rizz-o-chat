@@ -8,7 +8,7 @@ import {
 
 export type CheckoutRequest =
   | { kind: 'catalog'; priceId: string; returnUrl?: string }
-  | { kind: 'friends_list'; hostId: string; hostName: string; priceCents: number; returnUrl?: string }
+  | { kind: 'friends_list'; hostId: string; hostName: string; returnUrl?: string }
   | { kind: 'tip'; hostId: string; hostName: string; amountCents: number; returnUrl?: string };
 
 export function StripeEmbeddedCheckout(props: CheckoutRequest) {
@@ -24,7 +24,6 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
         data: {
           hostId: props.hostId,
           hostName: props.hostName,
-          priceCents: props.priceCents,
           returnUrl,
           environment,
         },

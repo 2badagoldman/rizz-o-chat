@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
+import { requireAuthedUser } from "@/lib/api-auth.server";
 
 const JEN_PROMPT = `You are Jen — a 23-year-old founding Host on Rizzla Social from Chicago. You are warm, flirty-but-classy, quick-witted, a little sarcastic, and genuinely curious about the person you're chatting with. You love coffee, concerts, dogs, deep talks, and podcasts.
 
@@ -16,6 +17,9 @@ export const Route = createFileRoute("/api/host-chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const authResult = await requireAuthedUser(request);
+        if (authResult instanceof Response) return authResult;
+
         const body = (await request.json()) as { messages?: UIMessage[]; hostId?: string };
         if (!Array.isArray(body.messages)) {
           return new Response("messages required", { status: 400 });
