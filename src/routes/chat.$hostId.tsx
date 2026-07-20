@@ -107,7 +107,42 @@ function HostChat() {
               </p>
             </div>
           </div>
+          <button
+            onClick={() => setGiftOpen(true)}
+            aria-label="Send gift"
+            className="ml-auto grid h-10 w-10 place-items-center rounded-full border border-border bg-background hover:bg-primary/10"
+          >
+            <Gift className="h-4 w-4 text-primary" />
+          </button>
         </header>
+
+        {giftOpen ? (
+          <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50" onClick={() => setGiftOpen(false)}>
+            <div className="w-full max-w-[480px] rounded-t-3xl border-t border-border bg-card p-5" onClick={(e) => e.stopPropagation()}>
+              <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Send a gift to</p>
+              <h3 className="mt-1 text-lg font-bold">{host.name}</h3>
+              <div className="mt-4 grid grid-cols-4 gap-2">
+                {GIFTS.map((g) => (
+                  <button
+                    key={g.label}
+                    onClick={() => {
+                      setGiftOpen(false);
+                      sendMessage({ text: `${g.emoji} sent you a ${g.label} (${g.coins} coins)` });
+                    }}
+                    className="flex flex-col items-center gap-1 rounded-2xl border border-border bg-background px-2 py-3 text-xs hover:border-primary hover:bg-primary/5"
+                  >
+                    <span className="text-2xl">{g.emoji}</span>
+                    <span className="font-semibold">{g.label}</span>
+                    <span className="text-[10px] text-muted-foreground">{g.coins}c</span>
+                  </button>
+                ))}
+              </div>
+              <p className="mt-3 text-center text-[11px] text-muted-foreground">
+                Gifts are simulated in testing — real coin deduction goes live once you top up.
+              </p>
+            </div>
+          </div>
+        ) : null}
 
         <div ref={scrollRef} className="flex-1 overflow-y-auto py-3 space-y-3">
           {messages.length === 0 ? (
