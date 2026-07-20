@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 
 export const Route = createFileRoute("/profile")({
   head: () => ({ meta: [{ title: "Profile — Rizz Social" }] }),
