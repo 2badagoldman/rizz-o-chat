@@ -124,7 +124,9 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Outlet />
+        <WelcomeShowcase />
       </AuthProvider>
     </QueryClientProvider>
   );
 }
+
