@@ -7,8 +7,15 @@ import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [{ title: "Sign in — Rizz Social" }] }),
+  validateSearch: (s: Record<string, unknown>) => ({
+    next: typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : undefined,
+  }),
   component: AuthPage,
 });
+
+function safeNext(next: string | undefined): string {
+  return next && next.startsWith("/") && !next.startsWith("//") ? next : "/";
+}
 
 type Mode = "signin" | "signup";
 type Role = "member" | "host";
@@ -27,11 +34,15 @@ function AuthPage() {
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-
+  const { next } = Route.useSearch();
+  const nextPath = safeNext(next);
 
   useEffect(() => {
-    if (!loading && user) router.navigate({ to: "/" });
-  }, [loading, user, router]);
+    if (!loading && user) {
+      if (nextPath !== "/") window.location.href = nextPath;
+      else router.navigate({ to: "/" });
+    }
+  }, [loading, user, router, nextPath]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +59,7 @@ function AuthPage() {
           email,
           password,
           options: {
-            emailRedirectTo: window.location.origin,
+            emailRedirectTo: window.location.origin + nextPath,
             data: {
               account_type: role,
               display_name: displayName || email.split("@")[0],
@@ -58,8 +69,9 @@ function AuthPage() {
           },
         });
         if (err) throw err;
-        // Send new Hosts straight into the creator-studio onboarding wizard.
-        if (role === "host") {
+        // Send new Hosts straight into the creator-studio onboarding wizard,
+        // unless a specific post-auth destination was requested.
+        if (role === "host" && nextPath === "/") {
           router.navigate({ to: "/host/onboarding" });
           return;
         }
@@ -67,7 +79,8 @@ function AuthPage() {
         const { error: err } = await supabase.auth.signInWithPassword({ email, password });
         if (err) throw err;
       }
-      router.navigate({ to: "/" });
+      if (nextPath !== "/") window.location.href = nextPath;
+      else router.navigate({ to: "/" });
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
@@ -82,7 +95,7 @@ function AuthPage() {
       return;
     }
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: window.location.origin + nextPath,
     });
     if (result.error) setError(result.error.message ?? "Google sign-in failed");
   };
