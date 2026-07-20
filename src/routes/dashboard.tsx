@@ -4,7 +4,9 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { getHostSelfStats } from "@/lib/host-stats.functions";
-import { Sparkles, TrendingUp, Users, Wallet, Trophy } from "lucide-react";
+import { TrendingUp, Users, Wallet, Trophy } from "lucide-react";
+import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — Rizz Social" }] }),
