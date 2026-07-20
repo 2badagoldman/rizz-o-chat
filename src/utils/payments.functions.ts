@@ -88,17 +88,31 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
   .inputValidator((data: {
     hostId: string;
     hostName: string;
-    priceCents: number;
     returnUrl: string;
     environment: StripeEnv;
   }) => {
     if (!/^[a-f0-9-]{36}$/.test(data.hostId)) throw new Error('Invalid hostId');
-    if (data.priceCents < 99 || data.priceCents > 9999) throw new Error('Price out of range');
     return data;
   })
   .handler(async ({ data, context }): Promise<CheckoutResult> => {
     try {
       const { userId, supabase } = context;
+
+      // SECURITY: look up the host's real listed price server-side; never trust
+      // a price sent by the client. This prevents a member from paying $0.99
+      // for a Friends List priced at $99.99.
+      const { data: list, error: listErr } = await supabase
+        .from('friends_lists')
+        .select('price_cents')
+        .eq('host_id', data.hostId)
+        .maybeSingle();
+      if (listErr) throw new Error(listErr.message);
+      if (!list) return { error: 'This host does not have a Friends List available.' };
+      const priceCents = list.price_cents;
+      if (!Number.isInteger(priceCents) || priceCents < 99 || priceCents > 9999) {
+        return { error: 'Host price is out of range.' };
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       const stripe = createStripeClient(data.environment);
       const customerId = await resolveOrCreateCustomer(stripe, {
@@ -110,7 +124,7 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
           price_data: {
             currency: 'usd',
             product_data: { name: `Friends List — ${data.hostName}` },
-            unit_amount: data.priceCents,
+            unit_amount: priceCents,
             recurring: { interval: 'month' },
           },
           quantity: 1,
@@ -119,9 +133,9 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
         ui_mode: 'embedded_page',
         return_url: data.returnUrl,
         customer: customerId,
-        metadata: { userId, kind: 'friends_list', hostId: data.hostId, priceCents: String(data.priceCents) },
+        metadata: { userId, kind: 'friends_list', hostId: data.hostId, priceCents: String(priceCents) },
         subscription_data: {
-          metadata: { userId, kind: 'friends_list', hostId: data.hostId, priceCents: String(data.priceCents) },
+          metadata: { userId, kind: 'friends_list', hostId: data.hostId, priceCents: String(priceCents) },
         },
       });
       return { clientSecret: session.client_secret ?? '' };

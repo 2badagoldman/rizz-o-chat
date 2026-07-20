@@ -63,7 +63,6 @@ function HostProfile() {
       kind: "friends_list",
       hostId: host.id,
       hostName: host.name,
-      priceCents: Math.round(host.priceMonthly * 100),
     });
   };
 
