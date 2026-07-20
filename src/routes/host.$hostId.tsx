@@ -3,6 +3,8 @@ import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierBand, tierLabel } from "@/lib/demo-hosts";
 import { useAuth } from "@/lib/auth";
+import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Sparkles, Check } from "lucide-react";
 
 export const Route = createFileRoute("/host/$hostId")({
