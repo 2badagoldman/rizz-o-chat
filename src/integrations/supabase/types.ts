@@ -264,6 +264,33 @@ export type Database = {
           },
         ]
       }
+      profile_media: {
+        Row: {
+          created_at: string
+          id: string
+          media_type: string
+          sort_order: number
+          storage_path: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          media_type: string
+          sort_order?: number
+          storage_path: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          media_type?: string
+          sort_order?: number
+          storage_path?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           account_type: Database["public"]["Enums"]["account_type"]
