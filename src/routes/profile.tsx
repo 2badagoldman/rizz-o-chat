@@ -58,7 +58,10 @@ function Profile() {
 
       <section className="mt-6 rounded-2xl border border-border bg-card p-5 shadow-card">
         <div className="flex items-center gap-4">
-          <div className="h-14 w-14 rounded-full bg-gradient-brand" />
+          <div className="h-14 w-14 overflow-hidden rounded-full shadow-glow">
+            <img src={rizzAiLogo.url} alt="" className="h-full w-full object-cover" />
+          </div>
+
           <div className="min-w-0">
             <p className="truncate text-lg font-semibold">
               {profile?.display_name || user.email?.split("@")[0]}
