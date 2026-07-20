@@ -1,0 +1,167 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Rizz Social design system.
+ * Dark by default — the app is a dark-first mobile experience.
+ * All colors declared in oklch. Gradient/shadow/radius tokens semantic.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-pink: var(--brand-pink);
+  --color-purple: var(--brand-purple);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 1rem; /* 16px */
+
+  /* Rizz palette */
+  --background: oklch(0.13 0.02 280);   /* #0B0B12 */
+  --foreground: oklch(0.97 0.005 280);  /* #F4F4F8 */
+  --card: oklch(0.19 0.025 280);        /* #161622 */
+  --card-foreground: oklch(0.97 0.005 280);
+  --popover: oklch(0.19 0.025 280);
+  --popover-foreground: oklch(0.97 0.005 280);
+
+  --primary: oklch(0.66 0.24 5);        /* pink #FF3D7F */
+  --primary-foreground: oklch(0.98 0.005 280);
+  --secondary: oklch(0.24 0.03 280);
+  --secondary-foreground: oklch(0.97 0.005 280);
+  --muted: oklch(0.24 0.03 280);
+  --muted-foreground: oklch(0.68 0.02 280); /* #9A9AB0 */
+  --accent: oklch(0.62 0.22 300);       /* purple #7C5CFF */
+  --accent-foreground: oklch(0.98 0.005 280);
+  --destructive: oklch(0.62 0.25 27);
+  --destructive-foreground: oklch(0.98 0.005 280);
+  --success: oklch(0.78 0.18 150);      /* #3DDC84 */
+  --success-foreground: oklch(0.15 0.02 280);
+
+  --brand-pink: oklch(0.66 0.24 5);
+  --brand-purple: oklch(0.62 0.22 300);
+
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.66 0.24 5 / 60%);
+
+  /* Semantic gradients & shadows */
+  --gradient-brand: linear-gradient(135deg, oklch(0.66 0.24 5), oklch(0.62 0.22 300));
+  --gradient-brand-soft: linear-gradient(135deg, oklch(0.66 0.24 5 / 0.15), oklch(0.62 0.22 300 / 0.15));
+  --shadow-glow: 0 10px 40px -10px oklch(0.66 0.24 5 / 0.35);
+  --shadow-card: 0 4px 20px -8px oklch(0 0 0 / 0.5);
+
+  /* Host / Creator Studio theme (warm gold + rose on dark) */
+  --host-primary: #E9B872;
+  --host-primary-fg: #1A140A;
+  --host-soft: rgba(233, 184, 114, 0.12);
+  --host-gradient: linear-gradient(135deg, #F4CE8F 0%, #E9B872 45%, #C97B63 100%);
+  --host-shadow-glow: 0 10px 40px -10px rgba(233, 184, 114, 0.45);
+}
+
+/* When AppShell has theme="host", accent tokens flip to the warm creator palette. */
+.host-theme {
+  --color-primary: var(--host-primary);
+  --gradient-brand: var(--host-gradient);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(244,206,143,0.15), rgba(201,123,99,0.15));
+  --shadow-glow: var(--host-shadow-glow);
+  --ring: rgba(233, 184, 114, 0.5);
+}
+
+@utility btn-host {
+  background-image: var(--host-gradient);
+  color: var(--host-primary-fg);
+  border-radius: 14px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  box-shadow: var(--host-shadow-glow);
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+@utility btn-host-hover { transform: scale(0.98); opacity: 0.95; }
+
+@utility bg-gradient-brand {
+  background-image: var(--gradient-brand);
+}
+@utility bg-gradient-brand-soft {
+  background-image: var(--gradient-brand-soft);
+}
+@utility text-gradient-brand {
+  background-image: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility shadow-glow {
+  box-shadow: var(--shadow-glow);
+}
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+@utility btn-brand {
+  background-image: var(--gradient-brand);
+  color: oklch(0.98 0.005 280);
+  border-radius: 14px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  transition: transform 120ms ease, box-shadow 120ms ease, opacity 120ms ease;
+  box-shadow: var(--shadow-glow);
+}
+@utility btn-brand-hover {
+  transform: scale(0.98);
+  opacity: 0.95;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html, body, #root {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    min-height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+
+  button {
+    cursor: pointer;
+  }
+  button.btn-brand:active {
+    transform: scale(0.98);
+    opacity: 0.95;
+  }
+}
