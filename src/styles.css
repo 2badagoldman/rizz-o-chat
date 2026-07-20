@@ -176,6 +176,12 @@
     .page-anim { animation: none; }
   }
 
+  @keyframes kenburns {
+    from { transform: scale(1) translate(0, 0); }
+    to { transform: scale(1.12) translate(-2%, -2%); }
+  }
+
+
 
   h1, h2, h3 {
     letter-spacing: -0.01em;
