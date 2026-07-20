@@ -12,18 +12,22 @@ export const Route = createFileRoute("/auth")({
 
 type Mode = "signin" | "signup";
 type Role = "member" | "host";
+type Gender = "female" | "male" | "nonbinary" | "other";
+
 
 function AuthPage() {
   const router = useRouter();
   const { user, loading } = useAuth();
   const [mode, setMode] = useState<Mode>("signin");
   const [role, setRole] = useState<Role>("member");
+  const [gender, setGender] = useState<Gender>("female");
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
 
   useEffect(() => {
     if (!loading && user) router.navigate({ to: "/" });
@@ -49,6 +53,7 @@ function AuthPage() {
               account_type: role,
               display_name: displayName || email.split("@")[0],
               age_confirmed: true,
+              gender: role === "host" ? gender : undefined,
             },
           },
         });
