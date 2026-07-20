@@ -62,9 +62,10 @@ function Copilot() {
             <ArrowLeft className="h-4 w-4" />
           </Link>
           <div className="flex items-center gap-2">
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-brand shadow-glow">
-              <Sparkles className="h-4 w-4 text-white" />
+            <div className="h-9 w-9 overflow-hidden rounded-full shadow-glow">
+              <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
             </div>
+
             <div>
               <h1 className="text-base font-semibold leading-tight">Rizz AI</h1>
               <p className="text-[11px] text-muted-foreground">Your in-app copilot</p>
