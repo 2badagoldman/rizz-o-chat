@@ -104,7 +104,7 @@ function Dashboard() {
           >
             <div>
               <p className="text-sm font-semibold flex items-center gap-1.5">
-                <Sparkles className="h-4 w-4 text-primary" /> Ask Rizz Brain
+                <Sparkles className="h-4 w-4 text-primary" /> Ask Rizz AI
               </p>
               <p className="text-xs text-muted-foreground mt-0.5">
                 {isHost ? "How do I hit 100 Friends faster?" : "Help me pick my first Host."}
