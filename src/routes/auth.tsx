@@ -104,8 +104,13 @@ function AuthPage() {
   return (
     <AppShell hideNav>
       <header className="pt-6 text-center">
-        <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-          Rizz Social
+        <img
+          src={rizzAiLogo.url}
+          alt="Rizzla"
+          className="mx-auto h-16 w-16 rounded-full shadow-glow"
+        />
+        <p className="mt-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">
+          Rizzla AI
         </p>
         <h1 className="mt-1 text-3xl">
           {mode === "signup" ? "Create your account" : "Welcome back"}
