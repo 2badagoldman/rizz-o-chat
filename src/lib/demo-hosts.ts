@@ -66,7 +66,7 @@ export const DEMO_HOSTS: DemoHost[] = [
     id: "demo-lena",
     name: "Lena",
     handle: "@lena.lux",
-    age: 27,
+    age: 24,
     city: "Los Angeles, CA",
     tagline: "Model. Bookworm. Trouble.",
     bio: "In LA between shoots. Big reader, bigger opinions. Looking for members who don't send one-word replies.",
