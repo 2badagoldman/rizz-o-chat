@@ -414,6 +414,42 @@ export type Database = {
         }
         Relationships: []
       }
+      showcase_media: {
+        Row: {
+          caption: string | null
+          created_at: string
+          id: string
+          is_active: boolean
+          media_type: string
+          sort_order: number
+          storage_path: string
+          updated_at: string
+          uploader_id: string | null
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          media_type: string
+          sort_order?: number
+          storage_path: string
+          updated_at?: string
+          uploader_id?: string | null
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          media_type?: string
+          sort_order?: number
+          storage_path?: string
+          updated_at?: string
+          uploader_id?: string | null
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           cancel_at_period_end: boolean | null

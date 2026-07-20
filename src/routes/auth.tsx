@@ -70,6 +70,7 @@ function AuthPage() {
           },
         });
         if (err) throw err;
+        try { localStorage.setItem("rizzla:showWelcome", "1"); } catch {}
         // Send new Hosts straight into the creator-studio onboarding wizard,
         // unless a specific post-auth destination was requested.
         if (role === "host" && nextPath === "/") {

@@ -445,15 +445,32 @@ function Profile() {
         </div>
       ) : null}
 
-      <button
-        className="mt-6 w-full rounded-[14px] border border-border bg-card px-5 py-3 text-sm font-semibold"
-        onClick={async () => {
-          await signOut();
-          router.navigate({ to: "/" });
-        }}
-      >
-        Sign out
-      </button>
+      <div className="mt-6 space-y-2">
+        <button
+          className="w-full rounded-[14px] border border-primary/40 bg-primary/10 px-5 py-3 text-sm font-semibold text-primary"
+          onClick={() => {
+            try { localStorage.setItem("rizzla:showWelcome", "1"); } catch {}
+            window.location.reload();
+          }}
+        >
+          Preview welcome reel
+        </button>
+        <a
+          href="/admin/showcase"
+          className="block w-full rounded-[14px] border border-border bg-card px-5 py-3 text-center text-sm font-semibold"
+        >
+          Manage welcome reel (admin)
+        </a>
+        <button
+          className="w-full rounded-[14px] border border-border bg-card px-5 py-3 text-sm font-semibold"
+          onClick={async () => {
+            await signOut();
+            router.navigate({ to: "/" });
+          }}
+        >
+          Sign out
+        </button>
+      </div>
     </AppShell>
   );
 }
