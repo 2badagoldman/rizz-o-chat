@@ -22,8 +22,11 @@ interface MediaRow {
   id: string;
   storage_path: string;
   media_type: "image" | "video";
+  caption: string | null;
   signedUrl?: string;
 }
+
+const CAPTION_MAX = 140;
 
 const BIO_MAX = 500;
 
@@ -38,6 +41,9 @@ function Profile() {
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [media, setMedia] = useState<MediaRow[]>([]);
   const [uploadingMedia, setUploadingMedia] = useState(false);
+  const [pendingCaption, setPendingCaption] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingCaption, setEditingCaption] = useState("");
   const [error, setError] = useState<string | null>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const mediaInputRef = useRef<HTMLInputElement>(null);
@@ -65,7 +71,7 @@ function Profile() {
   const loadMedia = async (uid: string) => {
     const { data } = await supabase
       .from("profile_media")
-      .select("id, storage_path, media_type")
+      .select("id, storage_path, media_type, caption")
       .eq("user_id", uid)
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: false });
