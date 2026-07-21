@@ -260,5 +260,3 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
     </Link>
   );
 }
-
-}
