@@ -1,8 +1,6 @@
 // Portrait pool used as placeholder covers for demo hosts.
-// Pool = 9 local stylized AI portraits + curated portraits from i.pravatar.cc
-// (a free, stable CDN of Creative Commons headshots — 70 unique portraits
-// addressable by ?img=1..70). Deterministically mapped by host id so each
-// host always shows the same face across renders.
+// Pool = 9 local stylized AI portraits + 100 women portraits from randomuser.me.
+// Deterministically mapped by host id so each host always shows the same face.
 import p1 from "@/assets/ai-portrait-1.jpg";
 import p3 from "@/assets/ai-portrait-3.jpg";
 import p4 from "@/assets/ai-portrait-4.jpg";
@@ -15,24 +13,23 @@ import p12 from "@/assets/ai-portrait-12.jpg";
 
 const LOCAL: string[] = [p1, p3, p4, p6, p7, p8, p9, p11, p12];
 
-// i.pravatar.cc supports ?img=N (1..70) for a stable specific portrait,
-// and size in the path segment (/64/, /128/, /400/). Serving the right
-// size keeps scroll-rail circles from downloading full-size images.
-const REMOTE_COUNT = 70;
-const remote = (size: number, i: number) =>
-  `https://i.pravatar.cc/${size}?img=${i + 1}`;
+// randomuser.me: women only. Full ~256px, thumb ~80px. No mid tier exists,
+// so med reuses full (already small).
+const REMOTE_COUNT = 100;
+const womenFull = (i: number) => `https://randomuser.me/api/portraits/women/${i}.jpg`;
+const womenThumb = (i: number) => `https://randomuser.me/api/portraits/thumb/women/${i}.jpg`;
 
 const POOL_FULL: string[] = [
   ...LOCAL,
-  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote(400, i)),
+  ...Array.from({ length: REMOTE_COUNT }, (_, i) => womenFull(i)),
 ];
 const POOL_MED: string[] = [
   ...LOCAL,
-  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote(160, i)),
+  ...Array.from({ length: REMOTE_COUNT }, (_, i) => womenFull(i)),
 ];
 const POOL_THUMB: string[] = [
   ...LOCAL,
-  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote(80, i)),
+  ...Array.from({ length: REMOTE_COUNT }, (_, i) => womenThumb(i)),
 ];
 
 
