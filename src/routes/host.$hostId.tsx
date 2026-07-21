@@ -33,10 +33,6 @@ function HostProfile() {
   const [tipAmount, setTipAmount] = useState(500);
   const { openCheckout, checkoutElement } = useStripeCheckout();
 
-  const closeProfile = () => {
-    navigate({ to: "/discover" });
-  };
-
   if (!host) {
     return (
       <AppShell>
@@ -86,15 +82,14 @@ function HostProfile() {
 
   return (
     <AppShell hideNav hideDock>
-      <button
-        type="button"
-        onClick={closeProfile}
+      <Link
+        to="/discover"
         aria-label="Close profile and return to Discover"
         className="fixed right-4 top-20 z-[100] inline-flex h-12 items-center gap-2 rounded-full border border-border bg-card/95 px-4 text-sm font-bold shadow-card backdrop-blur transition hover:scale-105 hover:bg-primary/10 active:scale-95"
       >
         <X className="h-5 w-5" />
         Close
-      </button>
+      </Link>
 
       <div className="-mx-4">
         {/* Carousel */}
