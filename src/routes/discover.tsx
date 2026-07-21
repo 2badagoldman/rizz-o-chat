@@ -29,9 +29,10 @@ function Discover() {
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["key"]>("all");
 
+  const shuffled = useShuffled(DEMO_HOSTS, 10_000);
   const hosts = useMemo(() => {
     const term = q.trim().toLowerCase();
-    return DEMO_HOSTS.filter((h) => {
+    return shuffled.filter((h) => {
       if (filter === "online" && !h.online) return false;
       if (filter !== "all" && filter !== "online" && h.tier !== filter) return false;
       if (!term) return true;
@@ -42,7 +43,7 @@ function Discover() {
         h.interests.some((i) => i.toLowerCase().includes(term))
       );
     });
-  }, [q, filter]);
+  }, [q, filter, shuffled]);
 
   return (
     <AppShell footerNote={<>Hosts on Rizz Social are compensated partners.</>}>
