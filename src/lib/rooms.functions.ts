@@ -35,22 +35,107 @@ export const listMyRooms = createServerFn({ method: "POST" })
 export const createRoom = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
-    const x = (i ?? {}) as { name?: string; description?: string };
+    const x = (i ?? {}) as {
+      name?: string; description?: string;
+      isPublic?: boolean; category?: string;
+      city?: string; state?: string;
+      lat?: number; lng?: number;
+    };
     const name = (x.name ?? "").trim();
     if (!name) throw new Error("Room name required");
-    return { name: name.slice(0, 80), description: (x.description ?? "").slice(0, 500) };
+    return {
+      name: name.slice(0, 80),
+      description: (x.description ?? "").slice(0, 500),
+      isPublic: !!x.isPublic,
+      category: (x.category ?? "").trim().slice(0, 40) || null,
+      city: (x.city ?? "").trim().slice(0, 80) || null,
+      state: (x.state ?? "").trim().slice(0, 40) || null,
+      lat: typeof x.lat === "number" && isFinite(x.lat) ? x.lat : null,
+      lng: typeof x.lng === "number" && isFinite(x.lng) ? x.lng : null,
+    };
   })
   .handler(async ({ data, context }) => {
-    const { data: profile } = await context.supabase.from("profiles").select("account_type").eq("id", context.userId).maybeSingle();
-    if (!profile || profile.account_type !== "host") throw new Error("Only hosts create rooms");
+    // Any signed-in member or host can create a room.
+    const { data: profile } = await context.supabase
+      .from("profiles").select("id").eq("id", context.userId).maybeSingle();
+    if (!profile) throw new Error("Complete your profile to create a room");
     const { data: row, error } = await context.supabase
       .from("host_rooms")
-      .insert({ host_id: context.userId, name: data.name, description: data.description || null })
+      .insert({
+        host_id: context.userId,
+        name: data.name,
+        description: data.description || null,
+        is_public: data.isPublic,
+        category: data.category,
+        city: data.city,
+        state: data.state,
+        lat: data.lat,
+        lng: data.lng,
+      })
       .select("*")
       .single();
     if (error) throw error;
     return row;
   });
+
+export const listPublicRooms = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = (i ?? {}) as { lat?: number; lng?: number; limit?: number };
+    return {
+      lat: typeof x.lat === "number" ? x.lat : null,
+      lng: typeof x.lng === "number" ? x.lng : null,
+      limit: Math.min(Math.max(x.limit ?? 60, 1), 200),
+    };
+  })
+  .handler(async ({ data, context }) => {
+    const { data: rows, error } = await context.supabase
+      .from("host_rooms")
+      .select("id, host_id, name, description, category, city, state, lat, lng, created_at")
+      .eq("is_public", true)
+      .order("created_at", { ascending: false })
+      .limit(data.limit);
+    if (error) throw error;
+    // Member counts
+    const ids = (rows ?? []).map((r: any) => r.id);
+    let counts = new Map<string, number>();
+    if (ids.length) {
+      const { data: mem } = await context.supabase
+        .from("room_members").select("room_id").in("room_id", ids);
+      for (const r of mem ?? []) counts.set(r.room_id, (counts.get(r.room_id) ?? 0) + 1);
+    }
+    const list = (rows ?? []).map((r: any) => ({ ...r, member_count: counts.get(r.id) ?? 0 }));
+    if (data.lat != null && data.lng != null) {
+      const R = 3958.7613;
+      const toRad = (d: number) => (d * Math.PI) / 180;
+      list.forEach((r: any) => {
+        if (r.lat != null && r.lng != null) {
+          const dLat = toRad(r.lat - data.lat!);
+          const dLng = toRad(r.lng - data.lng!);
+          const a = Math.sin(dLat/2)**2 + Math.cos(toRad(data.lat!))*Math.cos(toRad(r.lat))*Math.sin(dLng/2)**2;
+          r.distance_miles = 2 * R * Math.asin(Math.sqrt(a));
+        } else r.distance_miles = null;
+      });
+      list.sort((a: any, b: any) => (a.distance_miles ?? 1e9) - (b.distance_miles ?? 1e9));
+    }
+    return list;
+  });
+
+export const joinPublicRoom = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => i as { roomId: string })
+  .handler(async ({ data, context }) => {
+    const { data: room, error: rErr } = await context.supabase
+      .from("host_rooms").select("id, is_public").eq("id", data.roomId).maybeSingle();
+    if (rErr) throw rErr;
+    if (!room || !room.is_public) throw new Error("Room is not public");
+    const { error } = await context.supabase
+      .from("room_members")
+      .upsert({ room_id: data.roomId, user_id: context.userId }, { onConflict: "room_id,user_id" });
+    if (error) throw error;
+    return { ok: true };
+  });
+
 
 export const updateRoom = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
