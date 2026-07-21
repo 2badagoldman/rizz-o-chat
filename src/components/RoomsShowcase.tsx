@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Users, Circle, Flame, MapPin, Loader2, Plus } from "lucide-react";
-import { CITY_ROOMS, DEMO_ROOMS, ROOM_CATEGORIES, haversineMiles, type DemoRoom } from "@/lib/demo-rooms";
+import { CITY_ROOMS, DEMO_ROOMS, ROOM_CATEGORIES, haversineMiles, roomImage, type DemoRoom } from "@/lib/demo-rooms";
 import { listPublicRooms, joinPublicRoom } from "@/lib/rooms.functions";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
@@ -204,18 +204,44 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
       ? (typeof room.distance_miles === "number" ? room.distance_miles : haversineMiles(coords, { lat: room.lat, lng: room.lng }))
       : null;
 
+  const img = roomImage(room as DemoRoom);
+
   const common = {
     className:
-      "relative w-[220px] shrink-0 snap-start overflow-hidden rounded-3xl border border-border shadow-sm transition active:scale-[0.98] text-left",
+      "group relative w-[220px] shrink-0 snap-start overflow-hidden rounded-3xl border border-border shadow-sm transition active:scale-[0.98] text-left",
     style: { background: room.gradient },
   } as const;
 
   const inner = (
     <>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+      {/* Themed photo — city skyline or mood shot */}
+      <img
+        src={img}
+        alt=""
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover opacity-90 mix-blend-luminosity transition duration-500 group-hover:mix-blend-normal group-hover:scale-105"
+        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+      />
+      {/* Brand tint on top of photo */}
+      <div
+        className="absolute inset-0 opacity-60 mix-blend-overlay transition group-hover:opacity-40"
+        style={{ background: room.gradient }}
+      />
+      {/* Romantic hearts pattern */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-25"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><text x='6' y='24' font-size='16' fill='white' fill-opacity='0.55'>♡</text></svg>\")",
+          backgroundSize: "56px 56px",
+        }}
+      />
+      {/* Bottom readability gradient */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+
       <div className="relative flex h-[190px] flex-col justify-between p-3 text-white">
         <div className="flex items-center justify-between">
-          <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold backdrop-blur">
+          <span className="rounded-full bg-black/50 px-2 py-0.5 text-[10px] font-semibold backdrop-blur">
             {room.city ? `${room.city}${room.state ? `, ${room.state}` : ""}` : room.category}
           </span>
           {room.hot ? (
@@ -227,8 +253,8 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
           ) : null}
         </div>
         <div>
-          <p className="text-lg font-bold leading-tight drop-shadow">{room.name}</p>
-          <p className="mt-0.5 text-[11px] opacity-90">{room.tagline}</p>
+          <p className="text-lg font-bold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">{room.name}</p>
+          <p className="mt-0.5 text-[11px] opacity-90 drop-shadow">{room.tagline}</p>
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-semibold">
             <span className="flex items-center gap-1">
               <Circle className="h-2 w-2 fill-success text-success" /> {room.online} online
