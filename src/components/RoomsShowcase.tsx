@@ -131,9 +131,10 @@ export function RoomsShowcase() {
           <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Rooms</p>
           <h2 className="mt-0.5 text-lg font-bold">Jump into the vibe</h2>
         </div>
-        <Link to="/soon/$feature" params={{ feature: "rooms" }} className="text-xs font-semibold text-primary">
+        <Link to="/rooms" className="text-xs font-semibold text-primary">
           See all →
         </Link>
+
       </div>
 
       <div className="mt-3 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
