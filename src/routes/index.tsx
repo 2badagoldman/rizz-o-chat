@@ -15,82 +15,99 @@ function Home() {
 
   return (
     <AppShell>
-      <header className="pt-6">
-        <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
-          Rizz Social
-        </p>
-        <h1 className="mt-1 text-3xl leading-tight">
-          Real chats with <span className="text-gradient-brand">verified hosts</span>.
+      <header className="pt-6 rise-in">
+        <span className="inline-flex items-center gap-2 rounded-full bg-gradient-brand-soft px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-foreground/80 chip-shimmer">
+          <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+          Friends Always · Rizz Social
+        </span>
+        <h1 className="mt-3 text-[2.6rem] leading-[1.02] font-display font-extrabold">
+          Real chats with{" "}
+          <span className="text-gradient-brand">verified hosts</span>.
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Subscribe to a Friends List. Meet the host. Bring your rizz.
+          Every host runs a Friends List — a little chapter of our family tree. Subscribe, meet the host, bring your rizz.
         </p>
       </header>
 
       {/* Online now rail */}
-      <section className="mt-6">
+      <section className="mt-7" data-reveal>
         <div className="mb-2 flex items-baseline justify-between">
-          <h2 className="text-sm font-semibold">Online now</h2>
-          <Link to="/discover" className="text-[11px] text-muted-foreground">See all</Link>
+          <h2 className="text-sm font-display font-bold">Online now</h2>
+          <Link to="/discover" className="text-[11px] text-muted-foreground hover:text-primary">See all</Link>
         </div>
-        <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2">
-          {online.map((h) => (
+        <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-3">
+          {online.map((h, i) => (
             <Link
               key={h.id}
               to="/host/$hostId"
               params={{ hostId: h.id }}
-              className="w-16 shrink-0 text-center"
+              className="w-16 shrink-0 text-center transition-transform hover:-translate-y-0.5"
+              style={{ animation: `rise-in 600ms ${i * 40}ms cubic-bezier(.2,.8,.2,1) both` }}
             >
               <div className="relative">
-                <div
-                  className="mx-auto h-16 w-16 rounded-full ring-2 ring-primary"
-                  style={{ background: h.gradient }}
-                />
+                <span className="ring-story mx-auto block h-16 w-16">
+                  <span
+                    className="block h-full w-full rounded-full bg-card"
+                    style={{ backgroundImage: h.gradient, backgroundSize: "cover" }}
+                  />
+                </span>
                 <span className="absolute bottom-0 right-1 grid h-4 w-4 place-items-center rounded-full bg-card">
                   <Circle className="h-2 w-2 fill-success text-success" />
                 </span>
               </div>
-              <p className="mt-1 truncate text-[10px]">{h.name}</p>
+              <p className="mt-1 truncate text-[10px] font-medium">{h.name}</p>
             </Link>
           ))}
         </div>
       </section>
 
       {/* Featured grid */}
-      <section className="mt-5">
-        <h2 className="mb-2 text-sm font-semibold">Featured Hosts</h2>
+      <section className="mt-6" data-reveal>
+        <div className="mb-3 flex items-baseline justify-between">
+          <h2 className="text-sm font-display font-bold">Featured Hosts</h2>
+          <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+            The family tree
+          </span>
+        </div>
         <div className="grid grid-cols-2 gap-3">
-          {featured.map((h) => (
+          {featured.map((h, i) => (
             <Link
               key={h.id}
               to="/host/$hostId"
               params={{ hostId: h.id }}
-              className="overflow-hidden rounded-3xl border border-border bg-card"
+              className="card-story overflow-hidden hover:card-story-hover"
+              data-reveal
+              style={{ transitionDelay: `${Math.min(i, 8) * 30}ms` }}
             >
               <div className="relative aspect-[4/5]" style={{ background: h.gradient }}>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                <span className="absolute left-2 top-2 rounded-full bg-white/85 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-foreground backdrop-blur">
+                  Friends List
+                </span>
                 <div className="absolute inset-x-2 bottom-2 text-white">
-                  <p className="text-sm font-bold">{h.name}, {h.age}</p>
+                  <p className="font-display text-sm font-bold">{h.name}, {h.age}</p>
                   <p className="text-[10px] opacity-90">{h.city}</p>
                 </div>
               </div>
               <div className="flex items-center justify-between px-3 py-2 text-[11px]">
-                <span className="flex items-center gap-1 text-muted-foreground"><Users className="h-3 w-3" /> {h.subscribers}</span>
-                <span className="font-semibold">${h.priceMonthly}/mo</span>
+                <span className="flex items-center gap-1 text-muted-foreground">
+                  <Users className="h-3 w-3" /> {h.subscribers}
+                </span>
+                <span className="font-bold text-gradient-brand">${h.priceMonthly}/mo</span>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      <div className="mt-6 grid gap-3">
-        <Link to="/discover" className="btn-brand flex items-center justify-center gap-2">
+      <div className="mt-7 grid gap-3" data-reveal>
+        <Link to="/discover" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
           Browse all hosts <ArrowRight className="h-4 w-4" />
         </Link>
         {!user ? (
           <Link
             to="/auth"
-            className="inline-flex items-center justify-center rounded-[14px] border border-border bg-card px-5 py-3 text-sm font-semibold"
+            className="inline-flex items-center justify-center rounded-full border border-border bg-card/80 px-5 py-3 text-sm font-semibold backdrop-blur transition-transform hover:scale-[1.01]"
           >
             Sign in or create account
           </Link>
@@ -98,14 +115,18 @@ function Home() {
       </div>
 
       {/* Become a host — warm creator studio invite */}
-      <section className="mt-6 overflow-hidden rounded-3xl border p-5" style={{ background: "var(--host-soft)", borderColor: "var(--host-primary)" }}>
+      <section
+        className="mt-7 overflow-hidden rounded-3xl border p-5 shadow-card"
+        style={{ background: "var(--host-soft)", borderColor: "var(--host-primary)" }}
+        data-reveal
+      >
         <div className="flex items-center gap-2">
-          <Crown className="h-4 w-4" style={{ color: "var(--host-primary)" }} />
+          <Crown className="h-4 w-4 float-soft" style={{ color: "var(--host-primary)" }} />
           <p className="text-[11px] font-semibold uppercase tracking-widest" style={{ color: "var(--host-primary)" }}>
             For creators
           </p>
         </div>
-        <h3 className="mt-2 text-lg font-bold">Run your own class of Friends.</h3>
+        <h3 className="mt-2 font-display text-lg font-bold">Run your own class of Friends.</h3>
         <p className="mt-1 text-sm text-muted-foreground">
           Every creator gets a Friends List — think a class you teach. Start at 35% split; hit 100 Friends and flip to <b>65% forever</b>.
         </p>
