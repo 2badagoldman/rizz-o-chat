@@ -20,13 +20,13 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const NAV = [
+const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/hosts", label: "Host Applications", icon: Crown },
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/payouts", label: "Payouts", icon: Wallet },
   { to: "/admin/showcase", label: "Showcase", icon: ImageIcon },
-] as const;
+];
 
 function AdminLayout() {
   const { user, loading } = useAuth();
