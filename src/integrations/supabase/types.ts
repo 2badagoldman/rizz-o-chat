@@ -256,27 +256,45 @@ export type Database = {
       }
       host_rooms: {
         Row: {
+          category: string | null
+          city: string | null
           created_at: string
           description: string | null
           host_id: string
           id: string
+          is_public: boolean
+          lat: number | null
+          lng: number | null
           name: string
+          state: string | null
           updated_at: string
         }
         Insert: {
+          category?: string | null
+          city?: string | null
           created_at?: string
           description?: string | null
           host_id: string
           id?: string
+          is_public?: boolean
+          lat?: number | null
+          lng?: number | null
           name: string
+          state?: string | null
           updated_at?: string
         }
         Update: {
+          category?: string | null
+          city?: string | null
           created_at?: string
           description?: string | null
           host_id?: string
           id?: string
+          is_public?: boolean
+          lat?: number | null
+          lng?: number | null
           name?: string
+          state?: string | null
           updated_at?: string
         }
         Relationships: []
