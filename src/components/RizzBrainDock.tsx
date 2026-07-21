@@ -113,7 +113,7 @@ export function RizzBrainDock() {
 
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-3 py-3">
             {messages.length === 0 ? (
-              <div className="rounded-2xl border border-border bg-background/40 p-3">
+              <div className="rounded-2xl border border-white/20 bg-white/10 dark:bg-black/20 p-3 backdrop-blur">
                 <p className="text-sm">
                   Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>, your <span className="font-semibold">Rizz Wizard</span>.
                 </p>
