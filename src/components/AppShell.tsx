@@ -1,9 +1,11 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
+import { Menu } from "lucide-react";
 import { BottomNav } from "./BottomNav";
 import { RizzBrainDock } from "./RizzBrainDock";
 import { PaymentTestModeBanner } from "./PaymentTestModeBanner";
 import { ThemeToggle } from "./ThemeToggle";
+import { SideDrawer } from "./SideDrawer";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { initScrollReveal } from "@/lib/scroll-reveal";
 
@@ -18,6 +20,7 @@ interface AppShellProps {
 export function AppShell({ children, hideNav, hideDock, theme = "member", footerNote }: AppShellProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const suppressDock = hideNav || hideDock || pathname === "/copilot" || pathname === "/auth";
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     initScrollReveal();
@@ -34,17 +37,26 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
           style={{ backgroundSize: "200% 100%", animation: "gradient-pan 6s ease-in-out infinite" }}
         />
         <div className="mx-auto flex w-full max-w-[480px] items-center justify-between px-4 py-2.5">
-          <Link to="/" className="flex items-center gap-2" aria-label="Rizzla home">
-            <span className="ring-story inline-block">
-              <img src={rizzAiLogo.url} alt="Rizzla" className="block h-8 w-8 rounded-full bg-card" />
-            </span>
-            <span className="flex flex-col leading-tight">
-              <span className="font-display text-sm font-bold tracking-tight">Rizzla</span>
-              <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                Friends Always
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className="rounded-lg p-1.5 hover:bg-muted transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+            <Link to="/" className="flex items-center gap-2" aria-label="Rizzla home">
+              <span className="ring-story inline-block">
+                <img src={rizzAiLogo.url} alt="Rizzla" className="block h-8 w-8 rounded-full bg-card" />
               </span>
-            </span>
-          </Link>
+              <span className="flex flex-col leading-tight">
+                <span className="font-display text-sm font-bold tracking-tight">Rizzla</span>
+                <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                  Friends Always
+                </span>
+              </span>
+            </Link>
+          </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <Link
