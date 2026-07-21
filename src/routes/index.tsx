@@ -53,7 +53,7 @@ function Home() {
                 <span className="ring-story mx-auto block h-16 w-16">
                   <span
                     className="block h-full w-full rounded-full bg-cover bg-center"
-                    style={{ backgroundImage: `url(${hostAvatar(h.id)})` }}
+                    style={{ backgroundImage: `url(${hostAvatarThumb(h.id)})` }}
                   />
                 </span>
                 <span className="absolute bottom-0 right-1 grid h-4 w-4 place-items-center rounded-full bg-card">
