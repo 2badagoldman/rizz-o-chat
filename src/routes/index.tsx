@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { ArrowRight, Crown, Users, Circle } from "lucide-react";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
-import { hostAvatar } from "@/lib/host-avatars";
+import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 
 export const Route = createFileRoute("/")({
   component: Home,
