@@ -138,8 +138,11 @@ function HostProfile() {
               <button
                 type="button"
                 onClick={() => {
-                  if (window.history.length > 1) navigate({ to: "..", replace: false } as never);
-                  else navigate({ to: "/discover" });
+                  if (typeof window !== "undefined" && window.history.length > 1) {
+                    window.history.back();
+                  } else {
+                    navigate({ to: "/discover" });
+                  }
                 }}
                 aria-label="Close profile"
                 className="grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition hover:scale-105 hover:bg-black/80"

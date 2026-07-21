@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { ArrowRight, Crown, Users, Circle } from "lucide-react";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
+import { useShuffled } from "@/hooks/useShuffled";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -10,8 +12,10 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const { user } = useAuth();
-  const online = DEMO_HOSTS.filter((h) => h.online).slice(0, 12);
-  const featured = DEMO_HOSTS;
+  const onlinePool = useMemo(() => DEMO_HOSTS.filter((h) => h.online), []);
+  const onlineShuffled = useShuffled(onlinePool, 10_000);
+  const online = onlineShuffled.slice(0, 12);
+  const featured = useShuffled(DEMO_HOSTS, 10_000);
 
   return (
     <AppShell>
