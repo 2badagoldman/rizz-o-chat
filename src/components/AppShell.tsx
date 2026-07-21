@@ -1,11 +1,12 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { BottomNav } from "./BottomNav";
 import { RizzBrainDock } from "./RizzBrainDock";
 import { PaymentTestModeBanner } from "./PaymentTestModeBanner";
 import { ThemeToggle } from "./ThemeToggle";
 import { SideDrawer } from "./SideDrawer";
+import { GlobalSearch } from "./GlobalSearch";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { initScrollReveal } from "@/lib/scroll-reveal";
 
