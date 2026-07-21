@@ -60,6 +60,13 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
             </Link>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="rounded-full border border-border bg-card/80 p-1.5 text-foreground transition-transform hover:scale-105 hover:bg-primary/10"
+              aria-label="Search hosts"
+            >
+              <Search className="h-4 w-4" />
+            </button>
             <ThemeToggle />
             <Link
               to="/coins"
