@@ -211,17 +211,19 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
   } as const;
 
   const inner = (
-
+    <>
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
       <div className="relative flex h-[190px] flex-col justify-between p-3 text-white">
         <div className="flex items-center justify-between">
           <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold backdrop-blur">
-            {room.city ? `${room.city}, ${room.state}` : room.category}
+            {room.city ? `${room.city}${room.state ? `, ${room.state}` : ""}` : room.category}
           </span>
           {room.hot ? (
             <span className="flex items-center gap-1 rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold text-primary">
               <Flame className="h-3 w-3" /> HOT
             </span>
+          ) : room.real ? (
+            <span className="rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-bold text-primary">LIVE</span>
           ) : null}
         </div>
         <div>
@@ -232,7 +234,7 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
               <Circle className="h-2 w-2 fill-success text-success" /> {room.online} online
             </span>
             <span className="flex items-center gap-1 opacity-90">
-              <Users className="h-3 w-3" /> {room.members.toLocaleString()}
+              <Users className="h-3 w-3" /> {(room.members ?? 0).toLocaleString()}
             </span>
             {miles !== null ? (
               <span className="flex items-center gap-1 rounded-full bg-white/25 px-1.5 py-0.5 backdrop-blur">
@@ -242,6 +244,21 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
           </div>
         </div>
       </div>
+    </>
+  );
+
+  if (room.real) {
+    return (
+      <button {...common} onClick={() => onClick?.(room)}>
+        {inner}
+      </button>
+    );
+  }
+  return (
+    <Link to="/soon/$feature" params={{ feature: `room-${room.slug}` }} {...common}>
+      {inner}
     </Link>
   );
+}
+
 }
