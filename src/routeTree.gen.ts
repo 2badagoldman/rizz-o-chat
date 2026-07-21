@@ -21,6 +21,7 @@ import { Route as ChatsRouteImport } from './routes/chats'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as HostPricingRouteImport } from './routes/host.pricing'
 import { Route as HostOnboardingRouteImport } from './routes/host.onboarding'
 import { Route as HostHostIdRouteImport } from './routes/host.$hostId'
@@ -28,9 +29,13 @@ import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ChatHostIdRouteImport } from './routes/chat.$hostId'
 import { Route as ApiHostChatRouteImport } from './routes/api/host-chat'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
+import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
+import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as ChatUserUserIdRouteImport } from './routes/chat.user.$userId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -95,6 +100,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
 const HostPricingRoute = HostPricingRouteImport.update({
   id: '/host/pricing',
   path: '/host/pricing',
@@ -130,9 +140,24 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminShowcaseRoute = AdminShowcaseRouteImport.update({
   id: '/showcase',
   path: '/showcase',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPayoutsRoute = AdminPayoutsRouteImport.update({
+  id: '/payouts',
+  path: '/payouts',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHostsRoute = AdminHostsRouteImport.update({
+  id: '/hosts',
+  path: '/hosts',
   getParentRoute: () => AdminRoute,
 } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
@@ -147,6 +172,11 @@ const Char91DotmcpChar93ListToolsRoute =
     path: '/.mcp/list-tools',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ChatUserUserIdRoute = ChatUserUserIdRouteImport.update({
+  id: '/chat/user/$userId',
+  path: '/chat/user/$userId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
   Char91DotmcpChar93InvokeToolToolRouteImport.update({
     id: '/.mcp/invoke-tool/$tool',
@@ -180,7 +210,10 @@ export interface FileRoutesByFullPath {
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/hosts': typeof AdminHostsRoute
+  '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
+  '/admin/users': typeof AdminUsersRoute
   '/api/chat': typeof ApiChatRoute
   '/api/host-chat': typeof ApiHostChatRoute
   '/chat/$hostId': typeof ChatHostIdRoute
@@ -188,13 +221,14 @@ export interface FileRoutesByFullPath {
   '/host/$hostId': typeof HostHostIdRoute
   '/host/onboarding': typeof HostOnboardingRoute
   '/host/pricing': typeof HostPricingRoute
+  '/admin/': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/chats': typeof ChatsRoute
   '/coins': typeof CoinsRoute
@@ -207,7 +241,10 @@ export interface FileRoutesByTo {
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/hosts': typeof AdminHostsRoute
+  '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
+  '/admin/users': typeof AdminUsersRoute
   '/api/chat': typeof ApiChatRoute
   '/api/host-chat': typeof ApiHostChatRoute
   '/chat/$hostId': typeof ChatHostIdRoute
@@ -215,8 +252,10 @@ export interface FileRoutesByTo {
   '/host/$hostId': typeof HostHostIdRoute
   '/host/onboarding': typeof HostOnboardingRoute
   '/host/pricing': typeof HostPricingRoute
+  '/admin': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -235,7 +274,10 @@ export interface FileRoutesById {
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/hosts': typeof AdminHostsRoute
+  '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
+  '/admin/users': typeof AdminUsersRoute
   '/api/chat': typeof ApiChatRoute
   '/api/host-chat': typeof ApiHostChatRoute
   '/chat/$hostId': typeof ChatHostIdRoute
@@ -243,8 +285,10 @@ export interface FileRoutesById {
   '/host/$hostId': typeof HostHostIdRoute
   '/host/onboarding': typeof HostOnboardingRoute
   '/host/pricing': typeof HostPricingRoute
+  '/admin/': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -264,7 +308,10 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/hosts'
+    | '/admin/payouts'
     | '/admin/showcase'
+    | '/admin/users'
     | '/api/chat'
     | '/api/host-chat'
     | '/chat/$hostId'
@@ -272,13 +319,14 @@ export interface FileRouteTypes {
     | '/host/$hostId'
     | '/host/onboarding'
     | '/host/pricing'
+    | '/admin/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/chat/user/$userId'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/admin'
     | '/auth'
     | '/chats'
     | '/coins'
@@ -291,7 +339,10 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/hosts'
+    | '/admin/payouts'
     | '/admin/showcase'
+    | '/admin/users'
     | '/api/chat'
     | '/api/host-chat'
     | '/chat/$hostId'
@@ -299,8 +350,10 @@ export interface FileRouteTypes {
     | '/host/$hostId'
     | '/host/onboarding'
     | '/host/pricing'
+    | '/admin'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/chat/user/$userId'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -318,7 +371,10 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/hosts'
+    | '/admin/payouts'
     | '/admin/showcase'
+    | '/admin/users'
     | '/api/chat'
     | '/api/host-chat'
     | '/chat/$hostId'
@@ -326,8 +382,10 @@ export interface FileRouteTypes {
     | '/host/$hostId'
     | '/host/onboarding'
     | '/host/pricing'
+    | '/admin/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/chat/user/$userId'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -355,6 +413,7 @@ export interface RootRouteChildren {
   HostPricingRoute: typeof HostPricingRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  ChatUserUserIdRoute: typeof ChatUserUserIdRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -444,6 +503,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/host/pricing': {
       id: '/host/pricing'
       path: '/host/pricing'
@@ -493,11 +559,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/showcase': {
       id: '/admin/showcase'
       path: '/showcase'
       fullPath: '/admin/showcase'
       preLoaderRoute: typeof AdminShowcaseRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/payouts': {
+      id: '/admin/payouts'
+      path: '/payouts'
+      fullPath: '/admin/payouts'
+      preLoaderRoute: typeof AdminPayoutsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/hosts': {
+      id: '/admin/hosts'
+      path: '/hosts'
+      fullPath: '/admin/hosts'
+      preLoaderRoute: typeof AdminHostsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/.well-known/oauth-protected-resource': {
@@ -512,6 +599,13 @@ declare module '@tanstack/react-router' {
       path: '/.mcp/list-tools'
       fullPath: '/.mcp/list-tools'
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat/user/$userId': {
+      id: '/chat/user/$userId'
+      path: '/chat/user/$userId'
+      fullPath: '/chat/user/$userId'
+      preLoaderRoute: typeof ChatUserUserIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.mcp/invoke-tool/$tool': {
@@ -539,11 +633,19 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminHostsRoute: typeof AdminHostsRoute
+  AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminHostsRoute: AdminHostsRoute,
+  AdminPayoutsRoute: AdminPayoutsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
@@ -573,6 +675,7 @@ const rootRouteChildren: RootRouteChildren = {
   HostPricingRoute: HostPricingRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  ChatUserUserIdRoute: ChatUserUserIdRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
