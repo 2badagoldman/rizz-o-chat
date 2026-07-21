@@ -18,8 +18,11 @@ export function RizzBrainDock() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    setDismissed(sessionStorage.getItem(DISMISS_KEY) === "1");
+    // Always reset dismissal on app load so the icon reappears every session
+    sessionStorage.removeItem(DISMISS_KEY);
+    setDismissed(false);
   }, []);
+
 
   const { messages, sendMessage, status } = useChat({
     transport: createAuthedChatTransport({ api: "/api/chat" }),
