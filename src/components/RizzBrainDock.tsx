@@ -115,25 +115,29 @@ export function RizzBrainDock() {
             {messages.length === 0 ? (
               <div className="rounded-2xl border border-border bg-background/40 p-3">
                 <p className="text-sm">
-                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>. Ask me anything.
+                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>, your <span className="font-semibold">Rizz Wizard</span>.
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Stuck on what to say to a Host, a crush, or any girl? Paste the context — or drop a screenshot of the chat / her profile — and I&apos;ll give you 3 lines to send.
                 </p>
                 <div className="mt-3 grid gap-1.5">
                   {[
-                    "How do Friends Lists work?",
-                    "Walk me through applying as a Host",
-                    "Help me pick a Host",
+                    "What should I open with? (I&apos;ll upload her bio)",
+                    "She left me on read — how do I re-open?",
+                    "Rewrite my message to sound more confident",
+                    "Help me pick a Host to subscribe to",
                   ].map((s) => (
                     <button
                       key={s}
-                      onClick={() => sendMessage({ text: s })}
+                      onClick={() => sendMessage({ text: s.replace("&apos;", "'") })}
                       className="rounded-xl border border-border bg-card px-3 py-1.5 text-left text-xs hover:border-primary/60"
-                    >
-                      {s}
-                    </button>
+                      dangerouslySetInnerHTML={{ __html: s }}
+                    />
                   ))}
                 </div>
               </div>
             ) : null}
+
 
             {messages.map((m) => {
               const isUser = m.role === "user";
