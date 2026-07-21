@@ -75,7 +75,7 @@ export function RizzBrainDock() {
       {/* Mini floating chat panel */}
       {open ? (
         <div
-          className="fixed z-[60] flex flex-col rounded-3xl border border-white/20 bg-card/40 shadow-glow overflow-hidden backdrop-blur-2xl backdrop-saturate-150"
+          className="fixed z-[60] flex flex-col rounded-3xl border border-white/30 bg-white/10 dark:bg-black/15 shadow-glow overflow-hidden backdrop-blur-3xl backdrop-saturate-150"
           style={{
             right: "max(0.75rem, env(safe-area-inset-right))",
             bottom: "calc(env(safe-area-inset-bottom) + 4.75rem)",
