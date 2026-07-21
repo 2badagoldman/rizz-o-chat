@@ -1,7 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
-import { Coins, Sparkles } from 'lucide-react';
+import { Coins } from 'lucide-react';
+import rizzAiLogo from '@/assets/rizz-ai-logo.webp.asset.json';
 
 export const Route = createFileRoute('/coins')({
   head: () => ({
@@ -55,7 +56,7 @@ function CoinsPage() {
         ))}
       </div>
       <p className="mt-6 text-center text-[11px] text-muted-foreground flex items-center justify-center gap-1">
-        <Sparkles className="h-3 w-3" /> Coins are added to your wallet instantly after payment.
+        <img src={rizzAiLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" /> Coins are added to your wallet instantly after payment.
       </p>
       {checkoutElement}
     </AppShell>
