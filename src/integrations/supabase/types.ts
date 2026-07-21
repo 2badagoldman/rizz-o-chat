@@ -739,6 +739,8 @@ export type Database = {
         Args: { _coins: number; _host: string; _label: string; _sender: string }
         Returns: Json
       }
+      show_limit: { Args: never; Returns: number }
+      show_trgm: { Args: { "": string }; Returns: string[] }
     }
     Enums: {
       account_type: "host" | "member"
