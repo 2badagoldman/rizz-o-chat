@@ -102,21 +102,23 @@ export const previewInvite = createServerFn({ method: "POST" })
     const x = (i ?? {}) as { code: string };
     return { code: String(x.code ?? "").trim().toUpperCase() };
   })
-  .handler(async ({ data, context }) => {
+  .handler(async ({ data }) => {
     if (!data.code) return { ok: false as const, error: "invalid_code" };
-    const { data: inv } = await context.supabase
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: inv } = await supabaseAdmin
       .from("host_invites")
       .select("host_id, label, expires_at, max_uses, uses, active")
       .eq("code", data.code)
       .maybeSingle();
     if (!inv || !inv.active) return { ok: false as const, error: "invalid_code" };
-    const { data: host } = await context.supabase
+    const { data: host } = await supabaseAdmin
       .from("profiles")
       .select("display_name, avatar_url")
       .eq("id", inv.host_id)
       .maybeSingle();
     return { ok: true as const, invite: inv, host };
   });
+
 
 export const redeemInvite = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
