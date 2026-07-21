@@ -22,6 +22,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as SoonFeatureRouteImport } from './routes/soon.$feature'
 import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
 import { Route as InviteCodeRouteImport } from './routes/invite.$code'
 import { Route as HostRoomsRouteImport } from './routes/host.rooms'
@@ -38,6 +39,7 @@ import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
+import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ChatUserUserIdRouteImport } from './routes/chat.user.$userId'
@@ -109,6 +111,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const SoonFeatureRoute = SoonFeatureRouteImport.update({
+  id: '/soon/$feature',
+  path: '/soon/$feature',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
   id: '/rooms/$roomId',
@@ -190,6 +197,11 @@ const AdminHostsRoute = AdminHostsRouteImport.update({
   path: '/hosts',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminEarlyAccessRoute = AdminEarlyAccessRouteImport.update({
+  id: '/early-access',
+  path: '/early-access',
+  getParentRoute: () => AdminRoute,
+} as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -240,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
@@ -256,6 +269,7 @@ export interface FileRoutesByFullPath {
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/soon/$feature': typeof SoonFeatureRoute
   '/admin/': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -276,6 +290,7 @@ export interface FileRoutesByTo {
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
@@ -292,6 +307,7 @@ export interface FileRoutesByTo {
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/soon/$feature': typeof SoonFeatureRoute
   '/admin': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -314,6 +330,7 @@ export interface FileRoutesById {
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
@@ -330,6 +347,7 @@ export interface FileRoutesById {
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
+  '/soon/$feature': typeof SoonFeatureRoute
   '/admin/': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -353,6 +371,7 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
@@ -369,6 +388,7 @@ export interface FileRouteTypes {
     | '/host/rooms'
     | '/invite/$code'
     | '/rooms/$roomId'
+    | '/soon/$feature'
     | '/admin/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -389,6 +409,7 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
@@ -405,6 +426,7 @@ export interface FileRouteTypes {
     | '/host/rooms'
     | '/invite/$code'
     | '/rooms/$roomId'
+    | '/soon/$feature'
     | '/admin'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -426,6 +448,7 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
@@ -442,6 +465,7 @@ export interface FileRouteTypes {
     | '/host/rooms'
     | '/invite/$code'
     | '/rooms/$roomId'
+    | '/soon/$feature'
     | '/admin/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -476,6 +500,7 @@ export interface RootRouteChildren {
   HostRoomsRoute: typeof HostRoomsRoute
   InviteCodeRoute: typeof InviteCodeRoute
   RoomsRoomIdRoute: typeof RoomsRoomIdRoute
+  SoonFeatureRoute: typeof SoonFeatureRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ChatUserUserIdRoute: typeof ChatUserUserIdRoute
@@ -574,6 +599,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/soon/$feature': {
+      id: '/soon/$feature'
+      path: '/soon/$feature'
+      fullPath: '/soon/$feature'
+      preLoaderRoute: typeof SoonFeatureRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/rooms/$roomId': {
       id: '/rooms/$roomId'
@@ -687,6 +719,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHostsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/early-access': {
+      id: '/admin/early-access'
+      path: '/early-access'
+      fullPath: '/admin/early-access'
+      preLoaderRoute: typeof AdminEarlyAccessRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -733,6 +772,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminHostsRoute: typeof AdminHostsRoute
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
@@ -741,6 +781,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminHostsRoute: AdminHostsRoute,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
@@ -778,6 +819,7 @@ const rootRouteChildren: RootRouteChildren = {
   HostRoomsRoute: HostRoomsRoute,
   InviteCodeRoute: InviteCodeRoute,
   RoomsRoomIdRoute: RoomsRoomIdRoute,
+  SoonFeatureRoute: SoonFeatureRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ChatUserUserIdRoute: ChatUserUserIdRoute,

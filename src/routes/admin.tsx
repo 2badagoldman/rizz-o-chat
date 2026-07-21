@@ -12,6 +12,7 @@ import {
   Menu,
   X,
   Home,
+  Inbox,
 } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
@@ -26,6 +27,7 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/payouts", label: "Payouts", icon: Wallet },
   { to: "/admin/showcase", label: "Showcase", icon: ImageIcon },
+  { to: "/admin/early-access", label: "Early Access", icon: Inbox },
 ];
 
 function AdminLayout() {
