@@ -111,6 +111,16 @@ function Dashboard() {
                 </div>
                 <span className="text-gradient-brand font-semibold">→</span>
               </Link>
+              <Link
+                to="/host/rooms"
+                className="flex items-center justify-between rounded-2xl border border-primary/40 bg-gradient-brand-soft p-4 hover:border-primary transition-colors"
+              >
+                <div>
+                  <p className="text-sm font-semibold">Rooms (group chats)</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Sort your Friends List into private group rooms — like WhatsApp groups.</p>
+                </div>
+                <span className="text-gradient-brand font-semibold">→</span>
+              </Link>
             </div>
           )}
 
