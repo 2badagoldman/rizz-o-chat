@@ -227,6 +227,33 @@ export type Database = {
         }
         Relationships: []
       }
+      host_rooms: {
+        Row: {
+          created_at: string
+          description: string | null
+          host_id: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          host_id: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          host_id?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       list_memberships: {
         Row: {
           chat_access_until: string | null
@@ -450,6 +477,67 @@ export type Database = {
         }
         Relationships: []
       }
+      room_members: {
+        Row: {
+          added_at: string
+          id: string
+          room_id: string
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          id?: string
+          room_id: string
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          id?: string
+          room_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_members_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "host_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      room_messages: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          room_id: string
+          sender_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          room_id: string
+          sender_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          room_id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "room_messages_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "host_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       showcase_media: {
         Row: {
           caption: string | null
@@ -638,6 +726,14 @@ export type Database = {
         Returns: boolean
       }
       host_self_stats: { Args: { _since?: string }; Returns: Json }
+      is_room_host: {
+        Args: { _room_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_room_member: {
+        Args: { _room_id: string; _user_id: string }
+        Returns: boolean
+      }
       redeem_host_invite: { Args: { _code: string }; Returns: Json }
       send_coin_gift: {
         Args: { _coins: number; _host: string; _label: string; _sender: string }
