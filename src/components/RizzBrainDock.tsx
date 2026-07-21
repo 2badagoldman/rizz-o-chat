@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
 import ReactMarkdown from "react-markdown";
-import { Send, X, ChevronDown, Paperclip, Image as ImageIcon } from "lucide-react";
+import { Send, X, ChevronDown, Image as ImageIcon } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
