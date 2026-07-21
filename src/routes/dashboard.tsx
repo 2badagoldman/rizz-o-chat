@@ -101,6 +101,16 @@ function Dashboard() {
                 </div>
                 <span className="text-gradient-brand font-semibold">→</span>
               </Link>
+              <Link
+                to="/host/invites"
+                className="flex items-center justify-between rounded-2xl border border-primary/40 bg-gradient-brand-soft p-4 hover:border-primary transition-colors"
+              >
+                <div>
+                  <p className="text-sm font-semibold">Free invite links</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Generate a unique link — anyone who joins via it gets a free Friends List seat.</p>
+                </div>
+                <span className="text-gradient-brand font-semibold">→</span>
+              </Link>
             </div>
           )}
 

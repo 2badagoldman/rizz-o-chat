@@ -146,6 +146,42 @@ export type Database = {
         }
         Relationships: []
       }
+      host_invites: {
+        Row: {
+          active: boolean
+          code: string
+          created_at: string
+          expires_at: string | null
+          host_id: string
+          id: string
+          label: string | null
+          max_uses: number | null
+          uses: number
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          created_at?: string
+          expires_at?: string | null
+          host_id: string
+          id?: string
+          label?: string | null
+          max_uses?: number | null
+          uses?: number
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          created_at?: string
+          expires_at?: string | null
+          host_id?: string
+          id?: string
+          label?: string | null
+          max_uses?: number | null
+          uses?: number
+        }
+        Relationships: []
+      }
       host_payouts: {
         Row: {
           amount_cents: number
@@ -602,6 +638,7 @@ export type Database = {
         Returns: boolean
       }
       host_self_stats: { Args: { _since?: string }; Returns: Json }
+      redeem_host_invite: { Args: { _code: string }; Returns: Json }
       send_coin_gift: {
         Args: { _coins: number; _host: string; _label: string; _sender: string }
         Returns: Json

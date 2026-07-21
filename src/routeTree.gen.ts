@@ -22,9 +22,11 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as InviteCodeRouteImport } from './routes/invite.$code'
 import { Route as HostPricingRouteImport } from './routes/host.pricing'
 import { Route as HostOnboardingRouteImport } from './routes/host.onboarding'
 import { Route as HostMembersRouteImport } from './routes/host.members'
+import { Route as HostInvitesRouteImport } from './routes/host.invites'
 import { Route as HostHostIdRouteImport } from './routes/host.$hostId'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ChatHostIdRouteImport } from './routes/chat.$hostId'
@@ -106,6 +108,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRoute,
 } as any)
+const InviteCodeRoute = InviteCodeRouteImport.update({
+  id: '/invite/$code',
+  path: '/invite/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HostPricingRoute = HostPricingRouteImport.update({
   id: '/host/pricing',
   path: '/host/pricing',
@@ -119,6 +126,11 @@ const HostOnboardingRoute = HostOnboardingRouteImport.update({
 const HostMembersRoute = HostMembersRouteImport.update({
   id: '/host/members',
   path: '/host/members',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostInvitesRoute = HostInvitesRouteImport.update({
+  id: '/host/invites',
+  path: '/host/invites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HostHostIdRoute = HostHostIdRouteImport.update({
@@ -225,9 +237,11 @@ export interface FileRoutesByFullPath {
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
+  '/host/invites': typeof HostInvitesRoute
   '/host/members': typeof HostMembersRoute
   '/host/onboarding': typeof HostOnboardingRoute
   '/host/pricing': typeof HostPricingRoute
+  '/invite/$code': typeof InviteCodeRoute
   '/admin/': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -257,9 +271,11 @@ export interface FileRoutesByTo {
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
+  '/host/invites': typeof HostInvitesRoute
   '/host/members': typeof HostMembersRoute
   '/host/onboarding': typeof HostOnboardingRoute
   '/host/pricing': typeof HostPricingRoute
+  '/invite/$code': typeof InviteCodeRoute
   '/admin': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -291,9 +307,11 @@ export interface FileRoutesById {
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
+  '/host/invites': typeof HostInvitesRoute
   '/host/members': typeof HostMembersRoute
   '/host/onboarding': typeof HostOnboardingRoute
   '/host/pricing': typeof HostPricingRoute
+  '/invite/$code': typeof InviteCodeRoute
   '/admin/': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -326,9 +344,11 @@ export interface FileRouteTypes {
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
+    | '/host/invites'
     | '/host/members'
     | '/host/onboarding'
     | '/host/pricing'
+    | '/invite/$code'
     | '/admin/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -358,9 +378,11 @@ export interface FileRouteTypes {
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
+    | '/host/invites'
     | '/host/members'
     | '/host/onboarding'
     | '/host/pricing'
+    | '/invite/$code'
     | '/admin'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -391,9 +413,11 @@ export interface FileRouteTypes {
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
+    | '/host/invites'
     | '/host/members'
     | '/host/onboarding'
     | '/host/pricing'
+    | '/invite/$code'
     | '/admin/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -421,9 +445,11 @@ export interface RootRouteChildren {
   ChatHostIdRoute: typeof ChatHostIdRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   HostHostIdRoute: typeof HostHostIdRoute
+  HostInvitesRoute: typeof HostInvitesRoute
   HostMembersRoute: typeof HostMembersRoute
   HostOnboardingRoute: typeof HostOnboardingRoute
   HostPricingRoute: typeof HostPricingRoute
+  InviteCodeRoute: typeof InviteCodeRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ChatUserUserIdRoute: typeof ChatUserUserIdRoute
@@ -523,6 +549,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/invite/$code': {
+      id: '/invite/$code'
+      path: '/invite/$code'
+      fullPath: '/invite/$code'
+      preLoaderRoute: typeof InviteCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/host/pricing': {
       id: '/host/pricing'
       path: '/host/pricing'
@@ -542,6 +575,13 @@ declare module '@tanstack/react-router' {
       path: '/host/members'
       fullPath: '/host/members'
       preLoaderRoute: typeof HostMembersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/invites': {
+      id: '/host/invites'
+      path: '/host/invites'
+      fullPath: '/host/invites'
+      preLoaderRoute: typeof HostInvitesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/host/$hostId': {
@@ -691,9 +731,11 @@ const rootRouteChildren: RootRouteChildren = {
   ChatHostIdRoute: ChatHostIdRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   HostHostIdRoute: HostHostIdRoute,
+  HostInvitesRoute: HostInvitesRoute,
   HostMembersRoute: HostMembersRoute,
   HostOnboardingRoute: HostOnboardingRoute,
   HostPricingRoute: HostPricingRoute,
+  InviteCodeRoute: InviteCodeRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ChatUserUserIdRoute: ChatUserUserIdRoute,

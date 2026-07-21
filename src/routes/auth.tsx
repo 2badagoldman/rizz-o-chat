@@ -254,6 +254,28 @@ function AuthPage() {
         Continue with Google
       </button>
 
+      <div className="mt-5 rounded-2xl border border-border bg-card p-4">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Have an invite code?</p>
+        <form
+          className="mt-2 flex gap-2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            const f = new FormData(e.currentTarget as HTMLFormElement);
+            const code = String(f.get("code") ?? "").trim().toUpperCase();
+            if (code) router.navigate({ to: "/invite/$code", params: { code } });
+          }}
+        >
+          <input
+            name="code"
+            placeholder="Enter code"
+            className="flex-1 rounded-xl border border-border bg-background px-3 py-2 text-sm font-mono uppercase outline-none focus:border-primary"
+          />
+          <button type="submit" className="rounded-xl px-3 py-2 text-sm font-semibold text-white" style={{ background: "var(--gradient-brand)" }}>
+            Redeem
+          </button>
+        </form>
+      </div>
+
       <p className="mt-6 text-center text-[11px] text-muted-foreground">
         By continuing you agree to our{" "}
         <Link to="/" className="underline">Terms</Link> and{" "}
