@@ -22,6 +22,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const suppressDock = hideNav || hideDock || pathname === "/copilot" || pathname === "/auth";
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     initScrollReveal();
