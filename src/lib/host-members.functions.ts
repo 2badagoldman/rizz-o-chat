@@ -110,7 +110,7 @@ export const hostRemoveMember = createServerFn({ method: "POST" })
     const list = await getOrCreateList(context);
     const { error } = await context.supabase
       .from("list_memberships")
-      .update({ status: "canceled", chat_access_until: null })
+      .update({ status: "cancelled", chat_access_until: null })
       .eq("list_id", list.id)
       .eq("member_id", data.memberId);
     if (error) throw error;
