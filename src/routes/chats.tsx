@@ -26,7 +26,7 @@ function Chats() {
 
   useEffect(() => {
     if (!user) return;
-    listThreads({ data: {} }).then(setThreads).catch(() => {});
+    listThreads().then(setThreads).catch(() => {});
   }, [user, listThreads]);
 
   useEffect(() => {
