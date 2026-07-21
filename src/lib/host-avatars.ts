@@ -1,12 +1,8 @@
 // Portrait pool used as placeholder covers for demo hosts.
-// Once a real user signs up and uploads their own avatar / media, that
-// takes over automatically — these only render for the seeded demo pool.
-//
-// Pool = 9 local stylized AI portraits + 100 curated real portraits from
-// randomuser.me (a free, stable CDN of Creative Commons headshots).
-// Deterministically mapped by host id so each host always shows the same
-// face across renders, but the wider pool eliminates the "same 9 faces"
-// feeling on Home and Discover.
+// Pool = 9 local stylized AI portraits + curated portraits from i.pravatar.cc
+// (a free, stable CDN of Creative Commons headshots — 70 unique portraits
+// addressable by ?img=1..70). Deterministically mapped by host id so each
+// host always shows the same face across renders.
 import p1 from "@/assets/ai-portrait-1.jpg";
 import p3 from "@/assets/ai-portrait-3.jpg";
 import p4 from "@/assets/ai-portrait-4.jpg";
@@ -19,29 +15,26 @@ import p12 from "@/assets/ai-portrait-12.jpg";
 
 const LOCAL: string[] = [p1, p3, p4, p6, p7, p8, p9, p11, p12];
 
-
-// randomuser.me serves three sizes per portrait:
-//   /portraits/women/N.jpg      (full ~600px)
-//   /portraits/med/women/N.jpg  (~128px)
-//   /portraits/thumb/women/N.jpg (~64px)
-// Pick the smallest size that still looks sharp at the target UI size so
-// scroll rails don't download 600px images for 64px circles.
-const REMOTE_COUNT = 100;
-const remote = (variant: "" | "med/" | "thumb/", i: number) =>
-  `https://randomuser.me/api/portraits/${variant}women/${i}.jpg`;
+// i.pravatar.cc supports ?img=N (1..70) for a stable specific portrait,
+// and size in the path segment (/64/, /128/, /400/). Serving the right
+// size keeps scroll-rail circles from downloading full-size images.
+const REMOTE_COUNT = 70;
+const remote = (size: number, i: number) =>
+  `https://i.pravatar.cc/${size}?img=${i + 1}`;
 
 const POOL_FULL: string[] = [
   ...LOCAL,
-  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote("", i)),
+  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote(400, i)),
 ];
 const POOL_MED: string[] = [
   ...LOCAL,
-  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote("med/", i)),
+  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote(160, i)),
 ];
 const POOL_THUMB: string[] = [
   ...LOCAL,
-  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote("thumb/", i)),
+  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote(80, i)),
 ];
+
 
 function hash(id: string): number {
   let h = 0;
