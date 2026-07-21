@@ -93,9 +93,12 @@ function Home() {
               <div className="relative aspect-[4/5] overflow-hidden" style={{ background: h.gradient }}>
                 <img
                   src={hostAvatarMed(h.id)}
-                  alt=""
+                  alt={h.name}
+                  width={400}
+                  height={500}
                   loading={i < 4 ? "eager" : "lazy"}
                   decoding="async"
+                  fetchPriority={i < 2 ? "high" : "auto"}
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
 
