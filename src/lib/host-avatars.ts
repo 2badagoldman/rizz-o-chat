@@ -1,6 +1,10 @@
 // Portrait pool used as placeholder covers for demo hosts.
-// Pool = 9 local stylized AI portraits + 100 women portraits from randomuser.me.
-// Deterministically mapped by host id so each host always shows the same face.
+// All images are bundled locally (offline-first, no external CDN pulls):
+//   • 9 stylized AI portraits in src/assets/ai-portrait-*.jpg
+//   • 100 women portraits in src/assets/hosts/w{0..99}.jpg (128px full/med)
+//     with matching thumbs in src/assets/hosts/t{0..99}.jpg (48px)
+// Vite fingerprints and long-caches all of them; the browser never talks to
+// randomuser.me at runtime.
 import p1 from "@/assets/ai-portrait-1.jpg";
 import p3 from "@/assets/ai-portrait-3.jpg";
 import p4 from "@/assets/ai-portrait-4.jpg";
@@ -13,25 +17,34 @@ import p12 from "@/assets/ai-portrait-12.jpg";
 
 const LOCAL: string[] = [p1, p3, p4, p6, p7, p8, p9, p11, p12];
 
-// randomuser.me: women only. Full ~256px, thumb ~80px. No mid tier exists,
-// so med reuses full (already small).
-const REMOTE_COUNT = 100;
-const womenFull = (i: number) => `https://randomuser.me/api/portraits/women/${i}.jpg`;
-const womenThumb = (i: number) => `https://randomuser.me/api/portraits/thumb/women/${i}.jpg`;
+// Eagerly import all bundled women portraits as URL strings.
+const fullMods = import.meta.glob("@/assets/hosts/w*.jpg", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>;
+const thumbMods = import.meta.glob("@/assets/hosts/t*.jpg", {
+  eager: true,
+  query: "?url",
+  import: "default",
+}) as Record<string, string>;
 
-const POOL_FULL: string[] = [
-  ...LOCAL,
-  ...Array.from({ length: REMOTE_COUNT }, (_, i) => womenFull(i)),
-];
-const POOL_MED: string[] = [
-  ...LOCAL,
-  ...Array.from({ length: REMOTE_COUNT }, (_, i) => womenFull(i)),
-];
-const POOL_THUMB: string[] = [
-  ...LOCAL,
-  ...Array.from({ length: REMOTE_COUNT }, (_, i) => womenThumb(i)),
-];
+function sortByIndex(mods: Record<string, string>): string[] {
+  return Object.entries(mods)
+    .map(([path, url]) => {
+      const m = path.match(/\/[wt](\d+)\.jpg$/);
+      return { i: m ? parseInt(m[1], 10) : 0, url };
+    })
+    .sort((a, b) => a.i - b.i)
+    .map((x) => x.url);
+}
 
+const WOMEN_FULL = sortByIndex(fullMods);
+const WOMEN_THUMB = sortByIndex(thumbMods);
+
+const POOL_FULL: string[] = [...LOCAL, ...WOMEN_FULL];
+const POOL_MED: string[] = [...LOCAL, ...WOMEN_FULL];
+const POOL_THUMB: string[] = [...LOCAL, ...WOMEN_THUMB];
 
 function hash(id: string): number {
   let h = 0;
@@ -49,11 +62,10 @@ export function hostAvatarMed(id: string): string {
   return POOL_MED[hash(id) % POOL_MED.length];
 }
 
-/** ~64px portrait — use for scroll-rail circles / chat lists. */
+/** ~48px portrait — use for scroll-rail circles / chat lists. */
 export function hostAvatarThumb(id: string): string {
   return POOL_THUMB[hash(id) % POOL_THUMB.length];
 }
 
 /** Total number of unique portraits available. */
 export const HOST_AVATAR_COUNT = POOL_FULL.length;
-
