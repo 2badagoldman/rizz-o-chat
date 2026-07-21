@@ -138,9 +138,8 @@ function Home() {
 
       {/* Become a host — warm creator studio invite */}
       <section
-        className="mt-7 overflow-hidden rounded-3xl border p-5 shadow-card"
-        style={{ background: "var(--host-soft)", borderColor: "var(--host-primary)" }}
         className="mt-7 overflow-hidden rounded-3xl border p-5 shadow-card rise-in rise-in-4"
+        style={{ background: "var(--host-soft)", borderColor: "var(--host-primary)" }}
       >
         <div className="flex items-center gap-2">
           <Crown className="h-4 w-4 float-soft" style={{ color: "var(--host-primary)" }} />
