@@ -182,13 +182,13 @@ export function RizzBrainDock() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open Rizz AI"
-          className="fixed z-40 grid h-12 w-12 place-items-center rounded-full border border-border bg-card/95 shadow-glow backdrop-blur transition-transform hover:scale-105 active:scale-95"
+          className="fixed z-40 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/20 shadow-glow backdrop-blur-xl backdrop-saturate-150 transition-transform hover:scale-105 active:scale-95"
           style={{
-            right: "max(1rem, env(safe-area-inset-right))",
-            bottom: "calc(env(safe-area-inset-bottom) + 5rem)",
+            right: "max(0.75rem, env(safe-area-inset-right))",
+            bottom: "calc(env(safe-area-inset-bottom) + 4.25rem)",
           }}
         >
-          <img src={rizzAiLogo.url} alt="Rizz AI" className="h-9 w-9 rounded-full object-cover" />
+          <img src={rizzAiLogo.url} alt="Rizz AI" className="h-8 w-8 rounded-full object-cover" />
         </button>
       ) : null}
     </>
