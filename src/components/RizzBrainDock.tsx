@@ -69,7 +69,7 @@ export function RizzBrainDock() {
             height: "min(58vh, 500px)",
           }}
         >
-          <div className="flex items-center justify-between border-b border-border px-3 py-2">
+          <div className="flex items-center justify-between border-b border-white/15 px-3 py-2 bg-white/5">
             <div className="flex items-center gap-2">
               <div className="h-7 w-7 overflow-hidden rounded-full shadow-glow">
                 <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
