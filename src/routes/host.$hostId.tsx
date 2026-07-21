@@ -33,6 +33,10 @@ function HostProfile() {
   const [tipAmount, setTipAmount] = useState(500);
   const { openCheckout, checkoutElement } = useStripeCheckout();
 
+  const closeProfile = () => {
+    navigate({ to: "/discover" });
+  };
+
   if (!host) {
     return (
       <AppShell>
@@ -82,6 +86,16 @@ function HostProfile() {
 
   return (
     <AppShell hideNav hideDock>
+      <button
+        type="button"
+        onClick={closeProfile}
+        aria-label="Close profile and return to Discover"
+        className="fixed right-4 top-20 z-[100] inline-flex h-12 items-center gap-2 rounded-full border border-border bg-card/95 px-4 text-sm font-bold shadow-card backdrop-blur transition hover:scale-105 hover:bg-primary/10 active:scale-95"
+      >
+        <X className="h-5 w-5" />
+        Close
+      </button>
+
       <div className="-mx-4">
         {/* Carousel */}
         <div className="relative aspect-[3/4] w-full overflow-hidden">
@@ -121,8 +135,20 @@ function HostProfile() {
             )}
           </div>
 
+          {/* Prev / next tap zones */}
+          <button
+            aria-label="Previous"
+            onClick={() => setSlide((s) => (s - 1 + slides.length) % slides.length)}
+            className="absolute inset-y-0 left-0 z-10 w-1/3"
+          />
+          <button
+            aria-label="Next"
+            onClick={() => setSlide((s) => (s + 1) % slides.length)}
+            className="absolute inset-y-0 right-0 z-10 w-1/3"
+          />
+
           {/* Top row */}
-          <div className="absolute inset-x-3 top-3 flex items-center justify-between">
+          <div className="absolute inset-x-3 top-3 z-30 flex items-center justify-between">
             <Link to="/discover" aria-label="Back to discover" className="grid h-9 w-9 place-items-center rounded-full bg-black/50 text-white backdrop-blur transition hover:scale-105">
               <ArrowLeft className="h-4 w-4" />
             </Link>
@@ -135,20 +161,6 @@ function HostProfile() {
                   <Circle className="h-2 w-2 fill-success text-success" /> Online
                 </span>
               ) : null}
-              <button
-                type="button"
-                onClick={() => {
-                  if (typeof window !== "undefined" && window.history.length > 1) {
-                    window.history.back();
-                  } else {
-                    navigate({ to: "/discover" });
-                  }
-                }}
-                aria-label="Close profile"
-                className="grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition hover:scale-105 hover:bg-black/80"
-              >
-                <X className="h-4 w-4" />
-              </button>
             </div>
           </div>
 
@@ -167,18 +179,6 @@ function HostProfile() {
               />
             ))}
           </div>
-
-          {/* Prev / next tap zones */}
-          <button
-            aria-label="Previous"
-            onClick={() => setSlide((s) => (s - 1 + slides.length) % slides.length)}
-            className="absolute inset-y-0 left-0 w-1/3"
-          />
-          <button
-            aria-label="Next"
-            onClick={() => setSlide((s) => (s + 1) % slides.length)}
-            className="absolute inset-y-0 right-0 w-1/3"
-          />
         </div>
       </div>
 
