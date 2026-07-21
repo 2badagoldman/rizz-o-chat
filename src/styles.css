@@ -42,57 +42,58 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Sora", ui-rounded, -apple-system, "SF Pro Rounded", system-ui, sans-serif;
+  --font-sans: "Manrope", ui-rounded, -apple-system, "SF Pro Rounded", "Segoe UI", system-ui, sans-serif;
 }
 
 :root {
-  --radius: 1.15rem;
+  /* Bubbly by design — big rounded corners everywhere */
+  --radius: 1.5rem;
 
-  /* PINK MODE (default) — hot pink → magenta with sky blue accents. */
-  --background: oklch(0.985 0.012 340);
-  --foreground: oklch(0.22 0.06 320);
+  /* SUNSET BLAZE — Apple-bright coral → tangerine → magenta → indigo */
+  --background: oklch(0.985 0.014 60);
+  --foreground: oklch(0.22 0.05 300);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.06 320);
+  --card-foreground: oklch(0.22 0.05 300);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.06 320);
+  --popover-foreground: oklch(0.22 0.05 300);
 
-  --primary: oklch(0.68 0.24 350);
+  --primary: oklch(0.68 0.22 15);          /* #ff6b35 coral */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.96 0.04 340);
-  --secondary-foreground: oklch(0.32 0.10 340);
-  --muted: oklch(0.97 0.02 340);
-  --muted-foreground: oklch(0.48 0.05 320);
-  --accent: oklch(0.72 0.16 235);
+  --secondary: oklch(0.96 0.05 55);         /* peachy cream */
+  --secondary-foreground: oklch(0.32 0.10 30);
+  --muted: oklch(0.97 0.02 40);
+  --muted-foreground: oklch(0.50 0.05 300);
+  --accent: oklch(0.62 0.20 300);           /* #6c5ce7 indigo */
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.62 0.25 27);
   --destructive-foreground: oklch(1 0 0);
   --success: oklch(0.72 0.18 155);
   --success-foreground: oklch(1 0 0);
 
-  --brand-pink: oklch(0.68 0.24 350);
-  --brand-purple: oklch(0.55 0.18 300);
-  --brand-coral: #ff5fa2;
-  --brand-violet: #6366f1;
+  --brand-pink: #e84393;
+  --brand-purple: #6c5ce7;
+  --brand-coral: #ff6b35;
+  --brand-violet: #6c5ce7;
 
-  --border: oklch(0.30 0.08 340 / 10%);
-  --input: oklch(0.30 0.08 340 / 10%);
-  --ring: oklch(0.68 0.24 350 / 55%);
+  --border: oklch(0.35 0.05 30 / 10%);
+  --input: oklch(0.35 0.05 30 / 10%);
+  --ring: oklch(0.68 0.22 15 / 55%);
 
-  --gradient-brand: linear-gradient(135deg, #ff5fa2 0%, #e5399b 35%, #a855f7 70%, #38bdf8 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(255,95,162,0.18) 0%, rgba(168,85,247,0.14) 55%, rgba(56,189,248,0.18) 100%);
-  --gradient-sunset: linear-gradient(135deg, #ffb7d5 0%, #ff5fa2 40%, #a855f7 100%);
-  --gradient-night: linear-gradient(135deg, #6366f1 0%, #e5399b 100%);
-  --gradient-story: conic-gradient(from 200deg at 50% 50%, #ff5fa2, #e5399b, #a855f7, #38bdf8, #ff5fa2);
+  --gradient-brand: linear-gradient(135deg, #ff6b35 0%, #f7931e 30%, #e84393 65%, #6c5ce7 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(255,107,53,0.18) 0%, rgba(232,67,147,0.14) 55%, rgba(108,92,231,0.18) 100%);
+  --gradient-sunset: linear-gradient(135deg, #ffb37a 0%, #ff6b35 40%, #e84393 100%);
+  --gradient-night: linear-gradient(135deg, #6c5ce7 0%, #e84393 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #ff6b35, #f7931e, #e84393, #6c5ce7, #ff6b35);
 
-  --shadow-glow: 0 18px 55px -15px rgba(229, 57, 155, 0.55);
-  --shadow-card: 0 10px 40px -14px rgba(168, 85, 247, 0.28);
-  --shadow-pop: 0 30px 80px -20px rgba(56, 189, 248, 0.35);
+  --shadow-glow: 0 20px 60px -18px rgba(232, 67, 147, 0.55);
+  --shadow-card: 0 14px 44px -18px rgba(108, 92, 231, 0.28), 0 3px 10px -4px rgba(255, 107, 53, 0.14);
+  --shadow-pop:  0 34px 90px -22px rgba(247, 147, 30, 0.40);
 
-  --aurora-1: rgba(255,95,162,0.55);
-  --aurora-2: rgba(229,57,155,0.45);
-  --aurora-3: rgba(56,189,248,0.45);
-  --aurora-4: rgba(168,85,247,0.35);
+  --aurora-1: rgba(255,107,53,0.55);
+  --aurora-2: rgba(247,147,30,0.42);
+  --aurora-3: rgba(232,67,147,0.45);
+  --aurora-4: rgba(108,92,231,0.38);
 
   --host-primary: #E9B872;
   --host-primary-fg: #1A140A;
@@ -183,17 +184,18 @@
 
 @utility btn-brand {
   background-image: var(--gradient-brand);
-  background-size: 180% 180%;
+  background-size: 220% 220%;
   color: #fff;
   border-radius: 999px;
-  padding: 0.85rem 1.4rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  transition: transform 160ms ease, box-shadow 200ms ease, background-position 400ms ease;
-  box-shadow: var(--shadow-glow);
+  padding: 0.95rem 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  font-size: 1rem;
+  transition: transform 200ms cubic-bezier(.2,.9,.3,1.2), box-shadow 250ms ease, background-position 500ms ease;
+  box-shadow: var(--shadow-glow), inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -2px 0 rgba(0,0,0,0.08);
   background-position: 0% 50%;
 }
-@utility btn-brand-hover { transform: translateY(-1px) scale(1.01); background-position: 100% 50%; }
+@utility btn-brand-hover { transform: translateY(-2px) scale(1.03); background-position: 100% 50%; }
 
 /* Family-tree card: soft coral-to-violet frame with glow on hover */
 @utility card-story {
@@ -255,10 +257,10 @@
 
   h1, h2, h3, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
-    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-weight: 800;
   }
-  h1 { letter-spacing: -0.035em; }
+  h1 { letter-spacing: -0.045em; font-weight: 800; }
 
   button { cursor: pointer; }
   button.btn-brand:active { transform: scale(0.98); opacity: 0.95; }
