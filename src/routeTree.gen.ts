@@ -24,6 +24,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as HostPricingRouteImport } from './routes/host.pricing'
 import { Route as HostOnboardingRouteImport } from './routes/host.onboarding'
+import { Route as HostMembersRouteImport } from './routes/host.members'
 import { Route as HostHostIdRouteImport } from './routes/host.$hostId'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ChatHostIdRouteImport } from './routes/chat.$hostId'
@@ -113,6 +114,11 @@ const HostPricingRoute = HostPricingRouteImport.update({
 const HostOnboardingRoute = HostOnboardingRouteImport.update({
   id: '/host/onboarding',
   path: '/host/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostMembersRoute = HostMembersRouteImport.update({
+  id: '/host/members',
+  path: '/host/members',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HostHostIdRoute = HostHostIdRouteImport.update({
@@ -219,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
+  '/host/members': typeof HostMembersRoute
   '/host/onboarding': typeof HostOnboardingRoute
   '/host/pricing': typeof HostPricingRoute
   '/admin/': typeof AdminIndexRoute
@@ -250,6 +257,7 @@ export interface FileRoutesByTo {
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
+  '/host/members': typeof HostMembersRoute
   '/host/onboarding': typeof HostOnboardingRoute
   '/host/pricing': typeof HostPricingRoute
   '/admin': typeof AdminIndexRoute
@@ -283,6 +291,7 @@ export interface FileRoutesById {
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
+  '/host/members': typeof HostMembersRoute
   '/host/onboarding': typeof HostOnboardingRoute
   '/host/pricing': typeof HostPricingRoute
   '/admin/': typeof AdminIndexRoute
@@ -317,6 +326,7 @@ export interface FileRouteTypes {
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
+    | '/host/members'
     | '/host/onboarding'
     | '/host/pricing'
     | '/admin/'
@@ -348,6 +358,7 @@ export interface FileRouteTypes {
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
+    | '/host/members'
     | '/host/onboarding'
     | '/host/pricing'
     | '/admin'
@@ -380,6 +391,7 @@ export interface FileRouteTypes {
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
+    | '/host/members'
     | '/host/onboarding'
     | '/host/pricing'
     | '/admin/'
@@ -409,6 +421,7 @@ export interface RootRouteChildren {
   ChatHostIdRoute: typeof ChatHostIdRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   HostHostIdRoute: typeof HostHostIdRoute
+  HostMembersRoute: typeof HostMembersRoute
   HostOnboardingRoute: typeof HostOnboardingRoute
   HostPricingRoute: typeof HostPricingRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
@@ -522,6 +535,13 @@ declare module '@tanstack/react-router' {
       path: '/host/onboarding'
       fullPath: '/host/onboarding'
       preLoaderRoute: typeof HostOnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/members': {
+      id: '/host/members'
+      path: '/host/members'
+      fullPath: '/host/members'
+      preLoaderRoute: typeof HostMembersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/host/$hostId': {
@@ -671,6 +691,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatHostIdRoute: ChatHostIdRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   HostHostIdRoute: HostHostIdRoute,
+  HostMembersRoute: HostMembersRoute,
   HostOnboardingRoute: HostOnboardingRoute,
   HostPricingRoute: HostPricingRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
