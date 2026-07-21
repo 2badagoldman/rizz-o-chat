@@ -2,7 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierLabel, type DemoHost } from "@/lib/demo-hosts";
-import { Search, Sparkles, Users, Circle } from "lucide-react";
+import { Search, Users, Circle } from "lucide-react";
+import { useShuffled } from "@/hooks/useShuffled";
 import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/discover")({
