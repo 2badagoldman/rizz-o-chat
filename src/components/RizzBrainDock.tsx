@@ -2,19 +2,23 @@ import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
 import ReactMarkdown from "react-markdown";
-import { Send, X, ChevronDown } from "lucide-react";
+import { Send, X, ChevronDown, Image as ImageIcon } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 const DISMISS_KEY = "rizz_brain_dock_dismissed_v1";
+
 
 export function RizzBrainDock() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [dismissed, setDismissed] = useState(false);
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -50,11 +54,21 @@ export function RizzBrainDock() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const t = input.trim();
-    if (!t || busy) return;
-    sendMessage({ text: t });
+    if ((!t && files.length === 0) || busy) return;
+    const dt = new DataTransfer();
+    files.forEach((f) => dt.items.add(f));
+    sendMessage({ text: t || "What should I say? Coach me with 3 options.", files: files.length ? dt.files : undefined });
     setInput("");
+    setFiles([]);
     if (!open) setOpen(true);
   };
+
+  const onPickFiles = (list: FileList | null) => {
+    if (!list) return;
+    const imgs = Array.from(list).filter((f) => f.type.startsWith("image/")).slice(0, 3);
+    setFiles((prev) => [...prev, ...imgs].slice(0, 3));
+  };
+
 
   return (
     <>
@@ -101,13 +115,17 @@ export function RizzBrainDock() {
             {messages.length === 0 ? (
               <div className="rounded-2xl border border-border bg-background/40 p-3">
                 <p className="text-sm">
-                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>. Ask me anything.
+                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>, your <span className="font-semibold">Rizz Wizard</span>.
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Stuck on what to say to a Host, a crush, or any girl? Paste the context — or drop a screenshot of the chat / her profile — and I&apos;ll give you 3 lines to send.
                 </p>
                 <div className="mt-3 grid gap-1.5">
                   {[
-                    "How do Friends Lists work?",
-                    "Walk me through applying as a Host",
-                    "Help me pick a Host",
+                    "What should I open with? (I'll upload her bio)",
+                    "She left me on read — how do I re-open?",
+                    "Rewrite my message to sound more confident",
+                    "Help me pick a Host to subscribe to",
                   ].map((s) => (
                     <button
                       key={s}
@@ -117,24 +135,34 @@ export function RizzBrainDock() {
                       {s}
                     </button>
                   ))}
+
                 </div>
               </div>
             ) : null}
 
+
             {messages.map((m) => {
               const isUser = m.role === "user";
               const text = m.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
+              const imgs = m.parts.filter((p: any) => p.type === "file" && typeof p.mediaType === "string" && p.mediaType.startsWith("image/")) as any[];
               return (
                 <div key={m.id} className={isUser ? "flex justify-end" : "flex justify-start"}>
                   <div
                     className={
                       isUser
-                        ? "max-w-[85%] rounded-2xl rounded-br-sm bg-gradient-brand px-3 py-2 text-sm text-white shadow-glow"
+                        ? "max-w-[85%] rounded-2xl rounded-br-sm bg-gradient-brand px-3 py-2 text-sm text-white shadow-glow space-y-2"
                         : "max-w-[92%] text-sm leading-relaxed"
                     }
                   >
+                    {imgs.length > 0 ? (
+                      <div className="grid grid-cols-2 gap-1">
+                        {imgs.map((p, i) => (
+                          <img key={i} src={p.url} alt="attachment" className="rounded-lg max-h-40 object-cover" />
+                        ))}
+                      </div>
+                    ) : null}
                     {isUser ? (
-                      <p className="whitespace-pre-wrap">{text}</p>
+                      text ? <p className="whitespace-pre-wrap">{text}</p> : null
                     ) : (
                       <div className="prose prose-sm prose-invert max-w-none prose-p:my-1.5 prose-ul:my-1.5">
                         <ReactMarkdown>{text || "…"}</ReactMarkdown>
@@ -150,32 +178,69 @@ export function RizzBrainDock() {
             ) : null}
           </div>
 
-          <form onSubmit={submit} className="flex items-end gap-2 border-t border-white/15 bg-white/5 px-2 py-2">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  submit(e);
-                }
-              }}
-              placeholder="Ask Rizz AI…"
-              rows={1}
-              className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm outline-none backdrop-blur focus:border-primary"
-            />
-            <button
-              type="submit"
-              disabled={busy || !input.trim()}
-              className="grid h-9 w-9 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
-              aria-label="Send"
-            >
-              <Send className="h-4 w-4" />
-            </button>
+          <form onSubmit={submit} className="flex flex-col gap-2 border-t border-white/15 bg-white/5 px-2 py-2">
+            {files.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5 px-1">
+                {files.map((f, i) => (
+                  <div key={i} className="relative">
+                    <img src={URL.createObjectURL(f)} alt="preview" className="h-12 w-12 rounded-lg object-cover border border-white/20" />
+                    <button
+                      type="button"
+                      onClick={() => setFiles((prev) => prev.filter((_, j) => j !== i))}
+                      className="absolute -top-1 -right-1 grid h-4 w-4 place-items-center rounded-full bg-black/70 text-white"
+                      aria-label="Remove"
+                    >
+                      <X className="h-2.5 w-2.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            <div className="flex items-end gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={(e) => { onPickFiles(e.target.files); e.target.value = ""; }}
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 text-muted-foreground hover:text-primary"
+                aria-label="Attach screenshot"
+                title="Attach screenshot of chat or bio"
+              >
+                <ImageIcon className="h-4 w-4" />
+              </button>
+              <textarea
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    submit(e);
+                  }
+                }}
+                placeholder={files.length ? "What should I say back?" : "Ask Rizz AI, or drop a screenshot…"}
+                rows={1}
+                className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm outline-none backdrop-blur focus:border-primary"
+              />
+              <button
+                type="submit"
+                disabled={busy || (!input.trim() && files.length === 0)}
+                className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
+                aria-label="Send"
+              >
+                <Send className="h-4 w-4" />
+              </button>
+            </div>
           </form>
         </div>
       ) : null}
+
 
       {/* Floating icon button (bottom-right, above bottom nav) */}
       {!open ? (
