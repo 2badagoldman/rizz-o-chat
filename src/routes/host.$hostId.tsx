@@ -94,42 +94,36 @@ function HostProfile() {
 
       <div className="-mx-4">
         {/* Carousel */}
-        <div className="relative aspect-[3/4] w-full overflow-hidden">
-          <div
-            className="absolute inset-0 transition-transform duration-300"
-            style={{ backgroundImage: host.gradient, backgroundSize: "cover" }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/40" />
-          </div>
+        <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
+          {/* Full-bleed portrait — blurred when locked */}
+          <img
+            src={hostAvatar(host.id)}
+            alt={host.name}
+            className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${
+              slides[slide].kind === "locked" ? "scale-110 blur-2xl brightness-75" : slides[slide].kind === "video" ? "brightness-90" : ""
+            }`}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
 
           {/* Slide overlay content */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            {slides[slide].kind === "hero" ? (
-              <div className="text-center">
-                <div
-                  className="mx-auto h-24 w-24 overflow-hidden rounded-full"
-                  style={{ boxShadow: `0 10px 40px -6px ${host.accent}80` }}
-                >
-                  <img src={rizzAiLogo.url} alt={host.name} className="h-full w-full object-cover" />
-                </div>
-              </div>
-
-            ) : slides[slide].kind === "video" ? (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            {slides[slide].kind === "video" ? (
               <div className="flex flex-col items-center gap-3 text-white">
-                <div className="grid h-16 w-16 place-items-center rounded-full bg-white/15 backdrop-blur">
+                <div className="grid h-16 w-16 place-items-center rounded-full bg-white/20 backdrop-blur">
                   <Play className="h-6 w-6 fill-white" />
                 </div>
                 <p className="text-xs font-semibold uppercase tracking-widest opacity-90">Preview loop</p>
               </div>
-            ) : (
+            ) : slides[slide].kind === "locked" ? (
               <div className="flex flex-col items-center gap-3 text-white">
-                <div className="grid h-16 w-16 place-items-center rounded-full bg-white/15 backdrop-blur">
+                <div className="grid h-16 w-16 place-items-center rounded-full bg-white/20 backdrop-blur">
                   <Lock className="h-6 w-6" />
                 </div>
                 <p className="text-xs font-semibold uppercase tracking-widest opacity-90">Locked · {slides[slide].label}</p>
               </div>
-            )}
+            ) : null}
           </div>
+
 
           {/* Prev / next tap zones */}
           <button
