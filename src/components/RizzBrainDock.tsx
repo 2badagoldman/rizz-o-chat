@@ -144,17 +144,25 @@ export function RizzBrainDock() {
             {messages.map((m) => {
               const isUser = m.role === "user";
               const text = m.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
+              const imgs = m.parts.filter((p: any) => p.type === "file" && typeof p.mediaType === "string" && p.mediaType.startsWith("image/")) as any[];
               return (
                 <div key={m.id} className={isUser ? "flex justify-end" : "flex justify-start"}>
                   <div
                     className={
                       isUser
-                        ? "max-w-[85%] rounded-2xl rounded-br-sm bg-gradient-brand px-3 py-2 text-sm text-white shadow-glow"
+                        ? "max-w-[85%] rounded-2xl rounded-br-sm bg-gradient-brand px-3 py-2 text-sm text-white shadow-glow space-y-2"
                         : "max-w-[92%] text-sm leading-relaxed"
                     }
                   >
+                    {imgs.length > 0 ? (
+                      <div className="grid grid-cols-2 gap-1">
+                        {imgs.map((p, i) => (
+                          <img key={i} src={p.url} alt="attachment" className="rounded-lg max-h-40 object-cover" />
+                        ))}
+                      </div>
+                    ) : null}
                     {isUser ? (
-                      <p className="whitespace-pre-wrap">{text}</p>
+                      text ? <p className="whitespace-pre-wrap">{text}</p> : null
                     ) : (
                       <div className="prose prose-sm prose-invert max-w-none prose-p:my-1.5 prose-ul:my-1.5">
                         <ReactMarkdown>{text || "…"}</ReactMarkdown>
@@ -170,32 +178,69 @@ export function RizzBrainDock() {
             ) : null}
           </div>
 
-          <form onSubmit={submit} className="flex items-end gap-2 border-t border-white/15 bg-white/5 px-2 py-2">
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  submit(e);
-                }
-              }}
-              placeholder="Ask Rizz AI…"
-              rows={1}
-              className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm outline-none backdrop-blur focus:border-primary"
-            />
-            <button
-              type="submit"
-              disabled={busy || !input.trim()}
-              className="grid h-9 w-9 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
-              aria-label="Send"
-            >
-              <Send className="h-4 w-4" />
-            </button>
+          <form onSubmit={submit} className="flex flex-col gap-2 border-t border-white/15 bg-white/5 px-2 py-2">
+            {files.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5 px-1">
+                {files.map((f, i) => (
+                  <div key={i} className="relative">
+                    <img src={URL.createObjectURL(f)} alt="preview" className="h-12 w-12 rounded-lg object-cover border border-white/20" />
+                    <button
+                      type="button"
+                      onClick={() => setFiles((prev) => prev.filter((_, j) => j !== i))}
+                      className="absolute -top-1 -right-1 grid h-4 w-4 place-items-center rounded-full bg-black/70 text-white"
+                      aria-label="Remove"
+                    >
+                      <X className="h-2.5 w-2.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            <div className="flex items-end gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={(e) => { onPickFiles(e.target.files); e.target.value = ""; }}
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 text-muted-foreground hover:text-primary"
+                aria-label="Attach screenshot"
+                title="Attach screenshot of chat or bio"
+              >
+                <ImageIcon className="h-4 w-4" />
+              </button>
+              <textarea
+                ref={inputRef}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    submit(e);
+                  }
+                }}
+                placeholder={files.length ? "What should I say back?" : "Ask Rizz AI, or drop a screenshot…"}
+                rows={1}
+                className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm outline-none backdrop-blur focus:border-primary"
+              />
+              <button
+                type="submit"
+                disabled={busy || (!input.trim() && files.length === 0)}
+                className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
+                aria-label="Send"
+              >
+                <Send className="h-4 w-4" />
+              </button>
+            </div>
           </form>
         </div>
       ) : null}
+
 
       {/* Floating icon button (bottom-right, above bottom nav) */}
       {!open ? (
