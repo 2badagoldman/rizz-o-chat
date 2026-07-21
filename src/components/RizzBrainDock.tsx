@@ -150,7 +150,7 @@ export function RizzBrainDock() {
             ) : null}
           </div>
 
-          <form onSubmit={submit} className="flex items-end gap-2 border-t border-border bg-card px-2 py-2">
+          <form onSubmit={submit} className="flex items-end gap-2 border-t border-white/15 bg-white/5 px-2 py-2">
             <textarea
               ref={inputRef}
               value={input}
@@ -163,7 +163,7 @@ export function RizzBrainDock() {
               }}
               placeholder="Ask Rizz AI…"
               rows={1}
-              className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+              className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm outline-none backdrop-blur focus:border-primary"
             />
             <button
               type="submit"
