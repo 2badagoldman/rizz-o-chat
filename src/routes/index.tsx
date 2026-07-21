@@ -51,9 +51,15 @@ function Home() {
             >
               <div className="relative">
                 <span className="ring-story mx-auto block h-16 w-16">
-                  <span
-                    className="block h-full w-full rounded-full bg-cover bg-center"
-                    style={{ backgroundImage: `url(${hostAvatarThumb(h.id)})` }}
+                  <img
+                    src={hostAvatarThumb(h.id)}
+                    alt={h.name}
+                    width={64}
+                    height={64}
+                    loading={i < 6 ? "eager" : "lazy"}
+                    decoding="async"
+                    fetchPriority={i < 4 ? "high" : "auto"}
+                    className="block h-full w-full rounded-full object-cover"
                   />
                 </span>
                 <span className="absolute bottom-0 right-1 grid h-4 w-4 place-items-center rounded-full bg-card">
@@ -87,9 +93,12 @@ function Home() {
               <div className="relative aspect-[4/5] overflow-hidden" style={{ background: h.gradient }}>
                 <img
                   src={hostAvatarMed(h.id)}
-                  alt=""
+                  alt={h.name}
+                  width={400}
+                  height={500}
                   loading={i < 4 ? "eager" : "lazy"}
                   decoding="async"
+                  fetchPriority={i < 2 ? "high" : "auto"}
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
 
