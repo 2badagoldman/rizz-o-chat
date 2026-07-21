@@ -155,7 +155,7 @@ function HostProfile() {
           </div>
 
           {/* Slide dots */}
-          <div className="absolute inset-x-0 bottom-3 flex justify-center gap-1.5">
+          <div className="absolute inset-x-0 bottom-[128px] z-30 flex justify-center gap-1.5">
             {slides.map((_, i) => (
               <button
                 key={i}
@@ -169,8 +169,62 @@ function HostProfile() {
               />
             ))}
           </div>
+
+          {/* In-image CTA — keeps eyes on the host while deciding */}
+          <div className="absolute inset-x-0 bottom-0 z-30 p-3">
+            <div className="rounded-2xl border border-white/15 bg-black/55 p-3 text-white shadow-2xl backdrop-blur-xl">
+              <div className="mb-2 flex items-end justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="truncate text-base font-bold leading-tight">
+                    {host.name}, {host.age}
+                  </p>
+                  <p className="truncate text-[11px] opacity-80">{host.city} · {host.subscribers} Friends</p>
+                </div>
+                <p className="whitespace-nowrap text-lg font-bold">
+                  {host.id === "demo-jen" ? (
+                    <span className="text-gradient-brand">Free</span>
+                  ) : (
+                    <>
+                      ${host.priceMonthly}
+                      <span className="text-[11px] font-normal opacity-80">/mo</span>
+                    </>
+                  )}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                {host.id === "demo-jen" ? (
+                  <button
+                    onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: host.id } })}
+                    className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
+                  >
+                    <img src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
+                    Chat Jen — Free
+                  </button>
+                ) : (
+                  <button
+                    onClick={onSubscribe}
+                    className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
+                  >
+                    <img src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
+                    Unlock Friends List
+                  </button>
+                )}
+                <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20">
+                  <Gift className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: host.id } })}
+                  aria-label="Message"
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
 
       {/* Meta */}
       <section className="mt-4">
