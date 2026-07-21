@@ -68,8 +68,11 @@ export const sendChatGift = createServerFn({ method: 'POST' })
     return data;
   })
   .handler(async ({ data, context }): Promise<{ ok: true; balance: number } | { error: string; code?: string }> => {
-    const { supabase, userId } = context;
-    const { data: res, error } = await supabase.rpc('send_coin_gift', {
+    const { userId } = context;
+    // send_coin_gift is revoked from authenticated (SECURITY DEFINER hardening);
+    // the server derives the sender from the verified session and calls via service role.
+    const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+    const { data: res, error } = await supabaseAdmin.rpc('send_coin_gift', {
       _sender: userId,
       _host: data.hostId,
       _coins: data.coins,
@@ -80,3 +83,4 @@ export const sendChatGift = createServerFn({ method: 'POST' })
     if (!r.ok) return { error: r.error ?? 'gift_failed', code: r.error };
     return { ok: true, balance: r.balance ?? 0 };
   });
+
