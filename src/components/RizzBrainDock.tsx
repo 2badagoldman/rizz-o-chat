@@ -18,8 +18,11 @@ export function RizzBrainDock() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    setDismissed(sessionStorage.getItem(DISMISS_KEY) === "1");
+    // Always reset dismissal on app load so the icon reappears every session
+    sessionStorage.removeItem(DISMISS_KEY);
+    setDismissed(false);
   }, []);
+
 
   const { messages, sendMessage, status } = useChat({
     transport: createAuthedChatTransport({ api: "/api/chat" }),
@@ -58,15 +61,15 @@ export function RizzBrainDock() {
       {/* Mini floating chat panel */}
       {open ? (
         <div
-          className="fixed z-[60] flex flex-col rounded-3xl border border-border bg-card shadow-glow overflow-hidden"
+          className="fixed z-[60] flex flex-col rounded-3xl border border-white/20 bg-card/40 shadow-glow overflow-hidden backdrop-blur-2xl backdrop-saturate-150"
           style={{
-            right: "max(1rem, env(safe-area-inset-right))",
-            bottom: "calc(env(safe-area-inset-bottom) + 5.5rem)",
-            width: "min(360px, calc(100vw - 2rem))",
-            height: "min(60vh, 520px)",
+            right: "max(0.75rem, env(safe-area-inset-right))",
+            bottom: "calc(env(safe-area-inset-bottom) + 4.75rem)",
+            width: "min(340px, calc(100vw - 1.5rem))",
+            height: "min(58vh, 500px)",
           }}
         >
-          <div className="flex items-center justify-between border-b border-border px-3 py-2">
+          <div className="flex items-center justify-between border-b border-white/15 px-3 py-2 bg-white/5">
             <div className="flex items-center gap-2">
               <div className="h-7 w-7 overflow-hidden rounded-full shadow-glow">
                 <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
@@ -147,7 +150,7 @@ export function RizzBrainDock() {
             ) : null}
           </div>
 
-          <form onSubmit={submit} className="flex items-end gap-2 border-t border-border bg-card px-2 py-2">
+          <form onSubmit={submit} className="flex items-end gap-2 border-t border-white/15 bg-white/5 px-2 py-2">
             <textarea
               ref={inputRef}
               value={input}
@@ -160,7 +163,7 @@ export function RizzBrainDock() {
               }}
               placeholder="Ask Rizz AI…"
               rows={1}
-              className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+              className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm outline-none backdrop-blur focus:border-primary"
             />
             <button
               type="submit"
@@ -179,13 +182,13 @@ export function RizzBrainDock() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open Rizz AI"
-          className="fixed z-40 grid h-12 w-12 place-items-center rounded-full border border-border bg-card/95 shadow-glow backdrop-blur transition-transform hover:scale-105 active:scale-95"
+          className="fixed z-40 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/20 shadow-glow backdrop-blur-xl backdrop-saturate-150 transition-transform hover:scale-105 active:scale-95"
           style={{
-            right: "max(1rem, env(safe-area-inset-right))",
-            bottom: "calc(env(safe-area-inset-bottom) + 5rem)",
+            right: "max(0.75rem, env(safe-area-inset-right))",
+            bottom: "calc(env(safe-area-inset-bottom) + 4.25rem)",
           }}
         >
-          <img src={rizzAiLogo.url} alt="Rizz AI" className="h-9 w-9 rounded-full object-cover" />
+          <img src={rizzAiLogo.url} alt="Rizz AI" className="h-8 w-8 rounded-full object-cover" />
         </button>
       ) : null}
     </>
