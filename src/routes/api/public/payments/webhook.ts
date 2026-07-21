@@ -156,7 +156,10 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
         }
         const env: StripeEnv = rawEnv;
         try {
-          const event = await verifyWebhook(request, env);
+          const event = (await verifyWebhook(request, env)) as { id: string; type: string; data: { object: any } };
+          if (await alreadyProcessed(event.id, event.type)) {
+            return Response.json({ received: true, duplicate: true });
+          }
           switch (event.type) {
             case 'customer.subscription.created':
             case 'customer.subscription.updated':
@@ -167,6 +170,10 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
               break;
             case 'checkout.session.completed':
               await handleCheckoutCompleted(event.data.object);
+              break;
+            case 'invoice.paid':
+            case 'invoice.payment_succeeded':
+              await handleInvoicePaid(event.data.object);
               break;
             default:
               console.log('Unhandled event:', event.type);
