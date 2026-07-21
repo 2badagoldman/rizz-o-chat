@@ -6,7 +6,13 @@ import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Send, Circle, Gift } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
+import { sendChatGift } from "@/lib/subscriptions.functions";
+import { toast } from "sonner";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
+// Jen is a demo id — coin economy only applies to real host UUIDs.
+const JEN_UUID = "0dc3f76d-b710-4934-b1e5-4057ccdb082b";
+
 
 export const Route = createFileRoute("/chat/$hostId")({
   head: () => ({
@@ -133,8 +139,20 @@ function HostChat() {
                 {GIFTS.map((g) => (
                   <button
                     key={g.label}
-                    onClick={() => {
+                    onClick={async () => {
                       setGiftOpen(false);
+                      const res = await sendChatGift({
+                        data: { hostId: JEN_UUID, coins: g.coins, label: g.label },
+                      });
+                      if ("error" in res) {
+                        if (res.code === "insufficient_coins") {
+                          toast.error("Not enough coins — top up to keep the vibes going.");
+                        } else {
+                          toast.error(res.error);
+                        }
+                        return;
+                      }
+                      toast.success(`${g.label} sent! Balance: ${res.balance}c`);
                       sendMessage({ text: `${g.emoji} sent you a ${g.label} (${g.coins} coins)` });
                     }}
                     className="flex flex-col items-center gap-1 rounded-2xl border border-border bg-background px-2 py-3 text-xs hover:border-primary hover:bg-primary/5"
@@ -146,8 +164,9 @@ function HostChat() {
                 ))}
               </div>
               <p className="mt-3 text-center text-[11px] text-muted-foreground">
-                Gifts are simulated in testing — real coin deduction goes live once you top up.
+                Gifts debit your coin balance and credit 65% to the host.
               </p>
+
             </div>
           </div>
         ) : null}

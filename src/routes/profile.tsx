@@ -455,6 +455,12 @@ function Profile() {
         >
           Preview welcome reel
         </button>
+        <Link
+          to="/subscriptions"
+          className="block w-full rounded-[14px] border border-border bg-card px-5 py-3 text-center text-sm font-semibold"
+        >
+          My subscriptions & billing
+        </Link>
         <a
           href="/admin/showcase"
           className="block w-full rounded-[14px] border border-border bg-card px-5 py-3 text-center text-sm font-semibold"

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UpgradeRouteImport } from './routes/upgrade'
+import { Route as SubscriptionsRouteImport } from './routes/subscriptions'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as DiscoverRouteImport } from './routes/discover'
@@ -36,6 +37,11 @@ import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/publi
 const UpgradeRoute = UpgradeRouteImport.update({
   id: '/upgrade',
   path: '/upgrade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubscriptionsRoute = SubscriptionsRouteImport.update({
+  id: '/subscriptions',
+  path: '/subscriptions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/discover': typeof DiscoverRoute
   '/mcp': typeof McpRoute
   '/profile': typeof ProfileRoute
+  '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -189,6 +196,7 @@ export interface FileRoutesByTo {
   '/discover': typeof DiscoverRoute
   '/mcp': typeof McpRoute
   '/profile': typeof ProfileRoute
+  '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -215,6 +223,7 @@ export interface FileRoutesById {
   '/discover': typeof DiscoverRoute
   '/mcp': typeof McpRoute
   '/profile': typeof ProfileRoute
+  '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -242,6 +251,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/mcp'
     | '/profile'
+    | '/subscriptions'
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -267,6 +277,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/mcp'
     | '/profile'
+    | '/subscriptions'
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -292,6 +303,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/mcp'
     | '/profile'
+    | '/subscriptions'
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
@@ -318,6 +330,7 @@ export interface RootRouteChildren {
   DiscoverRoute: typeof DiscoverRoute
   McpRoute: typeof McpRoute
   ProfileRoute: typeof ProfileRoute
+  SubscriptionsRoute: typeof SubscriptionsRoute
   UpgradeRoute: typeof UpgradeRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
@@ -339,6 +352,13 @@ declare module '@tanstack/react-router' {
       path: '/upgrade'
       fullPath: '/upgrade'
       preLoaderRoute: typeof UpgradeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/subscriptions': {
+      id: '/subscriptions'
+      path: '/subscriptions'
+      fullPath: '/subscriptions'
+      preLoaderRoute: typeof SubscriptionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -519,6 +539,7 @@ const rootRouteChildren: RootRouteChildren = {
   DiscoverRoute: DiscoverRoute,
   McpRoute: McpRoute,
   ProfileRoute: ProfileRoute,
+  SubscriptionsRoute: SubscriptionsRoute,
   UpgradeRoute: UpgradeRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:

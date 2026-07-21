@@ -18,6 +18,36 @@ const COIN_PACKS: Record<string, number> = {
   coins_15000_onetime: 15000,
 };
 
+const VIP_MONTHLY_COINS = 2000;
+
+// Returns true if this event was already processed (skip), false otherwise.
+async function alreadyProcessed(eventId: string, type: string): Promise<boolean> {
+  const { error } = await sb()
+    .from('webhook_events')
+    .insert({ event_id: eventId, type });
+  if (error && (error.code === '23505' || /duplicate/i.test(error.message))) return true;
+  if (error) throw error;
+  return false;
+}
+
+async function handleInvoicePaid(invoice: any) {
+  // VIP monthly coin drop — fires on first payment AND every renewal.
+  const line = invoice.lines?.data?.[0];
+  const lookupKey = line?.price?.lookup_key;
+  if (lookupKey !== 'rizz_vip_monthly') return;
+  // Prefer subscription metadata (set at checkout) for userId.
+  const subId = invoice.subscription;
+  if (!subId) return;
+  const { data: subRow } = await sb()
+    .from('subscriptions')
+    .select('user_id')
+    .eq('stripe_subscription_id', subId)
+    .maybeSingle();
+  const userId = subRow?.user_id;
+  if (!userId) return console.error('invoice.paid: no user for sub', subId);
+  await sb().rpc('credit_coins', { _user_id: userId, _coins: VIP_MONTHLY_COINS });
+}
+
 async function handleSubscriptionUpsert(subscription: any, env: StripeEnv) {
   const userId = subscription.metadata?.userId;
   if (!userId) return console.error('subscription missing userId');
@@ -126,7 +156,10 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
         }
         const env: StripeEnv = rawEnv;
         try {
-          const event = await verifyWebhook(request, env);
+          const event = (await verifyWebhook(request, env)) as { id: string; type: string; data: { object: any } };
+          if (await alreadyProcessed(event.id, event.type)) {
+            return Response.json({ received: true, duplicate: true });
+          }
           switch (event.type) {
             case 'customer.subscription.created':
             case 'customer.subscription.updated':
@@ -137,6 +170,10 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
               break;
             case 'checkout.session.completed':
               await handleCheckoutCompleted(event.data.object);
+              break;
+            case 'invoice.paid':
+            case 'invoice.payment_succeeded':
+              await handleInvoicePaid(event.data.object);
               break;
             default:
               console.log('Unhandled event:', event.type);

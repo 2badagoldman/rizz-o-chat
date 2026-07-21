@@ -543,6 +543,24 @@ export type Database = {
         }
         Relationships: []
       }
+      webhook_events: {
+        Row: {
+          event_id: string
+          processed_at: string
+          type: string
+        }
+        Insert: {
+          event_id: string
+          processed_at?: string
+          type: string
+        }
+        Update: {
+          event_id?: string
+          processed_at?: string
+          type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -584,6 +602,10 @@ export type Database = {
         Returns: boolean
       }
       host_self_stats: { Args: { _since?: string }; Returns: Json }
+      send_coin_gift: {
+        Args: { _coins: number; _host: string; _label: string; _sender: string }
+        Returns: Json
+      }
     }
     Enums: {
       account_type: "host" | "member"
