@@ -35,7 +35,7 @@ function Home() {
       </header>
 
       {/* Online now rail */}
-      <section className="mt-7" data-reveal>
+      <section className="mt-7 rise-in rise-in-1">
         <div className="mb-2 flex items-baseline justify-between">
           <h2 className="text-sm font-display font-bold">Online now</h2>
           <Link to="/discover" className="text-[11px] text-muted-foreground hover:text-primary">See all</Link>
@@ -73,7 +73,7 @@ function Home() {
       </section>
 
       {/* Featured grid */}
-      <section className="mt-6" data-reveal>
+      <section className="mt-6 rise-in rise-in-2">
         <div className="mb-3 flex items-baseline justify-between">
           <h2 className="text-sm font-display font-bold">Featured Hosts</h2>
           <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
@@ -87,7 +87,6 @@ function Home() {
               to="/host/$hostId"
               params={{ hostId: h.id }}
               className="card-story overflow-hidden hover:card-story-hover"
-              data-reveal
               style={{ transitionDelay: `${Math.min(i, 8) * 30}ms` }}
             >
               <div className="relative aspect-[4/5] overflow-hidden" style={{ background: h.gradient }}>
@@ -123,7 +122,7 @@ function Home() {
         </div>
       </section>
 
-      <div className="mt-7 grid gap-3" data-reveal>
+      <div className="mt-7 grid gap-3 rise-in rise-in-3">
         <Link to="/discover" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
           Browse all hosts <ArrowRight className="h-4 w-4" />
         </Link>
@@ -141,7 +140,7 @@ function Home() {
       <section
         className="mt-7 overflow-hidden rounded-3xl border p-5 shadow-card"
         style={{ background: "var(--host-soft)", borderColor: "var(--host-primary)" }}
-        data-reveal
+        className="mt-7 overflow-hidden rounded-3xl border p-5 shadow-card rise-in rise-in-4"
       >
         <div className="flex items-center gap-2">
           <Crown className="h-4 w-4 float-soft" style={{ color: "var(--host-primary)" }} />
