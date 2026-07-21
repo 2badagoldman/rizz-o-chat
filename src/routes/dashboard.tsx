@@ -80,16 +80,28 @@ function Dashboard() {
           </section>
 
           {isHost && (
-            <Link
-              to="/host/pricing"
-              className="mt-5 flex items-center justify-between rounded-2xl border border-border bg-card p-4 hover:border-primary/50 transition-colors"
-            >
-              <div>
-                <p className="text-sm font-semibold">Edit Friends List price</p>
-                <p className="text-xs text-muted-foreground mt-0.5">Change your monthly price and preview what members see.</p>
-              </div>
-              <span className="text-gradient-brand font-semibold">→</span>
-            </Link>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <Link
+                to="/host/pricing"
+                className="flex items-center justify-between rounded-2xl border border-border bg-card p-4 hover:border-primary/50 transition-colors"
+              >
+                <div>
+                  <p className="text-sm font-semibold">Edit Friends List price</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Change price and preview what members see.</p>
+                </div>
+                <span className="text-gradient-brand font-semibold">→</span>
+              </Link>
+              <Link
+                to="/host/members"
+                className="flex items-center justify-between rounded-2xl border border-primary/40 bg-gradient-brand-soft p-4 hover:border-primary transition-colors"
+              >
+                <div>
+                  <p className="text-sm font-semibold">Add members (comp friends)</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Invite your girls for free — skip the paywall.</p>
+                </div>
+                <span className="text-gradient-brand font-semibold">→</span>
+              </Link>
+            </div>
           )}
 
           <section className="mt-5 rounded-2xl border border-border bg-card p-4">
