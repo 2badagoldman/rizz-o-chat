@@ -117,11 +117,13 @@ function HostCard({ host }: { host: DemoHost }) {
         style={{ background: host.gradient }}
       >
         <img
-          src={hostAvatar(host.id)}
+          src={hostAvatarMed(host.id)}
           alt=""
           loading="lazy"
+          decoding="async"
           className="absolute inset-0 h-full w-full object-cover mix-blend-luminosity opacity-95 transition group-hover:scale-[1.03] group-hover:mix-blend-normal"
         />
+
         <div className="absolute inset-0" style={{ background: host.gradient, mixBlendMode: "soft-light", opacity: 0.55 }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
         <div className="absolute inset-x-2 top-2 flex items-center justify-between">
