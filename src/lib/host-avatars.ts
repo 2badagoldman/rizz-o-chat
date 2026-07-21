@@ -19,11 +19,6 @@ import p12 from "@/assets/ai-portrait-12.jpg";
 
 const LOCAL: string[] = [p1, p3, p4, p6, p7, p8, p9, p11, p12];
 
-// 100 curated female headshots (0.jpg – 99.jpg). Stable CDN URLs.
-const REMOTE: string[] = Array.from(
-  { length: 100 },
-  (_, i) => `https://randomuser.me/api/portraits/women/${i}.jpg`,
-);
 
 // randomuser.me serves three sizes per portrait:
 //   /portraits/women/N.jpg      (full ~600px)
