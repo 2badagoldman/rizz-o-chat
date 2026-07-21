@@ -122,18 +122,20 @@ export function RizzBrainDock() {
                 </p>
                 <div className="mt-3 grid gap-1.5">
                   {[
-                    "What should I open with? (I&apos;ll upload her bio)",
+                    "What should I open with? (I'll upload her bio)",
                     "She left me on read — how do I re-open?",
                     "Rewrite my message to sound more confident",
                     "Help me pick a Host to subscribe to",
                   ].map((s) => (
                     <button
                       key={s}
-                      onClick={() => sendMessage({ text: s.replace("&apos;", "'") })}
+                      onClick={() => sendMessage({ text: s })}
                       className="rounded-xl border border-border bg-card px-3 py-1.5 text-left text-xs hover:border-primary/60"
-                      dangerouslySetInnerHTML={{ __html: s }}
-                    />
+                    >
+                      {s}
+                    </button>
                   ))}
+
                 </div>
               </div>
             ) : null}
