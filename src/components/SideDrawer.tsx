@@ -125,9 +125,14 @@ export function SideDrawer({ open, onClose }: Props) {
               <X className="h-4 w-4" />
             </button>
 
-            <div className="flex items-center gap-3.5">
+            <Link
+              to="/"
+              onClick={onClose}
+              className="group flex items-center gap-3.5 rounded-2xl p-1.5 -m-1.5 transition-colors hover:bg-white/60"
+              aria-label="Go to home"
+            >
               <span
-                className="relative inline-block shrink-0 rounded-full p-[2.5px]"
+                className="relative inline-block shrink-0 rounded-full p-[2.5px] transition-transform group-hover:scale-[1.03]"
                 style={{ background: "conic-gradient(from 180deg at 50% 50%, #ff3d9a, #ff9a3d, #6c5ce7, #ff3d9a)" }}
               >
                 <img
@@ -145,7 +150,7 @@ export function SideDrawer({ open, onClose }: Props) {
                 </p>
                 <p className="truncate text-xs text-muted-foreground">Friends Always ✦ Welcome back</p>
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* Body */}
