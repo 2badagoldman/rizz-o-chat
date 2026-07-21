@@ -78,7 +78,7 @@ export const searchUsers = createServerFn({ method: "POST" })
 export const setHostVerification = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
-    const x = i as { hostId: string; status: "unverified" | "pending" | "verified" | "rejected" };
+    const x = i as { hostId: string; status: "pending" | "verified" | "rejected" };
     if (!x?.hostId || !x?.status) throw new Error("hostId and status required");
     return x;
   })
