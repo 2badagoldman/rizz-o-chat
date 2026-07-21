@@ -14,8 +14,11 @@ export function RizzBrainDock() {
   const [dismissed, setDismissed] = useState(false);
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [files, setFiles] = useState<File[]>([]);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
 
   useEffect(() => {
     if (typeof window === "undefined") return;
