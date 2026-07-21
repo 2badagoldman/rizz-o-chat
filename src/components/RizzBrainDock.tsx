@@ -54,11 +54,21 @@ export function RizzBrainDock() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const t = input.trim();
-    if (!t || busy) return;
-    sendMessage({ text: t });
+    if ((!t && files.length === 0) || busy) return;
+    const dt = new DataTransfer();
+    files.forEach((f) => dt.items.add(f));
+    sendMessage({ text: t || "What should I say? Coach me with 3 options.", files: files.length ? dt.files : undefined });
     setInput("");
+    setFiles([]);
     if (!open) setOpen(true);
   };
+
+  const onPickFiles = (list: FileList | null) => {
+    if (!list) return;
+    const imgs = Array.from(list).filter((f) => f.type.startsWith("image/")).slice(0, 3);
+    setFiles((prev) => [...prev, ...imgs].slice(0, 3));
+  };
+
 
   return (
     <>
