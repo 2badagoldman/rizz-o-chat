@@ -219,6 +219,8 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
         src={img}
         alt=""
         loading="lazy"
+        decoding="async"
+
         className="absolute inset-0 h-full w-full object-cover opacity-90 mix-blend-luminosity transition duration-500 group-hover:mix-blend-normal group-hover:scale-105"
         onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
       />

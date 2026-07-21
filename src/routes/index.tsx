@@ -5,7 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { ArrowRight, Crown, Users, Circle } from "lucide-react";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
-import { hostAvatar } from "@/lib/host-avatars";
+import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -53,7 +53,7 @@ function Home() {
                 <span className="ring-story mx-auto block h-16 w-16">
                   <span
                     className="block h-full w-full rounded-full bg-cover bg-center"
-                    style={{ backgroundImage: `url(${hostAvatar(h.id)})` }}
+                    style={{ backgroundImage: `url(${hostAvatarThumb(h.id)})` }}
                   />
                 </span>
                 <span className="absolute bottom-0 right-1 grid h-4 w-4 place-items-center rounded-full bg-card">
@@ -86,11 +86,13 @@ function Home() {
             >
               <div className="relative aspect-[4/5] overflow-hidden" style={{ background: h.gradient }}>
                 <img
-                  src={hostAvatar(h.id)}
+                  src={hostAvatarMed(h.id)}
                   alt=""
-                  loading="lazy"
+                  loading={i < 4 ? "eager" : "lazy"}
+                  decoding="async"
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
+
                 <div className="absolute inset-0" style={{ background: h.gradient, mixBlendMode: "soft-light", opacity: 0.5 }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
                 <span className="absolute left-2 top-2 rounded-full bg-white/85 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-foreground backdrop-blur">

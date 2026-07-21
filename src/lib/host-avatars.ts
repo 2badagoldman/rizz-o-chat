@@ -19,13 +19,29 @@ import p12 from "@/assets/ai-portrait-12.jpg";
 
 const LOCAL: string[] = [p1, p3, p4, p6, p7, p8, p9, p11, p12];
 
-// 100 curated female headshots (0.jpg – 99.jpg). Stable CDN URLs.
-const REMOTE: string[] = Array.from(
-  { length: 100 },
-  (_, i) => `https://randomuser.me/api/portraits/women/${i}.jpg`,
-);
 
-const POOL: string[] = [...LOCAL, ...REMOTE];
+// randomuser.me serves three sizes per portrait:
+//   /portraits/women/N.jpg      (full ~600px)
+//   /portraits/med/women/N.jpg  (~128px)
+//   /portraits/thumb/women/N.jpg (~64px)
+// Pick the smallest size that still looks sharp at the target UI size so
+// scroll rails don't download 600px images for 64px circles.
+const REMOTE_COUNT = 100;
+const remote = (variant: "" | "med/" | "thumb/", i: number) =>
+  `https://randomuser.me/api/portraits/${variant}women/${i}.jpg`;
+
+const POOL_FULL: string[] = [
+  ...LOCAL,
+  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote("", i)),
+];
+const POOL_MED: string[] = [
+  ...LOCAL,
+  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote("med/", i)),
+];
+const POOL_THUMB: string[] = [
+  ...LOCAL,
+  ...Array.from({ length: REMOTE_COUNT }, (_, i) => remote("thumb/", i)),
+];
 
 function hash(id: string): number {
   let h = 0;
@@ -33,9 +49,21 @@ function hash(id: string): number {
   return Math.abs(h);
 }
 
+/** Full-size portrait — use for hero / profile / large cards. */
 export function hostAvatar(id: string): string {
-  return POOL[hash(id) % POOL.length];
+  return POOL_FULL[hash(id) % POOL_FULL.length];
+}
+
+/** ~128px portrait — use for card grid tiles. */
+export function hostAvatarMed(id: string): string {
+  return POOL_MED[hash(id) % POOL_MED.length];
+}
+
+/** ~64px portrait — use for scroll-rail circles / chat lists. */
+export function hostAvatarThumb(id: string): string {
+  return POOL_THUMB[hash(id) % POOL_THUMB.length];
 }
 
 /** Total number of unique portraits available. */
-export const HOST_AVATAR_COUNT = POOL.length;
+export const HOST_AVATAR_COUNT = POOL_FULL.length;
+
