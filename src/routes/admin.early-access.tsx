@@ -25,7 +25,7 @@ function EarlyAccessAdmin() {
   const [filter, setFilter] = useState<string>("all");
 
   useEffect(() => {
-    fetchRows({ data: {} })
+    fetchRows()
       .then((r) => setRows(r as Row[]))
       .catch((e) => setErr(String(e?.message ?? e)))
       .finally(() => setLoading(false));
