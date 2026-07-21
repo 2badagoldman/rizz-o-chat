@@ -68,7 +68,7 @@ export const searchUsers = createServerFn({ method: "POST" })
       .order("created_at", { ascending: false })
       .limit(data.limit);
     if (!isAdmin) q = q.eq("account_type", "host");
-    else if (data.account_type !== "all") q = q.eq("account_type", data.account_type);
+    else if (data.account_type !== "all") q = q.eq("account_type", data.account_type as "host" | "member");
     if (data.q) q = q.ilike("display_name", `%${data.q}%`);
     const { data: rows, error } = await q;
     if (error) throw error;
