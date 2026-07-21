@@ -53,9 +53,9 @@ export const hostListMembers = createServerFn({ method: "POST" })
     const list = await getOrCreateList(context);
     const { data: memberships, error } = await context.supabase
       .from("list_memberships")
-      .select("id, member_id, status, price_cents_at_join, chat_access_until, created_at")
+      .select("id, member_id, status, price_cents_at_join, chat_access_until, started_at")
       .eq("list_id", list.id)
-      .order("created_at", { ascending: false })
+      .order("started_at", { ascending: false })
       .limit(500);
     if (error) throw error;
     const ids = (memberships ?? []).map((m: any) => m.member_id);
