@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierLabel, type DemoHost } from "@/lib/demo-hosts";
+import { hostAvatar } from "@/lib/host-avatars";
 import { Search, Users, Circle } from "lucide-react";
 import { useShuffled } from "@/hooks/useShuffled";
 import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -112,9 +113,16 @@ function HostCard({ host }: { host: DemoHost }) {
       className="group overflow-hidden rounded-3xl border border-border bg-card transition active:scale-[0.98]"
     >
       <div
-        className="relative aspect-[3/4] w-full"
-        style={{ backgroundImage: host.gradient, backgroundSize: "cover" }}
+        className="relative aspect-[3/4] w-full overflow-hidden"
+        style={{ background: host.gradient }}
       >
+        <img
+          src={hostAvatar(host.id)}
+          alt=""
+          loading="lazy"
+          className="absolute inset-0 h-full w-full object-cover mix-blend-luminosity opacity-95 transition group-hover:scale-[1.03] group-hover:mix-blend-normal"
+        />
+        <div className="absolute inset-0" style={{ background: host.gradient, mixBlendMode: "soft-light", opacity: 0.55 }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
         <div className="absolute inset-x-2 top-2 flex items-center justify-between">
           <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
