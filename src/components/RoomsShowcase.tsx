@@ -179,10 +179,21 @@ export function RoomsShowcase() {
       ) : null}
 
       <div className="mt-3 -mx-4 flex gap-3 overflow-x-auto px-4 pb-2 snap-x snap-mandatory">
-        {rooms.map((r) => (
-          <RoomCard key={r.slug} room={r} coords={coords} showDistance={cat === "Near Me" && !!coords} />
+        {rooms.map((r: any) => (
+          <RoomCard key={r.id ?? r.slug} room={r} coords={coords} showDistance={cat === "Near Me" && !!coords} onClick={handleClick} />
         ))}
+        {cat === "Near Me" && coords && nearbyRealCount === 0 ? (
+          <Link
+            to="/rooms/new"
+            className="relative flex w-[220px] shrink-0 snap-start flex-col items-center justify-center gap-2 rounded-3xl border-2 border-dashed border-primary/60 bg-gradient-brand-soft p-4 text-center text-primary active:scale-[0.98]"
+          >
+            <Plus className="h-6 w-6" />
+            <p className="text-sm font-bold">No rooms near you yet</p>
+            <p className="text-[11px] font-semibold opacity-80">Be the first — create one</p>
+          </Link>
+        ) : null}
       </div>
+
     </section>
   );
 }
