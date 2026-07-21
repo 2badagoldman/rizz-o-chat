@@ -52,6 +52,11 @@ function useGeo() {
 export function RoomsShowcase() {
   const [cat, setCat] = useState<(typeof ROOM_CATEGORIES)[number]>("All");
   const { coords, loading, error, request } = useGeo();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const fetchPublic = useServerFn(listPublicRooms);
+  const doJoin = useServerFn(joinPublicRoom);
+  const [realRooms, setRealRooms] = useState<any[]>([]);
 
   // Auto-open the "Near Me" section prompts geo the first time it's picked
   useEffect(() => {
@@ -59,17 +64,65 @@ export function RoomsShowcase() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cat]);
 
+  // Fetch real public rooms (only when signed in — server fn requires auth)
+  useEffect(() => {
+    if (!user) { setRealRooms([]); return; }
+    fetchPublic({ data: { lat: coords?.lat ?? undefined, lng: coords?.lng ?? undefined } as any })
+      .then(setRealRooms).catch(() => setRealRooms([]));
+  }, [user, coords, fetchPublic]);
+
+  // Map real rooms into the DemoRoom shape so they render in the same cards
+  const realAsDemo: (DemoRoom & { id?: string; real?: boolean; distance_miles?: number | null })[] =
+    realRooms.map((r) => ({
+      slug: r.id,
+      id: r.id,
+      real: true,
+      name: r.name,
+      emoji: "💬",
+      tagline: r.description || r.category || "Public room",
+      category: "Local",
+      members: r.member_count ?? 0,
+      online: Math.max(1, Math.floor((r.member_count ?? 0) / 3)),
+      gradient: "linear-gradient(135deg,#e84393,#6c5ce7)",
+      city: r.city ?? undefined,
+      state: r.state ?? undefined,
+      lat: r.lat ?? undefined,
+      lng: r.lng ?? undefined,
+      distance_miles: r.distance_miles ?? null,
+    }));
+
   const rooms = useMemo(() => {
-    if (cat === "All") return DEMO_ROOMS;
+    if (cat === "All") return [...realAsDemo, ...DEMO_ROOMS];
     if (cat === "Near Me") {
-      if (!coords) return CITY_ROOMS;
-      return [...CITY_ROOMS]
-        .map((r) => ({ r, d: r.lat && r.lng ? haversineMiles(coords, { lat: r.lat, lng: r.lng }) : Infinity }))
+      const merged = [
+        ...realAsDemo,
+        ...CITY_ROOMS.map((r) => ({ ...r, real: false as const })),
+      ];
+      if (!coords) return merged;
+      return merged
+        .map((r: any) => ({
+          r,
+          d: r.distance_miles ?? (r.lat && r.lng ? haversineMiles(coords, { lat: r.lat, lng: r.lng }) : Infinity),
+        }))
         .sort((a, b) => a.d - b.d)
         .map(({ r }) => r);
     }
     return DEMO_ROOMS.filter((r) => r.category === cat);
-  }, [cat, coords]);
+  }, [cat, coords, realAsDemo]);
+
+  const nearbyRealCount = coords
+    ? realAsDemo.filter((r: any) => typeof r.distance_miles === "number" && r.distance_miles <= 50).length
+    : realAsDemo.length;
+
+  async function handleClick(room: any) {
+    if (!room.real) return; // demo cards keep their existing coming-soon link
+    if (!user) { navigate({ to: "/auth" }); return; }
+    try {
+      await doJoin({ data: { roomId: room.id } });
+      navigate({ to: "/rooms/$roomId", params: { roomId: room.id } });
+    } catch (e) { toast.error((e as Error).message); }
+  }
+
 
   return (
     <section className="mt-6">
