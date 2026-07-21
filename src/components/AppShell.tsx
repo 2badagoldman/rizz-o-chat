@@ -3,6 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { BottomNav } from "./BottomNav";
 import { RizzBrainDock } from "./RizzBrainDock";
 import { PaymentTestModeBanner } from "./PaymentTestModeBanner";
+import { ThemeToggle } from "./ThemeToggle";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { initScrollReveal } from "@/lib/scroll-reveal";
 
@@ -45,6 +46,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
             </span>
           </Link>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link
               to="/coins"
               className="rounded-full border border-border bg-card/80 px-3 py-1 text-[11px] font-semibold text-foreground transition-transform hover:scale-105 hover:bg-primary/10"

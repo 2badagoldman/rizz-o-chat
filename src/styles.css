@@ -49,56 +49,99 @@
 :root {
   --radius: 1.15rem;
 
-  /* Electric Coral — family story palette.
-     Coral #ff6b6b · Rose #ee5a70 · Berry #c44569 · Violet #574b90 */
-  --background: oklch(0.985 0.012 15);
-  --foreground: oklch(0.20 0.05 340);
+  /* PINK MODE (default) — hot pink → magenta with sky blue accents. */
+  --background: oklch(0.985 0.012 340);
+  --foreground: oklch(0.22 0.06 320);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.20 0.05 340);
+  --card-foreground: oklch(0.22 0.06 320);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.20 0.05 340);
+  --popover-foreground: oklch(0.22 0.06 320);
 
-  --primary: oklch(0.68 0.22 20);            /* coral */
+  --primary: oklch(0.68 0.24 350);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.96 0.03 15);          /* pale coral chip */
-  --secondary-foreground: oklch(0.30 0.10 340);
-  --muted: oklch(0.97 0.02 20);
-  --muted-foreground: oklch(0.48 0.05 340);
-  --accent: oklch(0.62 0.24 350);            /* berry */
+  --secondary: oklch(0.96 0.04 340);
+  --secondary-foreground: oklch(0.32 0.10 340);
+  --muted: oklch(0.97 0.02 340);
+  --muted-foreground: oklch(0.48 0.05 320);
+  --accent: oklch(0.72 0.16 235);
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.62 0.25 27);
   --destructive-foreground: oklch(1 0 0);
   --success: oklch(0.72 0.18 155);
   --success-foreground: oklch(1 0 0);
 
-  --brand-coral: #ff6b6b;
-  --brand-rose: #ee5a70;
-  --brand-berry: #c44569;
-  --brand-violet: #574b90;
-  --brand-pink: oklch(0.68 0.22 20);
+  --brand-pink: oklch(0.68 0.24 350);
   --brand-purple: oklch(0.55 0.18 300);
+  --brand-coral: #ff5fa2;
+  --brand-violet: #6366f1;
 
   --border: oklch(0.30 0.08 340 / 10%);
   --input: oklch(0.30 0.08 340 / 10%);
-  --ring: oklch(0.68 0.22 20 / 55%);
+  --ring: oklch(0.68 0.24 350 / 55%);
 
-  /* Signature family-tree gradient: coral → rose → berry → violet */
-  --gradient-brand: linear-gradient(135deg, #ff6b6b 0%, #ee5a70 35%, #c44569 70%, #574b90 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(255,107,107,0.18) 0%, rgba(196,69,105,0.14) 55%, rgba(87,75,144,0.18) 100%);
-  --gradient-sunset: linear-gradient(135deg, #ffb199 0%, #ff6b6b 40%, #c44569 100%);
-  --gradient-night: linear-gradient(135deg, #574b90 0%, #c44569 100%);
-  --gradient-story: conic-gradient(from 200deg at 50% 50%, #ff6b6b, #ee5a70, #c44569, #574b90, #ff6b6b);
+  --gradient-brand: linear-gradient(135deg, #ff5fa2 0%, #e5399b 35%, #a855f7 70%, #38bdf8 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(255,95,162,0.18) 0%, rgba(168,85,247,0.14) 55%, rgba(56,189,248,0.18) 100%);
+  --gradient-sunset: linear-gradient(135deg, #ffb7d5 0%, #ff5fa2 40%, #a855f7 100%);
+  --gradient-night: linear-gradient(135deg, #6366f1 0%, #e5399b 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #ff5fa2, #e5399b, #a855f7, #38bdf8, #ff5fa2);
 
-  --shadow-glow: 0 18px 55px -15px rgba(238, 90, 112, 0.55);
-  --shadow-card: 0 10px 40px -14px rgba(196, 69, 105, 0.28);
-  --shadow-pop: 0 30px 80px -20px rgba(87, 75, 144, 0.35);
+  --shadow-glow: 0 18px 55px -15px rgba(229, 57, 155, 0.55);
+  --shadow-card: 0 10px 40px -14px rgba(168, 85, 247, 0.28);
+  --shadow-pop: 0 30px 80px -20px rgba(56, 189, 248, 0.35);
 
-  /* Host / Creator Studio theme (warm gold + rose on dark) */
+  --aurora-1: rgba(255,95,162,0.55);
+  --aurora-2: rgba(229,57,155,0.45);
+  --aurora-3: rgba(56,189,248,0.45);
+  --aurora-4: rgba(168,85,247,0.35);
+
   --host-primary: #E9B872;
   --host-primary-fg: #1A140A;
   --host-soft: rgba(233, 184, 114, 0.12);
   --host-gradient: linear-gradient(135deg, #F4CE8F 0%, #E9B872 45%, #C97B63 100%);
   --host-shadow-glow: 0 10px 40px -10px rgba(233, 184, 114, 0.45);
+}
+
+/* BLUE MODE — sky → indigo with soft pink accents */
+.theme-blue {
+  --background: oklch(0.985 0.014 235);
+  --foreground: oklch(0.22 0.06 250);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.06 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.06 250);
+
+  --primary: oklch(0.62 0.18 245);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.96 0.03 235);
+  --secondary-foreground: oklch(0.32 0.10 250);
+  --muted: oklch(0.97 0.02 235);
+  --muted-foreground: oklch(0.48 0.05 250);
+  --accent: oklch(0.72 0.20 340);
+  --accent-foreground: oklch(1 0 0);
+
+  --brand-pink: oklch(0.72 0.20 340);
+  --brand-purple: oklch(0.55 0.18 265);
+  --brand-coral: #38bdf8;
+  --brand-violet: #6366f1;
+
+  --border: oklch(0.30 0.08 250 / 10%);
+  --input: oklch(0.30 0.08 250 / 10%);
+  --ring: oklch(0.62 0.18 245 / 55%);
+
+  --gradient-brand: linear-gradient(135deg, #38bdf8 0%, #3b82f6 35%, #6366f1 70%, #ff5fa2 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(56,189,248,0.18) 0%, rgba(99,102,241,0.14) 55%, rgba(255,95,162,0.18) 100%);
+  --gradient-sunset: linear-gradient(135deg, #a5f0ff 0%, #38bdf8 40%, #6366f1 100%);
+  --gradient-night: linear-gradient(135deg, #1e3a8a 0%, #6366f1 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #38bdf8, #3b82f6, #6366f1, #ff5fa2, #38bdf8);
+
+  --shadow-glow: 0 18px 55px -15px rgba(59, 130, 246, 0.55);
+  --shadow-card: 0 10px 40px -14px rgba(99, 102, 241, 0.28);
+  --shadow-pop: 0 30px 80px -20px rgba(255, 95, 162, 0.35);
+
+  --aurora-1: rgba(56,189,248,0.55);
+  --aurora-2: rgba(99,102,241,0.45);
+  --aurora-3: rgba(255,95,162,0.40);
+  --aurora-4: rgba(59,130,246,0.35);
 }
 
 .host-theme {
@@ -199,10 +242,10 @@
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(38% 30% at 12% 8%,  rgba(255,107,107,0.55), transparent 70%),
-      radial-gradient(34% 28% at 92% 18%, rgba(196,69,105,0.45), transparent 72%),
-      radial-gradient(48% 40% at 50% 108%, rgba(87,75,144,0.45), transparent 72%),
-      radial-gradient(30% 24% at 82% 78%, rgba(238,90,112,0.35), transparent 72%);
+      radial-gradient(38% 30% at 12% 8%,  var(--aurora-1), transparent 70%),
+      radial-gradient(34% 28% at 92% 18%, var(--aurora-2), transparent 72%),
+      radial-gradient(48% 40% at 50% 108%, var(--aurora-3), transparent 72%),
+      radial-gradient(30% 24% at 82% 78%, var(--aurora-4), transparent 72%);
     filter: saturate(115%);
     animation: aurora-drift 22s ease-in-out infinite alternate;
   }
