@@ -94,6 +94,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
       {!suppressDock ? <RizzBrainDock /> : null}
       {!hideNav ? <BottomNav /> : null}
       <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );
 }
