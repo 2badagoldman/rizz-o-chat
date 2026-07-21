@@ -99,6 +99,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://randomuser.me", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://randomuser.me" },
+      { rel: "preconnect", href: "https://loremflickr.com", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://loremflickr.com" },
+
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap",
