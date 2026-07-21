@@ -21,6 +21,7 @@ import { Route as ChatsRouteImport } from './routes/chats'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HostPricingRouteImport } from './routes/host.pricing'
 import { Route as HostOnboardingRouteImport } from './routes/host.onboarding'
 import { Route as HostHostIdRouteImport } from './routes/host.$hostId'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
@@ -92,6 +93,11 @@ const AdminRoute = AdminRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostPricingRoute = HostPricingRouteImport.update({
+  id: '/host/pricing',
+  path: '/host/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HostOnboardingRoute = HostOnboardingRouteImport.update({
@@ -181,6 +187,7 @@ export interface FileRoutesByFullPath {
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
   '/host/onboarding': typeof HostOnboardingRoute
+  '/host/pricing': typeof HostPricingRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -207,6 +214,7 @@ export interface FileRoutesByTo {
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
   '/host/onboarding': typeof HostOnboardingRoute
+  '/host/pricing': typeof HostPricingRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -234,6 +242,7 @@ export interface FileRoutesById {
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
   '/host/onboarding': typeof HostOnboardingRoute
+  '/host/pricing': typeof HostPricingRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -262,6 +271,7 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/host/$hostId'
     | '/host/onboarding'
+    | '/host/pricing'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/payments/webhook'
@@ -288,6 +298,7 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/host/$hostId'
     | '/host/onboarding'
+    | '/host/pricing'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/payments/webhook'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/checkout/return'
     | '/host/$hostId'
     | '/host/onboarding'
+    | '/host/pricing'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/payments/webhook'
@@ -340,6 +352,7 @@ export interface RootRouteChildren {
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   HostHostIdRoute: typeof HostHostIdRoute
   HostOnboardingRoute: typeof HostOnboardingRoute
+  HostPricingRoute: typeof HostPricingRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -429,6 +442,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/pricing': {
+      id: '/host/pricing'
+      path: '/host/pricing'
+      fullPath: '/host/pricing'
+      preLoaderRoute: typeof HostPricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/host/onboarding': {
@@ -550,6 +570,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutReturnRoute: CheckoutReturnRoute,
   HostHostIdRoute: HostHostIdRoute,
   HostOnboardingRoute: HostOnboardingRoute,
+  HostPricingRoute: HostPricingRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,

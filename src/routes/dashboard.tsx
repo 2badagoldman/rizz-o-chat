@@ -79,6 +79,19 @@ function Dashboard() {
             <MetricCard icon={<Trophy className="h-4 w-4" />} label="Lifetime earned" value={usd(data?.stats?.lifetime_host_share_cents)} />
           </section>
 
+          {isHost && (
+            <Link
+              to="/host/pricing"
+              className="mt-5 flex items-center justify-between rounded-2xl border border-border bg-card p-4 hover:border-primary/50 transition-colors"
+            >
+              <div>
+                <p className="text-sm font-semibold">Edit Friends List price</p>
+                <p className="text-xs text-muted-foreground mt-0.5">Change your monthly price and preview what members see.</p>
+              </div>
+              <span className="text-gradient-brand font-semibold">→</span>
+            </Link>
+          )}
+
           <section className="mt-5 rounded-2xl border border-border bg-card p-4">
             <h2 className="text-sm font-semibold">Payouts</h2>
             <div className="mt-3 grid grid-cols-2 gap-3">
