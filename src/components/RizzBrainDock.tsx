@@ -55,48 +55,56 @@ export function RizzBrainDock() {
 
   return (
     <>
-      {/* Expanded panel */}
+      {/* Mini floating chat panel */}
       {open ? (
-        <div className="fixed inset-x-0 bottom-0 z-[60] mx-auto flex w-full max-w-[480px] flex-col rounded-t-3xl border-t border-border bg-card shadow-glow" style={{ height: "min(78vh, 640px)" }}>
-          <div className="flex items-center justify-between border-b border-border px-4 py-3">
+        <div
+          className="fixed z-[60] flex flex-col rounded-3xl border border-border bg-card shadow-glow overflow-hidden"
+          style={{
+            right: "max(1rem, env(safe-area-inset-right))",
+            bottom: "calc(env(safe-area-inset-bottom) + 5.5rem)",
+            width: "min(360px, calc(100vw - 2rem))",
+            height: "min(60vh, 520px)",
+          }}
+        >
+          <div className="flex items-center justify-between border-b border-border px-3 py-2">
             <div className="flex items-center gap-2">
-              <div className="h-8 w-8 overflow-hidden rounded-full shadow-glow">
+              <div className="h-7 w-7 overflow-hidden rounded-full shadow-glow">
                 <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
               </div>
               <div>
-                <p className="text-sm font-semibold leading-tight">Rizz AI</p>
-                <p className="text-[10px] text-muted-foreground">Your in-app copilot</p>
+                <p className="text-xs font-semibold leading-tight">Rizz AI</p>
+                <p className="text-[10px] text-muted-foreground">Your copilot</p>
               </div>
             </div>
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Minimize"
-                className="rounded-full p-2 text-muted-foreground hover:bg-background"
+                className="rounded-full p-1.5 text-muted-foreground hover:bg-background"
               >
                 <ChevronDown className="h-4 w-4" />
               </button>
               <button
                 onClick={dismiss}
                 aria-label="Dismiss for session"
-                className="rounded-full p-2 text-muted-foreground hover:bg-background"
+                className="rounded-full p-1.5 text-muted-foreground hover:bg-background"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
           </div>
 
-          <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-3">
+          <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-3 py-3">
             {messages.length === 0 ? (
               <div className="rounded-2xl border border-border bg-background/40 p-3">
                 <p className="text-sm">
-                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>. Ask me anything about the app.
+                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>. Ask me anything.
                 </p>
                 <div className="mt-3 grid gap-1.5">
                   {[
                     "How do Friends Lists work?",
                     "Walk me through applying as a Host",
-                    "Help me pick a Host to subscribe to",
+                    "Help me pick a Host",
                   ].map((s) => (
                     <button
                       key={s}
@@ -139,7 +147,7 @@ export function RizzBrainDock() {
             ) : null}
           </div>
 
-          <form onSubmit={submit} className="flex items-end gap-2 border-t border-border bg-card px-3 py-3">
+          <form onSubmit={submit} className="flex items-end gap-2 border-t border-border bg-card px-2 py-2">
             <textarea
               ref={inputRef}
               value={input}
@@ -152,12 +160,12 @@ export function RizzBrainDock() {
               }}
               placeholder="Ask Rizz AI…"
               rows={1}
-              className="min-h-[40px] max-h-24 flex-1 resize-none rounded-2xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
+              className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary"
             />
             <button
               type="submit"
               disabled={busy || !input.trim()}
-              className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
+              className="grid h-9 w-9 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
               aria-label="Send"
             >
               <Send className="h-4 w-4" />
@@ -166,31 +174,19 @@ export function RizzBrainDock() {
         </div>
       ) : null}
 
-      {/* Docked mini-bar (hidden while expanded) */}
+      {/* Floating icon button (bottom-right, above bottom nav) */}
       {!open ? (
-        <div className="fixed inset-x-0 bottom-16 z-40 mx-auto w-full max-w-[480px] px-3 pb-1">
-          <div className="flex items-center gap-2 rounded-2xl border border-border bg-card/95 px-2 py-1.5 shadow-card backdrop-blur">
-            <button
-              onClick={() => setOpen(true)}
-              className="flex flex-1 items-center gap-2 rounded-xl px-2 py-1.5 text-left"
-              aria-label="Open Rizz AI"
-            >
-              <div className="h-7 w-7 overflow-hidden rounded-full shadow-glow">
-                <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
-              </div>
-              <span className="truncate text-xs text-muted-foreground">
-                Ask <span className="text-gradient-brand font-semibold">Rizz AI</span> anything…
-              </span>
-            </button>
-            <button
-              onClick={dismiss}
-              aria-label="Dismiss Rizz AI for this session"
-              className="rounded-full p-1.5 text-muted-foreground hover:bg-background"
-            >
-              <X className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        </div>
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open Rizz AI"
+          className="fixed z-40 grid h-12 w-12 place-items-center rounded-full border border-border bg-card/95 shadow-glow backdrop-blur transition-transform hover:scale-105 active:scale-95"
+          style={{
+            right: "max(1rem, env(safe-area-inset-right))",
+            bottom: "calc(env(safe-area-inset-bottom) + 5rem)",
+          }}
+        >
+          <img src={rizzAiLogo.url} alt="Rizz AI" className="h-9 w-9 rounded-full object-cover" />
+        </button>
       ) : null}
     </>
   );
