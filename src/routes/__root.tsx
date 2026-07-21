@@ -99,8 +99,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "preconnect", href: "https://randomuser.me", crossOrigin: "anonymous" },
-      { rel: "dns-prefetch", href: "https://randomuser.me" },
+      { rel: "preconnect", href: "https://i.pravatar.cc", crossOrigin: "anonymous" },
+      { rel: "dns-prefetch", href: "https://i.pravatar.cc" },
+
       { rel: "preconnect", href: "https://loremflickr.com", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://loremflickr.com" },
 
