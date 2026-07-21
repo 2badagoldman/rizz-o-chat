@@ -22,6 +22,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
 import { Route as InviteCodeRouteImport } from './routes/invite.$code'
 import { Route as HostRoomsRouteImport } from './routes/host.rooms'
 import { Route as HostPricingRouteImport } from './routes/host.pricing'
@@ -108,6 +109,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
+  id: '/rooms/$roomId',
+  path: '/rooms/$roomId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const InviteCodeRoute = InviteCodeRouteImport.update({
   id: '/invite/$code',
@@ -249,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/host/pricing': typeof HostPricingRoute
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
+  '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/admin/': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -284,6 +291,7 @@ export interface FileRoutesByTo {
   '/host/pricing': typeof HostPricingRoute
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
+  '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/admin': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -321,6 +329,7 @@ export interface FileRoutesById {
   '/host/pricing': typeof HostPricingRoute
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
+  '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/admin/': typeof AdminIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -359,6 +368,7 @@ export interface FileRouteTypes {
     | '/host/pricing'
     | '/host/rooms'
     | '/invite/$code'
+    | '/rooms/$roomId'
     | '/admin/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -394,6 +404,7 @@ export interface FileRouteTypes {
     | '/host/pricing'
     | '/host/rooms'
     | '/invite/$code'
+    | '/rooms/$roomId'
     | '/admin'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -430,6 +441,7 @@ export interface FileRouteTypes {
     | '/host/pricing'
     | '/host/rooms'
     | '/invite/$code'
+    | '/rooms/$roomId'
     | '/admin/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -463,6 +475,7 @@ export interface RootRouteChildren {
   HostPricingRoute: typeof HostPricingRoute
   HostRoomsRoute: typeof HostRoomsRoute
   InviteCodeRoute: typeof InviteCodeRoute
+  RoomsRoomIdRoute: typeof RoomsRoomIdRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ChatUserUserIdRoute: typeof ChatUserUserIdRoute
@@ -561,6 +574,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/rooms/$roomId': {
+      id: '/rooms/$roomId'
+      path: '/rooms/$roomId'
+      fullPath: '/rooms/$roomId'
+      preLoaderRoute: typeof RoomsRoomIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/invite/$code': {
       id: '/invite/$code'
@@ -757,6 +777,7 @@ const rootRouteChildren: RootRouteChildren = {
   HostPricingRoute: HostPricingRoute,
   HostRoomsRoute: HostRoomsRoute,
   InviteCodeRoute: InviteCodeRoute,
+  RoomsRoomIdRoute: RoomsRoomIdRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ChatUserUserIdRoute: ChatUserUserIdRoute,
