@@ -1,11 +1,12 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { BottomNav } from "./BottomNav";
 import { RizzBrainDock } from "./RizzBrainDock";
 import { PaymentTestModeBanner } from "./PaymentTestModeBanner";
 import { ThemeToggle } from "./ThemeToggle";
 import { SideDrawer } from "./SideDrawer";
+import { GlobalSearch } from "./GlobalSearch";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { initScrollReveal } from "@/lib/scroll-reveal";
 
@@ -21,6 +22,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const suppressDock = hideNav || hideDock || pathname === "/copilot" || pathname === "/auth";
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     initScrollReveal();
@@ -58,6 +60,13 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
             </Link>
           </div>
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="rounded-full border border-border bg-card/80 p-1.5 text-foreground transition-transform hover:scale-105 hover:bg-primary/10"
+              aria-label="Search hosts"
+            >
+              <Search className="h-4 w-4" />
+            </button>
             <ThemeToggle />
             <Link
               to="/coins"
@@ -85,6 +94,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
       {!suppressDock ? <RizzBrainDock /> : null}
       {!hideNav ? <BottomNav /> : null}
       <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );
 }
