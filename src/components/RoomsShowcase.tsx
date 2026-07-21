@@ -198,17 +198,20 @@ export function RoomsShowcase() {
   );
 }
 
-function RoomCard({ room, coords, showDistance }: { room: DemoRoom; coords: Coords | null; showDistance: boolean }) {
+function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: Coords | null; showDistance: boolean; onClick?: (room: any) => void }) {
   const miles =
-    showDistance && coords && room.lat && room.lng ? haversineMiles(coords, { lat: room.lat, lng: room.lng }) : null;
+    showDistance && coords && room.lat && room.lng
+      ? (typeof room.distance_miles === "number" ? room.distance_miles : haversineMiles(coords, { lat: room.lat, lng: room.lng }))
+      : null;
 
-  return (
-    <Link
-      to="/soon/$feature"
-      params={{ feature: `room-${room.slug}` }}
-      className="relative w-[220px] shrink-0 snap-start overflow-hidden rounded-3xl border border-border shadow-sm transition active:scale-[0.98]"
-      style={{ background: room.gradient }}
-    >
+  const common = {
+    className:
+      "relative w-[220px] shrink-0 snap-start overflow-hidden rounded-3xl border border-border shadow-sm transition active:scale-[0.98] text-left",
+    style: { background: room.gradient },
+  } as const;
+
+  const inner = (
+
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
       <div className="relative flex h-[190px] flex-col justify-between p-3 text-white">
         <div className="flex items-center justify-between">
