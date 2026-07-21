@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
-import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Check } from "lucide-react";
+import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Check, X } from "lucide-react";
 
 const UUID_RE = /^[a-f0-9-]{36}$/i;
 
@@ -123,10 +123,10 @@ function HostProfile() {
 
           {/* Top row */}
           <div className="absolute inset-x-3 top-3 flex items-center justify-between">
-            <Link to="/discover" className="grid h-9 w-9 place-items-center rounded-full bg-black/40 text-white backdrop-blur">
+            <Link to="/discover" aria-label="Back to discover" className="grid h-9 w-9 place-items-center rounded-full bg-black/50 text-white backdrop-blur transition hover:scale-105">
               <ArrowLeft className="h-4 w-4" />
             </Link>
-            <div className="flex gap-1.5">
+            <div className="flex items-center gap-1.5">
               <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
                 {tierLabel(host.tier)}
               </span>
@@ -135,6 +135,17 @@ function HostProfile() {
                   <Circle className="h-2 w-2 fill-success text-success" /> Online
                 </span>
               ) : null}
+              <button
+                type="button"
+                onClick={() => {
+                  if (window.history.length > 1) navigate({ to: "..", replace: false } as never);
+                  else navigate({ to: "/discover" });
+                }}
+                aria-label="Close profile"
+                className="grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white backdrop-blur transition hover:scale-105 hover:bg-black/80"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
           </div>
 
