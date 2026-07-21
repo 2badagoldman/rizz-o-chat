@@ -5,6 +5,7 @@ import { DEMO_HOSTS, tierLabel, type DemoHost } from "@/lib/demo-hosts";
 import { Search, Users, Circle } from "lucide-react";
 import { useShuffled } from "@/hooks/useShuffled";
 import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import { RoomsShowcase } from "@/components/RoomsShowcase";
 
 export const Route = createFileRoute("/discover")({
   head: () => ({
@@ -79,7 +80,16 @@ function Discover() {
         ))}
       </div>
 
-      <section className="mt-4 grid grid-cols-2 gap-3">
+      <RoomsShowcase />
+
+      <div className="mt-6 flex items-end justify-between">
+        <div>
+          <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Hosts</p>
+          <h2 className="mt-0.5 text-lg font-bold">Meet your next favorite</h2>
+        </div>
+      </div>
+
+      <section className="mt-3 grid grid-cols-2 gap-3">
         {hosts.map((h) => (
           <HostCard key={h.id} host={h} />
         ))}
