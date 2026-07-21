@@ -1,4 +1,4 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouter, useRouterState } from "@tanstack/react-router";
 import { Home, Compass, MessageCircle, LayoutDashboard, User } from "lucide-react";
 
 const tabs = [
@@ -11,6 +11,7 @@ const tabs = [
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const router = useRouter();
 
   return (
     <nav
@@ -25,6 +26,13 @@ export function BottomNav() {
             <li key={t.to}>
               <Link
                 to={t.to}
+                onClick={() => {
+                  // Tapping the current tab should feel like a real app: scroll to top + refresh.
+                  if (pathname === t.to) {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    router.invalidate();
+                  }
+                }}
                 className="flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors"
                 style={{ color: active ? "var(--color-primary)" : "var(--color-muted-foreground)" }}
               >
