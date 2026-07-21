@@ -23,7 +23,7 @@ export const listAllHosts = createServerFn({ method: "POST" })
       .eq("account_type", "host")
       .order("created_at", { ascending: false })
       .limit(500);
-    if (data.status !== "all") q = q.eq("verification_status", data.status);
+    if (data.status !== "all") q = q.eq("verification_status", data.status as "pending" | "verified" | "rejected");
     const { data: hosts, error } = await q;
     if (error) throw error;
 
