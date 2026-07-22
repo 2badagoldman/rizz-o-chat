@@ -92,3 +92,91 @@ export const setHostVerification = createServerFn({ method: "POST" })
     if (error) throw error;
     return { ok: true };
   });
+
+export const getHostDetail = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = i as { hostId: string };
+    if (!x?.hostId) throw new Error("hostId required");
+    return x;
+  })
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: profile, error: pErr } = await supabaseAdmin
+      .from("profiles")
+      .select("id, display_name, avatar_url, bio, gender, account_type, verification_status, platform_tier, created_at, interests")
+      .eq("id", data.hostId)
+      .maybeSingle();
+    if (pErr) throw pErr;
+    if (!profile) throw new Error("Host not found");
+
+    // Signed avatar
+    let avatarSignedUrl: string | null = null;
+    if (profile.avatar_url) {
+      const { data: s } = await supabaseAdmin.storage
+        .from("avatars")
+        .createSignedUrl(profile.avatar_url, 3600);
+      avatarSignedUrl = s?.signedUrl ?? null;
+    }
+
+    // All uploaded media, with signed URLs (admin bypass)
+    const { data: mediaRows } = await supabaseAdmin
+      .from("profile_media")
+      .select("id, storage_path, media_type, caption, sort_order, created_at")
+      .eq("user_id", data.hostId)
+      .order("created_at", { ascending: false });
+    const media = await Promise.all(
+      (mediaRows ?? []).map(async (row) => {
+        const { data: s } = await supabaseAdmin.storage
+          .from("profile-media")
+          .createSignedUrl(row.storage_path, 3600);
+        return { ...row, signedUrl: s?.signedUrl ?? null };
+      }),
+    );
+
+    // Direct messages: host is sender or recipient (most recent 200)
+    const { data: msgs } = await supabaseAdmin
+      .from("messages")
+      .select("id, sender_id, recipient_id, body, created_at, list_id")
+      .or(`sender_id.eq.${data.hostId},recipient_id.eq.${data.hostId}`)
+      .order("created_at", { ascending: false })
+      .limit(200);
+
+    // Room messages the host authored or received in their own rooms
+    const { data: roomMsgs } = await supabaseAdmin
+      .from("room_messages")
+      .select("id, room_id, sender_id, body, created_at, host_rooms!inner(id, title, host_id)")
+      .eq("host_rooms.host_id", data.hostId)
+      .order("created_at", { ascending: false })
+      .limit(200);
+
+    // Counterpart display names
+    const counterpartIds = new Set<string>();
+    (msgs ?? []).forEach((m) => {
+      if (m.sender_id && m.sender_id !== data.hostId) counterpartIds.add(m.sender_id);
+      if (m.recipient_id && m.recipient_id !== data.hostId) counterpartIds.add(m.recipient_id);
+    });
+    (roomMsgs ?? []).forEach((m) => {
+      if (m.sender_id && m.sender_id !== data.hostId) counterpartIds.add(m.sender_id);
+    });
+    let names: Record<string, string> = {};
+    if (counterpartIds.size > 0) {
+      const { data: np } = await supabaseAdmin
+        .from("profiles")
+        .select("id, display_name")
+        .in("id", Array.from(counterpartIds));
+      names = Object.fromEntries((np ?? []).map((p) => [p.id, p.display_name ?? "—"]));
+    }
+
+    return {
+      profile,
+      avatarSignedUrl,
+      media,
+      messages: msgs ?? [],
+      roomMessages: roomMsgs ?? [],
+      names,
+    };
+  });
+
