@@ -65,6 +65,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 12,
     hasVideo: true,
     teaser: "Just made my morning matcha ☕ tell me your Monday plan",
+    aiEnabled: true,
+
   },
   {
     id: "demo-jen",
