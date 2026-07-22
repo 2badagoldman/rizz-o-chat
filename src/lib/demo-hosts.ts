@@ -20,7 +20,31 @@ export type DemoHost = {
   photoCount: number;
   hasVideo: boolean;
   teaser: string;
+  /** If true, anyone (even signed-out visitors) can chat with an AI persona of this host for free. */
+  aiEnabled?: boolean;
 };
+
+/**
+ * The 10 curated demo hosts whose personas are AI-powered and open for free
+ * chat before signup. Keep this list in sync with the `aiEnabled` flags below.
+ */
+export const AI_HOST_IDS = [
+  "demo-aria",
+  "demo-jen",
+  "demo-lena",
+  "demo-nova",
+  "demo-jade",
+  "demo-remy",
+  "demo-mika",
+  "demo-harper",
+  "demo-cleo",
+  "demo-yuna",
+] as const;
+
+export function isAiHost(hostId: string | undefined): boolean {
+  return !!hostId && (AI_HOST_IDS as readonly string[]).includes(hostId);
+}
+
 
 export const DEMO_HOSTS: DemoHost[] = [
   {
