@@ -92,12 +92,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Rizz Social — Real conversations with verified hosts" },
       { name: "twitter:description", content: "Rizz Social is a paid social chat platform where verified Hosts run Friends Lists and Members subscribe to join. Hosts are compensated partners." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/QKbM332Aiicb6QWrOX0NvvL74SG3/social-images/social-1784530898145-unnamed.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/QKbM332Aiicb6QWrOX0NvvL74SG3/social-images/social-1784530898145-unnamed.webp" },
+      { property: "og:image", content: "https://rizzlachat.com/icon-512.png" },
+      { name: "twitter:image", content: "https://rizzlachat.com/icon-512.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
+
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/icon-512.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
