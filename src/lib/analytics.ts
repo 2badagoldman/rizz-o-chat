@@ -74,7 +74,7 @@ async function flush() {
     metadata: e.metadata ?? null,
   }));
   try {
-    await supabase.from("analytics_events").insert(rows);
+    await supabase.from("analytics_events").insert(rows as never);
   } catch {
     // Swallow — analytics must never break the app.
   } finally {
