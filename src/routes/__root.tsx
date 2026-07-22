@@ -135,10 +135,23 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const router = useRouter();
   useEffect(() => {
-    // Guarded PWA registration — safe no-op in dev / preview / iframes.
     void import("../lib/pwa").then((m) => m.registerPwa());
+    void import("../lib/analytics").then((m) => {
+      m.startAnalytics();
+      m.trackPageview(window.location.pathname);
+    });
   }, []);
+  useEffect(() => {
+    const unsub = router.subscribe("onResolved", (evt) => {
+      void import("../lib/analytics").then((m) => {
+        m.markPageEntered();
+        m.trackPageview(evt.toLocation.pathname);
+      });
+    });
+    return () => unsub();
+  }, [router]);
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>

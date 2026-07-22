@@ -37,11 +37,13 @@ import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ChatHostIdRouteImport } from './routes/chat.$hostId'
 import { Route as ApiHostChatRouteImport } from './routes/api/host-chat'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AdminWarRoomRouteImport } from './routes/admin.war-room'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
+import { Route as AdminCopilotRouteImport } from './routes/admin.copilot'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ChatUserUserIdRouteImport } from './routes/chat.user.$userId'
@@ -191,6 +193,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminWarRoomRoute = AdminWarRoomRouteImport.update({
+  id: '/war-room',
+  path: '/war-room',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -214,6 +221,11 @@ const AdminHostsRoute = AdminHostsRouteImport.update({
 const AdminEarlyAccessRoute = AdminEarlyAccessRouteImport.update({
   id: '/early-access',
   path: '/early-access',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCopilotRoute = AdminCopilotRouteImport.update({
+  id: '/copilot',
+  path: '/copilot',
   getParentRoute: () => AdminRoute,
 } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
@@ -276,11 +288,13 @@ export interface FileRoutesByFullPath {
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
   '/api/host-chat': typeof ApiHostChatRoute
   '/chat/$hostId': typeof ChatHostIdRoute
@@ -318,11 +332,13 @@ export interface FileRoutesByTo {
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
   '/api/host-chat': typeof ApiHostChatRoute
   '/chat/$hostId': typeof ChatHostIdRoute
@@ -362,11 +378,13 @@ export interface FileRoutesById {
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
   '/api/host-chat': typeof ApiHostChatRoute
   '/chat/$hostId': typeof ChatHostIdRoute
@@ -407,11 +425,13 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
     | '/admin/users'
+    | '/admin/war-room'
     | '/api/chat'
     | '/api/host-chat'
     | '/chat/$hostId'
@@ -449,11 +469,13 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
     | '/admin/users'
+    | '/admin/war-room'
     | '/api/chat'
     | '/api/host-chat'
     | '/chat/$hostId'
@@ -492,11 +514,13 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
     | '/admin/users'
+    | '/admin/war-room'
     | '/api/chat'
     | '/api/host-chat'
     | '/chat/$hostId'
@@ -756,6 +780,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/war-room': {
+      id: '/admin/war-room'
+      path: '/war-room'
+      fullPath: '/admin/war-room'
+      preLoaderRoute: typeof AdminWarRoomRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/users': {
       id: '/admin/users'
       path: '/users'
@@ -789,6 +820,13 @@ declare module '@tanstack/react-router' {
       path: '/early-access'
       fullPath: '/admin/early-access'
       preLoaderRoute: typeof AdminEarlyAccessRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/copilot': {
+      id: '/admin/copilot'
+      path: '/copilot'
+      fullPath: '/admin/copilot'
+      preLoaderRoute: typeof AdminCopilotRouteImport
       parentRoute: typeof AdminRoute
     }
     '/.well-known/oauth-protected-resource': {
@@ -863,20 +901,24 @@ const AdminHostsRouteWithChildren = AdminHostsRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminCopilotRoute: typeof AdminCopilotRoute
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminHostsRoute: typeof AdminHostsRouteWithChildren
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
   AdminUsersRoute: typeof AdminUsersRoute
+  AdminWarRoomRoute: typeof AdminWarRoomRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCopilotRoute: AdminCopilotRoute,
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminHostsRoute: AdminHostsRouteWithChildren,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
   AdminUsersRoute: AdminUsersRoute,
+  AdminWarRoomRoute: AdminWarRoomRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 

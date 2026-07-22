@@ -13,6 +13,8 @@ import {
   X,
   Home,
   Inbox,
+  Radio,
+  Sparkles,
 } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
@@ -23,6 +25,8 @@ export const Route = createFileRoute("/admin")({
 
 const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/admin/war-room", label: "War Room", icon: Radio },
+  { to: "/admin/copilot", label: "Copilot", icon: Sparkles },
   { to: "/admin/hosts", label: "Host Applications", icon: Crown },
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/payouts", label: "Payouts", icon: Wallet },
