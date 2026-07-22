@@ -127,16 +127,9 @@ export function WelcomeShowcase() {
       duration_ms: elapsedMs,
       metadata: { last_index: index, total: items.length, slide_id: cur?.id },
     });
-
-
-  const close = (reason: "complete" | "dismiss" = "dismiss") => {
-    if (closedRef.current) return;
-    closedRef.current = true;
-    // Fire an event for the current slide before tearing down
-    const cur = items[index];
-    if (cur) logShowcaseEvent({ data: { id: cur.id, event: reason } }).catch(() => {});
     setOpen(false);
     Object.values(videoRefs.current).forEach((v) => v?.pause());
+
 
     try {
       localStorage.setItem(SEEN_KEY, "1");
