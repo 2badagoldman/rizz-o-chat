@@ -41,19 +41,71 @@ function Chats() {
     return () => clearTimeout(t);
   }, [q, user, search]);
 
+  const aiHosts = useMemo(
+    () => (AI_HOST_IDS as readonly string[])
+      .map((id) => DEMO_HOSTS.find((h) => h.id === id))
+      .filter((h): h is (typeof DEMO_HOSTS)[number] => !!h),
+    [],
+  );
+
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
+
+  const AiHostsStrip = (
+    <section className="mt-4">
+      <div className="flex items-center gap-2">
+        <Sparkles className="h-4 w-4 text-primary" />
+        <h2 className="text-sm font-semibold">Chat free with our AI hosts</h2>
+      </div>
+      <p className="mt-0.5 text-xs text-muted-foreground">
+        10 signature hosts — powered by Rizz AI. Free to chat, no signup required.
+      </p>
+      <div className="mt-3 -mx-4 overflow-x-auto px-4 pb-2">
+        <div className="flex gap-3">
+          {aiHosts.map((h) => (
+            <Link
+              key={h.id}
+              to="/chat/$hostId"
+              params={{ hostId: h.id }}
+              className="group relative flex w-[132px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-0.5 hover:border-primary"
+            >
+              <div className="relative aspect-[3/4] w-full" style={{ background: h.gradient }}>
+                <img src={rizzAiLogo.url} alt="" className="h-full w-full object-cover opacity-90 mix-blend-luminosity group-hover:opacity-100" />
+                <span className="absolute left-2 top-2 rounded-full bg-black/40 px-2 py-0.5 text-[9px] font-semibold text-white backdrop-blur">
+                  AI · Free
+                </span>
+                <span className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full bg-black/40 px-1.5 py-0.5 text-[9px] text-white backdrop-blur">
+                  <Circle className="h-1.5 w-1.5 fill-emerald-400 text-emerald-400" /> Online
+                </span>
+              </div>
+              <div className="p-2">
+                <p className="truncate text-[13px] font-semibold">{h.name}, {h.age}</p>
+                <p className="truncate text-[10px] text-muted-foreground">{h.city}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
   if (!user) {
     return (
       <AppShell>
-        <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center shadow-card">
-          <h1 className="text-xl">Sign in to see your chats</h1>
-          <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
+        <h1 className="pt-6 text-2xl font-bold">Chats</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Get a real feel for Rizzla — chat one of our signature hosts right now, no signup needed.
+        </p>
+        {AiHostsStrip}
+        <div className="mt-6 rounded-2xl border border-border bg-card p-5 text-center shadow-card">
+          <p className="text-sm">Ready for the full app — real hosts, Rooms, gifts, invites?</p>
+          <Link to="/auth" className="btn-brand mt-3 inline-flex">Create your free account</Link>
         </div>
       </AppShell>
     );
   }
 
   const jen = DEMO_HOSTS.find((h) => h.id === "demo-jen");
+
 
   return (
     <AppShell>
