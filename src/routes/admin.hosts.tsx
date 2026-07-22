@@ -27,6 +27,8 @@ function AdminHosts() {
   const fetchHosts = useServerFn(listAllHosts);
   const setStatus = useServerFn(setHostVerification);
   const removeUser = useServerFn(deleteUserProfile);
+  const restoreUser = useServerFn(restoreUserProfile);
+  const purgeUser = useServerFn(purgeUserProfile);
   const [status, setSt] = useState<Status>("all");
   const [q, setQ] = useState("");
   const [rows, setRows] = useState<any[]>([]);
@@ -54,10 +56,31 @@ function AdminHosts() {
   }
 
   async function remove(hostId: string, name: string) {
-    if (!window.confirm(`Permanently delete ${name}'s account and all their data? This cannot be undone.`)) return;
+    if (!window.confirm(`Delete ${name}'s account? They can be restored within 7 days from the "deleted" filter.`)) return;
     try {
       await removeUser({ data: { userId: hostId } });
-      toast.success(`Deleted ${name}`);
+      toast.success(`Deleted ${name} — restorable for 7 days`);
+      setRows((rs) => rs.filter((r) => r.id !== hostId));
+    } catch (e) {
+      toast.error((e as Error).message);
+    }
+  }
+
+  async function restore(hostId: string, name: string) {
+    try {
+      await restoreUser({ data: { userId: hostId } });
+      toast.success(`Restored ${name}`);
+      setRows((rs) => rs.filter((r) => r.id !== hostId));
+    } catch (e) {
+      toast.error((e as Error).message);
+    }
+  }
+
+  async function purge(hostId: string, name: string) {
+    if (!window.confirm(`Permanently purge ${name}'s account and all data? This cannot be undone.`)) return;
+    try {
+      await purgeUser({ data: { userId: hostId } });
+      toast.success(`Purged ${name}`);
       setRows((rs) => rs.filter((r) => r.id !== hostId));
     } catch (e) {
       toast.error((e as Error).message);
@@ -68,6 +91,7 @@ function AdminHosts() {
     acc[r.verification_status ?? "pending"] = (acc[r.verification_status ?? "pending"] ?? 0) + 1;
     return acc;
   }, {});
+
 
   return (
     <div className="mx-auto max-w-6xl">
