@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
 import { WelcomeShowcase } from "../components/WelcomeShowcase";
+import { useShowcaseAvatarSync } from "../lib/showcase-avatar-store";
 
 function NotFoundComponent() {
   return (
@@ -136,6 +137,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  useShowcaseAvatarSync();
   useEffect(() => {
     void import("../lib/pwa").then((m) => m.registerPwa());
     void import("../lib/analytics").then((m) => {

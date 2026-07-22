@@ -7,6 +7,7 @@
 // host count exceeds the pool size we fall back to a deterministic hash so
 // behaviour stays stable.
 import { DEMO_HOSTS } from "./demo-hosts";
+import { getShowcaseAvatar } from "./showcase-avatar-store";
 
 const eliteMods = import.meta.glob("@/assets/elite/e*.jpg", {
   eager: true,
@@ -57,6 +58,9 @@ const ASSIGNMENT: Map<string, number> = (() => {
 })();
 
 function portraitFor(id: string): string {
+  // Showcase image override wins so AI hosts share faces with the reel.
+  const override = getShowcaseAvatar(id);
+  if (override) return override;
   if (POOL.length === 0) return "";
   const idx = ASSIGNMENT.get(id);
   if (idx !== undefined) return POOL[idx];
