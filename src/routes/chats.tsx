@@ -163,7 +163,7 @@ function Chats() {
               className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 shadow-card hover:bg-primary/5"
             >
               <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full shadow-glow" style={{ background: jen.gradient }}>
-                <img src={rizzAiLogo.url} alt="" className="h-full w-full object-cover" />
+                <img src={hostAvatarThumb(jen.id)} alt={jen.name} className="h-full w-full object-cover" />
                 <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-card bg-emerald-500" />
               </div>
               <div className="min-w-0 flex-1">
