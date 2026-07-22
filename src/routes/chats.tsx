@@ -10,7 +10,17 @@ import { dmListThreads } from "@/lib/dm.functions";
 import { searchUsers } from "@/lib/admin-data.functions";
 
 export const Route = createFileRoute("/chats")({
-  head: () => ({ meta: [{ title: "Chats — Rizzla" }] }),
+  head: () => ({
+    meta: [
+      { title: "Your chats — Rizz Social" },
+      { name: "description", content: "All your Rizz Social conversations in one place. Chat with verified hosts and friends." },
+      { property: "og:title", content: "Your chats — Rizz Social" },
+      { property: "og:description", content: "All your Rizz Social conversations in one place." },
+      { property: "og:url", content: "https://rizzlachat.com/chats" },
+    ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/chats" }],
+  }),
+
   component: Chats,
 });
 
