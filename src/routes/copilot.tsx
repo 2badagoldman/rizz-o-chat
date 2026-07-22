@@ -12,12 +12,17 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 export const Route = createFileRoute("/copilot")({
   head: () => ({
     meta: [
-      { title: "Rizz AI — your copilot" },
-      { name: "description", content: "The AI copilot inside Rizzla Social. Get walked through every step of the app." },
+      { title: "Rizz AI copilot — your chat wingman" },
+      { name: "description", content: "The AI wingman inside Rizz Social. Get help crafting messages, breaking the ice, and building real chats." },
+      { property: "og:title", content: "Rizz AI copilot — your chat wingman" },
+      { property: "og:description", content: "The AI wingman inside Rizz Social." },
+      { property: "og:url", content: "https://rizzlachat.com/copilot" },
     ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/copilot" }],
   }),
   component: Copilot,
 });
+
 
 function Copilot() {
   const { user } = useAuth();

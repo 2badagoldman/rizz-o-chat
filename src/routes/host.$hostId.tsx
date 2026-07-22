@@ -14,15 +14,39 @@ const UUID_RE = /^[a-f0-9-]{36}$/i;
 export const Route = createFileRoute("/host/$hostId")({
   head: ({ params }) => {
     const h = DEMO_HOSTS.find((x) => x.id === params.hostId);
+    const url = `https://rizzlachat.com/host/${params.hostId}`;
+    const title = h ? `${h.name} — Chat on Rizz Social` : "Host — Rizz Social";
+    const desc = h?.tagline ?? "Meet a verified host on Rizz Social. Join their Friends List and start chatting.";
     return {
       meta: [
-        { title: h ? `${h.name} — Rizz Social` : "Host — Rizz Social" },
-        { name: "description", content: h?.tagline ?? "Meet a verified Host on Rizz Social." },
+        { title },
+        { name: "description", content: desc },
+        { property: "og:title", content: title },
+        { property: "og:description", content: desc },
+        { property: "og:type", content: "profile" },
+        { property: "og:url", content: url },
       ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: h
+        ? [
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Product",
+                name: `${h.name} — Friends List`,
+                description: h.tagline,
+                brand: { "@type": "Brand", name: "Rizz Social" },
+                url,
+              }),
+            },
+          ]
+        : undefined,
     };
   },
   component: HostProfile,
 });
+
 
 function HostProfile() {
   const { hostId } = Route.useParams();

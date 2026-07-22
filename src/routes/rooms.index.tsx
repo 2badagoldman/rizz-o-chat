@@ -8,7 +8,17 @@ import { MapPin, Plus, Users, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/rooms/")({
-  head: () => ({ meta: [{ title: "Rooms — Rizzla" }] }),
+  head: () => ({
+    meta: [
+      { title: "Rooms near you — Rizz Social" },
+      { name: "description", content: "Join live chat rooms near you. Meet hosts and members in city rooms across the US on Rizz Social." },
+      { property: "og:title", content: "Rooms near you — Rizz Social" },
+      { property: "og:description", content: "Join live chat rooms near you on Rizz Social." },
+      { property: "og:url", content: "https://rizzlachat.com/rooms" },
+    ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/rooms" }],
+  }),
+
   component: RoomsBrowsePage,
 });
 

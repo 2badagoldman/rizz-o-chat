@@ -7,7 +7,16 @@ import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: "Sign in — Rizz Social" }] }),
+  head: () => ({
+    meta: [
+      { title: "Sign in or join free — Rizz Social" },
+      { name: "description", content: "Join Rizz Social free. Chat with verified hosts, join Friends Lists, and meet new friends." },
+      { property: "og:title", content: "Sign in or join free — Rizz Social" },
+      { property: "og:url", content: "https://rizzlachat.com/auth" },
+    ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/auth" }],
+  }),
+
   validateSearch: (s: Record<string, unknown>) => ({
     next: typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : undefined,
   }),
