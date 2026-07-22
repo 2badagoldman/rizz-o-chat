@@ -14,8 +14,23 @@ export const getWarRoom = createServerFn({ method: "POST" })
     if (!isAdmin) throw new Error("Forbidden");
     const { data: metrics, error } = await supabase.rpc("war_room_metrics", { _hours: data.hours });
     if (error) throw error;
-    return metrics as Record<string, unknown>;
-  });
+    return JSON.parse(JSON.stringify(metrics ?? {})) as {
+      window_hours?: number;
+      active_now?: number;
+      signed_in_now?: number;
+      sessions?: number;
+      users?: number;
+      pageviews?: number;
+      events?: number;
+      avg_session_seconds?: number;
+      top_pages?: Array<{ path: string; views: number; sessions: number }>;
+      top_referrers?: Array<{ referrer: string; sessions: number }>;
+      devices?: Record<string, number>;
+      countries?: Record<string, number>;
+      timeseries?: Array<{ bucket: string; pageviews: number; sessions: number }>;
+      top_events?: Array<{ event_type: string; ct: number }>;
+      demographics?: { gender?: Record<string, number>; account_type?: Record<string, number> };
+    };
 
 export const adminCopilotChat = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
