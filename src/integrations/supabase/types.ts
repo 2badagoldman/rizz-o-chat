@@ -628,35 +628,116 @@ export type Database = {
           },
         ]
       }
+      showcase_brain_runs: {
+        Row: {
+          captions_refreshed: number
+          id: string
+          items_scored: number
+          note: string | null
+          ran_at: string
+          trigger: string
+        }
+        Insert: {
+          captions_refreshed?: number
+          id?: string
+          items_scored?: number
+          note?: string | null
+          ran_at?: string
+          trigger: string
+        }
+        Update: {
+          captions_refreshed?: number
+          id?: string
+          items_scored?: number
+          note?: string | null
+          ran_at?: string
+          trigger?: string
+        }
+        Relationships: []
+      }
+      showcase_brain_settings: {
+        Row: {
+          cadence_minutes: number
+          enabled: boolean
+          id: number
+          last_run_at: string | null
+          last_run_note: string | null
+          reel_size: number
+          refresh_caption_after_hours: number
+          tone: string
+          updated_at: string
+        }
+        Insert: {
+          cadence_minutes?: number
+          enabled?: boolean
+          id?: number
+          last_run_at?: string | null
+          last_run_note?: string | null
+          reel_size?: number
+          refresh_caption_after_hours?: number
+          tone?: string
+          updated_at?: string
+        }
+        Update: {
+          cadence_minutes?: number
+          enabled?: boolean
+          id?: number
+          last_run_at?: string | null
+          last_run_note?: string | null
+          reel_size?: number
+          refresh_caption_after_hours?: number
+          tone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       showcase_media: {
         Row: {
+          ai_caption_updated_at: string | null
+          ai_score: number
           caption: string | null
+          completes: number
           created_at: string
+          dismisses: number
           id: string
+          impressions: number
           is_active: boolean
           media_type: string
+          original_caption: string | null
           sort_order: number
           storage_path: string
           updated_at: string
           uploader_id: string | null
         }
         Insert: {
+          ai_caption_updated_at?: string | null
+          ai_score?: number
           caption?: string | null
+          completes?: number
           created_at?: string
+          dismisses?: number
           id?: string
+          impressions?: number
           is_active?: boolean
           media_type: string
+          original_caption?: string | null
           sort_order?: number
           storage_path: string
           updated_at?: string
           uploader_id?: string | null
         }
         Update: {
+          ai_caption_updated_at?: string | null
+          ai_score?: number
           caption?: string | null
+          completes?: number
           created_at?: string
+          dismisses?: number
           id?: string
+          impressions?: number
           is_active?: boolean
           media_type?: string
+          original_caption?: string | null
           sort_order?: number
           storage_path?: string
           updated_at?: string
@@ -800,6 +881,16 @@ export type Database = {
         Args: { _host_id: string; _member_id: string }
         Returns: undefined
       }
+      get_showcase_reel: {
+        Args: { _limit?: number }
+        Returns: {
+          caption: string
+          id: string
+          media_type: string
+          score: number
+          storage_path: string
+        }[]
+      }
       grant_friends_list_access: {
         Args: { _host_id: string; _member_id: string; _price_cents: number }
         Returns: undefined
@@ -823,6 +914,10 @@ export type Database = {
       is_room_member: {
         Args: { _room_id: string; _user_id: string }
         Returns: boolean
+      }
+      log_showcase_event: {
+        Args: { _event: string; _id: string }
+        Returns: undefined
       }
       redeem_host_invite: { Args: { _code: string }; Returns: Json }
       send_coin_gift: {

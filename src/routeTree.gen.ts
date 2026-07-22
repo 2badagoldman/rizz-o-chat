@@ -39,6 +39,7 @@ import { Route as ApiHostChatRouteImport } from './routes/api/host-chat'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AdminWarRoomRouteImport } from './routes/admin.war-room'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminShowcaseBrainRouteImport } from './routes/admin.showcase-brain'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
@@ -52,6 +53,7 @@ import { Route as AdminHostsHostIdRouteImport } from './routes/admin.hosts.$host
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicHooksShowcaseBrainRouteImport } from './routes/api/public/hooks/showcase-brain'
 
 const UpgradeRoute = UpgradeRouteImport.update({
   id: '/upgrade',
@@ -203,6 +205,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminShowcaseBrainRoute = AdminShowcaseBrainRouteImport.update({
+  id: '/showcase-brain',
+  path: '/showcase-brain',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminShowcaseRoute = AdminShowcaseRouteImport.update({
   id: '/showcase',
   path: '/showcase',
@@ -272,6 +279,12 @@ const ApiPublicPaymentsWebhookRoute =
     path: '/api/public/payments/webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksShowcaseBrainRoute =
+  ApiPublicHooksShowcaseBrainRouteImport.update({
+    id: '/api/public/hooks/showcase-brain',
+    path: '/api/public/hooks/showcase-brain',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -293,6 +306,7 @@ export interface FileRoutesByFullPath {
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
+  '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
@@ -316,6 +330,7 @@ export interface FileRoutesByFullPath {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
+  '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -337,6 +352,7 @@ export interface FileRoutesByTo {
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
+  '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
@@ -360,6 +376,7 @@ export interface FileRoutesByTo {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
+  '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -383,6 +400,7 @@ export interface FileRoutesById {
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
+  '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
@@ -406,6 +424,7 @@ export interface FileRoutesById {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
+  '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -430,6 +449,7 @@ export interface FileRouteTypes {
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
+    | '/admin/showcase-brain'
     | '/admin/users'
     | '/admin/war-room'
     | '/api/chat'
@@ -453,6 +473,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
+    | '/api/public/hooks/showcase-brain'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -474,6 +495,7 @@ export interface FileRouteTypes {
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
+    | '/admin/showcase-brain'
     | '/admin/users'
     | '/admin/war-room'
     | '/api/chat'
@@ -497,6 +519,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
+    | '/api/public/hooks/showcase-brain'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -519,6 +542,7 @@ export interface FileRouteTypes {
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
+    | '/admin/showcase-brain'
     | '/admin/users'
     | '/admin/war-room'
     | '/api/chat'
@@ -542,6 +566,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
+    | '/api/public/hooks/showcase-brain'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -579,6 +604,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicDemoChatRoute: typeof ApiPublicDemoChatRoute
   ChatUserUserIdRoute: typeof ChatUserUserIdRoute
+  ApiPublicHooksShowcaseBrainRoute: typeof ApiPublicHooksShowcaseBrainRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -794,6 +820,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/showcase-brain': {
+      id: '/admin/showcase-brain'
+      path: '/showcase-brain'
+      fullPath: '/admin/showcase-brain'
+      preLoaderRoute: typeof AdminShowcaseBrainRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/showcase': {
       id: '/admin/showcase'
       path: '/showcase'
@@ -885,6 +918,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/showcase-brain': {
+      id: '/api/public/hooks/showcase-brain'
+      path: '/api/public/hooks/showcase-brain'
+      fullPath: '/api/public/hooks/showcase-brain'
+      preLoaderRoute: typeof ApiPublicHooksShowcaseBrainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -906,6 +946,7 @@ interface AdminRouteChildren {
   AdminHostsRoute: typeof AdminHostsRouteWithChildren
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
+  AdminShowcaseBrainRoute: typeof AdminShowcaseBrainRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminWarRoomRoute: typeof AdminWarRoomRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -917,6 +958,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminHostsRoute: AdminHostsRouteWithChildren,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
+  AdminShowcaseBrainRoute: AdminShowcaseBrainRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminWarRoomRoute: AdminWarRoomRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -959,6 +1001,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicDemoChatRoute: ApiPublicDemoChatRoute,
   ChatUserUserIdRoute: ChatUserUserIdRoute,
+  ApiPublicHooksShowcaseBrainRoute: ApiPublicHooksShowcaseBrainRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
