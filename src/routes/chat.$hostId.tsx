@@ -41,6 +41,23 @@ function HostChat() {
   const aiHost = isAiHost(hostId);
   const isJen = hostId === "demo-jen";
 
+  // WhatsApp-style persistence: every host chat is kept in localStorage,
+  // scoped by user (or "anon"), so history stays on the profile across
+  // reloads / device sessions. Real user-to-user DMs already persist to
+  // the messages table via chat.user.$userId.
+  const storageKey = useMemo(
+    () => `rizzla:chat:host:${hostId}:${user?.id ?? "anon"}`,
+    [hostId, user?.id],
+  );
+  const initialMessages = useMemo(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const raw = localStorage.getItem(storageKey);
+      const parsed = raw ? JSON.parse(raw) : null;
+      return Array.isArray(parsed) ? parsed : [];
+    } catch { return []; }
+  }, [storageKey]);
+
   // Welcome-to-Friends-List animation when the user just joined (set by
   // the host profile page in localStorage under `rizzla:welcome:<hostId>`).
   const [welcome, setWelcome] = useState(false);
@@ -64,11 +81,24 @@ function HostChat() {
     return createAuthedChatTransport({ api: "/api/host-chat", body: { hostId } });
   }, [aiHost, hostId]);
 
-  const { messages, sendMessage, status } = useChat({ transport });
+  const { messages, sendMessage, status } = useChat({
+    id: storageKey,
+    messages: initialMessages,
+    transport,
+  });
+
+  // Persist on every change once streaming settles, so a full round-trip is
+  // saved atomically (mirrors WhatsApp: message stays until you clear chat).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (status === "streaming" || status === "submitted") return;
+    try { localStorage.setItem(storageKey, JSON.stringify(messages)); } catch {}
+  }, [messages, status, storageKey]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, status]);
+
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
 
