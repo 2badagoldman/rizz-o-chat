@@ -171,6 +171,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 10,
     hasVideo: true,
     teaser: "Just tracked a new bridge. Should I send it? 🎸",
+    aiEnabled: true,
+
   },
   {
     id: "demo-mika",
