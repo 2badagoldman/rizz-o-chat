@@ -5,7 +5,7 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 const FLAG_KEY = "rizzla:showWelcome";       // explicit trigger (e.g. right after sign-up)
 const SEEN_KEY = "rizzla:welcomeSeen";       // once per browser
-const AUTO_ADVANCE_MS = 6_000;
+const AUTO_ADVANCE_MS = 5_000;
 const MIN_VIEW_MS = 30_000;                  // 30s minimum before soft close
 
 interface ShowcaseItem {
@@ -71,7 +71,7 @@ export function WelcomeShowcase() {
       );
       const usable = signed.filter((s) => s.url);
       if (usable.length === 0) return;
-      setItems(shuffle(usable));
+      setItems(usable);
       setIndex(0);
       setOpen(true);
     })();
@@ -119,8 +119,7 @@ export function WelcomeShowcase() {
     if (!open) return;
     const el = containerRef.current;
     if (!el) return;
-    const child = el.children[index] as HTMLElement | undefined;
-    child?.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.scrollTo({ top: index * el.clientHeight, behavior: "smooth" });
   }, [index, open]);
 
   const onScroll = () => {
