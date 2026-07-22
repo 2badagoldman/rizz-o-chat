@@ -157,9 +157,10 @@ function AdminHostDetail() {
               id: m.id,
               outbound: m.sender_id === hostId,
               counterpart:
-                (m as { host_rooms?: { title?: string } }).host_rooms?.title
-                  ? `Room · ${(m as { host_rooms: { title: string } }).host_rooms.title}`
+                (m as { host_rooms?: { name?: string } }).host_rooms?.name
+                  ? `Room · ${(m as { host_rooms: { name: string } }).host_rooms.name}`
                   : "Room",
+
               body: m.body,
               created_at: m.created_at,
               icon: "room" as const,
