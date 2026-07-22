@@ -119,8 +119,7 @@ export function WelcomeShowcase() {
     if (!open) return;
     const el = containerRef.current;
     if (!el) return;
-    const child = el.children[index] as HTMLElement | undefined;
-    child?.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.scrollTo({ top: index * el.clientHeight, behavior: "smooth" });
   }, [index, open]);
 
   const onScroll = () => {
