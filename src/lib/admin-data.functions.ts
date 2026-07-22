@@ -109,6 +109,55 @@ export const deleteUserProfile = createServerFn({ method: "POST" })
     await assertAdmin(context);
     if (data.userId === context.userId) throw new Error("You cannot delete your own account");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // Soft delete: mark deleted_at so we can restore within 7 days.
+    const { error } = await supabaseAdmin
+      .from("profiles")
+      .update({ deleted_at: new Date().toISOString() })
+      .eq("id", data.userId);
+    if (error) throw error;
+    return { ok: true };
+  });
+
+export const restoreUserProfile = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = i as { userId: string };
+    if (!x?.userId) throw new Error("userId required");
+    return x;
+  })
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: row, error: rErr } = await supabaseAdmin
+      .from("profiles")
+      .select("deleted_at")
+      .eq("id", data.userId)
+      .maybeSingle();
+    if (rErr) throw rErr;
+    if (!row?.deleted_at) throw new Error("Profile is not deleted");
+    const ageMs = Date.now() - new Date(row.deleted_at).getTime();
+    if (ageMs > 7 * 24 * 60 * 60 * 1000) {
+      throw new Error("Restore window (7 days) has expired");
+    }
+    const { error } = await supabaseAdmin
+      .from("profiles")
+      .update({ deleted_at: null })
+      .eq("id", data.userId);
+    if (error) throw error;
+    return { ok: true };
+  });
+
+export const purgeUserProfile = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = i as { userId: string };
+    if (!x?.userId) throw new Error("userId required");
+    return x;
+  })
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    if (data.userId === context.userId) throw new Error("You cannot delete your own account");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.auth.admin.deleteUser(data.userId);
     if (error) throw error;
     return { ok: true };
