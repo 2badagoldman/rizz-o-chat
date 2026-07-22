@@ -139,7 +139,7 @@ function HostChat() {
           </button>
           <div className="flex items-center gap-2">
             <div className="relative h-10 w-10 overflow-hidden rounded-full shadow-glow" style={{ background: host.gradient }}>
-              <img src={rizzAiLogo.url} alt="" className="h-full w-full object-cover" />
+              <img src={hostAvatar(host.id)} alt={host.name} className="h-full w-full object-cover" />
             </div>
             <div>
               <h1 className="text-base font-semibold leading-tight">{host.name}</h1>
