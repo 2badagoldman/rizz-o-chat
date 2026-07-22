@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { listAllHosts, setHostVerification } from "@/lib/admin-data.functions";
+import { listAllHosts, setHostVerification, deleteUserProfile } from "@/lib/admin-data.functions";
 import { Check, X, Clock, Search, Eye } from "lucide-react";
 import { toast } from "sonner";
 
