@@ -8,8 +8,28 @@ import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Rizz Social — Real chats with verified hosts, dates, and friends" },
+      {
+        name: "description",
+        content:
+          "Chat, date, and make friends on Rizz Social. Verified hosts, private Friends Lists, secure payments, and instant DMs. Join free.",
+      },
+      { property: "og:title", content: "Rizz Social — Real chats with verified hosts" },
+      { property: "og:description", content: "Chat, date, and make friends. Verified hosts. Private Friends Lists. Instant DMs." },
+      { property: "og:url", content: "https://rizzlachat.com/" },
+      { property: "og:image", content: "https://rizzlachat.com/icon-512.png" },
+      { name: "twitter:image", content: "https://rizzlachat.com/icon-512.png" },
+      { name: "twitter:title", content: "Rizz Social — Real chats with verified hosts" },
+      { name: "twitter:description", content: "Chat, date, and make friends. Verified hosts. Private Friends Lists." },
+      { name: "keywords", content: "chat app, dating app, friends app, meet women, verified hosts, paid chat, creator subscriptions, social chat" },
+    ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/" }],
+  }),
   component: Home,
 });
+
 
 function Home() {
   const { user } = useAuth();
