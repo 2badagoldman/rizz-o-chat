@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import { hostAvatar, hostAvatarThumb } from "@/lib/host-avatars";
 import { Circle, Search, MessageCircle, Sparkles } from "lucide-react";
 import { dmListThreads } from "@/lib/dm.functions";
 import { searchUsers } from "@/lib/admin-data.functions";
@@ -69,7 +69,7 @@ function Chats() {
               className="group relative flex w-[132px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-0.5 hover:border-primary"
             >
               <div className="relative aspect-[3/4] w-full" style={{ background: h.gradient }}>
-                <img src={rizzAiLogo.url} alt="" className="h-full w-full object-cover opacity-90 mix-blend-luminosity group-hover:opacity-100" />
+                <img src={hostAvatar(h.id)} alt={h.name} loading="lazy" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 <span className="absolute left-2 top-2 rounded-full bg-black/40 px-2 py-0.5 text-[9px] font-semibold text-white backdrop-blur">
                   AI · Free
                 </span>
@@ -163,7 +163,7 @@ function Chats() {
               className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 shadow-card hover:bg-primary/5"
             >
               <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full shadow-glow" style={{ background: jen.gradient }}>
-                <img src={rizzAiLogo.url} alt="" className="h-full w-full object-cover" />
+                <img src={hostAvatarThumb(jen.id)} alt={jen.name} className="h-full w-full object-cover" />
                 <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-card bg-emerald-500" />
               </div>
               <div className="min-w-0 flex-1">
