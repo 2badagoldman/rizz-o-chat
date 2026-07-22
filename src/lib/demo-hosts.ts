@@ -192,6 +192,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 6,
     hasVideo: false,
     teaser: "Painting something weird tonight. Wanna see?",
+    aiEnabled: true,
+
   },
   ...buildExtraHosts(),
 ];
