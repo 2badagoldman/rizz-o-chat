@@ -134,13 +134,19 @@ function HostChat() {
               </p>
             </div>
           </div>
-          <button
-            onClick={() => setGiftOpen(true)}
-            aria-label="Send gift"
-            className="ml-auto grid h-10 w-10 place-items-center rounded-full border border-border bg-background hover:bg-primary/10"
-          >
-            <Gift className="h-4 w-4 text-primary" />
-          </button>
+          {user && isJen ? (
+            <button
+              onClick={() => setGiftOpen(true)}
+              aria-label="Send gift"
+              className="ml-auto grid h-10 w-10 place-items-center rounded-full border border-border bg-background hover:bg-primary/10"
+            >
+              <Gift className="h-4 w-4 text-primary" />
+            </button>
+          ) : aiHost && !user ? (
+            <Link to="/auth" className="ml-auto rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary hover:bg-primary/20">
+              Sign up free
+            </Link>
+          ) : null}
         </header>
 
         {giftOpen ? (
@@ -185,11 +191,19 @@ function HostChat() {
         ) : null}
 
         <div ref={scrollRef} className="flex-1 overflow-y-auto py-3 space-y-3">
-          {messages.length === 0 ? (
-            <div className="rounded-2xl border border-border bg-card p-4 text-sm">
-              hey! so glad you&apos;re actually testing this with me 💌 tell me something about your day
+          {aiHost && !user ? (
+            <div className="rounded-2xl border border-primary/30 bg-primary/5 p-3 text-[11px] text-primary flex items-center gap-2">
+              <Sparkles className="h-3.5 w-3.5" /> Free preview chat with {host.name}. Sign up to unlock gifts, Rooms & photo/video shares.
             </div>
           ) : null}
+          {messages.length === 0 ? (
+            <div className="rounded-2xl border border-border bg-card p-4 text-sm">
+              {isJen
+                ? "hey! so glad you're actually testing this with me 💌 tell me something about your day"
+                : `hey — ${host.teaser.toLowerCase()} what's up with you?`}
+            </div>
+          ) : null}
+
 
           {messages.map((m) => {
             const isUser = m.role === "user";
