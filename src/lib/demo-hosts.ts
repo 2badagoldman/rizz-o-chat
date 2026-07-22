@@ -108,6 +108,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 24,
     hasVideo: true,
     teaser: "Back in LA tonight. Who wants a Q&A voice note?",
+    aiEnabled: true,
+
   },
   {
     id: "demo-nova",
