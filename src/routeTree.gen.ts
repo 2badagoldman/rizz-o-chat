@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UpgradeRouteImport } from './routes/upgrade'
 import { Route as SubscriptionsRouteImport } from './routes/subscriptions'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as DiscoverRouteImport } from './routes/discover'
@@ -63,6 +64,11 @@ const UpgradeRoute = UpgradeRouteImport.update({
 const SubscriptionsRoute = SubscriptionsRouteImport.update({
   id: '/subscriptions',
   path: '/subscriptions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileRoute = ProfileRouteImport.update({
@@ -297,6 +303,7 @@ export interface FileRoutesByFullPath {
   '/discover': typeof DiscoverRoute
   '/mcp': typeof McpRoute
   '/profile': typeof ProfileRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -343,6 +350,7 @@ export interface FileRoutesByTo {
   '/discover': typeof DiscoverRoute
   '/mcp': typeof McpRoute
   '/profile': typeof ProfileRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -391,6 +399,7 @@ export interface FileRoutesById {
   '/discover': typeof DiscoverRoute
   '/mcp': typeof McpRoute
   '/profile': typeof ProfileRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
@@ -440,6 +449,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/mcp'
     | '/profile'
+    | '/sitemap.xml'
     | '/subscriptions'
     | '/upgrade'
     | '/.mcp/list-tools'
@@ -486,6 +496,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/mcp'
     | '/profile'
+    | '/sitemap.xml'
     | '/subscriptions'
     | '/upgrade'
     | '/.mcp/list-tools'
@@ -533,6 +544,7 @@ export interface FileRouteTypes {
     | '/discover'
     | '/mcp'
     | '/profile'
+    | '/sitemap.xml'
     | '/subscriptions'
     | '/upgrade'
     | '/.mcp/list-tools'
@@ -581,6 +593,7 @@ export interface RootRouteChildren {
   DiscoverRoute: typeof DiscoverRoute
   McpRoute: typeof McpRoute
   ProfileRoute: typeof ProfileRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SubscriptionsRoute: typeof SubscriptionsRoute
   UpgradeRoute: typeof UpgradeRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
@@ -622,6 +635,13 @@ declare module '@tanstack/react-router' {
       path: '/subscriptions'
       fullPath: '/subscriptions'
       preLoaderRoute: typeof SubscriptionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -977,6 +997,7 @@ const rootRouteChildren: RootRouteChildren = {
   DiscoverRoute: DiscoverRoute,
   McpRoute: McpRoute,
   ProfileRoute: ProfileRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SubscriptionsRoute: SubscriptionsRoute,
   UpgradeRoute: UpgradeRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,

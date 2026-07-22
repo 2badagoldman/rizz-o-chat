@@ -7,12 +7,17 @@ import rizzAiLogo from '@/assets/rizz-ai-logo.webp.asset.json';
 export const Route = createFileRoute('/coins')({
   head: () => ({
     meta: [
-      { title: 'Buy Coins — Rizzla' },
-      { name: 'description', content: 'Top up your Rizzla wallet with coins to send gifts and unlock perks.' },
+      { title: 'Buy coins — Rizz Social' },
+      { name: 'description', content: 'Top up your Rizz Social wallet with coins to send gifts, tip hosts, and unlock perks.' },
+      { property: 'og:title', content: 'Buy coins — Rizz Social' },
+      { property: 'og:description', content: 'Top up your wallet to send gifts and unlock perks.' },
+      { property: 'og:url', content: 'https://rizzlachat.com/coins' },
     ],
+    links: [{ rel: 'canonical', href: 'https://rizzlachat.com/coins' }],
   }),
   component: CoinsPage,
 });
+
 
 const PACKS = [
   { id: 'coins_500_onetime', coins: 500, price: '$4.99', label: 'Starter' },

@@ -6,12 +6,17 @@ import { Check, Crown, Star } from 'lucide-react';
 export const Route = createFileRoute('/upgrade')({
   head: () => ({
     meta: [
-      { title: 'Upgrade to Rizz+ or VIP — Rizzla' },
-      { name: 'description', content: 'Unlock unlimited discovery, priority chat, VIP badge, and monthly coin drops.' },
+      { title: 'Upgrade to Rizz+ or VIP — Rizz Social' },
+      { name: 'description', content: 'Unlock unlimited discovery, priority chat, a VIP badge, and monthly coin drops on Rizz Social.' },
+      { property: 'og:title', content: 'Upgrade to Rizz+ or VIP — Rizz Social' },
+      { property: 'og:description', content: 'Unlock unlimited discovery, priority chat, and monthly coin drops.' },
+      { property: 'og:url', content: 'https://rizzlachat.com/upgrade' },
     ],
+    links: [{ rel: 'canonical', href: 'https://rizzlachat.com/upgrade' }],
   }),
   component: UpgradePage,
 });
+
 
 const PLANS = [
   {

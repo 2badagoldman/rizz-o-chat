@@ -76,45 +76,61 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#0B0B12" },
-      { title: "Rizz Social — Real conversations with verified hosts" },
+      { title: "Rizz Social — Chat with verified hosts" },
       {
         name: "description",
         content:
-          "Rizz Social is a paid social chat platform where verified Hosts run Friends Lists and Members subscribe to join. Hosts are compensated partners.",
+          "Rizz Social is a paid chat app where verified hosts run Friends Lists and members subscribe to chat, meet, and connect.",
       },
-      { property: "og:title", content: "Rizz Social — Real conversations with verified hosts" },
-      {
-        property: "og:description",
-        content:
-          "Rizz Social is a paid social chat platform where verified Hosts run Friends Lists and Members subscribe to join. Hosts are compensated partners.",
-      },
+      { property: "og:site_name", content: "Rizz Social" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Rizz Social — Real conversations with verified hosts" },
-      { name: "twitter:description", content: "Rizz Social is a paid social chat platform where verified Hosts run Friends Lists and Members subscribe to join. Hosts are compensated partners." },
-      { property: "og:image", content: "https://rizzlachat.com/icon-512.png" },
-      { name: "twitter:image", content: "https://rizzlachat.com/icon-512.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
-
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/icon-512.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "preconnect", href: "https://i.pravatar.cc", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://i.pravatar.cc" },
-
       { rel: "preconnect", href: "https://loremflickr.com", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://loremflickr.com" },
-
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "Rizz Social",
+              url: "https://rizzlachat.com",
+              logo: "https://rizzlachat.com/icon-512.png",
+              sameAs: ["https://rizz-o-chat.lovable.app"],
+            },
+            {
+              "@type": "WebSite",
+              name: "Rizz Social",
+              url: "https://rizzlachat.com",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://rizzlachat.com/discover?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            },
+          ],
+        }),
+      },
+    ],
   }),
+
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,

@@ -10,7 +10,16 @@ import { CreditCard, ExternalLink, XCircle, RotateCcw, Sparkles } from 'lucide-r
 import { toast } from 'sonner';
 
 export const Route = createFileRoute('/subscriptions')({
-  head: () => ({ meta: [{ title: 'My subscriptions — Rizzla' }] }),
+  head: () => ({
+    meta: [
+      { title: 'My subscriptions — Rizz Social' },
+      { name: 'description', content: 'Manage your Friends List memberships and Rizz+ subscription on Rizz Social.' },
+      { property: 'og:title', content: 'My subscriptions — Rizz Social' },
+      { property: 'og:url', content: 'https://rizzlachat.com/subscriptions' },
+    ],
+    links: [{ rel: 'canonical', href: 'https://rizzlachat.com/subscriptions' }],
+  }),
+
   component: SubscriptionsPage,
 });
 

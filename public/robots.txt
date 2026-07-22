@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /auth
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /chat/
+Disallow: /chats
+Disallow: /checkout
+Disallow: /host/onboarding
+Disallow: /host/rooms
+Disallow: /host/members
+Disallow: /host/pricing
+Disallow: /host/invites
+Disallow: /invite/
+Disallow: /subscriptions
+Disallow: /.well-known/
+Disallow: /.mcp/
+
+Sitemap: https://rizzlachat.com/sitemap.xml
