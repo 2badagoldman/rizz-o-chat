@@ -86,6 +86,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 9,
     hasVideo: false,
     teaser: "Pinned online — send me a message and let's test the chat 💬",
+    aiEnabled: true,
+
   },
   {
 
