@@ -132,6 +132,21 @@ function HostChat() {
 
   return (
     <AppShell hideNav>
+      {welcome ? (
+        <div className="fixed inset-0 z-[120] flex flex-col items-center justify-center bg-gradient-to-br from-primary/90 via-fuchsia-500/80 to-rose-500/90 text-white animate-in fade-in duration-500">
+          <div className="relative">
+            <img
+              src={hostAvatar(host.id)}
+              alt={host.name}
+              className="h-32 w-32 rounded-full border-4 border-white/70 object-cover shadow-2xl animate-in zoom-in-50 duration-700"
+            />
+            <Heart className="absolute -right-2 -top-2 h-10 w-10 fill-white text-white drop-shadow animate-bounce" />
+          </div>
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] opacity-90">You're in</p>
+          <h2 className="mt-1 text-3xl font-bold">Welcome to {host.name}'s Friends List</h2>
+          <p className="mt-2 text-sm opacity-90">Say hi — she's online now 💌</p>
+        </div>
+      ) : null}
       <div className="flex min-h-[calc(100vh-1rem)] flex-col">
         <header className="flex items-center gap-3 pt-3 pb-2">
           <button onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="rounded-full border border-border p-2">
