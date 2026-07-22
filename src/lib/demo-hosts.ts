@@ -129,6 +129,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 8,
     hasVideo: false,
     teaser: "Running ranked in 30. Come chat while I queue 🎮",
+    aiEnabled: true,
+
   },
   {
     id: "demo-jade",
