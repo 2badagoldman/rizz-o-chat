@@ -1,13 +1,13 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { DEMO_HOSTS, tierBand, tierLabel } from "@/lib/demo-hosts";
+import { DEMO_HOSTS, tierBand, tierLabel, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { useAuth } from "@/lib/auth";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
-import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Check, X } from "lucide-react";
+import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Check, X, Heart } from "lucide-react";
 
 const UUID_RE = /^[a-f0-9-]{36}$/i;
 
@@ -45,11 +45,21 @@ function HostProfile() {
     );
   }
 
-  const slides: Array<{ kind: "hero" | "video" | "locked"; label?: string }> = [
+  const aiHost = isAiHost(host.id);
+  const slides: Array<{ kind: "hero" | "video" | "locked" | "photo"; label?: string }> = [
     { kind: "hero" },
     ...(host.hasVideo ? [{ kind: "video" as const, label: "Video loop" }] : []),
-    { kind: "locked", label: "Photo 3 of " + host.photoCount },
-    { kind: "locked", label: "Photo 7 of " + host.photoCount },
+    // AI hosts show all photos unlocked so members can preview the vibe.
+    ...(aiHost
+      ? [
+          { kind: "photo" as const, label: `Photo 2 of ${host.photoCount}` },
+          { kind: "photo" as const, label: `Photo 3 of ${host.photoCount}` },
+          { kind: "photo" as const, label: `Photo 4 of ${host.photoCount}` },
+        ]
+      : [
+          { kind: "locked" as const, label: "Photo 3 of " + host.photoCount },
+          { kind: "locked" as const, label: "Photo 7 of " + host.photoCount },
+        ]),
   ];
 
   const hostIsReal = UUID_RE.test(host.id);
@@ -181,7 +191,7 @@ function HostProfile() {
                   <p className="truncate text-[11px] opacity-80">{host.city} · {host.subscribers} Friends</p>
                 </div>
                 <p className="whitespace-nowrap text-lg font-bold">
-                  {host.id === "demo-jen" ? (
+                  {aiHost ? (
                     <span className="text-gradient-brand">Free</span>
                   ) : (
                     <>
@@ -192,13 +202,18 @@ function HostProfile() {
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                {host.id === "demo-jen" ? (
+                {aiHost ? (
                   <button
-                    onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: host.id } })}
+                    onClick={() => {
+                      if (typeof window !== "undefined") {
+                        localStorage.setItem(`rizzla:welcome:${host.id}`, "1");
+                      }
+                      navigate({ to: "/chat/$hostId", params: { hostId: host.id } });
+                    }}
                     className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
                   >
-                    <img src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
-                    Chat Jen — Free
+                    <Heart className="h-4 w-4 fill-white" />
+                    Join {host.name}'s Friends List — Free
                   </button>
                 ) : (
                   <button
