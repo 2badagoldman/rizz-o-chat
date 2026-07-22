@@ -41,6 +41,20 @@ function HostChat() {
   const aiHost = isAiHost(hostId);
   const isJen = hostId === "demo-jen";
 
+  // Welcome-to-Friends-List animation when the user just joined (set by
+  // the host profile page in localStorage under `rizzla:welcome:<hostId>`).
+  const [welcome, setWelcome] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const key = `rizzla:welcome:${hostId}`;
+    if (localStorage.getItem(key) === "1") {
+      setWelcome(true);
+      localStorage.removeItem(key);
+      const t = setTimeout(() => setWelcome(false), 2400);
+      return () => clearTimeout(t);
+    }
+  }, [hostId]);
+
   // AI hosts stream from the public endpoint (no auth required); everyone else
   // goes through the authenticated host-chat endpoint.
   const transport = useMemo(() => {
