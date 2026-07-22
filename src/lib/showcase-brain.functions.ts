@@ -253,7 +253,7 @@ export async function runBrainCore(trigger: "manual" | "cron") {
           if (target && !target.original_caption && target.caption) {
             patch.original_caption = target.caption;
           }
-          await supabaseAdmin.from("showcase_media").update(patch).eq("id", c.id);
+          await supabaseAdmin.from("showcase_media").update(patch as never).eq("id", c.id);
           refreshed++;
         }
       }
