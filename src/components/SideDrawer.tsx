@@ -197,14 +197,16 @@ export function SideDrawer({ open, onClose }: Props) {
               {FOOT.map((r) => (
                 <SettingsRow key={r.label} {...r} onNavigate={onClose} />
               ))}
-              <SettingsRow
-                label="Admin"
-                to="/admin"
-                icon={Shield}
-                tint="#0f172a"
-                hint="Portal & controls"
-                onNavigate={onClose}
-              />
+              {isAdmin && (
+                <SettingsRow
+                  label="Admin"
+                  to="/admin"
+                  icon={Shield}
+                  tint="#0f172a"
+                  hint="Portal & controls"
+                  onNavigate={onClose}
+                />
+              )}
               {user ? (
                 <button
                   onClick={async () => {
