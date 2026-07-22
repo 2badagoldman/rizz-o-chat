@@ -796,7 +796,7 @@ export type Database = {
       membership_status: "trial" | "active" | "cancelled"
       plan_type: "weekly" | "monthly"
       platform_tier: "free" | "plus" | "vip"
-      sub_status: "trial" | "active" | "cancelled" | "expired"
+      sub_status: "trial" | "active" | "cancelled" | "expired" | "trialing"
       verification_status: "pending" | "verified" | "rejected"
     }
     CompositeTypes: {
@@ -933,7 +933,7 @@ export const Constants = {
       membership_status: ["trial", "active", "cancelled"],
       plan_type: ["weekly", "monthly"],
       platform_tier: ["free", "plus", "vip"],
-      sub_status: ["trial", "active", "cancelled", "expired"],
+      sub_status: ["trial", "active", "cancelled", "expired", "trialing"],
       verification_status: ["pending", "verified", "rejected"],
     },
   },
