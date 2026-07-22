@@ -5,7 +5,7 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 const FLAG_KEY = "rizzla:showWelcome";       // explicit trigger (e.g. right after sign-up)
 const SEEN_KEY = "rizzla:welcomeSeen";       // once per browser
-const AUTO_ADVANCE_MS = 6_000;
+const AUTO_ADVANCE_MS = 5_000;
 const MIN_VIEW_MS = 30_000;                  // 30s minimum before soft close
 
 interface ShowcaseItem {
