@@ -52,6 +52,7 @@ import { Route as AdminHostsHostIdRouteImport } from './routes/admin.hosts.$host
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicHooksShowcaseBrainRouteImport } from './routes/api/public/hooks/showcase-brain'
 
 const UpgradeRoute = UpgradeRouteImport.update({
   id: '/upgrade',
@@ -272,6 +273,12 @@ const ApiPublicPaymentsWebhookRoute =
     path: '/api/public/payments/webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksShowcaseBrainRoute =
+  ApiPublicHooksShowcaseBrainRouteImport.update({
+    id: '/api/public/hooks/showcase-brain',
+    path: '/api/public/hooks/showcase-brain',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -316,6 +323,7 @@ export interface FileRoutesByFullPath {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
+  '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -360,6 +368,7 @@ export interface FileRoutesByTo {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
+  '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -406,6 +415,7 @@ export interface FileRoutesById {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
+  '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -453,6 +463,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
+    | '/api/public/hooks/showcase-brain'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -497,6 +508,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
+    | '/api/public/hooks/showcase-brain'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -542,6 +554,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
+    | '/api/public/hooks/showcase-brain'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -579,6 +592,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicDemoChatRoute: typeof ApiPublicDemoChatRoute
   ChatUserUserIdRoute: typeof ChatUserUserIdRoute
+  ApiPublicHooksShowcaseBrainRoute: typeof ApiPublicHooksShowcaseBrainRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -885,6 +899,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/showcase-brain': {
+      id: '/api/public/hooks/showcase-brain'
+      path: '/api/public/hooks/showcase-brain'
+      fullPath: '/api/public/hooks/showcase-brain'
+      preLoaderRoute: typeof ApiPublicHooksShowcaseBrainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -959,6 +980,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicDemoChatRoute: ApiPublicDemoChatRoute,
   ChatUserUserIdRoute: ChatUserUserIdRoute,
+  ApiPublicHooksShowcaseBrainRoute: ApiPublicHooksShowcaseBrainRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
