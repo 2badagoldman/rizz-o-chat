@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { X, ChevronUp, ChevronDown, Volume2, VolumeX, Sparkles, ArrowRight, Minimize2 } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { getShowcaseReel, logShowcaseEvent, type ReelItem } from "@/lib/showcase-brain.functions";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 const FLAG_KEY = "rizzla:showWelcome";       // explicit trigger (e.g. right after sign-up)
@@ -8,28 +8,13 @@ const SEEN_KEY = "rizzla:welcomeSeen";       // once per browser
 const AUTO_ADVANCE_MS = 5_000;
 const MIN_VIEW_MS = 30_000;                  // 30s minimum before soft close
 
-interface ShowcaseItem {
-  id: string;
-  caption: string | null;
-  media_type: "image" | "video";
-  storage_path: string;
-  url: string;
-}
+type ShowcaseItem = ReelItem;
 
 export function markWelcomeShowcasePending() {
   try {
     localStorage.setItem(FLAG_KEY, "1");
     localStorage.removeItem(SEEN_KEY);
   } catch {}
-}
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
 }
 
 export function WelcomeShowcase() {
@@ -40,8 +25,9 @@ export function WelcomeShowcase() {
   const [elapsed, setElapsed] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
+  const loggedImpressions = useRef<Set<string>>(new Set());
 
-  // Decide whether to show — show for every fresh visitor OR when explicitly flagged
+  // Decide whether to show — brain-ranked reel, unique shuffle each session.
   useEffect(() => {
     let seen = false;
     let pending = false;
@@ -52,32 +38,31 @@ export function WelcomeShowcase() {
     if (seen && !pending) return;
 
     (async () => {
-      const { data, error } = await supabase
-        .from("showcase_media")
-        .select("id, caption, media_type, storage_path")
-        .eq("is_active", true)
-        .order("sort_order", { ascending: true })
-        .order("created_at", { ascending: false })
-        .limit(20);
-      if (error || !data || data.length === 0) return;
-
-      const signed = await Promise.all(
-        data.map(async (row) => {
-          const { data: s } = await supabase.storage
-            .from("showcase")
-            .createSignedUrl(row.storage_path, 60 * 60);
-          return { ...row, url: s?.signedUrl ?? "" } as ShowcaseItem;
-        }),
-      );
-      const usable = signed.filter((s) => s.url);
-      if (usable.length === 0) return;
-      setItems(usable);
-      setIndex(0);
-      setOpen(true);
+      try {
+        const reel = await getShowcaseReel({ data: { limit: 8 } });
+        if (!reel || reel.length === 0) return;
+        setItems(reel);
+        setIndex(0);
+        setOpen(true);
+      } catch {
+        // silent — showcase is nice-to-have
+      }
     })();
   }, []);
 
-  const close = () => {
+  // Log impression per slide (once per session)
+  useEffect(() => {
+    if (!open || items.length === 0) return;
+    const cur = items[index];
+    if (!cur || loggedImpressions.current.has(cur.id)) return;
+    loggedImpressions.current.add(cur.id);
+    logShowcaseEvent({ data: { id: cur.id, event: "impression" } }).catch(() => {});
+  }, [open, index, items]);
+
+  const close = (reason: "complete" | "dismiss" = "dismiss") => {
+    // Fire an event for the current slide before tearing down
+    const cur = items[index];
+    if (cur) logShowcaseEvent({ data: { id: cur.id, event: reason } }).catch(() => {});
     setOpen(false);
     try {
       localStorage.setItem(SEEN_KEY, "1");
