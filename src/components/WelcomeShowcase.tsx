@@ -141,7 +141,7 @@ export function WelcomeShowcase() {
             {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </button>
           <button
-            onClick={close}
+            onClick={() => close()}
             aria-label={minReached ? "Close welcome" : `Skip in ${secondsLeft}s`}
             title={minReached ? "Close" : `Skip in ${secondsLeft}s`}
             className={
@@ -262,13 +262,13 @@ export function WelcomeShowcase() {
             style={{ animation: "rise-in 0.5s ease-out both" }}
           >
             <button
-              onClick={close}
+              onClick={() => close()}
               className="btn-brand flex-1 inline-flex items-center justify-center gap-2"
             >
               Enter Rizz Chat <ArrowRight className="h-4 w-4" />
             </button>
             <button
-              onClick={close}
+              onClick={() => close()}
               className="inline-flex items-center gap-1.5 rounded-[14px] bg-white/10 px-4 py-3 text-sm font-semibold backdrop-blur-xl ring-1 ring-white/15 hover:bg-white/20"
               aria-label="Minimize showcase"
             >
