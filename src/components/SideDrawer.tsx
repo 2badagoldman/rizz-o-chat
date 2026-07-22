@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   User as UserIcon,
   Newspaper,
@@ -59,6 +60,21 @@ const FOOT: Row[] = [
 
 export function SideDrawer({ open, onClose }: Props) {
   const { user, signOut } = useAuth();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!user) { setIsAdmin(false); return; }
+    let cancelled = false;
+    supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .eq("role", "admin")
+      .maybeSingle()
+      .then(({ data }) => { if (!cancelled) setIsAdmin(!!data); });
+    return () => { cancelled = true; };
+  }, [user]);
+
 
   useEffect(() => {
     if (!open) return;
@@ -181,14 +197,16 @@ export function SideDrawer({ open, onClose }: Props) {
               {FOOT.map((r) => (
                 <SettingsRow key={r.label} {...r} onNavigate={onClose} />
               ))}
-              <SettingsRow
-                label="Admin"
-                to="/admin"
-                icon={Shield}
-                tint="#0f172a"
-                hint="Portal & controls"
-                onNavigate={onClose}
-              />
+              {isAdmin && (
+                <SettingsRow
+                  label="Admin"
+                  to="/admin"
+                  icon={Shield}
+                  tint="#0f172a"
+                  hint="Portal & controls"
+                  onNavigate={onClose}
+                />
+              )}
               {user ? (
                 <button
                   onClick={async () => {
