@@ -67,7 +67,7 @@ function HostChat() {
     if (localStorage.getItem(key) === "1") {
       setWelcome(true);
       localStorage.removeItem(key);
-      const t = setTimeout(() => setWelcome(false), 2400);
+      const t = setTimeout(() => setWelcome(false), 1000);
       return () => clearTimeout(t);
     }
   }, [hostId]);
