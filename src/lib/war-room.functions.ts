@@ -16,19 +16,33 @@ export const getWarRoom = createServerFn({ method: "POST" })
     if (error) throw error;
     return JSON.parse(JSON.stringify(metrics ?? {})) as {
       window_hours?: number;
+      server_time?: string;
       active_now?: number;
       signed_in_now?: number;
       sessions?: number;
       users?: number;
+      new_visitors?: number;
+      returning_visitors?: number;
       pageviews?: number;
       events?: number;
       avg_session_seconds?: number;
+      active_paths?: Array<{ path: string; sessions: number }>;
       top_pages?: Array<{ path: string; views: number; sessions: number }>;
       top_referrers?: Array<{ referrer: string; sessions: number }>;
+      top_sources?: Array<{ source: string; sessions: number }>;
       devices?: Record<string, number>;
       countries?: Record<string, number>;
       timeseries?: Array<{ bucket: string; pageviews: number; sessions: number }>;
       top_events?: Array<{ event_type: string; ct: number }>;
+      live_feed?: Array<{
+        created_at: string;
+        event_type: string;
+        path: string | null;
+        device: string;
+        country: string;
+        referrer: string;
+        user_name: string | null;
+      }>;
       demographics?: { gender?: Record<string, number>; account_type?: Record<string, number> };
     };
   });
