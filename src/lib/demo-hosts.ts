@@ -274,7 +274,9 @@ function buildExtraHosts(): DemoHost[] {
       bio: `${s.tagline} Come hang — I actually reply.`,
       tier,
       priceMonthly: price,
-      subscribers: 20 + i * 13,
+      subscribers: (AI_HOST_IDS as readonly string[]).includes(id)
+        ? 320 + ((i * 37) % 900)
+        : 20 + i * 13,
       online: i % 3 !== 0,
       photoCount: 6 + (i % 10),
       hasVideo: i % 2 === 0,
