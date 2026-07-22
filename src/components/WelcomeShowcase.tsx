@@ -71,7 +71,7 @@ export function WelcomeShowcase() {
       );
       const usable = signed.filter((s) => s.url);
       if (usable.length === 0) return;
-      setItems(shuffle(usable));
+      setItems(usable);
       setIndex(0);
       setOpen(true);
     })();
