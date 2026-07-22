@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { listAllHosts, setHostVerification, deleteUserProfile } from "@/lib/admin-data.functions";
-import { Check, X, Clock, Search, Eye } from "lucide-react";
+import { listAllHosts, setHostVerification, deleteUserProfile, restoreUserProfile, purgeUserProfile } from "@/lib/admin-data.functions";
+import { Check, X, Clock, Search, Eye, RotateCcw, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 
@@ -10,8 +10,18 @@ export const Route = createFileRoute("/admin/hosts")({
   component: AdminHosts,
 });
 
-const STATUSES = ["all", "pending", "verified", "rejected"] as const;
+const STATUSES = ["all", "pending", "verified", "rejected", "deleted"] as const;
 type Status = (typeof STATUSES)[number];
+
+const RESTORE_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+function restoreRemaining(deletedAt: string | null): { expired: boolean; label: string } {
+  if (!deletedAt) return { expired: false, label: "" };
+  const ms = RESTORE_WINDOW_MS - (Date.now() - new Date(deletedAt).getTime());
+  if (ms <= 0) return { expired: true, label: "expired" };
+  const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+  const hours = Math.floor((ms % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+  return { expired: false, label: days > 0 ? `${days}d ${hours}h left` : `${hours}h left` };
+}
 
 function AdminHosts() {
   const fetchHosts = useServerFn(listAllHosts);
