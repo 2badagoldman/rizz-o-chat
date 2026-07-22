@@ -1,11 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { ArrowLeft, Send, Circle, Gift } from "lucide-react";
+import { ArrowLeft, Send, Circle, Gift, Sparkles } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import { DEMO_HOSTS } from "@/lib/demo-hosts";
+import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { sendChatGift } from "@/lib/subscriptions.functions";
 import { toast } from "sonner";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -37,27 +38,25 @@ function HostChat() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const host = DEMO_HOSTS.find((h) => h.id === hostId);
+  const aiHost = isAiHost(hostId);
   const isJen = hostId === "demo-jen";
 
-  const { messages, sendMessage, status } = useChat({
-    transport: createAuthedChatTransport({ api: "/api/host-chat", body: { hostId } }),
-  });
+  // AI hosts stream from the public endpoint (no auth required); everyone else
+  // goes through the authenticated host-chat endpoint.
+  const transport = useMemo(() => {
+    if (aiHost) {
+      return new DefaultChatTransport({ api: "/api/public/demo-chat", body: { hostId } });
+    }
+    return createAuthedChatTransport({ api: "/api/host-chat", body: { hostId } });
+  }, [aiHost, hostId]);
+
+  const { messages, sendMessage, status } = useChat({ transport });
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, status]);
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
-  if (!user) {
-    return (
-      <AppShell>
-        <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center shadow-card">
-          <h1 className="text-xl">Sign in to chat</h1>
-          <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
-        </div>
-      </AppShell>
-    );
-  }
 
   if (!host) {
     return (
@@ -69,7 +68,20 @@ function HostChat() {
     );
   }
 
-  if (!isJen) {
+  // Unauthed users can chat AI hosts for free. Everyone else needs to sign in.
+  if (!user && !aiHost) {
+    return (
+      <AppShell>
+        <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center shadow-card">
+          <h1 className="text-xl">Sign in to chat</h1>
+          <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
+        </div>
+      </AppShell>
+    );
+  }
+
+  // Signed-in members hitting a non-AI, non-Jen host still need to unlock.
+  if (user && !isJen && !aiHost) {
     return (
       <AppShell hideNav>
         <header className="flex items-center gap-3 pt-3 pb-2">
@@ -92,6 +104,7 @@ function HostChat() {
       </AppShell>
     );
   }
+
 
   const busy = status === "submitted" || status === "streaming";
 
