@@ -31,6 +31,7 @@ export const getWarRoom = createServerFn({ method: "POST" })
       top_events?: Array<{ event_type: string; ct: number }>;
       demographics?: { gender?: Record<string, number>; account_type?: Record<string, number> };
     };
+  });
 
 export const adminCopilotChat = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
