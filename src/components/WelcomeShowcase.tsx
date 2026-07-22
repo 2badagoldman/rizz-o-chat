@@ -262,7 +262,7 @@ export function WelcomeShowcase() {
             style={{ animation: "rise-in 0.5s ease-out both" }}
           >
             <button
-              onClick={() => close()}
+              onClick={() => close("complete")}
               className="btn-brand flex-1 inline-flex items-center justify-center gap-2"
             >
               Enter Rizz Chat <ArrowRight className="h-4 w-4" />
