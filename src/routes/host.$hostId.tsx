@@ -45,11 +45,21 @@ function HostProfile() {
     );
   }
 
-  const slides: Array<{ kind: "hero" | "video" | "locked"; label?: string }> = [
+  const aiHost = isAiHost(host.id);
+  const slides: Array<{ kind: "hero" | "video" | "locked" | "photo"; label?: string }> = [
     { kind: "hero" },
     ...(host.hasVideo ? [{ kind: "video" as const, label: "Video loop" }] : []),
-    { kind: "locked", label: "Photo 3 of " + host.photoCount },
-    { kind: "locked", label: "Photo 7 of " + host.photoCount },
+    // AI hosts show all photos unlocked so members can preview the vibe.
+    ...(aiHost
+      ? [
+          { kind: "photo" as const, label: `Photo 2 of ${host.photoCount}` },
+          { kind: "photo" as const, label: `Photo 3 of ${host.photoCount}` },
+          { kind: "photo" as const, label: `Photo 4 of ${host.photoCount}` },
+        ]
+      : [
+          { kind: "locked" as const, label: "Photo 3 of " + host.photoCount },
+          { kind: "locked" as const, label: "Photo 7 of " + host.photoCount },
+        ]),
   ];
 
   const hostIsReal = UUID_RE.test(host.id);
