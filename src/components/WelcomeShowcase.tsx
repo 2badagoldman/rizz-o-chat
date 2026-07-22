@@ -97,24 +97,51 @@ export function WelcomeShowcase() {
   }, [open, index, items]);
 
   const close = (reason: "complete" | "dismiss" = "dismiss") => {
+    if (closedRef.current) return;
+    closedRef.current = true;
     // Fire an event for the current slide before tearing down
     const cur = items[index];
     if (cur) logShowcaseEvent({ data: { id: cur.id, event: reason } }).catch(() => {});
     setOpen(false);
+    Object.values(videoRefs.current).forEach((v) => v?.pause());
+
     try {
       localStorage.setItem(SEEN_KEY, "1");
       localStorage.removeItem(FLAG_KEY);
+      const { start, count } = readSessionState();
+      const now = Date.now();
+      const winStart = start && now - start <= SESSION_WINDOW_MS ? start : now;
+      const nextCount = count + 1;
+      sessionStorage.setItem(SESSION_WINDOW_START, String(winStart));
+      sessionStorage.setItem(SESSION_COUNT_KEY, String(nextCount));
+
+      // Schedule a replay if we're still under the cap AND it fits in the window.
+      const nextAt = now + NEXT_POP_DELAY_MS;
+      const fitsInWindow = nextAt - winStart <= SESSION_WINDOW_MS;
+      if (nextCount < MAX_POPS_PER_WINDOW && fitsInWindow && reason !== "dismiss") {
+        sessionStorage.setItem(NEXT_POP_AT_KEY, String(nextAt));
+        setTimeout(loadReel, NEXT_POP_DELAY_MS);
+      } else {
+        sessionStorage.removeItem(NEXT_POP_AT_KEY);
+      }
     } catch {}
-    Object.values(videoRefs.current).forEach((v) => v?.pause());
   };
 
-  // Elapsed tick
+  // Elapsed tick — also auto-closes at 30s so the reel pops again later.
   useEffect(() => {
     if (!open) return;
     const start = Date.now();
-    const iv = setInterval(() => setElapsed(Date.now() - start), 250);
+    const iv = setInterval(() => {
+      const e = Date.now() - start;
+      setElapsed(e);
+      if (e >= MIN_VIEW_MS && !closedRef.current) {
+        clearInterval(iv);
+        close("complete");
+      }
+    }, 250);
     return () => clearInterval(iv);
   }, [open]);
+
 
   // Autoplay + auto-advance
   useEffect(() => {
