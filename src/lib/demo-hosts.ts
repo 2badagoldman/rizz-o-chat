@@ -265,8 +265,9 @@ function buildExtraHosts(): DemoHost[] {
   return seeds.map((s, i) => {
     const tier = tiers[i % tiers.length];
     const price = tier === "new" ? 4.99 : tier === "rising" ? 14.99 : tier === "popular" ? 29.99 : 59.99;
+    const id = `demo-${s.name!.toLowerCase()}`;
     return {
-      id: `demo-${s.name!.toLowerCase()}`,
+      id,
       handle: `@${s.name!.toLowerCase()}rizz`,
       // 65% of hosts are 18-24, the rest spread 25-42
       age: (i % 20) < 13 ? 18 + (i % 7) : 25 + (i % 18),
@@ -278,10 +279,12 @@ function buildExtraHosts(): DemoHost[] {
       photoCount: 6 + (i % 10),
       hasVideo: i % 2 === 0,
       teaser: s.tagline,
+      aiEnabled: (AI_HOST_IDS as readonly string[]).includes(id),
       ...s,
     } as DemoHost;
   });
 }
+
 
 
 export function tierLabel(t: DemoHost["tier"]) {
