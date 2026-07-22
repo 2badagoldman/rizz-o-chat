@@ -1,0 +1,1 @@
+ALTER TYPE public.sub_status ADD VALUE IF NOT EXISTS 'trialing';
