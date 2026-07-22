@@ -69,7 +69,7 @@ function Chats() {
               className="group relative flex w-[132px] shrink-0 flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-0.5 hover:border-primary"
             >
               <div className="relative aspect-[3/4] w-full" style={{ background: h.gradient }}>
-                <img src={rizzAiLogo.url} alt="" className="h-full w-full object-cover opacity-90 mix-blend-luminosity group-hover:opacity-100" />
+                <img src={hostAvatar(h.id)} alt={h.name} loading="lazy" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 <span className="absolute left-2 top-2 rounded-full bg-black/40 px-2 py-0.5 text-[9px] font-semibold text-white backdrop-blur">
                   AI · Free
                 </span>
