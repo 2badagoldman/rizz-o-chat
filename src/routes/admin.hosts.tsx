@@ -1,9 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { listAllHosts, setHostVerification } from "@/lib/admin-data.functions";
-import { Check, X, Clock, Search } from "lucide-react";
+import { Check, X, Clock, Search, Eye } from "lucide-react";
 import { toast } from "sonner";
+
 
 export const Route = createFileRoute("/admin/hosts")({
   component: AdminHosts,
