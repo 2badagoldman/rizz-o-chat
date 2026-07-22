@@ -164,7 +164,22 @@ function AdminHosts() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-3 py-2"><Badge status={r.verification_status} /></td>
+                  <td className="px-3 py-2">
+                    <Badge status={r.verification_status} />
+                    {r.deleted_at && (
+                      <span
+                        className={
+                          "ml-1 inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider " +
+                          (restoreRemaining(r.deleted_at).expired
+                            ? "bg-destructive/15 text-destructive"
+                            : "bg-orange-500/15 text-orange-600")
+                        }
+                        title={`Deleted ${new Date(r.deleted_at).toLocaleString()}`}
+                      >
+                        Deleted · {restoreRemaining(r.deleted_at).label}
+                      </span>
+                    )}
+                  </td>
                   <td className="px-3 py-2 text-xs capitalize">{r.platform_tier ?? "—"}</td>
                   <td className="px-3 py-2 text-right font-mono text-xs">
                     {r.list?.price_cents != null ? "$" + (r.list.price_cents / 100).toFixed(2) : "—"}
@@ -176,17 +191,40 @@ function AdminHosts() {
                       <Link to="/admin/hosts/$hostId" params={{ hostId: r.id }} title="Review" className="rounded-lg border border-border p-1.5 hover:bg-primary/10 hover:text-primary">
                         <Eye className="h-3.5 w-3.5" />
                       </Link>
-                      <button title="Approve as verified host" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600">
-                        <Check className="h-3.5 w-3.5" />
-                      </button>
-                      <button title="Mark pending" onClick={() => decide(r.id, "pending")} className="rounded-lg border border-border p-1.5 hover:bg-yellow-500/10 hover:text-yellow-600">
-                        <Clock className="h-3.5 w-3.5" />
-                      </button>
-                      <button title="Delete account (permanent)" onClick={() => remove(r.id, r.display_name ?? "this user")} className="rounded-lg border border-border p-1.5 hover:bg-destructive/10 hover:text-destructive">
-                        <X className="h-3.5 w-3.5" />
-                      </button>
+                      {r.deleted_at ? (
+                        <>
+                          <button
+                            title={restoreRemaining(r.deleted_at).expired ? "Restore window expired" : "Restore account"}
+                            disabled={restoreRemaining(r.deleted_at).expired}
+                            onClick={() => restore(r.id, r.display_name ?? "this user")}
+                            className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed"
+                          >
+                            <RotateCcw className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            title="Purge permanently"
+                            onClick={() => purge(r.id, r.display_name ?? "this user")}
+                            className="rounded-lg border border-border p-1.5 hover:bg-destructive/10 hover:text-destructive"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button title="Approve as verified host" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600">
+                            <Check className="h-3.5 w-3.5" />
+                          </button>
+                          <button title="Mark pending" onClick={() => decide(r.id, "pending")} className="rounded-lg border border-border p-1.5 hover:bg-yellow-500/10 hover:text-yellow-600">
+                            <Clock className="h-3.5 w-3.5" />
+                          </button>
+                          <button title="Delete (restorable for 7 days)" onClick={() => remove(r.id, r.display_name ?? "this user")} className="rounded-lg border border-border p-1.5 hover:bg-destructive/10 hover:text-destructive">
+                            <X className="h-3.5 w-3.5" />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
+
 
                 </tr>
               ))}
