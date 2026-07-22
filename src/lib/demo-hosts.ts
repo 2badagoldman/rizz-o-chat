@@ -79,7 +79,7 @@ export const DEMO_HOSTS: DemoHost[] = [
     interests: ["Coffee", "Concerts", "Dogs", "Deep Talks", "Podcasts"],
     tier: "rising",
     priceMonthly: 12.99,
-    subscribers: 8,
+    subscribers: 418,
     online: true,
     gradient: "linear-gradient(135deg,#7C5CFF 0%,#FF3D7F 55%,#FF9770 100%)",
     accent: "#7C5CFF",
