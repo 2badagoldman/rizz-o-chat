@@ -20,7 +20,31 @@ export type DemoHost = {
   photoCount: number;
   hasVideo: boolean;
   teaser: string;
+  /** If true, anyone (even signed-out visitors) can chat with an AI persona of this host for free. */
+  aiEnabled?: boolean;
 };
+
+/**
+ * The 10 curated demo hosts whose personas are AI-powered and open for free
+ * chat before signup. Keep this list in sync with the `aiEnabled` flags below.
+ */
+export const AI_HOST_IDS = [
+  "demo-aria",
+  "demo-jen",
+  "demo-lena",
+  "demo-nova",
+  "demo-jade",
+  "demo-remy",
+  "demo-mika",
+  "demo-harper",
+  "demo-cleo",
+  "demo-yuna",
+] as const;
+
+export function isAiHost(hostId: string | undefined): boolean {
+  return !!hostId && (AI_HOST_IDS as readonly string[]).includes(hostId);
+}
+
 
 export const DEMO_HOSTS: DemoHost[] = [
   {
@@ -41,6 +65,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 12,
     hasVideo: true,
     teaser: "Just made my morning matcha ☕ tell me your Monday plan",
+    aiEnabled: true,
+
   },
   {
     id: "demo-jen",
@@ -60,6 +86,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 9,
     hasVideo: false,
     teaser: "Pinned online — send me a message and let's test the chat 💬",
+    aiEnabled: true,
+
   },
   {
 
@@ -80,6 +108,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 24,
     hasVideo: true,
     teaser: "Back in LA tonight. Who wants a Q&A voice note?",
+    aiEnabled: true,
+
   },
   {
     id: "demo-nova",
@@ -99,6 +129,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 8,
     hasVideo: false,
     teaser: "Running ranked in 30. Come chat while I queue 🎮",
+    aiEnabled: true,
+
   },
   {
     id: "demo-jade",
@@ -118,6 +150,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 15,
     hasVideo: true,
     teaser: "Just poured a Nikka. What are we debating tonight?",
+    aiEnabled: true,
+
   },
   {
     id: "demo-remy",
@@ -137,6 +171,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 10,
     hasVideo: true,
     teaser: "Just tracked a new bridge. Should I send it? 🎸",
+    aiEnabled: true,
+
   },
   {
     id: "demo-mika",
@@ -156,6 +192,8 @@ export const DEMO_HOSTS: DemoHost[] = [
     photoCount: 6,
     hasVideo: false,
     teaser: "Painting something weird tonight. Wanna see?",
+    aiEnabled: true,
+
   },
   ...buildExtraHosts(),
 ];
@@ -227,8 +265,9 @@ function buildExtraHosts(): DemoHost[] {
   return seeds.map((s, i) => {
     const tier = tiers[i % tiers.length];
     const price = tier === "new" ? 4.99 : tier === "rising" ? 14.99 : tier === "popular" ? 29.99 : 59.99;
+    const id = `demo-${s.name!.toLowerCase()}`;
     return {
-      id: `demo-${s.name!.toLowerCase()}`,
+      id,
       handle: `@${s.name!.toLowerCase()}rizz`,
       // 65% of hosts are 18-24, the rest spread 25-42
       age: (i % 20) < 13 ? 18 + (i % 7) : 25 + (i % 18),
@@ -240,10 +279,12 @@ function buildExtraHosts(): DemoHost[] {
       photoCount: 6 + (i % 10),
       hasVideo: i % 2 === 0,
       teaser: s.tagline,
+      aiEnabled: (AI_HOST_IDS as readonly string[]).includes(id),
       ...s,
     } as DemoHost;
   });
 }
+
 
 
 export function tierLabel(t: DemoHost["tier"]) {
