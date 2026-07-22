@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { listAllHosts, setHostVerification, deleteUserProfile } from "@/lib/admin-data.functions";
-import { Check, X, Clock, Search, Eye } from "lucide-react";
+import { listAllHosts, setHostVerification, deleteUserProfile, restoreUserProfile, purgeUserProfile } from "@/lib/admin-data.functions";
+import { Check, X, Clock, Search, Eye, RotateCcw, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 
@@ -10,13 +10,25 @@ export const Route = createFileRoute("/admin/hosts")({
   component: AdminHosts,
 });
 
-const STATUSES = ["all", "pending", "verified", "rejected"] as const;
+const STATUSES = ["all", "pending", "verified", "rejected", "deleted"] as const;
 type Status = (typeof STATUSES)[number];
+
+const RESTORE_WINDOW_MS = 7 * 24 * 60 * 60 * 1000;
+function restoreRemaining(deletedAt: string | null): { expired: boolean; label: string } {
+  if (!deletedAt) return { expired: false, label: "" };
+  const ms = RESTORE_WINDOW_MS - (Date.now() - new Date(deletedAt).getTime());
+  if (ms <= 0) return { expired: true, label: "expired" };
+  const days = Math.floor(ms / (24 * 60 * 60 * 1000));
+  const hours = Math.floor((ms % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+  return { expired: false, label: days > 0 ? `${days}d ${hours}h left` : `${hours}h left` };
+}
 
 function AdminHosts() {
   const fetchHosts = useServerFn(listAllHosts);
   const setStatus = useServerFn(setHostVerification);
   const removeUser = useServerFn(deleteUserProfile);
+  const restoreUser = useServerFn(restoreUserProfile);
+  const purgeUser = useServerFn(purgeUserProfile);
   const [status, setSt] = useState<Status>("all");
   const [q, setQ] = useState("");
   const [rows, setRows] = useState<any[]>([]);
@@ -44,10 +56,31 @@ function AdminHosts() {
   }
 
   async function remove(hostId: string, name: string) {
-    if (!window.confirm(`Permanently delete ${name}'s account and all their data? This cannot be undone.`)) return;
+    if (!window.confirm(`Delete ${name}'s account? They can be restored within 7 days from the "deleted" filter.`)) return;
     try {
       await removeUser({ data: { userId: hostId } });
-      toast.success(`Deleted ${name}`);
+      toast.success(`Deleted ${name} — restorable for 7 days`);
+      setRows((rs) => rs.filter((r) => r.id !== hostId));
+    } catch (e) {
+      toast.error((e as Error).message);
+    }
+  }
+
+  async function restore(hostId: string, name: string) {
+    try {
+      await restoreUser({ data: { userId: hostId } });
+      toast.success(`Restored ${name}`);
+      setRows((rs) => rs.filter((r) => r.id !== hostId));
+    } catch (e) {
+      toast.error((e as Error).message);
+    }
+  }
+
+  async function purge(hostId: string, name: string) {
+    if (!window.confirm(`Permanently purge ${name}'s account and all data? This cannot be undone.`)) return;
+    try {
+      await purgeUser({ data: { userId: hostId } });
+      toast.success(`Purged ${name}`);
       setRows((rs) => rs.filter((r) => r.id !== hostId));
     } catch (e) {
       toast.error((e as Error).message);
@@ -58,6 +91,7 @@ function AdminHosts() {
     acc[r.verification_status ?? "pending"] = (acc[r.verification_status ?? "pending"] ?? 0) + 1;
     return acc;
   }, {});
+
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -130,7 +164,22 @@ function AdminHosts() {
                       </div>
                     </div>
                   </td>
-                  <td className="px-3 py-2"><Badge status={r.verification_status} /></td>
+                  <td className="px-3 py-2">
+                    <Badge status={r.verification_status} />
+                    {r.deleted_at && (
+                      <span
+                        className={
+                          "ml-1 inline-flex rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider " +
+                          (restoreRemaining(r.deleted_at).expired
+                            ? "bg-destructive/15 text-destructive"
+                            : "bg-orange-500/15 text-orange-600")
+                        }
+                        title={`Deleted ${new Date(r.deleted_at).toLocaleString()}`}
+                      >
+                        Deleted · {restoreRemaining(r.deleted_at).label}
+                      </span>
+                    )}
+                  </td>
                   <td className="px-3 py-2 text-xs capitalize">{r.platform_tier ?? "—"}</td>
                   <td className="px-3 py-2 text-right font-mono text-xs">
                     {r.list?.price_cents != null ? "$" + (r.list.price_cents / 100).toFixed(2) : "—"}
@@ -142,17 +191,40 @@ function AdminHosts() {
                       <Link to="/admin/hosts/$hostId" params={{ hostId: r.id }} title="Review" className="rounded-lg border border-border p-1.5 hover:bg-primary/10 hover:text-primary">
                         <Eye className="h-3.5 w-3.5" />
                       </Link>
-                      <button title="Approve as verified host" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600">
-                        <Check className="h-3.5 w-3.5" />
-                      </button>
-                      <button title="Mark pending" onClick={() => decide(r.id, "pending")} className="rounded-lg border border-border p-1.5 hover:bg-yellow-500/10 hover:text-yellow-600">
-                        <Clock className="h-3.5 w-3.5" />
-                      </button>
-                      <button title="Delete account (permanent)" onClick={() => remove(r.id, r.display_name ?? "this user")} className="rounded-lg border border-border p-1.5 hover:bg-destructive/10 hover:text-destructive">
-                        <X className="h-3.5 w-3.5" />
-                      </button>
+                      {r.deleted_at ? (
+                        <>
+                          <button
+                            title={restoreRemaining(r.deleted_at).expired ? "Restore window expired" : "Restore account"}
+                            disabled={restoreRemaining(r.deleted_at).expired}
+                            onClick={() => restore(r.id, r.display_name ?? "this user")}
+                            className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600 disabled:opacity-40 disabled:cursor-not-allowed"
+                          >
+                            <RotateCcw className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            title="Purge permanently"
+                            onClick={() => purge(r.id, r.display_name ?? "this user")}
+                            className="rounded-lg border border-border p-1.5 hover:bg-destructive/10 hover:text-destructive"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button title="Approve as verified host" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600">
+                            <Check className="h-3.5 w-3.5" />
+                          </button>
+                          <button title="Mark pending" onClick={() => decide(r.id, "pending")} className="rounded-lg border border-border p-1.5 hover:bg-yellow-500/10 hover:text-yellow-600">
+                            <Clock className="h-3.5 w-3.5" />
+                          </button>
+                          <button title="Delete (restorable for 7 days)" onClick={() => remove(r.id, r.display_name ?? "this user")} className="rounded-lg border border-border p-1.5 hover:bg-destructive/10 hover:text-destructive">
+                            <X className="h-3.5 w-3.5" />
+                          </button>
+                        </>
+                      )}
                     </div>
                   </td>
+
 
                 </tr>
               ))}
