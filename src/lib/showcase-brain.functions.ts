@@ -141,7 +141,7 @@ export const updateBrainSettings = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const patch: Record<string, unknown> = { updated_at: new Date().toISOString() };
     for (const [k, v] of Object.entries(data)) if (v !== undefined) patch[k] = v;
-    const { error } = await supabaseAdmin.from("showcase_brain_settings").update(patch).eq("id", 1);
+    const { error } = await supabaseAdmin.from("showcase_brain_settings").update(patch as never).eq("id", 1);
     if (error) throw error;
     return { ok: true };
   });
