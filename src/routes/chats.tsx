@@ -122,6 +122,9 @@ function Chats() {
         />
       </div>
 
+      {!q.trim() ? AiHostsStrip : null}
+
+
       {q.trim() ? (
         <section className="mt-3">
           <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
