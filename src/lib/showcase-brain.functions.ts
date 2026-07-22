@@ -22,22 +22,11 @@ export const getShowcaseReel = createServerFn({ method: "POST" })
     return { limit: n };
   })
   .handler(async ({ data }): Promise<ReelItem[]> => {
-    const { createClient } = await import("@supabase/supabase-js");
-    const url = process.env.SUPABASE_URL!;
-    const key = process.env.SUPABASE_PUBLISHABLE_KEY!;
-    const supa = createClient(url, key, {
-      auth: { persistSession: false, autoRefreshToken: false },
-      global: {
-        fetch: (input, init) => {
-          const h = new Headers(init?.headers);
-          if (key.startsWith("sb_") && h.get("Authorization") === `Bearer ${key}`) h.delete("Authorization");
-          h.set("apikey", key);
-          return fetch(input, { ...init, headers: h });
-        },
-      },
-    });
+    // Use the admin client so signed URLs can be minted for the public welcome
+    // reel without requiring the visitor to be signed in.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
-    const { data: rows, error } = await supa.rpc("get_showcase_reel", { _limit: data.limit });
+    const { data: rows, error } = await supabaseAdmin.rpc("get_showcase_reel", { _limit: data.limit });
     if (error || !rows) return [];
 
     const items: ReelItem[] = [];
@@ -48,7 +37,7 @@ export const getShowcaseReel = createServerFn({ method: "POST" })
       storage_path: string;
       score: number;
     }>) {
-      const { data: signed } = await supa.storage.from("showcase").createSignedUrl(r.storage_path, 60 * 60);
+      const { data: signed } = await supabaseAdmin.storage.from("showcase").createSignedUrl(r.storage_path, 60 * 60);
       if (!signed?.signedUrl) continue;
       items.push({
         id: r.id,
