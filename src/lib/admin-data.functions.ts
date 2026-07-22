@@ -147,10 +147,11 @@ export const getHostDetail = createServerFn({ method: "POST" })
     // Room messages the host authored or received in their own rooms
     const { data: roomMsgs } = await supabaseAdmin
       .from("room_messages")
-      .select("id, room_id, sender_id, body, created_at, host_rooms!inner(id, title, host_id)")
+      .select("id, room_id, sender_id, body, created_at, host_rooms!inner(id, name, host_id)")
       .eq("host_rooms.host_id", data.hostId)
       .order("created_at", { ascending: false })
       .limit(200);
+
 
     // Counterpart display names
     const counterpartIds = new Set<string>();
