@@ -11,12 +11,19 @@ import { RoomsShowcase } from "@/components/RoomsShowcase";
 export const Route = createFileRoute("/discover")({
   head: () => ({
     meta: [
-      { title: "Discover Hosts — Rizz Social" },
-      { name: "description", content: "Browse verified Hosts and their Friends Lists on Rizz Social." },
+      { title: "Discover verified hosts — Rizz Social" },
+      { name: "description", content: "Browse verified hosts, filter by tier, and find your next favorite chat. Join Friends Lists on Rizz Social." },
+      { property: "og:title", content: "Discover verified hosts — Rizz Social" },
+      { property: "og:description", content: "Browse verified hosts and find your next favorite chat on Rizz Social." },
+      { property: "og:url", content: "https://rizzlachat.com/discover" },
+      { property: "og:image", content: "https://rizzlachat.com/icon-512.png" },
+      { name: "twitter:image", content: "https://rizzlachat.com/icon-512.png" },
     ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/discover" }],
   }),
   component: Discover,
 });
+
 
 const FILTERS: Array<{ key: "all" | DemoHost["tier"] | "online"; label: string }> = [
   { key: "all", label: "All" },
