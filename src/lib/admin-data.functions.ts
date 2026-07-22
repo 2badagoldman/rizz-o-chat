@@ -19,11 +19,16 @@ export const listAllHosts = createServerFn({ method: "POST" })
     await assertAdmin(context);
     let q = context.supabase
       .from("profiles")
-      .select("id, display_name, avatar_url, verification_status, gender, platform_tier, created_at, bio")
+      .select("id, display_name, avatar_url, verification_status, gender, platform_tier, created_at, bio, deleted_at")
       .eq("account_type", "host")
       .order("created_at", { ascending: false })
       .limit(500);
-    if (data.status !== "all") q = q.eq("verification_status", data.status as "pending" | "verified" | "rejected");
+    if (data.status === "deleted") {
+      q = q.not("deleted_at", "is", null);
+    } else {
+      q = q.is("deleted_at", null);
+      if (data.status !== "all") q = q.eq("verification_status", data.status as "pending" | "verified" | "rejected");
+    }
     const { data: hosts, error } = await q;
     if (error) throw error;
 
