@@ -1,13 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { DEMO_HOSTS } from "@/lib/demo-hosts";
+import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
-import { Circle, Search, MessageCircle } from "lucide-react";
+import { Circle, Search, MessageCircle, Sparkles } from "lucide-react";
 import { dmListThreads } from "@/lib/dm.functions";
 import { searchUsers } from "@/lib/admin-data.functions";
+
 
 export const Route = createFileRoute("/chats")({
   head: () => ({ meta: [{ title: "Chats — Rizzla" }] }),
