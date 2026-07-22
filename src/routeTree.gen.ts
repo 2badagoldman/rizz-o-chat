@@ -45,6 +45,7 @@ import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-acces
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ChatUserUserIdRouteImport } from './routes/chat.user.$userId'
+import { Route as AdminHostsHostIdRouteImport } from './routes/admin.hosts.$hostId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -231,6 +232,11 @@ const ChatUserUserIdRoute = ChatUserUserIdRouteImport.update({
   path: '/chat/user/$userId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminHostsHostIdRoute = AdminHostsHostIdRouteImport.update({
+  id: '/$hostId',
+  path: '/$hostId',
+  getParentRoute: () => AdminHostsRoute,
+} as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
   Char91DotmcpChar93InvokeToolToolRouteImport.update({
     id: '/.mcp/invoke-tool/$tool',
@@ -265,7 +271,7 @@ export interface FileRoutesByFullPath {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
-  '/admin/hosts': typeof AdminHostsRoute
+  '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/users': typeof AdminUsersRoute
@@ -287,6 +293,7 @@ export interface FileRoutesByFullPath {
   '/rooms/': typeof RoomsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -305,7 +312,7 @@ export interface FileRoutesByTo {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
-  '/admin/hosts': typeof AdminHostsRoute
+  '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/users': typeof AdminUsersRoute
@@ -327,6 +334,7 @@ export interface FileRoutesByTo {
   '/rooms': typeof RoomsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -347,7 +355,7 @@ export interface FileRoutesById {
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
-  '/admin/hosts': typeof AdminHostsRoute
+  '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/users': typeof AdminUsersRoute
@@ -369,6 +377,7 @@ export interface FileRoutesById {
   '/rooms/': typeof RoomsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
@@ -412,6 +421,7 @@ export interface FileRouteTypes {
     | '/rooms/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/hosts/$hostId'
     | '/chat/user/$userId'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
@@ -452,6 +462,7 @@ export interface FileRouteTypes {
     | '/rooms'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/hosts/$hostId'
     | '/chat/user/$userId'
     | '/api/public/payments/webhook'
   id:
@@ -493,6 +504,7 @@ export interface FileRouteTypes {
     | '/rooms/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/admin/hosts/$hostId'
     | '/chat/user/$userId'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
@@ -787,6 +799,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatUserUserIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/hosts/$hostId': {
+      id: '/admin/hosts/$hostId'
+      path: '/$hostId'
+      fullPath: '/admin/hosts/$hostId'
+      preLoaderRoute: typeof AdminHostsHostIdRouteImport
+      parentRoute: typeof AdminHostsRoute
+    }
     '/.mcp/invoke-tool/$tool': {
       id: '/.mcp/invoke-tool/$tool'
       path: '/.mcp/invoke-tool/$tool'
@@ -811,9 +830,21 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AdminHostsRouteChildren {
+  AdminHostsHostIdRoute: typeof AdminHostsHostIdRoute
+}
+
+const AdminHostsRouteChildren: AdminHostsRouteChildren = {
+  AdminHostsHostIdRoute: AdminHostsHostIdRoute,
+}
+
+const AdminHostsRouteWithChildren = AdminHostsRoute._addFileChildren(
+  AdminHostsRouteChildren,
+)
+
 interface AdminRouteChildren {
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
-  AdminHostsRoute: typeof AdminHostsRoute
+  AdminHostsRoute: typeof AdminHostsRouteWithChildren
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -822,7 +853,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
-  AdminHostsRoute: AdminHostsRoute,
+  AdminHostsRoute: AdminHostsRouteWithChildren,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
   AdminUsersRoute: AdminUsersRoute,
