@@ -14,6 +14,48 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          country: string | null
+          created_at: string
+          device: string | null
+          duration_ms: number | null
+          event_type: string
+          id: number
+          metadata: Json | null
+          path: string | null
+          referrer: string | null
+          session_id: string
+          user_id: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          device?: string | null
+          duration_ms?: number | null
+          event_type: string
+          id?: number
+          metadata?: Json | null
+          path?: string | null
+          referrer?: string | null
+          session_id: string
+          user_id?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          device?: string | null
+          duration_ms?: number | null
+          event_type?: string
+          id?: number
+          metadata?: Json | null
+          path?: string | null
+          referrer?: string | null
+          session_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       base_subscriptions: {
         Row: {
           cancelled_at: string | null
@@ -786,6 +828,7 @@ export type Database = {
       }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
+      war_room_metrics: { Args: { _hours?: number }; Returns: Json }
     }
     Enums: {
       account_type: "host" | "member"
