@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { listAllHosts, setHostVerification } from "@/lib/admin-data.functions";
+import { listAllHosts, setHostVerification, deleteUserProfile } from "@/lib/admin-data.functions";
 import { Check, X, Clock, Search, Eye } from "lucide-react";
 import { toast } from "sonner";
 
@@ -16,6 +16,7 @@ type Status = (typeof STATUSES)[number];
 function AdminHosts() {
   const fetchHosts = useServerFn(listAllHosts);
   const setStatus = useServerFn(setHostVerification);
+  const removeUser = useServerFn(deleteUserProfile);
   const [status, setSt] = useState<Status>("all");
   const [q, setQ] = useState("");
   const [rows, setRows] = useState<any[]>([]);
@@ -37,6 +38,17 @@ function AdminHosts() {
       await setStatus({ data: { hostId, status: next } });
       toast.success(`Marked ${next}`);
       setRows((rs) => rs.map((r) => (r.id === hostId ? { ...r, verification_status: next } : r)));
+    } catch (e) {
+      toast.error((e as Error).message);
+    }
+  }
+
+  async function remove(hostId: string, name: string) {
+    if (!window.confirm(`Permanently delete ${name}'s account and all their data? This cannot be undone.`)) return;
+    try {
+      await removeUser({ data: { userId: hostId } });
+      toast.success(`Deleted ${name}`);
+      setRows((rs) => rs.filter((r) => r.id !== hostId));
     } catch (e) {
       toast.error((e as Error).message);
     }
@@ -130,13 +142,13 @@ function AdminHosts() {
                       <Link to="/admin/hosts/$hostId" params={{ hostId: r.id }} title="Review" className="rounded-lg border border-border p-1.5 hover:bg-primary/10 hover:text-primary">
                         <Eye className="h-3.5 w-3.5" />
                       </Link>
-                      <button title="Approve" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600">
+                      <button title="Approve as verified host" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600">
                         <Check className="h-3.5 w-3.5" />
                       </button>
-                      <button title="Pending" onClick={() => decide(r.id, "pending")} className="rounded-lg border border-border p-1.5 hover:bg-yellow-500/10 hover:text-yellow-600">
+                      <button title="Mark pending" onClick={() => decide(r.id, "pending")} className="rounded-lg border border-border p-1.5 hover:bg-yellow-500/10 hover:text-yellow-600">
                         <Clock className="h-3.5 w-3.5" />
                       </button>
-                      <button title="Reject" onClick={() => decide(r.id, "rejected")} className="rounded-lg border border-border p-1.5 hover:bg-destructive/10 hover:text-destructive">
+                      <button title="Delete account (permanent)" onClick={() => remove(r.id, r.display_name ?? "this user")} className="rounded-lg border border-border p-1.5 hover:bg-destructive/10 hover:text-destructive">
                         <X className="h-3.5 w-3.5" />
                       </button>
                     </div>

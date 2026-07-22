@@ -93,6 +93,22 @@ export const setHostVerification = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const deleteUserProfile = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = i as { userId: string };
+    if (!x?.userId) throw new Error("userId required");
+    return x;
+  })
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    if (data.userId === context.userId) throw new Error("You cannot delete your own account");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.auth.admin.deleteUser(data.userId);
+    if (error) throw error;
+    return { ok: true };
+  });
+
 export const getHostDetail = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
