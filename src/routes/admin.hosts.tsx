@@ -127,7 +127,10 @@ function AdminHosts() {
                   <td className="px-3 py-2 text-xs text-muted-foreground">{new Date(r.created_at).toLocaleDateString()}</td>
                   <td className="px-3 py-2">
                     <div className="flex justify-end gap-1">
-                      <button title="Approve" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-primary/10 hover:text-primary">
+                      <Link to="/admin/hosts/$hostId" params={{ hostId: r.id }} title="Review" className="rounded-lg border border-border p-1.5 hover:bg-primary/10 hover:text-primary">
+                        <Eye className="h-3.5 w-3.5" />
+                      </Link>
+                      <button title="Approve" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600">
                         <Check className="h-3.5 w-3.5" />
                       </button>
                       <button title="Pending" onClick={() => decide(r.id, "pending")} className="rounded-lg border border-border p-1.5 hover:bg-yellow-500/10 hover:text-yellow-600">
@@ -138,6 +141,7 @@ function AdminHosts() {
                       </button>
                     </div>
                   </td>
+
                 </tr>
               ))}
             </tbody>
