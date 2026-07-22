@@ -4,9 +4,15 @@ import { getShowcaseReel, logShowcaseEvent, type ReelItem } from "@/lib/showcase
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 const FLAG_KEY = "rizzla:showWelcome";       // explicit trigger (e.g. right after sign-up)
-const SEEN_KEY = "rizzla:welcomeSeen";       // once per browser
+const SEEN_KEY = "rizzla:welcomeSeen";       // once per browser (legacy — no longer blocks replays)
+const SESSION_COUNT_KEY = "rizzla:welcomeSessionCount";
+const SESSION_WINDOW_START = "rizzla:welcomeSessionStart";
+const NEXT_POP_AT_KEY = "rizzla:welcomeNextAt";
 const AUTO_ADVANCE_MS = 5_000;
-const MIN_VIEW_MS = 30_000;                  // 30s minimum before soft close
+const MIN_VIEW_MS = 30_000;                  // full 30s reel each pop
+const SESSION_WINDOW_MS = 5 * 60_000;        // 5-minute session window
+const MAX_POPS_PER_WINDOW = 3;               // pop up 2-3x per 5 min
+const NEXT_POP_DELAY_MS = 110_000;           // ~1m50s between pops (fits 3 in 5min)
 
 type ShowcaseItem = ReelItem;
 
@@ -14,7 +20,19 @@ export function markWelcomeShowcasePending() {
   try {
     localStorage.setItem(FLAG_KEY, "1");
     localStorage.removeItem(SEEN_KEY);
+    sessionStorage.removeItem(SESSION_COUNT_KEY);
+    sessionStorage.removeItem(SESSION_WINDOW_START);
+    sessionStorage.removeItem(NEXT_POP_AT_KEY);
   } catch {}
+}
+
+function readSessionState() {
+  try {
+    const start = Number(sessionStorage.getItem(SESSION_WINDOW_START) || 0);
+    const count = Number(sessionStorage.getItem(SESSION_COUNT_KEY) || 0);
+    const nextAt = Number(sessionStorage.getItem(NEXT_POP_AT_KEY) || 0);
+    return { start, count, nextAt };
+  } catch { return { start: 0, count: 0, nextAt: 0 }; }
 }
 
 export function WelcomeShowcase() {
@@ -26,29 +44,48 @@ export function WelcomeShowcase() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
   const loggedImpressions = useRef<Set<string>>(new Set());
+  const closedRef = useRef(false);
 
-  // Decide whether to show — brain-ranked reel, unique shuffle each session.
-  useEffect(() => {
-    let seen = false;
-    let pending = false;
+  const loadReel = async () => {
     try {
-      seen = localStorage.getItem(SEEN_KEY) === "1";
-      pending = localStorage.getItem(FLAG_KEY) === "1";
+      const reel = await getShowcaseReel({ data: { limit: 20 } });
+      if (!reel || reel.length === 0) return;
+      setItems(reel);
+      setIndex(0);
+      setElapsed(0);
+      loggedImpressions.current = new Set();
+      closedRef.current = false;
+      setOpen(true);
     } catch {}
-    if (seen && !pending) return;
+  };
 
-    (async () => {
+  // Decide whether/when to pop. Runs on mount and schedules replays.
+  useEffect(() => {
+    let pending = false;
+    try { pending = localStorage.getItem(FLAG_KEY) === "1"; } catch {}
+
+    const now = Date.now();
+    let { start, count, nextAt } = readSessionState();
+
+    // Reset the 5-minute window if it has expired.
+    if (!start || now - start > SESSION_WINDOW_MS) {
+      start = now;
+      count = 0;
+      nextAt = 0;
       try {
-        const reel = await getShowcaseReel({ data: { limit: 8 } });
-        if (!reel || reel.length === 0) return;
-        setItems(reel);
-        setIndex(0);
-        setOpen(true);
-      } catch {
-        // silent — showcase is nice-to-have
-      }
-    })();
+        sessionStorage.setItem(SESSION_WINDOW_START, String(start));
+        sessionStorage.setItem(SESSION_COUNT_KEY, "0");
+        sessionStorage.removeItem(NEXT_POP_AT_KEY);
+      } catch {}
+    }
+
+    if (count >= MAX_POPS_PER_WINDOW && !pending) return;
+
+    const delay = pending ? 300 : Math.max(300, nextAt ? nextAt - now : 300);
+    const t = setTimeout(loadReel, delay);
+    return () => clearTimeout(t);
   }, []);
+
 
   // Log impression per slide (once per session)
   useEffect(() => {
