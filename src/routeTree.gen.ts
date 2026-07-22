@@ -39,6 +39,7 @@ import { Route as ApiHostChatRouteImport } from './routes/api/host-chat'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AdminWarRoomRouteImport } from './routes/admin.war-room'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminShowcaseBrainRouteImport } from './routes/admin.showcase-brain'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
@@ -204,6 +205,11 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminShowcaseBrainRoute = AdminShowcaseBrainRouteImport.update({
+  id: '/showcase-brain',
+  path: '/showcase-brain',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminShowcaseRoute = AdminShowcaseRouteImport.update({
   id: '/showcase',
   path: '/showcase',
@@ -300,6 +306,7 @@ export interface FileRoutesByFullPath {
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
+  '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
@@ -345,6 +352,7 @@ export interface FileRoutesByTo {
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
+  '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
@@ -392,6 +400,7 @@ export interface FileRoutesById {
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
+  '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
@@ -440,6 +449,7 @@ export interface FileRouteTypes {
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
+    | '/admin/showcase-brain'
     | '/admin/users'
     | '/admin/war-room'
     | '/api/chat'
@@ -485,6 +495,7 @@ export interface FileRouteTypes {
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
+    | '/admin/showcase-brain'
     | '/admin/users'
     | '/admin/war-room'
     | '/api/chat'
@@ -531,6 +542,7 @@ export interface FileRouteTypes {
     | '/admin/hosts'
     | '/admin/payouts'
     | '/admin/showcase'
+    | '/admin/showcase-brain'
     | '/admin/users'
     | '/admin/war-room'
     | '/api/chat'
@@ -808,6 +820,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/showcase-brain': {
+      id: '/admin/showcase-brain'
+      path: '/showcase-brain'
+      fullPath: '/admin/showcase-brain'
+      preLoaderRoute: typeof AdminShowcaseBrainRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/showcase': {
       id: '/admin/showcase'
       path: '/showcase'
@@ -927,6 +946,7 @@ interface AdminRouteChildren {
   AdminHostsRoute: typeof AdminHostsRouteWithChildren
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
+  AdminShowcaseBrainRoute: typeof AdminShowcaseBrainRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminWarRoomRoute: typeof AdminWarRoomRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -938,6 +958,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminHostsRoute: AdminHostsRouteWithChildren,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
+  AdminShowcaseBrainRoute: AdminShowcaseBrainRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminWarRoomRoute: AdminWarRoomRoute,
   AdminIndexRoute: AdminIndexRoute,
