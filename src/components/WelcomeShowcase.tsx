@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { X, ChevronUp, ChevronDown, Volume2, VolumeX, Sparkles, ArrowRight, Minimize2 } from "lucide-react";
 import { getShowcaseReel, logShowcaseEvent, type ReelItem } from "@/lib/showcase-brain.functions";
+import { track } from "@/lib/analytics";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 
 const FLAG_KEY = "rizzla:showWelcome";       // explicit trigger (e.g. right after sign-up)
 const SEEN_KEY = "rizzla:welcomeSeen";       // once per browser (legacy — no longer blocks replays)
@@ -45,18 +47,31 @@ export function WelcomeShowcase() {
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
   const loggedImpressions = useRef<Set<string>>(new Set());
   const closedRef = useRef(false);
+  const openedAtRef = useRef<number>(0);
 
   const loadReel = async () => {
+    const t0 = Date.now();
     try {
       const reel = await getShowcaseReel({ data: { limit: 20 } });
-      if (!reel || reel.length === 0) return;
+      const loadMs = Date.now() - t0;
+      if (!reel || reel.length === 0) {
+        track("showcase_empty", { metadata: { load_ms: loadMs } });
+        return;
+      }
+      track("showcase_reel_loaded", { metadata: { count: reel.length, load_ms: loadMs } });
       setItems(reel);
       setIndex(0);
       setElapsed(0);
       loggedImpressions.current = new Set();
       closedRef.current = false;
+      openedAtRef.current = Date.now();
       setOpen(true);
-    } catch {}
+      track("showcase_shown", { metadata: { count: reel.length } });
+    } catch (err) {
+      track("showcase_load_error", {
+        metadata: { message: err instanceof Error ? err.message : String(err) },
+      });
+    }
   };
 
   // Decide whether/when to pop. Runs on mount and schedules replays.
@@ -79,12 +94,17 @@ export function WelcomeShowcase() {
       } catch {}
     }
 
+    track("showcase_mount_check", {
+      metadata: { pending, session_count: count, next_at: nextAt, capped: count >= MAX_POPS_PER_WINDOW && !pending },
+    });
+
     if (count >= MAX_POPS_PER_WINDOW && !pending) return;
 
     const delay = pending ? 300 : Math.max(300, nextAt ? nextAt - now : 300);
     const t = setTimeout(loadReel, delay);
     return () => clearTimeout(t);
   }, []);
+
 
 
   // Log impression per slide (once per session)
@@ -94,7 +114,20 @@ export function WelcomeShowcase() {
     if (!cur || loggedImpressions.current.has(cur.id)) return;
     loggedImpressions.current.add(cur.id);
     logShowcaseEvent({ data: { id: cur.id, event: "impression" } }).catch(() => {});
+    track("showcase_impression", { metadata: { slide_id: cur.id, index, total: items.length } });
   }, [open, index, items]);
+
+  const close = (reason: "complete" | "dismiss" = "dismiss") => {
+    if (closedRef.current) return;
+    closedRef.current = true;
+    const cur = items[index];
+    const elapsedMs = openedAtRef.current ? Date.now() - openedAtRef.current : 0;
+    if (cur) logShowcaseEvent({ data: { id: cur.id, event: reason } }).catch(() => {});
+    track(reason === "complete" ? "showcase_completed" : "showcase_dismissed", {
+      duration_ms: elapsedMs,
+      metadata: { last_index: index, total: items.length, slide_id: cur?.id },
+    });
+
 
   const close = (reason: "complete" | "dismiss" = "dismiss") => {
     if (closedRef.current) return;
