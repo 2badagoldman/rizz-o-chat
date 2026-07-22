@@ -14,7 +14,10 @@ function shuffle<T>(arr: readonly T[]): T[] {
  * Pauses when the tab is hidden so we don't burn cycles in the background.
  */
 export function useShuffled<T>(items: readonly T[], intervalMs = 10_000): T[] {
-  const [list, setList] = useState<T[]>(() => shuffle(items));
+  // Start with the stable input order so SSR and first client render match;
+  // shuffle only after hydration to avoid hydration mismatches.
+  const [list, setList] = useState<T[]>(() => items.slice());
+
 
   useEffect(() => {
     setList(shuffle(items));
