@@ -12,7 +12,7 @@ export type PaymentAuditRow = {
   currency: string | null;
   environment: string;
   error_message: string | null;
-  details: Record<string, unknown> | null;
+  details: string | null;
   created_at: string;
 };
 
@@ -42,5 +42,9 @@ export const listPaymentAudit = createServerFn({ method: 'POST' })
 
     const { data: rows, error } = await query;
     if (error) return { rows: [], error: error.message };
-    return { rows: (rows ?? []) as PaymentAuditRow[] };
+    const mapped: PaymentAuditRow[] = (rows ?? []).map((r) => ({
+      ...r,
+      details: r.details ? JSON.stringify(r.details) : null,
+    }));
+    return { rows: mapped };
   });

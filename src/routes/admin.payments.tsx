@@ -121,7 +121,7 @@ function AdminPayments() {
                         <p>user: <span className="font-mono">{r.user_id ?? "—"}</span></p>
                         <p>intent: <span className="font-mono">{r.payment_intent_id ?? "—"}</span></p>
                         <p>env: {r.environment}</p>
-                        <pre className="whitespace-pre-wrap font-mono">{JSON.stringify(r.details ?? {}, null, 1)}</pre>
+                        <pre className="whitespace-pre-wrap font-mono">{r.details ?? "{}"}</pre>
                       </div>
                     )}
                   </td>
