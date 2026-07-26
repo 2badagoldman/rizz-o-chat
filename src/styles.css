@@ -474,7 +474,7 @@
   @media (prefers-reduced-motion: reduce) {
     .sheen-sweep::after, .bubble, .facet-spin, .glow-breathe, .ring-pulse { animation: none; }
     .overlay-in, .overlay-out, .sheet-in, .sheet-out, .seal-pop { animation-duration: 1ms; }
-    .emoji-float { animation-duration: 600ms; }
+    .emoji-float, .emoji-float-anchored { animation-duration: 600ms; }
   }
 
 
