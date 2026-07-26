@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/auth";
 
 export type PlatformTier = "free" | "plus" | "vip";
 
-/** Rizz Gold (plus) and Rizz VIP both count as Gold access. */
+/** Rizz Gold (plus) and Rizz Diamond VIP both count as Gold access. */
 export function useGoldAccess() {
   const { user } = useAuth();
   const [tier, setTier] = useState<PlatformTier>("free");

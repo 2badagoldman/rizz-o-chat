@@ -33,6 +33,8 @@ type Row = {
 };
 
 const LABEL: Record<string, string> = {
+  rizz_gold_weekly: 'Rizz Gold',
+  rizz_diamond_weekly: 'Rizz Diamond VIP',
   rizz_plus_monthly: 'Rizz Gold',
   rizz_vip_monthly: 'Rizz VIP',
 };

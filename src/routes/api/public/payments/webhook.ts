@@ -34,7 +34,7 @@ async function handleInvoicePaid(invoice: any) {
   // VIP monthly coin drop — fires on first payment AND every renewal.
   const line = invoice.lines?.data?.[0];
   const lookupKey = line?.price?.lookup_key;
-  if (lookupKey !== 'rizz_vip_monthly') return;
+  if (lookupKey !== 'rizz_diamond_weekly' && lookupKey !== 'rizz_vip_monthly') return;
   // Prefer subscription metadata (set at checkout) for userId.
   const subId = invoice.subscription;
   if (!subId) return;
@@ -77,7 +77,11 @@ async function handleSubscriptionUpsert(subscription: any, env: StripeEnv) {
   const kind = subscription.metadata?.kind;
 
   if (kind === 'platform' && isActive) {
-    const tier = priceId === 'rizz_vip_monthly' ? 'vip' : priceId === 'rizz_plus_monthly' ? 'plus' : 'free';
+    const tier = priceId === 'rizz_diamond_weekly' || priceId === 'rizz_vip_monthly'
+      ? 'vip'
+      : priceId === 'rizz_gold_weekly' || priceId === 'rizz_plus_monthly'
+        ? 'plus'
+        : 'free';
     await sb().from('profiles').update({ platform_tier: tier }).eq('id', userId);
   } else if (kind === 'platform' && !isActive) {
     await sb().from('profiles').update({ platform_tier: 'free' }).eq('id', userId);
