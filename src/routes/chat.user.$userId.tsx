@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Send } from "lucide-react";
@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { dmSendMessage, dmFetchThread } from "@/lib/dm.functions";
 import { toast } from "sonner";
+import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 
 export const Route = createFileRoute("/chat/user/$userId")({
   head: () => ({ meta: [
@@ -26,7 +27,6 @@ function UserChat() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!user) return;
@@ -46,9 +46,31 @@ function UserChat() {
     return () => { stop = true; clearInterval(t); };
   }, [user, userId, fetchThread]);
 
-  useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages]);
+  // Seen-state: my message counts as seen once the peer has sent anything
+  // after it; otherwise it is delivered (or sending while in flight).
+  const items = useMemo(() => {
+    const lastPeerAt = messages.reduce<number>(
+      (acc, m) => (m.sender_id !== user?.id ? Math.max(acc, Date.parse(m.created_at)) : acc),
+      0,
+    );
+    return messages.map((m) => {
+      const mine = m.sender_id === user?.id;
+      const at = Date.parse(m.created_at);
+      return {
+        id: m.id,
+        mine,
+        text: m.body,
+        time: new Date(at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
+        state: mine
+          ? m.id.startsWith("pending:")
+            ? ("sending" as const)
+            : at <= lastPeerAt
+              ? ("seen" as const)
+              : ("sent" as const)
+          : undefined,
+      };
+    });
+  }, [messages, user?.id]);
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
   if (!user) {
@@ -101,26 +123,15 @@ function UserChat() {
           </div>
         </header>
 
-        <div ref={scrollRef} className="flex-1 overflow-y-auto py-3 space-y-3">
-          {messages.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border bg-card p-4 text-center text-sm text-muted-foreground">
+        <VirtualMessageList
+          items={items}
+          typingName={busy ? null : null}
+          empty={
+            <div className="mb-3 rounded-2xl border border-dashed border-border bg-card p-4 text-center text-sm text-muted-foreground">
               Say hi to start the conversation.
             </div>
-          ) : messages.map((m) => {
-            const mine = m.sender_id === user.id;
-            return (
-              <div key={m.id} className={mine ? "flex justify-end" : "flex justify-start"}>
-                <div className={
-                  mine
-                    ? "max-w-[80%] rounded-2xl rounded-br-sm bg-gradient-brand px-3.5 py-2 text-sm text-white shadow-glow"
-                    : "max-w-[80%] rounded-2xl rounded-bl-sm border border-border bg-card px-3.5 py-2 text-sm"
-                }>
-                  <p className="whitespace-pre-wrap">{m.body}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+          }
+        />
 
         <form onSubmit={submit} className="sticky bottom-0 flex items-end gap-2 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
           <textarea
