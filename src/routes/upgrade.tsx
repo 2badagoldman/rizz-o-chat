@@ -2,6 +2,8 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { Check, Gem, Sparkles, Star, Zap } from 'lucide-react';
+import { DiamondGem, GoldMedallion } from '@/components/PreciousIcons';
+
 
 export const Route = createFileRoute('/upgrade')({
   head: () => ({
@@ -156,22 +158,56 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
           />
         </>
       )}
+      {!diamond && (
+        <>
+          {/* molten gold light pool */}
+          <span
+            aria-hidden
+            className="caustic pointer-events-none absolute inset-0 bg-[radial-gradient(45%_40%_at_18%_18%,rgba(247,224,138,.55),transparent_70%),radial-gradient(40%_35%_at_88%_28%,rgba(212,160,23,.4),transparent_70%),radial-gradient(60%_45%_at_50%_105%,rgba(255,236,170,.45),transparent_70%)] blur-2xl"
+          />
+          {/* gold leaf sheen sweeping across the card */}
+          <span
+            aria-hidden
+            className="prism-shift pointer-events-none absolute inset-0 opacity-30 mix-blend-overlay bg-[linear-gradient(115deg,transparent_25%,rgba(255,251,230,.95)_38%,transparent_50%,rgba(212,160,23,.6)_64%,transparent_78%)]"
+          />
+          <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]" />
+          {[
+            { top: '16%', left: '82%', s: 9, d: '0.4s' },
+            { top: '66%', left: '10%', s: 7, d: '2.4s' },
+            { top: '86%', left: '58%', s: 10, d: '1.4s' },
+          ].map((t) => (
+            <span
+              key={`g${t.top}${t.left}`}
+              aria-hidden
+              className="gold-glint pointer-events-none absolute bg-[#fff6cf]"
+              style={{
+                top: t.top,
+                left: t.left,
+                width: t.s,
+                height: t.s,
+                animationDelay: t.d,
+                clipPath: 'polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)',
+              }}
+            />
+          ))}
+        </>
+      )}
+
+
 
       <div className="relative flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div
-            className={`relative grid place-items-center transition-transform duration-500 group-hover:scale-110 ${
-              diamond
-                ? 'h-12 w-12 rotate-45 rounded-[0.85rem] bg-gradient-to-br from-sky-200 via-white to-pink-200 shadow-lg ring-1 ring-white/80'
-                : 'h-12 w-12 rounded-2xl bg-gradient-brand-soft ring-1 ring-primary/20'
-            }`}
-          >
-            <Icon className={diamond ? '-rotate-45 h-5 w-5 text-sky-600' : 'h-5 w-5 text-primary'} />
-          </div>
+          {diamond ? (
+            <div className="relative grid h-12 w-12 place-items-center transition-transform duration-500 group-hover:scale-110">
+              <DiamondGem className="h-11 w-11" />
+            </div>
+          ) : (
+            <GoldMedallion className="h-12 w-12 transition-transform duration-500 group-hover:scale-110" />
+          )}
           <div>
             <h2
               className={`text-lg leading-tight font-black ${
-                diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : ''
+                diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : 'gold-text'
               }`}
             >
               {plan.name}
@@ -179,9 +215,13 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
             <p className="mt-0.5 text-[11px] text-muted-foreground">{plan.tagline}</p>
           </div>
         </div>
-        {diamond && (
+        {diamond ? (
           <span className="chip-shimmer shrink-0 rounded-full border border-white/70 bg-white/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-sky-700">
             Diamond
+          </span>
+        ) : (
+          <span className="gold-surface shrink-0 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#5e3a04] shadow-[inset_0_1px_0_rgba(255,255,255,.8)]">
+            Gold
           </span>
         )}
       </div>
@@ -189,13 +229,14 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
       <div className="relative mt-5 flex items-end gap-1">
         <span
           className={`text-4xl font-black tracking-tight ${
-            diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : ''
+            diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : 'gold-text'
           }`}
         >
           {plan.price}
         </span>
         <span className="pb-1.5 text-xs font-semibold text-muted-foreground">/week</span>
       </div>
+
 
       {plan.includesNote && (
         <p className="relative mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/60 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-sky-700">
@@ -232,8 +273,9 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
         className={`press-spring relative mt-6 w-full overflow-hidden rounded-2xl py-3.5 text-sm font-black tracking-tight ${
           diamond
             ? 'bg-[linear-gradient(110deg,#38bdf8,#a855f7,#ec4899,#38bdf8)] bg-[length:240%_100%] text-white shadow-glow hover:bg-[position:100%_50%]'
-            : 'btn-brand'
+            : 'gold-surface text-[#4a2d02] shadow-[0_8px_20px_-8px_rgba(180,130,20,.8),inset_0_1px_0_rgba(255,255,255,.85)]'
         }`}
+
         style={diamond ? { transition: 'background-position 900ms ease, transform 320ms cubic-bezier(.2,1.3,.3,1)' } : undefined}
       >
         <span className="relative z-10 inline-flex items-center justify-center gap-2">
