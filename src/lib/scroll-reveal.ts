@@ -41,3 +41,35 @@ export function initScrollReveal() {
     /* leave observers alive for the session */
   };
 }
+
+/**
+ * Pauses decorative animation scopes ([data-anim-scope]) while they are off
+ * screen so aurora/prism/coin loops stop consuming GPU during long scrolls.
+ */
+let animObserver: IntersectionObserver | null = null;
+let animMo: MutationObserver | null = null;
+
+function scanAnimScopes() {
+  if (typeof window === "undefined") return;
+  if (!animObserver) {
+    animObserver = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) e.target.classList.toggle("anim-off", !e.isIntersecting);
+      },
+      { rootMargin: "120px" },
+    );
+  }
+  document
+    .querySelectorAll<HTMLElement>("[data-anim-scope]")
+    .forEach((el) => animObserver!.observe(el));
+}
+
+export function initAnimScopes() {
+  if (typeof window === "undefined") return () => {};
+  scanAnimScopes();
+  if (!animMo) {
+    animMo = new MutationObserver(() => scanAnimScopes());
+    animMo.observe(document.body, { childList: true, subtree: true });
+  }
+  return () => {};
+}
