@@ -21,7 +21,7 @@ type ListRow = {
   title: string | null;
   description: string | null;
   price_cents: number;
-  tier: string | null;
+  
   subscriber_count: number | null;
   active: boolean | null;
 };
@@ -51,7 +51,7 @@ function HostPricing() {
     (async () => {
       const { data, error } = await supabase
         .from("friends_lists")
-        .select("id, host_id, title, description, price_cents, tier, subscriber_count, active")
+        .select("id, host_id, title, description, price_cents, subscriber_count, active")
         .eq("host_id", user.id)
         .maybeSingle();
       if (cancelled) return;
