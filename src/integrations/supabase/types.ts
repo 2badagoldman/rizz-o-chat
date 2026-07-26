@@ -341,6 +341,54 @@ export type Database = {
         }
         Relationships: []
       }
+      kyc_submissions: {
+        Row: {
+          created_at: string
+          date_of_birth: string
+          document_path: string
+          document_type: string
+          id: string
+          legal_name: string
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          selfie_path: string | null
+          status: Database["public"]["Enums"]["kyc_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          date_of_birth: string
+          document_path: string
+          document_type?: string
+          id?: string
+          legal_name: string
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          selfie_path?: string | null
+          status?: Database["public"]["Enums"]["kyc_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          date_of_birth?: string
+          document_path?: string
+          document_type?: string
+          id?: string
+          legal_name?: string
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          selfie_path?: string | null
+          status?: Database["public"]["Enums"]["kyc_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       list_memberships: {
         Row: {
           chat_access_until: string | null
@@ -454,12 +502,16 @@ export type Database = {
           avatar_url: string | null
           bio: string | null
           created_at: string
+          date_of_birth: string | null
           deleted_at: string | null
           display_name: string
           flipped_at: string | null
           gender: Database["public"]["Enums"]["gender"] | null
           id: string
           interests: string[]
+          kyc_approved_at: string | null
+          kyc_due_at: string
+          kyc_status: Database["public"]["Enums"]["kyc_status"]
           platform_tier: Database["public"]["Enums"]["platform_tier"]
           updated_at: string
           verification_status: Database["public"]["Enums"]["verification_status"]
@@ -470,12 +522,16 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
+          date_of_birth?: string | null
           deleted_at?: string | null
           display_name?: string
           flipped_at?: string | null
           gender?: Database["public"]["Enums"]["gender"] | null
           id: string
           interests?: string[]
+          kyc_approved_at?: string | null
+          kyc_due_at?: string
+          kyc_status?: Database["public"]["Enums"]["kyc_status"]
           platform_tier?: Database["public"]["Enums"]["platform_tier"]
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
@@ -486,12 +542,16 @@ export type Database = {
           avatar_url?: string | null
           bio?: string | null
           created_at?: string
+          date_of_birth?: string | null
           deleted_at?: string | null
           display_name?: string
           flipped_at?: string | null
           gender?: Database["public"]["Enums"]["gender"] | null
           id?: string
           interests?: string[]
+          kyc_approved_at?: string | null
+          kyc_due_at?: string
+          kyc_status?: Database["public"]["Enums"]["kyc_status"]
           platform_tier?: Database["public"]["Enums"]["platform_tier"]
           updated_at?: string
           verification_status?: Database["public"]["Enums"]["verification_status"]
@@ -862,6 +922,10 @@ export type Database = {
     }
     Functions: {
       admin_platform_metrics: { Args: { _since?: string }; Returns: Json }
+      admin_review_kyc: {
+        Args: { _approve: boolean; _notes?: string; _submission_id: string }
+        Returns: Json
+      }
       admin_top_hosts: {
         Args: { _limit?: number; _since?: string }
         Returns: {
@@ -919,6 +983,7 @@ export type Database = {
         Args: { _event: string; _id: string }
         Returns: undefined
       }
+      my_kyc_state: { Args: never; Returns: Json }
       redeem_host_invite: { Args: { _code: string }; Returns: Json }
       send_coin_gift: {
         Args: { _coins: number; _host: string; _label: string; _sender: string }
@@ -933,6 +998,7 @@ export type Database = {
       app_role: "admin"
       earning_source: "list" | "gift" | "referral"
       gender: "female" | "male" | "nonbinary" | "other"
+      kyc_status: "none" | "pending" | "approved" | "rejected"
       list_tier: "new" | "rising" | "popular" | "elite"
       membership_status: "trial" | "active" | "cancelled"
       plan_type: "weekly" | "monthly"
@@ -1070,6 +1136,7 @@ export const Constants = {
       app_role: ["admin"],
       earning_source: ["list", "gift", "referral"],
       gender: ["female", "male", "nonbinary", "other"],
+      kyc_status: ["none", "pending", "approved", "rejected"],
       list_tier: ["new", "rising", "popular", "elite"],
       membership_status: ["trial", "active", "cancelled"],
       plan_type: ["weekly", "monthly"],
