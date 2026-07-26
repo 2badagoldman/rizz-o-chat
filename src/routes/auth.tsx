@@ -5,16 +5,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({
-    meta: [
-      { title: "Sign in or join free — Rizz Social" },
-      { name: "description", content: "Join Rizz Social free. Chat with verified hosts, join Friends Lists, and meet new friends." },
-      { property: "og:title", content: "Sign in or join free — Rizz Social" },
-      { property: "og:url", content: "https://rizzlachat.com/auth" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/auth" }],
+  head: () => pageHead({
+    path: "/auth",
+    title: "Sign in or join free \u2014 Rizz Social",
+    description: "Join Rizz Social free. Chat with verified hosts, join Friends Lists, and meet new friends.",
+    noindex: true,
   }),
 
   validateSearch: (s: Record<string, unknown>) => ({

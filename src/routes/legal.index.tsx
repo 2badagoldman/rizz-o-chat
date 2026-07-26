@@ -2,23 +2,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ShieldCheck, ArrowRight } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { LEGAL, LEGAL_PAGES } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/")({
-  head: () => ({
-    meta: [
-      { title: "Policies & Legal Center — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "Rizzla Chat legal center: terms of service, privacy policy, refund and cancellation policy, billing terms, acceptable use, creator payouts, cookies, DMCA and business contact details.",
-      },
-      { property: "og:title", content: "Policies & Legal Center — Rizzla Chat" },
-      { property: "og:description", content: "Terms, privacy, refunds, billing, acceptable use, payouts and contact details for Rizzla Chat." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://rizzlachat.com/legal" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal" }],
+  head: () => pageHead({
+    path: "/legal",
+    title: "Policies & Legal Center \u2014 Rizzla Chat",
+    description: "Rizzla Chat legal center: terms of service, privacy policy, refund and cancellation policy, billing terms, acceptable use, creator payouts, cookies, DMCA and business contact details.",
   }),
   component: LegalIndex,
 });

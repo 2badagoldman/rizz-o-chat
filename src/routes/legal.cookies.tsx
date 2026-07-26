@@ -1,23 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/cookies")({
-  head: () => ({
-    meta: [
-      { title: "Cookie Policy — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "Cookies and local storage used by Rizzla Chat: sign-in session cookies, theme and chat preferences, showcase frequency control, payment security cookies and product analytics.",
-      },
-      { property: "og:title", content: "Cookie Policy — Rizzla Chat" },
-      { property: "og:description", content: "Which cookies and browser storage Rizzla Chat uses, and how to control them." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/cookies" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/cookies" }],
+  head: () => pageHead({
+    path: "/legal/cookies",
+    title: "Cookie Policy \u2014 Rizzla Chat",
+    description: "Cookies and local storage used by Rizzla Chat: sign-in session cookies, theme and chat preferences, showcase frequency control, payment security cookies and product analytics.",
+    type: "article",
   }),
   component: Cookies,
 });

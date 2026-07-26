@@ -8,19 +8,13 @@ import { Search, Users, Circle, Sparkles } from "lucide-react";
 import { useShuffled } from "@/hooks/useShuffled";
 import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { RoomsShowcase } from "@/components/RoomsShowcase";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/discover")({
-  head: () => ({
-    meta: [
-      { title: "Discover verified hosts — Rizz Social" },
-      { name: "description", content: "Browse verified hosts, filter by tier, and find your next favorite chat. Join Friends Lists on Rizz Social." },
-      { property: "og:title", content: "Discover verified hosts — Rizz Social" },
-      { property: "og:description", content: "Browse verified hosts and find your next favorite chat on Rizz Social." },
-      { property: "og:url", content: "https://rizzlachat.com/discover" },
-      { property: "og:image", content: "https://rizzlachat.com/icon-512.png" },
-      { name: "twitter:image", content: "https://rizzlachat.com/icon-512.png" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/discover" }],
+  head: () => pageHead({
+    path: "/discover",
+    title: "Discover verified hosts \u2014 Rizz Social",
+    description: "Browse verified hosts, filter by tier, and find your next favorite chat. Join Friends Lists on Rizz Social.",
   }),
   component: Discover,
 });

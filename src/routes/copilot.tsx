@@ -7,18 +7,14 @@ import { AppShell } from "@/components/AppShell";
 import { Send, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import { pageHead } from "@/lib/seo";
 
 
 export const Route = createFileRoute("/copilot")({
-  head: () => ({
-    meta: [
-      { title: "Rizz AI copilot — your chat wingman" },
-      { name: "description", content: "The AI wingman inside Rizz Social. Get help crafting messages, breaking the ice, and building real chats." },
-      { property: "og:title", content: "Rizz AI copilot — your chat wingman" },
-      { property: "og:description", content: "The AI wingman inside Rizz Social." },
-      { property: "og:url", content: "https://rizzlachat.com/copilot" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/copilot" }],
+  head: () => pageHead({
+    path: "/copilot",
+    title: "Rizz AI copilot \u2014 your chat wingman",
+    description: "The AI wingman inside Rizz Social. Get help crafting messages, breaking the ice, and building real chats.",
   }),
   component: Copilot,
 });
