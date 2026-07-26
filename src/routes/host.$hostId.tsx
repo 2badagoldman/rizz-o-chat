@@ -19,15 +19,13 @@ export const Route = createFileRoute("/host/$hostId")({
     const title = h ? `${h.name} — Chat on Rizz Social` : "Host — Rizz Social";
     const desc = h?.tagline ?? "Meet a verified host on Rizz Social. Join their Friends List and start chatting.";
     return {
-      meta: [
-        { title },
-        { name: "description", content: desc },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc },
-        { property: "og:type", content: "profile" },
-        { property: "og:url", content: url },
-      ],
-      links: [{ rel: "canonical", href: url }],
+      ...pageHead({
+        path: `/host/${params.hostId}`,
+        title,
+        description: desc,
+        type: "profile",
+        imageAlt: h ? `${h.name} on Rizzla AI` : undefined,
+      }),
       scripts: h
         ? [
             {
@@ -47,6 +45,7 @@ export const Route = createFileRoute("/host/$hostId")({
   },
   component: HostProfile,
 });
+
 
 
 function HostProfile() {
