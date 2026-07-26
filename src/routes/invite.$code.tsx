@@ -8,7 +8,8 @@ import { toast } from "sonner";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/invite/$code")({
-  head: () => ({ meta: [{ title: "You're invited — Rizzla" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "You're invited — Rizzla" }] }),
   component: InvitePage,
 });
 

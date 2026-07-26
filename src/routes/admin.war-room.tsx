@@ -9,7 +9,8 @@ import {
 } from "lucide-react";
 
 export const Route = createFileRoute("/admin/war-room")({
-  head: () => ({ meta: [{ title: "War Room — Rizzla Admin" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "War Room — Rizzla Admin" }] }),
   component: WarRoom,
 });
 

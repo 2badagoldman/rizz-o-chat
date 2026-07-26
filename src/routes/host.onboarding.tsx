@@ -18,6 +18,7 @@ import {
 export const Route = createFileRoute("/host/onboarding")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Become a Host — Rizz Social" },
       { name: "description", content: "Apply, verify, price your Friends List, and publish — the creator studio for Rizz Social." },
     ],

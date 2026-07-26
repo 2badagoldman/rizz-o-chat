@@ -15,7 +15,8 @@ import {
 } from "@/lib/host-members.functions";
 
 export const Route = createFileRoute("/host/members")({
-  head: () => ({ meta: [{ title: "Manage Members — Rizzla" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Manage Members — Rizzla" }] }),
   component: HostMembers,
 });
 

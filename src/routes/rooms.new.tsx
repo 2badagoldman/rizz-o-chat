@@ -8,7 +8,8 @@ import { toast } from "sonner";
 import { MapPin, Loader2, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/rooms/new")({
-  head: () => ({ meta: [{ title: "Create a Room — Rizzla" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Create a Room — Rizzla" }] }),
   component: NewRoomPage,
 });
 

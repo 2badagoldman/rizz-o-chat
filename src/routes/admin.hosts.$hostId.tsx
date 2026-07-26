@@ -6,7 +6,8 @@ import { ArrowLeft, Check, Clock, X, MessageSquare, Users as UsersIcon } from "l
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/hosts/$hostId")({
-  head: () => ({ meta: [{ title: "Host review — Rizzla Admin" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Host review — Rizzla Admin" }] }),
   component: AdminHostDetail,
 });
 

@@ -9,7 +9,8 @@ import { dmSendMessage, dmFetchThread } from "@/lib/dm.functions";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/chat/user/$userId")({
-  head: () => ({ meta: [{ title: "Chat — Rizzla" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Chat — Rizzla" }] }),
   component: UserChat,
 });
 

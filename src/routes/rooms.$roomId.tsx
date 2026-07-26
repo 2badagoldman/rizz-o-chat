@@ -9,7 +9,8 @@ import { toast } from "sonner";
 import { getRoom, listRoomMessages, sendRoomMessage, listRoomMembers } from "@/lib/rooms.functions";
 
 export const Route = createFileRoute("/rooms/$roomId")({
-  head: () => ({ meta: [{ title: "Room — Rizzla" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Room — Rizzla" }] }),
   component: RoomChatPage,
 });
 

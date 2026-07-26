@@ -5,7 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { ShieldCheck, Check, X, RefreshCw } from "lucide-react";
 
 export const Route = createFileRoute("/admin/kyc")({
-  head: () => ({ meta: [{ title: "Age verification — Admin" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Age verification — Admin" }] }),
   component: AdminKyc,
 });
 

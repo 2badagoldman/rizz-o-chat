@@ -9,7 +9,8 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — Rizz Social" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Dashboard — Rizz Social" }] }),
   component: Dashboard,
 });
 

@@ -8,6 +8,7 @@ import { DollarSign, Save, Users, Eye, Crown, ArrowLeft } from "lucide-react";
 export const Route = createFileRoute("/host/pricing")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Edit Friends List Pricing — Rizz Social" },
       { name: "description", content: "Adjust your Friends List monthly price and preview what members will see." },
     ],

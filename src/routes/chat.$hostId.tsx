@@ -17,7 +17,8 @@ const JEN_UUID = "0dc3f76d-b710-4934-b1e5-4057ccdb082b";
 
 export const Route = createFileRoute("/chat/$hostId")({
   head: () => ({
-    meta: [{ title: "Chat — Rizzla" }],
+    meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Chat — Rizzla" }],
   }),
   component: HostChat,
 });
