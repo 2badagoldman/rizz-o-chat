@@ -93,5 +93,9 @@ export function useStripeCheckout() {
     </div>
   ) : null;
 
+  const checkoutElement =
+    overlay && typeof document !== 'undefined' ? createPortal(overlay, document.body) : null;
+
+
   return { openCheckout, closeCheckout, isOpen, checkoutElement };
 }
