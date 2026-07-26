@@ -1,6 +1,8 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
 import { AlertCircle, RefreshCw } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { supabase } from '@/integrations/supabase/client';
 import { getStripe, getStripeEnvironment } from '@/lib/stripe';
 import {
   createCheckoutSession,
@@ -25,6 +27,19 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
   const [attempt, setAttempt] = useState(0);
   const [failure, setFailure] = useState<string | null>(null);
   const failedRef = useRef(false);
+  // Checkout server fns require a Supabase bearer token. Resolve the session
+  // before mounting Stripe so a signed-out user sees a sign-in prompt instead
+  // of an unhandled "No authorization header provided" crash.
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
+  useEffect(() => {
+    let alive = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (alive) setSignedIn(Boolean(data.session?.access_token));
+    });
+    return () => {
+      alive = false;
+    };
+  }, [attempt]);
 
   // getStripe() throws when VITE_PAYMENTS_CLIENT_TOKEN is missing/unrecognized,
   // which would blow up render before fetchClientSecret ever runs.
@@ -98,6 +113,27 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
     setFailure(null);
     setAttempt((n) => n + 1);
   };
+
+  if (signedIn === false && !configError) {
+    return (
+      <div className="mx-auto max-w-md px-5 py-10 text-center">
+        <h2 className="text-base font-black tracking-tight">Sign in to continue</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          You need to be signed in to complete this purchase.
+        </p>
+        <Link
+          to="/auth"
+          className="press-spring mt-5 inline-flex items-center rounded-full border border-border/70 bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur-xl"
+        >
+          Sign in
+        </Link>
+      </div>
+    );
+  }
+
+  if (signedIn === null && !configError) {
+    return <div className="px-5 py-10 text-center text-sm text-muted-foreground">Loading checkout…</div>;
+  }
 
   const problem = configError ?? failure;
   if (problem || !stripePromise) {
