@@ -163,11 +163,31 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
           return Response.json({ received: true, ignored: 'invalid env' });
         }
         const env: StripeEnv = rawEnv;
+        const { logPaymentEvent } = await import('@/lib/payment-audit.server');
         try {
           const event = (await verifyWebhook(request, env)) as { id: string; type: string; data: { object: any } };
           if (await alreadyProcessed(event.id, event.type)) {
             return Response.json({ received: true, duplicate: true });
           }
+          const obj = event.data.object ?? {};
+          const meta = obj.metadata ?? {};
+          await logPaymentEvent({
+            userId: meta.userId ?? null,
+            sessionId: typeof obj.id === 'string' && obj.id.startsWith('cs_') ? obj.id : null,
+            paymentIntentId: typeof obj.payment_intent === 'string' ? obj.payment_intent : null,
+            kind: 'webhook',
+            status: event.type,
+            amountCents: obj.amount_total ?? obj.amount_paid ?? null,
+            currency: obj.currency ?? null,
+            environment: env,
+            details: {
+              event_id: event.id,
+              object_id: obj.id ?? null,
+              payment_status: obj.payment_status ?? null,
+              subscription_status: obj.status ?? null,
+              kind: meta.kind ?? null,
+            },
+          });
           switch (event.type) {
             case 'customer.subscription.created':
             case 'customer.subscription.updated':
@@ -192,8 +212,13 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
           return Response.json({ received: true });
         } catch (e) {
           console.error('Webhook error:', e);
+          await logPaymentEvent({
+            kind: 'webhook', status: 'webhook_error', environment: env,
+            errorMessage: e instanceof Error ? e.message : String(e),
+          });
           return new Response('Webhook error', { status: 400 });
         }
+
       },
     },
   },
