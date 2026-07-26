@@ -18,4 +18,44 @@ Disallow: /subscriptions
 Disallow: /.well-known/
 Disallow: /.mcp/
 
+# Social preview crawlers — allow full access so link cards render
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: facebookcatalog
+Allow: /
+
+User-agent: Instagram
+Allow: /
+
+User-agent: TikTokSpider
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Pinterestbot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: Slackbot-LinkExpanding
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: redditbot
+Allow: /
+
 Sitemap: https://rizzlachat.com/sitemap.xml

@@ -1,23 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/privacy")({
-  head: () => ({
-    meta: [
-      { title: "Privacy Policy — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "How Rizzla Chat collects, uses, shares and protects your data: account details, media uploads, messages, payment data via Stripe, analytics, retention periods and your GDPR/CCPA rights.",
-      },
-      { property: "og:title", content: "Privacy Policy — Rizzla Chat" },
-      { property: "og:description", content: "What we collect, who processes it, how long we keep it, and how to exercise your privacy rights." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/privacy" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/privacy" }],
+  head: () => pageHead({
+    path: "/legal/privacy",
+    title: "Privacy Policy \u2014 Rizzla Chat",
+    description: "How Rizzla Chat collects, uses, shares and protects your data: account details, media uploads, messages, payment data via Stripe, analytics, retention periods and your GDPR/CCPA rights.",
+    type: "article",
   }),
   component: Privacy,
 });

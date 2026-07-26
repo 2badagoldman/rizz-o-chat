@@ -14,7 +14,8 @@ import {
 } from "@/lib/host-invites.functions";
 
 export const Route = createFileRoute("/host/invites")({
-  head: () => ({ meta: [{ title: "Invite Friends Free — Rizzla" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Invite Friends Free — Rizzla" }] }),
   component: HostInvites,
 });
 

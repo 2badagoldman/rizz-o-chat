@@ -19,7 +19,8 @@ import {
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/admin")({
-  head: () => ({ meta: [{ title: "Admin — Rizzla" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Admin — Rizzla" }] }),
   component: AdminLayout,
 });
 

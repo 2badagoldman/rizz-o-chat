@@ -1,23 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/billing")({
-  head: () => ({
-    meta: [
-      { title: "Billing & Payment Terms — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "Rizzla Chat billing terms: prices in USD, coin packs and memberships, automatic renewals, taxes, card statement descriptor, receipts, failed payments and secure card handling via Stripe.",
-      },
-      { property: "og:title", content: "Billing & Payment Terms — Rizzla Chat" },
-      { property: "og:description", content: "Pricing, taxes, renewals, receipts and how card payments are secured." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/billing" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/billing" }],
+  head: () => pageHead({
+    path: "/legal/billing",
+    title: "Billing & Payment Terms \u2014 Rizzla Chat",
+    description: "Rizzla Chat billing terms: prices in USD, coin packs and memberships, automatic renewals, taxes, card statement descriptor, receipts, failed payments and secure card handling via Stripe.",
+    type: "article",
   }),
   component: Billing,
 });

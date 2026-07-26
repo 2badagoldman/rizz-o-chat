@@ -5,7 +5,8 @@ import { getBrainStatus, runBrainNow, updateBrainSettings } from "@/lib/showcase
 import { Brain, Play, Sparkles, Image as ImageIcon, Loader2, TrendingUp, RefreshCw } from "lucide-react";
 
 export const Route = createFileRoute("/admin/showcase-brain")({
-  head: () => ({ meta: [{ title: "Showcase Brain — Rizzla Admin" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Showcase Brain — Rizzla Admin" }] }),
   component: Page,
 });
 

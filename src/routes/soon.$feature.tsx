@@ -20,6 +20,7 @@ export const Route = createFileRoute("/soon/$feature")({
     const f = FEATURES[params.feature] ?? { title: "Coming Soon", tagline: "" };
     return {
       meta: [
+      { name: "robots", content: "noindex, nofollow" },
         { title: `${f.title} — Coming Soon | Rizzla` },
         { name: "description", content: `Get early access to ${f.title}. ${f.tagline}` },
       ],

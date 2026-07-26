@@ -1,23 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/trust")({
-  head: () => ({
-    meta: [
-      { title: "Trust & Security — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "How Rizzla Chat protects accounts, private media and payments: row-level database security, signed media links, role-based admin access, verified payment webhooks and no card data on our servers.",
-      },
-      { property: "og:title", content: "Trust & Security — Rizzla Chat" },
-      { property: "og:description", content: "The security and privacy controls behind Rizzla Chat, explained plainly." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/trust" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/trust" }],
+  head: () => pageHead({
+    path: "/legal/trust",
+    title: "Trust & Security \u2014 Rizzla Chat",
+    description: "How Rizzla Chat protects accounts, private media and payments: row-level database security, signed media links, role-based admin access, verified payment webhooks and no card data on our servers.",
+    type: "article",
   }),
   component: Trust,
 });

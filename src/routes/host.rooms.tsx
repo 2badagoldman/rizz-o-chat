@@ -13,7 +13,8 @@ import {
 } from "@/lib/rooms.functions";
 
 export const Route = createFileRoute("/host/rooms")({
-  head: () => ({ meta: [{ title: "Rooms — Rizzla" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Rooms — Rizzla" }] }),
   component: HostRoomsPage,
 });
 

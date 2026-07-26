@@ -8,16 +8,14 @@ import { cancelSubscription, resumeSubscription } from '@/lib/subscriptions.func
 import { createPortalSession } from '@/utils/payments.functions';
 import { CreditCard, ExternalLink, XCircle, RotateCcw, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute('/subscriptions')({
-  head: () => ({
-    meta: [
-      { title: 'My subscriptions — Rizz Social' },
-      { name: 'description', content: 'Manage your Friends List memberships and Rizz Gold subscription on Rizz Social.' },
-      { property: 'og:title', content: 'My subscriptions — Rizz Social' },
-      { property: 'og:url', content: 'https://rizzlachat.com/subscriptions' },
-    ],
-    links: [{ rel: 'canonical', href: 'https://rizzlachat.com/subscriptions' }],
+  head: () => pageHead({
+    path: "/subscriptions",
+    title: "My subscriptions \u2014 Rizz Social",
+    description: "Manage your Friends List memberships and Rizz Gold subscription on Rizz Social.",
+    noindex: true,
   }),
 
   component: SubscriptionsPage,

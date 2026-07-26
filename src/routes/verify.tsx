@@ -9,6 +9,7 @@ import { ShieldCheck, Upload, Camera, BadgeCheck, Clock, ShieldAlert } from "luc
 export const Route = createFileRoute("/verify")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: "Verify your age — Rizzla" },
       {
         name: "description",

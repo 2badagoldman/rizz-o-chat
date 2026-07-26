@@ -1,23 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/law-enforcement")({
-  head: () => ({
-    meta: [
-      { title: "Law Enforcement Guidelines — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "How law enforcement and government agencies can submit legal requests, preservation demands and emergency disclosure requests to Rizzla Chat, and what data may be available.",
-      },
-      { property: "og:title", content: "Law Enforcement Guidelines — Rizzla Chat" },
-      { property: "og:description", content: "Legal process, preservation requests, emergency disclosures and child-safety escalation." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/law-enforcement" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/law-enforcement" }],
+  head: () => pageHead({
+    path: "/legal/law-enforcement",
+    title: "Law Enforcement Guidelines \u2014 Rizzla Chat",
+    description: "How law enforcement and government agencies can submit legal requests, preservation demands and emergency disclosure requests to Rizzla Chat, and what data may be available.",
+    type: "article",
   }),
   component: LawEnforcement,
 });

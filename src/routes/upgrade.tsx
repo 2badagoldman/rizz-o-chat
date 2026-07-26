@@ -3,18 +3,14 @@ import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { Check, Gem, Sparkles, Star, Zap } from 'lucide-react';
 import { DiamondGem, GoldMedallion } from '@/components/PreciousIcons';
+import { pageHead } from "@/lib/seo";
 
 
 export const Route = createFileRoute('/upgrade')({
-  head: () => ({
-    meta: [
-      { title: 'Upgrade to Rizz Gold or Diamond VIP — Rizz Social' },
-      { name: 'description', content: 'Rizz Gold $9.99/week unlocks any Friends List. Rizz Diamond VIP $19.99/week adds a diamond badge and weekly coin drops.' },
-      { property: 'og:title', content: 'Upgrade to Rizz Gold or Diamond VIP — Rizz Social' },
-      { property: 'og:description', content: 'Weekly memberships: unlock Friends Lists, priority chat and weekly coin drops.' },
-      { property: 'og:url', content: 'https://rizzlachat.com/upgrade' },
-    ],
-    links: [{ rel: 'canonical', href: 'https://rizzlachat.com/upgrade' }],
+  head: () => pageHead({
+    path: "/upgrade",
+    title: "Upgrade to Rizz Gold or Diamond VIP \u2014 Rizz Social",
+    description: "Rizz Gold $9.99/week unlocks any Friends List. Rizz Diamond VIP $19.99/week adds a diamond badge and weekly coin drops.",
   }),
   component: UpgradePage,
 });

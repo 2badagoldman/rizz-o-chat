@@ -1,23 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/refunds")({
-  head: () => ({
-    meta: [
-      { title: "Refund & Cancellation Policy — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "Rizzla Chat refund and cancellation policy: 14-day refunds on unused coins and memberships, how to cancel a subscription, how tips and spent coins are treated, and how to reach support.",
-      },
-      { property: "og:title", content: "Refund & Cancellation Policy — Rizzla Chat" },
-      { property: "og:description", content: "How refunds, cancellations and renewals work for coins, memberships and tips." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/refunds" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/refunds" }],
+  head: () => pageHead({
+    path: "/legal/refunds",
+    title: "Refund & Cancellation Policy \u2014 Rizzla Chat",
+    description: "Rizzla Chat refund and cancellation policy: 14-day refunds on unused coins and memberships, how to cancel a subscription, how tips and spent coins are treated, and how to reach support.",
+    type: "article",
   }),
   component: Refunds,
 });

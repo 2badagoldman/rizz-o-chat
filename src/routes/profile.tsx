@@ -6,7 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/profile")({
-  head: () => ({ meta: [{ title: "Profile — Rizz Social" }] }),
+  head: () => ({ meta: [
+      { name: "robots", content: "noindex, nofollow" },{ title: "Profile — Rizz Social" }] }),
   component: Profile,
 });
 

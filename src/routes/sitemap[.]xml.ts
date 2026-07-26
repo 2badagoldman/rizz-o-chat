@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
+import { DEMO_HOSTS } from "@/lib/demo-hosts";
 
 const BASE_URL = "https://rizzlachat.com";
 
@@ -32,11 +33,17 @@ const ENTRIES: SitemapEntry[] = [
   { path: "/legal/contact", changefreq: "monthly", priority: "0.4" },
 ];
 
+const HOST_ENTRIES: SitemapEntry[] = DEMO_HOSTS.map((h) => ({
+  path: `/host/${h.id}`,
+  changefreq: "weekly" as const,
+  priority: "0.6",
+}));
+
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const urls = ENTRIES.map((e) =>
+        const urls = [...ENTRIES, ...HOST_ENTRIES].map((e) =>
           [
             `  <url>`,
             `    <loc>${BASE_URL}${e.path}</loc>`,

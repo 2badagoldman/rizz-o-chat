@@ -5,6 +5,7 @@ import { Check, Gem, Sparkles } from 'lucide-react';
 export const Route = createFileRoute('/checkout/return')({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex, nofollow" },
       { title: 'Payment complete — Rizzla' },
       { name: 'description', content: 'Your Rizzla membership or coin purchase is confirmed. Access unlocks in seconds.' },
       { property: 'og:title', content: 'Payment complete — Rizzla' },

@@ -4,17 +4,13 @@ import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { CoinIcon } from '@/components/CoinIcon';
 import { Sparkles } from 'lucide-react';
 import rizzAiLogo from '@/assets/rizz-ai-logo.webp.asset.json';
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute('/coins')({
-  head: () => ({
-    meta: [
-      { title: 'Buy coins — Rizz Social' },
-      { name: 'description', content: 'Top up your Rizz Social wallet with coins to send gifts, tip hosts, and unlock perks.' },
-      { property: 'og:title', content: 'Buy coins — Rizz Social' },
-      { property: 'og:description', content: 'Top up your wallet to send gifts and unlock perks.' },
-      { property: 'og:url', content: 'https://rizzlachat.com/coins' },
-    ],
-    links: [{ rel: 'canonical', href: 'https://rizzlachat.com/coins' }],
+  head: () => pageHead({
+    path: "/coins",
+    title: "Buy coins \u2014 Rizz Social",
+    description: "Top up your Rizz Social wallet with coins to send gifts, tip hosts, and unlock perks.",
   }),
   component: CoinsPage,
 });

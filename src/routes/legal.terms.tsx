@@ -1,23 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/terms")({
-  head: () => ({
-    meta: [
-      { title: "Terms of Service — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "The Rizzla Chat Terms of Service: eligibility (18+), account rules, coins and memberships, creator obligations, payments, liability and dispute resolution.",
-      },
-      { property: "og:title", content: "Terms of Service — Rizzla Chat" },
-      { property: "og:description", content: "Account rules, purchases, creator obligations, liability and dispute resolution for Rizzla Chat." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/terms" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/terms" }],
+  head: () => pageHead({
+    path: "/legal/terms",
+    title: "Terms of Service \u2014 Rizzla Chat",
+    description: "The Rizzla Chat Terms of Service: eligibility (18+), account rules, coins and memberships, creator obligations, payments, liability and dispute resolution.",
+    type: "article",
   }),
   component: Terms,
 });

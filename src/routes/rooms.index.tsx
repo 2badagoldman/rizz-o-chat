@@ -6,17 +6,13 @@ import { useAuth } from "@/lib/auth";
 import { listPublicRooms, joinPublicRoom } from "@/lib/rooms.functions";
 import { MapPin, Plus, Users, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/rooms/")({
-  head: () => ({
-    meta: [
-      { title: "Rooms near you — Rizz Social" },
-      { name: "description", content: "Join live chat rooms near you. Meet hosts and members in city rooms across the US on Rizz Social." },
-      { property: "og:title", content: "Rooms near you — Rizz Social" },
-      { property: "og:description", content: "Join live chat rooms near you on Rizz Social." },
-      { property: "og:url", content: "https://rizzlachat.com/rooms" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/rooms" }],
+  head: () => pageHead({
+    path: "/rooms",
+    title: "Rooms near you \u2014 Rizz Social",
+    description: "Join live chat rooms near you. Meet hosts and members in city rooms across the US on Rizz Social.",
   }),
 
   component: RoomsBrowsePage,
