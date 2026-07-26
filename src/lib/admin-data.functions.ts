@@ -17,12 +17,14 @@ export const listAllHosts = createServerFn({ method: "POST" })
   })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
-    let q = context.supabase
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    let q = supabaseAdmin
       .from("profiles")
       .select("id, display_name, avatar_url, verification_status, gender, platform_tier, created_at, bio, deleted_at")
       .eq("account_type", "host")
       .order("created_at", { ascending: false })
       .limit(500);
+
     if (data.status === "deleted") {
       q = q.not("deleted_at", "is", null);
     } else {
