@@ -23,10 +23,21 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RoomsIndexRouteImport } from './routes/rooms.index'
+import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SoonFeatureRouteImport } from './routes/soon.$feature'
 import { Route as RoomsNewRouteImport } from './routes/rooms.new'
 import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
+import { Route as LegalTrustRouteImport } from './routes/legal.trust'
+import { Route as LegalTermsRouteImport } from './routes/legal.terms'
+import { Route as LegalRefundsRouteImport } from './routes/legal.refunds'
+import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
+import { Route as LegalDmcaRouteImport } from './routes/legal.dmca'
+import { Route as LegalCreatorsRouteImport } from './routes/legal.creators'
+import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
+import { Route as LegalContactRouteImport } from './routes/legal.contact'
+import { Route as LegalBillingRouteImport } from './routes/legal.billing'
+import { Route as LegalAcceptableUseRouteImport } from './routes/legal.acceptable-use'
 import { Route as InviteCodeRouteImport } from './routes/invite.$code'
 import { Route as HostRoomsRouteImport } from './routes/host.rooms'
 import { Route as HostPricingRouteImport } from './routes/host.pricing'
@@ -126,6 +137,11 @@ const RoomsIndexRoute = RoomsIndexRouteImport.update({
   path: '/rooms/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalIndexRoute = LegalIndexRouteImport.update({
+  id: '/legal/',
+  path: '/legal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -144,6 +160,56 @@ const RoomsNewRoute = RoomsNewRouteImport.update({
 const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
   id: '/rooms/$roomId',
   path: '/rooms/$roomId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalTrustRoute = LegalTrustRouteImport.update({
+  id: '/legal/trust',
+  path: '/legal/trust',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalTermsRoute = LegalTermsRouteImport.update({
+  id: '/legal/terms',
+  path: '/legal/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRefundsRoute = LegalRefundsRouteImport.update({
+  id: '/legal/refunds',
+  path: '/legal/refunds',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalPrivacyRoute = LegalPrivacyRouteImport.update({
+  id: '/legal/privacy',
+  path: '/legal/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalDmcaRoute = LegalDmcaRouteImport.update({
+  id: '/legal/dmca',
+  path: '/legal/dmca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalCreatorsRoute = LegalCreatorsRouteImport.update({
+  id: '/legal/creators',
+  path: '/legal/creators',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalCookiesRoute = LegalCookiesRouteImport.update({
+  id: '/legal/cookies',
+  path: '/legal/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalContactRoute = LegalContactRouteImport.update({
+  id: '/legal/contact',
+  path: '/legal/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalBillingRoute = LegalBillingRouteImport.update({
+  id: '/legal/billing',
+  path: '/legal/billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalAcceptableUseRoute = LegalAcceptableUseRouteImport.update({
+  id: '/legal/acceptable-use',
+  path: '/legal/acceptable-use',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InviteCodeRoute = InviteCodeRouteImport.update({
@@ -327,10 +393,21 @@ export interface FileRoutesByFullPath {
   '/host/pricing': typeof HostPricingRoute
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
+  '/legal/acceptable-use': typeof LegalAcceptableUseRoute
+  '/legal/billing': typeof LegalBillingRoute
+  '/legal/contact': typeof LegalContactRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/creators': typeof LegalCreatorsRoute
+  '/legal/dmca': typeof LegalDmcaRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/refunds': typeof LegalRefundsRoute
+  '/legal/terms': typeof LegalTermsRoute
+  '/legal/trust': typeof LegalTrustRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
   '/admin/': typeof AdminIndexRoute
+  '/legal/': typeof LegalIndexRoute
   '/rooms/': typeof RoomsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -374,10 +451,21 @@ export interface FileRoutesByTo {
   '/host/pricing': typeof HostPricingRoute
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
+  '/legal/acceptable-use': typeof LegalAcceptableUseRoute
+  '/legal/billing': typeof LegalBillingRoute
+  '/legal/contact': typeof LegalContactRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/creators': typeof LegalCreatorsRoute
+  '/legal/dmca': typeof LegalDmcaRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/refunds': typeof LegalRefundsRoute
+  '/legal/terms': typeof LegalTermsRoute
+  '/legal/trust': typeof LegalTrustRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
   '/admin': typeof AdminIndexRoute
+  '/legal': typeof LegalIndexRoute
   '/rooms': typeof RoomsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -423,10 +511,21 @@ export interface FileRoutesById {
   '/host/pricing': typeof HostPricingRoute
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
+  '/legal/acceptable-use': typeof LegalAcceptableUseRoute
+  '/legal/billing': typeof LegalBillingRoute
+  '/legal/contact': typeof LegalContactRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/creators': typeof LegalCreatorsRoute
+  '/legal/dmca': typeof LegalDmcaRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/refunds': typeof LegalRefundsRoute
+  '/legal/terms': typeof LegalTermsRoute
+  '/legal/trust': typeof LegalTrustRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
   '/admin/': typeof AdminIndexRoute
+  '/legal/': typeof LegalIndexRoute
   '/rooms/': typeof RoomsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -473,10 +572,21 @@ export interface FileRouteTypes {
     | '/host/pricing'
     | '/host/rooms'
     | '/invite/$code'
+    | '/legal/acceptable-use'
+    | '/legal/billing'
+    | '/legal/contact'
+    | '/legal/cookies'
+    | '/legal/creators'
+    | '/legal/dmca'
+    | '/legal/privacy'
+    | '/legal/refunds'
+    | '/legal/terms'
+    | '/legal/trust'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
     | '/admin/'
+    | '/legal/'
     | '/rooms/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -520,10 +630,21 @@ export interface FileRouteTypes {
     | '/host/pricing'
     | '/host/rooms'
     | '/invite/$code'
+    | '/legal/acceptable-use'
+    | '/legal/billing'
+    | '/legal/contact'
+    | '/legal/cookies'
+    | '/legal/creators'
+    | '/legal/dmca'
+    | '/legal/privacy'
+    | '/legal/refunds'
+    | '/legal/terms'
+    | '/legal/trust'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
     | '/admin'
+    | '/legal'
     | '/rooms'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -568,10 +689,21 @@ export interface FileRouteTypes {
     | '/host/pricing'
     | '/host/rooms'
     | '/invite/$code'
+    | '/legal/acceptable-use'
+    | '/legal/billing'
+    | '/legal/contact'
+    | '/legal/cookies'
+    | '/legal/creators'
+    | '/legal/dmca'
+    | '/legal/privacy'
+    | '/legal/refunds'
+    | '/legal/terms'
+    | '/legal/trust'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
     | '/admin/'
+    | '/legal/'
     | '/rooms/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -609,9 +741,20 @@ export interface RootRouteChildren {
   HostPricingRoute: typeof HostPricingRoute
   HostRoomsRoute: typeof HostRoomsRoute
   InviteCodeRoute: typeof InviteCodeRoute
+  LegalAcceptableUseRoute: typeof LegalAcceptableUseRoute
+  LegalBillingRoute: typeof LegalBillingRoute
+  LegalContactRoute: typeof LegalContactRoute
+  LegalCookiesRoute: typeof LegalCookiesRoute
+  LegalCreatorsRoute: typeof LegalCreatorsRoute
+  LegalDmcaRoute: typeof LegalDmcaRoute
+  LegalPrivacyRoute: typeof LegalPrivacyRoute
+  LegalRefundsRoute: typeof LegalRefundsRoute
+  LegalTermsRoute: typeof LegalTermsRoute
+  LegalTrustRoute: typeof LegalTrustRoute
   RoomsRoomIdRoute: typeof RoomsRoomIdRoute
   RoomsNewRoute: typeof RoomsNewRoute
   SoonFeatureRoute: typeof SoonFeatureRoute
+  LegalIndexRoute: typeof LegalIndexRoute
   RoomsIndexRoute: typeof RoomsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -721,6 +864,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoomsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal/': {
+      id: '/legal/'
+      path: '/legal'
+      fullPath: '/legal/'
+      preLoaderRoute: typeof LegalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -747,6 +897,76 @@ declare module '@tanstack/react-router' {
       path: '/rooms/$roomId'
       fullPath: '/rooms/$roomId'
       preLoaderRoute: typeof RoomsRoomIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/trust': {
+      id: '/legal/trust'
+      path: '/legal/trust'
+      fullPath: '/legal/trust'
+      preLoaderRoute: typeof LegalTrustRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/terms': {
+      id: '/legal/terms'
+      path: '/legal/terms'
+      fullPath: '/legal/terms'
+      preLoaderRoute: typeof LegalTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/refunds': {
+      id: '/legal/refunds'
+      path: '/legal/refunds'
+      fullPath: '/legal/refunds'
+      preLoaderRoute: typeof LegalRefundsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/privacy': {
+      id: '/legal/privacy'
+      path: '/legal/privacy'
+      fullPath: '/legal/privacy'
+      preLoaderRoute: typeof LegalPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/dmca': {
+      id: '/legal/dmca'
+      path: '/legal/dmca'
+      fullPath: '/legal/dmca'
+      preLoaderRoute: typeof LegalDmcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/creators': {
+      id: '/legal/creators'
+      path: '/legal/creators'
+      fullPath: '/legal/creators'
+      preLoaderRoute: typeof LegalCreatorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/cookies': {
+      id: '/legal/cookies'
+      path: '/legal/cookies'
+      fullPath: '/legal/cookies'
+      preLoaderRoute: typeof LegalCookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/contact': {
+      id: '/legal/contact'
+      path: '/legal/contact'
+      fullPath: '/legal/contact'
+      preLoaderRoute: typeof LegalContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/billing': {
+      id: '/legal/billing'
+      path: '/legal/billing'
+      fullPath: '/legal/billing'
+      preLoaderRoute: typeof LegalBillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/acceptable-use': {
+      id: '/legal/acceptable-use'
+      path: '/legal/acceptable-use'
+      fullPath: '/legal/acceptable-use'
+      preLoaderRoute: typeof LegalAcceptableUseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/invite/$code': {
@@ -1014,9 +1234,20 @@ const rootRouteChildren: RootRouteChildren = {
   HostPricingRoute: HostPricingRoute,
   HostRoomsRoute: HostRoomsRoute,
   InviteCodeRoute: InviteCodeRoute,
+  LegalAcceptableUseRoute: LegalAcceptableUseRoute,
+  LegalBillingRoute: LegalBillingRoute,
+  LegalContactRoute: LegalContactRoute,
+  LegalCookiesRoute: LegalCookiesRoute,
+  LegalCreatorsRoute: LegalCreatorsRoute,
+  LegalDmcaRoute: LegalDmcaRoute,
+  LegalPrivacyRoute: LegalPrivacyRoute,
+  LegalRefundsRoute: LegalRefundsRoute,
+  LegalTermsRoute: LegalTermsRoute,
+  LegalTrustRoute: LegalTrustRoute,
   RoomsRoomIdRoute: RoomsRoomIdRoute,
   RoomsNewRoute: RoomsNewRoute,
   SoonFeatureRoute: SoonFeatureRoute,
+  LegalIndexRoute: LegalIndexRoute,
   RoomsIndexRoute: RoomsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,

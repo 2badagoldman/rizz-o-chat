@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { Coins } from 'lucide-react';
@@ -63,7 +63,16 @@ function CoinsPage() {
       <p className="mt-6 text-center text-[11px] text-muted-foreground flex items-center justify-center gap-1">
         <img src={rizzAiLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" /> Coins are added to your wallet instantly after payment.
       </p>
+      <div className="mt-3 rounded-2xl border border-border bg-card/60 p-4 text-[11px] leading-relaxed text-muted-foreground">
+        One-time purchase in USD, tax shown at checkout. Card statements read <b className="text-foreground">RIZZLA CHAT</b>.
+        Coins are a licence to use in-app features, not cash, and cannot be transferred or withdrawn. Unused coins are
+        refundable within 14 days — see our{' '}
+        <Link to="/legal/refunds" className="font-semibold text-primary">Refund Policy</Link>,{' '}
+        <Link to="/legal/billing" className="font-semibold text-primary">Billing Terms</Link> and{' '}
+        <Link to="/legal/terms" className="font-semibold text-primary">Terms</Link>. By paying you agree to them.
+      </div>
       {checkoutElement}
+
     </AppShell>
   );
 }

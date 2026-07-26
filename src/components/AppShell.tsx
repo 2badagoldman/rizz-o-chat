@@ -7,6 +7,8 @@ import { PaymentTestModeBanner } from "./PaymentTestModeBanner";
 import { ThemeToggle } from "./ThemeToggle";
 import { SideDrawer } from "./SideDrawer";
 import { GlobalSearch } from "./GlobalSearch";
+import { LegalFooter } from "./LegalFooter";
+
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { initScrollReveal } from "@/lib/scroll-reveal";
 
@@ -90,6 +92,8 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
             {footerNote}
           </p>
         ) : null}
+        <LegalFooter />
+
       </main>
       {!suppressDock ? <RizzBrainDock /> : null}
       {!hideNav ? <BottomNav /> : null}

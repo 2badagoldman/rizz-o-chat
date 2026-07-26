@@ -17,6 +17,17 @@ const ENTRIES: SitemapEntry[] = [
   { path: "/upgrade", changefreq: "weekly", priority: "0.7" },
   { path: "/coins", changefreq: "weekly", priority: "0.6" },
   { path: "/auth", changefreq: "monthly", priority: "0.5" },
+  { path: "/legal", changefreq: "monthly", priority: "0.5" },
+  { path: "/legal/terms", changefreq: "monthly", priority: "0.4" },
+  { path: "/legal/privacy", changefreq: "monthly", priority: "0.4" },
+  { path: "/legal/refunds", changefreq: "monthly", priority: "0.4" },
+  { path: "/legal/billing", changefreq: "monthly", priority: "0.4" },
+  { path: "/legal/acceptable-use", changefreq: "monthly", priority: "0.4" },
+  { path: "/legal/creators", changefreq: "monthly", priority: "0.4" },
+  { path: "/legal/cookies", changefreq: "monthly", priority: "0.3" },
+  { path: "/legal/dmca", changefreq: "monthly", priority: "0.3" },
+  { path: "/legal/trust", changefreq: "monthly", priority: "0.4" },
+  { path: "/legal/contact", changefreq: "monthly", priority: "0.4" },
 ];
 
 export const Route = createFileRoute("/sitemap.xml")({

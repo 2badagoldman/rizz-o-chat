@@ -14,6 +14,8 @@ import {
   LogOut,
   X,
   Shield,
+  Scale,
+
   ChevronRight,
   MessageCircle,
   Coins,
@@ -56,7 +58,9 @@ const SOON: Array<{ label: string; slug: string; icon: IconType; tint: string; h
 const FOOT: Row[] = [
   { label: "Settings", to: "/profile", icon: Settings, tint: "#8a8a8f" },
   { label: "Help & support", to: "/soon/$feature", icon: HelpCircle, tint: "#3d8dff", params: { feature: "help" } },
+  { label: "Policies & legal", to: "/legal", icon: Scale, tint: "#2d3436", hint: "Terms, privacy, refunds" },
 ];
+
 
 export function SideDrawer({ open, onClose }: Props) {
   const { user, signOut } = useAuth();
