@@ -1,3 +1,5 @@
+import { Sparkles } from "lucide-react";
+import { PrismEmptyState } from "@/components/Prism";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
