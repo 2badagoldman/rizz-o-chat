@@ -31,7 +31,7 @@ const COINS = [
 
 const PLANS = [
   { name: "Rizz+", billing: "Monthly, auto-renewing", price: "$9.99 / month" },
-  { name: "Rizz VIP", billing: "Monthly, auto-renewing", price: "$24.99 / month" },
+  { name: "Rizz VIP", billing: "Monthly, auto-renewing", price: "$19.99 / month" },
 ];
 
 function Table({
