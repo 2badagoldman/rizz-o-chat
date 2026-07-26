@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { Check, Crown, Star } from 'lucide-react';
@@ -81,6 +81,15 @@ function UpgradePage() {
             </div>
           );
         })}
+      </div>
+      <div className="mt-5 rounded-2xl border border-border bg-card/60 p-4 text-[11px] leading-relaxed text-muted-foreground">
+        Memberships are billed monthly in USD and renew automatically until you cancel. Cancel anytime from{' '}
+        <Link to="/subscriptions" className="font-semibold text-primary">My subscriptions</Link> — access continues to the end
+        of the paid period, and unused memberships are refundable within 14 days. See our{' '}
+        <Link to="/legal/refunds" className="font-semibold text-primary">Refund &amp; Cancellation Policy</Link>,{' '}
+        <Link to="/legal/billing" className="font-semibold text-primary">Billing Terms</Link>,{' '}
+        <Link to="/legal/terms" className="font-semibold text-primary">Terms</Link> and{' '}
+        <Link to="/legal/privacy" className="font-semibold text-primary">Privacy Policy</Link>.
       </div>
       {checkoutElement}
     </AppShell>
