@@ -255,43 +255,25 @@ function HostChat() {
           </div>
         ) : null}
 
-        <div ref={scrollRef} className="flex-1 overflow-y-auto py-3 space-y-3">
-          {aiHost && !user ? (
-            <div className="rounded-2xl border border-primary/30 bg-primary/5 p-3 text-[11px] text-primary flex items-center gap-2">
-              <Sparkles className="h-3.5 w-3.5" /> Free preview chat with {host.name}. Sign up to unlock gifts, Rooms & photo/video shares.
-            </div>
-          ) : null}
-          {messages.length === 0 ? (
-            <div className="rounded-2xl border border-border bg-card p-4 text-sm">
+        <VirtualMessageList
+          items={items}
+          typingName={typing ? host.name : null}
+          header={
+            aiHost && !user ? (
+              <div className="rounded-2xl border border-primary/30 bg-primary/5 p-3 text-[11px] text-primary flex items-center gap-2">
+                <Sparkles className="h-3.5 w-3.5" /> Free preview chat with {host.name}. Sign up to unlock gifts, Rooms & photo/video shares.
+              </div>
+            ) : null
+          }
+          empty={
+            <div className="mb-3 rounded-2xl border border-border bg-card p-4 text-sm">
               {isJen
                 ? "hey! so glad you're actually testing this with me 💌 tell me something about your day"
                 : `hey — ${host.teaser.toLowerCase()} what's up with you?`}
             </div>
-          ) : null}
+          }
+        />
 
-
-          {messages.map((m) => {
-            const isUser = m.role === "user";
-            const text = m.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
-            return (
-              <div key={m.id} className={isUser ? "flex justify-end" : "flex justify-start"}>
-                <div
-                  className={
-                    isUser
-                      ? "max-w-[80%] rounded-2xl rounded-br-sm bg-gradient-brand px-3.5 py-2 text-sm text-white shadow-glow"
-                      : "max-w-[80%] rounded-2xl rounded-bl-sm border border-border bg-card px-3.5 py-2 text-sm"
-                  }
-                >
-                  <p className="whitespace-pre-wrap">{text || "…"}</p>
-                </div>
-              </div>
-            );
-          })}
-
-          {busy && messages[messages.length - 1]?.role === "user" ? (
-            <p className="pl-2 text-xs text-muted-foreground animate-pulse">{host.name} is typing…</p>
-          ) : null}
-        </div>
 
         <form onSubmit={submit} className="sticky bottom-0 flex items-end gap-2 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
           <textarea
