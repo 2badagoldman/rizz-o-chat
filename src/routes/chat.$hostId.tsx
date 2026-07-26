@@ -198,7 +198,14 @@ function HostChat() {
     setInput("");
   };
 
+  // Tap a reaction: it bursts up the screen and is delivered to the host as a message.
+  const sendReaction = (emoji: string) => {
+    fire(emoji);
+    if (!busy) sendMessage({ text: emoji });
+  };
+
   return (
+
     <AppShell hideNav>
       {welcome ? (
         <div onClick={() => setWelcome(false)} className="fixed inset-0 z-[120] flex cursor-pointer flex-col items-center justify-center bg-gradient-to-br from-primary/90 via-fuchsia-500/80 to-rose-500/90 text-white animate-in fade-in duration-300">
