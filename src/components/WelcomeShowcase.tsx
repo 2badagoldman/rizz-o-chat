@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { X, ChevronUp, ChevronDown, Volume2, VolumeX, Sparkles, ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { X, Volume2, VolumeX, Sparkles, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getShowcaseReel, logShowcaseEvent, type ReelItem } from "@/lib/showcase-brain.functions";
 import { track } from "@/lib/analytics";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -7,10 +7,10 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 const FLAG_KEY = "rizzla:showWelcome";           // explicit trigger (e.g. right after sign-up)
 const SESSION_SHOWN_KEY = "rizzla:welcomeShown"; // once per browser session
 const LAST_SHOWN_KEY = "rizzla:welcomeLastAt";   // cross-session throttle
-const AUTO_ADVANCE_MS = 5_000;                   // slide auto-advance
-const AUTO_CLOSE_MS = 20_000;                    // auto-close after 20s
+const AUTO_ADVANCE_MS = 2_000;                   // slide changes every 2s
+const AUTO_CLOSE_MS = 24_000;                    // auto-close
 const MIN_COOLDOWN_MS = 6 * 60 * 60 * 1000;      // don't repop for 6h across sessions
-const EXIT_ANIM_MS = 420;                        // matches fade-out below
+const EXIT_ANIM_MS = 420;
 
 type ShowcaseItem = ReelItem;
 
@@ -29,7 +29,6 @@ export function WelcomeShowcase() {
   const [index, setIndex] = useState(0);
   const [muted, setMuted] = useState(true);
   const [elapsed, setElapsed] = useState(0);
-  const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRefs = useRef<Record<number, HTMLVideoElement | null>>({});
   const loggedImpressions = useRef<Set<string>>(new Set());
   const closedRef = useRef(false);
@@ -52,7 +51,6 @@ export function WelcomeShowcase() {
       closedRef.current = false;
       openedAtRef.current = Date.now();
       setMounted(true);
-      // next frame → trigger CSS transition
       requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
       track("showcase_shown", { metadata: { count: reel.length } });
     } catch (err) {
@@ -62,7 +60,6 @@ export function WelcomeShowcase() {
     }
   };
 
-  // Decide whether/when to pop. Runs once on mount.
   useEffect(() => {
     let pending = false;
     let lastAt = 0;
@@ -82,7 +79,6 @@ export function WelcomeShowcase() {
     });
 
     if (!shouldShow) return;
-    // small delay so hydration settles and the fade-in feels intentional
     const t = setTimeout(loadReel, pending ? 200 : 800);
     return () => clearTimeout(t);
   }, []);
@@ -114,13 +110,12 @@ export function WelcomeShowcase() {
       localStorage.removeItem(FLAG_KEY);
     } catch {}
 
-    // Smooth exit: fade → then unmount
     setVisible(false);
     Object.values(videoRefs.current).forEach((v) => v?.pause());
     setTimeout(() => setMounted(false), EXIT_ANIM_MS);
   };
 
-  // Auto-close after AUTO_CLOSE_MS, and drive the progress bar
+  // Auto-close + progress
   useEffect(() => {
     if (!mounted) return;
     const start = Date.now();
@@ -135,7 +130,7 @@ export function WelcomeShowcase() {
     return () => clearInterval(iv);
   }, [mounted]);
 
-  // Autoplay + auto-advance
+  // Autoplay current video + advance every 2s (videos get a little longer)
   useEffect(() => {
     if (!mounted || items.length === 0) return;
     const current = videoRefs.current[index];
@@ -149,110 +144,91 @@ export function WelcomeShowcase() {
       current.muted = muted;
       current.play().catch(() => {});
     }
-    const t = setTimeout(() => {
-      setIndex((i) => (i + 1) % items.length);
-    }, AUTO_ADVANCE_MS);
+    const isVideo = items[index]?.media_type === "video";
+    const t = setTimeout(
+      () => setIndex((i) => (i + 1) % items.length),
+      isVideo ? AUTO_ADVANCE_MS * 3 : AUTO_ADVANCE_MS,
+    );
     return () => clearTimeout(t);
-  }, [mounted, index, items.length, muted]);
+  }, [mounted, index, items, muted]);
 
-  // Scroll to current slide
-  useEffect(() => {
-    if (!mounted) return;
-    const el = containerRef.current;
-    if (!el) return;
-    el.scrollTo({ top: index * el.clientHeight, behavior: "smooth" });
-  }, [index, mounted]);
-
-  const onScroll = () => {
-    const el = containerRef.current;
-    if (!el) return;
-    const h = el.clientHeight;
-    const i = Math.round(el.scrollTop / h);
-    if (i !== index && i >= 0 && i < items.length) setIndex(i);
-  };
-
-  const progress = useMemo(() => items.map((_, i) => i), [items]);
   const autoPct = Math.min(100, (elapsed / AUTO_CLOSE_MS) * 100);
+  const current = items[index];
 
-  if (!mounted || items.length === 0) return null;
+  if (!mounted || !current) return null;
 
   return (
     <div
       className={
-        "fixed inset-0 z-[100] bg-black text-white transition-all duration-[420ms] ease-out will-change-[opacity,transform] " +
-        (visible ? "opacity-100 scale-100" : "opacity-0 scale-[0.98] pointer-events-none")
+        "fixed inset-0 z-[100] flex items-center justify-center p-4 text-white transition-all duration-[420ms] ease-out will-change-[opacity,transform] " +
+        (visible ? "opacity-100" : "opacity-0 pointer-events-none")
       }
     >
-      {/* top bar */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-center justify-between p-3">
-        <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 backdrop-blur-xl ring-1 ring-white/15">
-          <img src={rizzAiLogo.url} alt="Rizzla" className="h-6 w-6 rounded-full" />
-          <span className="text-xs font-semibold tracking-wide">Rizz Chat</span>
-        </div>
-        <div className="pointer-events-auto flex items-center gap-2">
-          <button
-            onClick={() => setMuted((m) => !m)}
-            aria-label={muted ? "Unmute" : "Mute"}
-            className="grid h-9 w-9 place-items-center rounded-full bg-white/10 backdrop-blur-xl ring-1 ring-white/15 transition hover:bg-white/20"
-          >
-            {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-          </button>
-          <button
-            onClick={() => close()}
-            aria-label="Close welcome"
-            className="grid h-9 w-9 place-items-center rounded-full bg-white/20 ring-1 ring-white/30 backdrop-blur-xl transition hover:bg-white/30 hover:scale-105"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
+      {/* soft backdrop, tap to close */}
+      <button
+        aria-label="Close welcome"
+        onClick={() => close()}
+        className="absolute inset-0 bg-[radial-gradient(80%_60%_at_50%_0%,rgba(236,72,153,0.35),transparent_70%),rgba(8,6,14,0.86)] backdrop-blur-xl"
+      />
 
-      {/* auto-close progress bar */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-40 h-0.5 bg-white/10">
-        <div
-          className="h-full bg-gradient-to-r from-fuchsia-400 via-pink-400 to-sky-400 transition-[width] duration-200 ease-linear"
-          style={{ width: `${autoPct}%` }}
-        />
-      </div>
-
-      {/* progress dots */}
-      <div className="pointer-events-none absolute inset-x-0 top-14 z-30 flex justify-center gap-1 px-4">
-        {progress.map((i) => (
-          <span
-            key={i}
-            className={`h-0.5 flex-1 max-w-16 rounded-full transition-all duration-500 ${
-              i === index ? "bg-white" : i < index ? "bg-white/70" : "bg-white/25"
-            }`}
-          />
-        ))}
-      </div>
-
-      {/* Floating headline banner */}
-      <div className="pointer-events-none absolute inset-x-0 top-24 z-30 flex justify-center px-4">
-        <div className="max-w-[520px] rounded-2xl bg-gradient-to-r from-fuchsia-500/25 via-pink-500/20 to-sky-400/25 px-5 py-3 text-center shadow-[0_10px_40px_-10px_rgba(236,72,153,0.6)] ring-1 ring-white/20 backdrop-blur-xl animate-fade-in">
-          <p className="flex items-center justify-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.25em] text-white/80">
-            <Sparkles className="h-3 w-3" /> Rizz Chat
-          </p>
-          <p className="mt-1 text-base font-extrabold leading-tight drop-shadow">
-            Chat with your favourite host now on Rizz Chat
-          </p>
-        </div>
-      </div>
-
-      {/* vertical snap reel */}
+      {/* card */}
       <div
-        ref={containerRef}
-        onScroll={onScroll}
-        className="h-full w-full snap-y snap-mandatory overflow-y-auto scroll-smooth"
-        style={{ scrollbarWidth: "none" }}
+        className={
+          "relative z-10 w-full max-w-[420px] overflow-hidden rounded-[28px] bg-white/[0.06] ring-1 ring-white/15 shadow-[0_30px_90px_-20px_rgba(236,72,153,0.55)] backdrop-blur-2xl transition-all duration-[420ms] ease-out " +
+          (visible ? "translate-y-0 scale-100" : "translate-y-4 scale-[0.97]")
+        }
       >
-        {items.map((item, i) => (
-          <div key={item.id} className="relative h-full w-full snap-start overflow-hidden">
-            {item.media_type === "video" ? (
+        {/* auto-close progress */}
+        <div className="absolute inset-x-0 top-0 z-30 h-[3px] bg-white/10">
+          <div
+            className="h-full bg-gradient-to-r from-fuchsia-400 via-pink-400 to-sky-400 transition-[width] duration-200 ease-linear"
+            style={{ width: `${autoPct}%` }}
+          />
+        </div>
+
+        {/* header */}
+        <div className="flex items-center justify-between px-4 pb-2 pt-4">
+          <div className="flex items-center gap-2">
+            <img src={rizzAiLogo.url} alt="Rizzla" className="h-7 w-7 rounded-full ring-1 ring-white/25" />
+            <div className="leading-tight">
+              <p className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.25em] text-white/60">
+                <Sparkles className="h-2.5 w-2.5" /> Welcome
+              </p>
+              <p className="text-sm font-extrabold">Rizz Chat</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {current.media_type === "video" && (
+              <button
+                onClick={() => setMuted((m) => !m)}
+                aria-label={muted ? "Unmute" : "Mute"}
+                className="grid h-8 w-8 place-items-center rounded-full bg-white/10 ring-1 ring-white/15 transition hover:bg-white/20"
+              >
+                {muted ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
+              </button>
+            )}
+            <button
+              onClick={() => close()}
+              aria-label="Close"
+              className="grid h-8 w-8 place-items-center rounded-full bg-white/15 ring-1 ring-white/25 transition hover:bg-white/25"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </div>
+
+        {/* media stage — crossfade, framed so faces aren't cropped tight */}
+        <div className="relative mx-4 aspect-[4/5] overflow-hidden rounded-[22px] bg-black/40 ring-1 ring-white/10">
+          {items.map((item, i) =>
+            item.media_type === "video" ? (
               <video
+                key={item.id}
                 ref={(el) => { videoRefs.current[i] = el; }}
                 src={item.url}
-                className="h-full w-full object-cover"
+                className={
+                  "absolute inset-0 h-full w-full object-contain transition-opacity duration-700 ease-out " +
+                  (i === index ? "opacity-100" : "opacity-0")
+                }
                 playsInline
                 loop
                 muted={muted}
@@ -260,68 +236,73 @@ export function WelcomeShowcase() {
               />
             ) : (
               <img
+                key={item.id}
                 src={item.url}
                 alt={item.caption ?? "Rizzla showcase"}
-                className="h-full w-full object-cover"
-                style={{ animation: "kenburns 9s ease-out both" }}
+                loading={Math.abs(i - index) <= 2 ? "eager" : "lazy"}
+                className={
+                  "absolute inset-0 h-full w-full object-contain transition-opacity duration-700 ease-out " +
+                  (i === index ? "opacity-100" : "opacity-0")
+                }
               />
-            )}
-            {/* Layered gradients for cinematic depth */}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-black/40" />
-            <div
-              className="pointer-events-none absolute inset-0 opacity-70 mix-blend-soft-light"
-              style={{
-                background:
-                  "radial-gradient(60% 40% at 30% 20%, rgba(236,72,153,0.35), transparent 70%), radial-gradient(50% 40% at 80% 90%, rgba(56,189,248,0.28), transparent 70%)",
-              }}
+            ),
+          )}
+
+          {/* subtle bottom scrim for caption legibility */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent" />
+
+          {/* arrows */}
+          <button
+            onClick={() => setIndex((i) => (i - 1 + items.length) % items.length)}
+            aria-label="Previous"
+            className="absolute left-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-black/35 ring-1 ring-white/20 backdrop-blur transition hover:bg-black/55"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => setIndex((i) => (i + 1) % items.length)}
+            aria-label="Next"
+            className="absolute right-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full bg-black/35 ring-1 ring-white/20 backdrop-blur transition hover:bg-black/55"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+
+        {/* caption */}
+        <div className="px-5 pt-4">
+          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/50">
+            {index + 1} / {items.length}
+          </p>
+          <p key={`cap-${index}`} className="mt-1 min-h-[3rem] text-lg font-extrabold leading-snug animate-fade-in">
+            {current.caption ?? "Welcome to your new favourite space."}
+          </p>
+        </div>
+
+        {/* dots */}
+        <div className="flex flex-wrap items-center gap-1.5 px-5 pt-3">
+          {items.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              aria-label={`Slide ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === index ? "w-6 bg-white" : "w-1.5 bg-white/30 hover:bg-white/60"
+              }`}
             />
+          ))}
+        </div>
 
-            {/* Caption */}
-            <div
-              className="absolute inset-x-0 bottom-0 z-10 space-y-2 p-6 pb-28 animate-fade-in"
-              key={`cap-${index}-${i}`}
-            >
-              <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/70">
-                Rizzla · {i + 1} / {items.length}
-              </p>
-              <p className="max-w-[560px] text-xl font-extrabold leading-tight drop-shadow-lg">
-                {item.caption ?? "Welcome to your new favorite space."}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* nav buttons */}
-      <div className="pointer-events-none absolute inset-y-0 right-2 z-30 flex flex-col items-center justify-center gap-3">
-        <button
-          onClick={() => setIndex((i) => (i - 1 + items.length) % items.length)}
-          aria-label="Previous"
-          className="pointer-events-auto grid h-10 w-10 place-items-center rounded-full bg-white/10 backdrop-blur-xl ring-1 ring-white/15 transition hover:bg-white/20 hover:scale-105"
-        >
-          <ChevronUp className="h-5 w-5" />
-        </button>
-        <button
-          onClick={() => setIndex((i) => (i + 1) % items.length)}
-          aria-label="Next"
-          className="pointer-events-auto grid h-10 w-10 place-items-center rounded-full bg-white/10 backdrop-blur-xl ring-1 ring-white/15 transition hover:bg-white/20 hover:scale-105"
-        >
-          <ChevronDown className="h-5 w-5" />
-        </button>
-      </div>
-
-      {/* Bottom CTA — always available, no forced wait */}
-      <div className="absolute inset-x-0 bottom-0 z-30 p-4 animate-fade-in">
-        <div className="mx-auto flex w-full max-w-[520px] items-center gap-2">
+        {/* CTA */}
+        <div className="flex items-center gap-2 p-5">
           <button
             onClick={() => close("complete")}
-            className="btn-brand flex-1 inline-flex items-center justify-center gap-2 hover-scale"
+            className="btn-brand inline-flex flex-1 items-center justify-center gap-2 hover-scale"
           >
             Enter Rizz Chat <ArrowRight className="h-4 w-4" />
           </button>
           <button
             onClick={() => close()}
-            className="inline-flex items-center gap-1.5 rounded-[14px] bg-white/10 px-4 py-3 text-sm font-semibold text-white/90 backdrop-blur-xl ring-1 ring-white/15 transition hover:bg-white/20"
+            className="rounded-[14px] bg-white/10 px-4 py-3 text-sm font-semibold text-white/90 ring-1 ring-white/15 transition hover:bg-white/20"
           >
             Skip
           </button>
