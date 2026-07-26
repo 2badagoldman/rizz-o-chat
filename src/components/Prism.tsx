@@ -31,7 +31,7 @@ export function PrismSparkles({
       {FACETS.slice(0, count).map((f, i) => (
         <svg
           key={i}
-          className="twinkle absolute text-primary-foreground/80"
+          className="twinkle absolute text-primary/60"
           style={{
             top: f.top,
             left: f.left,
