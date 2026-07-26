@@ -75,7 +75,7 @@ function AuthPage() {
           return;
         }
         if (birth > eighteen) {
-          setError("Rizzla is strictly 18+. You can\u2019t join yet.");
+          setError("Rizzla is strictly 18+. You can’t join yet.");
           setBusy(false);
           return;
         }
@@ -249,7 +249,7 @@ function AuthPage() {
               className="rounded-[14px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
             />
             <span className="text-[11px] text-muted-foreground">
-              You\u2019ll confirm this with a photo ID within 7 days of joining.
+              You’ll confirm this with a photo ID within 7 days of joining.
             </span>
           </label>
         )}
