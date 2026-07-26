@@ -98,6 +98,18 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
     try {
       const { userId, supabase } = context;
 
+      // GATE: Friends Lists can only be unlocked by Rizz Gold (or VIP) members.
+      const { data: me, error: meErr } = await supabase
+        .from('profiles')
+        .select('platform_tier')
+        .eq('id', userId)
+        .maybeSingle();
+      if (meErr) throw new Error(meErr.message);
+      const tier = me?.platform_tier ?? 'free';
+      if (tier !== 'plus' && tier !== 'vip') {
+        return { error: 'Rizz Gold required — upgrade to Rizz Gold to unlock any Friends List.' };
+      }
+
       // SECURITY: look up the host's real listed price server-side; never trust
       // a price sent by the client. This prevents a member from paying $0.99
       // for a Friends List priced at $99.99.
