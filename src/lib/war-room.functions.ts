@@ -64,7 +64,9 @@ export const adminCopilotChat = createServerFn({ method: "POST" })
     if (!key) throw new Error("Missing LOVABLE_API_KEY");
 
     // Pull a fresh 24h snapshot as grounding for the copilot.
-    const { data: snapshot } = await supabase.rpc("war_room_metrics", { _hours: 24 });
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: snapshot } = await supabaseAdmin.rpc("war_room_metrics", { _hours: 24 });
+
 
     const system = [
       "You are Rizzla Admin Copilot — the operator-side AI for the Rizzla dating/chat app.",
