@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
 import { WelcomeShowcase } from "../components/WelcomeShowcase";
 import { useShowcaseAvatarSync } from "../lib/showcase-avatar-store";
+import { useInitPerfTier } from "../hooks/usePerfTier";
 
 function NotFoundComponent() {
   return (
@@ -155,6 +156,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
   useShowcaseAvatarSync();
+  useInitPerfTier();
   useEffect(() => {
     void import("../lib/pwa").then((m) => m.registerPwa());
     void import("../lib/analytics").then((m) => {

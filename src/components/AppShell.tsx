@@ -14,7 +14,7 @@ import { PrismLayer } from "./Prism";
 
 
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
-import { initScrollReveal } from "@/lib/scroll-reveal";
+import { initScrollReveal, initAnimScopes } from "@/lib/scroll-reveal";
 
 interface AppShellProps {
   children: ReactNode;
@@ -32,6 +32,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
 
   useEffect(() => {
     initScrollReveal();
+    initAnimScopes();
   }, [pathname]);
 
   return (
