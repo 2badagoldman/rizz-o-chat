@@ -2,12 +2,13 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Send, Circle, Gift, Sparkles, Heart } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
+import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 import { sendChatGift } from "@/lib/subscriptions.functions";
 import { toast } from "sonner";
 
@@ -36,7 +37,6 @@ function HostChat() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [giftOpen, setGiftOpen] = useState(false);
-  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const host = DEMO_HOSTS.find((h) => h.id === hostId);
   const aiHost = isAiHost(hostId);
