@@ -39,9 +39,10 @@ export const getComplianceReport = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
     const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
     if (!isAdmin) throw new Error("Forbidden — admin only");
-
-    const { data, error } = await supabase
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin
       .from("profiles")
+
       .select("id, display_name, avatar_url, account_type, kyc_status, age_confirmed, created_at, kyc_due_at")
       .is("deleted_at", null)
       .neq("kyc_status", "approved")
