@@ -65,12 +65,17 @@ function HostChat() {
     if (typeof window === "undefined") return;
     const key = `rizzla:welcome:${hostId}`;
     if (localStorage.getItem(key) === "1") {
-      setWelcome(true);
       localStorage.removeItem(key);
-      const t = setTimeout(() => setWelcome(false), 1000);
-      return () => clearTimeout(t);
+      setWelcome(true);
     }
   }, [hostId]);
+
+  // Always auto-dismiss after 2s once shown (safe under StrictMode remounts).
+  useEffect(() => {
+    if (!welcome) return;
+    const t = setTimeout(() => setWelcome(false), 2000);
+    return () => clearTimeout(t);
+  }, [welcome]);
 
   // AI hosts stream from the public endpoint (no auth required); everyone else
   // goes through the authenticated host-chat endpoint.
