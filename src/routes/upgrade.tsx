@@ -158,6 +158,42 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
           />
         </>
       )}
+      {!diamond && (
+        <>
+          {/* molten gold light pool */}
+          <span
+            aria-hidden
+            className="caustic pointer-events-none absolute inset-0 bg-[radial-gradient(45%_40%_at_18%_18%,rgba(247,224,138,.55),transparent_70%),radial-gradient(40%_35%_at_88%_28%,rgba(212,160,23,.4),transparent_70%),radial-gradient(60%_45%_at_50%_105%,rgba(255,236,170,.45),transparent_70%)] blur-2xl"
+          />
+          {/* gold leaf sheen sweeping across the card */}
+          <span
+            aria-hidden
+            className="prism-shift pointer-events-none absolute inset-0 opacity-30 mix-blend-overlay bg-[linear-gradient(115deg,transparent_25%,rgba(255,251,230,.95)_38%,transparent_50%,rgba(212,160,23,.6)_64%,transparent_78%)]"
+          />
+          <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]" />
+          {[
+            { top: '16%', left: '82%', s: 9, d: '0.4s' },
+            { top: '66%', left: '10%', s: 7, d: '2.4s' },
+            { top: '86%', left: '58%', s: 10, d: '1.4s' },
+          ].map((t) => (
+            <span
+              key={`g${t.top}${t.left}`}
+              aria-hidden
+              className="gold-glint pointer-events-none absolute bg-[#fff6cf]"
+              style={{
+                top: t.top,
+                left: t.left,
+                width: t.s,
+                height: t.s,
+                animationDelay: t.d,
+                clipPath: 'polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)',
+              }}
+            />
+          ))}
+        </>
+      )}
+
+
 
       <div className="relative flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
