@@ -244,3 +244,68 @@ export const createPortalSession = createServerFn({ method: 'POST' })
       return { error: getStripeErrorMessage(error) };
     }
   });
+
+// ---- Checkout session status (drives the retry flow on /checkout/return) ----
+export type CheckoutRetry =
+  | { kind: 'catalog'; priceId: string }
+  | { kind: 'friends_list'; hostId: string; hostName: string }
+  | { kind: 'tip'; hostId: string; hostName: string; amountCents: number };
+
+export type CheckoutStatus =
+  | { state: 'paid' | 'processing' }
+  | { state: 'failed'; reason: string; retry: CheckoutRetry | null }
+  | { state: 'unknown'; reason: string };
+
+export const getCheckoutStatus = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { sessionId: string; environment: StripeEnv }) => {
+    if (!/^cs_[A-Za-z0-9_]+$/.test(data.sessionId)) throw new Error('Invalid session id');
+    return data;
+  })
+  .handler(async ({ data, context }): Promise<CheckoutStatus> => {
+    try {
+      const stripe = createStripeClient(data.environment);
+      const session = await stripe.checkout.sessions.retrieve(data.sessionId);
+
+      // Only the buyer may inspect their own session.
+      if (session.metadata?.userId && session.metadata.userId !== context.userId) {
+        return { state: 'unknown', reason: 'This checkout belongs to another account.' };
+      }
+
+      if (session.payment_status === 'paid' || session.payment_status === 'no_payment_required') {
+        return { state: 'paid' };
+      }
+      if (session.status === 'open') return { state: 'processing' };
+      if (session.payment_status === 'unpaid' && session.status === 'complete') {
+        // Async payment (e.g. bank debit) still settling.
+        return { state: 'processing' };
+      }
+
+      const m = session.metadata ?? {};
+      let retry: CheckoutRetry | null = null;
+      if (m.kind === 'catalog' && m.priceLookupKey) {
+        retry = { kind: 'catalog', priceId: m.priceLookupKey };
+      } else if (m.kind === 'friends_list' && m.hostId) {
+        retry = { kind: 'friends_list', hostId: m.hostId, hostName: m.hostName || 'this host' };
+      } else if (m.kind === 'tip' && m.hostId && m.amountCents) {
+        retry = {
+          kind: 'tip',
+          hostId: m.hostId,
+          hostName: m.hostName || 'this host',
+          amountCents: Number(m.amountCents),
+        };
+      }
+
+      return {
+        state: 'failed',
+        reason:
+          session.status === 'expired'
+            ? 'The checkout session expired before payment completed.'
+            : 'The payment was not completed.',
+        retry,
+      };
+    } catch (error) {
+      console.error(`[payments] getCheckoutStatus failed:`, error);
+      return { state: 'unknown', reason: getStripeErrorMessage(error) };
+    }
+  });
