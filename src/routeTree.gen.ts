@@ -28,12 +28,14 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SoonFeatureRouteImport } from './routes/soon.$feature'
 import { Route as RoomsNewRouteImport } from './routes/rooms.new'
 import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
+import { Route as LegalTrustRouteImport } from './routes/legal.trust'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as LegalRefundsRouteImport } from './routes/legal.refunds'
 import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as LegalDmcaRouteImport } from './routes/legal.dmca'
 import { Route as LegalCreatorsRouteImport } from './routes/legal.creators'
 import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
+import { Route as LegalContactRouteImport } from './routes/legal.contact'
 import { Route as LegalBillingRouteImport } from './routes/legal.billing'
 import { Route as LegalAcceptableUseRouteImport } from './routes/legal.acceptable-use'
 import { Route as InviteCodeRouteImport } from './routes/invite.$code'
@@ -160,6 +162,11 @@ const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
   path: '/rooms/$roomId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalTrustRoute = LegalTrustRouteImport.update({
+  id: '/legal/trust',
+  path: '/legal/trust',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LegalTermsRoute = LegalTermsRouteImport.update({
   id: '/legal/terms',
   path: '/legal/terms',
@@ -188,6 +195,11 @@ const LegalCreatorsRoute = LegalCreatorsRouteImport.update({
 const LegalCookiesRoute = LegalCookiesRouteImport.update({
   id: '/legal/cookies',
   path: '/legal/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalContactRoute = LegalContactRouteImport.update({
+  id: '/legal/contact',
+  path: '/legal/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalBillingRoute = LegalBillingRouteImport.update({
@@ -383,12 +395,14 @@ export interface FileRoutesByFullPath {
   '/invite/$code': typeof InviteCodeRoute
   '/legal/acceptable-use': typeof LegalAcceptableUseRoute
   '/legal/billing': typeof LegalBillingRoute
+  '/legal/contact': typeof LegalContactRoute
   '/legal/cookies': typeof LegalCookiesRoute
   '/legal/creators': typeof LegalCreatorsRoute
   '/legal/dmca': typeof LegalDmcaRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/legal/trust': typeof LegalTrustRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
@@ -439,12 +453,14 @@ export interface FileRoutesByTo {
   '/invite/$code': typeof InviteCodeRoute
   '/legal/acceptable-use': typeof LegalAcceptableUseRoute
   '/legal/billing': typeof LegalBillingRoute
+  '/legal/contact': typeof LegalContactRoute
   '/legal/cookies': typeof LegalCookiesRoute
   '/legal/creators': typeof LegalCreatorsRoute
   '/legal/dmca': typeof LegalDmcaRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/legal/trust': typeof LegalTrustRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
@@ -497,12 +513,14 @@ export interface FileRoutesById {
   '/invite/$code': typeof InviteCodeRoute
   '/legal/acceptable-use': typeof LegalAcceptableUseRoute
   '/legal/billing': typeof LegalBillingRoute
+  '/legal/contact': typeof LegalContactRoute
   '/legal/cookies': typeof LegalCookiesRoute
   '/legal/creators': typeof LegalCreatorsRoute
   '/legal/dmca': typeof LegalDmcaRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
+  '/legal/trust': typeof LegalTrustRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
@@ -556,12 +574,14 @@ export interface FileRouteTypes {
     | '/invite/$code'
     | '/legal/acceptable-use'
     | '/legal/billing'
+    | '/legal/contact'
     | '/legal/cookies'
     | '/legal/creators'
     | '/legal/dmca'
     | '/legal/privacy'
     | '/legal/refunds'
     | '/legal/terms'
+    | '/legal/trust'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
@@ -612,12 +632,14 @@ export interface FileRouteTypes {
     | '/invite/$code'
     | '/legal/acceptable-use'
     | '/legal/billing'
+    | '/legal/contact'
     | '/legal/cookies'
     | '/legal/creators'
     | '/legal/dmca'
     | '/legal/privacy'
     | '/legal/refunds'
     | '/legal/terms'
+    | '/legal/trust'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
@@ -669,12 +691,14 @@ export interface FileRouteTypes {
     | '/invite/$code'
     | '/legal/acceptable-use'
     | '/legal/billing'
+    | '/legal/contact'
     | '/legal/cookies'
     | '/legal/creators'
     | '/legal/dmca'
     | '/legal/privacy'
     | '/legal/refunds'
     | '/legal/terms'
+    | '/legal/trust'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
@@ -719,12 +743,14 @@ export interface RootRouteChildren {
   InviteCodeRoute: typeof InviteCodeRoute
   LegalAcceptableUseRoute: typeof LegalAcceptableUseRoute
   LegalBillingRoute: typeof LegalBillingRoute
+  LegalContactRoute: typeof LegalContactRoute
   LegalCookiesRoute: typeof LegalCookiesRoute
   LegalCreatorsRoute: typeof LegalCreatorsRoute
   LegalDmcaRoute: typeof LegalDmcaRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalRefundsRoute: typeof LegalRefundsRoute
   LegalTermsRoute: typeof LegalTermsRoute
+  LegalTrustRoute: typeof LegalTrustRoute
   RoomsRoomIdRoute: typeof RoomsRoomIdRoute
   RoomsNewRoute: typeof RoomsNewRoute
   SoonFeatureRoute: typeof SoonFeatureRoute
@@ -873,6 +899,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoomsRoomIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal/trust': {
+      id: '/legal/trust'
+      path: '/legal/trust'
+      fullPath: '/legal/trust'
+      preLoaderRoute: typeof LegalTrustRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/legal/terms': {
       id: '/legal/terms'
       path: '/legal/terms'
@@ -913,6 +946,13 @@ declare module '@tanstack/react-router' {
       path: '/legal/cookies'
       fullPath: '/legal/cookies'
       preLoaderRoute: typeof LegalCookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/contact': {
+      id: '/legal/contact'
+      path: '/legal/contact'
+      fullPath: '/legal/contact'
+      preLoaderRoute: typeof LegalContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/billing': {
@@ -1196,12 +1236,14 @@ const rootRouteChildren: RootRouteChildren = {
   InviteCodeRoute: InviteCodeRoute,
   LegalAcceptableUseRoute: LegalAcceptableUseRoute,
   LegalBillingRoute: LegalBillingRoute,
+  LegalContactRoute: LegalContactRoute,
   LegalCookiesRoute: LegalCookiesRoute,
   LegalCreatorsRoute: LegalCreatorsRoute,
   LegalDmcaRoute: LegalDmcaRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalRefundsRoute: LegalRefundsRoute,
   LegalTermsRoute: LegalTermsRoute,
+  LegalTrustRoute: LegalTrustRoute,
   RoomsRoomIdRoute: RoomsRoomIdRoute,
   RoomsNewRoute: RoomsNewRoute,
   SoonFeatureRoute: SoonFeatureRoute,
