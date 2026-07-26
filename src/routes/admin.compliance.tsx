@@ -193,7 +193,7 @@ function Stat({
   );
 }
 
-function Row({ row }: { row: ComplianceRow }) {
+function Row({ row, onMessage }: { row: ComplianceRow; onMessage: () => void }) {
   return (
     <li className="flex flex-wrap items-center gap-3 p-3">
       <img
