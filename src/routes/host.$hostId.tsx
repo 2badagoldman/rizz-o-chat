@@ -5,6 +5,7 @@ import { DEMO_HOSTS, tierBand, tierLabel, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { useAuth } from "@/lib/auth";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
+import { useGoldAccess } from "@/hooks/useGoldAccess";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Check, X, Heart } from "lucide-react";
