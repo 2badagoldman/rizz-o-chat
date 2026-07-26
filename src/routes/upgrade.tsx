@@ -17,6 +17,8 @@ export const Route = createFileRoute('/upgrade')({
   component: UpgradePage,
 });
 
+type Perk = { label: string; detail: string };
+
 type Plan = {
   id: string;
   name: string;
@@ -24,7 +26,8 @@ type Plan = {
   tagline: string;
   icon: typeof Star;
   diamond?: boolean;
-  perks: string[];
+  includesNote?: string;
+  perks: Perk[];
 };
 
 const PLANS: Plan[] = [
@@ -34,7 +37,13 @@ const PLANS: Plan[] = [
     price: '$9.99',
     tagline: 'The key that opens every Friends List',
     icon: Star,
-    perks: ['Unlock any host Friends List', 'Unlimited discovery scroll', 'AI copilot boosts', 'Priority chat placement', 'No ads'],
+    perks: [
+      { label: 'Unlock any Friends List', detail: 'No per-host unlock fees — every list opens with your membership.' },
+      { label: 'Unlimited discovery', detail: 'Scroll all 100+ hosts with no daily cap.' },
+      { label: 'AI copilot boosts', detail: 'Rizz AI drafts openers and replies that actually land.' },
+      { label: 'Priority chat placement', detail: 'Your messages sit at the top of a host’s inbox.' },
+      { label: 'Zero ads', detail: 'No promos, no interruptions, ever.' },
+    ],
   },
   {
     id: 'rizz_diamond_weekly',
@@ -43,9 +52,17 @@ const PLANS: Plan[] = [
     tagline: 'Gold + Diamond, unlocked together',
     icon: Gem,
     diamond: true,
-    perks: ['Unlocks Rizz Gold + Diamond tiers', 'Diamond badge on your profile', '2,000 coins every week', 'Top-of-list visibility', 'Early access to new hosts'],
+    includesNote: 'Everything in Rizz Gold, plus:',
+    perks: [
+      { label: '2,000 coins every week', detail: 'Worth ~$20 — gifts, unlocks and boosts on the house.' },
+      { label: 'Diamond badge', detail: 'A prism badge on your profile and in every room.' },
+      { label: 'Top-of-list visibility', detail: 'Hosts see you first in DMs, rooms and invites.' },
+      { label: 'Early access to new hosts', detail: '24-hour head start before anyone else can chat.' },
+      { label: 'Concierge support', detail: 'Priority replies from our team, any day of the week.' },
+    ],
   },
 ];
+
 
 function Bubbles() {
   const bubbles = [
