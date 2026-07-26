@@ -507,6 +507,52 @@
 }
 .twinkle { animation: twinkle 3.2s ease-in-out infinite; }
 
+/* ---- real gold ---- */
+@keyframes gold-flow {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.gold-text {
+  background-image: linear-gradient(100deg,#8a5a10,#d4a017,#fff3bf,#f2c14e,#8a5a10);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gold-flow 6s linear infinite;
+}
+.gold-surface {
+  background-image: linear-gradient(115deg,#b8860b,#f7e08a,#fffbe6,#e8c15a,#a9761a,#f7e08a,#b8860b);
+  background-size: 220% 100%;
+  animation: gold-flow 7s linear infinite;
+}
+@keyframes gold-glint {
+  0%, 82%, 100% { opacity: 0; transform: scale(.3) rotate(0deg); }
+  90%           { opacity: 1; transform: scale(1) rotate(35deg); }
+}
+.gold-glint { animation: gold-glint 4.5s ease-in-out infinite; }
+
+/* ---- real diamond ---- */
+@keyframes gem-float {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50%      { transform: translateY(-5px) rotate(1.5deg); }
+}
+.gem-float { animation: gem-float 4.6s ease-in-out infinite; }
+@keyframes gem-fire {
+  0%, 100% { opacity: .35; transform: translateX(-30%); }
+  50%      { opacity: .95; transform: translateX(30%); }
+}
+.gem-fire { animation: gem-fire 3.4s ease-in-out infinite; }
+
+html[data-perf="lite"] .gold-text,
+html[data-perf="lite"] .gold-surface,
+html[data-perf="lite"] .gold-glint,
+html[data-perf="lite"] .gem-float,
+html[data-perf="lite"] .gem-fire { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .gold-text, .gold-surface, .gold-glint, .gem-float, .gem-fire { animation: none; }
+}
+
+
 @keyframes caustic-drift {
   0%   { transform: translate3d(-6%, -4%, 0) scale(1.1); opacity: .35; }
   50%  { transform: translate3d(6%, 4%, 0) scale(1.25); opacity: .6; }
