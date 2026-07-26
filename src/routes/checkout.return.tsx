@@ -1,6 +1,13 @@
+import { useEffect, useState } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { useServerFn } from '@tanstack/react-start';
 import { AppShell } from '@/components/AppShell';
-import { Check, Gem, Sparkles } from 'lucide-react';
+import { Check, Gem, Sparkles, AlertCircle, RefreshCw, Loader2 } from 'lucide-react';
+import { getStripeEnvironment } from '@/lib/stripe';
+import { getCheckoutStatus, type CheckoutStatus } from '@/utils/payments.functions';
+import { useStripeCheckout } from '@/hooks/useStripeCheckout';
+import type { CheckoutRequest } from '@/components/StripeEmbeddedCheckout';
+
 
 export const Route = createFileRoute('/checkout/return')({
   head: () => ({
@@ -26,7 +33,151 @@ const NEXT_STEPS = [
 
 function CheckoutReturn() {
   const { session_id } = Route.useSearch();
-  const ok = !!session_id;
+  const fetchStatus = useServerFn(getCheckoutStatus);
+  const [status, setStatus] = useState<CheckoutStatus | null>(null);
+  const [checking, setChecking] = useState(!!session_id);
+  const { openCheckout, checkoutElement } = useStripeCheckout();
+
+  useEffect(() => {
+    if (!session_id) {
+      setChecking(false);
+      return;
+    }
+    let alive = true;
+    setChecking(true);
+    (async () => {
+      try {
+        const res = await fetchStatus({
+          data: { sessionId: session_id, environment: getStripeEnvironment() },
+        });
+        if (alive) setStatus(res);
+      } catch (err) {
+        console.error('[checkout] status lookup failed', err);
+        if (alive) {
+          setStatus({
+            state: 'unknown',
+            reason: err instanceof Error ? err.message : 'Could not confirm this payment.',
+          });
+        }
+      } finally {
+        if (alive) setChecking(false);
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [session_id, fetchStatus]);
+
+  const failed = status?.state === 'failed';
+  const processing = status?.state === 'processing';
+  const ok = !!session_id && !failed && !processing && status?.state !== 'unknown';
+
+  const retryPayment = () => {
+    if (status?.state !== 'failed' || !status.retry) return;
+    const r = status.retry;
+    const req: CheckoutRequest =
+      r.kind === 'catalog'
+        ? { kind: 'catalog', priceId: r.priceId }
+        : r.kind === 'friends_list'
+          ? { kind: 'friends_list', hostId: r.hostId, hostName: r.hostName }
+          : { kind: 'tip', hostId: r.hostId, hostName: r.hostName, amountCents: r.amountCents };
+    openCheckout(req, { title: 'Retry payment', subtitle: 'Use a different card if the last one was declined.' });
+  };
+
+  if (checking) {
+    return (
+      <AppShell hideDock>
+        <div className="page-anim grid min-h-[60vh] place-items-center text-center">
+          <div>
+            <Loader2 className="mx-auto h-7 w-7 animate-spin text-primary" />
+            <p className="mt-3 text-sm font-semibold">Confirming your payment…</p>
+          </div>
+        </div>
+      </AppShell>
+    );
+  }
+
+  if (failed || processing || status?.state === 'unknown') {
+    const canRetry = failed && !!status.retry;
+    return (
+      <AppShell hideDock>
+        <div className="page-anim relative mx-auto mt-12 max-w-md px-1">
+          <div className="relative overflow-hidden rounded-[1.75rem] border border-border/60 bg-card/70 p-7 text-center shadow-pop backdrop-blur-2xl">
+            <div
+              className={`mx-auto grid h-14 w-14 place-items-center rounded-2xl border ${
+                processing
+                  ? 'border-primary/30 bg-primary/10'
+                  : 'border-destructive/30 bg-destructive/10'
+              }`}
+            >
+              {processing ? (
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
+              ) : (
+                <AlertCircle className="h-6 w-6 text-destructive" />
+              )}
+            </div>
+            <h1 className="mt-5 text-[1.5rem] font-black tracking-tight">
+              {processing
+                ? 'Payment still processing'
+                : failed
+                  ? "Payment didn't go through"
+                  : "We couldn't confirm this payment"}
+            </h1>
+            <p className="mx-auto mt-2 max-w-[38ch] text-sm text-muted-foreground">
+              {processing
+                ? 'Your bank is still confirming this payment. Nothing else is needed — access unlocks automatically once it clears.'
+                : status && 'reason' in status
+                  ? status.reason
+                  : 'We could not confirm this payment.'}
+            </p>
+            {failed && (
+              <p className="mx-auto mt-2 max-w-[38ch] text-[11.5px] text-muted-foreground">
+                You have not been charged. Common causes: the card was declined, 3D Secure was cancelled, or the
+                checkout window timed out.
+              </p>
+            )}
+
+            <div className="mt-6 flex flex-col gap-2.5">
+              {canRetry && (
+                <button
+                  onClick={retryPayment}
+                  className="press-spring inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(110deg,#38bdf8,#a855f7,#ec4899)] py-3.5 text-sm font-black text-white shadow-glow"
+                >
+                  <RefreshCw className="h-4 w-4" /> Try payment again
+                </button>
+              )}
+              <div className="flex gap-2.5">
+                <Link
+                  to="/coins"
+                  className="press-spring flex-1 rounded-2xl border border-border/70 bg-card/70 py-3 text-center text-sm font-semibold backdrop-blur-xl"
+                >
+                  Buy coins
+                </Link>
+                <Link
+                  to="/upgrade"
+                  className="press-spring flex-1 rounded-2xl border border-border/70 bg-card/70 py-3 text-center text-sm font-semibold backdrop-blur-xl"
+                >
+                  Memberships
+                </Link>
+              </div>
+              <Link
+                to="/discover"
+                className="press-spring rounded-2xl py-2 text-center text-sm font-semibold text-muted-foreground"
+              >
+                Back to Discover
+              </Link>
+            </div>
+
+            <p className="mt-5 text-[11px] leading-relaxed text-muted-foreground">
+              Still stuck? Email rizzchatsupport@gmail.com and we&apos;ll sort it out.
+            </p>
+          </div>
+        </div>
+        {checkoutElement}
+      </AppShell>
+    );
+  }
+
 
   return (
     <AppShell hideDock>
