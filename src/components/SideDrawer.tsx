@@ -148,6 +148,10 @@ export function SideDrawer({ open, onClose }: Props) {
             <a
               href="/"
               className="group flex items-center gap-3.5 rounded-2xl p-1.5 -m-1.5 transition-colors hover:bg-white/60"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.assign("/");
+              }}
               aria-label="Rizzla home — reload"
             >
               <span

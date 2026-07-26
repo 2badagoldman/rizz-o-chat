@@ -59,7 +59,15 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
             >
               <Menu className="h-5 w-5" />
             </button>
-            <a href="/" className="flex items-center gap-2" aria-label="Rizzla home — reload">
+            <a
+              href="/"
+              onClick={(e) => {
+                e.preventDefault();
+                window.location.assign("/");
+              }}
+              className="flex items-center gap-2"
+              aria-label="Rizzla home — reload"
+            >
               <span className="ring-story inline-block">
                 <img src={rizzAiLogo.url} alt="Rizzla" className="block h-8 w-8 rounded-full bg-card" />
               </span>
