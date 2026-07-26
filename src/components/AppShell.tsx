@@ -34,9 +34,11 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
   }, [pathname]);
 
   return (
-    <div className={`min-h-screen text-foreground ${theme === "host" ? "host-theme" : ""}`}>
-      <header className="sticky top-0 z-30 border-b border-border/60 bg-background/70 backdrop-blur-xl">
+    <div className={`relative min-h-screen text-foreground ${theme === "host" ? "host-theme" : ""}`}>
+      <PageAtmosphere />
+      <header className="sticky top-0 z-30 border-b border-border/50 bg-background/55 backdrop-blur-2xl">
         <PaymentTestModeBanner />
+
         {/* Thin animated gradient hairline */}
         <div
           aria-hidden
