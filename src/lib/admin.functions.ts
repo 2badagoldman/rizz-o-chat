@@ -14,9 +14,12 @@ export const getAdminMetrics = createServerFn({ method: "POST" })
     const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
     if (!isAdmin) throw new Error("Forbidden — admin only");
 
+    // Privileged aggregates are locked to the trusted server role.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
     const [{ data: metrics, error: e1 }, { data: topHosts, error: e2 }, { data: payouts, error: e3 }] = await Promise.all([
-      supabase.rpc("admin_platform_metrics", { _since: since }),
-      supabase.rpc("admin_top_hosts", { _since: since, _limit: 15 }),
+      supabaseAdmin.rpc("admin_platform_metrics", { _since: since }),
+      supabaseAdmin.rpc("admin_top_hosts", { _since: since, _limit: 15 }),
       supabase
         .from("host_payouts")
         .select("*")

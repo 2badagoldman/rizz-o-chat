@@ -12,7 +12,8 @@ export const getWarRoom = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
     const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
     if (!isAdmin) throw new Error("Forbidden");
-    const { data: metrics, error } = await supabase.rpc("war_room_metrics", { _hours: data.hours });
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: metrics, error } = await supabaseAdmin.rpc("war_room_metrics", { _hours: data.hours });
     if (error) throw error;
     return JSON.parse(JSON.stringify(metrics ?? {})) as {
       window_hours?: number;
@@ -63,7 +64,9 @@ export const adminCopilotChat = createServerFn({ method: "POST" })
     if (!key) throw new Error("Missing LOVABLE_API_KEY");
 
     // Pull a fresh 24h snapshot as grounding for the copilot.
-    const { data: snapshot } = await supabase.rpc("war_room_metrics", { _hours: 24 });
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: snapshot } = await supabaseAdmin.rpc("war_room_metrics", { _hours: 24 });
+
 
     const system = [
       "You are Rizzla Admin Copilot — the operator-side AI for the Rizzla dating/chat app.",
