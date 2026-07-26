@@ -4,6 +4,8 @@ import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { Check, Gem, Sparkles, Star, Zap } from 'lucide-react';
 import { DiamondGem, GoldMedallion } from '@/components/PreciousIcons';
 import { pageHead } from "@/lib/seo";
+import { useIosBillingRestricted } from '@/hooks/useNative';
+import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 
 
 export const Route = createFileRoute('/upgrade')({
@@ -286,6 +288,7 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
 
 function UpgradePage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
+  const iosRestricted = useIosBillingRestricted();
   return (
     <AppShell>
       <div className="page-anim relative">
@@ -308,14 +311,15 @@ function UpgradePage() {
           </p>
         </header>
 
-        <div className="relative space-y-5">
+        {iosRestricted ? <AppStoreBillingNotice what="Rizz Gold and Diamond VIP" /> : null}
+        <div className={`relative space-y-5 ${iosRestricted ? 'pointer-events-none mt-5 opacity-60' : ''}`}>
           {PLANS.map((p, i) => (
             <PlanCard
               key={p.id}
               plan={p}
               index={i}
               onSubscribe={() =>
-                openCheckout(
+                iosRestricted ? undefined : openCheckout(
                   { kind: 'catalog', priceId: p.id },
                   { title: p.name, subtitle: `${p.price} per week · cancel anytime`, diamond: p.diamond },
                 )
