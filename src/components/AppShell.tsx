@@ -9,6 +9,8 @@ import { SideDrawer } from "./SideDrawer";
 import { GlobalSearch } from "./GlobalSearch";
 import { LegalFooter } from "./LegalFooter";
 import { KycGate } from "./KycGate";
+import { PageAtmosphere } from "./PageAtmosphere";
+
 
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { initScrollReveal } from "@/lib/scroll-reveal";
