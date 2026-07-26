@@ -617,3 +617,134 @@
 @media (prefers-reduced-motion: reduce) {
   .coin-flip, .coin-bob, .gold-sweep, .spark, .coin-rain, .ring-pulse, .value-glow { animation: none; }
 }
+
+
+/* ============================================================
+   Performance tiers for the global glass polish.
+
+   `data-perf` is set on <html> by src/lib/perf-tier.ts:
+     full — desktops / high-end phones: everything runs
+     mid  — 4GB / 4-core class devices: cheaper blur, ~30fps decor
+     lite — low memory, save-data, reduced-motion, or measured jank:
+            static glass, no decorative loops
+
+   `data-anim-paused` is set while the tab is hidden.
+   ============================================================ */
+
+/* --- Never animate anything while the tab is in the background --- */
+html[data-anim-paused] *,
+html[data-anim-paused] *::before,
+html[data-anim-paused] *::after {
+  animation-play-state: paused !important;
+}
+
+/* --- Offscreen decorative scopes stop animating --- */
+[data-anim-scope].anim-off,
+[data-anim-scope].anim-off *,
+[data-anim-scope].anim-off *::before,
+[data-anim-scope].anim-off *::after {
+  animation-play-state: paused !important;
+}
+
+/* Decorative overlays never affect layout of the rest of the page. */
+[data-anim-scope] {
+  contain: layout paint style;
+}
+
+/* Drop the compositor hint as soon as the reveal transition is done so we
+   don't keep hundreds of promoted layers alive on long scrolls. */
+[data-reveal].revealed {
+  will-change: auto;
+}
+
+/* ------------------------------------------------------------
+   MID tier — keep the look, cap the cost.
+   Frame-cap decorative loops to ~30fps with step timing and halve
+   the most expensive blur radii.
+   ------------------------------------------------------------ */
+html[data-perf="mid"] .prism-shift,
+html[data-perf="mid"] .caustic,
+html[data-perf="mid"] .prism-ring,
+html[data-perf="mid"] .prism-surface::after,
+html[data-perf="mid"] .bubble,
+html[data-perf="mid"] .glow-breathe,
+html[data-perf="mid"] .facet-spin,
+html[data-perf="mid"] .twinkle {
+  animation-timing-function: steps(30, end);
+}
+
+html[data-perf="mid"] .bg-card:not(.no-glass) {
+  backdrop-filter: blur(12px) saturate(130%);
+}
+html[data-perf="mid"] .bg-popover:not(.no-glass) {
+  backdrop-filter: blur(14px) saturate(130%);
+}
+html[data-perf="mid"] .bg-muted:not(.no-glass),
+html[data-perf="mid"] .bg-secondary:not(.no-glass) {
+  backdrop-filter: blur(8px) saturate(120%);
+}
+html[data-perf="mid"] .prism-ring {
+  filter: blur(16px);
+}
+/* Tailwind's blur-3xl is a 64px filter — very expensive on mobile GPUs. */
+html[data-perf="mid"] .blur-3xl {
+  --tw-blur: blur(30px);
+  filter: blur(30px);
+}
+html[data-perf="mid"] .blur-2xl {
+  --tw-blur: blur(20px);
+  filter: blur(20px);
+}
+
+/* ------------------------------------------------------------
+   LITE tier — static glass. No decorative loops at all.
+   ------------------------------------------------------------ */
+html[data-perf="lite"] .prism-shift,
+html[data-perf="lite"] .caustic,
+html[data-perf="lite"] .prism-ring,
+html[data-perf="lite"] .prism-surface::after,
+html[data-perf="lite"] .bubble,
+html[data-perf="lite"] .twinkle,
+html[data-perf="lite"] .glow-breathe,
+html[data-perf="lite"] .facet-spin,
+html[data-perf="lite"] .sheen-sweep::after,
+html[data-perf="lite"] .coin-flip,
+html[data-perf="lite"] .coin-bob,
+html[data-perf="lite"] .gold-sweep,
+html[data-perf="lite"] .spark,
+html[data-perf="lite"] .coin-rain,
+html[data-perf="lite"] .ring-pulse,
+html[data-perf="lite"] .value-glow {
+  animation: none !important;
+}
+
+/* Purely decorative light fields are dropped entirely on lite. */
+html[data-perf="lite"] .bubble,
+html[data-perf="lite"] .twinkle,
+html[data-perf="lite"] .caustic,
+html[data-perf="lite"] .prism-ring {
+  display: none !important;
+}
+
+html[data-perf="lite"] .bg-card:not(.no-glass) {
+  background-color: color-mix(in oklab, var(--card) 88%, transparent);
+  backdrop-filter: none;
+}
+html[data-perf="lite"] .bg-popover:not(.no-glass) {
+  background-color: color-mix(in oklab, var(--popover) 94%, transparent);
+  backdrop-filter: none;
+}
+html[data-perf="lite"] .bg-muted:not(.no-glass),
+html[data-perf="lite"] .bg-secondary:not(.no-glass) {
+  background-color: color-mix(in oklab, var(--muted) 92%, transparent);
+  backdrop-filter: none;
+}
+html[data-perf="lite"] [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+html[data-perf="lite"] .blur-3xl,
+html[data-perf="lite"] .blur-2xl {
+  --tw-blur: blur(18px);
+  filter: blur(18px);
+}
