@@ -4,6 +4,8 @@ import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import { deleteMyAccount } from "@/lib/account.functions";
+import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({ meta: [
@@ -46,6 +48,10 @@ function Profile() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingCaption, setEditingCaption] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState("");
+  const [deleting, setDeleting] = useState(false);
+  const runDeleteAccount = useServerFn(deleteMyAccount);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
@@ -477,6 +483,58 @@ function Profile() {
         >
           Sign out
         </button>
+
+        {deleteOpen ? (
+          <div className="rounded-[14px] border border-destructive/40 bg-destructive/5 p-4">
+            <p className="text-sm font-bold text-destructive">Delete your account</p>
+            <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">
+              This permanently removes your profile, photos, videos, chats and memberships. Active
+              subscriptions are cancelled. This cannot be undone. Type <b>DELETE</b> to confirm.
+            </p>
+            <input
+              value={deleteConfirm}
+              onChange={(e) => setDeleteConfirm(e.target.value)}
+              placeholder="DELETE"
+              className="mt-3 w-full rounded-[12px] border border-border bg-background px-3 py-2 text-sm"
+            />
+            <div className="mt-3 flex gap-2">
+              <button
+                type="button"
+                className="flex-1 rounded-[12px] border border-border bg-card px-4 py-2 text-sm font-semibold"
+                onClick={() => { setDeleteOpen(false); setDeleteConfirm(""); }}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={deleting || deleteConfirm.trim().toUpperCase() !== "DELETE"}
+                className="flex-1 rounded-[12px] bg-destructive px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                onClick={async () => {
+                  setDeleting(true);
+                  setError(null);
+                  try {
+                    await runDeleteAccount({ data: { confirm: deleteConfirm } });
+                    await signOut();
+                    window.location.assign("/");
+                  } catch (e) {
+                    setError(e instanceof Error ? e.message : "Could not delete account");
+                    setDeleting(false);
+                  }
+                }}
+              >
+                {deleting ? "Deleting…" : "Delete forever"}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            className="w-full rounded-[14px] border border-destructive/40 bg-transparent px-5 py-3 text-sm font-semibold text-destructive"
+            onClick={() => setDeleteOpen(true)}
+          >
+            Delete my account
+          </button>
+        )}
       </div>
     </AppShell>
   );
