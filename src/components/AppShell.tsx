@@ -92,7 +92,9 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
             </Link>
           </div>
         </div>
+        </div>
       </header>
+
       <main key={pathname} className="page-anim relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4 pb-32">
 
         <KycGate />
