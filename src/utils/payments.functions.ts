@@ -149,6 +149,8 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
         mode: 'subscription',
         ui_mode: 'embedded_page',
         return_url: data.returnUrl,
+        // No currency chooser in front of the card form.
+        adaptive_pricing: { enabled: false },
         customer: customerId,
         metadata: {
           userId,
@@ -204,6 +206,8 @@ export const createTipCheckout = createServerFn({ method: 'POST' })
         mode: 'payment',
         ui_mode: 'embedded_page',
         return_url: data.returnUrl,
+        // No currency chooser in front of the card form.
+        adaptive_pricing: { enabled: false },
         customer: customerId,
         payment_intent_data: { description },
         metadata: {
