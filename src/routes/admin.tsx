@@ -16,6 +16,7 @@ import {
   Radio,
   Sparkles,
   ReceiptText,
+  ClipboardList,
 } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
@@ -32,6 +33,7 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
   { to: "/admin/hosts", label: "Host Applications", icon: Crown },
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/kyc", label: "Age Verification", icon: ShieldAlert },
+  { to: "/admin/compliance", label: "Daily Report", icon: ClipboardList },
   { to: "/admin/payouts", label: "Payouts", icon: Wallet },
   { to: "/admin/payments", label: "Payment Log", icon: ReceiptText },
 
