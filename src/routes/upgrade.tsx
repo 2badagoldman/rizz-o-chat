@@ -6,9 +6,9 @@ import { Check, Crown, Star } from 'lucide-react';
 export const Route = createFileRoute('/upgrade')({
   head: () => ({
     meta: [
-      { title: 'Upgrade to Rizz+ or VIP — Rizz Social' },
+      { title: 'Upgrade to Rizz Gold or VIP — Rizz Social' },
       { name: 'description', content: 'Unlock unlimited discovery, priority chat, a VIP badge, and monthly coin drops on Rizz Social.' },
-      { property: 'og:title', content: 'Upgrade to Rizz+ or VIP — Rizz Social' },
+      { property: 'og:title', content: 'Upgrade to Rizz Gold or VIP — Rizz Social' },
       { property: 'og:description', content: 'Unlock unlimited discovery, priority chat, and monthly coin drops.' },
       { property: 'og:url', content: 'https://rizzlachat.com/upgrade' },
     ],
@@ -21,7 +21,7 @@ export const Route = createFileRoute('/upgrade')({
 const PLANS = [
   {
     id: 'rizz_plus_monthly',
-    name: 'Rizz+',
+    name: 'Rizz Gold',
     price: '$9.99',
     icon: Star,
     perks: ['Unlimited discovery scroll', 'AI copilot boosts', 'Priority chat placement', 'No ads'],
@@ -32,7 +32,7 @@ const PLANS = [
     price: '$19.99',
     icon: Crown,
     highlight: true,
-    perks: ['Everything in Rizz+', 'VIP badge on your profile', '2,000 coins every month', 'Top-of-list visibility', 'Early access to new hosts'],
+    perks: ['Everything in Rizz Gold', 'VIP badge on your profile', '2,000 coins every month', 'Top-of-list visibility', 'Early access to new hosts'],
   },
 ];
 
