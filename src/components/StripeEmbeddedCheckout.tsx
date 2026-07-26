@@ -114,6 +114,27 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
     setAttempt((n) => n + 1);
   };
 
+  if (signedIn === false && !configError) {
+    return (
+      <div className="mx-auto max-w-md px-5 py-10 text-center">
+        <h2 className="text-base font-black tracking-tight">Sign in to continue</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          You need to be signed in to complete this purchase.
+        </p>
+        <Link
+          to="/auth"
+          className="press-spring mt-5 inline-flex items-center rounded-full border border-border/70 bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur-xl"
+        >
+          Sign in
+        </Link>
+      </div>
+    );
+  }
+
+  if (signedIn === null && !configError) {
+    return <div className="px-5 py-10 text-center text-sm text-muted-foreground">Loading checkout…</div>;
+  }
+
   const problem = configError ?? failure;
   if (problem || !stripePromise) {
     if (configError) console.error(`[checkout] ${describe(props)}: Stripe.js unavailable — ${configError}`);
