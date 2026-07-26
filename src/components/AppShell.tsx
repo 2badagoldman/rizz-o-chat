@@ -10,6 +10,7 @@ import { GlobalSearch } from "./GlobalSearch";
 import { LegalFooter } from "./LegalFooter";
 import { KycGate } from "./KycGate";
 import { PageAtmosphere } from "./PageAtmosphere";
+import { PrismLayer } from "./Prism";
 
 
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
