@@ -101,9 +101,33 @@ function HostChat() {
     try { localStorage.setItem(storageKey, JSON.stringify(messages)); } catch {}
   }, [messages, status, storageKey]);
 
-  useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  // Typing state: shown while the host is composing a reply.
+  const typing = (status === "submitted" || status === "streaming") &&
+    messages[messages.length - 1]?.role === "user";
+
+  // Seen-state: a member message is "seen" as soon as the host has replied
+  // after it; the most recent unanswered one shows delivered/sending.
+  const items = useMemo(() => {
+    const lastAssistant = messages.map((m) => m.role).lastIndexOf("assistant");
+    return messages.map((m, i) => {
+      const mine = m.role === "user";
+      const text = m.parts.map((p) => (p.type === "text" ? p.text : "")).join("");
+      const busyNow = status === "submitted" && i === messages.length - 1;
+      return {
+        id: m.id,
+        mine,
+        text,
+        state: mine
+          ? busyNow
+            ? ("sending" as const)
+            : i < lastAssistant
+              ? ("seen" as const)
+              : ("sent" as const)
+          : undefined,
+      };
+    });
   }, [messages, status]);
+
 
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
