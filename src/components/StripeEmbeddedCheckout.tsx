@@ -1,6 +1,8 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
 import { AlertCircle, RefreshCw } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
+import { supabase } from '@/integrations/supabase/client';
 import { getStripe, getStripeEnvironment } from '@/lib/stripe';
 import {
   createCheckoutSession,
