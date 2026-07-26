@@ -65,12 +65,17 @@ function HostChat() {
     if (typeof window === "undefined") return;
     const key = `rizzla:welcome:${hostId}`;
     if (localStorage.getItem(key) === "1") {
-      setWelcome(true);
       localStorage.removeItem(key);
-      const t = setTimeout(() => setWelcome(false), 1000);
-      return () => clearTimeout(t);
+      setWelcome(true);
     }
   }, [hostId]);
+
+  // Always auto-dismiss after 2s once shown (safe under StrictMode remounts).
+  useEffect(() => {
+    if (!welcome) return;
+    const t = setTimeout(() => setWelcome(false), 2000);
+    return () => clearTimeout(t);
+  }, [welcome]);
 
   // AI hosts stream from the public endpoint (no auth required); everyone else
   // goes through the authenticated host-chat endpoint.
@@ -163,7 +168,7 @@ function HostChat() {
   return (
     <AppShell hideNav>
       {welcome ? (
-        <div className="fixed inset-0 z-[120] flex flex-col items-center justify-center bg-gradient-to-br from-primary/90 via-fuchsia-500/80 to-rose-500/90 text-white animate-in fade-in duration-500">
+        <div onClick={() => setWelcome(false)} className="fixed inset-0 z-[120] flex cursor-pointer flex-col items-center justify-center bg-gradient-to-br from-primary/90 via-fuchsia-500/80 to-rose-500/90 text-white animate-in fade-in duration-300">
           <div className="relative">
             <img
               src={hostAvatar(host.id)}
