@@ -57,6 +57,7 @@ import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminShowcaseBrainRouteImport } from './routes/admin.showcase-brain'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
+import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
 import { Route as AdminCopilotRouteImport } from './routes/admin.copilot'
@@ -310,6 +311,11 @@ const AdminPayoutsRoute = AdminPayoutsRouteImport.update({
   path: '/payouts',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminKycRoute = AdminKycRouteImport.update({
+  id: '/kyc',
+  path: '/kyc',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminHostsRoute = AdminHostsRouteImport.update({
   id: '/hosts',
   path: '/hosts',
@@ -396,6 +402,7 @@ export interface FileRoutesByFullPath {
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
+  '/admin/kyc': typeof AdminKycRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
@@ -457,6 +464,7 @@ export interface FileRoutesByTo {
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
+  '/admin/kyc': typeof AdminKycRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
@@ -520,6 +528,7 @@ export interface FileRoutesById {
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
+  '/admin/kyc': typeof AdminKycRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
@@ -584,6 +593,7 @@ export interface FileRouteTypes {
     | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/hosts'
+    | '/admin/kyc'
     | '/admin/payouts'
     | '/admin/showcase'
     | '/admin/showcase-brain'
@@ -645,6 +655,7 @@ export interface FileRouteTypes {
     | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/hosts'
+    | '/admin/kyc'
     | '/admin/payouts'
     | '/admin/showcase'
     | '/admin/showcase-brain'
@@ -707,6 +718,7 @@ export interface FileRouteTypes {
     | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/hosts'
+    | '/admin/kyc'
     | '/admin/payouts'
     | '/admin/showcase'
     | '/admin/showcase-brain'
@@ -1141,6 +1153,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPayoutsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/kyc': {
+      id: '/admin/kyc'
+      path: '/kyc'
+      fullPath: '/admin/kyc'
+      preLoaderRoute: typeof AdminKycRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/hosts': {
       id: '/admin/hosts'
       path: '/hosts'
@@ -1244,6 +1263,7 @@ interface AdminRouteChildren {
   AdminCopilotRoute: typeof AdminCopilotRoute
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminHostsRoute: typeof AdminHostsRouteWithChildren
+  AdminKycRoute: typeof AdminKycRoute
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
   AdminShowcaseBrainRoute: typeof AdminShowcaseBrainRoute
@@ -1256,6 +1276,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCopilotRoute: AdminCopilotRoute,
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminHostsRoute: AdminHostsRouteWithChildren,
+  AdminKycRoute: AdminKycRoute,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
   AdminShowcaseBrainRoute: AdminShowcaseBrainRoute,
