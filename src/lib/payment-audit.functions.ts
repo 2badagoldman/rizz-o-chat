@@ -12,7 +12,7 @@ export type PaymentAuditRow = {
   currency: string | null;
   environment: string;
   error_message: string | null;
-  details: unknown;
+  details: Record<string, unknown> | null;
   created_at: string;
 };
 
