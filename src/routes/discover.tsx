@@ -1,11 +1,10 @@
-import { Sparkles } from "lucide-react";
 import { PrismEmptyState } from "@/components/Prism";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierLabel, type DemoHost } from "@/lib/demo-hosts";
 import { hostAvatarMed } from "@/lib/host-avatars";
-import { Search, Users, Circle } from "lucide-react";
+import { Search, Users, Circle, Sparkles } from "lucide-react";
 import { useShuffled } from "@/hooks/useShuffled";
 import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { RoomsShowcase } from "@/components/RoomsShowcase";
