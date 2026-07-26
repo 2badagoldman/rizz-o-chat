@@ -159,11 +159,13 @@ function RootComponent() {
   useInitPerfTier();
   useEffect(() => {
     void import("../lib/pwa").then((m) => m.registerPwa());
+    void import("../lib/native").then((m) => m.initNativeShell());
     void import("../lib/analytics").then((m) => {
       m.startAnalytics();
       m.trackPageview(window.location.pathname);
     });
   }, []);
+
   useEffect(() => {
     const unsub = router.subscribe("onResolved", (evt) => {
       void import("../lib/analytics").then((m) => {
