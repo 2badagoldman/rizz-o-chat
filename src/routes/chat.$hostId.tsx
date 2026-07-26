@@ -44,6 +44,9 @@ function HostChat() {
   const [giftOpen, setGiftOpen] = useState(false);
   const [emojiOpen, setEmojiOpen] = useState(false);
   const { fire, layer } = useFloatingReactions();
+  // Per-message reactions (Apple-style): messageId -> emojis.
+  const [msgReactions, setMsgReactions] = useState<Record<string, string[]>>({});
+
 
   const host = DEMO_HOSTS.find((h) => h.id === hostId);
 
