@@ -8,6 +8,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { SideDrawer } from "./SideDrawer";
 import { GlobalSearch } from "./GlobalSearch";
 import { LegalFooter } from "./LegalFooter";
+import { KycGate } from "./KycGate";
 
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { initScrollReveal } from "@/lib/scroll-reveal";
@@ -86,6 +87,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
         </div>
       </header>
       <main key={pathname} className="page-anim mx-auto w-full max-w-[480px] px-4 pt-4 pb-32">
+        <KycGate />
         {children}
         {footerNote ? (
           <p className="mt-8 text-center text-[11px] leading-relaxed text-muted-foreground">

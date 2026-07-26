@@ -42,6 +42,7 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ageConfirmed, setAgeConfirmed] = useState(false);
+  const [dob, setDob] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const { next } = Route.useSearch();
@@ -65,6 +66,19 @@ function AuthPage() {
           setBusy(false);
           return;
         }
+        const birth = new Date(dob);
+        const eighteen = new Date();
+        eighteen.setFullYear(eighteen.getFullYear() - 18);
+        if (Number.isNaN(birth.getTime())) {
+          setError("Enter your date of birth.");
+          setBusy(false);
+          return;
+        }
+        if (birth > eighteen) {
+          setError("Rizzla is strictly 18+. You can’t join yet.");
+          setBusy(false);
+          return;
+        }
         const { error: err } = await supabase.auth.signUp({
           email,
           password,
@@ -74,6 +88,7 @@ function AuthPage() {
               account_type: role,
               display_name: displayName || email.split("@")[0],
               age_confirmed: true,
+              date_of_birth: dob,
               gender: role === "host" ? gender : undefined,
             },
           },
@@ -219,6 +234,25 @@ function AuthPage() {
           onChange={(e) => setPassword(e.target.value)}
           className="rounded-[14px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
         />
+
+        {mode === "signup" && (
+          <label className="grid gap-1.5">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Date of birth (18+ only)
+            </span>
+            <input
+              required
+              type="date"
+              value={dob}
+              max={new Date().toISOString().slice(0, 10)}
+              onChange={(e) => setDob(e.target.value)}
+              className="rounded-[14px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
+            />
+            <span className="text-[11px] text-muted-foreground">
+              You’ll confirm this with a photo ID within 7 days of joining.
+            </span>
+          </label>
+        )}
 
         {mode === "signup" && (
           <label className="flex items-start gap-2 rounded-[14px] border border-border bg-card p-3 text-sm">
