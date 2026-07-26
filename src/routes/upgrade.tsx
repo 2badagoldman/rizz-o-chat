@@ -111,7 +111,13 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
             <Icon className={diamond ? '-rotate-45 h-5 w-5 text-sky-600' : 'h-5 w-5 text-primary'} />
           </div>
           <div>
-            <h2 className={`text-lg leading-tight ${diamond ? 'text-gradient-brand font-black' : 'font-extrabold'}`}>{plan.name}</h2>
+            <h2
+              className={`text-lg leading-tight font-black ${
+                diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : ''
+              }`}
+            >
+              {plan.name}
+            </h2>
             <p className="mt-0.5 text-[11px] text-muted-foreground">{plan.tagline}</p>
           </div>
         </div>
@@ -123,7 +129,13 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
       </div>
 
       <div className="relative mt-5 flex items-end gap-1">
-        <span className={`text-4xl font-black tracking-tight ${diamond ? 'text-gradient-brand' : ''}`}>{plan.price}</span>
+        <span
+          className={`text-4xl font-black tracking-tight ${
+            diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : ''
+          }`}
+        >
+          {plan.price}
+        </span>
         <span className="pb-1.5 text-xs font-semibold text-muted-foreground">/week</span>
       </div>
 
