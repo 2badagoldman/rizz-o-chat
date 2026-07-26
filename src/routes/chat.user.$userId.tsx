@@ -94,11 +94,25 @@ function UserChat() {
     const text = input.trim();
     if (!text || busy) return;
     setBusy(true);
+    const tempId = `pending:${Date.now()}`;
+    setInput("");
+    // Optimistic bubble so mobile feels instant; swapped for the real row.
+    setMessages((m) => [
+      ...m,
+      { id: tempId, sender_id: user.id, recipient_id: userId, body: text, created_at: new Date().toISOString() },
+    ]);
     try {
       const row = await send({ data: { recipientId: userId, body: text } });
-      setInput("");
-      setMessages((m) => [...m, { id: row.id, sender_id: user.id, recipient_id: userId, body: text, created_at: row.created_at }]);
+      setMessages((m) =>
+        m.map((x) =>
+          x.id === tempId
+            ? { id: row.id, sender_id: user.id, recipient_id: userId, body: text, created_at: row.created_at }
+            : x,
+        ),
+      );
     } catch (err) {
+      setMessages((m) => m.filter((x) => x.id !== tempId));
+      setInput(text);
       toast.error((err as Error).message);
     } finally {
       setBusy(false);
@@ -125,7 +139,6 @@ function UserChat() {
 
         <VirtualMessageList
           items={items}
-          typingName={busy ? null : null}
           empty={
             <div className="mb-3 rounded-2xl border border-dashed border-border bg-card p-4 text-center text-sm text-muted-foreground">
               Say hi to start the conversation.
