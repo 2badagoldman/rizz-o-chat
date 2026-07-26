@@ -1,6 +1,13 @@
+import { useEffect, useState } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { useServerFn } from '@tanstack/react-start';
 import { AppShell } from '@/components/AppShell';
-import { Check, Gem, Sparkles } from 'lucide-react';
+import { Check, Gem, Sparkles, AlertCircle, RefreshCw, Loader2 } from 'lucide-react';
+import { getStripeEnvironment } from '@/lib/stripe';
+import { getCheckoutStatus, type CheckoutStatus } from '@/utils/payments.functions';
+import { useStripeCheckout } from '@/hooks/useStripeCheckout';
+import type { CheckoutRequest } from '@/components/StripeEmbeddedCheckout';
+
 
 export const Route = createFileRoute('/checkout/return')({
   head: () => ({
