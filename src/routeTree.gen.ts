@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as UpgradeRouteImport } from './routes/upgrade'
 import { Route as SubscriptionsRouteImport } from './routes/subscriptions'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -69,6 +70,11 @@ import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicHooksShowcaseBrainRouteImport } from './routes/api/public/hooks/showcase-brain'
 
+const VerifyRoute = VerifyRouteImport.update({
+  id: '/verify',
+  path: '/verify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UpgradeRoute = UpgradeRouteImport.update({
   id: '/upgrade',
   path: '/upgrade',
@@ -384,6 +390,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
+  '/verify': typeof VerifyRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/copilot': typeof AdminCopilotRoute
@@ -444,6 +451,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
+  '/verify': typeof VerifyRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/copilot': typeof AdminCopilotRoute
@@ -506,6 +514,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
+  '/verify': typeof VerifyRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/copilot': typeof AdminCopilotRoute
@@ -569,6 +578,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/subscriptions'
     | '/upgrade'
+    | '/verify'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/copilot'
@@ -629,6 +639,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/subscriptions'
     | '/upgrade'
+    | '/verify'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/copilot'
@@ -690,6 +701,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/subscriptions'
     | '/upgrade'
+    | '/verify'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/copilot'
@@ -752,6 +764,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SubscriptionsRoute: typeof SubscriptionsRoute
   UpgradeRoute: typeof UpgradeRoute
+  VerifyRoute: typeof VerifyRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -792,6 +805,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify': {
+      id: '/verify'
+      path: '/verify'
+      fullPath: '/verify'
+      preLoaderRoute: typeof VerifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/upgrade': {
       id: '/upgrade'
       path: '/upgrade'
@@ -1260,6 +1280,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SubscriptionsRoute: SubscriptionsRoute,
   UpgradeRoute: UpgradeRoute,
+  VerifyRoute: VerifyRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
