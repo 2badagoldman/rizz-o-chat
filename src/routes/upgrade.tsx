@@ -273,8 +273,9 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
         className={`press-spring relative mt-6 w-full overflow-hidden rounded-2xl py-3.5 text-sm font-black tracking-tight ${
           diamond
             ? 'bg-[linear-gradient(110deg,#38bdf8,#a855f7,#ec4899,#38bdf8)] bg-[length:240%_100%] text-white shadow-glow hover:bg-[position:100%_50%]'
-            : 'btn-brand'
+            : 'gold-surface text-[#4a2d02] shadow-[0_8px_20px_-8px_rgba(180,130,20,.8),inset_0_1px_0_rgba(255,255,255,.85)]'
         }`}
+
         style={diamond ? { transition: 'background-position 900ms ease, transform 320ms cubic-bezier(.2,1.3,.3,1)' } : undefined}
       >
         <span className="relative z-10 inline-flex items-center justify-center gap-2">
