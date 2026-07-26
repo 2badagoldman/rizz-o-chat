@@ -83,9 +83,14 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
       // Full detail in the console for debugging; short message in the UI.
       console.error(`[checkout] ${target}: failed to create session (env=${environment}) — ${message}`, err);
       failedRef.current = true;
-      setFailure(message);
+      setFailure(
+        /unauthor|authorization header|401/i.test(message)
+          ? 'You need to be signed in to complete this purchase.'
+          : message,
+      );
       throw err;
     }
+
   }, [props, attempt]);
 
   const retry = () => {
