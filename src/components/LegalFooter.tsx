@@ -6,8 +6,10 @@ const LINKS = [
   { to: "/legal/privacy", label: "Privacy" },
   { to: "/legal/refunds", label: "Refunds" },
   { to: "/legal/billing", label: "Billing" },
+  { to: "/legal/pricing", label: "Pricing" },
   { to: "/legal/acceptable-use", label: "Community rules" },
   { to: "/legal/cookies", label: "Cookies" },
+  { to: "/legal/law-enforcement", label: "Law enforcement" },
   { to: "/legal/trust", label: "Trust & security" },
   { to: "/legal/contact", label: "Contact" },
 ] as const;
