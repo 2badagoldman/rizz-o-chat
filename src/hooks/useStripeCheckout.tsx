@@ -42,7 +42,9 @@ export function useStripeCheckout() {
       role="dialog"
       aria-modal="true"
       aria-label={meta.title ?? 'Checkout'}
-      className={`fixed inset-0 z-[100] flex flex-col bg-background/90 backdrop-blur-xl ${closing ? 'overlay-out' : 'overlay-in'}`}
+      // z-[200]: must sit above the welcome showcase overlay (z-[100]), which
+      // otherwise covers the Stripe payment form and blocks every purchase.
+      className={`fixed inset-0 z-[200] flex flex-col bg-background/90 backdrop-blur-xl ${closing ? 'overlay-out' : 'overlay-in'}`}
     >
       {/* ambient atmosphere so checkout matches the membership pages */}
       <span
