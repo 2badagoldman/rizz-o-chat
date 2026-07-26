@@ -66,6 +66,8 @@ export function WelcomeShowcase() {
   };
 
   useEffect(() => {
+    if (isLegalPage) return;
+
     let pending = false;
     let lastAt = 0;
     let shownThisSession = false;
@@ -80,13 +82,13 @@ export function WelcomeShowcase() {
     const shouldShow = pending || (!shownThisSession && cooldownOk);
 
     track("showcase_mount_check", {
-      metadata: { pending, shown_this_session: shownThisSession, cooldown_ok: cooldownOk },
+      metadata: { pending, shown_this_session: shownThisSession, cooldown_ok: cooldownOk, pathname },
     });
 
     if (!shouldShow) return;
     const t = setTimeout(loadReel, pending ? 200 : 800);
     return () => clearTimeout(t);
-  }, []);
+  }, [isLegalPage, pathname]);
 
   // Log impression per slide
   useEffect(() => {
