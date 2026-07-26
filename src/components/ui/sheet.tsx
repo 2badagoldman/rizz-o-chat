@@ -6,6 +6,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { PrismLayer } from "@/components/Prism";
+
 
 const Sheet = SheetPrimitive.Root;
 
@@ -60,15 +62,21 @@ const SheetContent = React.forwardRef<
 >(({ side = "right", className, children, ...props }, ref) => (
   <SheetPortal>
     <SheetOverlay />
-    <SheetPrimitive.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
-      <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background cursor-pointer transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+    <SheetPrimitive.Content
+      ref={ref}
+      className={cn(sheetVariants({ side }), "glass-card prism-surface overflow-hidden", className)}
+      {...props}
+    >
+      <PrismLayer ring sparkles caustics sheen className="opacity-70" />
+      <SheetPrimitive.Close className="absolute right-4 top-4 z-20 rounded-sm opacity-70 ring-offset-background cursor-pointer transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
         <X className="h-4 w-4" />
         <span className="sr-only">Close</span>
       </SheetPrimitive.Close>
-      {children}
+      <div className="relative z-10">{children}</div>
     </SheetPrimitive.Content>
   </SheetPortal>
 ));
+
 SheetContent.displayName = SheetPrimitive.Content.displayName;
 
 const SheetHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
