@@ -129,11 +129,13 @@ function AuthPage() {
   return (
     <AppShell hideNav>
       <header className="pt-6 text-center">
-        <img
-          src={rizzAiLogo.url}
-          alt="Rizzla"
-          className="mx-auto h-16 w-16 rounded-full shadow-glow"
-        />
+        <a href="/" aria-label="Rizzla home — reload" className="inline-block">
+          <img
+            src={rizzAiLogo.url}
+            alt="Rizzla"
+            className="mx-auto h-16 w-16 rounded-full shadow-glow"
+          />
+        </a>
         <p className="mt-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">
           Rizzla AI
         </p>
