@@ -179,10 +179,13 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
             case 'checkout.session.completed':
               await handleCheckoutCompleted(event.data.object);
               break;
+            // Stripe sends BOTH invoice.paid and invoice.payment_succeeded for the
+            // same payment (distinct event ids, so the dedupe table won't catch it).
+            // Credit on invoice.paid only to avoid double-crediting coins.
             case 'invoice.paid':
-            case 'invoice.payment_succeeded':
               await handleInvoicePaid(event.data.object);
               break;
+
             default:
               console.log('Unhandled event:', event.type);
           }
