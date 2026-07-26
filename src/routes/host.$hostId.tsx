@@ -57,6 +57,7 @@ function HostProfile() {
   const [tipOpen, setTipOpen] = useState(false);
   const [tipAmount, setTipAmount] = useState(500);
   const { openCheckout, checkoutElement } = useStripeCheckout();
+  const { hasGold } = useGoldAccess();
 
   if (!host) {
     return (
