@@ -69,7 +69,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
           <div className="flex items-center gap-2">
             <button
               onClick={() => setSearchOpen(true)}
-              className="rounded-full border border-border bg-card/80 p-1.5 text-foreground transition-transform hover:scale-105 hover:bg-primary/10"
+              className="press-spring rounded-full border border-border/70 bg-card/60 p-1.5 text-foreground backdrop-blur-xl hover:bg-primary/10"
               aria-label="Search hosts"
             >
               <Search className="h-4 w-4" />
@@ -77,20 +77,21 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
             <ThemeToggle />
             <Link
               to="/coins"
-              className="rounded-full border border-border bg-card/80 px-3 py-1 text-[11px] font-semibold text-foreground transition-transform hover:scale-105 hover:bg-primary/10"
+              className="press-spring rounded-full border border-border/70 bg-card/60 px-3 py-1 text-[11px] font-semibold text-foreground backdrop-blur-xl hover:bg-primary/10"
             >
               Coins
             </Link>
             <Link
               to="/upgrade"
-              className="btn-brand !py-1 !px-3 text-[11px] hover:btn-brand-hover"
+              className="press-spring btn-brand !py-1 !px-3 text-[11px] hover:btn-brand-hover"
             >
               Upgrade
             </Link>
           </div>
         </div>
       </header>
-      <main key={pathname} className="page-anim mx-auto w-full max-w-[480px] px-4 pt-4 pb-32">
+      <main key={pathname} className="page-anim relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4 pb-32">
+
         <KycGate />
         {children}
         {footerNote ? (
