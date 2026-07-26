@@ -108,7 +108,7 @@ function UpgradePage() {
         })}
       </div>
       <div className="mt-5 rounded-2xl border border-border bg-card/60 p-4 text-[11px] leading-relaxed text-muted-foreground">
-        Memberships are billed monthly in USD and renew automatically until you cancel. Cancel anytime from{' '}
+        Memberships are billed weekly in USD and renew automatically every week until you cancel. Cancel anytime from{' '}
         <Link to="/subscriptions" className="font-semibold text-primary">My subscriptions</Link> — access continues to the end
         of the paid period, and unused memberships are refundable within 14 days. See our{' '}
         <Link to="/legal/refunds" className="font-semibold text-primary">Refund &amp; Cancellation Policy</Link>,{' '}
