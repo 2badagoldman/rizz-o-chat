@@ -62,6 +62,7 @@ import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
 import { Route as AdminCopilotRouteImport } from './routes/admin.copilot'
+import { Route as AdminComplianceRouteImport } from './routes/admin.compliance'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ChatUserUserIdRouteImport } from './routes/chat.user.$userId'
@@ -337,6 +338,11 @@ const AdminCopilotRoute = AdminCopilotRouteImport.update({
   path: '/copilot',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminComplianceRoute = AdminComplianceRouteImport.update({
+  id: '/compliance',
+  path: '/compliance',
+  getParentRoute: () => AdminRoute,
+} as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -405,6 +411,7 @@ export interface FileRoutesByFullPath {
   '/verify': typeof VerifyRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
@@ -468,6 +475,7 @@ export interface FileRoutesByTo {
   '/verify': typeof VerifyRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
@@ -533,6 +541,7 @@ export interface FileRoutesById {
   '/verify': typeof VerifyRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
@@ -599,6 +608,7 @@ export interface FileRouteTypes {
     | '/verify'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/compliance'
     | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/hosts'
@@ -662,6 +672,7 @@ export interface FileRouteTypes {
     | '/verify'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/compliance'
     | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/hosts'
@@ -726,6 +737,7 @@ export interface FileRouteTypes {
     | '/verify'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
+    | '/admin/compliance'
     | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/hosts'
@@ -1200,6 +1212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCopilotRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/compliance': {
+      id: '/admin/compliance'
+      path: '/compliance'
+      fullPath: '/admin/compliance'
+      preLoaderRoute: typeof AdminComplianceRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -1279,6 +1298,7 @@ const AdminHostsRouteWithChildren = AdminHostsRoute._addFileChildren(
 )
 
 interface AdminRouteChildren {
+  AdminComplianceRoute: typeof AdminComplianceRoute
   AdminCopilotRoute: typeof AdminCopilotRoute
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminHostsRoute: typeof AdminHostsRouteWithChildren
@@ -1293,6 +1313,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminComplianceRoute: AdminComplianceRoute,
   AdminCopilotRoute: AdminCopilotRoute,
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminHostsRoute: AdminHostsRouteWithChildren,
