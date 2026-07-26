@@ -31,13 +31,16 @@ async function alreadyProcessed(eventId: string, type: string): Promise<boolean>
 }
 
 async function handleInvoicePaid(invoice: any) {
-  // VIP monthly coin drop — fires on first payment AND every renewal.
+  // VIP coin drop — fires on first payment AND every renewal.
   const line = invoice.lines?.data?.[0];
   const lookupKey = line?.price?.lookup_key;
   if (lookupKey !== 'rizz_diamond_weekly' && lookupKey !== 'rizz_vip_monthly') return;
-  // Prefer subscription metadata (set at checkout) for userId.
-  const subId = invoice.subscription;
-  if (!subId) return;
+  // API 2026-03-25 moved the subscription ref onto invoice.parent; keep the legacy fallback.
+  const subId =
+    invoice.parent?.subscription_details?.subscription ??
+    line?.parent?.subscription_item_details?.subscription ??
+    invoice.subscription;
+  if (!subId) return console.error('invoice.paid: no subscription on invoice', invoice.id);
   const { data: subRow } = await sb()
     .from('subscriptions')
     .select('user_id')
@@ -47,6 +50,7 @@ async function handleInvoicePaid(invoice: any) {
   if (!userId) return console.error('invoice.paid: no user for sub', subId);
   await sb().rpc('credit_coins', { _user_id: userId, _coins: VIP_MONTHLY_COINS });
 }
+
 
 async function handleSubscriptionUpsert(subscription: any, env: StripeEnv) {
   const userId = subscription.metadata?.userId;
