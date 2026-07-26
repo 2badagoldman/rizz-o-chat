@@ -4,13 +4,15 @@ import { DefaultChatTransport } from "ai";
 import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { ArrowLeft, Send, Circle, Gift, Sparkles, Heart } from "lucide-react";
+import { ArrowLeft, Send, Circle, Gift, Sparkles, Heart, Smile } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
+import { useFloatingReactions } from "@/components/chat/FloatingReactions";
 import { sendChatGift } from "@/lib/subscriptions.functions";
 import { toast } from "sonner";
+
 
 // Jen is a demo id — coin economy only applies to real host UUIDs.
 const JEN_UUID = "0dc3f76d-b710-4934-b1e5-4057ccdb082b";
