@@ -5,6 +5,8 @@ import { CoinIcon } from '@/components/CoinIcon';
 import { Sparkles } from 'lucide-react';
 import rizzAiLogo from '@/assets/rizz-ai-logo.webp.asset.json';
 import { pageHead } from "@/lib/seo";
+import { useIosBillingRestricted } from '@/hooks/useNative';
+import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 
 export const Route = createFileRoute('/coins')({
   head: () => pageHead({
@@ -120,6 +122,7 @@ function PackRow({ pack, index, onBuy }: { pack: Pack; index: number; onBuy: () 
 
 function CoinsPage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
+  const iosRestricted = useIosBillingRestricted();
   return (
     <AppShell>
       <div className="page-anim relative">
@@ -139,11 +142,15 @@ function CoinsPage() {
           </p>
         </header>
 
-        <div className="relative space-y-3">
-          {PACKS.map((p, i) => (
-            <PackRow key={p.id} pack={p} index={i} onBuy={() => openCheckout({ kind: 'catalog', priceId: p.id })} />
-          ))}
-        </div>
+        {iosRestricted ? (
+          <AppStoreBillingNotice what="Coin packs" />
+        ) : (
+          <div className="relative space-y-3">
+            {PACKS.map((p, i) => (
+              <PackRow key={p.id} pack={p} index={i} onBuy={() => openCheckout({ kind: 'catalog', priceId: p.id })} />
+            ))}
+          </div>
+        )}
 
         <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[11px] text-muted-foreground">
           <img src={rizzAiLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" /> Coins are added to your wallet instantly after payment.
