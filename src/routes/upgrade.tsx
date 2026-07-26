@@ -272,7 +272,18 @@ function UpgradePage() {
 
         <div className="relative space-y-5">
           {PLANS.map((p, i) => (
-            <PlanCard key={p.id} plan={p} index={i} onSubscribe={() => openCheckout({ kind: 'catalog', priceId: p.id })} />
+            <PlanCard
+              key={p.id}
+              plan={p}
+              index={i}
+              onSubscribe={() =>
+                openCheckout(
+                  { kind: 'catalog', priceId: p.id },
+                  { title: p.name, subtitle: `${p.price} per week · cancel anytime`, diamond: p.diamond },
+                )
+              }
+            />
+
           ))}
         </div>
 
