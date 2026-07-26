@@ -91,7 +91,15 @@ export function VirtualMessageList({
               style={{ transform: `translateY(${row.start}px)` }}
             >
               {item ? (
-                <MessageBubble mine={item.mine} text={item.text} time={item.time} state={item.state} />
+                <MessageBubble
+                  mine={item.mine}
+                  text={item.text}
+                  time={item.time}
+                  state={item.state}
+                  reactions={reactions?.[item.id]}
+                  onReact={onReact ? (emoji, origin) => onReact(item.id, emoji, origin) : undefined}
+                />
+
               ) : (
                 <TypingBubble name={typingName ?? ""} />
               )}
