@@ -197,24 +197,35 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
         <span className="pb-1.5 text-xs font-semibold text-muted-foreground">/week</span>
       </div>
 
-      <ul className="relative mt-5 space-y-2.5 text-sm">
-        {plan.perks.map((line, i) => (
+      {plan.includesNote && (
+        <p className="relative mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/60 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-sky-700">
+          <Check className="h-3 w-3" strokeWidth={3.5} /> {plan.includesNote}
+        </p>
+      )}
+
+      <ul className="relative mt-4 space-y-3 text-sm">
+        {plan.perks.map((perk, i) => (
           <li
-            key={line}
-            className="flex items-center gap-2.5 transition-transform duration-300 group-hover:translate-x-0.5"
-            style={{ transitionDelay: `${i * 40}ms` }}
+            key={perk.label}
+            className="flex items-start gap-2.5 transition-transform duration-500 group-hover:translate-x-0.5"
+            style={{ transitionDelay: `${i * 45}ms` }}
           >
             <span
-              className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ${
+              className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full transition-transform duration-500 group-hover:scale-110 ${
                 diamond ? 'bg-gradient-to-br from-sky-400 to-fuchsia-500 text-white' : 'bg-primary/12 text-primary'
               }`}
+              style={{ transitionDelay: `${i * 45}ms` }}
             >
               <Check className="h-3 w-3" strokeWidth={3.5} />
             </span>
-            <span className="text-foreground/90">{line}</span>
+            <span className="min-w-0">
+              <span className="block font-bold leading-snug text-foreground">{perk.label}</span>
+              <span className="block text-[11.5px] leading-snug text-muted-foreground">{perk.detail}</span>
+            </span>
           </li>
         ))}
       </ul>
+
 
       <button
         onClick={onSubscribe}
