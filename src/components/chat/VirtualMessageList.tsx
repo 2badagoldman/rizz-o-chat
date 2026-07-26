@@ -20,12 +20,18 @@ export function VirtualMessageList({
   typingName,
   header,
   empty,
+  reactions,
+  onReact,
 }: {
   items: ChatItem[];
   typingName?: string | null;
   header?: ReactNode;
   empty?: ReactNode;
+  /** messageId -> emojis attached to it */
+  reactions?: Record<string, string[]>;
+  onReact?: (messageId: string, emoji: string, origin: { x: number; y: number }) => void;
 }) {
+
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [stick, setStick] = useState(true);
 
@@ -85,7 +91,15 @@ export function VirtualMessageList({
               style={{ transform: `translateY(${row.start}px)` }}
             >
               {item ? (
-                <MessageBubble mine={item.mine} text={item.text} time={item.time} state={item.state} />
+                <MessageBubble
+                  mine={item.mine}
+                  text={item.text}
+                  time={item.time}
+                  state={item.state}
+                  reactions={reactions?.[item.id]}
+                  onReact={onReact ? (emoji, origin) => onReact(item.id, emoji, origin) : undefined}
+                />
+
               ) : (
                 <TypingBubble name={typingName ?? ""} />
               )}

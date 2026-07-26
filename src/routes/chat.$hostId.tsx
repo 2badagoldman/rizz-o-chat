@@ -44,6 +44,9 @@ function HostChat() {
   const [giftOpen, setGiftOpen] = useState(false);
   const [emojiOpen, setEmojiOpen] = useState(false);
   const { fire, layer } = useFloatingReactions();
+  // Per-message reactions (Apple-style): messageId -> emojis.
+  const [msgReactions, setMsgReactions] = useState<Record<string, string[]>>({});
+
 
   const host = DEMO_HOSTS.find((h) => h.id === hostId);
 
@@ -108,6 +111,34 @@ function HostChat() {
     if (status === "streaming" || status === "submitted") return;
     try { localStorage.setItem(storageKey, JSON.stringify(messages)); } catch {}
   }, [messages, status, storageKey]);
+
+  // Message reactions persist alongside the thread.
+  const reactionsKey = `${storageKey}:reactions`;
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(reactionsKey);
+      const parsed = raw ? JSON.parse(raw) : null;
+      setMsgReactions(parsed && typeof parsed === "object" ? parsed : {});
+    } catch { setMsgReactions({}); }
+  }, [reactionsKey]);
+
+  // Toggle-style: tapping the same emoji again removes it.
+  const reactToMessage = (messageId: string, emoji: string, origin: { x: number; y: number }) => {
+    fire(emoji, 6, origin);
+    setMsgReactions((prev) => {
+      const current = prev[messageId] ?? [];
+      const next = current.includes(emoji)
+        ? current.filter((e) => e !== emoji)
+        : [...current, emoji];
+      const map = { ...prev, [messageId]: next };
+      if (!next.length) delete map[messageId];
+      try { localStorage.setItem(reactionsKey, JSON.stringify(map)); } catch {}
+      return map;
+    });
+  };
+
+
 
   // Typing state: shown while the host is composing a reply.
   const typing = (status === "submitted" || status === "streaming") &&
@@ -298,7 +329,10 @@ function HostChat() {
 
         <VirtualMessageList
           items={items}
+          reactions={msgReactions}
+          onReact={reactToMessage}
           typingName={typing ? host.name : null}
+
           header={
             aiHost && !user ? (
               <div className="rounded-2xl border border-primary/30 bg-primary/5 p-3 text-[11px] text-primary flex items-center gap-2">

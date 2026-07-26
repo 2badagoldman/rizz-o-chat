@@ -1,18 +1,45 @@
 import { useCallback, useRef, useState } from "react";
 
-type Burst = { id: number; emoji: string; left: number; drift: number; spin: number; dur: number; delay: number };
+type Burst = {
+  id: number;
+  emoji: string;
+  left: number;
+  drift: number;
+  spin: number;
+  dur: number;
+  delay: number;
+  /** Anchored bursts float from a tapped message instead of the composer. */
+  top?: number;
+  anchored?: boolean;
+};
+
+export type BurstOrigin = { x: number; y: number };
 
 /**
  * Floating emoji reactions — call `fire(emoji)` and a little cluster of that
  * emoji pops from the bottom of the chat and drifts up toward the host.
+ * Pass an `origin` (viewport px) to make the burst rise from a tapped message.
  */
 export function useFloatingReactions() {
   const [bursts, setBursts] = useState<Burst[]>([]);
   const seq = useRef(0);
 
-  const fire = useCallback((emoji: string, count = 7) => {
+  const fire = useCallback((emoji: string, count = 7, origin?: BurstOrigin) => {
     const next: Burst[] = Array.from({ length: count }, () => {
       const id = ++seq.current;
+      if (origin) {
+        return {
+          id,
+          emoji,
+          left: origin.x + (Math.random() * 44 - 22),
+          top: origin.y + (Math.random() * 16 - 8),
+          anchored: true,
+          drift: Math.random() * 90 - 45,
+          spin: Math.random() * 60 - 30,
+          dur: 1200 + Math.random() * 700,
+          delay: Math.random() * 180,
+        };
+      }
       return {
         id,
         emoji,
@@ -33,21 +60,38 @@ export function useFloatingReactions() {
 
   const layer = (
     <div className="pointer-events-none fixed inset-0 z-[110] overflow-hidden" aria-hidden>
-      {bursts.map((b) => (
-        <span
-          key={b.id}
-          className="emoji-float absolute bottom-24 text-3xl drop-shadow"
-          style={{
-            left: `${b.left}%`,
-            ["--drift" as string]: `${b.drift}px`,
-            ["--spin" as string]: `${b.spin}deg`,
-            ["--dur" as string]: `${b.dur}ms`,
-            animationDelay: `${b.delay}ms`,
-          }}
-        >
-          {b.emoji}
-        </span>
-      ))}
+      {bursts.map((b) =>
+        b.anchored ? (
+          <span
+            key={b.id}
+            className="emoji-float-anchored absolute text-2xl drop-shadow"
+            style={{
+              left: `${b.left}px`,
+              top: `${b.top}px`,
+              ["--drift" as string]: `${b.drift}px`,
+              ["--spin" as string]: `${b.spin}deg`,
+              ["--dur" as string]: `${b.dur}ms`,
+              animationDelay: `${b.delay}ms`,
+            }}
+          >
+            {b.emoji}
+          </span>
+        ) : (
+          <span
+            key={b.id}
+            className="emoji-float absolute bottom-24 text-3xl drop-shadow"
+            style={{
+              left: `${b.left}%`,
+              ["--drift" as string]: `${b.drift}px`,
+              ["--spin" as string]: `${b.spin}deg`,
+              ["--dur" as string]: `${b.dur}ms`,
+              animationDelay: `${b.delay}ms`,
+            }}
+          >
+            {b.emoji}
+          </span>
+        ),
+      )}
     </div>
   );
 
