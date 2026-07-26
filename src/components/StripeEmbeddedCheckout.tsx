@@ -94,20 +94,24 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
     setAttempt((n) => n + 1);
   };
 
-  if (failure) {
+  const problem = configError ?? failure;
+  if (problem || !stripePromise) {
+    if (configError) console.error(`[checkout] ${describe(props)}: Stripe.js unavailable — ${configError}`);
     return (
       <div className="mx-auto max-w-md px-5 py-10 text-center">
         <div className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-destructive/30 bg-destructive/10">
           <AlertCircle className="h-5 w-5 text-destructive" />
         </div>
         <h2 className="mt-4 text-base font-black tracking-tight">Checkout couldn&apos;t start</h2>
-        <p className="mt-2 text-sm text-muted-foreground">{failure}</p>
-        <button
-          onClick={retry}
-          className="press-spring mt-5 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur-xl"
-        >
-          <RefreshCw className="h-4 w-4" /> Try again
-        </button>
+        <p className="mt-2 text-sm text-muted-foreground">{problem ?? 'Payments are unavailable right now.'}</p>
+        {!configError && (
+          <button
+            onClick={retry}
+            className="press-spring mt-5 inline-flex items-center gap-2 rounded-full border border-border/70 bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur-xl"
+          >
+            <RefreshCw className="h-4 w-4" /> Try again
+          </button>
+        )}
         <p className="mt-4 text-[11px] text-muted-foreground">
           Still stuck? Email rizzchatsupport@gmail.com with the message above.
         </p>
@@ -117,9 +121,10 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
 
   return (
     <div id="checkout">
-      <EmbeddedCheckoutProvider key={attempt} stripe={getStripe()} options={{ fetchClientSecret }}>
+      <EmbeddedCheckoutProvider key={attempt} stripe={stripePromise} options={{ fetchClientSecret }}>
         <EmbeddedCheckout />
       </EmbeddedCheckoutProvider>
     </div>
   );
+
 }
