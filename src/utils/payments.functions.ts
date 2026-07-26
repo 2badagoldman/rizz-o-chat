@@ -34,7 +34,7 @@ async function resolveOrCreateCustomer(
   return created.id;
 }
 
-// ---- Fixed-price checkout: coin packs, Rizz Gold, Rizz VIP ----
+// ---- Fixed-price checkout: coin packs, Rizz Gold, Rizz Diamond VIP ----
 export const createCheckoutSession = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { priceId: string; returnUrl: string; environment: StripeEnv }) => {
