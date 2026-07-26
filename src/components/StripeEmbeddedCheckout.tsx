@@ -27,6 +27,19 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
   const [attempt, setAttempt] = useState(0);
   const [failure, setFailure] = useState<string | null>(null);
   const failedRef = useRef(false);
+  // Checkout server fns require a Supabase bearer token. Resolve the session
+  // before mounting Stripe so a signed-out user sees a sign-in prompt instead
+  // of an unhandled "No authorization header provided" crash.
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
+  useEffect(() => {
+    let alive = true;
+    supabase.auth.getSession().then(({ data }) => {
+      if (alive) setSignedIn(Boolean(data.session?.access_token));
+    });
+    return () => {
+      alive = false;
+    };
+  }, [attempt]);
 
   // getStripe() throws when VITE_PAYMENTS_CLIENT_TOKEN is missing/unrecognized,
   // which would blow up render before fetchClientSecret ever runs.
