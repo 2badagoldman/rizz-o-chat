@@ -276,7 +276,9 @@ function HostChat() {
                         return;
                       }
                       toast.success(`${g.label} sent! Balance: ${res.balance}c`);
+                      fire(g.emoji, 14);
                       sendMessage({ text: `${g.emoji} sent you a ${g.label} (${g.coins} coins)` });
+
                     }}
                     className="flex flex-col items-center gap-1 rounded-2xl border border-border bg-background px-2 py-3 text-xs hover:border-primary hover:bg-primary/5"
                   >
