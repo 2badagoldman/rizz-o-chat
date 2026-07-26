@@ -146,7 +146,13 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
         ui_mode: 'embedded_page',
         return_url: data.returnUrl,
         customer: customerId,
-        metadata: { userId, kind: 'friends_list', hostId: data.hostId, priceCents: String(priceCents) },
+        metadata: {
+          userId,
+          kind: 'friends_list',
+          hostId: data.hostId,
+          hostName: data.hostName.slice(0, 60),
+          priceCents: String(priceCents),
+        },
         subscription_data: {
           metadata: { userId, kind: 'friends_list', hostId: data.hostId, priceCents: String(priceCents) },
         },
@@ -196,7 +202,13 @@ export const createTipCheckout = createServerFn({ method: 'POST' })
         return_url: data.returnUrl,
         customer: customerId,
         payment_intent_data: { description },
-        metadata: { userId, kind: 'tip', hostId: data.hostId, amountCents: String(data.amountCents) },
+        metadata: {
+          userId,
+          kind: 'tip',
+          hostId: data.hostId,
+          hostName: data.hostName.slice(0, 60),
+          amountCents: String(data.amountCents),
+        },
       });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
