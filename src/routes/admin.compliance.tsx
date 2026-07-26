@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { getComplianceReport, type ComplianceReport, type ComplianceRow } from "@/lib/compliance-report.functions";
+import { AdminContactPanel, type ContactTarget } from "@/components/admin/AdminContactPanel";
 import { AlertTriangle, Download, MessageSquare, RefreshCw, ShieldCheck, Clock, Users } from "lucide-react";
 
 export const Route = createFileRoute("/admin/compliance")({
@@ -26,6 +27,7 @@ function ComplianceReportPage() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
   const [filter, setFilter] = useState<Filter>("all");
+  const [contact, setContact] = useState<ContactTarget | null>(null);
 
   const load = () => {
     setLoading(true);
@@ -162,11 +164,23 @@ function ComplianceReportPage() {
         ) : (
           <ul className="divide-y divide-border">
             {rows.map((r) => (
-              <Row key={r.id} row={r} />
+              <Row
+                key={r.id}
+                row={r}
+                onMessage={() =>
+                  setContact({
+                    id: r.id,
+                    name: r.display_name,
+                    avatar_url: r.avatar_url,
+                    subtitle: `${r.account_type === "host" ? "Host" : "Member"} · verification ${r.kyc_status}`,
+                  })
+                }
+              />
             ))}
           </ul>
         )}
       </div>
+      <AdminContactPanel target={contact} onClose={() => setContact(null)} />
     </div>
   );
 }
@@ -193,7 +207,7 @@ function Stat({
   );
 }
 
-function Row({ row }: { row: ComplianceRow }) {
+function Row({ row, onMessage }: { row: ComplianceRow; onMessage: () => void }) {
   return (
     <li className="flex flex-wrap items-center gap-3 p-3">
       <img
@@ -224,12 +238,18 @@ function Row({ row }: { row: ComplianceRow }) {
             : `${Math.max(row.days_remaining, 0)}d left`}
       </span>
       <div className="flex gap-2">
-        <Link
-          to="/chat/user/$userId"
-          params={{ userId: row.id }}
+        <button
+          onClick={onMessage}
           className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold hover:bg-muted"
         >
           <MessageSquare className="h-3.5 w-3.5" /> Message
+        </button>
+        <Link
+          to="/chat/user/$userId"
+          params={{ userId: row.id }}
+          className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold text-muted-foreground hover:bg-muted"
+        >
+          Full chat
         </Link>
         <Link to="/admin/kyc" className="inline-flex items-center rounded-lg px-3 py-1.5 text-xs font-semibold text-primary hover:bg-muted">
           Review

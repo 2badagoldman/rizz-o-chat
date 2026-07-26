@@ -2,7 +2,8 @@ import { PrismEmptyState } from "@/components/Prism";
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { ShieldCheck, Check, X, RefreshCw } from "lucide-react";
+import { ShieldCheck, Check, X, RefreshCw, MessageSquare } from "lucide-react";
+import { AdminContactPanel, type ContactTarget } from "@/components/admin/AdminContactPanel";
 import { reviewKycSubmission } from "@/lib/kyc-admin.functions";
 
 export const Route = createFileRoute("/admin/kyc")({
@@ -39,6 +40,7 @@ function AdminKyc() {
   const [filter, setFilter] = useState<"pending" | "all">("pending");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
+  const [contact, setContact] = useState<ContactTarget | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -158,6 +160,19 @@ function AdminKyc() {
                   <p className="mt-2 text-[12px] text-muted-foreground">Notes: {r.review_notes}</p>
                 ) : null}
 
+                <button
+                  onClick={() =>
+                    setContact({
+                      id: r.user_id,
+                      name: r.legal_name,
+                      subtitle: `Verification ${r.status} · submitted ${new Date(r.created_at).toLocaleDateString()}`,
+                    })
+                  }
+                  className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-[12px] font-semibold hover:bg-muted"
+                >
+                  <MessageSquare className="h-3.5 w-3.5" /> Message applicant
+                </button>
+
                 {r.status === "pending" ? (
                   <div className="mt-3 flex gap-2">
                     <button
@@ -181,6 +196,7 @@ function AdminKyc() {
           })}
         </div>
       )}
+      <AdminContactPanel target={contact} onClose={() => setContact(null)} />
     </div>
   );
 }
