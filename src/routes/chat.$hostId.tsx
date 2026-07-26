@@ -112,6 +112,34 @@ function HostChat() {
     try { localStorage.setItem(storageKey, JSON.stringify(messages)); } catch {}
   }, [messages, status, storageKey]);
 
+  // Message reactions persist alongside the thread.
+  const reactionsKey = `${storageKey}:reactions`;
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(reactionsKey);
+      const parsed = raw ? JSON.parse(raw) : null;
+      setMsgReactions(parsed && typeof parsed === "object" ? parsed : {});
+    } catch { setMsgReactions({}); }
+  }, [reactionsKey]);
+
+  // Toggle-style: tapping the same emoji again removes it.
+  const reactToMessage = (messageId: string, emoji: string, origin: { x: number; y: number }) => {
+    fire(emoji, 6, origin);
+    setMsgReactions((prev) => {
+      const current = prev[messageId] ?? [];
+      const next = current.includes(emoji)
+        ? current.filter((e) => e !== emoji)
+        : [...current, emoji];
+      const map = { ...prev, [messageId]: next };
+      if (!next.length) delete map[messageId];
+      try { localStorage.setItem(reactionsKey, JSON.stringify(map)); } catch {}
+      return map;
+    });
+  };
+
+
+
   // Typing state: shown while the host is composing a reply.
   const typing = (status === "submitted" || status === "streaming") &&
     messages[messages.length - 1]?.role === "user";
