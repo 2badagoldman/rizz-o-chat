@@ -32,6 +32,8 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/kyc", label: "Age Verification", icon: ShieldAlert },
   { to: "/admin/payouts", label: "Payouts", icon: Wallet },
+  { to: "/admin/payments", label: "Payment Log", icon: ReceiptText },
+
   { to: "/admin/showcase", label: "Showcase", icon: ImageIcon },
   { to: "/admin/showcase-brain", label: "Showcase Brain", icon: Sparkles },
   { to: "/admin/early-access", label: "Early Access", icon: Inbox },
