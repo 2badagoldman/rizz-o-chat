@@ -13,7 +13,7 @@ export const Route = createFileRoute('/subscriptions')({
   head: () => ({
     meta: [
       { title: 'My subscriptions — Rizz Social' },
-      { name: 'description', content: 'Manage your Friends List memberships and Rizz+ subscription on Rizz Social.' },
+      { name: 'description', content: 'Manage your Friends List memberships and Rizz Gold subscription on Rizz Social.' },
       { property: 'og:title', content: 'My subscriptions — Rizz Social' },
       { property: 'og:url', content: 'https://rizzlachat.com/subscriptions' },
     ],
@@ -33,7 +33,7 @@ type Row = {
 };
 
 const LABEL: Record<string, string> = {
-  rizz_plus_monthly: 'Rizz+',
+  rizz_plus_monthly: 'Rizz Gold',
   rizz_vip_monthly: 'Rizz VIP',
 };
 
@@ -117,7 +117,7 @@ function SubscriptionsPage() {
         <div className="rounded-2xl border border-border bg-card p-6 text-center">
           <Sparkles className="mx-auto h-6 w-6 text-primary" />
           <p className="mt-2 text-sm">No active subscriptions yet.</p>
-          <Link to="/upgrade" className="btn-brand mt-3 inline-flex">Explore Rizz+</Link>
+          <Link to="/upgrade" className="btn-brand mt-3 inline-flex">Explore Rizz Gold</Link>
         </div>
       ) : (
         <ul className="space-y-3">

@@ -9,7 +9,7 @@ export const Route = createFileRoute("/legal/pricing")({
       {
         name: "description",
         content:
-          "Full price list for Rizzla Chat: coin packs from $4.99, Rizz+ and Rizz VIP monthly memberships, host Friends List memberships, and tips — all in USD with taxes shown at checkout.",
+          "Full price list for Rizzla Chat: coin packs from $4.99, Rizz Gold and Rizz VIP monthly memberships, host Friends List memberships, and tips — all in USD with taxes shown at checkout.",
       },
       { property: "og:title", content: "Pricing for Products & Services — Rizzla Chat" },
       { property: "og:description", content: "Coin packs, memberships, Friends List access and tips — every price, in USD." },
@@ -30,7 +30,7 @@ const COINS = [
 ];
 
 const PLANS = [
-  { name: "Rizz+", billing: "Monthly, auto-renewing", price: "$9.99 / month" },
+  { name: "Rizz Gold", billing: "Monthly, auto-renewing", price: "$9.99 / month" },
   { name: "Rizz VIP", billing: "Monthly, auto-renewing", price: "$19.99 / month" },
 ];
 

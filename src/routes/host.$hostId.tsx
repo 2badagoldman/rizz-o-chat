@@ -5,6 +5,7 @@ import { DEMO_HOSTS, tierBand, tierLabel, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { useAuth } from "@/lib/auth";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
+import { useGoldAccess } from "@/hooks/useGoldAccess";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 import { ArrowLeft, Lock, Play, MessageCircle, Gift, Users, Circle, Check, X, Heart } from "lucide-react";
@@ -57,6 +58,7 @@ function HostProfile() {
   const [tipOpen, setTipOpen] = useState(false);
   const [tipAmount, setTipAmount] = useState(500);
   const { openCheckout, checkoutElement } = useStripeCheckout();
+  const { hasGold } = useGoldAccess();
 
   if (!host) {
     return (
@@ -90,6 +92,8 @@ function HostProfile() {
 
   const onSubscribe = () => {
     if (!user) return navigate({ to: "/auth" });
+    // Friends Lists are Rizz Gold only.
+    if (!hasGold) return navigate({ to: "/upgrade" });
     if (!hostIsReal) {
       alert(`${host.name} is a demo profile — checkout will unlock once real hosts sign up.`);
       return;
@@ -245,7 +249,7 @@ function HostProfile() {
                     className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
                   >
                     <img src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
-                    Unlock Friends List
+                    {hasGold ? "Unlock Friends List" : "Get Rizz Gold to Unlock"}
                   </button>
                 )}
                 <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20">
