@@ -57,6 +57,7 @@ import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminShowcaseBrainRouteImport } from './routes/admin.showcase-brain'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
+import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
@@ -311,6 +312,11 @@ const AdminPayoutsRoute = AdminPayoutsRouteImport.update({
   path: '/payouts',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminKycRoute = AdminKycRouteImport.update({
   id: '/kyc',
   path: '/kyc',
@@ -403,6 +409,7 @@ export interface FileRoutesByFullPath {
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
@@ -465,6 +472,7 @@ export interface FileRoutesByTo {
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
@@ -529,6 +537,7 @@ export interface FileRoutesById {
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
@@ -594,6 +603,7 @@ export interface FileRouteTypes {
     | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/kyc'
+    | '/admin/payments'
     | '/admin/payouts'
     | '/admin/showcase'
     | '/admin/showcase-brain'
@@ -656,6 +666,7 @@ export interface FileRouteTypes {
     | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/kyc'
+    | '/admin/payments'
     | '/admin/payouts'
     | '/admin/showcase'
     | '/admin/showcase-brain'
@@ -719,6 +730,7 @@ export interface FileRouteTypes {
     | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/kyc'
+    | '/admin/payments'
     | '/admin/payouts'
     | '/admin/showcase'
     | '/admin/showcase-brain'
@@ -1153,6 +1165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPayoutsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/payments': {
+      id: '/admin/payments'
+      path: '/payments'
+      fullPath: '/admin/payments'
+      preLoaderRoute: typeof AdminPaymentsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/kyc': {
       id: '/admin/kyc'
       path: '/kyc'
@@ -1264,6 +1283,7 @@ interface AdminRouteChildren {
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminHostsRoute: typeof AdminHostsRouteWithChildren
   AdminKycRoute: typeof AdminKycRoute
+  AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
   AdminShowcaseBrainRoute: typeof AdminShowcaseBrainRoute
@@ -1277,6 +1297,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminHostsRoute: AdminHostsRouteWithChildren,
   AdminKycRoute: AdminKycRoute,
+  AdminPaymentsRoute: AdminPaymentsRoute,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
   AdminShowcaseBrainRoute: AdminShowcaseBrainRoute,
