@@ -213,6 +213,7 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
           Get {plan.name}
         </span>
       </button>
+      </div>
     </div>
   );
 }
