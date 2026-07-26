@@ -33,14 +33,20 @@ const GIFTS: Array<{ emoji: string; label: string; coins: number }> = [
   { emoji: "💎", label: "Diamond", coins: 2500 },
 ];
 
+// Free reaction emojis — no coins, they just float up and land in the chat.
+const REACTIONS = ["❤️", "😍", "🔥", "😘", "😂", "🥰", "💋", "👀", "🙌", "😉", "💕", "✨"];
+
 function HostChat() {
   const { hostId } = Route.useParams();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [giftOpen, setGiftOpen] = useState(false);
+  const [emojiOpen, setEmojiOpen] = useState(false);
+  const { fire, layer } = useFloatingReactions();
 
   const host = DEMO_HOSTS.find((h) => h.id === hostId);
+
   const aiHost = isAiHost(hostId);
   const isJen = hostId === "demo-jen";
 
