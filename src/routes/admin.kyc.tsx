@@ -70,8 +70,11 @@ function AdminKyc() {
   const review = async (id: string, approve: boolean) => {
     setBusy(id);
     const notes = approve ? undefined : window.prompt("Reason for rejection (shown internally)") ?? undefined;
-    await supabase.rpc("admin_review_kyc", { _submission_id: id, _approve: approve, _notes: notes });
-    setBusy(null);
+    try {
+      await reviewKycSubmission({ data: { submissionId: id, approve, notes } });
+    } finally {
+      setBusy(null);
+    }
     load();
   };
 
