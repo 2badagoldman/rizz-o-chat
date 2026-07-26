@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
-import { Check, Gem, Star } from 'lucide-react';
+import { Check, Gem, Sparkles, Star, Zap } from 'lucide-react';
 
 export const Route = createFileRoute('/upgrade')({
   head: () => ({
@@ -17,12 +17,22 @@ export const Route = createFileRoute('/upgrade')({
   component: UpgradePage,
 });
 
+type Plan = {
+  id: string;
+  name: string;
+  price: string;
+  tagline: string;
+  icon: typeof Star;
+  diamond?: boolean;
+  perks: string[];
+};
 
-const PLANS = [
+const PLANS: Plan[] = [
   {
     id: 'rizz_gold_weekly',
     name: 'Rizz Gold',
     price: '$9.99',
+    tagline: 'The key that opens every Friends List',
     icon: Star,
     perks: ['Unlock any host Friends List', 'Unlimited discovery scroll', 'AI copilot boosts', 'Priority chat placement', 'No ads'],
   },
@@ -30,93 +40,174 @@ const PLANS = [
     id: 'rizz_diamond_weekly',
     name: 'Rizz Diamond VIP',
     price: '$19.99',
+    tagline: 'Gold + Diamond, unlocked together',
     icon: Gem,
     diamond: true,
     perks: ['Unlocks Rizz Gold + Diamond tiers', 'Diamond badge on your profile', '2,000 coins every week', 'Top-of-list visibility', 'Early access to new hosts'],
   },
 ];
 
+function Bubbles() {
+  const bubbles = [
+    { left: '6%', size: 46, delay: '0s', tint: 'from-primary/30' },
+    { left: '28%', size: 22, delay: '1.6s', tint: 'from-accent/40' },
+    { left: '52%', size: 64, delay: '3.1s', tint: 'from-primary/20' },
+    { left: '74%', size: 30, delay: '0.8s', tint: 'from-accent/30' },
+    { left: '90%', size: 18, delay: '2.4s', tint: 'from-primary/40' },
+  ];
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      {bubbles.map((b) => (
+        <span
+          key={b.left}
+          className={`bubble bottom-0 bg-gradient-to-br ${b.tint} to-transparent blur-[2px]`}
+          style={{ left: b.left, width: b.size, height: b.size, animationDelay: b.delay }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onSubscribe: () => void }) {
+  const Icon = plan.icon;
+  const diamond = !!plan.diamond;
+  return (
+    <div
+      data-reveal
+      style={{ transitionDelay: `${index * 90}ms` }}
+      className={`press-spring group relative overflow-hidden rounded-[1.75rem] p-6 backdrop-blur-2xl ${
+        diamond
+          ? 'border border-white/50 bg-white/45 shadow-pop'
+          : 'border border-border/70 bg-card/70 shadow-card'
+      }`}
+    >
+      {/* ambient light field */}
+      <span
+        aria-hidden
+        className={`pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full blur-3xl glow-breathe ${
+          diamond ? 'bg-gradient-to-br from-sky-300/70 via-fuchsia-300/60 to-pink-300/50' : 'bg-gradient-to-br from-primary/25 to-accent/20'
+        }`}
+      />
+      {diamond && (
+        <>
+          <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]" />
+          <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[1.75rem] ring-1 ring-inset ring-white/70" />
+          <span
+            aria-hidden
+            className="facet-spin pointer-events-none absolute -left-24 -bottom-24 h-56 w-56 rounded-[2rem] bg-[conic-gradient(from_0deg,rgba(255,255,255,.75),rgba(125,211,252,.35),rgba(244,114,182,.35),rgba(255,255,255,.75))] opacity-40 blur-2xl"
+          />
+        </>
+      )}
+
+      <div className="relative flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div
+            className={`relative grid place-items-center transition-transform duration-500 group-hover:scale-110 ${
+              diamond
+                ? 'h-12 w-12 rotate-45 rounded-[0.85rem] bg-gradient-to-br from-sky-200 via-white to-pink-200 shadow-lg ring-1 ring-white/80'
+                : 'h-12 w-12 rounded-2xl bg-gradient-brand-soft ring-1 ring-primary/20'
+            }`}
+          >
+            <Icon className={diamond ? '-rotate-45 h-5 w-5 text-sky-600' : 'h-5 w-5 text-primary'} />
+          </div>
+          <div>
+            <h2 className={`text-lg leading-tight ${diamond ? 'text-gradient-brand font-black' : 'font-extrabold'}`}>{plan.name}</h2>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">{plan.tagline}</p>
+          </div>
+        </div>
+        {diamond && (
+          <span className="chip-shimmer shrink-0 rounded-full border border-white/70 bg-white/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-sky-700">
+            Diamond
+          </span>
+        )}
+      </div>
+
+      <div className="relative mt-5 flex items-end gap-1">
+        <span className={`text-4xl font-black tracking-tight ${diamond ? 'text-gradient-brand' : ''}`}>{plan.price}</span>
+        <span className="pb-1.5 text-xs font-semibold text-muted-foreground">/week</span>
+      </div>
+
+      <ul className="relative mt-5 space-y-2.5 text-sm">
+        {plan.perks.map((line, i) => (
+          <li
+            key={line}
+            className="flex items-center gap-2.5 transition-transform duration-300 group-hover:translate-x-0.5"
+            style={{ transitionDelay: `${i * 40}ms` }}
+          >
+            <span
+              className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ${
+                diamond ? 'bg-gradient-to-br from-sky-400 to-fuchsia-500 text-white' : 'bg-primary/12 text-primary'
+              }`}
+            >
+              <Check className="h-3 w-3" strokeWidth={3.5} />
+            </span>
+            <span className="text-foreground/90">{line}</span>
+          </li>
+        ))}
+      </ul>
+
+      <button
+        onClick={onSubscribe}
+        className={`press-spring relative mt-6 w-full overflow-hidden rounded-2xl py-3.5 text-sm font-black tracking-tight ${
+          diamond
+            ? 'bg-[linear-gradient(110deg,#38bdf8,#a855f7,#ec4899,#38bdf8)] bg-[length:240%_100%] text-white shadow-glow hover:bg-[position:100%_50%]'
+            : 'btn-brand'
+        }`}
+        style={diamond ? { transition: 'background-position 900ms ease, transform 320ms cubic-bezier(.2,1.3,.3,1)' } : undefined}
+      >
+        <span className="relative z-10 inline-flex items-center justify-center gap-2">
+          {diamond ? <Gem className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
+          Get {plan.name}
+        </span>
+      </button>
+    </div>
+  );
+}
+
 function UpgradePage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
   return (
     <AppShell>
-      <header className="mb-4">
-        <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Membership</p>
-        <h1 className="mt-1 text-2xl font-bold">Upgrade your Rizzla</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Cancel anytime. Your week renews automatically.</p>
-      </header>
-      <div className="space-y-4">
-        {PLANS.map((p) => {
-          const Icon = p.icon;
-          const diamond = 'diamond' in p && p.diamond;
-          return (
-            <div
-              key={p.id}
-              className={
-                diamond
-                  ? 'relative overflow-hidden rounded-2xl border border-sky-300/60 bg-[linear-gradient(135deg,hsl(198_100%_96%),hsl(320_100%_97%)_45%,hsl(220_100%_95%))] p-5 shadow-glow'
-                  : 'rounded-2xl border border-border bg-card p-5'
-              }
-            >
-              {diamond && (
-                <>
-                  <span className="pointer-events-none absolute -right-10 -top-16 h-40 w-40 rotate-45 bg-gradient-to-br from-white/80 via-white/20 to-transparent blur-xl" />
-                  <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/60" />
-                  <span className="absolute right-4 top-4 rounded-full bg-white/70 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-sky-700 backdrop-blur">
-                    Diamond
-                  </span>
-                </>
-              )}
-              <div className="relative flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div
-                    className={
-                      diamond
-                        ? 'grid h-11 w-11 rotate-45 place-items-center rounded-md bg-gradient-to-br from-sky-200 via-white to-pink-200 shadow-md ring-1 ring-white/70'
-                        : 'grid h-10 w-10 place-items-center rounded-2xl bg-primary/10 text-primary'
-                    }
-                  >
-                    <Icon className={diamond ? '-rotate-45 h-5 w-5 text-sky-600' : 'h-5 w-5'} />
-                  </div>
-                  <h2 className={diamond ? 'text-lg font-black tracking-tight text-sky-900' : 'text-lg font-bold'}>{p.name}</h2>
-                </div>
-                <p className={diamond ? 'mt-6 text-lg font-bold text-sky-900' : 'text-lg font-bold'}>
-                  {p.price}
-                  <span className="text-xs font-normal text-muted-foreground">/week</span>
-                </p>
-              </div>
-              <ul className="relative mt-4 space-y-2 text-sm">
-                {p.perks.map((line) => (
-                  <li key={line} className="flex items-center gap-2">
-                    <Check className={diamond ? 'h-4 w-4 text-sky-600' : 'h-4 w-4 text-success'} /> {line}
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={() => openCheckout({ kind: 'catalog', priceId: p.id })}
-                className={
-                  diamond
-                    ? 'relative mt-5 w-full rounded-xl bg-gradient-to-r from-sky-500 via-fuchsia-500 to-pink-500 py-3 text-sm font-bold text-white shadow-lg transition hover:brightness-110'
-                    : 'btn-brand mt-5 w-full'
-                }
-              >
-                Subscribe to {p.name}
-              </button>
+      <div className="page-anim relative">
+        {/* aurora + bubbles atmosphere */}
+        <div aria-hidden className="pointer-events-none absolute -inset-x-6 -top-10 h-72 overflow-hidden">
+          <div className="absolute left-[-10%] top-0 h-64 w-64 rounded-full bg-primary/25 blur-3xl" style={{ animation: 'aurora-drift 16s ease-in-out infinite alternate' }} />
+          <div className="absolute right-[-8%] top-6 h-56 w-56 rounded-full bg-accent/25 blur-3xl" style={{ animation: 'aurora-drift 20s ease-in-out infinite alternate-reverse' }} />
+        </div>
+        <Bubbles />
 
-            </div>
-          );
-        })}
+        <header className="relative mb-6 pt-2 rise-in">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-card/70 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground backdrop-blur-xl">
+            <Sparkles className="h-3 w-3 text-primary" /> Membership
+          </span>
+          <h1 className="mt-3 text-[2rem] leading-[1.05] font-black">
+            Upgrade your <span className="text-gradient-brand">Rizzla</span>
+          </h1>
+          <p className="mt-2 max-w-[34ch] text-sm text-muted-foreground">
+            Weekly, cancel anytime. Gold opens the doors — Diamond makes rooms turn around.
+          </p>
+        </header>
+
+        <div className="relative space-y-5">
+          {PLANS.map((p, i) => (
+            <PlanCard key={p.id} plan={p} index={i} onSubscribe={() => openCheckout({ kind: 'catalog', priceId: p.id })} />
+          ))}
+        </div>
+
+        <div
+          data-reveal
+          className="relative mt-6 rounded-[1.5rem] border border-border/60 bg-card/60 p-4 text-[11px] leading-relaxed text-muted-foreground backdrop-blur-xl"
+        >
+          Memberships are billed weekly in USD and renew automatically every week until you cancel. Cancel anytime from{' '}
+          <Link to="/subscriptions" className="font-semibold text-primary story-link">My subscriptions</Link> — access continues to the end
+          of the paid period, and unused memberships are refundable within 14 days. See our{' '}
+          <Link to="/legal/refunds" className="font-semibold text-primary">Refund &amp; Cancellation Policy</Link>,{' '}
+          <Link to="/legal/billing" className="font-semibold text-primary">Billing Terms</Link>,{' '}
+          <Link to="/legal/terms" className="font-semibold text-primary">Terms</Link> and{' '}
+          <Link to="/legal/privacy" className="font-semibold text-primary">Privacy Policy</Link>.
+        </div>
+        {checkoutElement}
       </div>
-      <div className="mt-5 rounded-2xl border border-border bg-card/60 p-4 text-[11px] leading-relaxed text-muted-foreground">
-        Memberships are billed weekly in USD and renew automatically every week until you cancel. Cancel anytime from{' '}
-        <Link to="/subscriptions" className="font-semibold text-primary">My subscriptions</Link> — access continues to the end
-        of the paid period, and unused memberships are refundable within 14 days. See our{' '}
-        <Link to="/legal/refunds" className="font-semibold text-primary">Refund &amp; Cancellation Policy</Link>,{' '}
-        <Link to="/legal/billing" className="font-semibold text-primary">Billing Terms</Link>,{' '}
-        <Link to="/legal/terms" className="font-semibold text-primary">Terms</Link> and{' '}
-        <Link to="/legal/privacy" className="font-semibold text-primary">Privacy Policy</Link>.
-      </div>
-      {checkoutElement}
     </AppShell>
   );
 }
