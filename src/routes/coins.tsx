@@ -4,51 +4,14 @@ import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { CoinIcon } from '@/components/CoinIcon';
 import { Sparkles } from 'lucide-react';
 import rizzAiLogo from '@/assets/rizz-ai-logo.webp.asset.json';
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute('/coins')({
-  head: () => ({
-    meta: [
-      { title: 'Buy coins — Rizz Social' },
-      { name: 'description', content: 'Top up your Rizz Social wallet with coins to send gifts, tip hosts, and unlock perks.' },
-      { property: 'og:title', content: 'Buy coins — Rizz Social' },
-      { property: 'og:description', content: 'Top up your wallet to send gifts and unlock perks.' },
-      { property: 'og:url', content: 'https://rizzlachat.com/coins' },
-    ],
-    links: [{ rel: 'canonical', href: 'https://rizzlachat.com/coins' }],
-  }),
-  component: CoinsPage,
-});
-
-type Pack = {
-  id: string;
-  coins: number;
-  price: string;
-  label: string;
-  variant: 'gold' | 'diamond';
-  highlight?: boolean;
-  bonus?: number;
-};
-
-const PACKS: Pack[] = [
-  { id: 'coins_500_onetime', coins: 500, price: '$4.99', label: 'Starter', variant: 'gold' },
-  { id: 'coins_1500_onetime', coins: 1500, price: '$9.99', label: 'Popular', variant: 'gold', highlight: true },
-  { id: 'coins_5000_onetime', coins: 5000, price: '$24.99', label: 'Big spender', variant: 'diamond' },
-  { id: 'coins_15000_onetime', coins: 15000, price: '$49.99', label: 'VIP · +10% bonus', variant: 'diamond', bonus: 1500 },
-];
-
-/** Falling coin confetti behind the header. */
-function CoinRain() {
-  const drops = [
-    { left: '6%', size: 14, delay: '0s', dur: '6s', gold: true },
-    { left: '22%', size: 10, delay: '1.2s', dur: '5s', gold: false },
-    { left: '41%', size: 16, delay: '2.4s', dur: '6.8s', gold: true },
-    { left: '58%', size: 11, delay: '0.6s', dur: '5.6s', gold: false },
-    { left: '74%', size: 15, delay: '3.1s', dur: '6.2s', gold: true },
-    { left: '89%', size: 9, delay: '1.9s', dur: '5.2s', gold: true },
-  ];
-  return (
-    <div aria-hidden className="pointer-events-none absolute -inset-x-4 -top-6 h-40 overflow-hidden">
-      {drops.map((d) => (
+  head: () => pageHead({
+    path: "/coins",
+    title: "Buy coins \u2014 Rizz Social",
+    description: "Top up your Rizz Social wallet with coins to send gifts, tip hosts, and unlock perks.",
+  }) => (
         <span
           key={d.left}
           className={`coin-rain absolute top-0 rounded-full ring-1 ${

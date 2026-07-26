@@ -6,34 +6,15 @@ import { ArrowRight, Crown, Users, Circle } from "lucide-react";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Rizz Social — Real chats with verified hosts, dates, and friends" },
-      {
-        name: "description",
-        content:
-          "Chat, date, and make friends on Rizz Social. Verified hosts, private Friends Lists, secure payments, and instant DMs. Join free.",
-      },
-      { property: "og:title", content: "Rizz Social — Real chats with verified hosts" },
-      { property: "og:description", content: "Chat, date, and make friends. Verified hosts. Private Friends Lists. Instant DMs." },
-      { property: "og:url", content: "https://rizzlachat.com/" },
-      { property: "og:image", content: "https://rizzlachat.com/icon-512.png" },
-      { name: "twitter:image", content: "https://rizzlachat.com/icon-512.png" },
-      { name: "twitter:title", content: "Rizz Social — Real chats with verified hosts" },
-      { name: "twitter:description", content: "Chat, date, and make friends. Verified hosts. Private Friends Lists." },
-      { name: "keywords", content: "chat app, dating app, friends app, meet women, verified hosts, paid chat, creator subscriptions, social chat" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/" }],
-  }),
-  component: Home,
-});
-
-
-function Home() {
-  const { user } = useAuth();
-  const onlinePool = useMemo(() => DEMO_HOSTS.filter((h) => h.online), []);
+  head: () => pageHead({
+    path: "/",
+    title: "Rizz Social \u2014 Real chats with verified hosts, dates, and friends",
+    description: "Chat, date, and make friends on Rizz Social. Verified hosts, private Friends Lists, secure payments, and instant DMs. Join free.",
+    keywords: "chat app, dating app, friends app, meet women, verified hosts, paid chat, creator subscriptions, social chat",
+  }) => h.online), []);
   const onlineShuffled = useShuffled(onlinePool, 10_000);
   const online = onlineShuffled.slice(0, 12);
   const featured = useShuffled(DEMO_HOSTS, 10_000);

@@ -1,37 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/cookies")({
-  head: () => ({
-    meta: [
-      { title: "Cookie Policy — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "Cookies and local storage used by Rizzla Chat: sign-in session cookies, theme and chat preferences, showcase frequency control, payment security cookies and product analytics.",
-      },
-      { property: "og:title", content: "Cookie Policy — Rizzla Chat" },
-      { property: "og:description", content: "Which cookies and browser storage Rizzla Chat uses, and how to control them." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/cookies" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/cookies" }],
-  }),
-  component: Cookies,
-});
-
-function Cookies() {
-  return (
-    <LegalDoc
-      title="Cookie Policy"
-      subtitle="We keep browser storage minimal: what is needed to keep you signed in, remember your preferences, secure payments, and understand how the app is used in aggregate."
-    >
-      <Section heading="1. Strictly necessary">
-        <Bullets
-          items={[
-            "Authentication session — keeps you signed in and protects against session hijacking. Without it you cannot log in.",
+  head: () => pageHead({
+    path: "/legal/cookies",
+    title: "Cookie Policy \u2014 Rizzla Chat",
+    description: "Cookies and local storage used by Rizzla Chat: sign-in session cookies, theme and chat preferences, showcase frequency control, payment security cookies and product analytics.",
+    type: "article",
+  })tects against session hijacking. Without it you cannot log in.",
             "Security tokens used by our payment provider during checkout to prevent fraud.",
             "Service worker cache for offline support (the installable app), storing app files and images on your device.",
           ]}

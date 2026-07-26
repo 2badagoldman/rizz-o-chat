@@ -1,36 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/creators")({
-  head: () => ({
-    meta: [
-      { title: "Creator & Payout Terms — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "Terms for Rizzla Chat Hosts: revenue split, Friends List pricing limits, payout schedule and thresholds, chargeback clawbacks, tax responsibility and content obligations.",
-      },
-      { property: "og:title", content: "Creator & Payout Terms — Rizzla Chat" },
-      { property: "og:description", content: "Revenue split, payouts, clawbacks and Host obligations on Rizzla Chat." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/creators" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/creators" }],
-  }),
-  component: Creators,
-});
-
-function Creators() {
-  return (
-    <LegalDoc
-      title="Creator & Payout Terms"
-      subtitle={`These terms apply if you are approved as a Host on ${LEGAL.productName}. They form part of our Terms of Service.`}
-    >
-      <Section heading="1. Independent creator status">
-        <p>
-          Hosts are independent creators. Nothing here creates an employment, partnership, agency or joint-venture
+  head: () => pageHead({
+    path: "/legal/creators",
+    title: "Creator & Payout Terms \u2014 Rizzla Chat",
+    description: "Terms for Rizzla Chat Hosts: revenue split, Friends List pricing limits, payout schedule and thresholds, chargeback clawbacks, tax responsibility and content obligations.",
+    type: "article",
+  })nture
           relationship with {LEGAL.entity}. You control your own content, schedule and pricing within the limits below,
           and you are responsible for your own equipment, taxes and legal compliance.
         </p>

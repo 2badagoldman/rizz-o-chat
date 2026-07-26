@@ -1,58 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/pricing")({
-  head: () => ({
-    meta: [
-      { title: "Pricing for Products & Services — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "Full price list for Rizzla Chat: coin packs from $4.99, Rizz Gold and Rizz Diamond VIP weekly memberships, host Friends List memberships, and tips — all in USD with taxes shown at checkout.",
-      },
-      { property: "og:title", content: "Pricing for Products & Services — Rizzla Chat" },
-      { property: "og:description", content: "Coin packs, memberships, Friends List access and tips — every price, in USD." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/pricing" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/pricing" }],
-  }),
-  component: Pricing,
-});
-
-const COINS = [
-  { name: "Starter", coins: "500 coins", price: "$4.99" },
-  { name: "Popular", coins: "1,500 coins", price: "$9.99" },
-  { name: "Big spender", coins: "5,000 coins", price: "$24.99" },
-  { name: "VIP (+10% bonus)", coins: "15,000 coins + 1,500 bonus", price: "$49.99" },
-];
-
-const PLANS = [
-  { name: "Rizz Gold", billing: "Weekly, auto-renewing", price: "$9.99 / week" },
-  { name: "Rizz Diamond VIP", billing: "Weekly, auto-renewing", price: "$19.99 / week" },
-];
-
-function Table({
-  head,
-  rows,
-}: {
-  head: [string, string, string];
-  rows: { a: string; b: string; c: string }[];
-}) {
-  return (
-    <div className="mt-3 overflow-hidden rounded-2xl border border-border">
-      <table className="w-full text-left text-[13px]">
-        <thead className="bg-muted/50 text-[11px] uppercase tracking-wider text-muted-foreground">
-          <tr>
-            <th className="px-3 py-2 font-semibold">{head[0]}</th>
-            <th className="px-3 py-2 font-semibold">{head[1]}</th>
-            <th className="px-3 py-2 text-right font-semibold">{head[2]}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r) => (
+  head: () => pageHead({
+    path: "/legal/pricing",
+    title: "Pricing for Products & Services \u2014 Rizzla Chat",
+    description: "Full price list for Rizzla Chat: coin packs from $4.99, Rizz Gold and Rizz Diamond VIP weekly memberships, host Friends List memberships, and tips \u2014 all in USD with taxes shown at checkout.",
+    type: "article",
+  }) => (
             <tr key={r.a} className="border-t border-border/70">
               <td className="px-3 py-2.5 font-semibold text-foreground">{r.a}</td>
               <td className="px-3 py-2.5 text-muted-foreground">{r.b}</td>

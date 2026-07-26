@@ -1,51 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/privacy")({
-  head: () => ({
-    meta: [
-      { title: "Privacy Policy — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "How Rizzla Chat collects, uses, shares and protects your data: account details, media uploads, messages, payment data via Stripe, analytics, retention periods and your GDPR/CCPA rights.",
-      },
-      { property: "og:title", content: "Privacy Policy — Rizzla Chat" },
-      { property: "og:description", content: "What we collect, who processes it, how long we keep it, and how to exercise your privacy rights." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/privacy" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/privacy" }],
-  }),
-  component: Privacy,
-});
-
-function Privacy() {
-  return (
-    <LegalDoc
-      title="Privacy Policy"
-      subtitle={`${LEGAL.entity} is the data controller for ${LEGAL.productName}. This policy explains what we collect, why, who we share it with, and the choices you have.`}
-    >
-      <Section heading="1. Data we collect">
-        <Bullets
-          items={[
-            <>
-              <b className="text-foreground">Account data</b> — email address, display name, password hash (managed by our
-              auth provider), age confirmation, gender if you choose to provide it, and role (member, host, admin).
-            </>,
-            <>
-              <b className="text-foreground">Profile content</b> — bio, photos, videos and captions you upload, and the
-              access settings you choose for them.
-            </>,
-            <>
-              <b className="text-foreground">Communications</b> — direct messages, room messages, gift and tip records, and
-              prompts you send to our AI assistant.
-            </>,
-            <>
-              <b className="text-foreground">Purchase data</b> — the products you buy, amounts, currency, subscription
-              status, renewal dates, and the customer/subscription identifiers returned by Stripe. We never receive or
+  head: () => pageHead({
+    path: "/legal/privacy",
+    title: "Privacy Policy \u2014 Rizzla Chat",
+    description: "How Rizzla Chat collects, uses, shares and protects your data: account details, media uploads, messages, payment data via Stripe, analytics, retention periods and your GDPR/CCPA rights.",
+    type: "article",
+  })s, renewal dates, and the customer/subscription identifiers returned by Stripe. We never receive or
               store your full card number, CVC or bank credentials.
             </>,
             <>

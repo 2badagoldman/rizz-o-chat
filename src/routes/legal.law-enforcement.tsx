@@ -1,46 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/law-enforcement")({
-  head: () => ({
-    meta: [
-      { title: "Law Enforcement Guidelines — Rizzla Chat" },
-      {
-        name: "description",
-        content:
-          "How law enforcement and government agencies can submit legal requests, preservation demands and emergency disclosure requests to Rizzla Chat, and what data may be available.",
-      },
-      { property: "og:title", content: "Law Enforcement Guidelines — Rizzla Chat" },
-      { property: "og:description", content: "Legal process, preservation requests, emergency disclosures and child-safety escalation." },
-      { property: "og:type", content: "article" },
-      { property: "og:url", content: "https://rizzlachat.com/legal/law-enforcement" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/law-enforcement" }],
-  }),
-  component: LawEnforcement,
-});
-
-function LawEnforcement() {
-  return (
-    <LegalDoc
-      title="Law enforcement guidelines"
-      subtitle={`These guidelines explain how ${LEGAL.entity}, operator of ${LEGAL.productName}, handles requests for user information from law enforcement and government agencies. They are informational and are not a waiver of any objection or legal requirement.`}
-    >
-      <Section heading="1. Where to send requests">
-        <p>
-          Send all legal process, preservation requests and emergency requests to{" "}
-          <a className="font-semibold text-primary" href={`mailto:${LEGAL.supportEmail}?subject=Law%20Enforcement%20Request`}>
-            {LEGAL.supportEmail}
-          </a>{" "}
-          with the subject line <b className="text-foreground">Law Enforcement Request</b>. Postal service may be
-          directed to:
-        </p>
-        <p className="mt-2">
-          {LEGAL.entity} — Legal / Law Enforcement Response
-          <br />
-          {LEGAL.addressLines.map((l) => (
+  head: () => pageHead({
+    path: "/legal/law-enforcement",
+    title: "Law Enforcement Guidelines \u2014 Rizzla Chat",
+    description: "How law enforcement and government agencies can submit legal requests, preservation demands and emergency disclosure requests to Rizzla Chat, and what data may be available.",
+    type: "article",
+  }) => (
             <span key={l}>
               {l}
               <br />

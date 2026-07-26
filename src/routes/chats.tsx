@@ -8,70 +8,14 @@ import { hostAvatarThumb } from "@/lib/host-avatars";
 import { Circle, Search, MessageCircle, Sparkles } from "lucide-react";
 import { dmListThreads } from "@/lib/dm.functions";
 import { searchUsers } from "@/lib/admin-data.functions";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/chats")({
-  head: () => ({
-    meta: [
-      { title: "Your chats — Rizz Social" },
-      { name: "description", content: "All your Rizz Social conversations in one place. Chat with verified hosts and friends." },
-      { property: "og:title", content: "Your chats — Rizz Social" },
-      { property: "og:description", content: "All your Rizz Social conversations in one place." },
-      { property: "og:url", content: "https://rizzlachat.com/chats" },
-    ],
-    links: [{ rel: "canonical", href: "https://rizzlachat.com/chats" }],
-  }),
-
-  component: Chats,
-});
-
-function AiHostRow({ h }: { h: DemoHost }) {
-  return (
-    <Link
-      to="/chat/$hostId"
-      params={{ hostId: h.id }}
-      className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 shadow-card transition hover:-translate-y-0.5 hover:border-primary hover:bg-primary/5"
-    >
-      <div
-        className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full shadow-glow"
-        style={{ background: h.gradient }}
-      >
-        <img src={hostAvatarThumb(h.id)} alt={h.name} loading="lazy" className="h-full w-full object-cover" />
-        {h.online ? (
-          <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-card bg-emerald-500" />
-        ) : null}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center justify-between">
-          <p className="truncate font-semibold">
-            {h.name}, {h.age}
-          </p>
-          <span className="ml-2 shrink-0 rounded-full bg-gradient-brand px-2 py-0.5 text-[10px] font-semibold text-white">
-            AI · Free
-          </span>
-        </div>
-        <p className="flex items-center gap-1 text-[11px] text-emerald-500">
-          <Circle className="h-2 w-2 fill-emerald-500" /> {h.city}
-        </p>
-        <p className="mt-0.5 truncate text-xs text-muted-foreground">{h.teaser}</p>
-      </div>
-      <MessageCircle className="h-4 w-4 shrink-0 text-primary" />
-    </Link>
-  );
-}
-
-function Chats() {
-  const { user, loading } = useAuth();
-  const navigate = useNavigate();
-  const listThreads = useServerFn(dmListThreads);
-  const search = useServerFn(searchUsers);
-  const [threads, setThreads] = useState<any[]>([]);
-  const [q, setQ] = useState("");
-  const [results, setResults] = useState<any[]>([]);
-  const [searching, setSearching] = useState(false);
-
-  useEffect(() => {
-    if (!user) return;
-    listThreads().then(setThreads).catch(() => {});
+  head: () => pageHead({
+    path: "/chats",
+    title: "Your chats \u2014 Rizz Social",
+    description: "All your Rizz Social conversations in one place. Chat with verified hosts and friends.",
+  }) => {});
   }, [user, listThreads]);
 
   useEffect(() => {
