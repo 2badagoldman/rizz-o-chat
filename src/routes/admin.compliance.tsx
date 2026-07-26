@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { getComplianceReport, type ComplianceReport, type ComplianceRow } from "@/lib/compliance-report.functions";
+import { AdminContactPanel, type ContactTarget } from "@/components/admin/AdminContactPanel";
 import { AlertTriangle, Download, MessageSquare, RefreshCw, ShieldCheck, Clock, Users } from "lucide-react";
 
 export const Route = createFileRoute("/admin/compliance")({
@@ -26,6 +27,7 @@ function ComplianceReportPage() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
   const [filter, setFilter] = useState<Filter>("all");
+  const [contact, setContact] = useState<ContactTarget | null>(null);
 
   const load = () => {
     setLoading(true);
