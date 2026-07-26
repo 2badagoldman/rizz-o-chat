@@ -428,13 +428,6 @@ export type Database = {
             referencedRelation: "friends_lists"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "list_memberships_list_id_fkey"
-            columns: ["list_id"]
-            isOneToOne: false
-            referencedRelation: "friends_lists_public"
-            referencedColumns: ["id"]
-          },
         ]
       }
       messages: {
@@ -468,13 +461,6 @@ export type Database = {
             columns: ["list_id"]
             isOneToOne: false
             referencedRelation: "friends_lists"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "messages_list_id_fkey"
-            columns: ["list_id"]
-            isOneToOne: false
-            referencedRelation: "friends_lists_public"
             referencedColumns: ["id"]
           },
         ]
@@ -932,75 +918,7 @@ export type Database = {
       }
     }
     Views: {
-      friends_lists_public: {
-        Row: {
-          active: boolean | null
-          description: string | null
-          host_id: string | null
-          id: string | null
-          price_cents: number | null
-          title: string | null
-        }
-        Insert: {
-          active?: boolean | null
-          description?: string | null
-          host_id?: string | null
-          id?: string | null
-          price_cents?: number | null
-          title?: string | null
-        }
-        Update: {
-          active?: boolean | null
-          description?: string | null
-          host_id?: string | null
-          id?: string | null
-          price_cents?: number | null
-          title?: string | null
-        }
-        Relationships: []
-      }
-      profiles_public: {
-        Row: {
-          account_type: Database["public"]["Enums"]["account_type"] | null
-          avatar_url: string | null
-          bio: string | null
-          created_at: string | null
-          display_name: string | null
-          gender: Database["public"]["Enums"]["gender"] | null
-          id: string | null
-          interests: string[] | null
-          verification_status:
-            | Database["public"]["Enums"]["verification_status"]
-            | null
-        }
-        Insert: {
-          account_type?: Database["public"]["Enums"]["account_type"] | null
-          avatar_url?: string | null
-          bio?: string | null
-          created_at?: string | null
-          display_name?: string | null
-          gender?: Database["public"]["Enums"]["gender"] | null
-          id?: string | null
-          interests?: string[] | null
-          verification_status?:
-            | Database["public"]["Enums"]["verification_status"]
-            | null
-        }
-        Update: {
-          account_type?: Database["public"]["Enums"]["account_type"] | null
-          avatar_url?: string | null
-          bio?: string | null
-          created_at?: string | null
-          display_name?: string | null
-          gender?: Database["public"]["Enums"]["gender"] | null
-          id?: string | null
-          interests?: string[] | null
-          verification_status?:
-            | Database["public"]["Enums"]["verification_status"]
-            | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       admin_platform_metrics: { Args: { _since?: string }; Returns: Json }
