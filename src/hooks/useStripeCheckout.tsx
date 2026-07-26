@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { StripeEmbeddedCheckout, type CheckoutRequest } from '@/components/StripeEmbeddedCheckout';
 import { X } from 'lucide-react';
 
