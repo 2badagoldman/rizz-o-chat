@@ -177,12 +177,25 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
           metadata: { userId, kind: 'friends_list', hostId: data.hostId, priceCents: String(priceCents) },
         },
       });
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId, sessionId: session.id, kind: 'friends_list', status: 'created',
+        amountCents: priceCents, currency: 'usd', environment: data.environment,
+        details: { hostId: data.hostId, hostName: data.hostName.slice(0, 60) },
+      });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
       console.error(`[payments] createFriendsListCheckout failed:`, error);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId: context.userId, kind: 'friends_list', status: 'create_failed',
+        environment: data.environment, errorMessage: getStripeErrorMessage(error),
+        details: { hostId: data.hostId, raw: String(error).slice(0, 500) },
+      });
       return { error: getStripeErrorMessage(error) };
     }
   });
+
 
 // ---- Dynamic-amount gift tip to a host ----
 export const createTipCheckout = createServerFn({ method: 'POST' })
