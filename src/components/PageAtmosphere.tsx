@@ -38,6 +38,8 @@ export function PageAtmosphere() {
           style={{ left: b.left, width: b.size, height: b.size, animationDelay: b.delay }}
         />
       ))}
+      <PrismSparkles className="opacity-70" />
     </div>
+
   );
 }
