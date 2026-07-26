@@ -249,7 +249,7 @@ function HostProfile() {
                     className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
                   >
                     <img src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
-                    Unlock Friends List
+                    {hasGold ? "Unlock Friends List" : "Get Rizz Gold to Unlock"}
                   </button>
                 )}
                 <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20">
