@@ -456,6 +456,14 @@
     100% { opacity: 0; transform: translate3d(var(--drift, 0px), -78vh, 0) scale(.9) rotate(var(--spin, 12deg)); }
   }
   .emoji-float { animation: emoji-float var(--dur, 2200ms) cubic-bezier(.2,.7,.3,1) forwards; will-change: transform, opacity; }
+  /* Burst rising from a tapped message bubble */
+  @keyframes emoji-float-anchored {
+    0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(.5); }
+    15%  { opacity: 1; transform: translate3d(0, -20px, 0) scale(1.25); }
+    100% { opacity: 0; transform: translate3d(var(--drift, 0px), -34vh, 0) scale(.85) rotate(var(--spin, 12deg)); }
+  }
+  .emoji-float-anchored { animation: emoji-float-anchored var(--dur, 1500ms) cubic-bezier(.2,.7,.3,1) forwards; will-change: transform, opacity; }
+
   @keyframes emoji-pop {
     0%   { transform: scale(1); }
     45%  { transform: scale(1.35); }
