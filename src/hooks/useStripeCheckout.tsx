@@ -37,13 +37,14 @@ export function useStripeCheckout() {
 
   const isOpen = request !== null;
 
-  const checkoutElement = request ? (
+  // Rendered through a portal on <body>: the page tree has blurred/animated
+  // ancestors that create stacking contexts, which trapped this fixed overlay
+  // beneath the welcome showcase and made the payment form unclickable.
+  const overlay = request ? (
     <div
       role="dialog"
       aria-modal="true"
       aria-label={meta.title ?? 'Checkout'}
-      // z-[200]: must sit above the welcome showcase overlay (z-[100]), which
-      // otherwise covers the Stripe payment form and blocks every purchase.
       className={`fixed inset-0 z-[200] flex flex-col bg-background/90 backdrop-blur-xl ${closing ? 'overlay-out' : 'overlay-in'}`}
     >
       {/* ambient atmosphere so checkout matches the membership pages */}
