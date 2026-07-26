@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ShieldCheck, Check, X, RefreshCw } from "lucide-react";
+import { reviewKycSubmission } from "@/lib/kyc-admin.functions";
 
 export const Route = createFileRoute("/admin/kyc")({
   head: () => ({ meta: [
