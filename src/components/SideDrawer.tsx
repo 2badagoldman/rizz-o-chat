@@ -145,11 +145,10 @@ export function SideDrawer({ open, onClose }: Props) {
               <X className="h-4 w-4" />
             </button>
 
-            <Link
-              to="/"
-              onClick={onClose}
+            <a
+              href="/"
               className="group flex items-center gap-3.5 rounded-2xl p-1.5 -m-1.5 transition-colors hover:bg-white/60"
-              aria-label="Go to home"
+              aria-label="Rizzla home — reload"
             >
               <span
                 className="relative inline-block shrink-0 rounded-full p-[2.5px] transition-transform group-hover:scale-[1.03]"
@@ -170,7 +169,7 @@ export function SideDrawer({ open, onClose }: Props) {
                 </p>
                 <p className="truncate text-xs text-muted-foreground">Friends Always ✦ Welcome back</p>
               </div>
-            </Link>
+            </a>
           </div>
 
           {/* Body */}

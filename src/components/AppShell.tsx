@@ -59,7 +59,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
             >
               <Menu className="h-5 w-5" />
             </button>
-            <Link to="/" className="flex items-center gap-2" aria-label="Rizzla home">
+            <a href="/" className="flex items-center gap-2" aria-label="Rizzla home — reload">
               <span className="ring-story inline-block">
                 <img src={rizzAiLogo.url} alt="Rizzla" className="block h-8 w-8 rounded-full bg-card" />
               </span>
@@ -69,7 +69,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
                   Friends Always
                 </span>
               </span>
-            </Link>
+            </a>
           </div>
           <div className="flex items-center gap-2">
             <button
