@@ -465,6 +465,54 @@ export type Database = {
           },
         ]
       }
+      payment_audit_log: {
+        Row: {
+          amount_cents: number | null
+          created_at: string
+          currency: string | null
+          details: Json
+          environment: string
+          error_message: string | null
+          id: string
+          kind: string
+          payment_intent_id: string | null
+          session_id: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount_cents?: number | null
+          created_at?: string
+          currency?: string | null
+          details?: Json
+          environment?: string
+          error_message?: string | null
+          id?: string
+          kind: string
+          payment_intent_id?: string | null
+          session_id?: string | null
+          status: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount_cents?: number | null
+          created_at?: string
+          currency?: string | null
+          details?: Json
+          environment?: string
+          error_message?: string | null
+          id?: string
+          kind?: string
+          payment_intent_id?: string | null
+          session_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profile_media: {
         Row: {
           caption: string | null

@@ -80,12 +80,26 @@ export const createCheckoutSession = createServerFn({ method: 'POST' })
           subscription_data: { metadata: { userId, kind: 'platform', priceLookupKey: data.priceId } },
         }),
       });
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId, sessionId: session.id, kind: 'catalog', status: 'created',
+        amountCents: price.unit_amount ?? null, currency: price.currency,
+        environment: data.environment,
+        details: { priceLookupKey: data.priceId, mode: isRecurring ? 'subscription' : 'payment' },
+      });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
       console.error(`[payments] createCheckoutSession failed:`, error);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId: context.userId, kind: 'catalog', status: 'create_failed',
+        environment: data.environment, errorMessage: getStripeErrorMessage(error),
+        details: { priceLookupKey: data.priceId, raw: String(error).slice(0, 500) },
+      });
       return { error: getStripeErrorMessage(error) };
     }
   });
+
 
 // ---- Dynamic per-host Friends List subscription ----
 export const createFriendsListCheckout = createServerFn({ method: 'POST' })
@@ -163,12 +177,25 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
           metadata: { userId, kind: 'friends_list', hostId: data.hostId, priceCents: String(priceCents) },
         },
       });
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId, sessionId: session.id, kind: 'friends_list', status: 'created',
+        amountCents: priceCents, currency: 'usd', environment: data.environment,
+        details: { hostId: data.hostId, hostName: data.hostName.slice(0, 60) },
+      });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
       console.error(`[payments] createFriendsListCheckout failed:`, error);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId: context.userId, kind: 'friends_list', status: 'create_failed',
+        environment: data.environment, errorMessage: getStripeErrorMessage(error),
+        details: { hostId: data.hostId, raw: String(error).slice(0, 500) },
+      });
       return { error: getStripeErrorMessage(error) };
     }
   });
+
 
 // ---- Dynamic-amount gift tip to a host ----
 export const createTipCheckout = createServerFn({ method: 'POST' })
@@ -218,12 +245,26 @@ export const createTipCheckout = createServerFn({ method: 'POST' })
           amountCents: String(data.amountCents),
         },
       });
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId, sessionId: session.id, kind: 'tip', status: 'created',
+        amountCents: data.amountCents, currency: 'usd', environment: data.environment,
+        details: { hostId: data.hostId, hostName: data.hostName.slice(0, 60) },
+      });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
       console.error(`[payments] createTipCheckout failed:`, error);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId: context.userId, kind: 'tip', status: 'create_failed',
+        amountCents: data.amountCents, currency: 'usd', environment: data.environment,
+        errorMessage: getStripeErrorMessage(error),
+        details: { hostId: data.hostId, raw: String(error).slice(0, 500) },
+      });
       return { error: getStripeErrorMessage(error) };
     }
   });
+
 
 // ---- Customer portal ----
 export const createPortalSession = createServerFn({ method: 'POST' })
@@ -274,18 +315,41 @@ export const getCheckoutStatus = createServerFn({ method: 'POST' })
     try {
       const stripe = createStripeClient(data.environment);
       const session = await stripe.checkout.sessions.retrieve(data.sessionId);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      const auditKind = (session.metadata?.kind === 'friends_list' || session.metadata?.kind === 'tip'
+        ? session.metadata.kind
+        : 'catalog') as 'catalog' | 'friends_list' | 'tip';
+      const audit = (status: string, errorMessage?: string) =>
+        logPaymentEvent({
+          userId: context.userId,
+          sessionId: session.id,
+          paymentIntentId: typeof session.payment_intent === 'string' ? session.payment_intent : null,
+          kind: auditKind,
+          status,
+          amountCents: session.amount_total ?? null,
+          currency: session.currency ?? null,
+          environment: data.environment,
+          errorMessage: errorMessage ?? null,
+          details: { session_status: session.status, payment_status: session.payment_status },
+        });
 
       // Only the buyer may inspect their own session.
       if (session.metadata?.userId && session.metadata.userId !== context.userId) {
+        await audit('access_denied', 'Session belongs to another account');
         return { state: 'unknown', reason: 'This checkout belongs to another account.' };
       }
 
       if (session.payment_status === 'paid' || session.payment_status === 'no_payment_required') {
+        await audit('paid');
         return { state: 'paid' };
       }
-      if (session.status === 'open') return { state: 'processing' };
+      if (session.status === 'open') {
+        await audit('processing');
+        return { state: 'processing' };
+      }
       if (session.payment_status === 'unpaid' && session.status === 'complete') {
         // Async payment (e.g. bank debit) still settling.
+        await audit('processing');
         return { state: 'processing' };
       }
 
@@ -304,16 +368,21 @@ export const getCheckoutStatus = createServerFn({ method: 'POST' })
         };
       }
 
-      return {
-        state: 'failed',
-        reason:
-          session.status === 'expired'
-            ? 'The checkout session expired before payment completed.'
-            : 'The payment was not completed.',
-        retry,
-      };
+      const reason =
+        session.status === 'expired'
+          ? 'The checkout session expired before payment completed.'
+          : 'The payment was not completed.';
+      await audit(session.status === 'expired' ? 'expired' : 'failed', reason);
+      return { state: 'failed', reason, retry };
     } catch (error) {
       console.error(`[payments] getCheckoutStatus failed:`, error);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId: context.userId, sessionId: data.sessionId, kind: 'catalog',
+        status: 'status_lookup_failed', environment: data.environment,
+        errorMessage: getStripeErrorMessage(error),
+      });
       return { state: 'unknown', reason: getStripeErrorMessage(error) };
     }
+
   });
