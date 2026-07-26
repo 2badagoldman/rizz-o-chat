@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { StripeEmbeddedCheckout, type CheckoutRequest } from '@/components/StripeEmbeddedCheckout';
 import { X } from 'lucide-react';
 
@@ -37,12 +38,15 @@ export function useStripeCheckout() {
 
   const isOpen = request !== null;
 
-  const checkoutElement = request ? (
+  // Rendered through a portal on <body>: the page tree has blurred/animated
+  // ancestors that create stacking contexts, which trapped this fixed overlay
+  // beneath the welcome showcase and made the payment form unclickable.
+  const overlay = request ? (
     <div
       role="dialog"
       aria-modal="true"
       aria-label={meta.title ?? 'Checkout'}
-      className={`fixed inset-0 z-[100] flex flex-col bg-background/90 backdrop-blur-xl ${closing ? 'overlay-out' : 'overlay-in'}`}
+      className={`fixed inset-0 z-[200] flex flex-col bg-background/90 backdrop-blur-xl ${closing ? 'overlay-out' : 'overlay-in'}`}
     >
       {/* ambient atmosphere so checkout matches the membership pages */}
       <span
@@ -89,6 +93,10 @@ export function useStripeCheckout() {
       </div>
     </div>
   ) : null;
+
+  const checkoutElement =
+    overlay && typeof document !== 'undefined' ? createPortal(overlay, document.body) : null;
+
 
   return { openCheckout, closeCheckout, isOpen, checkoutElement };
 }
