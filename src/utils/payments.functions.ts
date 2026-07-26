@@ -78,6 +78,7 @@ export const createCheckoutSession = createServerFn({ method: 'POST' })
       });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
+      console.error(`[payments] createCheckoutSession failed:`, error);
       return { error: getStripeErrorMessage(error) };
     }
   });
@@ -152,6 +153,7 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
       });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
+      console.error(`[payments] createFriendsListCheckout failed:`, error);
       return { error: getStripeErrorMessage(error) };
     }
   });
@@ -198,6 +200,7 @@ export const createTipCheckout = createServerFn({ method: 'POST' })
       });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
+      console.error(`[payments] createTipCheckout failed:`, error);
       return { error: getStripeErrorMessage(error) };
     }
   });
@@ -225,6 +228,7 @@ export const createPortalSession = createServerFn({ method: 'POST' })
       });
       return { url: portal.url };
     } catch (error) {
+      console.error(`[payments] createPortalSession failed:`, error);
       return { error: getStripeErrorMessage(error) };
     }
   });
