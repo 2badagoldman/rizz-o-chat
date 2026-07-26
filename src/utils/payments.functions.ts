@@ -245,12 +245,26 @@ export const createTipCheckout = createServerFn({ method: 'POST' })
           amountCents: String(data.amountCents),
         },
       });
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId, sessionId: session.id, kind: 'tip', status: 'created',
+        amountCents: data.amountCents, currency: 'usd', environment: data.environment,
+        details: { hostId: data.hostId, hostName: data.hostName.slice(0, 60) },
+      });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
       console.error(`[payments] createTipCheckout failed:`, error);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId: context.userId, kind: 'tip', status: 'create_failed',
+        amountCents: data.amountCents, currency: 'usd', environment: data.environment,
+        errorMessage: getStripeErrorMessage(error),
+        details: { hostId: data.hostId, raw: String(error).slice(0, 500) },
+      });
       return { error: getStripeErrorMessage(error) };
     }
   });
+
 
 // ---- Customer portal ----
 export const createPortalSession = createServerFn({ method: 'POST' })
