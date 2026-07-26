@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { X, Volume2, VolumeX, Sparkles, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getShowcaseReel, logShowcaseEvent, type ReelItem } from "@/lib/showcase-brain.functions";
 import { track } from "@/lib/analytics";
@@ -23,6 +24,10 @@ export function markWelcomeShowcasePending() {
 }
 
 export function WelcomeShowcase() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  // Never cover legal/policy pages — Stripe and other reviewers need to read the text.
+  const isLegalPage = pathname.startsWith("/legal");
+
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
   const [items, setItems] = useState<ShowcaseItem[]>([]);
@@ -61,6 +66,8 @@ export function WelcomeShowcase() {
   };
 
   useEffect(() => {
+    if (isLegalPage) return;
+
     let pending = false;
     let lastAt = 0;
     let shownThisSession = false;
@@ -75,13 +82,13 @@ export function WelcomeShowcase() {
     const shouldShow = pending || (!shownThisSession && cooldownOk);
 
     track("showcase_mount_check", {
-      metadata: { pending, shown_this_session: shownThisSession, cooldown_ok: cooldownOk },
+      metadata: { pending, shown_this_session: shownThisSession, cooldown_ok: cooldownOk, pathname },
     });
 
     if (!shouldShow) return;
     const t = setTimeout(loadReel, pending ? 200 : 800);
     return () => clearTimeout(t);
-  }, []);
+  }, [isLegalPage, pathname]);
 
   // Log impression per slide
   useEffect(() => {
