@@ -314,7 +314,52 @@ function HostChat() {
         />
 
 
+        {emojiOpen ? (
+          <div className="sticky bottom-[76px] z-10 mb-1 rounded-2xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur animate-in fade-in slide-in-from-bottom-2">
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-muted-foreground">
+              Tap to send {host.name} a reaction
+            </p>
+            <div className="grid grid-cols-6 gap-1">
+              {REACTIONS.map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  onClick={() => sendReaction(e)}
+                  className="rounded-xl py-2 text-2xl transition-transform hover:scale-125 active:scale-95"
+                  aria-label={`Send ${e}`}
+                >
+                  {e}
+                </button>
+              ))}
+            </div>
+            <div className="mt-2 flex gap-2">
+              <button
+                type="button"
+                onClick={() => { setInput((v) => v + "❤️"); }}
+                className="flex-1 rounded-xl border border-border py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
+              >
+                Add ❤️ to message
+              </button>
+              <button
+                type="button"
+                onClick={() => setEmojiOpen(false)}
+                className="rounded-xl border border-border px-3 py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        ) : null}
+
         <form onSubmit={submit} className="sticky bottom-0 flex items-end gap-2 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
+          <button
+            type="button"
+            onClick={() => setEmojiOpen((v) => !v)}
+            aria-label="Emojis"
+            className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border transition-colors ${emojiOpen ? "border-primary bg-primary/10 text-primary" : "bg-card text-muted-foreground hover:text-primary"}`}
+          >
+            <Smile className="h-5 w-5" />
+          </button>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -328,15 +373,28 @@ function HostChat() {
             rows={1}
             className="min-h-[44px] max-h-32 flex-1 resize-none rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
           />
-          <button
-            type="submit"
-            disabled={busy || !input.trim()}
-            className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
-            aria-label="Send"
-          >
-            <Send className="h-4 w-4" />
-          </button>
+          {input.trim() ? (
+            <button
+              type="submit"
+              disabled={busy}
+              className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
+              aria-label="Send"
+            >
+              <Send className="h-4 w-4" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => sendReaction("❤️")}
+              className="emoji-pop grid h-11 w-11 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow"
+              aria-label="Send love"
+            >
+              <Heart className="h-5 w-5 fill-white" />
+            </button>
+          )}
         </form>
+        {layer}
+
       </div>
     </AppShell>
   );
