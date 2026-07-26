@@ -80,12 +80,26 @@ export const createCheckoutSession = createServerFn({ method: 'POST' })
           subscription_data: { metadata: { userId, kind: 'platform', priceLookupKey: data.priceId } },
         }),
       });
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId, sessionId: session.id, kind: 'catalog', status: 'created',
+        amountCents: price.unit_amount ?? null, currency: price.currency,
+        environment: data.environment,
+        details: { priceLookupKey: data.priceId, mode: isRecurring ? 'subscription' : 'payment' },
+      });
       return { clientSecret: session.client_secret ?? '' };
     } catch (error) {
       console.error(`[payments] createCheckoutSession failed:`, error);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId: context.userId, kind: 'catalog', status: 'create_failed',
+        environment: data.environment, errorMessage: getStripeErrorMessage(error),
+        details: { priceLookupKey: data.priceId, raw: String(error).slice(0, 500) },
+      });
       return { error: getStripeErrorMessage(error) };
     }
   });
+
 
 // ---- Dynamic per-host Friends List subscription ----
 export const createFriendsListCheckout = createServerFn({ method: 'POST' })
