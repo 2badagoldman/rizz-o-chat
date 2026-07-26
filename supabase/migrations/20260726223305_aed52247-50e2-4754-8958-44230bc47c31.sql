@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.my_kyc_state() TO authenticated;
