@@ -2,6 +2,8 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { Check, Gem, Sparkles, Star, Zap } from 'lucide-react';
+import { DiamondGem, GoldMedallion } from '@/components/PreciousIcons';
+
 
 export const Route = createFileRoute('/upgrade')({
   head: () => ({
