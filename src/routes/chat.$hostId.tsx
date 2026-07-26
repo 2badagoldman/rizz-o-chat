@@ -4,13 +4,15 @@ import { DefaultChatTransport } from "ai";
 import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
 import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { ArrowLeft, Send, Circle, Gift, Sparkles, Heart } from "lucide-react";
+import { ArrowLeft, Send, Circle, Gift, Sparkles, Heart, Smile } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
+import { useFloatingReactions } from "@/components/chat/FloatingReactions";
 import { sendChatGift } from "@/lib/subscriptions.functions";
 import { toast } from "sonner";
+
 
 // Jen is a demo id — coin economy only applies to real host UUIDs.
 const JEN_UUID = "0dc3f76d-b710-4934-b1e5-4057ccdb082b";
@@ -31,14 +33,20 @@ const GIFTS: Array<{ emoji: string; label: string; coins: number }> = [
   { emoji: "💎", label: "Diamond", coins: 2500 },
 ];
 
+// Free reaction emojis — no coins, they just float up and land in the chat.
+const REACTIONS = ["❤️", "😍", "🔥", "😘", "😂", "🥰", "💋", "👀", "🙌", "😉", "💕", "✨"];
+
 function HostChat() {
   const { hostId } = Route.useParams();
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [giftOpen, setGiftOpen] = useState(false);
+  const [emojiOpen, setEmojiOpen] = useState(false);
+  const { fire, layer } = useFloatingReactions();
 
   const host = DEMO_HOSTS.find((h) => h.id === hostId);
+
   const aiHost = isAiHost(hostId);
   const isJen = hostId === "demo-jen";
 
@@ -190,7 +198,14 @@ function HostChat() {
     setInput("");
   };
 
+  // Tap a reaction: it bursts up the screen and is delivered to the host as a message.
+  const sendReaction = (emoji: string) => {
+    fire(emoji);
+    if (!busy) sendMessage({ text: emoji });
+  };
+
   return (
+
     <AppShell hideNav>
       {welcome ? (
         <div onClick={() => setWelcome(false)} className="fixed inset-0 z-[120] flex cursor-pointer flex-col items-center justify-center bg-gradient-to-br from-primary/90 via-fuchsia-500/80 to-rose-500/90 text-white animate-in fade-in duration-300">
@@ -261,7 +276,9 @@ function HostChat() {
                         return;
                       }
                       toast.success(`${g.label} sent! Balance: ${res.balance}c`);
+                      fire(g.emoji, 14);
                       sendMessage({ text: `${g.emoji} sent you a ${g.label} (${g.coins} coins)` });
+
                     }}
                     className="flex flex-col items-center gap-1 rounded-2xl border border-border bg-background px-2 py-3 text-xs hover:border-primary hover:bg-primary/5"
                   >
@@ -299,7 +316,52 @@ function HostChat() {
         />
 
 
+        {emojiOpen ? (
+          <div className="sticky bottom-[76px] z-10 mb-1 rounded-2xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur animate-in fade-in slide-in-from-bottom-2">
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-muted-foreground">
+              Tap to send {host.name} a reaction
+            </p>
+            <div className="grid grid-cols-6 gap-1">
+              {REACTIONS.map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  onClick={() => sendReaction(e)}
+                  className="rounded-xl py-2 text-2xl transition-transform hover:scale-125 active:scale-95"
+                  aria-label={`Send ${e}`}
+                >
+                  {e}
+                </button>
+              ))}
+            </div>
+            <div className="mt-2 flex gap-2">
+              <button
+                type="button"
+                onClick={() => { setInput((v) => v + "❤️"); }}
+                className="flex-1 rounded-xl border border-border py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
+              >
+                Add ❤️ to message
+              </button>
+              <button
+                type="button"
+                onClick={() => setEmojiOpen(false)}
+                className="rounded-xl border border-border px-3 py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        ) : null}
+
         <form onSubmit={submit} className="sticky bottom-0 flex items-end gap-2 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
+          <button
+            type="button"
+            onClick={() => setEmojiOpen((v) => !v)}
+            aria-label="Emojis"
+            className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border transition-colors ${emojiOpen ? "border-primary bg-primary/10 text-primary" : "bg-card text-muted-foreground hover:text-primary"}`}
+          >
+            <Smile className="h-5 w-5" />
+          </button>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -313,15 +375,28 @@ function HostChat() {
             rows={1}
             className="min-h-[44px] max-h-32 flex-1 resize-none rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
           />
-          <button
-            type="submit"
-            disabled={busy || !input.trim()}
-            className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
-            aria-label="Send"
-          >
-            <Send className="h-4 w-4" />
-          </button>
+          {input.trim() ? (
+            <button
+              type="submit"
+              disabled={busy}
+              className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
+              aria-label="Send"
+            >
+              <Send className="h-4 w-4" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => sendReaction("❤️")}
+              className="emoji-pop grid h-11 w-11 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow"
+              aria-label="Send love"
+            >
+              <Heart className="h-5 w-5 fill-white" />
+            </button>
+          )}
         </form>
+        {layer}
+
       </div>
     </AppShell>
   );
