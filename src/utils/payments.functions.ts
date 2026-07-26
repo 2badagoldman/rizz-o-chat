@@ -69,6 +69,9 @@ export const createCheckoutSession = createServerFn({ method: 'POST' })
         mode: isRecurring ? 'subscription' : 'payment',
         ui_mode: 'embedded_page',
         return_url: data.returnUrl,
+        // Pin USD so multi-currency prices don't add a "Choose a currency" step
+        // before the card form.
+        currency: price.currency,
         customer: customerId,
         ...(!isRecurring && { payment_intent_data: { description: productDescription } }),
         metadata: { userId, kind: 'catalog', priceLookupKey: data.priceId },
