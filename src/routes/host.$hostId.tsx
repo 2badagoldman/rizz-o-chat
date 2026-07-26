@@ -90,6 +90,8 @@ function HostProfile() {
 
   const onSubscribe = () => {
     if (!user) return navigate({ to: "/auth" });
+    // Friends Lists are Rizz Gold only.
+    if (!hasGold) return navigate({ to: "/upgrade" });
     if (!hostIsReal) {
       alert(`${host.name} is a demo profile — checkout will unlock once real hosts sign up.`);
       return;
