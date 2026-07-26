@@ -39,7 +39,9 @@ function UserChat() {
     let stop = false;
     const load = () =>
       fetchThread({ data: { peerId: userId } }).then((rows) => {
-        if (!stop) setMessages(rows as Msg[]);
+        if (stop) return;
+        // Keep in-flight optimistic bubbles on top of the server snapshot.
+        setMessages((prev) => [...(rows as Msg[]), ...prev.filter((m) => m.id.startsWith("pending:"))]);
       }).catch(() => {});
     load();
     const t = setInterval(load, 3000);
