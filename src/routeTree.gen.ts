@@ -32,6 +32,8 @@ import { Route as LegalTrustRouteImport } from './routes/legal.trust'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as LegalRefundsRouteImport } from './routes/legal.refunds'
 import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
+import { Route as LegalPricingRouteImport } from './routes/legal.pricing'
+import { Route as LegalLawEnforcementRouteImport } from './routes/legal.law-enforcement'
 import { Route as LegalDmcaRouteImport } from './routes/legal.dmca'
 import { Route as LegalCreatorsRouteImport } from './routes/legal.creators'
 import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
@@ -180,6 +182,16 @@ const LegalRefundsRoute = LegalRefundsRouteImport.update({
 const LegalPrivacyRoute = LegalPrivacyRouteImport.update({
   id: '/legal/privacy',
   path: '/legal/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalPricingRoute = LegalPricingRouteImport.update({
+  id: '/legal/pricing',
+  path: '/legal/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalLawEnforcementRoute = LegalLawEnforcementRouteImport.update({
+  id: '/legal/law-enforcement',
+  path: '/legal/law-enforcement',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalDmcaRoute = LegalDmcaRouteImport.update({
@@ -399,6 +411,8 @@ export interface FileRoutesByFullPath {
   '/legal/cookies': typeof LegalCookiesRoute
   '/legal/creators': typeof LegalCreatorsRoute
   '/legal/dmca': typeof LegalDmcaRoute
+  '/legal/law-enforcement': typeof LegalLawEnforcementRoute
+  '/legal/pricing': typeof LegalPricingRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
@@ -457,6 +471,8 @@ export interface FileRoutesByTo {
   '/legal/cookies': typeof LegalCookiesRoute
   '/legal/creators': typeof LegalCreatorsRoute
   '/legal/dmca': typeof LegalDmcaRoute
+  '/legal/law-enforcement': typeof LegalLawEnforcementRoute
+  '/legal/pricing': typeof LegalPricingRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
@@ -517,6 +533,8 @@ export interface FileRoutesById {
   '/legal/cookies': typeof LegalCookiesRoute
   '/legal/creators': typeof LegalCreatorsRoute
   '/legal/dmca': typeof LegalDmcaRoute
+  '/legal/law-enforcement': typeof LegalLawEnforcementRoute
+  '/legal/pricing': typeof LegalPricingRoute
   '/legal/privacy': typeof LegalPrivacyRoute
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
@@ -578,6 +596,8 @@ export interface FileRouteTypes {
     | '/legal/cookies'
     | '/legal/creators'
     | '/legal/dmca'
+    | '/legal/law-enforcement'
+    | '/legal/pricing'
     | '/legal/privacy'
     | '/legal/refunds'
     | '/legal/terms'
@@ -636,6 +656,8 @@ export interface FileRouteTypes {
     | '/legal/cookies'
     | '/legal/creators'
     | '/legal/dmca'
+    | '/legal/law-enforcement'
+    | '/legal/pricing'
     | '/legal/privacy'
     | '/legal/refunds'
     | '/legal/terms'
@@ -695,6 +717,8 @@ export interface FileRouteTypes {
     | '/legal/cookies'
     | '/legal/creators'
     | '/legal/dmca'
+    | '/legal/law-enforcement'
+    | '/legal/pricing'
     | '/legal/privacy'
     | '/legal/refunds'
     | '/legal/terms'
@@ -747,6 +771,8 @@ export interface RootRouteChildren {
   LegalCookiesRoute: typeof LegalCookiesRoute
   LegalCreatorsRoute: typeof LegalCreatorsRoute
   LegalDmcaRoute: typeof LegalDmcaRoute
+  LegalLawEnforcementRoute: typeof LegalLawEnforcementRoute
+  LegalPricingRoute: typeof LegalPricingRoute
   LegalPrivacyRoute: typeof LegalPrivacyRoute
   LegalRefundsRoute: typeof LegalRefundsRoute
   LegalTermsRoute: typeof LegalTermsRoute
@@ -925,6 +951,20 @@ declare module '@tanstack/react-router' {
       path: '/legal/privacy'
       fullPath: '/legal/privacy'
       preLoaderRoute: typeof LegalPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/pricing': {
+      id: '/legal/pricing'
+      path: '/legal/pricing'
+      fullPath: '/legal/pricing'
+      preLoaderRoute: typeof LegalPricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/law-enforcement': {
+      id: '/legal/law-enforcement'
+      path: '/legal/law-enforcement'
+      fullPath: '/legal/law-enforcement'
+      preLoaderRoute: typeof LegalLawEnforcementRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/dmca': {
@@ -1240,6 +1280,8 @@ const rootRouteChildren: RootRouteChildren = {
   LegalCookiesRoute: LegalCookiesRoute,
   LegalCreatorsRoute: LegalCreatorsRoute,
   LegalDmcaRoute: LegalDmcaRoute,
+  LegalLawEnforcementRoute: LegalLawEnforcementRoute,
+  LegalPricingRoute: LegalPricingRoute,
   LegalPrivacyRoute: LegalPrivacyRoute,
   LegalRefundsRoute: LegalRefundsRoute,
   LegalTermsRoute: LegalTermsRoute,

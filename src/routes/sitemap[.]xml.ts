@@ -22,6 +22,8 @@ const ENTRIES: SitemapEntry[] = [
   { path: "/legal/privacy", changefreq: "monthly", priority: "0.4" },
   { path: "/legal/refunds", changefreq: "monthly", priority: "0.4" },
   { path: "/legal/billing", changefreq: "monthly", priority: "0.4" },
+  { path: "/legal/pricing", changefreq: "monthly", priority: "0.4" },
+  { path: "/legal/law-enforcement", changefreq: "monthly", priority: "0.3" },
   { path: "/legal/acceptable-use", changefreq: "monthly", priority: "0.4" },
   { path: "/legal/creators", changefreq: "monthly", priority: "0.4" },
   { path: "/legal/cookies", changefreq: "monthly", priority: "0.3" },

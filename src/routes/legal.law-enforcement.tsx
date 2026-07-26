@@ -19,7 +19,7 @@ export const Route = createFileRoute("/legal/law-enforcement")({
     ],
     links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/law-enforcement" }],
   }),
-  component: LawEnforcement;
+  component: LawEnforcement,
 });
 
 function LawEnforcement() {
