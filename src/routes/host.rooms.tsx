@@ -1,3 +1,4 @@
+import { PrismEmptyState } from "@/components/Prism";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
@@ -111,9 +112,12 @@ function HostRoomsPage() {
         {refreshing ? (
           <p className="mt-3 text-xs text-muted-foreground">Loading…</p>
         ) : rooms.length === 0 ? (
-          <div className="mt-3 rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-            No rooms yet. Create one above.
-          </div>
+          <PrismEmptyState
+            className="mt-3"
+            title="No rooms yet"
+            description="Create your first room above and start moving friends into it."
+          />
+
         ) : (
           <div className="mt-3 space-y-2">
             {rooms.map((r) => (

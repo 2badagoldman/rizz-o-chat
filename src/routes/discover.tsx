@@ -1,9 +1,10 @@
+import { PrismEmptyState } from "@/components/Prism";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierLabel, type DemoHost } from "@/lib/demo-hosts";
 import { hostAvatarMed } from "@/lib/host-avatars";
-import { Search, Users, Circle } from "lucide-react";
+import { Search, Users, Circle, Sparkles } from "lucide-react";
 import { useShuffled } from "@/hooks/useShuffled";
 import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { RoomsShowcase } from "@/components/RoomsShowcase";
@@ -104,10 +105,14 @@ function Discover() {
       </section>
 
       {hosts.length === 0 ? (
-        <p className="mt-8 text-center text-sm text-muted-foreground">
-          No hosts match — try a different filter.
-        </p>
+        <PrismEmptyState
+          className="mt-8"
+          icon={<Sparkles className="h-6 w-6" />}
+          title="No hosts match"
+          description="Try a different filter or widen your search to see more friends."
+        />
       ) : null}
+
     </AppShell>
   );
 }

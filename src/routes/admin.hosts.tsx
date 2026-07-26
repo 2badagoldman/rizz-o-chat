@@ -1,3 +1,4 @@
+import { PrismEmptyState } from "@/components/Prism";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
@@ -135,7 +136,7 @@ function AdminHosts() {
       ) : err ? (
         <p className="mt-8 text-center text-sm text-destructive">{err}</p>
       ) : rows.length === 0 ? (
-        <p className="mt-8 text-center text-sm text-muted-foreground">No hosts match this filter.</p>
+        <PrismEmptyState className="mt-8" title="No hosts match" description="Adjust the filter to see other applications." />
       ) : (
         <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full text-sm">

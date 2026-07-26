@@ -1,17 +1,27 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
+import { PrismLayer } from "@/components/Prism";
 
-const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn("rounded-xl border bg-card text-card-foreground shadow", className)}
-      {...props}
-    />
-  ),
-);
+const Card = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & { prism?: boolean }
+>(({ className, prism = true, children, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "relative overflow-hidden rounded-xl border bg-card text-card-foreground shadow",
+      prism && "prism-surface",
+      className,
+    )}
+    {...props}
+  >
+    {prism ? <PrismLayer ring={false} sheen={false} sparkles caustics className="opacity-60" /> : null}
+    <div className="relative z-10">{children}</div>
+  </div>
+));
 Card.displayName = "Card";
+
 
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (

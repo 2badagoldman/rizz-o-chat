@@ -1,8 +1,12 @@
 /**
- * Shared "iPhone-grade" page atmosphere: drifting aurora light fields plus
- * slow floating bubbles. Purely decorative, pointer-events none, and honours
- * prefers-reduced-motion via the global CSS keyframe guards.
+ * Shared "iPhone-grade" page atmosphere: drifting aurora light fields, slow
+ * floating bubbles and the Diamond VIP prism sparkle field so every page
+ * carries the same refraction language. Purely decorative, pointer-events
+ * none, and honours prefers-reduced-motion via the global keyframe guards.
  */
+import { PrismSparkles } from "./Prism";
+
+
 const BUBBLES = [
   { left: "5%", size: 44, delay: "0s", tint: "from-primary/30" },
   { left: "22%", size: 20, delay: "1.4s", tint: "from-accent/40" },
@@ -34,6 +38,8 @@ export function PageAtmosphere() {
           style={{ left: b.left, width: b.size, height: b.size, animationDelay: b.delay }}
         />
       ))}
+      <PrismSparkles className="opacity-70" />
     </div>
+
   );
 }

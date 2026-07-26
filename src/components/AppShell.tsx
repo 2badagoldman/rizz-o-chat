@@ -10,6 +10,7 @@ import { GlobalSearch } from "./GlobalSearch";
 import { LegalFooter } from "./LegalFooter";
 import { KycGate } from "./KycGate";
 import { PageAtmosphere } from "./PageAtmosphere";
+import { PrismLayer } from "./Prism";
 
 
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -36,16 +37,19 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
   return (
     <div className={`relative min-h-screen text-foreground ${theme === "host" ? "host-theme" : ""}`}>
       <PageAtmosphere />
-      <header className="sticky top-0 z-30 border-b border-border/50 bg-background/55 backdrop-blur-2xl">
+      <header className="prism-surface sticky top-0 z-30 overflow-hidden border-b border-border/50 bg-background/55 backdrop-blur-2xl">
+        <PrismLayer ring={false} sparkles caustics sheen={false} className="opacity-60" />
+        <div className="relative z-10">
         <PaymentTestModeBanner />
 
         {/* Thin animated gradient hairline */}
         <div
           aria-hidden
-          className="h-[3px] w-full bg-gradient-brand"
-          style={{ backgroundSize: "200% 100%", animation: "gradient-pan 6s ease-in-out infinite" }}
+          className="prism-shift h-[3px] w-full bg-gradient-brand"
+          style={{ backgroundSize: "260% 100%" }}
         />
         <div className="mx-auto flex w-full max-w-[480px] items-center justify-between px-4 py-2.5">
+
           <div className="flex items-center gap-2">
             <button
               onClick={() => setDrawerOpen(true)}
@@ -89,7 +93,9 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
             </Link>
           </div>
         </div>
+        </div>
       </header>
+
       <main key={pathname} className="page-anim relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4 pb-32">
 
         <KycGate />
