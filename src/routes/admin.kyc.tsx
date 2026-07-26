@@ -106,7 +106,7 @@ function AdminKyc() {
       {loading ? (
         <p className="mt-8 text-sm text-muted-foreground">Loading submissions…</p>
       ) : rows.length === 0 ? (
-        <p className="mt-8 text-sm text-muted-foreground">No submissions to review.</p>
+        <PrismEmptyState className="mt-8" title="All clear" description="No submissions to review." />
       ) : (
         <div className="mt-5 grid gap-4">
           {rows.map((r) => {

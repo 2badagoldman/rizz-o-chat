@@ -104,10 +104,14 @@ function Discover() {
       </section>
 
       {hosts.length === 0 ? (
-        <p className="mt-8 text-center text-sm text-muted-foreground">
-          No hosts match — try a different filter.
-        </p>
+        <PrismEmptyState
+          className="mt-8"
+          icon={<Sparkles className="h-6 w-6" />}
+          title="No hosts match"
+          description="Try a different filter or widen your search to see more friends."
+        />
       ) : null}
+
     </AppShell>
   );
 }
