@@ -75,12 +75,22 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
     <div
       data-reveal
       style={{ transitionDelay: `${index * 90}ms` }}
-      className={`press-spring group relative overflow-hidden rounded-[1.75rem] p-6 backdrop-blur-2xl ${
-        diamond
-          ? 'border border-white/50 bg-white/45 shadow-pop'
-          : 'border border-border/70 bg-card/70 shadow-card'
-      }`}
+      className={`relative ${diamond ? 'p-[1.5px] rounded-[1.9rem] overflow-hidden' : ''}`}
     >
+      {/* animated prism border for the diamond tier */}
+      {diamond && (
+        <span
+          aria-hidden
+          className="facet-spin pointer-events-none absolute left-1/2 top-1/2 h-[190%] w-[190%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,#38bdf8,#ffffff,#a855f7,#ffffff,#ec4899,#ffffff,#38bdf8)] opacity-90"
+        />
+      )}
+      <div
+        className={`press-spring group relative overflow-hidden rounded-[1.75rem] p-6 backdrop-blur-2xl ${
+          diamond
+            ? 'border border-white/60 bg-white/50 shadow-pop'
+            : 'border border-border/70 bg-card/70 shadow-card'
+        }`}
+      >
       {/* ambient light field */}
       <span
         aria-hidden
@@ -90,8 +100,39 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
       />
       {diamond && (
         <>
+          {/* refracted caustics */}
+          <span
+            aria-hidden
+            className="caustic pointer-events-none absolute inset-0 bg-[radial-gradient(50%_40%_at_20%_20%,rgba(56,189,248,.45),transparent_70%),radial-gradient(45%_40%_at_85%_30%,rgba(236,72,153,.4),transparent_70%),radial-gradient(60%_50%_at_50%_100%,rgba(168,85,247,.4),transparent_70%)] blur-2xl"
+          />
+          {/* holographic facet sheet */}
+          <span
+            aria-hidden
+            className="prism-shift pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay bg-[linear-gradient(115deg,transparent_20%,rgba(255,255,255,.9)_35%,transparent_48%,rgba(125,211,252,.7)_60%,transparent_72%,rgba(244,114,182,.7)_84%,transparent_95%)]"
+          />
           <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]" />
-          <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[1.75rem] ring-1 ring-inset ring-white/70" />
+          <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[1.75rem] ring-1 ring-inset ring-white/80" />
+          {/* twinkling facets */}
+          {[
+            { top: '12%', left: '78%', s: 10, d: '0s' },
+            { top: '58%', left: '8%', s: 8, d: '1.1s' },
+            { top: '80%', left: '62%', s: 12, d: '2.1s' },
+            { top: '34%', left: '46%', s: 7, d: '1.7s' },
+          ].map((t) => (
+            <span
+              key={`${t.top}${t.left}`}
+              aria-hidden
+              className="twinkle pointer-events-none absolute bg-white"
+              style={{
+                top: t.top,
+                left: t.left,
+                width: t.s,
+                height: t.s,
+                animationDelay: t.d,
+                clipPath: 'polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%)',
+              }}
+            />
+          ))}
           <span
             aria-hidden
             className="facet-spin pointer-events-none absolute -left-24 -bottom-24 h-56 w-56 rounded-[2rem] bg-[conic-gradient(from_0deg,rgba(255,255,255,.75),rgba(125,211,252,.35),rgba(244,114,182,.35),rgba(255,255,255,.75))] opacity-40 blur-2xl"
@@ -172,6 +213,7 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
           Get {plan.name}
         </span>
       </button>
+      </div>
     </div>
   );
 }

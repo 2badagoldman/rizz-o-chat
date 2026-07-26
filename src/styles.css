@@ -441,3 +441,48 @@
     [data-reveal] { opacity: 1; transform: none; transition: none; }
   }
 }
+
+/* ============================================================
+   Global glass polish — unlayered so it wins over Tailwind
+   utilities while still allowing explicit /opacity variants.
+   ============================================================ */
+.bg-card:not(.no-glass) {
+  background-color: color-mix(in oklab, var(--card) 58%, transparent);
+  backdrop-filter: blur(22px) saturate(155%);
+}
+.bg-popover:not(.no-glass) {
+  background-color: color-mix(in oklab, var(--popover) 72%, transparent);
+  backdrop-filter: blur(26px) saturate(155%);
+}
+.bg-muted:not(.no-glass) {
+  background-color: color-mix(in oklab, var(--muted) 62%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+.bg-secondary:not(.no-glass) {
+  background-color: color-mix(in oklab, var(--secondary) 62%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+
+/* Prism / diamond motion set */
+@keyframes prism-shift {
+  0%, 100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+  50%      { background-position: 100% 50%; filter: hue-rotate(24deg); }
+}
+.prism-shift { background-size: 260% 260%; animation: prism-shift 9s ease-in-out infinite; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(.4) rotate(0deg); }
+  50%      { opacity: 1; transform: scale(1) rotate(45deg); }
+}
+.twinkle { animation: twinkle 3.2s ease-in-out infinite; }
+
+@keyframes caustic-drift {
+  0%   { transform: translate3d(-6%, -4%, 0) scale(1.1); opacity: .35; }
+  50%  { transform: translate3d(6%, 4%, 0) scale(1.25); opacity: .6; }
+  100% { transform: translate3d(-6%, -4%, 0) scale(1.1); opacity: .35; }
+}
+.caustic { animation: caustic-drift 12s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .prism-shift, .twinkle, .caustic { animation: none; }
+}
