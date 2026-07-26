@@ -3,15 +3,80 @@ import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { Check, Gem, Sparkles, Star, Zap } from 'lucide-react';
 import { DiamondGem, GoldMedallion } from '@/components/PreciousIcons';
-import { pageHead } from "@/lib/seo";
 
 
 export const Route = createFileRoute('/upgrade')({
-  head: () => pageHead({
-    path: "/upgrade",
-    title: "Upgrade to Rizz Gold or Diamond VIP \u2014 Rizz Social",
-    description: "Rizz Gold $9.99/week unlocks any Friends List. Rizz Diamond VIP $19.99/week adds a diamond badge and weekly coin drops.",
-  }) => (
+  head: () => ({
+    meta: [
+      { title: 'Upgrade to Rizz Gold or Diamond VIP — Rizz Social' },
+      { name: 'description', content: 'Rizz Gold $9.99/week unlocks any Friends List. Rizz Diamond VIP $19.99/week adds a diamond badge and weekly coin drops.' },
+      { property: 'og:title', content: 'Upgrade to Rizz Gold or Diamond VIP — Rizz Social' },
+      { property: 'og:description', content: 'Weekly memberships: unlock Friends Lists, priority chat and weekly coin drops.' },
+      { property: 'og:url', content: 'https://rizzlachat.com/upgrade' },
+    ],
+    links: [{ rel: 'canonical', href: 'https://rizzlachat.com/upgrade' }],
+  }),
+  component: UpgradePage,
+});
+
+type Perk = { label: string; detail: string };
+
+type Plan = {
+  id: string;
+  name: string;
+  price: string;
+  tagline: string;
+  icon: typeof Star;
+  diamond?: boolean;
+  includesNote?: string;
+  perks: Perk[];
+};
+
+const PLANS: Plan[] = [
+  {
+    id: 'rizz_gold_weekly',
+    name: 'Rizz Gold',
+    price: '$9.99',
+    tagline: 'The key that opens every Friends List',
+    icon: Star,
+    perks: [
+      { label: 'Unlock any Friends List', detail: 'No per-host unlock fees — every list opens with your membership.' },
+      { label: 'Unlimited discovery', detail: 'Scroll all 100+ hosts with no daily cap.' },
+      { label: 'AI copilot boosts', detail: 'Rizz AI drafts openers and replies that actually land.' },
+      { label: 'Priority chat placement', detail: 'Your messages sit at the top of a host’s inbox.' },
+      { label: 'Zero ads', detail: 'No promos, no interruptions, ever.' },
+    ],
+  },
+  {
+    id: 'rizz_diamond_weekly',
+    name: 'Rizz Diamond VIP',
+    price: '$19.99',
+    tagline: 'Gold + Diamond, unlocked together',
+    icon: Gem,
+    diamond: true,
+    includesNote: 'Everything in Rizz Gold, plus:',
+    perks: [
+      { label: '2,000 coins every week', detail: 'Worth ~$20 — gifts, unlocks and boosts on the house.' },
+      { label: 'Diamond badge', detail: 'A prism badge on your profile and in every room.' },
+      { label: 'Top-of-list visibility', detail: 'Hosts see you first in DMs, rooms and invites.' },
+      { label: 'Early access to new hosts', detail: '24-hour head start before anyone else can chat.' },
+      { label: 'Concierge support', detail: 'Priority replies from our team, any day of the week.' },
+    ],
+  },
+];
+
+
+function Bubbles() {
+  const bubbles = [
+    { left: '6%', size: 46, delay: '0s', tint: 'from-primary/30' },
+    { left: '28%', size: 22, delay: '1.6s', tint: 'from-accent/40' },
+    { left: '52%', size: 64, delay: '3.1s', tint: 'from-primary/20' },
+    { left: '74%', size: 30, delay: '0.8s', tint: 'from-accent/30' },
+    { left: '90%', size: 18, delay: '2.4s', tint: 'from-primary/40' },
+  ];
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      {bubbles.map((b) => (
         <span
           key={b.left}
           className={`bubble bottom-0 bg-gradient-to-br ${b.tint} to-transparent blur-[2px]`}

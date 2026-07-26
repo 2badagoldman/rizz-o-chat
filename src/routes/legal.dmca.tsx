@@ -1,15 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
-import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/dmca")({
-  head: () => pageHead({
-    path: "/legal/dmca",
-    title: "DMCA & Content Removal \u2014 Rizzla Chat",
-    description: "How to report copyright infringement, non-consensual imagery or impersonation on Rizzla Chat, what a valid DMCA notice must include, and how counter-notices are handled.",
-    type: "article",
-  })involves a minor, email{" "}
+  head: () => ({
+    meta: [
+      { title: "DMCA & Content Removal — Rizzla Chat" },
+      {
+        name: "description",
+        content:
+          "How to report copyright infringement, non-consensual imagery or impersonation on Rizzla Chat, what a valid DMCA notice must include, and how counter-notices are handled.",
+      },
+      { property: "og:title", content: "DMCA & Content Removal — Rizzla Chat" },
+      { property: "og:description", content: "Report copyright infringement or request urgent removal of non-consensual content." },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: "https://rizzlachat.com/legal/dmca" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/dmca" }],
+  }),
+  component: Dmca,
+});
+
+function Dmca() {
+  return (
+    <LegalDoc
+      title="DMCA & Content Removal"
+      subtitle="We remove infringing and non-consensual content quickly. Urgent reports involving intimate imagery or a minor are actioned within 24 hours."
+    >
+      <Section heading="1. Urgent removal requests">
+        <p>
+          If content on Rizzla shows you (or someone you are reporting for) without consent, or involves a minor, email{" "}
           <a className="font-semibold text-primary" href={`mailto:${LEGAL.supportEmail}`}>
             {LEGAL.supportEmail}
           </a>{" "}

@@ -8,14 +8,61 @@ import { cancelSubscription, resumeSubscription } from '@/lib/subscriptions.func
 import { createPortalSession } from '@/utils/payments.functions';
 import { CreditCard, ExternalLink, XCircle, RotateCcw, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
-import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute('/subscriptions')({
-  head: () => pageHead({
-    path: "/subscriptions",
-    title: "My subscriptions \u2014 Rizz Social",
-    description: "Manage your Friends List memberships and Rizz Gold subscription on Rizz Social.",
-  }) ?? []);
+  head: () => ({
+    meta: [
+      { title: 'My subscriptions — Rizz Social' },
+      { name: 'description', content: 'Manage your Friends List memberships and Rizz Gold subscription on Rizz Social.' },
+      { property: 'og:title', content: 'My subscriptions — Rizz Social' },
+      { property: 'og:url', content: 'https://rizzlachat.com/subscriptions' },
+    ],
+    links: [{ rel: 'canonical', href: 'https://rizzlachat.com/subscriptions' }],
+  }),
+
+  component: SubscriptionsPage,
+});
+
+type Row = {
+  stripe_subscription_id: string;
+  price_id: string;
+  status: string;
+  current_period_end: string | null;
+  cancel_at_period_end: boolean | null;
+  host_id: string | null;
+};
+
+const LABEL: Record<string, string> = {
+  rizz_gold_weekly: 'Rizz Gold',
+  rizz_diamond_weekly: 'Rizz Diamond VIP',
+  rizz_plus_monthly: 'Rizz Gold',
+  rizz_vip_monthly: 'Rizz VIP',
+};
+
+function statusPill(s: string) {
+  if (s === 'active' || s === 'trialing') return { text: 'Active', cls: 'bg-emerald-500/10 text-emerald-600' };
+  if (s === 'past_due') return { text: 'Payment failed', cls: 'bg-amber-500/10 text-amber-600' };
+  if (s === 'canceled') return { text: 'Canceled', cls: 'bg-muted text-muted-foreground' };
+  return { text: s, cls: 'bg-muted text-muted-foreground' };
+}
+
+function SubscriptionsPage() {
+  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const [rows, setRows] = useState<Row[] | null>(null);
+  const [busy, setBusy] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    if (!user) return;
+    const env = getStripeEnvironment();
+    const { data, error } = await supabase
+      .from('subscriptions')
+      .select('stripe_subscription_id,price_id,status,current_period_end,cancel_at_period_end,host_id')
+      .eq('user_id', user.id)
+      .eq('environment', env)
+      .order('created_at', { ascending: false });
+    if (error) toast.error(error.message);
+    setRows((data as Row[]) ?? []);
   }, [user]);
 
   useEffect(() => {

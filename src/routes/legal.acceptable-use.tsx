@@ -1,15 +1,32 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
-import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/acceptable-use")({
-  head: () => pageHead({
-    path: "/legal/acceptable-use",
-    title: "Acceptable Use & Content Policy \u2014 Rizzla Chat",
-    description: "Rizzla Chat community rules: 18+ only, consent and age verification for all media, zero tolerance for CSAM, non-consensual content, trafficking, harassment and fraud, plus moderation and appeals.",
-    type: "article",
-  })
+  head: () => ({
+    meta: [
+      { title: "Acceptable Use & Content Policy — Rizzla Chat" },
+      {
+        name: "description",
+        content:
+          "Rizzla Chat community rules: 18+ only, consent and age verification for all media, zero tolerance for CSAM, non-consensual content, trafficking, harassment and fraud, plus moderation and appeals.",
+      },
+      { property: "og:title", content: "Acceptable Use & Content Policy — Rizzla Chat" },
+      { property: "og:description", content: "What is allowed, what is banned, and how we moderate and enforce it." },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: "https://rizzlachat.com/legal/acceptable-use" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/acceptable-use" }],
+  }),
+  component: AcceptableUse,
+});
+
+function AcceptableUse() {
+  return (
+    <LegalDoc
+      title="Acceptable Use & Content Policy"
+      subtitle={`Rizzla is an adults-only (${LEGAL.minAge}+) social platform. These rules apply to every member, Host, room, message and upload — no exceptions.`}
     >
       <Section heading="1. Zero tolerance — instant permanent ban">
         <Bullets

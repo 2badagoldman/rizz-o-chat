@@ -7,15 +7,97 @@ import { AppShell } from "@/components/AppShell";
 import { Send, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
-import { pageHead } from "@/lib/seo";
 
 
 export const Route = createFileRoute("/copilot")({
-  head: () => pageHead({
-    path: "/copilot",
-    title: "Rizz AI copilot \u2014 your chat wingman",
-    description: "The AI wingman inside Rizz Social. Get help crafting messages, breaking the ice, and building real chats.",
-  })}
+  head: () => ({
+    meta: [
+      { title: "Rizz AI copilot — your chat wingman" },
+      { name: "description", content: "The AI wingman inside Rizz Social. Get help crafting messages, breaking the ice, and building real chats." },
+      { property: "og:title", content: "Rizz AI copilot — your chat wingman" },
+      { property: "og:description", content: "The AI wingman inside Rizz Social." },
+      { property: "og:url", content: "https://rizzlachat.com/copilot" },
+    ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/copilot" }],
+  }),
+  component: Copilot,
+});
+
+
+function Copilot() {
+  const { user } = useAuth();
+  const [input, setInput] = useState("");
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const { messages, sendMessage, status } = useChat({
+    transport: createAuthedChatTransport({ api: "/api/chat" }),
+  });
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [messages, status]);
+
+  const busy = status === "submitted" || status === "streaming";
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = input.trim();
+    if (!text || busy) return;
+    sendMessage({ text });
+    setInput("");
+  };
+
+  const suggested = user
+    ? [
+        "Walk me through applying to be a Host",
+        "How do I hit 100 Friends and unlock 65%?",
+        "Help me pick a Host to subscribe to",
+        "What should my first message be?",
+      ]
+    : [
+        "What is Rizzla Social?",
+        "How much can Hosts earn?",
+        "Explain the Milestone Flip",
+        "Is this a dating app?",
+      ];
+
+  return (
+    <AppShell hideNav>
+      <div className="flex min-h-[calc(100vh-1rem)] flex-col">
+        <header className="flex items-center gap-3 pt-3 pb-2">
+          <Link to="/" className="rounded-full border border-border p-2">
+            <ArrowLeft className="h-4 w-4" />
+          </Link>
+          <div className="flex items-center gap-2">
+            <div className="h-9 w-9 overflow-hidden rounded-full shadow-glow">
+              <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
+            </div>
+
+            <div>
+              <h1 className="text-base font-semibold leading-tight">Rizz AI</h1>
+              <p className="text-[11px] text-muted-foreground">Your in-app copilot</p>
+            </div>
+          </div>
+        </header>
+
+        <div ref={scrollRef} className="flex-1 overflow-y-auto py-3 space-y-4">
+          {messages.length === 0 ? (
+            <div className="rounded-2xl border border-border bg-card p-4">
+              <p className="text-sm">
+                Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>. I&apos;ll walk you through
+                anything in the app: applying as a Host, pricing your Friends List, picking who to chat with, or
+                writing your first message. Ask me anything.
+              </p>
+              <div className="mt-4 grid gap-2">
+                {suggested.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => sendMessage({ text: s })}
+                    className="rounded-xl border border-border bg-background/50 px-3 py-2 text-left text-sm hover:border-primary/60"
+                  >
+                    {s}
+                  </button>
+                ))}
               </div>
             </div>
           ) : null}

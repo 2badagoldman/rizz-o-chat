@@ -1,15 +1,48 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
-import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/refunds")({
-  head: () => pageHead({
-    path: "/legal/refunds",
-    title: "Refund & Cancellation Policy \u2014 Rizzla Chat",
-    description: "Rizzla Chat refund and cancellation policy: 14-day refunds on unused coins and memberships, how to cancel a subscription, how tips and spent coins are treated, and how to reach support.",
-    type: "article",
-  })EGAL.supportEmail}`}>
+  head: () => ({
+    meta: [
+      { title: "Refund & Cancellation Policy — Rizzla Chat" },
+      {
+        name: "description",
+        content:
+          "Rizzla Chat refund and cancellation policy: 14-day refunds on unused coins and memberships, how to cancel a subscription, how tips and spent coins are treated, and how to reach support.",
+      },
+      { property: "og:title", content: "Refund & Cancellation Policy — Rizzla Chat" },
+      { property: "og:description", content: "How refunds, cancellations and renewals work for coins, memberships and tips." },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: "https://rizzlachat.com/legal/refunds" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/refunds" }],
+  }),
+  component: Refunds,
+});
+
+function Refunds() {
+  return (
+    <LegalDoc
+      title="Refund & Cancellation Policy"
+      subtitle="Short version: unused coins and unused membership time can be refunded within 14 days. Coins you have already spent, and gifts or tips already delivered, are final."
+    >
+      <Section heading="1. Cancel any time, in two clicks">
+        <Bullets
+          items={[
+            <>
+              Open <Link to="/subscriptions" className="font-semibold text-primary">My subscriptions</Link> and tap
+              <b className="text-foreground"> Cancel</b>. Your membership stays active until the end of the period you already
+              paid for, then stops. You can tap <b className="text-foreground">Resume</b> before that date to keep it.
+            </>,
+            <>
+              You can also manage cards, invoices and cancellations in the secure billing portal linked from the same page.
+            </>,
+            "We never charge a cancellation fee, and cancelling never deletes your account, chats or coins.",
+            <>
+              Need help? Email{" "}
+              <a className="font-semibold text-primary" href={`mailto:${LEGAL.supportEmail}`}>
                 {LEGAL.supportEmail}
               </a>{" "}
               and we will cancel it for you within {LEGAL.supportResponseHours} hours.

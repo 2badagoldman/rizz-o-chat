@@ -1,15 +1,38 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { LegalDoc, Section, Bullets } from "@/components/LegalDoc";
 import { LEGAL } from "@/lib/legal";
-import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/legal/contact")({
-  head: () => pageHead({
-    path: "/legal/contact",
-    title: "Contact & Business Details \u2014 Rizzla Chat",
-    description: "Contact Rizzla Chat support: legal entity KOLO TECHNOLOGY LLC, business address in Garland, Texas, support email, response times and escalation paths for billing, privacy and safety.",
-    type: "article",
-  }) => (
+  head: () => ({
+    meta: [
+      { title: "Contact & Business Details — Rizzla Chat" },
+      {
+        name: "description",
+        content:
+          "Contact Rizzla Chat support: legal entity KOLO TECHNOLOGY LLC, business address in Garland, Texas, support email, response times and escalation paths for billing, privacy and safety.",
+      },
+      { property: "og:title", content: "Contact & Business Details — Rizzla Chat" },
+      { property: "og:description", content: "Who operates Rizzla Chat, where we are based, and how to reach support." },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: "https://rizzlachat.com/legal/contact" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/contact" }],
+  }),
+  component: Contact,
+});
+
+function Contact() {
+  return (
+    <LegalDoc
+      title="Contact & Business Details"
+      subtitle="One inbox, real replies. Every request below goes to the same address and is routed internally."
+    >
+      <Section heading="Business identity">
+        <p>
+          <b className="text-foreground">{LEGAL.entity}</b>
+          <br />
+          {LEGAL.addressLines.map((l) => (
             <span key={l}>
               {l}
               <br />
