@@ -794,3 +794,23 @@ html[data-perf="lite"] .blur-2xl {
   --tw-blur: blur(18px);
   filter: blur(18px);
 }
+
+/* ---------- Native app shell (Capacitor iOS/Android) ---------- */
+html.is-native body {
+  /* Respect notches / home indicator inside the native webview */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  /* No rubber-band text selection or callouts in a native shell */
+  -webkit-touch-callout: none;
+  overscroll-behavior-y: none;
+}
+html.is-native input,
+html.is-native textarea,
+html.is-native [contenteditable="true"] {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  user-select: text;
+}
+html.is-native ::-webkit-scrollbar {
+  display: none;
+}
