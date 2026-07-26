@@ -15,7 +15,6 @@ import {
   X,
   Shield,
   Scale,
-
   ChevronRight,
   MessageCircle,
   Coins,
@@ -48,11 +47,11 @@ const LIVE: Row[] = [
 ];
 
 const SOON: Array<{ label: string; slug: string; icon: IconType; tint: string; hint: string }> = [
-  { label: "Rizzla News",  slug: "news",      icon: Newspaper,  tint: "#5a1fbf", hint: "Stories & drops" },
+  { label: "Rizzla News",  slug: "news",      icon: Newspaper,   tint: "#5a1fbf", hint: "Stories & drops" },
   { label: "Rizzla Store", slug: "store",     icon: ShoppingBag, tint: "#e84393", hint: "Merch & bundles" },
-  { label: "Events",       slug: "events",    icon: Calendar,   tint: "#ff6b35", hint: "Live nights" },
-  { label: "Games",        slug: "games",     icon: Gamepad2,   tint: "#6c5ce7", hint: "Play together" },
-  { label: "Gift shop",    slug: "gift-shop", icon: Gift,       tint: "#ff3d9a", hint: "Curated gifts" },
+  { label: "Events",       slug: "events",    icon: Calendar,    tint: "#ff6b35", hint: "Live nights" },
+  { label: "Games",        slug: "games",     icon: Gamepad2,    tint: "#6c5ce7", hint: "Play together" },
+  { label: "Gift shop",    slug: "gift-shop", icon: Gift,        tint: "#ff3d9a", hint: "Curated gifts" },
 ];
 
 const FOOT: Row[] = [
@@ -60,7 +59,6 @@ const FOOT: Row[] = [
   { label: "Help & support", to: "/soon/$feature", icon: HelpCircle, tint: "#3d8dff", params: { feature: "help" } },
   { label: "Policies & legal", to: "/legal", icon: Scale, tint: "#2d3436", hint: "Terms, privacy, refunds" },
 ];
-
 
 export function SideDrawer({ open, onClose }: Props) {
   const { user, signOut } = useAuth();
@@ -78,7 +76,6 @@ export function SideDrawer({ open, onClose }: Props) {
       .then(({ data }) => { if (!cancelled) setIsAdmin(!!data); });
     return () => { cancelled = true; };
   }, [user]);
-
 
   useEffect(() => {
     if (!open) return;
@@ -100,7 +97,7 @@ export function SideDrawer({ open, onClose }: Props) {
     <>
       {/* Scrim */}
       <div
-        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-md transition-opacity duration-300 ${
+        className={`fixed inset-0 z-40 bg-foreground/25 backdrop-blur-xl transition-opacity duration-500 ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
@@ -109,45 +106,51 @@ export function SideDrawer({ open, onClose }: Props) {
 
       {/* Panel */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-[86%] max-w-[380px] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          open ? "translate-x-0" : "-translate-x-full"
+        className={`fixed inset-y-0 left-0 z-50 w-[88%] max-w-[392px] p-2.5 transition-[transform,opacity] duration-[550ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          open ? "translate-x-0 opacity-100" : "-translate-x-[104%] opacity-60"
         }`}
         aria-label="Main menu"
         role="dialog"
       >
-        {/* Frosted glass shell */}
+        {/* Frosted glass shell — floating, fully rounded */}
         <div
-          className="relative flex h-full flex-col overflow-hidden border-r border-white/40 shadow-[0_25px_80px_-20px_rgba(0,0,0,0.35)]"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(255,245,250,0.94) 55%, rgba(245,240,255,0.96) 100%)",
-            backdropFilter: "saturate(180%) blur(30px)",
-            WebkitBackdropFilter: "saturate(180%) blur(30px)",
-          }}
+          className="relative flex h-full flex-col overflow-hidden rounded-[32px] border border-white/50 bg-white/55 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.85)] backdrop-blur-2xl backdrop-saturate-150"
         >
-          {/* Aurora glow behind header */}
-          <div
-            className="pointer-events-none absolute -top-24 -left-16 h-64 w-64 rounded-full opacity-70 blur-3xl"
-            style={{ background: "radial-gradient(circle, #ff3d9a 0%, transparent 65%)" }}
+          {/* Aurora blobs — soft, breathing */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -left-20 -top-24 h-72 w-72 rounded-full opacity-70 blur-3xl"
+            style={{ background: "radial-gradient(circle, #ff3d9a 0%, transparent 66%)" }}
           />
-          <div
-            className="pointer-events-none absolute -top-10 right-0 h-48 w-48 rounded-full opacity-60 blur-3xl"
-            style={{ background: "radial-gradient(circle, #6c5ce7 0%, transparent 65%)" }}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -right-16 top-16 h-64 w-64 rounded-full opacity-60 blur-3xl"
+            style={{ background: "radial-gradient(circle, #6c5ce7 0%, transparent 66%)" }}
+          />
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -bottom-24 left-4 h-64 w-64 rounded-full opacity-50 blur-3xl"
+            style={{ background: "radial-gradient(circle, #3ddcff 0%, transparent 66%)" }}
+          />
+          {/* Specular sheen along the top edge */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,rgba(255,255,255,0.75),transparent)]"
           />
 
           {/* Header — profile hero */}
-          <div className="relative px-5 pt-6 pb-5">
+          <div className="relative px-5 pt-6 pb-4">
             <button
               onClick={onClose}
               aria-label="Close menu"
-              className="absolute top-4 right-4 grid h-9 w-9 place-items-center rounded-full bg-white/70 text-foreground/70 shadow-sm ring-1 ring-black/5 backdrop-blur transition hover:bg-white active:scale-95"
+              className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/60 bg-white/60 text-foreground/70 shadow-[0_8px_20px_-8px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 hover:text-foreground active:scale-90"
             >
-              <X className="h-4 w-4" />
+              <X className="h-4 w-4" strokeWidth={2.5} />
             </button>
 
             <a
               href="/"
-              className="group flex items-center gap-3.5 rounded-2xl p-1.5 -m-1.5 transition-colors hover:bg-white/60"
+              className="group flex items-center gap-4 rounded-[26px] p-2 -m-2 transition-colors duration-300 hover:bg-white/50"
               onClick={(e) => {
                 e.preventDefault();
                 window.location.assign("/");
@@ -155,36 +158,36 @@ export function SideDrawer({ open, onClose }: Props) {
               aria-label="Rizzla home — reload"
             >
               <span
-                className="relative inline-block shrink-0 rounded-full p-[2.5px] transition-transform group-hover:scale-[1.03]"
-                style={{ background: "conic-gradient(from 180deg at 50% 50%, #ff3d9a, #ff9a3d, #6c5ce7, #ff3d9a)" }}
+                className="relative inline-block shrink-0 rounded-full p-[3px] shadow-[0_10px_30px_-10px_rgba(255,61,154,0.9)] transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-105 group-active:scale-95"
+                style={{ background: "conic-gradient(from 180deg at 50% 50%, #ff3d9a, #ff9a3d, #6c5ce7, #3ddcff, #ff3d9a)" }}
               >
                 <img
                   src={rizzAiLogo.url}
                   alt=""
-                  className="block h-14 w-14 rounded-full border-2 border-white bg-white object-cover"
+                  className="block h-16 w-16 rounded-full border-[3px] border-white bg-white object-cover"
                 />
               </span>
               <div className="min-w-0">
-                <p className="truncate text-[11px] font-semibold uppercase tracking-[0.18em] text-primary/70">
+                <p className="truncate text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">
                   Rizzla
                 </p>
-                <p className="truncate text-[22px] font-bold leading-tight tracking-tight text-foreground">
+                <p className="truncate bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[26px] font-black leading-tight tracking-tight text-transparent">
                   Hey {displayName}
                 </p>
-                <p className="truncate text-xs text-muted-foreground">Friends Always ✦ Welcome back</p>
+                <p className="truncate text-[11.5px] text-muted-foreground">Friends Always ✦ Welcome back</p>
               </div>
             </a>
           </div>
 
           {/* Body */}
-          <nav className="relative flex-1 overflow-y-auto px-4 pb-8">
-            <Group label="Your space">
+          <nav className="relative flex-1 overflow-y-auto px-3.5 pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <Group label="Your space" open={open} index={0}>
               {LIVE.map((r) => (
                 <SettingsRow key={r.label} {...r} onNavigate={onClose} />
               ))}
             </Group>
 
-            <Group label="Coming soon" note="Get early access">
+            <Group label="Coming soon" note="Get early access" open={open} index={1}>
               {SOON.map((s) => (
                 <SettingsRow
                   key={s.slug}
@@ -200,7 +203,7 @@ export function SideDrawer({ open, onClose }: Props) {
               ))}
             </Group>
 
-            <Group label="Account">
+            <Group label="Account" open={open} index={2}>
               {FOOT.map((r) => (
                 <SettingsRow key={r.label} {...r} onNavigate={onClose} />
               ))}
@@ -214,23 +217,26 @@ export function SideDrawer({ open, onClose }: Props) {
                   onNavigate={onClose}
                 />
               )}
-              {user ? (
-                <button
-                  onClick={async () => {
-                    await signOut();
-                    onClose();
-                  }}
-                  className="mt-2 flex w-full items-center gap-3 rounded-2xl bg-white/80 px-3.5 py-3 text-left shadow-sm ring-1 ring-black/5 backdrop-blur transition hover:bg-white active:scale-[0.99]"
+            </Group>
+
+            {user ? (
+              <button
+                onClick={async () => {
+                  await signOut();
+                  onClose();
+                }}
+                className="mt-4 flex w-full items-center gap-3.5 rounded-[24px] border border-white/60 bg-white/60 px-4 py-3.5 text-left shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.015] active:scale-[0.97]"
+              >
+                <span
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white shadow-[0_8px_18px_-8px_rgba(255,45,117,0.9),inset_0_1px_0_rgba(255,255,255,0.6)]"
+                  style={{ background: "linear-gradient(135deg,#ff8080,#ff2d75)" }}
                 >
-                  <span
-                    className="grid h-8 w-8 shrink-0 place-items-center rounded-[10px] text-white shadow-sm"
-                    style={{ background: "linear-gradient(135deg,#ff5959,#ff2d75)" }}
-                  >
-                    <LogOut className="h-4 w-4" />
-                  </span>
-                  <span className="flex-1 text-[15px] font-semibold text-destructive">Log out</span>
-                </button>
-              ) : (
+                  <LogOut className="h-[18px] w-[18px]" strokeWidth={2.4} />
+                </span>
+                <span className="flex-1 text-[15px] font-bold text-destructive">Log out</span>
+              </button>
+            ) : (
+              <div className="mt-4 overflow-hidden rounded-[24px] border border-white/60 bg-white/60 shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
                 <SettingsRow
                   label="Sign in"
                   to="/auth"
@@ -239,10 +245,10 @@ export function SideDrawer({ open, onClose }: Props) {
                   hint="Continue with email"
                   onNavigate={onClose}
                 />
-              )}
-            </Group>
+              </div>
+            )}
 
-            <p className="mt-6 text-center text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
+            <p className="mt-7 text-center text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground/60">
               Rizzla · v1.0
             </p>
           </nav>
@@ -255,26 +261,35 @@ export function SideDrawer({ open, onClose }: Props) {
 function Group({
   label,
   note,
+  index = 0,
+  open,
   children,
 }: {
   label: string;
   note?: string;
+  index?: number;
+  open: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <section className="mt-5 first:mt-2">
-      <div className="mb-2 flex items-end justify-between px-2">
-        <h3 className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+    <section
+      className={`mt-5 first:mt-1 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        open ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+      }`}
+      style={{ transitionDelay: open ? `${120 + index * 90}ms` : "0ms" }}
+    >
+      <div className="mb-2 flex items-end justify-between px-3">
+        <h3 className="text-[10.5px] font-bold uppercase tracking-[0.22em] text-muted-foreground/80">
           {label}
         </h3>
         {note ? (
-          <span className="text-[10px] font-medium uppercase tracking-widest text-primary/70">
+          <span className="rounded-full bg-white/60 px-2 py-[3px] text-[9px] font-bold uppercase tracking-[0.14em] text-primary shadow-sm ring-1 ring-white/70">
             {note}
           </span>
         ) : null}
       </div>
-      {/* iOS-style grouped card */}
-      <div className="overflow-hidden rounded-2xl bg-white/75 shadow-sm ring-1 ring-black/5 backdrop-blur">
+      {/* Bubbly glass grouped card */}
+      <div className="overflow-hidden rounded-[26px] border border-white/60 bg-white/55 shadow-[0_18px_40px_-24px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
         {children}
       </div>
     </section>
@@ -305,18 +320,19 @@ function SettingsRow({
       to={to as any}
       params={params as any}
       onClick={onNavigate}
-      className="group flex items-center gap-3.5 px-3.5 py-2.5 transition-colors first:pt-3 last:pb-3 hover:bg-white/90 border-b border-black/5 last:border-b-0"
+      className="group relative flex items-center gap-3.5 border-b border-white/50 px-4 py-3 transition-colors duration-300 last:border-b-0 hover:bg-white/70 active:bg-white/80"
     >
       <span
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-[11px] text-white shadow-sm ring-1 ring-white/40"
+        className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white ring-1 ring-white/50 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95"
         style={{
-          background: `linear-gradient(135deg, ${tint}, ${shade(tint, -15)})`,
+          background: `linear-gradient(135deg, ${shade(tint, 18)}, ${shade(tint, -18)})`,
+          boxShadow: `0 10px 20px -10px ${tint}, inset 0 1px 0 rgba(255,255,255,0.55)`,
         }}
       >
-        <Icon className="h-[18px] w-[18px]" strokeWidth={2.25} />
+        <Icon className="h-[18px] w-[18px]" strokeWidth={2.35} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-[15px] font-semibold leading-tight text-foreground">
+        <span className="block truncate text-[15px] font-bold leading-tight tracking-[-0.01em] text-foreground">
           {label}
         </span>
         {hint ? (
@@ -324,16 +340,16 @@ function SettingsRow({
         ) : null}
       </span>
       {badge ? (
-        <span className="rounded-full bg-gradient-brand px-2 py-[3px] text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+        <span className="rounded-full bg-gradient-brand px-2.5 py-[4px] text-[9px] font-black uppercase tracking-[0.12em] text-white shadow-[0_6px_14px_-6px_rgba(255,45,117,0.9)]">
           {badge}
         </span>
       ) : null}
-      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/60 transition group-hover:translate-x-0.5 group-hover:text-primary" />
+      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
     </Link>
   );
 }
 
-// Tiny helper to darken a hex color for the icon-tile gradient endpoint.
+// Tiny helper to lighten/darken a hex color for the icon-tile gradient endpoints.
 function shade(hex: string, percent: number): string {
   const h = hex.replace("#", "");
   const n = parseInt(h.length === 3 ? h.split("").map((c) => c + c).join("") : h, 16);
@@ -341,8 +357,8 @@ function shade(hex: string, percent: number): string {
   let g = (n >> 8) & 0xff;
   let b = n & 0xff;
   const f = percent / 100;
-  r = Math.max(0, Math.min(255, Math.round(r + r * f)));
-  g = Math.max(0, Math.min(255, Math.round(g + g * f)));
-  b = Math.max(0, Math.min(255, Math.round(b + b * f)));
+  r = Math.max(0, Math.min(255, Math.round(r + (percent > 0 ? (255 - r) * f : r * f))));
+  g = Math.max(0, Math.min(255, Math.round(g + (percent > 0 ? (255 - g) * f : g * f))));
+  b = Math.max(0, Math.min(255, Math.round(b + (percent > 0 ? (255 - b) * f : b * f))));
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
