@@ -8,6 +8,24 @@ Configuration lives in `capacitor.config.ts` (app id `com.kolotechnology.rizzla`
 
 ---
 
+## 0. Store-readiness checklist (already implemented in code)
+
+| Requirement | Status | Where |
+| --- | --- | --- |
+| 18+ age gate + ID/selfie KYC within 7 days | Done | `/verify`, `KycGate` |
+| In-app account deletion (Apple 5.1.1(v), Play data deletion) | Done | Profile → “Delete my account” (`src/lib/account.functions.ts`) |
+| No external purchase links inside the iOS build (Apple 3.1.1) | Done | `useIosBillingRestricted()` hides Stripe CTAs on `/coins` and `/upgrade` |
+| Privacy Policy + Terms reachable without an account | Done | `/legal/privacy`, `/legal/terms` |
+| Report / block + moderation policy | Done | `/legal/acceptable-use`, `/legal/trust` |
+| Support contact | Done | rizzchatsupport@gmail.com, `/legal/contact` |
+| Safe-area insets, status bar, hardware back button, haptics | Done | `src/lib/native.ts`, `src/styles.css` |
+| PWA manifest + icons (Windows/PWABuilder) | Done | `public/manifest.webmanifest` |
+
+Before each store submission: publish the web app first (native shells load the
+live site), then verify the shell against production.
+
+---
+
 ## 1. iOS (Apple App Store)
 
 Requires a Mac with Xcode + an Apple Developer account ($99/yr).
@@ -22,16 +40,21 @@ npx cap open ios
 
 In Xcode:
 1. Signing & Capabilities → select your Team.
-2. Set the app icon (use `public/icon-512.png` in an icon set) and launch screen.
-3. Product → Archive → Distribute App → App Store Connect.
+2. Set the app icon (use `public/icon-512.png`, exported to a 1024×1024 icon set)
+   and the launch screen background `#0B0B12`.
+3. Info.plist: add `NSCameraUsageDescription` and `NSPhotoLibraryUsageDescription`
+   ("Used to upload your profile photo, videos and ID verification selfie").
+4. Product → Archive → Distribute App → App Store Connect.
 
-App Review notes to include:
-- 18+ app; age gate + ID/selfie KYC within 7 days of signup.
-- Reviewer account: `stripe.review@rizzlachat.com` (pre-verified).
-- Set age rating to 17+/18+ and describe the paid Friends List model.
-- **Important:** Apple requires in-app purchases for digital goods. Either
-  add StoreKit products for coins/Gold/Diamond in the iOS build, or ship the
-  iOS app without in-app purchase entry points and keep billing on the web.
+App Store Connect:
+- Age rating **17+/18+**; declare frequent/intense mature themes.
+- Data safety: photos, ID documents, chat content, payment records.
+- Review notes: reviewer account `stripe.review@rizzlachat.com` (pre-verified KYC),
+  describe the paid Friends List model and that purchases are web-only in the iOS build.
+
+**Billing:** the iOS build hides all coin/membership purchase entry points, so no
+StoreKit products are required. If you later want to sell inside iOS, add StoreKit
+IAP products and flip `useIosBillingRestricted()` to allow them.
 
 ## 2. Android (Google Play)
 
@@ -43,14 +66,19 @@ npx cap sync android
 npx cap open android
 ```
 
-In Android Studio: set icons, then Build → Generate Signed Bundle (AAB) and
-upload to Play Console. Complete the Data safety form and set content rating
-to Mature 17+.
+In Android Studio: set adaptive icons, then Build → Generate Signed Bundle (AAB).
+Keep the keystore safe — it can never be replaced.
+
+In Play Console:
+- Content rating: **Mature 17+**; complete the Data safety form (photos, ID docs,
+  messages, purchase history; data is encrypted in transit and deletable in-app).
+- Add the account deletion URL: `https://rizzlachat.com/profile`.
+- Play billing: Google allows external payments for user-to-user services, but if
+  Play flags coins as digital goods, gate them the same way as iOS.
 
 ## 3. Windows (Microsoft Store)
 
-The app already ships a PWA manifest (`public/manifest.webmanifest`) and a
-service worker, so Windows packaging goes through PWABuilder — no extra code:
+The app already ships a PWA manifest, so Windows packaging goes through PWABuilder:
 
 1. Go to https://www.pwabuilder.com and enter `https://rizzlachat.com`.
 2. Choose **Windows** → Generate package (MSIX).
@@ -58,18 +86,13 @@ service worker, so Windows packaging goes through PWABuilder — no extra code:
 
 Users can also install directly from Edge/Chrome via "Install app".
 
----
+## 4. Store listing copy
 
-## Updating the native apps
-
-- Content/UI change → just publish the web app. Done.
-- Native config, plugins, icons, or capacitor version change →
-  `npx cap sync` then rebuild and resubmit.
-
-## Local device testing against a dev server
-
-```bash
-CAP_SERVER_URL=http://192.168.1.20:8080 npx cap sync
-```
-(Use your machine's LAN IP; set `cleartext: true` in `capacitor.config.ts`
-temporarily for plain HTTP.)
+- **Name:** Rizzla AI
+- **Subtitle:** Real conversations with verified hosts
+- **Description:** Rizzla AI is an 18+ social chat app where members join a host's
+  Friends List for private chats, group rooms and gifts. Every account passes ID
+  verification, hosts set their own price, and payments are handled securely.
+- **Keywords:** chat, social, creators, friends list, rooms, gifts, dating chat
+- **Support URL:** https://rizzlachat.com/legal/contact
+- **Privacy URL:** https://rizzlachat.com/legal/privacy
