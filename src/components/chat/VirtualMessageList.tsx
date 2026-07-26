@@ -20,12 +20,18 @@ export function VirtualMessageList({
   typingName,
   header,
   empty,
+  reactions,
+  onReact,
 }: {
   items: ChatItem[];
   typingName?: string | null;
   header?: ReactNode;
   empty?: ReactNode;
+  /** messageId -> emojis attached to it */
+  reactions?: Record<string, string[]>;
+  onReact?: (messageId: string, emoji: string, origin: { x: number; y: number }) => void;
 }) {
+
   const parentRef = useRef<HTMLDivElement | null>(null);
   const [stick, setStick] = useState(true);
 
