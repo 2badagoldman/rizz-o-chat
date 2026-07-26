@@ -24,7 +24,7 @@ const PLANS = [
     name: 'Rizz Gold',
     price: '$9.99',
     icon: Star,
-    perks: ['Unlimited discovery scroll', 'AI copilot boosts', 'Priority chat placement', 'No ads'],
+    perks: ['Unlock any host Friends List', 'Unlimited discovery scroll', 'AI copilot boosts', 'Priority chat placement', 'No ads'],
   },
   {
     id: 'rizz_vip_monthly',
