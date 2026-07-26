@@ -329,7 +329,10 @@ function HostChat() {
 
         <VirtualMessageList
           items={items}
+          reactions={msgReactions}
+          onReact={reactToMessage}
           typingName={typing ? host.name : null}
+
           header={
             aiHost && !user ? (
               <div className="rounded-2xl border border-primary/30 bg-primary/5 p-3 text-[11px] text-primary flex items-center gap-2">
