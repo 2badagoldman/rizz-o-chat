@@ -26,6 +26,17 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
   const [failure, setFailure] = useState<string | null>(null);
   const failedRef = useRef(false);
 
+  // getStripe() throws when VITE_PAYMENTS_CLIENT_TOKEN is missing/unrecognized,
+  // which would blow up render before fetchClientSecret ever runs.
+  let stripePromise: ReturnType<typeof getStripe> | null = null;
+  let configError: string | null = null;
+  try {
+    stripePromise = getStripe();
+  } catch (err) {
+    configError = err instanceof Error ? err.message : String(err);
+  }
+
+
   const fetchClientSecret = useCallback(async (): Promise<string> => {
     const returnUrl =
       props.returnUrl ?? `${window.location.origin}/checkout/return?session_id={CHECKOUT_SESSION_ID}`;
