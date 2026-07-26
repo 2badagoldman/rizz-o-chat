@@ -159,19 +159,17 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
 
       <div className="relative flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div
-            className={`relative grid place-items-center transition-transform duration-500 group-hover:scale-110 ${
-              diamond
-                ? 'h-12 w-12 rotate-45 rounded-[0.85rem] bg-gradient-to-br from-sky-200 via-white to-pink-200 shadow-lg ring-1 ring-white/80'
-                : 'h-12 w-12 rounded-2xl bg-gradient-brand-soft ring-1 ring-primary/20'
-            }`}
-          >
-            <Icon className={diamond ? '-rotate-45 h-5 w-5 text-sky-600' : 'h-5 w-5 text-primary'} />
-          </div>
+          {diamond ? (
+            <div className="relative grid h-12 w-12 place-items-center transition-transform duration-500 group-hover:scale-110">
+              <DiamondGem className="h-11 w-11" />
+            </div>
+          ) : (
+            <GoldMedallion className="h-12 w-12 transition-transform duration-500 group-hover:scale-110" />
+          )}
           <div>
             <h2
               className={`text-lg leading-tight font-black ${
-                diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : ''
+                diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : 'gold-text'
               }`}
             >
               {plan.name}
@@ -179,9 +177,13 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
             <p className="mt-0.5 text-[11px] text-muted-foreground">{plan.tagline}</p>
           </div>
         </div>
-        {diamond && (
+        {diamond ? (
           <span className="chip-shimmer shrink-0 rounded-full border border-white/70 bg-white/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-sky-700">
             Diamond
+          </span>
+        ) : (
+          <span className="gold-surface shrink-0 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#5e3a04] shadow-[inset_0_1px_0_rgba(255,255,255,.8)]">
+            Gold
           </span>
         )}
       </div>
@@ -189,13 +191,14 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
       <div className="relative mt-5 flex items-end gap-1">
         <span
           className={`text-4xl font-black tracking-tight ${
-            diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : ''
+            diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : 'gold-text'
           }`}
         >
           {plan.price}
         </span>
         <span className="pb-1.5 text-xs font-semibold text-muted-foreground">/week</span>
       </div>
+
 
       {plan.includesNote && (
         <p className="relative mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/60 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-sky-700">
