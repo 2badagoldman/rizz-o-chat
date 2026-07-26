@@ -315,18 +315,41 @@ export const getCheckoutStatus = createServerFn({ method: 'POST' })
     try {
       const stripe = createStripeClient(data.environment);
       const session = await stripe.checkout.sessions.retrieve(data.sessionId);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      const auditKind = (session.metadata?.kind === 'friends_list' || session.metadata?.kind === 'tip'
+        ? session.metadata.kind
+        : 'catalog') as 'catalog' | 'friends_list' | 'tip';
+      const audit = (status: string, errorMessage?: string) =>
+        logPaymentEvent({
+          userId: context.userId,
+          sessionId: session.id,
+          paymentIntentId: typeof session.payment_intent === 'string' ? session.payment_intent : null,
+          kind: auditKind,
+          status,
+          amountCents: session.amount_total ?? null,
+          currency: session.currency ?? null,
+          environment: data.environment,
+          errorMessage: errorMessage ?? null,
+          details: { session_status: session.status, payment_status: session.payment_status },
+        });
 
       // Only the buyer may inspect their own session.
       if (session.metadata?.userId && session.metadata.userId !== context.userId) {
+        await audit('access_denied', 'Session belongs to another account');
         return { state: 'unknown', reason: 'This checkout belongs to another account.' };
       }
 
       if (session.payment_status === 'paid' || session.payment_status === 'no_payment_required') {
+        await audit('paid');
         return { state: 'paid' };
       }
-      if (session.status === 'open') return { state: 'processing' };
+      if (session.status === 'open') {
+        await audit('processing');
+        return { state: 'processing' };
+      }
       if (session.payment_status === 'unpaid' && session.status === 'complete') {
         // Async payment (e.g. bank debit) still settling.
+        await audit('processing');
         return { state: 'processing' };
       }
 
@@ -345,16 +368,21 @@ export const getCheckoutStatus = createServerFn({ method: 'POST' })
         };
       }
 
-      return {
-        state: 'failed',
-        reason:
-          session.status === 'expired'
-            ? 'The checkout session expired before payment completed.'
-            : 'The payment was not completed.',
-        retry,
-      };
+      const reason =
+        session.status === 'expired'
+          ? 'The checkout session expired before payment completed.'
+          : 'The payment was not completed.';
+      await audit(session.status === 'expired' ? 'expired' : 'failed', reason);
+      return { state: 'failed', reason, retry };
     } catch (error) {
       console.error(`[payments] getCheckoutStatus failed:`, error);
+      const { logPaymentEvent } = await import('@/lib/payment-audit.server');
+      await logPaymentEvent({
+        userId: context.userId, sessionId: data.sessionId, kind: 'catalog',
+        status: 'status_lookup_failed', environment: data.environment,
+        errorMessage: getStripeErrorMessage(error),
+      });
       return { state: 'unknown', reason: getStripeErrorMessage(error) };
     }
+
   });
