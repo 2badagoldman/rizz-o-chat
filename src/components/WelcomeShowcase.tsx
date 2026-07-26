@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { X, Volume2, VolumeX, Sparkles, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getShowcaseReel, logShowcaseEvent, type ReelItem } from "@/lib/showcase-brain.functions";
 import { track } from "@/lib/analytics";
