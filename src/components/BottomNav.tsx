@@ -15,10 +15,14 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-1/2 z-40 w-full max-w-[480px] -translate-x-1/2 border-t border-border bg-card/95 backdrop-blur"
+      className="fixed bottom-3 left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[440px] -translate-x-1/2 overflow-hidden rounded-[1.75rem] border border-border/60 bg-card/65 shadow-pop backdrop-blur-2xl"
       aria-label="Primary"
     >
-      <ul className="grid grid-cols-5">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-brand opacity-70"
+      />
+      <ul className="relative grid grid-cols-5">
         {tabs.map((t) => {
           const Icon = t.icon;
           const active = pathname === t.to || (t.to !== "/" && pathname.startsWith(t.to));
@@ -33,10 +37,16 @@ export function BottomNav() {
                     router.invalidate();
                   }
                 }}
-                className="flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium transition-colors"
+                className="press-spring relative flex flex-col items-center gap-1 py-2.5 text-[10.5px] font-semibold"
                 style={{ color: active ? "var(--color-primary)" : "var(--color-muted-foreground)" }}
               >
-                <Icon className="h-5 w-5" strokeWidth={active ? 2.4 : 2} />
+                <span
+                  className={`grid h-8 w-8 place-items-center rounded-2xl transition-all duration-300 ${
+                    active ? "bg-gradient-brand-soft ring-1 ring-primary/25 scale-105" : "scale-100"
+                  }`}
+                >
+                  <Icon className="h-[18px] w-[18px]" strokeWidth={active ? 2.5 : 2} />
+                </span>
                 <span>{t.label}</span>
               </Link>
             </li>
@@ -45,4 +55,5 @@ export function BottomNav() {
       </ul>
     </nav>
   );
+
 }

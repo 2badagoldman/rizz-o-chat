@@ -266,6 +266,35 @@
   animation: shimmer 3.5s linear infinite;
 }
 
+/* Frosted surface used across pages for an iOS-grade depth pass */
+@utility glass-card {
+  position: relative;
+  border-radius: 1.5rem;
+  border: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
+  background: color-mix(in oklab, var(--card) 62%, transparent);
+  backdrop-filter: blur(22px) saturate(150%);
+  box-shadow: var(--shadow-card);
+}
+
+/* Section eyebrow used above headings */
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--color-border) 70%, transparent);
+  background: color-mix(in oklab, var(--card) 62%, transparent);
+  backdrop-filter: blur(18px);
+  padding: 0.25rem 0.75rem;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+
+
 @layer base {
   * { border-color: var(--color-border); }
 
