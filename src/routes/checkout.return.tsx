@@ -117,7 +117,11 @@ function CheckoutReturn() {
               )}
             </div>
             <h1 className="mt-5 text-[1.5rem] font-black tracking-tight">
-              {processing ? 'Payment still processing' : "Payment didn't go through"}
+              {processing
+                ? 'Payment still processing'
+                : failed
+                  ? "Payment didn't go through"
+                  : "We couldn't confirm this payment"}
             </h1>
             <p className="mx-auto mt-2 max-w-[38ch] text-sm text-muted-foreground">
               {processing
@@ -126,7 +130,7 @@ function CheckoutReturn() {
                   ? status.reason
                   : 'We could not confirm this payment.'}
             </p>
-            {!processing && (
+            {failed && (
               <p className="mx-auto mt-2 max-w-[38ch] text-[11.5px] text-muted-foreground">
                 You have not been charged. Common causes: the card was declined, 3D Secure was cancelled, or the
                 checkout window timed out.
