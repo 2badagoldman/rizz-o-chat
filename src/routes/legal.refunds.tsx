@@ -19,7 +19,7 @@ export const Route = createFileRoute("/legal/refunds")({
     ],
     links: [{ rel: "canonical", href: "https://rizzlachat.com/legal/refunds" }],
   }),
-  component: Refunds;
+  component: Refunds,
 });
 
 function Refunds() {

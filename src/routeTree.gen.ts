@@ -23,10 +23,14 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RoomsIndexRouteImport } from './routes/rooms.index'
+import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as SoonFeatureRouteImport } from './routes/soon.$feature'
 import { Route as RoomsNewRouteImport } from './routes/rooms.new'
 import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
+import { Route as LegalTermsRouteImport } from './routes/legal.terms'
+import { Route as LegalRefundsRouteImport } from './routes/legal.refunds'
+import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as InviteCodeRouteImport } from './routes/invite.$code'
 import { Route as HostRoomsRouteImport } from './routes/host.rooms'
 import { Route as HostPricingRouteImport } from './routes/host.pricing'
@@ -126,6 +130,11 @@ const RoomsIndexRoute = RoomsIndexRouteImport.update({
   path: '/rooms/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalIndexRoute = LegalIndexRouteImport.update({
+  id: '/legal/',
+  path: '/legal/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -144,6 +153,21 @@ const RoomsNewRoute = RoomsNewRouteImport.update({
 const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
   id: '/rooms/$roomId',
   path: '/rooms/$roomId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalTermsRoute = LegalTermsRouteImport.update({
+  id: '/legal/terms',
+  path: '/legal/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRefundsRoute = LegalRefundsRouteImport.update({
+  id: '/legal/refunds',
+  path: '/legal/refunds',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalPrivacyRoute = LegalPrivacyRouteImport.update({
+  id: '/legal/privacy',
+  path: '/legal/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InviteCodeRoute = InviteCodeRouteImport.update({
@@ -327,10 +351,14 @@ export interface FileRoutesByFullPath {
   '/host/pricing': typeof HostPricingRoute
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/refunds': typeof LegalRefundsRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
   '/admin/': typeof AdminIndexRoute
+  '/legal/': typeof LegalIndexRoute
   '/rooms/': typeof RoomsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -374,10 +402,14 @@ export interface FileRoutesByTo {
   '/host/pricing': typeof HostPricingRoute
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/refunds': typeof LegalRefundsRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
   '/admin': typeof AdminIndexRoute
+  '/legal': typeof LegalIndexRoute
   '/rooms': typeof RoomsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -423,10 +455,14 @@ export interface FileRoutesById {
   '/host/pricing': typeof HostPricingRoute
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/refunds': typeof LegalRefundsRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
   '/admin/': typeof AdminIndexRoute
+  '/legal/': typeof LegalIndexRoute
   '/rooms/': typeof RoomsIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -473,10 +509,14 @@ export interface FileRouteTypes {
     | '/host/pricing'
     | '/host/rooms'
     | '/invite/$code'
+    | '/legal/privacy'
+    | '/legal/refunds'
+    | '/legal/terms'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
     | '/admin/'
+    | '/legal/'
     | '/rooms/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -520,10 +560,14 @@ export interface FileRouteTypes {
     | '/host/pricing'
     | '/host/rooms'
     | '/invite/$code'
+    | '/legal/privacy'
+    | '/legal/refunds'
+    | '/legal/terms'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
     | '/admin'
+    | '/legal'
     | '/rooms'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -568,10 +612,14 @@ export interface FileRouteTypes {
     | '/host/pricing'
     | '/host/rooms'
     | '/invite/$code'
+    | '/legal/privacy'
+    | '/legal/refunds'
+    | '/legal/terms'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
     | '/admin/'
+    | '/legal/'
     | '/rooms/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
@@ -609,9 +657,13 @@ export interface RootRouteChildren {
   HostPricingRoute: typeof HostPricingRoute
   HostRoomsRoute: typeof HostRoomsRoute
   InviteCodeRoute: typeof InviteCodeRoute
+  LegalPrivacyRoute: typeof LegalPrivacyRoute
+  LegalRefundsRoute: typeof LegalRefundsRoute
+  LegalTermsRoute: typeof LegalTermsRoute
   RoomsRoomIdRoute: typeof RoomsRoomIdRoute
   RoomsNewRoute: typeof RoomsNewRoute
   SoonFeatureRoute: typeof SoonFeatureRoute
+  LegalIndexRoute: typeof LegalIndexRoute
   RoomsIndexRoute: typeof RoomsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
@@ -721,6 +773,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoomsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/legal/': {
+      id: '/legal/'
+      path: '/legal'
+      fullPath: '/legal/'
+      preLoaderRoute: typeof LegalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/'
@@ -747,6 +806,27 @@ declare module '@tanstack/react-router' {
       path: '/rooms/$roomId'
       fullPath: '/rooms/$roomId'
       preLoaderRoute: typeof RoomsRoomIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/terms': {
+      id: '/legal/terms'
+      path: '/legal/terms'
+      fullPath: '/legal/terms'
+      preLoaderRoute: typeof LegalTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/refunds': {
+      id: '/legal/refunds'
+      path: '/legal/refunds'
+      fullPath: '/legal/refunds'
+      preLoaderRoute: typeof LegalRefundsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/privacy': {
+      id: '/legal/privacy'
+      path: '/legal/privacy'
+      fullPath: '/legal/privacy'
+      preLoaderRoute: typeof LegalPrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/invite/$code': {
@@ -1014,9 +1094,13 @@ const rootRouteChildren: RootRouteChildren = {
   HostPricingRoute: HostPricingRoute,
   HostRoomsRoute: HostRoomsRoute,
   InviteCodeRoute: InviteCodeRoute,
+  LegalPrivacyRoute: LegalPrivacyRoute,
+  LegalRefundsRoute: LegalRefundsRoute,
+  LegalTermsRoute: LegalTermsRoute,
   RoomsRoomIdRoute: RoomsRoomIdRoute,
   RoomsNewRoute: RoomsNewRoute,
   SoonFeatureRoute: SoonFeatureRoute,
+  LegalIndexRoute: LegalIndexRoute,
   RoomsIndexRoute: RoomsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
@@ -1028,3 +1112,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
