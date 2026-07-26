@@ -168,7 +168,7 @@ function HostChat() {
   return (
     <AppShell hideNav>
       {welcome ? (
-        <div className="fixed inset-0 z-[120] flex flex-col items-center justify-center bg-gradient-to-br from-primary/90 via-fuchsia-500/80 to-rose-500/90 text-white animate-in fade-in duration-500">
+        <div onClick={() => setWelcome(false)} className="fixed inset-0 z-[120] flex cursor-pointer flex-col items-center justify-center bg-gradient-to-br from-primary/90 via-fuchsia-500/80 to-rose-500/90 text-white animate-in fade-in duration-300">
           <div className="relative">
             <img
               src={hostAvatar(host.id)}
