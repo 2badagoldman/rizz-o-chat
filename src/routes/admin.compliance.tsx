@@ -162,11 +162,23 @@ function ComplianceReportPage() {
         ) : (
           <ul className="divide-y divide-border">
             {rows.map((r) => (
-              <Row key={r.id} row={r} />
+              <Row
+                key={r.id}
+                row={r}
+                onMessage={() =>
+                  setContact({
+                    id: r.id,
+                    name: r.display_name,
+                    avatar_url: r.avatar_url,
+                    subtitle: `${r.account_type === "host" ? "Host" : "Member"} · verification ${r.kyc_status}`,
+                  })
+                }
+              />
             ))}
           </ul>
         )}
       </div>
+      <AdminContactPanel target={contact} onClose={() => setContact(null)} />
     </div>
   );
 }
