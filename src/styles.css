@@ -420,9 +420,40 @@
   .press-spring:hover { transform: translateY(-3px) scale(1.015); }
   .press-spring:active { transform: translateY(0) scale(.978); }
 
-  @media (prefers-reduced-motion: reduce) {
-    .sheen-sweep::after, .bubble, .facet-spin, .glow-breathe { animation: none; }
+  /* Checkout overlay transitions */
+  @keyframes overlay-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes overlay-fade-out { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes sheet-in {
+    from { opacity: 0; transform: translateY(28px) scale(.975); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
   }
+  @keyframes sheet-out {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to   { opacity: 0; transform: translateY(22px) scale(.98); }
+  }
+  .overlay-in  { animation: overlay-fade-in 260ms ease both; }
+  .overlay-out { animation: overlay-fade-out 220ms ease both; }
+  .sheet-in    { animation: sheet-in 420ms cubic-bezier(.2,.9,.25,1) both; }
+  .sheet-out   { animation: sheet-out 220ms cubic-bezier(.4,0,1,1) both; }
+
+  /* Confirmation seal */
+  @keyframes seal-pop {
+    0%   { opacity: 0; transform: scale(.55) rotate(-25deg); }
+    60%  { opacity: 1; transform: scale(1.12) rotate(6deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+  .seal-pop { animation: seal-pop 780ms cubic-bezier(.2,1.1,.3,1) both; }
+  @keyframes ring-pulse {
+    0%   { opacity: .65; transform: scale(.8); }
+    100% { opacity: 0; transform: scale(1.9); }
+  }
+  .ring-pulse { animation: ring-pulse 2.6s ease-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sheen-sweep::after, .bubble, .facet-spin, .glow-breathe, .ring-pulse { animation: none; }
+    .overlay-in, .overlay-out, .sheet-in, .sheet-out, .seal-pop { animation-duration: 1ms; }
+  }
+
 
   /* Scroll-reveal — apply via [data-reveal]; toggled by observer below.
      Fallback: if JS never toggles it, still animate on load. */

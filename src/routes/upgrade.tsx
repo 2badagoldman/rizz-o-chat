@@ -17,6 +17,8 @@ export const Route = createFileRoute('/upgrade')({
   component: UpgradePage,
 });
 
+type Perk = { label: string; detail: string };
+
 type Plan = {
   id: string;
   name: string;
@@ -24,7 +26,8 @@ type Plan = {
   tagline: string;
   icon: typeof Star;
   diamond?: boolean;
-  perks: string[];
+  includesNote?: string;
+  perks: Perk[];
 };
 
 const PLANS: Plan[] = [
@@ -34,7 +37,13 @@ const PLANS: Plan[] = [
     price: '$9.99',
     tagline: 'The key that opens every Friends List',
     icon: Star,
-    perks: ['Unlock any host Friends List', 'Unlimited discovery scroll', 'AI copilot boosts', 'Priority chat placement', 'No ads'],
+    perks: [
+      { label: 'Unlock any Friends List', detail: 'No per-host unlock fees — every list opens with your membership.' },
+      { label: 'Unlimited discovery', detail: 'Scroll all 100+ hosts with no daily cap.' },
+      { label: 'AI copilot boosts', detail: 'Rizz AI drafts openers and replies that actually land.' },
+      { label: 'Priority chat placement', detail: 'Your messages sit at the top of a host’s inbox.' },
+      { label: 'Zero ads', detail: 'No promos, no interruptions, ever.' },
+    ],
   },
   {
     id: 'rizz_diamond_weekly',
@@ -43,9 +52,17 @@ const PLANS: Plan[] = [
     tagline: 'Gold + Diamond, unlocked together',
     icon: Gem,
     diamond: true,
-    perks: ['Unlocks Rizz Gold + Diamond tiers', 'Diamond badge on your profile', '2,000 coins every week', 'Top-of-list visibility', 'Early access to new hosts'],
+    includesNote: 'Everything in Rizz Gold, plus:',
+    perks: [
+      { label: '2,000 coins every week', detail: 'Worth ~$20 — gifts, unlocks and boosts on the house.' },
+      { label: 'Diamond badge', detail: 'A prism badge on your profile and in every room.' },
+      { label: 'Top-of-list visibility', detail: 'Hosts see you first in DMs, rooms and invites.' },
+      { label: 'Early access to new hosts', detail: '24-hour head start before anyone else can chat.' },
+      { label: 'Concierge support', detail: 'Priority replies from our team, any day of the week.' },
+    ],
   },
 ];
+
 
 function Bubbles() {
   const bubbles = [
@@ -180,24 +197,35 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
         <span className="pb-1.5 text-xs font-semibold text-muted-foreground">/week</span>
       </div>
 
-      <ul className="relative mt-5 space-y-2.5 text-sm">
-        {plan.perks.map((line, i) => (
+      {plan.includesNote && (
+        <p className="relative mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/60 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-sky-700">
+          <Check className="h-3 w-3" strokeWidth={3.5} /> {plan.includesNote}
+        </p>
+      )}
+
+      <ul className="relative mt-4 space-y-3 text-sm">
+        {plan.perks.map((perk, i) => (
           <li
-            key={line}
-            className="flex items-center gap-2.5 transition-transform duration-300 group-hover:translate-x-0.5"
-            style={{ transitionDelay: `${i * 40}ms` }}
+            key={perk.label}
+            className="flex items-start gap-2.5 transition-transform duration-500 group-hover:translate-x-0.5"
+            style={{ transitionDelay: `${i * 45}ms` }}
           >
             <span
-              className={`grid h-5 w-5 shrink-0 place-items-center rounded-full ${
+              className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full transition-transform duration-500 group-hover:scale-110 ${
                 diamond ? 'bg-gradient-to-br from-sky-400 to-fuchsia-500 text-white' : 'bg-primary/12 text-primary'
               }`}
+              style={{ transitionDelay: `${i * 45}ms` }}
             >
               <Check className="h-3 w-3" strokeWidth={3.5} />
             </span>
-            <span className="text-foreground/90">{line}</span>
+            <span className="min-w-0">
+              <span className="block font-bold leading-snug text-foreground">{perk.label}</span>
+              <span className="block text-[11.5px] leading-snug text-muted-foreground">{perk.detail}</span>
+            </span>
           </li>
         ))}
       </ul>
+
 
       <button
         onClick={onSubscribe}
@@ -244,7 +272,18 @@ function UpgradePage() {
 
         <div className="relative space-y-5">
           {PLANS.map((p, i) => (
-            <PlanCard key={p.id} plan={p} index={i} onSubscribe={() => openCheckout({ kind: 'catalog', priceId: p.id })} />
+            <PlanCard
+              key={p.id}
+              plan={p}
+              index={i}
+              onSubscribe={() =>
+                openCheckout(
+                  { kind: 'catalog', priceId: p.id },
+                  { title: p.name, subtitle: `${p.price} per week · cancel anytime`, diamond: p.diamond },
+                )
+              }
+            />
+
           ))}
         </div>
 
