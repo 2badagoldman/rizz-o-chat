@@ -10,6 +10,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { dmSendMessage, dmFetchThread } from "@/lib/dm.functions";
 import { toast } from "sonner";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
+import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
+import { useChatAccess } from "@/hooks/useChatAccess";
 
 export const Route = createFileRoute("/chat/user/$userId")({
   head: () => ({ meta: [
@@ -30,6 +32,7 @@ function UserChat() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const peerOnline = useIsOnline(userId);
+  const { locked, onTrial, daysLeft } = useChatAccess();
 
 
   useEffect(() => {
@@ -98,7 +101,7 @@ function UserChat() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const text = input.trim();
-    if (!text || busy) return;
+    if (!text || busy || locked) return;
     setBusy(true);
     const tempId = `pending:${Date.now()}`;
     setInput("");
@@ -158,18 +161,21 @@ function UserChat() {
           }
         />
 
+        <ChatTrialBanner locked={locked} onTrial={onTrial} daysLeft={daysLeft} />
+
         <form onSubmit={submit} className="sticky bottom-0 flex items-end gap-2 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submit(e); } }}
-            placeholder={`Message ${peer?.display_name ?? "user"}…`}
+            disabled={locked}
+            placeholder={locked ? "Upgrade to Rizz Gold to keep chatting…" : `Message ${peer?.display_name ?? "user"}…`}
             rows={1}
             className="min-h-[44px] max-h-32 flex-1 resize-none rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
           />
           <button
             type="submit"
-            disabled={busy || !input.trim()}
+            disabled={busy || locked || !input.trim()}
             className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
             aria-label="Send"
           >
