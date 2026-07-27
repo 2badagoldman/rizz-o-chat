@@ -9,6 +9,7 @@ import { Circle, Search, MessageCircle, Sparkles } from "lucide-react";
 import { dmListThreads } from "@/lib/dm.functions";
 import { searchUsers } from "@/lib/admin-data.functions";
 import { pageHead } from "@/lib/seo";
+import { OnlineDot, useOnlineUsers } from "@/lib/presence";
 
 export const Route = createFileRoute("/chats")({
   head: () => pageHead({
@@ -65,6 +66,7 @@ function Chats() {
   const [q, setQ] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [searching, setSearching] = useState(false);
+  const onlineUsers = useOnlineUsers();
 
   useEffect(() => {
     if (!user) return;
@@ -224,8 +226,11 @@ function Chats() {
                   onClick={() => navigate({ to: "/chat/user/$userId", params: { userId: p.id } })}
                   className="flex w-full items-center gap-3 rounded-2xl border border-border bg-card p-3 text-left hover:bg-primary/5"
                 >
-                  <div className="h-11 w-11 shrink-0 rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
-                    {(p.display_name ?? "?").slice(0, 1).toUpperCase()}
+                  <div className="relative shrink-0">
+                    <div className="h-11 w-11 rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
+                      {(p.display_name ?? "?").slice(0, 1).toUpperCase()}
+                    </div>
+                    <OnlineDot online={onlineUsers.has(p.id)} className="absolute -bottom-0.5 -right-0.5" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-semibold">{p.display_name ?? "Unnamed"}</p>
@@ -257,8 +262,11 @@ function Chats() {
                     params={{ userId: t.peerId }}
                     className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3 hover:bg-primary/5"
                   >
-                    <div className="h-12 w-12 shrink-0 rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
-                      {(t.profile?.display_name ?? "?").slice(0, 1).toUpperCase()}
+                    <div className="relative shrink-0">
+                      <div className="h-12 w-12 rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
+                        {(t.profile?.display_name ?? "?").slice(0, 1).toUpperCase()}
+                      </div>
+                      <OnlineDot online={onlineUsers.has(t.peerId)} className="absolute -bottom-0.5 -right-0.5" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
