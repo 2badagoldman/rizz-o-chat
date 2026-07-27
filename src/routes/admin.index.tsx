@@ -108,9 +108,124 @@ function AdminDashboard() {
               </div>
             </section>
           </div>
+          <WaitlistPanel />
         </>
       )}
     </div>
+  );
+}
+
+type WRow = { id: string; feature: string; email: string; note: string | null; created_at: string };
+
+function WaitlistPanel() {
+  const fetchRows = useServerFn(listEarlyAccessSignups);
+  const [rows, setRows] = useState<WRow[]>([]);
+  const [live, setLive] = useState(false);
+
+  const load = useCallback(() => {
+    fetchRows()
+      .then((r) => setRows(r as WRow[]))
+      .catch(() => {});
+  }, [fetchRows]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel("admin-dashboard-waitlist")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "early_access_signups" },
+        (payload) => {
+          const row = (payload.new ?? payload.old) as WRow | undefined;
+          if (!row?.id) return;
+          setRows((prev) => {
+            const rest = prev.filter((r) => r.id !== row.id);
+            if (payload.eventType === "DELETE") return rest;
+            return [row, ...rest].sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at));
+          });
+        },
+      )
+      .subscribe((status) => setLive(status === "SUBSCRIBED"));
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  const byFeature = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const r of rows) m.set(r.feature, (m.get(r.feature) ?? 0) + 1);
+    return Array.from(m.entries()).sort((a, b) => b[1] - a[1]);
+  }, [rows]);
+
+  const comments = rows.filter((r) => (r.note ?? "").trim().length > 0);
+  const last24 = rows.filter((r) => Date.now() - +new Date(r.created_at) < 86_400_000).length;
+
+  return (
+    <section className="mt-5 rounded-2xl border border-border bg-card p-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h2 className="flex items-center gap-1.5 text-sm font-semibold">
+          <Inbox className="h-4 w-4" /> Waitlist — {rows.length} total · {last24} in last 24h
+        </h2>
+        <div className="flex items-center gap-2">
+          <span
+            className={
+              "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-semibold " +
+              (live
+                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600"
+                : "border-border text-muted-foreground")
+            }
+          >
+            <Radio className={"h-3 w-3 " + (live ? "animate-pulse" : "")} />
+            {live ? "Live" : "…"}
+          </span>
+          <Link to="/admin/early-access" className="text-xs font-semibold text-primary hover:underline">
+            View all
+          </Link>
+        </div>
+      </div>
+
+      {rows.length === 0 ? (
+        <p className="mt-3 text-xs text-muted-foreground">No waitlist signups yet.</p>
+      ) : (
+        <div className="mt-3 grid gap-4 lg:grid-cols-2">
+          <div>
+            <p className="text-[11px] uppercase tracking-wider text-muted-foreground">By category</p>
+            <div className="mt-2 space-y-1.5">
+              {byFeature.map(([f, n]) => (
+                <div key={f} className="flex items-center justify-between text-sm">
+                  <span className="capitalize text-muted-foreground">{f.replace(/[-_]/g, " ")}</span>
+                  <span className="font-mono">{n}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="flex items-center gap-1 text-[11px] uppercase tracking-wider text-muted-foreground">
+              <MessageSquare className="h-3 w-3" /> Latest signups &amp; comments
+            </p>
+            <div className="mt-2 space-y-1.5">
+              {rows.slice(0, 6).map((r) => (
+                <div key={r.id} className="border-b border-border/50 pb-1.5 text-xs">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="rounded-full bg-gradient-brand-soft px-2 py-0.5 text-[10px] font-semibold uppercase text-primary">
+                      {r.feature}
+                    </span>
+                    <span className="font-mono break-all">{r.email}</span>
+                  </div>
+                  {r.note?.trim() && <p className="mt-0.5 text-muted-foreground">{r.note}</p>}
+                </div>
+              ))}
+              {comments.length > 0 && (
+                <p className="pt-1 text-[11px] text-muted-foreground">{comments.length} with comments</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
 
