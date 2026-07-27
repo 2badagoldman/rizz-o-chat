@@ -29,6 +29,12 @@ export const Route = createFileRoute("/api/host-chat")({
         const authResult = await requireAuthedUser(request);
         if (authResult instanceof Response) return authResult;
 
+        const { evaluateChatAccess, CHAT_LOCKED_MESSAGE } = await import("@/lib/chat-access.server");
+        const access = await evaluateChatAccess(authResult.userId);
+        if (!access.allowed) return new Response(CHAT_LOCKED_MESSAGE, { status: 402 });
+
+
+
         const body = (await request.json()) as { messages?: UIMessage[]; hostId?: string };
         if (!Array.isArray(body.messages)) {
           return new Response("messages required", { status: 400 });
