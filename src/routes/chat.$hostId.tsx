@@ -456,7 +456,7 @@ function HostChat() {
             disabled={chatLocked}
             placeholder={chatLocked ? "Upgrade to Rizz Gold to keep chatting…" : `Message ${host.name}…`}
             rows={1}
-            className="min-h-[44px] max-h-32 flex-1 resize-none rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
+            className="chat-type min-h-[48px] max-h-32 flex-1 resize-none rounded-[22px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
           />
           {input.trim() ? (
             <button
