@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { Search, X, MessageCircle, Sparkle, Crown } from "lucide-react";
 import { discoverPeople, type PersonRow } from "@/lib/people.functions";
-import { OnlineDot } from "@/lib/presence";
+import { OnlineDot, useOnlineUsers } from "@/lib/presence";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
@@ -31,6 +31,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
   const [q, setQ] = useState("");
   const [debounced, setDebounced] = useState("");
   const [tab, setTab] = useState<"all" | "member" | "host">("all");
+  const onlineUsers = useOnlineUsers();
 
   useEffect(() => {
     const t = setTimeout(() => setDebounced(q), 250);
@@ -147,7 +148,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
                           loading="lazy"
                           className="h-12 w-12 rounded-full border-2 border-white object-cover"
                         />
-                        <OnlineDot userId={p.id} className="absolute bottom-0 right-0" />
+                        <OnlineDot online={onlineUsers.has(p.id)} className="absolute bottom-0 right-0" />
                       </span>
                       <span className="min-w-0 flex-1">
                         <span className="flex items-center gap-1.5">
