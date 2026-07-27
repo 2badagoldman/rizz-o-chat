@@ -1,8 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type HostThread = {
-  messages: unknown[];
+  messages: any[];
   reactions: Record<string, string[]>;
 };
 
@@ -24,7 +25,7 @@ export const loadHostThread = createServerFn({ method: "POST" })
       .eq("host_id", data.hostId)
       .maybeSingle();
     return {
-      messages: Array.isArray(row?.messages) ? (row!.messages as unknown[]) : [],
+      messages: Array.isArray(row?.messages) ? (row!.messages as any[]) : [],
       reactions:
         row?.reactions && typeof row.reactions === "object"
           ? (row.reactions as Record<string, string[]>)
