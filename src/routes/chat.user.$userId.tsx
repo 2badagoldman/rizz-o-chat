@@ -29,6 +29,8 @@ function UserChat() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const peerOnline = useIsOnline(userId);
+
 
   useEffect(() => {
     if (!user) return;
