@@ -63,6 +63,7 @@ const FOOT: Row[] = [
 export function SideDrawer({ open, onClose }: Props) {
   const { user, signOut } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
+  const [peopleOpen, setPeopleOpen] = useState(false);
 
   useEffect(() => {
     if (!user) { setIsAdmin(false); return; }
