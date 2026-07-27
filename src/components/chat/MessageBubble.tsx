@@ -103,25 +103,25 @@ export function MessageBubble({
           }}
           className={
             (mine
-              ? "rounded-2xl rounded-br-sm bg-gradient-brand px-3.5 py-2 text-sm text-white shadow-glow"
-              : "rounded-2xl rounded-bl-sm border border-border bg-card px-3.5 py-2 text-sm") +
+              ? "rounded-[22px] rounded-br-md bg-gradient-brand px-4 py-2.5 text-primary-foreground shadow-glow"
+              : "rounded-[22px] rounded-bl-md border border-border bg-card px-4 py-2.5 text-card-foreground shadow-sm") +
             (onReact ? " select-none [-webkit-touch-callout:none] active:scale-[.99] transition-transform" : "")
           }
         >
-          <p className="whitespace-pre-wrap break-words">{text || "…"}</p>
+          <p className="chat-type whitespace-pre-wrap break-words">{text || "…"}</p>
           {time || (mine && state) ? (
             <div
               className={
                 mine
-                  ? "mt-0.5 flex items-center justify-end gap-1 text-[10px] text-white/75"
-                  : "mt-0.5 flex items-center justify-end gap-1 text-[10px] text-muted-foreground"
+                  ? "mt-1 flex items-center justify-end gap-1 chat-meta text-primary-foreground/80"
+                  : "mt-1 flex items-center justify-end gap-1 chat-meta text-muted-foreground"
               }
             >
               {time ? <span>{time}</span> : null}
               {mine && state === "sending" ? <Clock className="h-3 w-3" /> : null}
               {mine && state === "sent" ? <Check className="h-3 w-3" /> : null}
               {mine && state === "seen" ? (
-                <CheckCheck className="h-3 w-3 text-sky-200" aria-label="Seen" />
+                <CheckCheck className="h-3.5 w-3.5" aria-label="Seen" />
               ) : null}
             </div>
           ) : null}
