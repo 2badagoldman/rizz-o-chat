@@ -23,17 +23,48 @@ export const discoverPeople = createServerFn({ method: "POST" })
     };
   })
   .handler(async ({ data, context }): Promise<PersonRow[]> => {
+    const term = data.q;
+    const SELECT = "id, display_name, avatar_url, account_type, created_at";
+
+    // Exact email lookup (privacy: exact match only, never partial email search).
+    if (term.includes("@") && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(term)) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const res = await fetch(
+        `${process.env.SUPABASE_URL}/auth/v1/admin/users?filter=${encodeURIComponent(term)}&per_page=5`,
+        {
+          headers: {
+            apikey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
+            Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY!}`,
+          },
+        },
+      );
+      if (!res.ok) return [];
+      const body = (await res.json()) as { users?: Array<{ id: string; email?: string }> };
+      const ids = (body.users ?? [])
+        .filter((u) => (u.email ?? "").toLowerCase() === term.toLowerCase())
+        .map((u) => u.id)
+        .filter((id) => id !== context.userId);
+      if (ids.length === 0) return [];
+      const { data: rows } = await supabaseAdmin
+        .from("profiles")
+        .select(SELECT)
+        .in("id", ids)
+        .is("deleted_at", null);
+      return (rows ?? []) as PersonRow[];
+    }
+
     let query = context.supabase
       .from("profiles")
-      .select("id, display_name, avatar_url, account_type, created_at")
+      .select(SELECT)
       .is("deleted_at", null)
       .neq("id", context.userId)
       .order("created_at", { ascending: false })
       .limit(data.limit);
 
-    if (data.q) query = query.ilike("display_name", `%${data.q}%`);
+    if (term) query = query.ilike("display_name", `%${term.replace(/^@/, "")}%`);
 
     const { data: rows, error } = await query;
     if (error) throw error;
     return (rows ?? []) as PersonRow[];
   });
+
