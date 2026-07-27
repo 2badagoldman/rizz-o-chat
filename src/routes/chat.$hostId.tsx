@@ -101,11 +101,39 @@ function HostChat() {
     return createAuthedChatTransport({ api: "/api/host-chat", body: { hostId } });
   }, [aiHost, hostId]);
 
-  const { messages, sendMessage, status } = useChat({
+  const { messages, setMessages, sendMessage, status } = useChat({
     id: storageKey,
     messages: initialMessages,
     transport,
   });
+
+  const reactionsKey = `${storageKey}:reactions`;
+
+  // Account-level history: signed-in members get their saved thread pulled
+  // from the database on mount, so chats survive new sessions and devices.
+  const loadThread = useServerFn(loadHostThread);
+  const saveThread = useServerFn(saveHostThread);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!user) { setHydrated(true); return; }
+    setHydrated(false);
+    loadThread({ data: { hostId } })
+      .then((thread) => {
+        if (cancelled) return;
+        if (Array.isArray(thread.messages) && thread.messages.length) {
+          setMessages(thread.messages as typeof messages);
+        }
+        if (thread.reactions && Object.keys(thread.reactions).length) {
+          setMsgReactions(thread.reactions);
+        }
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setHydrated(true); });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, hostId]);
 
   // Persist on every change once streaming settles, so a full round-trip is
   // saved atomically (mirrors WhatsApp: message stays until you clear chat).
@@ -113,10 +141,15 @@ function HostChat() {
     if (typeof window === "undefined") return;
     if (status === "streaming" || status === "submitted") return;
     try { localStorage.setItem(storageKey, JSON.stringify(messages)); } catch {}
-  }, [messages, status, storageKey]);
+    if (!user || !hydrated) return;
+    const t = setTimeout(() => {
+      saveThread({ data: { hostId, messages, reactions: msgReactions } }).catch(() => {});
+    }, 600);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages, msgReactions, status, storageKey, hydrated, user?.id, hostId]);
 
-  // Message reactions persist alongside the thread.
-  const reactionsKey = `${storageKey}:reactions`;
+  // Local cache read (instant paint before the account copy arrives).
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
@@ -125,6 +158,7 @@ function HostChat() {
       setMsgReactions(parsed && typeof parsed === "object" ? parsed : {});
     } catch { setMsgReactions({}); }
   }, [reactionsKey]);
+
 
   // Toggle-style: tapping the same emoji again removes it.
   const reactToMessage = (messageId: string, emoji: string, origin: { x: number; y: number }) => {
