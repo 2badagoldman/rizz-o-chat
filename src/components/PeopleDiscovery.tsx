@@ -77,7 +77,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             <h2 className="bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[22px] font-black leading-tight text-transparent">
               Find people
             </h2>
-            <p className="text-[11.5px] text-muted-foreground">Newly joined members & hosts</p>
+            <p className="text-[11.5px] text-muted-foreground">Newly joined · search by name or email</p>
           </div>
           <button
             onClick={onClose}
@@ -94,7 +94,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search members and hosts by name…"
+            placeholder="Search by username or exact email…"
             className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
         </div>
@@ -126,7 +126,11 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             <p className="p-6 text-center text-sm text-muted-foreground">Loading the newest faces…</p>
           ) : people.length === 0 ? (
             <p className="p-6 text-center text-sm text-muted-foreground">
-              {debounced ? `Nobody matches “${debounced}”.` : "No new people yet — check back soon."}
+              {debounced
+                ? debounced.includes("@")
+                  ? `No account uses “${debounced}”.`
+                  : `Nobody matches “${debounced}”.`
+                : "No new people yet — check back soon."}
             </p>
           ) : (
             <ul className="grid gap-1">
