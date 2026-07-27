@@ -9,6 +9,8 @@ import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
+import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
+import { useChatAccess } from "@/hooks/useChatAccess";
 import { useFloatingReactions } from "@/components/chat/FloatingReactions";
 import { sendChatGift } from "@/lib/subscriptions.functions";
 import { toast } from "sonner";
@@ -220,11 +222,12 @@ function HostChat() {
 
 
   const busy = status === "submitted" || status === "streaming";
+  const chatLocked = locked && !aiHost;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const text = input.trim();
-    if (!text || busy) return;
+    if (!text || busy || chatLocked) return;
     sendMessage({ text });
     setInput("");
   };
@@ -232,7 +235,7 @@ function HostChat() {
   // Tap a reaction: it bursts up the screen and is delivered to the host as a message.
   const sendReaction = (emoji: string) => {
     fire(emoji);
-    if (!busy) sendMessage({ text: emoji });
+    if (!busy && !chatLocked) sendMessage({ text: emoji });
   };
 
   return (
