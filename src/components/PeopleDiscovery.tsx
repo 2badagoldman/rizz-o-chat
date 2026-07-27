@@ -45,17 +45,23 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["discover-people", debounced],
-    queryFn: () => fetchPeople({ data: { q: debounced } }),
+    queryFn: () => fetchPeople({ data: { q: debounced, limit: 60 } }),
     enabled: open && !!user,
     refetchInterval: open ? 20_000 : false,
   });
 
-  const people = useMemo(() => {
-    const rows = (data ?? []) as PersonRow[];
-    return tab === "all" ? rows : rows.filter((p) => p.account_type === tab);
-  }, [data, tab]);
+  const all = useMemo(() => (data ?? []) as PersonRow[], [data]);
+  const people = useMemo(
+    () => (tab === "all" ? all : all.filter((p) => p.account_type === tab)),
+    [all, tab],
+  );
+  const weekCount = useMemo(
+    () => all.filter((p) => Date.now() - new Date(p.created_at).getTime() < 7 * 864e5).length,
+    [all],
+  );
+
 
   if (!open) return null;
 
