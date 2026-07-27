@@ -129,9 +129,9 @@ function RoomChatPage() {
           const mine = m.sender_id === user.id;
           return (
             <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${mine ? "bg-gradient-brand text-white" : "bg-card border border-border"}`}>
-                {!mine ? <p className="text-[10px] font-semibold text-primary">{m.sender?.display_name ?? "Member"}</p> : null}
-                <p className="whitespace-pre-wrap break-words">{m.body}</p>
+              <div className={`max-w-[80%] rounded-[22px] px-4 py-2.5 ${mine ? "rounded-br-md bg-gradient-brand text-primary-foreground" : "rounded-bl-md bg-card border border-border text-card-foreground"}`}>
+                {!mine ? <p className="chat-meta text-primary">{m.sender?.display_name ?? "Member"}</p> : null}
+                <p className="chat-type whitespace-pre-wrap break-words">{m.body}</p>
               </div>
             </div>
           );
@@ -145,7 +145,7 @@ function RoomChatPage() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder={`Message ${room.name}…`}
-            className="flex-1 rounded-full border border-border bg-card px-4 py-2.5 text-sm outline-none focus:border-primary"
+            className="chat-type flex-1 rounded-full border border-border bg-card px-5 py-3 outline-none focus:border-primary"
           />
           <button type="submit" disabled={sending || !text.trim()} className="btn-brand inline-flex h-11 w-11 items-center justify-center rounded-full p-0 disabled:opacity-50">
             <Send className="h-4 w-4" />
