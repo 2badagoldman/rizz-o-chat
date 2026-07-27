@@ -18,9 +18,11 @@ import {
   ChevronRight,
   MessageCircle,
   Coins,
+  UserPlus,
 } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { useAuth } from "@/lib/auth";
+import { PeopleDiscovery } from "./PeopleDiscovery";
 
 interface Props {
   open: boolean;
@@ -215,7 +217,7 @@ export function SideDrawer({ open, onClose }: Props) {
             </Group>
 
 
-            <Group label="Coming soon" note="Get early access" open={open} index={1}>
+            <Group label="Coming soon" note="Get early access" open={open} index={2}>
               {SOON.map((s) => (
                 <SettingsRow
                   key={s.slug}
@@ -231,7 +233,7 @@ export function SideDrawer({ open, onClose }: Props) {
               ))}
             </Group>
 
-            <Group label="Account" open={open} index={2}>
+            <Group label="Account" open={open} index={3}>
               {FOOT.map((r) => (
                 <SettingsRow key={r.label} {...r} onNavigate={onClose} />
               ))}
@@ -282,6 +284,7 @@ export function SideDrawer({ open, onClose }: Props) {
           </nav>
         </div>
       </aside>
+      <PeopleDiscovery open={peopleOpen} onClose={() => setPeopleOpen(false)} />
     </>
   );
 }
