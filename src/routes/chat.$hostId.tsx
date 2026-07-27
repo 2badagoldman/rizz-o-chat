@@ -262,7 +262,12 @@ function HostChat() {
           <button onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="rounded-full border border-border p-2">
             <ArrowLeft className="h-4 w-4" />
           </button>
-          <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })}
+            className="flex items-center gap-2 rounded-full pr-2 text-left transition hover:opacity-80"
+            aria-label={`View ${host.name}'s profile`}
+          >
             <div className="relative h-10 w-10 overflow-hidden rounded-full shadow-glow" style={{ background: host.gradient }}>
               <img src={hostAvatar(host.id)} alt={host.name} className="h-full w-full object-cover" />
             </div>
@@ -272,7 +277,8 @@ function HostChat() {
                 <Circle className="h-2 w-2 fill-emerald-500" /> Online
               </p>
             </div>
-          </div>
+          </button>
+
           {user && isJen ? (
             <button
               onClick={() => setGiftOpen(true)}
