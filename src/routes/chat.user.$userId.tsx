@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Send } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { OnlineDot, useIsOnline } from "@/lib/presence";
+
 import { supabase } from "@/integrations/supabase/client";
 import { dmSendMessage, dmFetchThread } from "@/lib/dm.functions";
 import { toast } from "sonner";
