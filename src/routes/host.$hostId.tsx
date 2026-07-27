@@ -178,9 +178,10 @@ function HostProfile() {
 
           {/* Top row */}
           <div className="absolute inset-x-3 top-3 z-30 flex items-center justify-between">
-            <Link to="/discover" aria-label="Back to discover" className="grid h-9 w-9 place-items-center rounded-full bg-black/50 text-white backdrop-blur transition hover:scale-105">
+            <Link to="/chat/$hostId" params={{ hostId: host.id }} aria-label="Back to chat" className="grid h-9 w-9 place-items-center rounded-full bg-black/50 text-white backdrop-blur transition hover:scale-105">
               <ArrowLeft className="h-4 w-4" />
             </Link>
+
             <div className="flex items-center gap-1.5">
               <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
                 {tierLabel(host.tier)}
