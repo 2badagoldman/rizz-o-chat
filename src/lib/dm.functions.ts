@@ -12,7 +12,11 @@ export const dmSendMessage = createServerFn({ method: "POST" })
     return { recipientId: x.recipientId, body };
   })
   .handler(async ({ data, context }) => {
+    const { evaluateChatAccess, CHAT_LOCKED_MESSAGE } = await import("@/lib/chat-access.server");
+    const access = await evaluateChatAccess(context.userId);
+    if (!access.allowed) throw new Error(CHAT_LOCKED_MESSAGE);
     const { error, data: row } = await context.supabase
+
       .from("messages")
       .insert({
         sender_id: context.userId,
