@@ -1,5 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
+import { useServerFn } from "@tanstack/react-start";
+import { loadHostThread, saveHostThread } from "@/lib/host-chat-history.functions";
 import { DefaultChatTransport } from "ai";
 import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
 import { useEffect, useMemo, useState } from "react";
