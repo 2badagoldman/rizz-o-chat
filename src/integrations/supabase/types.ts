@@ -215,6 +215,36 @@ export type Database = {
         }
         Relationships: []
       }
+      host_chat_threads: {
+        Row: {
+          created_at: string
+          host_id: string
+          id: string
+          messages: Json
+          reactions: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          host_id: string
+          id?: string
+          messages?: Json
+          reactions?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          host_id?: string
+          id?: string
+          messages?: Json
+          reactions?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       host_invites: {
         Row: {
           active: boolean
