@@ -53,6 +53,7 @@ function HostChat() {
   const host = DEMO_HOSTS.find((h) => h.id === hostId);
 
   const aiHost = isAiHost(hostId);
+  const { locked, onTrial, daysLeft } = useChatAccess();
   const isJen = hostId === "demo-jen";
 
   // WhatsApp-style persistence: every host chat is kept in localStorage,
@@ -390,6 +391,8 @@ function HostChat() {
           </div>
         ) : null}
 
+        <ChatTrialBanner locked={chatLocked} onTrial={onTrial && !aiHost} daysLeft={daysLeft} />
+
         <form onSubmit={submit} className="sticky bottom-0 flex items-end gap-2 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
           <button
             type="button"
@@ -408,14 +411,15 @@ function HostChat() {
                 submit(e);
               }
             }}
-            placeholder={`Message ${host.name}…`}
+            disabled={chatLocked}
+            placeholder={chatLocked ? "Upgrade to Rizz Gold to keep chatting…" : `Message ${host.name}…`}
             rows={1}
             className="min-h-[44px] max-h-32 flex-1 resize-none rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
           />
           {input.trim() ? (
             <button
               type="submit"
-              disabled={busy}
+              disabled={busy || chatLocked}
               className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
               aria-label="Send"
             >
