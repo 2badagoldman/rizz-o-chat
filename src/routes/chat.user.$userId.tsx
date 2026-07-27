@@ -158,7 +158,8 @@ function UserChat() {
                 {peerOnline ? <span className="text-emerald-500 font-medium">Online now</span> : "Direct message"}
               </p>
             </div>
-          </div>
+          </button>
+
 
         </header>
 
