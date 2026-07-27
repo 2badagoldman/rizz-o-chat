@@ -39,7 +39,7 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
 
   { to: "/admin/showcase", label: "Showcase", icon: ImageIcon },
   { to: "/admin/showcase-brain", label: "Showcase Brain", icon: Sparkles },
-  { to: "/admin/early-access", label: "Early Access", icon: Inbox },
+  { to: "/admin/early-access", label: "Waitlist", icon: Inbox },
 ];
 
 function AdminLayout() {
