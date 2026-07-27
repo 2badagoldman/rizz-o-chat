@@ -26,6 +26,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RoomsIndexRouteImport } from './routes/rooms.index'
 import { Route as LegalIndexRouteImport } from './routes/legal.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as UUserIdRouteImport } from './routes/u.$userId'
 import { Route as SoonFeatureRouteImport } from './routes/soon.$feature'
 import { Route as RoomsNewRouteImport } from './routes/rooms.new'
 import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
@@ -157,6 +158,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AdminRoute,
+} as any)
+const UUserIdRoute = UUserIdRouteImport.update({
+  id: '/u/$userId',
+  path: '/u/$userId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const SoonFeatureRoute = SoonFeatureRouteImport.update({
   id: '/soon/$feature',
@@ -448,6 +454,7 @@ export interface FileRoutesByFullPath {
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
+  '/u/$userId': typeof UUserIdRoute
   '/admin/': typeof AdminIndexRoute
   '/legal/': typeof LegalIndexRoute
   '/rooms/': typeof RoomsIndexRoute
@@ -512,6 +519,7 @@ export interface FileRoutesByTo {
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
+  '/u/$userId': typeof UUserIdRoute
   '/admin': typeof AdminIndexRoute
   '/legal': typeof LegalIndexRoute
   '/rooms': typeof RoomsIndexRoute
@@ -578,6 +586,7 @@ export interface FileRoutesById {
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
+  '/u/$userId': typeof UUserIdRoute
   '/admin/': typeof AdminIndexRoute
   '/legal/': typeof LegalIndexRoute
   '/rooms/': typeof RoomsIndexRoute
@@ -645,6 +654,7 @@ export interface FileRouteTypes {
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
+    | '/u/$userId'
     | '/admin/'
     | '/legal/'
     | '/rooms/'
@@ -709,6 +719,7 @@ export interface FileRouteTypes {
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
+    | '/u/$userId'
     | '/admin'
     | '/legal'
     | '/rooms'
@@ -774,6 +785,7 @@ export interface FileRouteTypes {
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
+    | '/u/$userId'
     | '/admin/'
     | '/legal/'
     | '/rooms/'
@@ -829,6 +841,7 @@ export interface RootRouteChildren {
   RoomsRoomIdRoute: typeof RoomsRoomIdRoute
   RoomsNewRoute: typeof RoomsNewRoute
   SoonFeatureRoute: typeof SoonFeatureRoute
+  UUserIdRoute: typeof UUserIdRoute
   LegalIndexRoute: typeof LegalIndexRoute
   RoomsIndexRoute: typeof RoomsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
@@ -959,6 +972,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/u/$userId': {
+      id: '/u/$userId'
+      path: '/u/$userId'
+      fullPath: '/u/$userId'
+      preLoaderRoute: typeof UUserIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/soon/$feature': {
       id: '/soon/$feature'
@@ -1373,6 +1393,7 @@ const rootRouteChildren: RootRouteChildren = {
   RoomsRoomIdRoute: RoomsRoomIdRoute,
   RoomsNewRoute: RoomsNewRoute,
   SoonFeatureRoute: SoonFeatureRoute,
+  UUserIdRoute: UUserIdRoute,
   LegalIndexRoute: LegalIndexRoute,
   RoomsIndexRoute: RoomsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,

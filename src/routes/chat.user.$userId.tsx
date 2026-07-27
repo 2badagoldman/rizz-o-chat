@@ -135,20 +135,31 @@ function UserChat() {
           <button onClick={() => navigate({ to: "/chats" })} className="rounded-full border border-border p-2">
             <ArrowLeft className="h-4 w-4" />
           </button>
-          <div className="flex items-center gap-2 min-w-0">
+          <button
+            type="button"
+            onClick={() => navigate({ to: "/u/$userId", params: { userId } })}
+            className="flex items-center gap-2 min-w-0 rounded-full pr-2 text-left transition hover:opacity-80"
+            aria-label="View profile"
+          >
             <div className="relative">
-              <div className="h-10 w-10 rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
-                {(peer?.display_name ?? "?").slice(0, 1).toUpperCase()}
+              <div className="h-10 w-10 overflow-hidden rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
+                {peer?.avatar_url ? (
+                  <img src={peer.avatar_url} alt={peer.display_name ?? "User"} className="h-full w-full object-cover" />
+                ) : (
+                  (peer?.display_name ?? "?").slice(0, 1).toUpperCase()
+                )}
               </div>
               <OnlineDot online={peerOnline} className="absolute -bottom-0.5 -right-0.5" />
             </div>
+
             <div className="min-w-0">
               <h1 className="truncate text-base font-semibold leading-tight">{peer?.display_name ?? "User"}</h1>
               <p className="truncate text-[11px] text-muted-foreground">
                 {peerOnline ? <span className="text-emerald-500 font-medium">Online now</span> : "Direct message"}
               </p>
             </div>
-          </div>
+          </button>
+
 
         </header>
 

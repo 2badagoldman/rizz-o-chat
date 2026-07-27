@@ -68,3 +68,27 @@ export const discoverPeople = createServerFn({ method: "POST" })
     return (rows ?? []) as PersonRow[];
   });
 
+export type PublicProfile = PersonRow & {
+  bio: string | null;
+  gender: string | null;
+};
+
+/** Public-ish profile card for any member/host, viewable by signed-in users. */
+export const getPublicProfile = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = (i ?? {}) as { userId?: string };
+    return { userId: String(x.userId ?? "") };
+  })
+  .handler(async ({ data, context }): Promise<PublicProfile | null> => {
+    if (!data.userId) return null;
+    const { data: row, error } = await context.supabase
+      .from("profiles")
+      .select("id, display_name, avatar_url, account_type, created_at, bio, gender")
+      .eq("id", data.userId)
+      .is("deleted_at", null)
+      .maybeSingle();
+    if (error) throw error;
+    return (row ?? null) as PublicProfile | null;
+  });
+
