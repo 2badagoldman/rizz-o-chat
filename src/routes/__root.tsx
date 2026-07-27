@@ -13,6 +13,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
 import { WelcomeShowcase } from "../components/WelcomeShowcase";
+import { PresenceProvider } from "../lib/presence";
+
 import { useShowcaseAvatarSync } from "../lib/showcase-avatar-store";
 import { useInitPerfTier } from "../hooks/usePerfTier";
 
@@ -178,9 +180,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Outlet />
-        <WelcomeShowcase />
+        <PresenceProvider>
+          <Outlet />
+          <WelcomeShowcase />
+        </PresenceProvider>
       </AuthProvider>
+
     </QueryClientProvider>
   );
 }

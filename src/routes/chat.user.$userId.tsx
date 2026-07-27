@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Send } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { OnlineDot, useIsOnline } from "@/lib/presence";
+
 import { supabase } from "@/integrations/supabase/client";
 import { dmSendMessage, dmFetchThread } from "@/lib/dm.functions";
 import { toast } from "sonner";
@@ -27,6 +29,8 @@ function UserChat() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const peerOnline = useIsOnline(userId);
+
 
   useEffect(() => {
     if (!user) return;
@@ -129,14 +133,20 @@ function UserChat() {
             <ArrowLeft className="h-4 w-4" />
           </button>
           <div className="flex items-center gap-2 min-w-0">
-            <div className="h-10 w-10 rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
-              {(peer?.display_name ?? "?").slice(0, 1).toUpperCase()}
+            <div className="relative">
+              <div className="h-10 w-10 rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
+                {(peer?.display_name ?? "?").slice(0, 1).toUpperCase()}
+              </div>
+              <OnlineDot online={peerOnline} className="absolute -bottom-0.5 -right-0.5" />
             </div>
             <div className="min-w-0">
               <h1 className="truncate text-base font-semibold leading-tight">{peer?.display_name ?? "User"}</h1>
-              <p className="truncate text-[11px] text-muted-foreground">Direct message</p>
+              <p className="truncate text-[11px] text-muted-foreground">
+                {peerOnline ? <span className="text-emerald-500 font-medium">Online now</span> : "Direct message"}
+              </p>
             </div>
           </div>
+
         </header>
 
         <VirtualMessageList
