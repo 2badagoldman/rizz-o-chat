@@ -49,7 +49,12 @@ function PublicProfilePage() {
   return (
     <AppShell hideNav>
       <header className="flex items-center gap-3 pt-3 pb-2">
-        <button onClick={() => window.history.back()} aria-label="Back" className="rounded-full border border-border p-2">
+        <button
+          onClick={() => navigate({ to: "/chat/user/$userId", params: { userId } })}
+          aria-label="Back to chat"
+          className="rounded-full border border-border p-2"
+        >
+
           <ArrowLeft className="h-4 w-4" />
         </button>
         <h1 className="text-base font-semibold">Profile</h1>
