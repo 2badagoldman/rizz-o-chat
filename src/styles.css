@@ -44,6 +44,26 @@
   --color-ring: var(--ring);
   --font-display: "Sora", ui-rounded, -apple-system, "SF Pro Rounded", system-ui, sans-serif;
   --font-sans: "Manrope", ui-rounded, -apple-system, "SF Pro Rounded", "Segoe UI", system-ui, sans-serif;
+  /* Chat: rounded, high-legibility face for message bubbles */
+  --font-chat: "Nunito", ui-rounded, -apple-system, "SF Pro Rounded", system-ui, sans-serif;
+}
+
+/* Bubbly, clear chat typography */
+@utility chat-type {
+  font-family: var(--font-chat);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  font-variant-ligatures: common-ligatures;
+  text-rendering: optimizeLegibility;
+}
+
+@utility chat-meta {
+  font-family: var(--font-chat);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 :root {
