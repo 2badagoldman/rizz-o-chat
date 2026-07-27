@@ -182,11 +182,38 @@ export function SideDrawer({ open, onClose }: Props) {
 
           {/* Body */}
           <nav className="relative flex-1 overflow-y-auto px-3.5 pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <Group label="Your space" open={open} index={0}>
+            <Group label="Discover people" note="Live" open={open} index={0}>
+              <button
+                onClick={() => setPeopleOpen(true)}
+                className="group relative flex w-full items-center gap-3.5 px-4 py-3 text-left transition-colors duration-300 hover:bg-white/70 active:bg-white/80"
+              >
+                <span
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white ring-1 ring-white/50 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95"
+                  style={{
+                    background: "linear-gradient(135deg,#67e8ff,#3d8dff)",
+                    boxShadow: "0 10px 20px -10px #3d8dff, inset 0 1px 0 rgba(255,255,255,0.55)",
+                  }}
+                >
+                  <UserPlus className="h-[18px] w-[18px]" strokeWidth={2.35} />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-[15px] font-bold leading-tight tracking-[-0.01em] text-foreground">
+                    Find people
+                  </span>
+                  <span className="mt-0.5 block truncate text-[11.5px] text-muted-foreground">
+                    Newly joined members & hosts
+                  </span>
+                </span>
+                <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+              </button>
+            </Group>
+
+            <Group label="Your space" open={open} index={1}>
               {LIVE.map((r) => (
                 <SettingsRow key={r.label} {...r} onNavigate={onClose} />
               ))}
             </Group>
+
 
             <Group label="Coming soon" note="Get early access" open={open} index={1}>
               {SOON.map((s) => (
