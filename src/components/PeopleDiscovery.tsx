@@ -45,17 +45,23 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["discover-people", debounced],
-    queryFn: () => fetchPeople({ data: { q: debounced } }),
+    queryFn: () => fetchPeople({ data: { q: debounced, limit: 60 } }),
     enabled: open && !!user,
     refetchInterval: open ? 20_000 : false,
   });
 
-  const people = useMemo(() => {
-    const rows = (data ?? []) as PersonRow[];
-    return tab === "all" ? rows : rows.filter((p) => p.account_type === tab);
-  }, [data, tab]);
+  const all = useMemo(() => (data ?? []) as PersonRow[], [data]);
+  const people = useMemo(
+    () => (tab === "all" ? all : all.filter((p) => p.account_type === tab)),
+    [all, tab],
+  );
+  const weekCount = useMemo(
+    () => all.filter((p) => Date.now() - new Date(p.created_at).getTime() < 7 * 864e5).length,
+    [all],
+  );
+
 
   if (!open) return null;
 
@@ -77,7 +83,11 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             <h2 className="bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[22px] font-black leading-tight text-transparent">
               Find people
             </h2>
-            <p className="text-[11.5px] text-muted-foreground">Newly joined · search by name or email</p>
+            <p className="text-[11.5px] text-muted-foreground">
+              {debounced
+                ? "Search by name or exact email"
+                : `${all.length} on Rizzla · ${weekCount} joined this week`}
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -124,6 +134,10 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find people on Rizzla.</p>
           ) : isLoading ? (
             <p className="p-6 text-center text-sm text-muted-foreground">Loading the newest faces…</p>
+          ) : error ? (
+            <p className="p-6 text-center text-sm text-destructive">
+              Couldn’t load people right now. Pull down to retry in a moment.
+            </p>
           ) : people.length === 0 ? (
             <p className="p-6 text-center text-sm text-muted-foreground">
               {debounced

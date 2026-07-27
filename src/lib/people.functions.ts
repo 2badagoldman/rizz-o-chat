@@ -53,10 +53,11 @@ export const discoverPeople = createServerFn({ method: "POST" })
       return (rows ?? []) as PersonRow[];
     }
 
+    // NOTE: `deleted_at` is not readable by the `authenticated` role, so it can't be
+    // used as a filter here — RLS already hides soft-deleted profiles.
     let query = context.supabase
       .from("profiles")
       .select(SELECT)
-      .is("deleted_at", null)
       .neq("id", context.userId)
       .order("created_at", { ascending: false })
       .limit(data.limit);
@@ -86,7 +87,6 @@ export const getPublicProfile = createServerFn({ method: "POST" })
       .from("profiles")
       .select("id, display_name, avatar_url, account_type, created_at, bio, gender")
       .eq("id", data.userId)
-      .is("deleted_at", null)
       .maybeSingle();
     if (error) throw error;
     return (row ?? null) as PublicProfile | null;
