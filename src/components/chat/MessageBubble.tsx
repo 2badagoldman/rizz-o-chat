@@ -132,7 +132,7 @@ export function MessageBubble({
             {reactions.map((e, i) => (
               <span
                 key={`${e}-${i}`}
-                className="emoji-pop rounded-full border border-border bg-card/90 px-1.5 py-0.5 text-xs shadow-sm"
+                className="emoji-pop rounded-full border border-border bg-card/95 px-2 py-0.5 text-sm leading-none shadow-sm"
               >
                 {e}
               </span>
@@ -147,18 +147,18 @@ export function MessageBubble({
 export function TypingBubble({ name }: { name: string }) {
   return (
     <div className="flex justify-start">
-      <div className="flex items-center gap-2 rounded-2xl rounded-bl-sm border border-border bg-card px-3.5 py-2.5">
+      <div className="flex items-center gap-2 rounded-[22px] rounded-bl-md border border-border bg-card px-4 py-3">
         <span className="sr-only">{name} is typing</span>
         <span className="flex items-end gap-1" aria-hidden>
           {[0, 1, 2].map((i) => (
             <span
               key={i}
-              className="h-1.5 w-1.5 rounded-full bg-primary/70 animate-bounce"
+              className="h-2 w-2 rounded-full bg-primary/70 animate-bounce"
               style={{ animationDelay: `${i * 140}ms`, animationDuration: "900ms" }}
             />
           ))}
         </span>
-        <span className="text-[11px] text-muted-foreground">{name} is typing</span>
+        <span className="chat-meta text-muted-foreground">{name} is typing</span>
       </div>
     </div>
   );
