@@ -76,13 +76,17 @@ export const hostCompMember = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => {
     const x = i as { memberId: string };
     if (!x?.memberId) throw new Error("memberId required");
-    return x;
+    if (!/^[a-f0-9-]{36}$/i.test(x.memberId)) throw new Error("Invalid memberId");
+    return { memberId: x.memberId };
   })
   .handler(async ({ data, context }) => {
     await assertHost(context);
     if (data.memberId === context.userId) throw new Error("Can't add yourself");
     const list = await getOrCreateList(context);
-    const { error } = await context.supabase
+    // Direct member writes are revoked for authenticated users; the server performs
+    // the write with a privileged client only after verifying the caller owns the list.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
       .from("list_memberships")
       .upsert(
         {
@@ -91,7 +95,7 @@ export const hostCompMember = createServerFn({ method: "POST" })
           price_cents_at_join: 0,
           status: "active",
           chat_access_until: null,
-        },
+        } as never,
         { onConflict: "list_id,member_id" },
       );
     if (error) throw error;
@@ -103,14 +107,16 @@ export const hostRemoveMember = createServerFn({ method: "POST" })
   .inputValidator((i: unknown) => {
     const x = i as { memberId: string };
     if (!x?.memberId) throw new Error("memberId required");
-    return x;
+    if (!/^[a-f0-9-]{36}$/i.test(x.memberId)) throw new Error("Invalid memberId");
+    return { memberId: x.memberId };
   })
   .handler(async ({ data, context }) => {
     await assertHost(context);
     const list = await getOrCreateList(context);
-    const { error } = await context.supabase
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
       .from("list_memberships")
-      .update({ status: "cancelled", chat_access_until: null })
+      .update({ status: "cancelled", chat_access_until: null } as never)
       .eq("list_id", list.id)
       .eq("member_id", data.memberId);
     if (error) throw error;
