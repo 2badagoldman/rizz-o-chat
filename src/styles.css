@@ -858,3 +858,93 @@ html.is-native [contenteditable="true"] {
 html.is-native ::-webkit-scrollbar {
   display: none;
 }
+
+/* ============================================================
+   CHAT SKINS — per-user chat color themes
+   Applied via [data-chat-skin] on the chat container.
+   ============================================================ */
+[data-chat-skin] {
+  --chat-mine-bg: var(--gradient-brand);
+  --chat-mine-fg: var(--primary-foreground);
+  --chat-peer-bg: var(--card);
+  --chat-peer-fg: var(--card-foreground);
+  --chat-peer-border: var(--border);
+  --chat-wallpaper: transparent;
+  --chat-mine-shadow: var(--shadow-glow);
+}
+
+[data-chat-skin="midnight"] {
+  --chat-mine-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #a855f7 100%);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #1e1b31;
+  --chat-peer-fg: #f2eefe;
+  --chat-peer-border: rgba(255,255,255,0.12);
+  --chat-wallpaper: linear-gradient(180deg, rgba(30,27,49,0.06), rgba(99,102,241,0.10));
+  --chat-mine-shadow: 0 14px 40px -16px rgba(139,92,246,0.65);
+}
+
+[data-chat-skin="ocean"] {
+  --chat-mine-bg: linear-gradient(135deg, #0ea5e9 0%, #2563eb 60%, #1d4ed8 100%);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #eaf4ff;
+  --chat-peer-fg: #0f2a4a;
+  --chat-peer-border: rgba(37,99,235,0.18);
+  --chat-wallpaper: linear-gradient(180deg, rgba(14,165,233,0.06), rgba(37,99,235,0.10));
+  --chat-mine-shadow: 0 14px 40px -16px rgba(37,99,235,0.55);
+}
+
+[data-chat-skin="sunset"] {
+  --chat-mine-bg: linear-gradient(135deg, #fb7185 0%, #f97316 55%, #f59e0b 100%);
+  --chat-mine-fg: #3b1400;
+  --chat-peer-bg: #fff6ec;
+  --chat-peer-fg: #4a2410;
+  --chat-peer-border: rgba(249,115,22,0.22);
+  --chat-wallpaper: linear-gradient(180deg, rgba(251,113,133,0.07), rgba(245,158,11,0.10));
+  --chat-mine-shadow: 0 14px 40px -16px rgba(249,115,22,0.5);
+}
+
+[data-chat-skin="mint"] {
+  --chat-mine-bg: linear-gradient(135deg, #34d399 0%, #10b981 60%, #059669 100%);
+  --chat-mine-fg: #04231a;
+  --chat-peer-bg: #effcf6;
+  --chat-peer-fg: #0d3b2e;
+  --chat-peer-border: rgba(16,185,129,0.22);
+  --chat-wallpaper: linear-gradient(180deg, rgba(52,211,153,0.07), rgba(5,150,105,0.10));
+  --chat-mine-shadow: 0 14px 40px -16px rgba(16,185,129,0.5);
+}
+
+[data-chat-skin="lavender"] {
+  --chat-mine-bg: linear-gradient(135deg, #c084fc 0%, #a78bfa 55%, #818cf8 100%);
+  --chat-mine-fg: #2a1046;
+  --chat-peer-bg: #f7f2ff;
+  --chat-peer-fg: #331a54;
+  --chat-peer-border: rgba(168,139,250,0.28);
+  --chat-wallpaper: linear-gradient(180deg, rgba(192,132,252,0.08), rgba(129,140,248,0.10));
+  --chat-mine-shadow: 0 14px 40px -16px rgba(167,139,250,0.55);
+}
+
+[data-chat-skin="noir"] {
+  --chat-mine-bg: linear-gradient(135deg, #2b2b2f 0%, #131316 100%);
+  --chat-mine-fg: #f6f6f7;
+  --chat-peer-bg: #f3f3f5;
+  --chat-peer-fg: #16161a;
+  --chat-peer-border: rgba(0,0,0,0.10);
+  --chat-wallpaper: transparent;
+  --chat-mine-shadow: 0 14px 36px -18px rgba(0,0,0,0.55);
+}
+
+@utility chat-bubble-mine {
+  background-image: var(--chat-mine-bg);
+  color: var(--chat-mine-fg);
+  box-shadow: var(--chat-mine-shadow);
+}
+
+@utility chat-bubble-peer {
+  background-color: var(--chat-peer-bg);
+  color: var(--chat-peer-fg);
+  border: 1px solid var(--chat-peer-border);
+}
+
+@utility chat-wallpaper {
+  background-image: var(--chat-wallpaper);
+}

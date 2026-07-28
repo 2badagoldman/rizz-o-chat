@@ -103,8 +103,8 @@ export function MessageBubble({
           }}
           className={
             (mine
-              ? "rounded-[22px] rounded-br-md bg-gradient-brand px-4 py-2.5 text-primary-foreground shadow-glow"
-              : "rounded-[22px] rounded-bl-md border border-border bg-card px-4 py-2.5 text-card-foreground shadow-sm") +
+              ? "chat-bubble-mine rounded-[22px] rounded-br-md px-4 py-2.5"
+              : "chat-bubble-peer rounded-[22px] rounded-bl-md px-4 py-2.5 shadow-sm") +
             (onReact ? " select-none [-webkit-touch-callout:none] active:scale-[.99] transition-transform" : "")
           }
         >
@@ -113,10 +113,11 @@ export function MessageBubble({
             <div
               className={
                 mine
-                  ? "mt-1 flex items-center justify-end gap-1 chat-meta text-primary-foreground/80"
-                  : "mt-1 flex items-center justify-end gap-1 chat-meta text-muted-foreground"
+                  ? "mt-1 flex items-center justify-end gap-1 chat-meta opacity-75"
+                  : "mt-1 flex items-center justify-end gap-1 chat-meta opacity-60"
               }
             >
+
               {time ? <span>{time}</span> : null}
               {mine && state === "sending" ? <Clock className="h-3 w-3" /> : null}
               {mine && state === "sent" ? <Check className="h-3 w-3" /> : null}

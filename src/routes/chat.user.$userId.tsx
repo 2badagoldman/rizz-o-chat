@@ -12,6 +12,8 @@ import { toast } from "sonner";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
 import { useChatAccess } from "@/hooks/useChatAccess";
+import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
+
 
 export const Route = createFileRoute("/chat/user/$userId")({
   head: () => ({ meta: [
@@ -33,6 +35,8 @@ function UserChat() {
   const [busy, setBusy] = useState(false);
   const peerOnline = useIsOnline(userId);
   const { locked, onTrial, daysLeft } = useChatAccess();
+  const { skin, setSkin } = useChatSkin();
+
 
 
   useEffect(() => {
@@ -130,8 +134,9 @@ function UserChat() {
 
   return (
     <AppShell hideNav>
-      <div className="flex min-h-[calc(100vh-1rem)] flex-col">
+      <div data-chat-skin={skin} className="chat-wallpaper flex min-h-[calc(100vh-1rem)] flex-col">
         <header className="flex items-center gap-3 pt-3 pb-2">
+
           <button onClick={() => navigate({ to: "/chats" })} className="rounded-full border border-border p-2">
             <ArrowLeft className="h-4 w-4" />
           </button>
@@ -159,9 +164,9 @@ function UserChat() {
               </p>
             </div>
           </button>
-
-
+          <ChatSkinPicker skin={skin} onChange={setSkin} className="ml-auto" />
         </header>
+
 
         <VirtualMessageList
           items={items}
