@@ -329,15 +329,31 @@ function Profile() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             Photos & videos
           </h2>
-          <button
-            type="button"
-            onClick={() => mediaInputRef.current?.click()}
-            disabled={uploadingMedia}
-            className="rounded-full bg-gradient-to-r from-primary to-accent px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50"
-          >
-            {uploadingMedia ? "Uploading…" : "+ Upload"}
-          </button>
+          <div className="flex items-center gap-2">
+            {isNative ? (
+              <button
+                type="button"
+                onClick={async () => {
+                  const f = await captureNativePhoto("camera");
+                  if (f) void onMediaPick([f]);
+                }}
+                disabled={uploadingMedia}
+                className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
+              >
+                <Camera className="h-3.5 w-3.5" /> Camera
+              </button>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => mediaInputRef.current?.click()}
+              disabled={uploadingMedia}
+              className="rounded-full bg-gradient-to-r from-primary to-accent px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50"
+            >
+              {uploadingMedia ? "Uploading…" : "+ Upload"}
+            </button>
+          </div>
         </div>
+
         <p className="mt-2 text-[11px] text-muted-foreground">
           Captions show to everyone — the photo/video only unlocks after they join your Friends List.
         </p>
