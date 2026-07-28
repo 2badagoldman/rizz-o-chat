@@ -934,6 +934,69 @@ export type Database = {
         }
         Relationships: []
       }
+      user_blocks: {
+        Row: {
+          blocked_id: string
+          blocker_id: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          blocked_id: string
+          blocker_id: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          blocked_id?: string
+          blocker_id?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      user_reports: {
+        Row: {
+          context: string | null
+          created_at: string
+          details: string | null
+          id: string
+          reason: string
+          reported_handle: string | null
+          reported_user_id: string | null
+          reporter_id: string
+          resolution_note: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          context?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason: string
+          reported_handle?: string | null
+          reported_user_id?: string | null
+          reporter_id: string
+          resolution_note?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          context?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason?: string
+          reported_handle?: string | null
+          reported_user_id?: string | null
+          reporter_id?: string
+          resolution_note?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -1049,6 +1112,7 @@ export type Database = {
         Returns: boolean
       }
       host_self_stats: { Args: { _since?: string }; Returns: Json }
+      is_blocked_between: { Args: { _a: string; _b: string }; Returns: boolean }
       is_room_host: {
         Args: { _room_id: string; _user_id: string }
         Returns: boolean

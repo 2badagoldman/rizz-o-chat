@@ -13,6 +13,8 @@ import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
 import { useChatAccess } from "@/hooks/useChatAccess";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
+import { SafetyMenu } from "@/components/SafetyMenu";
+
 
 
 export const Route = createFileRoute("/chat/user/$userId")({
@@ -165,6 +167,8 @@ function UserChat() {
             </div>
           </button>
           <ChatSkinPicker skin={skin} onChange={setSkin} highContrast={highContrast} onHighContrastChange={setHighContrast} className="ml-auto" />
+          <SafetyMenu userId={userId} name={peer?.display_name ?? "this member"} context="direct message" />
+
         </header>
 
 

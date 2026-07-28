@@ -17,6 +17,8 @@ import { useFloatingReactions } from "@/components/chat/FloatingReactions";
 import { sendChatGift } from "@/lib/subscriptions.functions";
 import { toast } from "sonner";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
+import { SafetyMenu } from "@/components/SafetyMenu";
+
 
 
 
@@ -321,6 +323,8 @@ function HostChat() {
 
           <div className="ml-auto flex items-center gap-2">
             <ChatSkinPicker skin={skin} onChange={setSkin} highContrast={highContrast} onHighContrastChange={setHighContrast} />
+            <SafetyMenu userId={null} name={host.name} context="host chat" />
+
             {user && isJen ? (
               <button
                 onClick={() => setGiftOpen(true)}

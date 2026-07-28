@@ -57,6 +57,7 @@ import { Route as AdminWarRoomRouteImport } from './routes/admin.war-room'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminShowcaseBrainRouteImport } from './routes/admin.showcase-brain'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
 import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
@@ -314,6 +315,11 @@ const AdminShowcaseRoute = AdminShowcaseRouteImport.update({
   path: '/showcase',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminPayoutsRoute = AdminPayoutsRouteImport.update({
   id: '/payouts',
   path: '/payouts',
@@ -424,6 +430,7 @@ export interface FileRoutesByFullPath {
   '/admin/kyc': typeof AdminKycRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
@@ -489,6 +496,7 @@ export interface FileRoutesByTo {
   '/admin/kyc': typeof AdminKycRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
@@ -556,6 +564,7 @@ export interface FileRoutesById {
   '/admin/kyc': typeof AdminKycRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
@@ -624,6 +633,7 @@ export interface FileRouteTypes {
     | '/admin/kyc'
     | '/admin/payments'
     | '/admin/payouts'
+    | '/admin/reports'
     | '/admin/showcase'
     | '/admin/showcase-brain'
     | '/admin/users'
@@ -689,6 +699,7 @@ export interface FileRouteTypes {
     | '/admin/kyc'
     | '/admin/payments'
     | '/admin/payouts'
+    | '/admin/reports'
     | '/admin/showcase'
     | '/admin/showcase-brain'
     | '/admin/users'
@@ -755,6 +766,7 @@ export interface FileRouteTypes {
     | '/admin/kyc'
     | '/admin/payments'
     | '/admin/payouts'
+    | '/admin/reports'
     | '/admin/showcase'
     | '/admin/showcase-brain'
     | '/admin/users'
@@ -1190,6 +1202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminShowcaseRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/payouts': {
       id: '/admin/payouts'
       path: '/payouts'
@@ -1325,6 +1344,7 @@ interface AdminRouteChildren {
   AdminKycRoute: typeof AdminKycRoute
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminPayoutsRoute: typeof AdminPayoutsRoute
+  AdminReportsRoute: typeof AdminReportsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
   AdminShowcaseBrainRoute: typeof AdminShowcaseBrainRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -1340,6 +1360,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminKycRoute: AdminKycRoute,
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminPayoutsRoute: AdminPayoutsRoute,
+  AdminReportsRoute: AdminReportsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
   AdminShowcaseBrainRoute: AdminShowcaseBrainRoute,
   AdminUsersRoute: AdminUsersRoute,

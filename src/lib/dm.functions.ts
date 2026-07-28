@@ -15,6 +15,16 @@ export const dmSendMessage = createServerFn({ method: "POST" })
     const { evaluateChatAccess, CHAT_LOCKED_MESSAGE } = await import("@/lib/chat-access.server");
     const access = await evaluateChatAccess(context.userId);
     if (!access.allowed) throw new Error(CHAT_LOCKED_MESSAGE);
+
+    // Blocking works in both directions (App Store safety requirement).
+    const { data: blocked } = await context.supabase.rpc("is_blocked_between", {
+      _a: context.userId,
+      _b: data.recipientId,
+    });
+    if (blocked) throw new Error("You can't message this person.");
+
+
+
     const { error, data: row } = await context.supabase
 
       .from("messages")
