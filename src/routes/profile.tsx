@@ -6,6 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { deleteMyAccount } from "@/lib/account.functions";
 import { useServerFn } from "@tanstack/react-start";
+import { BlockedAccounts } from "@/components/BlockedAccounts";
+
 
 export const Route = createFileRoute("/profile")({
   head: () => ({ meta: [
