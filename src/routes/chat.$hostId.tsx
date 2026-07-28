@@ -297,7 +297,7 @@ function HostChat() {
           <p className="mt-2 text-sm opacity-90">Say hi — she's online now 💌</p>
         </div>
       ) : null}
-      <div className="flex min-h-[calc(100vh-1rem)] flex-col">
+      <div data-chat-skin={skin} className="chat-wallpaper flex min-h-[calc(100vh-1rem)] flex-col">
         <header className="flex items-center gap-3 pt-3 pb-2">
           <button onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="rounded-full border border-border p-2">
             <ArrowLeft className="h-4 w-4" />
@@ -319,20 +319,24 @@ function HostChat() {
             </div>
           </button>
 
-          {user && isJen ? (
-            <button
-              onClick={() => setGiftOpen(true)}
-              aria-label="Send gift"
-              className="ml-auto grid h-10 w-10 place-items-center rounded-full border border-border bg-background hover:bg-primary/10"
-            >
-              <Gift className="h-4 w-4 text-primary" />
-            </button>
-          ) : aiHost && !user ? (
-            <Link to="/auth" className="ml-auto rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary hover:bg-primary/20">
-              Sign up free
-            </Link>
-          ) : null}
+          <div className="ml-auto flex items-center gap-2">
+            <ChatSkinPicker skin={skin} onChange={setSkin} />
+            {user && isJen ? (
+              <button
+                onClick={() => setGiftOpen(true)}
+                aria-label="Send gift"
+                className="grid h-10 w-10 place-items-center rounded-full border border-border bg-background hover:bg-primary/10"
+              >
+                <Gift className="h-4 w-4 text-primary" />
+              </button>
+            ) : aiHost && !user ? (
+              <Link to="/auth" className="rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-[11px] font-semibold text-primary hover:bg-primary/20">
+                Sign up free
+              </Link>
+            ) : null}
+          </div>
         </header>
+
 
         {giftOpen ? (
           <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50" onClick={() => setGiftOpen(false)}>
