@@ -35,7 +35,7 @@ function UserChat() {
   const [busy, setBusy] = useState(false);
   const peerOnline = useIsOnline(userId);
   const { locked, onTrial, daysLeft } = useChatAccess();
-  const { skin, setSkin } = useChatSkin();
+  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin();
 
 
 
@@ -134,7 +134,7 @@ function UserChat() {
 
   return (
     <AppShell hideNav>
-      <div data-chat-skin={skin} className="chat-wallpaper flex min-h-[calc(100vh-1rem)] flex-col">
+      <div data-chat-skin={skin} data-chat-contrast={contrastAttr} className="chat-wallpaper flex min-h-[calc(100vh-1rem)] flex-col">
         <header className="flex items-center gap-3 pt-3 pb-2">
 
           <button onClick={() => navigate({ to: "/chats" })} className="rounded-full border border-border p-2">
@@ -164,7 +164,7 @@ function UserChat() {
               </p>
             </div>
           </button>
-          <ChatSkinPicker skin={skin} onChange={setSkin} className="ml-auto" />
+          <ChatSkinPicker skin={skin} onChange={setSkin} highContrast={highContrast} onHighContrastChange={setHighContrast} className="ml-auto" />
         </header>
 
 

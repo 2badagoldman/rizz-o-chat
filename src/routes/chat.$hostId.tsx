@@ -48,7 +48,7 @@ function HostChat() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [giftOpen, setGiftOpen] = useState(false);
-  const { skin, setSkin } = useChatSkin();
+  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin();
 
   const [emojiOpen, setEmojiOpen] = useState(false);
   const { fire, layer } = useFloatingReactions();
@@ -297,7 +297,7 @@ function HostChat() {
           <p className="mt-2 text-sm opacity-90">Say hi — she's online now 💌</p>
         </div>
       ) : null}
-      <div data-chat-skin={skin} className="chat-wallpaper flex min-h-[calc(100vh-1rem)] flex-col">
+      <div data-chat-skin={skin} data-chat-contrast={contrastAttr} className="chat-wallpaper flex min-h-[calc(100vh-1rem)] flex-col">
         <header className="flex items-center gap-3 pt-3 pb-2">
           <button onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="rounded-full border border-border p-2">
             <ArrowLeft className="h-4 w-4" />
@@ -320,7 +320,7 @@ function HostChat() {
           </button>
 
           <div className="ml-auto flex items-center gap-2">
-            <ChatSkinPicker skin={skin} onChange={setSkin} />
+            <ChatSkinPicker skin={skin} onChange={setSkin} highContrast={highContrast} onHighContrastChange={setHighContrast} />
             {user && isJen ? (
               <button
                 onClick={() => setGiftOpen(true)}
