@@ -215,7 +215,7 @@ export function SideDrawer({ open, onClose }: Props) {
             </Group>
 
             <Group label="Your space" open={open} index={1}>
-              {LIVE.map((r) => (
+              {liveRows.map((r) => (
                 <SettingsRow key={r.label} {...r} onNavigate={onClose} />
               ))}
             </Group>
