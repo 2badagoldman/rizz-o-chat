@@ -7,6 +7,11 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { deleteMyAccount } from "@/lib/account.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { BlockedAccounts } from "@/components/BlockedAccounts";
+import { PushNotificationsCard } from "@/components/PushNotificationsCard";
+import { useNativePlatform } from "@/hooks/useNative";
+import { captureNativePhoto } from "@/lib/native";
+import { Camera } from "lucide-react";
+
 
 
 export const Route = createFileRoute("/profile")({
@@ -54,6 +59,7 @@ function Profile() {
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleting, setDeleting] = useState(false);
   const runDeleteAccount = useServerFn(deleteMyAccount);
+  const isNative = useNativePlatform() !== "web";
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
@@ -173,7 +179,7 @@ function Profile() {
     }
   };
 
-  const onMediaPick = async (files: FileList) => {
+  const onMediaPick = async (files: FileList | File[]) => {
     setError(null);
     setUploadingMedia(true);
     try {
@@ -289,7 +295,23 @@ function Profile() {
         >
           {uploadingAvatar ? "Uploading…" : "Change profile photo"}
         </button>
+        {isNative ? (
+          <button
+            type="button"
+            onClick={async () => {
+              const f = await captureNativePhoto("camera");
+              if (f) void onAvatarPick(f);
+            }}
+            disabled={uploadingAvatar}
+            className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[12px] border border-border bg-background px-4 py-2 text-xs font-semibold uppercase tracking-wider text-foreground disabled:opacity-50"
+          >
+            <Camera className="h-4 w-4" /> Take a photo
+          </button>
+        ) : null}
       </section>
+
+      <PushNotificationsCard />
+
 
       {/* About me */}
       <section className="mt-6 rounded-2xl border border-border bg-card p-5 shadow-card">
@@ -329,15 +351,31 @@ function Profile() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             Photos & videos
           </h2>
-          <button
-            type="button"
-            onClick={() => mediaInputRef.current?.click()}
-            disabled={uploadingMedia}
-            className="rounded-full bg-gradient-to-r from-primary to-accent px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50"
-          >
-            {uploadingMedia ? "Uploading…" : "+ Upload"}
-          </button>
+          <div className="flex items-center gap-2">
+            {isNative ? (
+              <button
+                type="button"
+                onClick={async () => {
+                  const f = await captureNativePhoto("camera");
+                  if (f) void onMediaPick([f]);
+                }}
+                disabled={uploadingMedia}
+                className="inline-flex items-center gap-1 rounded-full border border-border px-3 py-1.5 text-xs font-semibold disabled:opacity-50"
+              >
+                <Camera className="h-3.5 w-3.5" /> Camera
+              </button>
+            ) : null}
+            <button
+              type="button"
+              onClick={() => mediaInputRef.current?.click()}
+              disabled={uploadingMedia}
+              className="rounded-full bg-gradient-to-r from-primary to-accent px-3 py-1.5 text-xs font-semibold text-white disabled:opacity-50"
+            >
+              {uploadingMedia ? "Uploading…" : "+ Upload"}
+            </button>
+          </div>
         </div>
+
         <p className="mt-2 text-[11px] text-muted-foreground">
           Captions show to everyone — the photo/video only unlocks after they join your Friends List.
         </p>

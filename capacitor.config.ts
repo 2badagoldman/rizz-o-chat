@@ -43,7 +43,9 @@ const config: CapacitorConfig = {
   plugins: {
     Keyboard: { resize: "native" },
     StatusBar: { style: "DARK", backgroundColor: "#0B0B12" },
+    PushNotifications: { presentationOptions: ["badge", "sound", "alert"] },
   },
+
 };
 
 export default config;
