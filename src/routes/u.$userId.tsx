@@ -6,6 +6,8 @@ import { ArrowLeft, MessageCircle } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { OnlineDot, useIsOnline } from "@/lib/presence";
 import { getPublicProfile } from "@/lib/people.functions";
+import { SafetyMenu } from "@/components/SafetyMenu";
+
 
 export const Route = createFileRoute("/u/$userId")({
   head: () => ({
@@ -58,7 +60,11 @@ function PublicProfilePage() {
           <ArrowLeft className="h-4 w-4" />
         </button>
         <h1 className="text-base font-semibold">Profile</h1>
+        {profile && profile.id !== user.id ? (
+          <SafetyMenu userId={profile.id} name={name} context="profile" className="ml-auto" />
+        ) : null}
       </header>
+
 
       {isLoading ? (
         <div className="pt-16 text-center text-sm text-muted-foreground">Loading profile…</div>

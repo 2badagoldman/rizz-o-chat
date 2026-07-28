@@ -6,6 +6,9 @@ import { hostAvatar } from "@/lib/host-avatars";
 import { useAuth } from "@/lib/auth";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
 import { useGoldAccess } from "@/hooks/useGoldAccess";
+import { useIosBillingRestricted } from "@/hooks/useNative";
+import { SafetyMenu } from "@/components/SafetyMenu";
+
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { pageHead } from "@/lib/seo";
 
@@ -60,6 +63,8 @@ function HostProfile() {
   const [tipAmount, setTipAmount] = useState(500);
   const { openCheckout, checkoutElement } = useStripeCheckout();
   const { hasGold } = useGoldAccess();
+  const iosRestricted = useIosBillingRestricted();
+
 
   if (!host) {
     return (
@@ -130,6 +135,17 @@ function HostProfile() {
         <X className="h-5 w-5" />
         Close
       </Link>
+
+      <div className="fixed left-4 top-20 z-[100]">
+        <SafetyMenu
+          userId={hostIsReal ? host.id : null}
+          name={host.name}
+          context="host profile"
+          className="h-12 w-12 shadow-card backdrop-blur"
+        />
+      </div>
+
+
 
       <div className="-mx-4">
         {/* Carousel */}
@@ -220,16 +236,18 @@ function HostProfile() {
                   </p>
                   <p className="truncate text-[11px] opacity-80">{host.city} · {host.subscribers} Friends</p>
                 </div>
-                <p className="whitespace-nowrap text-lg font-bold">
-                  {aiHost ? (
-                    <span className="text-gradient-brand">Free</span>
-                  ) : (
-                    <>
-                      ${host.priceMonthly}
-                      <span className="text-[11px] font-normal opacity-80">/mo</span>
-                    </>
-                  )}
-                </p>
+                {iosRestricted && !aiHost ? null : (
+                  <p className="whitespace-nowrap text-lg font-bold">
+                    {aiHost ? (
+                      <span className="text-gradient-brand">Free</span>
+                    ) : (
+                      <>
+                        ${host.priceMonthly}
+                        <span className="text-[11px] font-normal opacity-80">/mo</span>
+                      </>
+                    )}
+                  </p>
+                )}
               </div>
               <div className="flex items-center gap-2">
                 {aiHost ? (
@@ -245,6 +263,10 @@ function HostProfile() {
                     <Heart className="h-4 w-4 fill-white" />
                     Join {host.name}'s Friends List — Free
                   </button>
+                ) : iosRestricted ? (
+                  <div className="flex-1 rounded-2xl border border-white/20 bg-white/10 px-3 py-2.5 text-center text-[12px] font-semibold leading-snug">
+                    Friends List access already on your account works here.
+                  </div>
                 ) : (
                   <button
                     onClick={onSubscribe}
@@ -254,9 +276,11 @@ function HostProfile() {
                     {hasGold ? "Unlock Friends List" : "Get Rizz Gold to Unlock"}
                   </button>
                 )}
-                <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20">
-                  <Gift className="h-4 w-4" />
-                </button>
+                {iosRestricted ? null : (
+                  <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20">
+                    <Gift className="h-4 w-4" />
+                  </button>
+                )}
                 <button
                   onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: host.id } })}
                   aria-label="Message"
@@ -265,6 +289,7 @@ function HostProfile() {
                   <MessageCircle className="h-4 w-4" />
                 </button>
               </div>
+
             </div>
           </div>
         </div>

@@ -33,6 +33,8 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
   { to: "/admin/hosts", label: "Host Applications", icon: Crown },
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/kyc", label: "Age Verification", icon: ShieldAlert },
+  { to: "/admin/reports", label: "Abuse Reports", icon: ShieldAlert },
+
   { to: "/admin/compliance", label: "Daily Report", icon: ClipboardList },
   { to: "/admin/payouts", label: "Payouts", icon: Wallet },
   { to: "/admin/payments", label: "Payment Log", icon: ReceiptText },
