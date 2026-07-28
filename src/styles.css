@@ -948,3 +948,72 @@ html.is-native ::-webkit-scrollbar {
 @utility chat-wallpaper {
   background-image: var(--chat-wallpaper);
 }
+
+/* ============================================================
+   AUTO HIGH CONTRAST — WCAG AA safe bubble/text pairs.
+   Applied via [data-chat-contrast="high"] on the chat container.
+   Flat fills (no gradients) so every pair has a measurable ratio.
+   ============================================================ */
+[data-chat-contrast="high"] {
+  --chat-mine-bg: linear-gradient(#a1123f, #a1123f);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #ffffff;
+  --chat-peer-fg: #101014;
+  --chat-peer-border: rgba(16,16,20,0.45);
+  --chat-wallpaper: transparent;
+  --chat-mine-shadow: 0 10px 26px -18px rgba(0,0,0,0.7);
+}
+
+[data-chat-contrast="high"][data-chat-skin="midnight"] {
+  --chat-mine-bg: linear-gradient(#3730a3, #3730a3);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #0e0d18;
+  --chat-peer-fg: #ffffff;
+  --chat-peer-border: rgba(255,255,255,0.55);
+}
+
+[data-chat-contrast="high"][data-chat-skin="ocean"] {
+  --chat-mine-bg: linear-gradient(#1d4ed8, #1d4ed8);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #ffffff;
+  --chat-peer-fg: #0b2545;
+  --chat-peer-border: rgba(11,37,69,0.45);
+}
+
+[data-chat-contrast="high"][data-chat-skin="sunset"] {
+  --chat-mine-bg: linear-gradient(#9a3412, #9a3412);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #fffaf3;
+  --chat-peer-fg: #3a1c08;
+  --chat-peer-border: rgba(58,28,8,0.45);
+}
+
+[data-chat-contrast="high"][data-chat-skin="mint"] {
+  --chat-mine-bg: linear-gradient(#065f46, #065f46);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #f5fffa;
+  --chat-peer-fg: #08301f;
+  --chat-peer-border: rgba(8,48,31,0.45);
+}
+
+[data-chat-contrast="high"][data-chat-skin="lavender"] {
+  --chat-mine-bg: linear-gradient(#5b21b6, #5b21b6);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #faf7ff;
+  --chat-peer-fg: #2a1046;
+  --chat-peer-border: rgba(42,16,70,0.45);
+}
+
+[data-chat-contrast="high"][data-chat-skin="noir"] {
+  --chat-mine-bg: linear-gradient(#000000, #000000);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #ffffff;
+  --chat-peer-fg: #000000;
+  --chat-peer-border: rgba(0,0,0,0.6);
+}
+
+[data-chat-contrast="high"] .chat-type,
+[data-chat-contrast="high"] [class*="chat-bubble-"] {
+  font-weight: 700;
+  letter-spacing: 0.005em;
+}
