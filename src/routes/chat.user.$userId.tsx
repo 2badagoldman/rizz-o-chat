@@ -164,9 +164,9 @@ function UserChat() {
               </p>
             </div>
           </button>
-
-
+          <ChatSkinPicker skin={skin} onChange={setSkin} className="ml-auto" />
         </header>
+
 
         <VirtualMessageList
           items={items}
