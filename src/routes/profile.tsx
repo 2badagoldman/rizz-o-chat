@@ -59,6 +59,7 @@ function Profile() {
   const [deleteConfirm, setDeleteConfirm] = useState("");
   const [deleting, setDeleting] = useState(false);
   const runDeleteAccount = useServerFn(deleteMyAccount);
+  const isNative = useNativePlatform() !== "web";
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const mediaInputRef = useRef<HTMLInputElement>(null);
 
@@ -178,7 +179,7 @@ function Profile() {
     }
   };
 
-  const onMediaPick = async (files: FileList) => {
+  const onMediaPick = async (files: FileList | File[]) => {
     setError(null);
     setUploadingMedia(true);
     try {
