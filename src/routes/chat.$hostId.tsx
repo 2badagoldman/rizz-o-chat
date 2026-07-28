@@ -16,6 +16,8 @@ import { useChatAccess } from "@/hooks/useChatAccess";
 import { useFloatingReactions } from "@/components/chat/FloatingReactions";
 import { sendChatGift } from "@/lib/subscriptions.functions";
 import { toast } from "sonner";
+import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
+
 
 
 // Jen is a demo id — coin economy only applies to real host UUIDs.
@@ -45,7 +47,7 @@ function HostChat() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [input, setInput] = useState("");
-  const [giftOpen, setGiftOpen] = useState(false);
+  const { skin, setSkin } = useChatSkin();
   const [emojiOpen, setEmojiOpen] = useState(false);
   const { fire, layer } = useFloatingReactions();
   // Per-message reactions (Apple-style): messageId -> emojis.
