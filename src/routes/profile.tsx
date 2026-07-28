@@ -535,7 +535,10 @@ function Profile() {
             Delete my account
           </button>
         )}
+
+        <BlockedAccounts />
       </div>
+
     </AppShell>
   );
 }
