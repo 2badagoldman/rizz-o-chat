@@ -47,7 +47,9 @@ function HostChat() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [input, setInput] = useState("");
+  const [giftOpen, setGiftOpen] = useState(false);
   const { skin, setSkin } = useChatSkin();
+
   const [emojiOpen, setEmojiOpen] = useState(false);
   const { fire, layer } = useFloatingReactions();
   // Per-message reactions (Apple-style): messageId -> emojis.
