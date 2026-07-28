@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, Users, Settings } from "lucide-react";
 import { toast } from "sonner";
 import { getRoom, listRoomMessages, sendRoomMessage, listRoomMembers } from "@/lib/rooms.functions";
+import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
+
 
 export const Route = createFileRoute("/rooms/$roomId")({
   head: () => ({ meta: [
@@ -31,6 +33,8 @@ function RoomChatPage() {
   const [err, setErr] = useState<string | null>(null);
   const [showMembers, setShowMembers] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const { skin, setSkin } = useChatSkin();
+
 
   useEffect(() => {
     if (!user) return;
@@ -91,6 +95,7 @@ function RoomChatPage() {
 
   return (
     <AppShell>
+      <div data-chat-skin={skin} className="chat-wallpaper -mx-4 px-4">
       <div className="sticky top-0 z-10 -mx-4 flex items-center gap-3 border-b border-border bg-background/90 px-4 py-3 backdrop-blur">
         <button onClick={() => navigate({ to: "/chats" })} className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5" /></button>
         <div className="h-9 w-9 grid place-items-center rounded-full bg-gradient-brand text-white"><Users className="h-4 w-4" /></div>
@@ -98,6 +103,7 @@ function RoomChatPage() {
           <p className="truncate text-sm font-semibold">{room.name}</p>
           <p className="text-[11px] text-muted-foreground">{members.length + 1} in room · group chat</p>
         </div>
+        <ChatSkinPicker skin={skin} onChange={setSkin} />
         <button onClick={() => setShowMembers((v) => !v)} className="rounded-full border border-border p-2 hover:border-primary hover:text-primary" aria-label="Members">
           <Users className="h-4 w-4" />
         </button>
@@ -129,8 +135,8 @@ function RoomChatPage() {
           const mine = m.sender_id === user.id;
           return (
             <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[80%] rounded-[22px] px-4 py-2.5 ${mine ? "rounded-br-md bg-gradient-brand text-primary-foreground" : "rounded-bl-md bg-card border border-border text-card-foreground"}`}>
-                {!mine ? <p className="chat-meta text-primary">{m.sender?.display_name ?? "Member"}</p> : null}
+              <div className={`max-w-[80%] rounded-[22px] px-4 py-2.5 ${mine ? "rounded-br-md chat-bubble-mine" : "rounded-bl-md chat-bubble-peer"}`}>
+                {!mine ? <p className="chat-meta opacity-70">{m.sender?.display_name ?? "Member"}</p> : null}
                 <p className="chat-type whitespace-pre-wrap break-words">{m.body}</p>
               </div>
             </div>
@@ -138,6 +144,8 @@ function RoomChatPage() {
         })}
         <div ref={bottomRef} />
       </div>
+      </div>
+
 
       <form onSubmit={onSend} className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 p-3 backdrop-blur">
         <div className="mx-auto flex max-w-2xl items-end gap-2">
