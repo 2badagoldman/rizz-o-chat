@@ -21,7 +21,24 @@ Configuration lives in `capacitor.config.ts` (app id `com.kolotechnology.rizzla`
 
 | Support contact | Done | rizzchatsupport@gmail.com, `/legal/contact` |
 | Safe-area insets, status bar, hardware back button, haptics | Done | `src/lib/native.ts`, `src/styles.css` |
+| Native camera capture (avatar + profile media) | Done | `captureNativePhoto()` in `src/lib/native.ts`, Profile page |
+| Push notifications opt-in + device token storage | Done | `PushNotificationsCard`, `public.push_devices` |
 | PWA manifest + icons (Windows/PWABuilder) | Done | `public/manifest.webmanifest` |
+
+### Push notifications — native setup
+
+The web app registers the device and stores the APNs/FCM token in
+`public.push_devices` (one row per device, user-scoped). Native side:
+
+- **iOS**: enable the *Push Notifications* capability and *Background Modes →
+  Remote notifications* in Xcode, upload an APNs key in the Apple Developer
+  portal, and add `NSCameraUsageDescription` / `NSPhotoLibraryUsageDescription`.
+- **Android**: add `google-services.json` from a Firebase project to
+  `android/app/`; Capacitor wires FCM automatically.
+
+Send pushes from the backend by reading `push_devices` and calling APNs/FCM.
+Include `{ "link": "/chats" }` in the payload to deep-link on tap.
+
 
 Before each store submission: publish the web app first (native shells load the
 live site), then verify the shell against production.
