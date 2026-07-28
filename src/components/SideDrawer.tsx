@@ -66,6 +66,9 @@ export function SideDrawer({ open, onClose }: Props) {
   const { user, signOut } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const [peopleOpen, setPeopleOpen] = useState(false);
+  const iosRestricted = useIosBillingRestricted();
+  // Apple 3.1.1: no external purchase entry points inside the iOS build.
+  const liveRows = iosRestricted ? LIVE.filter((r) => r.to !== "/coins") : LIVE;
 
   useEffect(() => {
     if (!user) { setIsAdmin(false); return; }
