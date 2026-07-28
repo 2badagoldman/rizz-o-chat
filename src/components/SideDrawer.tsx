@@ -23,6 +23,7 @@ import {
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { useAuth } from "@/lib/auth";
 import { PeopleDiscovery } from "./PeopleDiscovery";
+import { useIosBillingRestricted } from "@/hooks/useNative";
 
 interface Props {
   open: boolean;
@@ -66,6 +67,9 @@ export function SideDrawer({ open, onClose }: Props) {
   const { user, signOut } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
   const [peopleOpen, setPeopleOpen] = useState(false);
+  const iosRestricted = useIosBillingRestricted();
+  // Apple 3.1.1: no external purchase entry points inside the iOS build.
+  const liveRows = iosRestricted ? LIVE.filter((r) => r.to !== "/coins") : LIVE;
 
   useEffect(() => {
     if (!user) { setIsAdmin(false); return; }
@@ -211,7 +215,7 @@ export function SideDrawer({ open, onClose }: Props) {
             </Group>
 
             <Group label="Your space" open={open} index={1}>
-              {LIVE.map((r) => (
+              {liveRows.map((r) => (
                 <SettingsRow key={r.label} {...r} onNavigate={onClose} />
               ))}
             </Group>

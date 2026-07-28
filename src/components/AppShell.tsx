@@ -11,6 +11,7 @@ import { LegalFooter } from "./LegalFooter";
 import { KycGate } from "./KycGate";
 import { PageAtmosphere } from "./PageAtmosphere";
 import { PrismLayer } from "./Prism";
+import { useIosBillingRestricted } from "@/hooks/useNative";
 
 
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -29,6 +30,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
   const suppressDock = hideNav || hideDock || pathname === "/copilot" || pathname === "/auth";
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const iosRestricted = useIosBillingRestricted();
 
   useEffect(() => {
     initScrollReveal();
@@ -88,18 +90,22 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
               <Search className="h-4 w-4" />
             </button>
             <ThemeToggle />
-            <Link
-              to="/coins"
-              className="press-spring rounded-full border border-border/70 bg-card/60 px-3 py-1 text-[11px] font-semibold text-foreground backdrop-blur-xl hover:bg-primary/10"
-            >
-              Coins
-            </Link>
-            <Link
-              to="/upgrade"
-              className="press-spring btn-brand !py-1 !px-3 text-[11px] hover:btn-brand-hover"
-            >
-              Upgrade
-            </Link>
+            {!iosRestricted ? (
+              <>
+                <Link
+                  to="/coins"
+                  className="press-spring rounded-full border border-border/70 bg-card/60 px-3 py-1 text-[11px] font-semibold text-foreground backdrop-blur-xl hover:bg-primary/10"
+                >
+                  Coins
+                </Link>
+                <Link
+                  to="/upgrade"
+                  className="press-spring btn-brand !py-1 !px-3 text-[11px] hover:btn-brand-hover"
+                >
+                  Upgrade
+                </Link>
+              </>
+            ) : null}
           </div>
         </div>
         </div>
