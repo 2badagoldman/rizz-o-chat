@@ -12,6 +12,8 @@ import { toast } from "sonner";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
 import { useChatAccess } from "@/hooks/useChatAccess";
+import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
+
 
 export const Route = createFileRoute("/chat/user/$userId")({
   head: () => ({ meta: [
@@ -32,7 +34,7 @@ function UserChat() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const peerOnline = useIsOnline(userId);
-  const { locked, onTrial, daysLeft } = useChatAccess();
+  const { skin, setSkin } = useChatSkin();
 
 
   useEffect(() => {
