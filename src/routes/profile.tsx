@@ -539,6 +539,27 @@ function Profile() {
         )}
 
         <BlockedAccounts />
+
+        <section className="rounded-2xl border border-border bg-card/70 p-4">
+          <h2 className="text-sm font-bold">Legal</h2>
+          <p className="mt-1 text-[12px] text-muted-foreground">
+            Review the agreement and privacy practices that govern your account.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link
+              to="/legal/terms"
+              className="rounded-xl border border-border bg-background/70 px-3 py-2 text-[12.5px] font-semibold transition hover:border-primary/50 hover:text-primary"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              to="/legal/privacy"
+              className="rounded-xl border border-border bg-background/70 px-3 py-2 text-[12.5px] font-semibold transition hover:border-primary/50 hover:text-primary"
+            >
+              Privacy Policy
+            </Link>
+          </div>
+        </section>
       </div>
 
     </AppShell>

@@ -324,8 +324,8 @@ function AuthPage() {
 
       <p className="mt-6 text-center text-[11px] text-muted-foreground">
         By continuing you agree to our{" "}
-        <Link to="/" className="underline">Terms</Link> and{" "}
-        <Link to="/" className="underline">Privacy Policy</Link>.
+        <Link to="/legal/terms" className="underline">Terms of Service</Link> and{" "}
+        <Link to="/legal/privacy" className="underline">Privacy Policy</Link>.
       </p>
     </AppShell>
   );
