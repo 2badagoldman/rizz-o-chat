@@ -16,7 +16,9 @@ Configuration lives in `capacitor.config.ts` (app id `com.kolotechnology.rizzla`
 | In-app account deletion (Apple 5.1.1(v), Play data deletion) | Done | Profile → “Delete my account” (`src/lib/account.functions.ts`) |
 | No external purchase links inside the iOS build (Apple 3.1.1) | Done | `useIosBillingRestricted()` hides Stripe CTAs on `/coins` and `/upgrade` |
 | Privacy Policy + Terms reachable without an account | Done | `/legal/privacy`, `/legal/terms` |
-| Report / block + moderation policy | Done | `/legal/acceptable-use`, `/legal/trust` |
+| Report / block users + 24h moderation (Apple 1.2) | Done | `SafetyMenu` in chats & profiles, blocked list in Profile, `/admin/reports` |
+| Content policy | Done | `/legal/acceptable-use`, `/legal/trust` |
+
 | Support contact | Done | rizzchatsupport@gmail.com, `/legal/contact` |
 | Safe-area insets, status bar, hardware back button, haptics | Done | `src/lib/native.ts`, `src/styles.css` |
 | PWA manifest + icons (Windows/PWABuilder) | Done | `public/manifest.webmanifest` |
