@@ -289,7 +289,23 @@ function Profile() {
         >
           {uploadingAvatar ? "Uploading…" : "Change profile photo"}
         </button>
+        {isNative ? (
+          <button
+            type="button"
+            onClick={async () => {
+              const f = await captureNativePhoto("camera");
+              if (f) void onAvatarPick(f);
+            }}
+            disabled={uploadingAvatar}
+            className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[12px] border border-border bg-background px-4 py-2 text-xs font-semibold uppercase tracking-wider text-foreground disabled:opacity-50"
+          >
+            <Camera className="h-4 w-4" /> Take a photo
+          </button>
+        ) : null}
       </section>
+
+      <PushNotificationsCard />
+
 
       {/* About me */}
       <section className="mt-6 rounded-2xl border border-border bg-card p-5 shadow-card">
