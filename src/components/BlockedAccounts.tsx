@@ -14,7 +14,7 @@ export function BlockedAccounts() {
 
   const { data: blocks } = useQuery({
     queryKey: ["my-blocks"],
-    queryFn: () => fetchBlocks({ data: {} }),
+    queryFn: () => fetchBlocks(),
   });
 
   useEffect(() => {
