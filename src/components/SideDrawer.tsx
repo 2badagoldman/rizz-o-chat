@@ -23,6 +23,7 @@ import {
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { useAuth } from "@/lib/auth";
 import { PeopleDiscovery } from "./PeopleDiscovery";
+import { useIosBillingRestricted } from "@/hooks/useNative";
 
 interface Props {
   open: boolean;
