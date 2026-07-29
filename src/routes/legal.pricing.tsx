@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/pricing")({
   head: () => pageHead({
     path: "/legal/pricing",
-    title: "Pricing for Products & Services \u2014 Rizzla Chat",
-    description: "Full price list for Rizzla Chat: coin packs from $4.99, Rizz Gold and Rizz Diamond VIP weekly memberships, host Friends List memberships, and tips \u2014 all in USD with taxes shown at checkout.",
+    title: "Pricing for Products & Services \u2014 Crush Chat",
+    description: "Full price list for Crush Chat: coin packs from $4.99, Crush Gold and Crush Diamond VIP weekly memberships, host Friends List memberships, and tips \u2014 all in USD with taxes shown at checkout.",
     type: "article",
   }),
   component: Pricing,
@@ -21,8 +21,8 @@ const COINS = [
 ];
 
 const PLANS = [
-  { name: "Rizz Gold", billing: "Weekly, auto-renewing", price: "$9.99 / week" },
-  { name: "Rizz Diamond VIP", billing: "Weekly, auto-renewing", price: "$19.99 / week" },
+  { name: "Crush Gold", billing: "Weekly, auto-renewing", price: "$9.99 / week" },
+  { name: "Crush Diamond VIP", billing: "Weekly, auto-renewing", price: "$19.99 / week" },
 ];
 
 function Table({

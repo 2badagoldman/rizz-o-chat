@@ -11,8 +11,8 @@ import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 export const Route = createFileRoute('/coins')({
   head: () => pageHead({
     path: "/coins",
-    title: "Buy coins \u2014 Rizz Social",
-    description: "Top up your Rizz Social wallet with coins to send gifts, tip hosts, and unlock perks.",
+    title: "Buy coins \u2014 Crush",
+    description: "Top up your Crush wallet with coins to send gifts, tip hosts, and unlock perks.",
   }),
   component: CoinsPage,
 });

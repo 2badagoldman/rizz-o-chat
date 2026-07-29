@@ -13,8 +13,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/discover")({
   head: () => pageHead({
     path: "/discover",
-    title: "Discover verified hosts \u2014 Rizz Social",
-    description: "Browse verified hosts, filter by tier, and find your next favorite chat. Join Friends Lists on Rizz Social.",
+    title: "Discover verified hosts \u2014 Crush",
+    description: "Browse verified hosts, filter by tier, and find your next favorite chat. Join Friends Lists on Crush.",
   }),
   component: Discover,
 });
@@ -80,7 +80,7 @@ function Discover() {
   };
 
   return (
-    <AppShell footerNote={<>Hosts on Rizz Social are compensated partners.</>}>
+    <AppShell footerNote={<>Hosts on Crush are compensated partners.</>}>
       <header className="pt-4">
         <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Discover</p>
         <h1 className="mt-1 text-2xl">Verified hosts, ready to chat.</h1>

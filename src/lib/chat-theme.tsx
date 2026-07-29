@@ -4,7 +4,7 @@ import { Palette, Check, Contrast } from "lucide-react";
 export type ChatSkin = "brand" | "midnight" | "ocean" | "sunset" | "mint" | "lavender" | "noir";
 
 export const CHAT_SKINS: { id: ChatSkin; label: string; swatch: string }[] = [
-  { id: "brand", label: "Rizzla", swatch: "linear-gradient(135deg,#ff6b35,#e84393,#6c5ce7)" },
+  { id: "brand", label: "Crush", swatch: "linear-gradient(135deg,#ff6b35,#e84393,#6c5ce7)" },
   { id: "midnight", label: "Midnight", swatch: "linear-gradient(135deg,#6366f1,#a855f7)" },
   { id: "ocean", label: "Ocean", swatch: "linear-gradient(135deg,#0ea5e9,#1d4ed8)" },
   { id: "sunset", label: "Sunset", swatch: "linear-gradient(135deg,#fb7185,#f59e0b)" },

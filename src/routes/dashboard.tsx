@@ -10,7 +10,7 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Dashboard — Rizz Social" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Dashboard — Crush" }] }),
   component: Dashboard,
 });
 
@@ -152,7 +152,7 @@ function Dashboard() {
           >
             <div>
               <p className="text-sm font-semibold flex items-center gap-1.5">
-                <img src={rizzAiLogo.url} alt="" className="h-5 w-5 rounded-full" /> Ask Rizz AI
+                <img src={rizzAiLogo.url} alt="" className="h-5 w-5 rounded-full" /> Ask Crush AI
               </p>
 
               <p className="text-xs text-muted-foreground mt-0.5">

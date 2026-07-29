@@ -8,10 +8,10 @@ const projectRef = import.meta.env.VITE_SUPABASE_PROJECT_ID ?? "project-ref-unse
 
 export default defineMcp({
   name: "rizzla-mcp",
-  title: "Rizzla AI",
+  title: "Crush",
   version: "0.1.0",
   instructions:
-    "Tools for the signed-in Rizzla user. Read/update your profile, check your coin wallet, and browse hosts.",
+    "Tools for the signed-in Crush user. Read/update your profile, check your coin wallet, and browse hosts.",
   auth: auth.oauth.issuer({
     issuer: `https://${projectRef}.supabase.co/auth/v1`,
     acceptedAudiences: "authenticated",

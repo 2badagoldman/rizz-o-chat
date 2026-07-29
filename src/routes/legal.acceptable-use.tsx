@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/acceptable-use")({
   head: () => pageHead({
     path: "/legal/acceptable-use",
-    title: "Acceptable Use & Content Policy \u2014 Rizzla Chat",
-    description: "Rizzla Chat community rules: 18+ only, consent and age verification for all media, zero tolerance for CSAM, non-consensual content, trafficking, harassment and fraud, plus moderation and appeals.",
+    title: "Acceptable Use & Content Policy \u2014 Crush Chat",
+    description: "Crush Chat community rules: 18+ only, consent and age verification for all media, zero tolerance for CSAM, non-consensual content, trafficking, harassment and fraud, plus moderation and appeals.",
     type: "article",
   }),
   component: AcceptableUse,
@@ -17,7 +17,7 @@ function AcceptableUse() {
   return (
     <LegalDoc
       title="Acceptable Use & Content Policy"
-      subtitle={`Rizzla is an adults-only (${LEGAL.minAge}+) social platform. These rules apply to every member, Host, room, message and upload — no exceptions.`}
+      subtitle={`Crush is an adults-only (${LEGAL.minAge}+) social platform. These rules apply to every member, Host, room, message and upload — no exceptions.`}
     >
       <Section heading="1. Zero tolerance — instant permanent ban">
         <Bullets
@@ -35,7 +35,7 @@ function AcceptableUse() {
       <Section heading="2. Age and consent requirements for uploads">
         <Bullets
           items={[
-            `Every person appearing in content you upload must be ${LEGAL.minAge} or older and must have given consent to appear and to be shown on Rizzla.`,
+            `Every person appearing in content you upload must be ${LEGAL.minAge} or older and must have given consent to appear and to be shown on Crush.`,
             "You must be able to evidence consent and age on request. We may remove media and suspend an account until you can.",
             "Do not upload media you do not own or have not licensed, including content scraped from other platforms or models.",
             "Do not impersonate another person, brand or creator, or use AI likenesses of real people without their consent.",
@@ -64,7 +64,7 @@ function AcceptableUse() {
           Flirtatious, suggestive and tasteful adult-oriented content between consenting adults is permitted, subject to
           the rules above and to any additional restrictions imposed by our payment provider or app store distribution
           rules. Explicit pornographic content, and any content offered in exchange for sexual services, is not permitted
-          on Rizzla.
+          on Crush.
         </p>
       </Section>
 

@@ -14,7 +14,7 @@ import {
 
 export const Route = createFileRoute("/host/rooms")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Rooms — Rizzla" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Rooms — Crush" }] }),
   component: HostRoomsPage,
 });
 

@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/law-enforcement")({
   head: () => pageHead({
     path: "/legal/law-enforcement",
-    title: "Law Enforcement Guidelines \u2014 Rizzla Chat",
-    description: "How law enforcement and government agencies can submit legal requests, preservation demands and emergency disclosure requests to Rizzla Chat, and what data may be available.",
+    title: "Law Enforcement Guidelines \u2014 Crush Chat",
+    description: "How law enforcement and government agencies can submit legal requests, preservation demands and emergency disclosure requests to Crush Chat, and what data may be available.",
     type: "article",
   }),
   component: LawEnforcement,

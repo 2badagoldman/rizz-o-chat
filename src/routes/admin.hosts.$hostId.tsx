@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/hosts/$hostId")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Host review — Rizzla Admin" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Host review — Crush Admin" }] }),
   component: AdminHostDetail,
 });
 

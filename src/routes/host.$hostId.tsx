@@ -21,15 +21,15 @@ export const Route = createFileRoute("/host/$hostId")({
   head: ({ params }) => {
     const h = DEMO_HOSTS.find((x) => x.id === params.hostId);
     const url = `https://rizzlachat.com/host/${params.hostId}`;
-    const title = h ? `${h.name} — Chat on Rizz Social` : "Host — Rizz Social";
-    const desc = h?.tagline ?? "Meet a verified host on Rizz Social. Join their Friends List and start chatting.";
+    const title = h ? `${h.name} — Chat on Crush` : "Host — Crush";
+    const desc = h?.tagline ?? "Meet a verified host on Crush. Join their Friends List and start chatting.";
     return {
       ...pageHead({
         path: `/host/${params.hostId}`,
         title,
         description: desc,
         type: "profile",
-        imageAlt: h ? `${h.name} on Rizzla AI` : undefined,
+        imageAlt: h ? `${h.name} on Crush` : undefined,
       }),
       scripts: h
         ? [
@@ -40,7 +40,7 @@ export const Route = createFileRoute("/host/$hostId")({
                 "@type": "Product",
                 name: `${h.name} — Friends List`,
                 description: h.tagline,
-                brand: { "@type": "Brand", name: "Rizz Social" },
+                brand: { "@type": "Brand", name: "Crush" },
                 url,
               }),
             },
@@ -98,7 +98,7 @@ function HostProfile() {
 
   const onSubscribe = () => {
     if (!user) return navigate({ to: "/auth" });
-    // Friends Lists are Rizz Gold only.
+    // Friends Lists are Crush Gold only.
     if (!hasGold) return navigate({ to: "/upgrade" });
     if (!hostIsReal) {
       alert(`${host.name} is a demo profile — checkout will unlock once real hosts sign up.`);
@@ -273,7 +273,7 @@ function HostProfile() {
                     className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
                   >
                     <img src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
-                    {hasGold ? "Unlock Friends List" : "Get Rizz Gold to Unlock"}
+                    {hasGold ? "Unlock Friends List" : "Get Crush Gold to Unlock"}
                   </button>
                 )}
                 {iosRestricted ? null : (

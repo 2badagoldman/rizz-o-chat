@@ -15,8 +15,8 @@ import { KycInboxNotice } from "@/components/KycInboxNotice";
 export const Route = createFileRoute("/chats")({
   head: () => pageHead({
     path: "/chats",
-    title: "Your chats \u2014 Rizz Social",
-    description: "All your Rizz Social conversations in one place. Chat with verified hosts and friends.",
+    title: "Your chats \u2014 Crush",
+    description: "All your Crush conversations in one place. Chat with verified hosts and friends.",
     noindex: true,
   }),
 
@@ -125,7 +125,7 @@ function Chats() {
         <h2 className="text-sm font-semibold">Chat free with our AI hosts</h2>
       </div>
       <p className="mt-0.5 text-xs text-muted-foreground">
-        {aiHosts.length} signature hosts — powered by Rizz AI. Free to chat, no signup required.
+        {aiHosts.length} signature hosts — powered by Crush AI. Free to chat, no signup required.
       </p>
       <div className="mt-3 space-y-2">
         {aiHosts.map((h) => (

@@ -22,7 +22,7 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Admin — Rizzla" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Admin — Crush" }] }),
   component: AdminLayout,
 });
 
@@ -93,7 +93,7 @@ function AdminLayout() {
           <Link to="/admin" className="flex items-center gap-2">
             <img src={rizzAiLogo.url} alt="" className="h-7 w-7 rounded-full" />
             <div>
-              <p className="text-sm font-bold leading-tight">Rizzla Admin</p>
+              <p className="text-sm font-bold leading-tight">Crush Admin</p>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Master console</p>
             </div>
           </Link>

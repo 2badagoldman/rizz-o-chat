@@ -13,10 +13,10 @@ export const Route = createFileRoute('/checkout/return')({
   head: () => ({
     meta: [
       { name: "robots", content: "noindex, nofollow" },
-      { title: 'Payment complete — Rizzla' },
-      { name: 'description', content: 'Your Rizzla membership or coin purchase is confirmed. Access unlocks in seconds.' },
-      { property: 'og:title', content: 'Payment complete — Rizzla' },
-      { property: 'og:description', content: 'Your Rizzla membership or coin purchase is confirmed.' },
+      { title: 'Payment complete — Crush' },
+      { name: 'description', content: 'Your Crush membership or coin purchase is confirmed. Access unlocks in seconds.' },
+      { property: 'og:title', content: 'Payment complete — Crush' },
+      { property: 'og:description', content: 'Your Crush membership or coin purchase is confirmed.' },
     ],
   }),
   validateSearch: (search: Record<string, unknown>): { session_id?: string } => ({

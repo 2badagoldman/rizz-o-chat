@@ -19,7 +19,7 @@ import { SafetyMenu } from "@/components/SafetyMenu";
 
 export const Route = createFileRoute("/chat/user/$userId")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Chat — Rizzla" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Chat — Crush" }] }),
   component: UserChat,
 });
 
@@ -189,7 +189,7 @@ function UserChat() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); submit(e); } }}
             disabled={locked}
-            placeholder={locked ? "Upgrade to Rizz Gold to keep chatting…" : `Message ${peer?.display_name ?? "user"}…`}
+            placeholder={locked ? "Upgrade to Crush Gold to keep chatting…" : `Message ${peer?.display_name ?? "user"}…`}
             rows={1}
             className="chat-type min-h-[48px] max-h-32 flex-1 resize-none rounded-[22px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
           />

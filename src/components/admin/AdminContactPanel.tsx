@@ -17,7 +17,7 @@ const TEMPLATES: ReadonlyArray<{ label: string; text: (name: string) => string }
   {
     label: "Finish 18+ verification",
     text: (n) =>
-      `Hi ${n}, it's the Rizzla team. To keep your account active you still need to finish the 18+ age verification. It takes 2 minutes — open the app and go to Verify to upload your ID. Reply here if anything gets stuck.`,
+      `Hi ${n}, it's the Crush team. To keep your account active you still need to finish the 18+ age verification. It takes 2 minutes — open the app and go to Verify to upload your ID. Reply here if anything gets stuck.`,
   },
   {
     label: "Deadline reminder",

@@ -2,8 +2,8 @@
 // Update these values here and every policy page stays consistent.
 
 export const LEGAL = {
-  brand: "Rizzla",
-  productName: "Rizzla Chat (Rizz Social)",
+  brand: "Crush",
+  productName: "Crush Chat",
   entity: "KOLO TECHNOLOGY LLC",
   addressLines: ["1802 Pleasant Valley Rd, Ste 400", "Garland, TX 75040-2861", "United States"],
   address: "1802 Pleasant Valley Rd, Ste 400, Garland, TX 75040-2861, United States",
@@ -19,7 +19,7 @@ export const LEGAL = {
 } as const;
 
 export const LEGAL_PAGES = [
-  { to: "/legal/terms", title: "Terms of Service", blurb: "The agreement between you and us for using Rizzla." },
+  { to: "/legal/terms", title: "Terms of Service", blurb: "The agreement between you and us for using Crush." },
   { to: "/legal/privacy", title: "Privacy Policy", blurb: "What we collect, why, who processes it, and your rights." },
   { to: "/legal/refunds", title: "Refund & Cancellation Policy", blurb: "Coins, memberships, tips, renewals and how to cancel." },
   { to: "/legal/billing", title: "Billing & Payment Terms", blurb: "Pricing, taxes, currency, renewals and card statements." },

@@ -19,8 +19,8 @@ export const Route = createFileRoute("/host/onboarding")({
   head: () => ({
     meta: [
       { name: "robots", content: "noindex, nofollow" },
-      { title: "Become a Host — Rizz Social" },
-      { name: "description", content: "Apply, verify, price your Friends List, and publish — the creator studio for Rizz Social." },
+      { title: "Become a Host — Crush" },
+      { name: "description", content: "Apply, verify, price your Friends List, and publish — the creator studio for Crush." },
     ],
   }),
   component: HostOnboarding,
@@ -377,7 +377,7 @@ function HostOnboarding() {
       </section>
 
       <p className="mt-4 text-center text-[11px] text-muted-foreground">
-        Need help? Ask <span className="text-gradient-brand font-semibold">Rizz AI</span> — she&apos;ll coach you through this whole flow.
+        Need help? Ask <span className="text-gradient-brand font-semibold">Crush AI</span> — she&apos;ll coach you through this whole flow.
       </p>
     </AppShell>
   );

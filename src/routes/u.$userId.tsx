@@ -13,8 +13,8 @@ export const Route = createFileRoute("/u/$userId")({
   head: () => ({
     meta: [
       { name: "robots", content: "noindex, nofollow" },
-      { title: "Profile — Rizzla" },
-      { name: "description", content: "View a Rizzla member profile and start chatting." },
+      { title: "Profile — Crush" },
+      { name: "description", content: "View a Crush member profile and start chatting." },
     ],
   }),
   component: PublicProfilePage,
@@ -39,7 +39,7 @@ function PublicProfilePage() {
     return (
       <AppShell hideNav>
         <div className="pt-20 text-center">
-          <p className="text-sm text-muted-foreground">Sign in to view profiles on Rizzla.</p>
+          <p className="text-sm text-muted-foreground">Sign in to view profiles on Crush.</p>
           <button onClick={() => navigate({ to: "/auth" })} className="btn-brand mt-5 inline-flex">Sign in</button>
         </div>
       </AppShell>

@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/privacy")({
   head: () => pageHead({
     path: "/legal/privacy",
-    title: "Privacy Policy \u2014 Rizzla Chat",
-    description: "How Rizzla Chat collects, uses, shares and protects your data: account details, media uploads, messages, payment data via Stripe, analytics, retention periods and your GDPR/CCPA rights.",
+    title: "Privacy Policy \u2014 Crush Chat",
+    description: "How Crush Chat collects, uses, shares and protects your data: account details, media uploads, messages, payment data via Stripe, analytics, retention periods and your GDPR/CCPA rights.",
     type: "article",
   }),
   component: Privacy,

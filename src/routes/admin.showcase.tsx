@@ -154,7 +154,7 @@ function AdminShowcase() {
         <Link to="/profile" className="inline-flex items-center gap-1 text-sm text-muted-foreground"><ArrowLeft className="h-4 w-4" /> Back</Link>
         <div className="mt-8 rounded-2xl border border-border bg-card p-6 text-center">
           <h1 className="text-lg font-bold">Admins only</h1>
-          <p className="mt-2 text-sm text-muted-foreground">The Welcome Showcase is managed by the Rizzla team.</p>
+          <p className="mt-2 text-sm text-muted-foreground">The Welcome Showcase is managed by the Crush team.</p>
         </div>
       </AppShell>
     );

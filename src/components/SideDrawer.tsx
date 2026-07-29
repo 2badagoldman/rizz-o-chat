@@ -50,8 +50,8 @@ const LIVE: Row[] = [
 ];
 
 const SOON: Array<{ label: string; slug: string; icon: IconType; tint: string; hint: string }> = [
-  { label: "Rizzla News",  slug: "news",      icon: Newspaper,   tint: "#5a1fbf", hint: "Stories & drops" },
-  { label: "Rizzla Store", slug: "store",     icon: ShoppingBag, tint: "#e84393", hint: "Merch & bundles" },
+  { label: "Crush News",  slug: "news",      icon: Newspaper,   tint: "#5a1fbf", hint: "Stories & drops" },
+  { label: "Crush Store", slug: "store",     icon: ShoppingBag, tint: "#e84393", hint: "Merch & bundles" },
   { label: "Events",       slug: "events",    icon: Calendar,    tint: "#ff6b35", hint: "Live nights" },
   { label: "Games",        slug: "games",     icon: Gamepad2,    tint: "#6c5ce7", hint: "Play together" },
   { label: "Gift shop",    slug: "gift-shop", icon: Gift,        tint: "#ff3d9a", hint: "Curated gifts" },
@@ -173,7 +173,7 @@ export function SideDrawer({ open, onClose }: Props) {
                 e.preventDefault();
                 window.location.assign("/");
               }}
-              aria-label="Rizzla home — reload"
+              aria-label="Crush home — reload"
             >
               <span
                 className="relative inline-block shrink-0 rounded-full p-[3px] shadow-[0_10px_30px_-10px_rgba(255,61,154,0.9)] transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-105 group-active:scale-95"
@@ -187,7 +187,7 @@ export function SideDrawer({ open, onClose }: Props) {
               </span>
               <div className="min-w-0">
                 <p className="truncate text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">
-                  Rizzla
+                  Crush
                 </p>
                 <p className="truncate bg-[image:var(--gradient-brand)] bg-clip-text text-[26px] font-black leading-tight tracking-tight text-transparent">
                   Hey {displayName}
@@ -294,7 +294,7 @@ export function SideDrawer({ open, onClose }: Props) {
             )}
 
             <p className="mt-7 text-center text-[10px] font-semibold uppercase tracking-[0.28em] text-muted-foreground/60">
-              Rizzla · v1.0
+              Crush · v1.0
             </p>
           </nav>
         </div>

@@ -28,7 +28,7 @@ export function KycInboxNotice() {
         ? "We sent three weekly reminders and haven't been able to confirm your age. Your account standing is now with our trust team. Verifying now still resolves it."
         : status === "rejected"
           ? "Your last age check couldn't be verified. Re-upload a clearer photo of your ID to keep full access."
-          : `Reminder ${week} of 3 — Rizzla is strictly 18+. Confirm your age to keep your account in good standing. It takes about a minute.`;
+          : `Reminder ${week} of 3 — Crush is strictly 18+. Confirm your age to keep your account in good standing. It takes about a minute.`;
 
   return (
     <section className="mt-4 flex gap-3 rounded-2xl border border-border bg-card p-3.5 shadow-card">
@@ -36,7 +36,7 @@ export function KycInboxNotice() {
         <Icon className="h-5 w-5" />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-semibold">Rizzla Trust &amp; Safety</p>
+        <p className="text-sm font-semibold">Crush Trust &amp; Safety</p>
         <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{body}</p>
         {status !== "pending" ? (
           <Link

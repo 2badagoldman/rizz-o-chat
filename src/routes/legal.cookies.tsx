@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/cookies")({
   head: () => pageHead({
     path: "/legal/cookies",
-    title: "Cookie Policy \u2014 Rizzla Chat",
-    description: "Cookies and local storage used by Rizzla Chat: sign-in session cookies, theme and chat preferences, showcase frequency control, payment security cookies and product analytics.",
+    title: "Cookie Policy \u2014 Crush Chat",
+    description: "Cookies and local storage used by Crush Chat: sign-in session cookies, theme and chat preferences, showcase frequency control, payment security cookies and product analytics.",
     type: "article",
   }),
   component: Cookies,

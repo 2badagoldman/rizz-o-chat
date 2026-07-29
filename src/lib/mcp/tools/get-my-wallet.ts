@@ -11,7 +11,7 @@ function supabaseForUser(ctx: ToolContext) {
 export default defineTool({
   name: "get_my_wallet",
   title: "Get my wallet",
-  description: "Return the signed-in user's Rizzla coin balance.",
+  description: "Return the signed-in user's Crush coin balance.",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async (_input, ctx) => {

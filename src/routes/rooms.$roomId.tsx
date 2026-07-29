@@ -12,7 +12,7 @@ import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 
 export const Route = createFileRoute("/rooms/$roomId")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Room — Rizzla" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Room — Crush" }] }),
   component: RoomChatPage,
 });
 

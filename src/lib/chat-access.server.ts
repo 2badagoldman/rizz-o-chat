@@ -1,7 +1,7 @@
 /**
  * Chat trial policy: every new account gets 7 days of free chatting
- * (member -> host and member -> member). After that a Rizz Gold or
- * Rizz Diamond subscription is required to keep sending messages.
+ * (member -> host and member -> member). After that a Crush Gold or
+ * Crush Diamond subscription is required to keep sending messages.
  *
  * Hosts and admins are never gated — they must be able to reply.
  */
@@ -43,4 +43,4 @@ export async function evaluateChatAccess(userId: string): Promise<ChatAccess> {
 }
 
 export const CHAT_LOCKED_MESSAGE =
-  "Your 7-day free chat trial has ended. Upgrade to Rizz Gold to keep chatting.";
+  "Your 7-day free chat trial has ended. Upgrade to Crush Gold to keep chatting.";

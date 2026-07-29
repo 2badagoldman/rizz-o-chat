@@ -79,13 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "theme-color", content: "#0B0B12" },
-      { title: "Rizz Social — Chat with verified hosts" },
+      { title: "Crush — Chat with verified hosts" },
       {
         name: "description",
         content:
-          "Rizz Social is a paid chat app where verified hosts run Friends Lists and members subscribe to chat, meet, and connect.",
+          "Crush is a paid chat app where verified hosts run Friends Lists and members subscribe to chat, meet, and connect.",
       },
-      { property: "og:site_name", content: "Rizz Social" },
+      { property: "og:site_name", content: "Crush" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -113,14 +113,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@graph": [
             {
               "@type": "Organization",
-              name: "Rizz Social",
+              name: "Crush",
               url: "https://rizzlachat.com",
               logo: "https://rizzlachat.com/icon-512.png",
               sameAs: ["https://rizz-o-chat.lovable.app"],
             },
             {
               "@type": "WebSite",
-              name: "Rizz Social",
+              name: "Crush",
               url: "https://rizzlachat.com",
               potentialAction: {
                 "@type": "SearchAction",

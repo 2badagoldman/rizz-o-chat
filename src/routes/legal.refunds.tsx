@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/refunds")({
   head: () => pageHead({
     path: "/legal/refunds",
-    title: "Refund & Cancellation Policy \u2014 Rizzla Chat",
-    description: "Rizzla Chat refund and cancellation policy: 14-day refunds on unused coins and memberships, how to cancel a subscription, how tips and spent coins are treated, and how to reach support.",
+    title: "Refund & Cancellation Policy \u2014 Crush Chat",
+    description: "Crush Chat refund and cancellation policy: 14-day refunds on unused coins and memberships, how to cancel a subscription, how tips and spent coins are treated, and how to reach support.",
     type: "article",
   }),
   component: Refunds,
@@ -50,7 +50,7 @@ function Refunds() {
         <Bullets
           items={[
             "Coin packs where the coins are still in your wallet and none from that pack have been spent.",
-            "A membership (Rizz Gold, Rizz Diamond VIP or a Host's Friends List) where you have not used the paid features — no gated media viewed, no member-only chat sent.",
+            "A membership (Crush Gold, Crush Diamond VIP or a Host's Friends List) where you have not used the paid features — no gated media viewed, no member-only chat sent.",
             "Duplicate charges, failed deliveries, or coins that were paid for but not credited — refunded in full regardless of the window.",
             "Charges you did not authorise, once verified — refunded in full and the account secured.",
           ]}

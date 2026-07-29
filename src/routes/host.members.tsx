@@ -16,7 +16,7 @@ import {
 
 export const Route = createFileRoute("/host/members")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Manage Members — Rizzla" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Manage Members — Crush" }] }),
   component: HostMembers,
 });
 

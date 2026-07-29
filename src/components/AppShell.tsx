@@ -68,13 +68,13 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
                 window.location.assign("/");
               }}
               className="flex items-center gap-2"
-              aria-label="Rizzla home — reload"
+              aria-label="Crush home — reload"
             >
               <span className="ring-story inline-block">
-                <img src={rizzAiLogo.url} alt="Rizzla" className="block h-8 w-8 rounded-full bg-card" />
+                <img src={rizzAiLogo.url} alt="Crush" className="block h-8 w-8 rounded-full bg-card" />
               </span>
               <span className="flex flex-col leading-tight">
-                <span className="font-display text-sm font-bold tracking-tight">Rizzla</span>
+                <span className="font-display text-sm font-bold tracking-tight">Crush</span>
                 <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
                   Friends Always
                 </span>

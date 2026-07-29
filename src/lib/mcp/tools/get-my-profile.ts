@@ -12,7 +12,7 @@ export default defineTool({
   name: "get_my_profile",
   title: "Get my profile",
   description:
-    "Return the signed-in user's Rizzla profile (display name, bio, interests, gender, account type, verification status).",
+    "Return the signed-in user's Crush profile (display name, bio, interests, gender, account type, verification status).",
   inputSchema: {},
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async (_input, ctx) => {

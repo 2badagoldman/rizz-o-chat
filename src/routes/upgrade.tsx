@@ -11,8 +11,8 @@ import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 export const Route = createFileRoute('/upgrade')({
   head: () => pageHead({
     path: "/upgrade",
-    title: "Upgrade to Rizz Gold or Diamond VIP \u2014 Rizz Social",
-    description: "Rizz Gold $9.99/week unlocks any Friends List. Rizz Diamond VIP $19.99/week adds a diamond badge and weekly coin drops.",
+    title: "Upgrade to Crush Gold or Diamond VIP \u2014 Crush",
+    description: "Crush Gold $9.99/week unlocks any Friends List. Crush Diamond VIP $19.99/week adds a diamond badge and weekly coin drops.",
   }),
   component: UpgradePage,
 });
@@ -33,26 +33,26 @@ type Plan = {
 const PLANS: Plan[] = [
   {
     id: 'rizz_gold_weekly',
-    name: 'Rizz Gold',
+    name: 'Crush Gold',
     price: '$9.99',
     tagline: 'The key that opens every Friends List',
     icon: Star,
     perks: [
       { label: 'Unlock any Friends List', detail: 'No per-host unlock fees — every list opens with your membership.' },
       { label: 'Unlimited discovery', detail: 'Scroll all 100+ hosts with no daily cap.' },
-      { label: 'AI copilot boosts', detail: 'Rizz AI drafts openers and replies that actually land.' },
+      { label: 'AI copilot boosts', detail: 'Crush AI drafts openers and replies that actually land.' },
       { label: 'Priority chat placement', detail: 'Your messages sit at the top of a host’s inbox.' },
       { label: 'Zero ads', detail: 'No promos, no interruptions, ever.' },
     ],
   },
   {
     id: 'rizz_diamond_weekly',
-    name: 'Rizz Diamond VIP',
+    name: 'Crush Diamond VIP',
     price: '$19.99',
     tagline: 'Gold + Diamond, unlocked together',
     icon: Gem,
     diamond: true,
-    includesNote: 'Everything in Rizz Gold, plus:',
+    includesNote: 'Everything in Crush Gold, plus:',
     perks: [
       { label: '2,000 coins every week', detail: 'Worth ~$20 — gifts, unlocks and boosts on the house.' },
       { label: 'Diamond badge', detail: 'A prism badge on your profile and in every room.' },
@@ -304,14 +304,14 @@ function UpgradePage() {
             <Sparkles className="h-3 w-3 text-primary" /> Membership
           </span>
           <h1 className="mt-3 text-[2rem] leading-[1.05] font-black">
-            Upgrade your <span className="text-gradient-brand">Rizzla</span>
+            Upgrade your <span className="text-gradient-brand">Crush</span>
           </h1>
           <p className="mt-2 max-w-[34ch] text-sm text-muted-foreground">
             Weekly, cancel anytime. Gold opens the doors — Diamond makes rooms turn around.
           </p>
         </header>
 
-        {iosRestricted ? <AppStoreBillingNotice what="Rizz Gold and Diamond VIP" /> : null}
+        {iosRestricted ? <AppStoreBillingNotice what="Crush Gold and Diamond VIP" /> : null}
         <div className={`relative space-y-5 ${iosRestricted ? 'pointer-events-none mt-5 opacity-60' : ''}`}>
           {PLANS.map((p, i) => (
             <PlanCard

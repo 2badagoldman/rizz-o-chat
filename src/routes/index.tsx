@@ -11,8 +11,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/")({
   head: () => pageHead({
     path: "/",
-    title: "Rizz Social \u2014 Real chats with verified hosts, dates, and friends",
-    description: "Chat, date, and make friends on Rizz Social. Verified hosts, private Friends Lists, secure payments, and instant DMs. Join free.",
+    title: "Crush \u2014 Real chats with verified hosts, dates, and friends",
+    description: "Chat, date, and make friends on Crush. Verified hosts, private Friends Lists, secure payments, and instant DMs. Join free.",
     keywords: "chat app, dating app, friends app, meet women, verified hosts, paid chat, creator subscriptions, social chat",
   }),
   component: Home,
@@ -31,7 +31,7 @@ function Home() {
       <header className="pt-6 rise-in">
         <span className="inline-flex items-center gap-2 rounded-full bg-gradient-brand-soft px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-foreground/80 chip-shimmer">
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-          Friends Always · Rizz Social
+          Friends Always · Crush
         </span>
         <h1 className="mt-3 text-[2.6rem] leading-[1.02] font-display font-extrabold">
           Real chats with{" "}

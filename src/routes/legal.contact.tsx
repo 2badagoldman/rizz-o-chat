@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/contact")({
   head: () => pageHead({
     path: "/legal/contact",
-    title: "Contact & Business Details \u2014 Rizzla Chat",
-    description: "Contact Rizzla Chat support: legal entity KOLO TECHNOLOGY LLC, business address in Garland, Texas, support email, response times and escalation paths for billing, privacy and safety.",
+    title: "Contact & Business Details \u2014 Crush Chat",
+    description: "Contact Crush Chat support: legal entity KOLO TECHNOLOGY LLC, business address in Garland, Texas, support email, response times and escalation paths for billing, privacy and safety.",
     type: "article",
   }),
   component: Contact,

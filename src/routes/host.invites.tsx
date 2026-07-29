@@ -15,7 +15,7 @@ import {
 
 export const Route = createFileRoute("/host/invites")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Invite Friends Free — Rizzla" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Invite Friends Free — Crush" }] }),
   component: HostInvites,
 });
 
@@ -93,7 +93,7 @@ function HostInvites() {
     const url = inviteUrl(code);
     if (typeof navigator !== "undefined" && (navigator as any).share) {
       try {
-        await (navigator as any).share({ title: "Join me on Rizzla", text: "Free access to my Friends List:", url });
+        await (navigator as any).share({ title: "Join me on Crush", text: "Free access to my Friends List:", url });
         return;
       } catch {}
     }

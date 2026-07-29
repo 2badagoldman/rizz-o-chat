@@ -10,13 +10,13 @@ export const Route = createFileRoute("/verify")({
   head: () => ({
     meta: [
       { name: "robots", content: "noindex, nofollow" },
-      { title: "Verify your age — Rizzla" },
+      { title: "Verify your age — Crush" },
       {
         name: "description",
         content:
-          "Rizzla is 18+ only. Upload a government ID and a selfie to confirm your age and keep full access to chats, rooms and Friends Lists.",
+          "Crush is 18+ only. Upload a government ID and a selfie to confirm your age and keep full access to chats, rooms and Friends Lists.",
       },
-      { property: "og:title", content: "Verify your age — Rizzla" },
+      { property: "og:title", content: "Verify your age — Crush" },
       { property: "og:description", content: "18+ only. Confirm your age in about a minute." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -70,7 +70,7 @@ function VerifyPage() {
     setError(null);
     const age = ageFrom(dob);
     if (age < 0) return setError("Enter your date of birth.");
-    if (age < 18) return setError("Rizzla is strictly 18+. We cannot verify this account.");
+    if (age < 18) return setError("Crush is strictly 18+. We cannot verify this account.");
     if (!legalName.trim()) return setError("Enter the name printed on your ID.");
     if (!doc) return setError("Upload a photo of your government ID.");
     if (doc.size > 10_000_000 || (selfie && selfie.size > 10_000_000))
@@ -111,10 +111,10 @@ function VerifyPage() {
         <Panel
           icon={<BadgeCheck className="h-7 w-7 text-primary" />}
           title="You're verified"
-          body="Your age is confirmed. Everything on Rizzla is unlocked — enjoy."
+          body="Your age is confirmed. Everything on Crush is unlocked — enjoy."
         >
           <Link to="/" className="btn-brand mt-5 inline-flex w-full justify-center">
-            Back to Rizzla
+            Back to Crush
           </Link>
         </Panel>
       </AppShell>
@@ -145,7 +145,7 @@ function VerifyPage() {
         </span>
         <h1 className="mt-4 text-3xl">Verify your age</h1>
         <p className="mx-auto mt-2 max-w-xs text-sm text-muted-foreground">
-          Rizzla is 18+ only. Everyone confirms their age within 7 days of joining — takes about
+          Crush is 18+ only. Everyone confirms their age within 7 days of joining — takes about
           a minute, and your documents stay private.
         </p>
         {kyc.status === "rejected" ? (

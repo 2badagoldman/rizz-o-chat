@@ -7,8 +7,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/")({
   head: () => pageHead({
     path: "/legal",
-    title: "Policies & Legal Center \u2014 Rizzla Chat",
-    description: "Rizzla Chat legal center: terms of service, privacy policy, refund and cancellation policy, billing terms, acceptable use, creator payouts, cookies, DMCA and business contact details.",
+    title: "Policies & Legal Center \u2014 Crush Chat",
+    description: "Crush Chat legal center: terms of service, privacy policy, refund and cancellation policy, billing terms, acceptable use, creator payouts, cookies, DMCA and business contact details.",
   }),
   component: LegalIndex,
 });
