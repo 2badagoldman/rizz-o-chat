@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDown } from "lucide-react";
 
-export type Theme = "pink" | "blue" | "ocean" | "abyss" | "rose" | "romance";
+export type Theme = "pink" | "blue" | "ocean" | "abyss" | "rose" | "romance" | "crush";
 const KEY = "rizz.theme";
 
-const ALL: Theme[] = ["pink", "blue", "ocean", "abyss", "rose", "romance"];
+const ALL: Theme[] = ["pink", "blue", "ocean", "abyss", "rose", "romance", "crush"];
 const EXTRA: { id: Theme; label: string; swatch: string }[] = [
+  { id: "crush", label: "Crush Ice", swatch: "linear-gradient(135deg,#ff5a00,#ff9f1c,#9fe8ff)" },
   { id: "blue", label: "Blue", swatch: "linear-gradient(135deg,#2563eb,#7dd3fc)" },
   { id: "ocean", label: "Ocean", swatch: "linear-gradient(135deg,#073b4c,#35c3b6)" },
   { id: "rose", label: "Rose", swatch: "linear-gradient(135deg,#fbe6e2,#d97e7e)" },
