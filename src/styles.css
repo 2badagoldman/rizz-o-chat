@@ -1415,5 +1415,7 @@ body::after {
   .sea-wave, .sea-shaft, .rose-petal, .rose-bloom { animation: none; }
   .rose-petal { opacity: .5; }
 }
-html[data-perf="lite"] .sea-shaft,
-html[data-perf="lite"] .rose-petal { display: none; }
+html[data-perf="lite"] .sea-shaft:nth-of-type(n+2),
+html[data-perf="mid"] .sea-shaft:nth-of-type(n+3),
+html[data-perf="lite"] .rose-petal:nth-of-type(n+4),
+html[data-perf="mid"] .rose-petal:nth-of-type(n+7) { display: none; }
