@@ -3,7 +3,7 @@ export type DemoRoom = {
   name: string;
   emoji: string;
   tagline: string;
-  category: "Hot" | "Romance" | "Flirt" | "Late Night" | "Chill" | "Fitness" | "Coffee" | "Party" | "Local";
+  category: "Trending" | "Conversation" | "Evening" | "Chill" | "Fitness" | "Coffee" | "Party" | "Local";
   members: number;
   online: number;
   gradient: string;
