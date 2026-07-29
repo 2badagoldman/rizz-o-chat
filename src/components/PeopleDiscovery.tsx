@@ -53,6 +53,10 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (isMember && tab !== "host") setTab("host");
+  }, [isMember, tab]);
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["discover-people", debounced],
     queryFn: () => fetchPeople({ data: { q: debounced, limit: 60 } }),
