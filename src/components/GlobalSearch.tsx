@@ -159,9 +159,9 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                       to={e.to as any}
                       params={e.params as any}
                       onClick={onClose}
-                      className="flex items-center gap-3 rounded-2xl p-2 transition hover:bg-muted"
+                      className="flex items-center gap-3 rounded-2xl border border-transparent bg-card/50 p-2 transition hover:border-primary/30 hover:bg-primary/10"
                     >
-                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
+                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-primary/25">
                         <img src={e.avatar} alt="" loading="lazy" className="h-full w-full object-cover" />
                         {e.online ? (
                           <span className="absolute bottom-0 right-0 grid h-3.5 w-3.5 place-items-center rounded-full bg-card">
@@ -170,10 +170,10 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                         ) : null}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-semibold">{e.name}</p>
-                        <p className="truncate text-[11px] text-muted-foreground">{e.subtitle}</p>
+                        <p className="truncate text-[15px] font-extrabold tracking-tight text-foreground">{e.name}</p>
+                        <p className="truncate text-xs font-semibold text-foreground/70">{e.subtitle}</p>
                       </div>
-                      <span className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-gradient-brand px-2 py-0.5 text-[10px] font-semibold text-white">
+                      <span className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-gradient-brand px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
                         {e.badge.startsWith("AI") ? <Sparkles className="h-2.5 w-2.5" /> : null}
                         {e.badge}
                       </span>
