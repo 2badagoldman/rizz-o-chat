@@ -1,10 +1,10 @@
-# Rizzla AI — Mobile & Desktop App Builds
+# Crush — Mobile & Desktop App Builds
 
 The web app stays the single source of truth. The native apps are thin shells
 that load `https://rizzlachat.com`, so **every web deploy updates the installed
 apps instantly** — no store resubmission for UI or content changes.
 
-Configuration lives in `capacitor.config.ts` (app id `com.kolotechnology.rizzla`).
+Configuration lives in `capacitor.config.ts` (app id `com.kolotechnology.crush`).
 
 ---
 
@@ -12,7 +12,7 @@ Configuration lives in `capacitor.config.ts` (app id `com.kolotechnology.rizzla`
 
 | Requirement | Status | Where |
 | --- | --- | --- |
-| 18+ age gate + ID/selfie KYC within 7 days | Done | `/verify`, `KycGate` |
+| 18+ age gate + ID/selfie KYC within 7 days | Done | `/verify`, `KycInboxNotice` |
 | In-app account deletion (Apple 5.1.1(v), Play data deletion) | Done | Profile → “Delete my account” (`src/lib/account.functions.ts`) |
 | No external purchase links inside the iOS build (Apple 3.1.1) | Done | `useIosBillingRestricted()` hides Stripe CTAs on `/coins` and `/upgrade` |
 | Privacy Policy + Terms reachable without an account | Done | `/legal/privacy`, `/legal/terms` |
@@ -97,7 +97,7 @@ safe — it can never be replaced.
 | Public web deletion instructions URL | Done | `https://rizzlachat.com/legal/delete-account` |
 | Privacy Policy URL (public, no login) | Done | `/legal/privacy` |
 | UGC policy: report, block, blocked list, moderation queue | Done | `SafetyMenu`, `/admin/reports` |
-| Adult / mature content gate (18+ signup + ID KYC) | Done | `/verify`, `KycGate` |
+| Adult / mature content gate (18+ signup + ID KYC) | Done | `/verify`, `KycInboxNotice` |
 | Hardware back button handling | Done | `src/lib/native.ts` |
 | Maskable + 192/512 icons | Done | `public/manifest.webmanifest` |
 | Runtime permission prompts only in context (camera, notifications) | Done | Profile page |
@@ -143,9 +143,9 @@ Users can also install directly from Edge/Chrome via "Install app".
 
 ## 4. Store listing copy
 
-- **Name:** Rizzla AI
+- **Name:** Crush
 - **Subtitle:** Real conversations with verified hosts
-- **Description:** Rizzla AI is an 18+ social chat app where members join a host's
+- **Description:** Crush is an 18+ social chat app where members join a host's
   Friends List for private chats, group rooms and gifts. Every account passes ID
   verification, hosts set their own price, and payments are handled securely.
 - **Keywords:** chat, social, creators, friends list, rooms, gifts, dating chat

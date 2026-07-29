@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
 /**
- * Rizzla AI native shell (iOS + Android).
+ * Crush native shell (iOS + Android).
  *
  * The web app is server-rendered (TanStack Start + server functions), so the
  * native shell loads the live production site instead of a static bundle.
@@ -13,8 +13,8 @@ import type { CapacitorConfig } from "@capacitor/cli";
 const serverUrl = process.env.CAP_SERVER_URL ?? "https://rizzlachat.com";
 
 const config: CapacitorConfig = {
-  appId: "com.kolotechnology.rizzla",
-  appName: "Rizzla AI",
+  appId: "com.kolotechnology.crush",
+  appName: "Crush",
   // Only used as a fallback shell; the app loads `server.url`.
   webDir: "public",
   server: {
