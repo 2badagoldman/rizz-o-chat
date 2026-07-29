@@ -79,7 +79,7 @@ export function ThemeToggle() {
         </button>
         <button
           type="button"
-          onClick={() => setOpen((o) => !o)}
+          onClick={() => { console.log("THEME_TOGGLE_CLICK"); setOpen((o) => !o); }}
           aria-expanded={open}
           aria-haspopup="menu"
           aria-label="More themes"
