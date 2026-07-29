@@ -402,12 +402,11 @@
 }
 @utility card-story-hover { transform: translateY(-4px); box-shadow: var(--shadow-pop); }
 
-/* Story ring — animated conic border for avatars */
+/* Story ring — static gradient border for avatars (no rotation). */
 @utility ring-story {
   padding: 3px;
   background: var(--gradient-story);
   border-radius: 9999px;
-  animation: story-spin 9s linear infinite;
 }
 
 /* Shimmer chip for tags/badges */
