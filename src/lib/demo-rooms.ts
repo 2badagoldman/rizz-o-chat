@@ -50,7 +50,7 @@ function hash(s: string): number {
   return h;
 }
 
-export const ROOM_CATEGORIES = ["All", "Near Me", "Hot", "Romance", "Flirt", "Late Night", "Party", "Local"] as const;
+export const ROOM_CATEGORIES = ["All", "Near Me", "Trending", "Conversation", "Evening", "Party", "Local"] as const;
 
 // Major US metros — for the "Rooms Near Me" grid
 export const CITY_ROOMS: DemoRoom[] = [
