@@ -41,6 +41,9 @@ function UserChat() {
   const [input, setInput] = useState("");
   const [pending, setPending] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
+  const [emojiOpen, setEmojiOpen] = useState(false);
+  const { fire, layer } = useFloatingReactions();
+
   const peerOnline = useIsOnline(userId);
   const { locked, onTrial, daysLeft } = useChatAccess();
   const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`dm:${userId}`);
