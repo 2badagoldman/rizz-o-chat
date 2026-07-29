@@ -249,6 +249,62 @@ function HostInbox() {
           </button>
         </div>
       </section>
+
+      <section className="mt-6 rounded-2xl border border-border bg-card/80 p-4">
+        <h2 className="text-sm font-semibold flex items-center gap-2">
+          <Users className="h-4 w-4 text-primary" /> Reply in your rooms
+        </h2>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Everyone in the room sees it instantly — no refresh needed.
+        </p>
+        {rooms.length === 0 ? (
+          <p className="mt-3 text-xs text-muted-foreground">
+            No rooms yet. <Link to="/host/rooms" className="text-primary underline">Create one</Link>.
+          </p>
+        ) : (
+          <>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {rooms.map((r) => {
+                const on = pickedRooms.has(r.id);
+                return (
+                  <button
+                    key={r.id}
+                    onClick={() =>
+                      setPickedRooms((s) => {
+                        const next = new Set(s);
+                        next.has(r.id) ? next.delete(r.id) : next.add(r.id);
+                        return next;
+                      })
+                    }
+                    aria-pressed={on}
+                    className={`rounded-full border px-3 py-1 text-[11px] font-semibold ${
+                      on ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary"
+                    }`}
+                  >
+                    {r.name}
+                  </button>
+                );
+              })}
+            </div>
+            <textarea
+              value={roomReply}
+              onChange={(e) => setRoomReply(e.target.value)}
+              rows={2}
+              placeholder="Say something to the room…"
+              className="chat-type mt-2 w-full resize-none rounded-2xl border border-border bg-background px-4 py-3 outline-none focus:border-primary"
+            />
+            <button
+              onClick={doRoomBroadcast}
+              disabled={roomSending || !roomReply.trim() || !pickedRooms.size}
+              className="btn-brand mt-2 inline-flex items-center gap-2 disabled:opacity-50"
+            >
+              {roomSending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              Post to {pickedRooms.size || 0} room{pickedRooms.size === 1 ? "" : "s"}
+            </button>
+          </>
+        )}
+      </section>
     </AppShell>
   );
 }
+
