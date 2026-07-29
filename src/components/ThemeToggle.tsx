@@ -98,6 +98,7 @@ export function ThemeToggle() {
           Blue
         </button>
         <button
+          ref={btnRef}
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
@@ -112,28 +113,34 @@ export function ThemeToggle() {
         </button>
       </div>
 
-      {open ? (
-        <div
-          role="menu"
-          className="absolute right-0 top-[calc(100%+6px)] z-50 w-40 animate-scale-in overflow-hidden rounded-2xl border border-border bg-popover p-1 shadow-pop"
-        >
-          {EXTRA.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              role="menuitemradio"
-              aria-checked={theme === t.id}
-              onClick={() => { setTheme(t.id); setOpen(false); }}
-              className={`flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-xs font-semibold transition-colors ${
-                theme === t.id ? "bg-primary/10 text-primary" : "text-foreground hover:bg-muted"
-              }`}
+      {open && typeof document !== "undefined"
+        ? createPortal(
+            <div
+              ref={menuRef}
+              role="menu"
+              style={{ top: pos?.top ?? 60, right: pos?.right ?? 12 }}
+              className="fixed z-[200] w-44 animate-scale-in overflow-hidden rounded-2xl border border-border bg-popover p-1 shadow-pop"
             >
-              <span className="h-4 w-4 shrink-0 rounded-full border border-border" style={{ background: t.swatch }} />
-              {t.label}
-            </button>
-          ))}
-        </div>
-      ) : null}
+              {EXTRA.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={theme === t.id}
+                  onClick={() => { setTheme(t.id); setOpen(false); }}
+                  className={`flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-xs font-semibold transition-colors ${
+                    theme === t.id ? "bg-primary/10 text-primary" : "text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <span className="h-4 w-4 shrink-0 rounded-full border border-border" style={{ background: t.swatch }} />
+                  {t.label}
+                </button>
+              ))}
+            </div>,
+            document.body,
+          )
+        : null}
+
     </div>
   );
 }
