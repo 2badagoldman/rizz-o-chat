@@ -490,6 +490,33 @@ export type Database = {
           },
         ]
       }
+      message_reads: {
+        Row: {
+          created_at: string
+          id: string
+          last_read_at: string
+          peer_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_read_at?: string
+          peer_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_read_at?: string
+          peer_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           body: string

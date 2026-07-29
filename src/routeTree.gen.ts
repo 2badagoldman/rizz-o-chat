@@ -49,6 +49,7 @@ import { Route as HostPricingRouteImport } from './routes/host.pricing'
 import { Route as HostOnboardingRouteImport } from './routes/host.onboarding'
 import { Route as HostMembersRouteImport } from './routes/host.members'
 import { Route as HostInvitesRouteImport } from './routes/host.invites'
+import { Route as HostInboxRouteImport } from './routes/host.inbox'
 import { Route as HostHostIdRouteImport } from './routes/host.$hostId'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ChatHostIdRouteImport } from './routes/chat.$hostId'
@@ -276,6 +277,11 @@ const HostInvitesRoute = HostInvitesRouteImport.update({
   path: '/host/invites',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HostInboxRoute = HostInboxRouteImport.update({
+  id: '/host/inbox',
+  path: '/host/inbox',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HostHostIdRoute = HostHostIdRouteImport.update({
   id: '/host/$hostId',
   path: '/host/$hostId',
@@ -446,6 +452,7 @@ export interface FileRoutesByFullPath {
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
+  '/host/inbox': typeof HostInboxRoute
   '/host/invites': typeof HostInvitesRoute
   '/host/members': typeof HostMembersRoute
   '/host/onboarding': typeof HostOnboardingRoute
@@ -513,6 +520,7 @@ export interface FileRoutesByTo {
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
+  '/host/inbox': typeof HostInboxRoute
   '/host/invites': typeof HostInvitesRoute
   '/host/members': typeof HostMembersRoute
   '/host/onboarding': typeof HostOnboardingRoute
@@ -582,6 +590,7 @@ export interface FileRoutesById {
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
+  '/host/inbox': typeof HostInboxRoute
   '/host/invites': typeof HostInvitesRoute
   '/host/members': typeof HostMembersRoute
   '/host/onboarding': typeof HostOnboardingRoute
@@ -652,6 +661,7 @@ export interface FileRouteTypes {
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
+    | '/host/inbox'
     | '/host/invites'
     | '/host/members'
     | '/host/onboarding'
@@ -719,6 +729,7 @@ export interface FileRouteTypes {
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
+    | '/host/inbox'
     | '/host/invites'
     | '/host/members'
     | '/host/onboarding'
@@ -787,6 +798,7 @@ export interface FileRouteTypes {
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
+    | '/host/inbox'
     | '/host/invites'
     | '/host/members'
     | '/host/onboarding'
@@ -844,6 +856,7 @@ export interface RootRouteChildren {
   ChatHostIdRoute: typeof ChatHostIdRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   HostHostIdRoute: typeof HostHostIdRoute
+  HostInboxRoute: typeof HostInboxRoute
   HostInvitesRoute: typeof HostInvitesRoute
   HostMembersRoute: typeof HostMembersRoute
   HostOnboardingRoute: typeof HostOnboardingRoute
@@ -1159,6 +1172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HostInvitesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/host/inbox': {
+      id: '/host/inbox'
+      path: '/host/inbox'
+      fullPath: '/host/inbox'
+      preLoaderRoute: typeof HostInboxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/host/$hostId': {
       id: '/host/$hostId'
       path: '/host/$hostId'
@@ -1413,6 +1433,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatHostIdRoute: ChatHostIdRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   HostHostIdRoute: HostHostIdRoute,
+  HostInboxRoute: HostInboxRoute,
   HostInvitesRoute: HostInvitesRoute,
   HostMembersRoute: HostMembersRoute,
   HostOnboardingRoute: HostOnboardingRoute,
@@ -1448,13 +1469,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -1,5 +1,7 @@
 import { Check, CheckCheck, Clock } from "lucide-react";
 import { useRef, useState } from "react";
+import { ChatMediaAttachments } from "./ChatMedia";
+import { parseChatBody } from "@/lib/chat-media";
 
 export type DeliveryState = "sending" | "sent" | "seen";
 
@@ -108,7 +110,17 @@ export function MessageBubble({
             (onReact ? " select-none [-webkit-touch-callout:none] active:scale-[.99] transition-transform" : "")
           }
         >
-          <p className="chat-type whitespace-pre-wrap break-words">{text || "…"}</p>
+          {(() => {
+            const parsed = parseChatBody(text);
+            return (
+              <>
+                {parsed.text || !parsed.media.length ? (
+                  <p className="chat-type whitespace-pre-wrap break-words">{parsed.text || "…"}</p>
+                ) : null}
+                <ChatMediaAttachments body={text} />
+              </>
+            );
+          })()}
           {time || (mine && state) ? (
             <div
               className={
