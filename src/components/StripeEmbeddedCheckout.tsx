@@ -122,7 +122,7 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
       throw err;
     }
 
-  }, [props, attempt]);
+  }, [props, attempt, guestEmail]);
 
   const retry = () => {
     failedRef.current = false;
@@ -130,22 +130,72 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
     setAttempt((n) => n + 1);
   };
 
-  if (signedIn === false && !configError) {
+  if (signedIn === false && !configError && !guestEmail) {
+    if (!guestEligible) {
+      return (
+        <div className="mx-auto max-w-md px-5 py-10 text-center">
+          <h2 className="text-base font-black tracking-tight">Sign in to continue</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            You need to be signed in to complete this purchase.
+          </p>
+          <Link
+            to="/auth"
+            className="press-spring mt-5 inline-flex items-center rounded-full border border-border/70 bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur-xl"
+          >
+            Sign in
+          </Link>
+        </div>
+      );
+    }
     return (
-      <div className="mx-auto max-w-md px-5 py-10 text-center">
-        <h2 className="text-base font-black tracking-tight">Sign in to continue</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          const email = emailDraft.trim();
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+            setFailure('Enter a valid email address.');
+            return;
+          }
+          setFailure(null);
+          setGuestEmail(email);
+        }}
+        className="mx-auto max-w-md px-5 py-10 text-center"
+      >
+        <div className="mx-auto grid h-12 w-12 place-items-center rounded-full border border-border/70 bg-card/70">
+          <Ticket className="h-5 w-5 text-primary" />
+        </div>
+        <h2 className="mt-4 text-base font-black tracking-tight">Subscribe now, sign up after</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          You need to be signed in to complete this purchase.
+          Pay as a guest and we&apos;ll give you a subscription code. Enter it after you create your account and
+          your membership attaches instantly.
         </p>
-        <Link
-          to="/auth"
-          className="press-spring mt-5 inline-flex items-center rounded-full border border-border/70 bg-card/70 px-4 py-2 text-sm font-semibold backdrop-blur-xl"
+        <input
+          type="email"
+          required
+          value={emailDraft}
+          onChange={(e) => setEmailDraft(e.target.value)}
+          placeholder="you@email.com"
+          aria-label="Email for your receipt and subscription code"
+          className="mt-5 w-full rounded-2xl border border-border/70 bg-card/70 px-4 py-3 text-sm font-semibold outline-none backdrop-blur-xl focus-visible:ring-2 focus-visible:ring-ring"
+        />
+        {failure && <p className="mt-2 text-xs font-semibold text-destructive">{failure}</p>}
+        <button
+          type="submit"
+          className="press-spring mt-4 w-full rounded-2xl bg-primary py-3.5 text-sm font-black text-primary-foreground"
         >
-          Sign in
-        </Link>
-      </div>
+          Continue to payment
+        </button>
+        <p className="mt-4 text-[11px] text-muted-foreground">
+          Already have an account?{' '}
+          <Link to="/auth" className="font-semibold text-primary">
+            Sign in
+          </Link>{' '}
+          for instant access.
+        </p>
+      </form>
     );
   }
+
 
   if (signedIn === null && !configError) {
     return <div className="px-5 py-10 text-center text-sm text-muted-foreground">Loading checkout…</div>;
