@@ -123,27 +123,28 @@ export function SideDrawer({ open, onClose }: Props) {
         <div
           className="relative flex h-full flex-col overflow-hidden rounded-[32px] border border-border/50 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.85)] backdrop-blur-2xl backdrop-saturate-150"
         >
-          {/* Aurora blobs — soft, breathing */}
+          {/* Aurora blobs — theme-driven, soft, breathing */}
           <span
             aria-hidden
-            className="pointer-events-none absolute -left-20 -top-24 h-72 w-72 rounded-full opacity-70 blur-3xl"
-            style={{ background: "radial-gradient(circle, #ff3d9a 0%, transparent 66%)" }}
+            className="pointer-events-none absolute -left-20 -top-24 h-72 w-72 rounded-full opacity-40 blur-3xl"
+            style={{ background: "radial-gradient(circle, var(--primary) 0%, transparent 66%)" }}
           />
           <span
             aria-hidden
-            className="pointer-events-none absolute -right-16 top-16 h-64 w-64 rounded-full opacity-60 blur-3xl"
-            style={{ background: "radial-gradient(circle, #6c5ce7 0%, transparent 66%)" }}
+            className="pointer-events-none absolute -right-16 top-16 h-64 w-64 rounded-full opacity-35 blur-3xl"
+            style={{ background: "radial-gradient(circle, var(--accent) 0%, transparent 66%)" }}
           />
           <span
             aria-hidden
-            className="pointer-events-none absolute -bottom-24 left-4 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            style={{ background: "radial-gradient(circle, #3ddcff 0%, transparent 66%)" }}
+            className="pointer-events-none absolute -bottom-24 left-4 h-64 w-64 rounded-full opacity-30 blur-3xl"
+            style={{ background: "radial-gradient(circle, var(--secondary) 0%, transparent 66%)" }}
           />
           {/* Specular sheen along the top edge */}
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,rgba(255,255,255,0.75),transparent)]"
+            className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--card)_70%,transparent),transparent)]"
           />
+
 
           {/* Header — profile hero */}
           <div className="relative px-5 pt-6 pb-4">
