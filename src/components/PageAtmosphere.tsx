@@ -196,8 +196,6 @@ const GLINTS = [
  * tumbling ice shards, rising carbonation and sparkle glints.
  */
 function CrushLayer({ level }: { level: string }) {
-  const shards = level === "lite" ? SHARDS.slice(0, 3) : level === "mid" ? SHARDS.slice(0, 5) : SHARDS;
-  const fizz = level === "lite" ? [] : level === "mid" ? FIZZ.slice(0, 3) : FIZZ;
   const glints = level === "lite" ? [] : level === "mid" ? GLINTS.slice(0, 3) : GLINTS;
   return (
     <div className="theme-atmos crush-atmos">
@@ -206,46 +204,18 @@ function CrushLayer({ level }: { level: string }) {
       <div className="crush-frost" />
       <span className="crush-edge is-left" />
       <span className="crush-edge is-right" />
-      <span className="crush-glow" style={{ left: "-12%", top: "8%", width: 300, height: 300 }} />
+      <span className="crush-glow" style={{ left: "-12%", top: "8%", width: 320, height: 320 }} />
       <span
         className="crush-glow is-gold"
-        style={{ left: "46%", top: "-8%", width: 340, height: 340, animationDelay: "2s" }}
+        style={{ left: "46%", top: "-10%", width: 380, height: 380, animationDelay: "2s" }}
       />
       <span
-        className="crush-glow is-ice"
-        style={{ right: "-14%", bottom: "10%", width: 340, height: 340, animationDelay: "4s" }}
+        className="crush-glow is-ember"
+        style={{ right: "-14%", bottom: "8%", width: 360, height: 360, animationDelay: "4s" }}
       />
       <div className="crush-liquid is-back" />
       <div className="crush-liquid" />
       {level !== "lite" ? <span className="crush-sheen" /> : null}
-      {shards.map((s) => (
-        <span
-          key={`shard-${s.left}`}
-          className="crush-shard"
-          style={{
-            left: s.left,
-            width: s.size,
-            height: s.size,
-            animationDelay: s.delay,
-            ["--dur" as string]: s.dur,
-            ["--sway" as string]: s.sway,
-          }}
-        />
-      ))}
-      {fizz.map((f) => (
-        <span
-          key={`fizz-${f.left}`}
-          className="crush-fizz"
-          style={{
-            left: f.left,
-            width: f.size,
-            height: f.size,
-            animationDelay: f.delay,
-            ["--dur" as string]: f.dur,
-            ["--sway" as string]: f.sway,
-          }}
-        />
-      ))}
       {glints.map((g) => (
         <span
           key={`glint-${g.left}-${g.top}`}
@@ -263,6 +233,7 @@ function CrushLayer({ level }: { level: string }) {
     </div>
   );
 }
+
 
 
 
