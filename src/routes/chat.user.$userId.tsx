@@ -121,15 +121,9 @@ function UserChat() {
     );
   }
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const text = [input.trim(), ...pending].filter(Boolean).join("\n");
-    if (!text || busy || locked) return;
-    setBusy(true);
-    const tempId = `pending:${Date.now()}`;
-    setInput("");
-    setPending([]);
-    // Optimistic bubble so mobile feels instant; swapped for the real row.
+  const deliver = async (text: string) => {
+    if (!text || locked) return;
+    const tempId = `pending:${Date.now()}:${Math.random().toString(36).slice(2)}`;
     setMessages((m) => [
       ...m,
       { id: tempId, sender_id: user.id, recipient_id: userId, body: text, created_at: new Date().toISOString() },
@@ -145,12 +139,35 @@ function UserChat() {
       );
     } catch (err) {
       setMessages((m) => m.filter((x) => x.id !== tempId));
-      setInput(text);
       toast.error((err as Error).message);
+      throw err;
+    }
+  };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = [input.trim(), ...pending].filter(Boolean).join("\n");
+    if (!text || busy || locked) return;
+    setBusy(true);
+    setInput("");
+    setPending([]);
+    try {
+      await deliver(text);
+    } catch {
+      setInput(text);
     } finally {
       setBusy(false);
     }
   };
+
+  // Tap an emoji: it bursts toward the member, is delivered as a message, and
+  // is appended to the draft so it can be reused in a sentence.
+  const tapEmoji = (emoji: string) => {
+    fire(emoji);
+    setInput((v) => v + emoji);
+    void deliver(emoji).catch(() => {});
+  };
+
 
   return (
     <AppShell hideNav>
