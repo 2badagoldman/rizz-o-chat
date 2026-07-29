@@ -118,8 +118,8 @@ function RomanceLayer({ level }: { level: string }) {
         ? ROMANCE_ROSES.filter((_, i) => i % 2 === 0)
         : ROMANCE_ROSES;
 
-  const deepRose = ROSE_SVG("%23d81e3c", "%235c0a18", "%233f6b3a");
-  const softRose = ROSE_SVG("%23f28a97", "%23a30d26", "%234a7a44");
+  const deepRose = ROSE_SVG("#d81e3c", "#5c0a18", "#3f6b3a");
+  const softRose = ROSE_SVG("#f28a97", "#a30d26", "#4a7a44");
 
   return (
     <div className="theme-atmos romance-atmos">
