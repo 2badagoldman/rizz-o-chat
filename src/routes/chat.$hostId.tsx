@@ -48,7 +48,7 @@ const GIFTS: Array<{ emoji: string; label: string; coins: number }> = [
 ];
 
 // Free reaction emojis — no coins, they just float up and land in the chat.
-const REACTIONS = ["❤️", "😍", "🔥", "😘", "😂", "🥰", "💋", "👀", "🙌", "😉", "💕", "✨"];
+const REACTIONS = ["❤️", "😍", "🔥", "😂", "🥰", "🎉", "👀", "🙌", "😉", "💕", "☕", "✨"];
 
 function HostChat() {
   const { hostId } = Route.useParams();

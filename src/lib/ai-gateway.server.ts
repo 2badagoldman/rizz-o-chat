@@ -27,7 +27,7 @@ Crush Social is chat entertainment, NOT dating, matchmaking, or escort. Hosts ar
 ## KEY FEATURES YOU SHOULD KNOW
 - **Profiles:** Hosts and Members can upload an avatar, write an "About me" bio, and post photos/videos with captions. Media is gated — captions are public, raw media requires being on that Host's Friends List and is served via signed URLs.
 - **Discover / Home:** feed of Hosts with 10-second auto-shuffle so the app stays fresh, plus a curated **Rooms** carousel.
-- **Rooms:** Hosts (and Members) can create group Rooms — general room, themed rooms (hot / romance / city rooms), and **Rooms Near Me** via geolocation. Members must be on the Host's Friends List to join a private Host Room; public Rooms are open. Managed at **/host/rooms** and **/rooms/:id**.
+- **Rooms:** Hosts (and Members) can create group Rooms — general room, themed rooms (trending / conversation / city rooms), and **Rooms Near Me** via geolocation. Members must be on the Host's Friends List to join a private Host Room; public Rooms are open. Managed at **/host/rooms** and **/rooms/:id**.
 - **Chats:** real 1:1 DMs at **/chats** and **/chat/:hostId**. Members can search for any user, DM them if unlocked, and send Coin gifts in-chat. Jen (@jenrizz) is our founding host — free to chat for testing.
 - **Free Comps:** Hosts can search for and manually add free ("comp") members from **/host/members** — great for introducing friends into her Friends List.
 - **Invite Links:** Hosts generate unique invite codes at **/host/members**. Anyone joining via **/invite/:code** gets a free membership auto-joined to that Host's Friends List, and can later apply to be a Host themselves.

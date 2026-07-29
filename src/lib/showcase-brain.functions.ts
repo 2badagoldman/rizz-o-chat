@@ -161,7 +161,7 @@ export async function runBrainCore(trigger: "manual" | "cron") {
     return { skipped: true, reason: "brain disabled" };
   }
 
-  const tone: string = settings.tone ?? "playful, flirty, elite, inviting";
+  const tone: string = settings.tone ?? "playful, warm, elite, inviting";
   const staleHours: number = settings.refresh_caption_after_hours ?? 24;
   const reelSize: number = settings.reel_size ?? 8;
 
