@@ -127,6 +127,7 @@ export function SideDrawer({ open, onClose }: Props) {
         aria-hidden={!open}
         inert={!open}
         role="dialog"
+        aria-modal={open}
       >
         {/* Frosted glass shell — floating, fully rounded */}
         <div
