@@ -9,7 +9,7 @@ Crush pairs members with verified hosts through private Friends Lists, DMs, grou
 - [Discover hosts](/discover): browse and search verified hosts by tier
 - [Rooms near you](/rooms): live group chat rooms in cities across the US
 - [Crush AI copilot](/copilot): AI wingman that helps members write better messages
-- [Upgrade](/upgrade): Crush+ and VIP membership plans
+- [Upgrade](/upgrade): Crush Gold and Crush Diamond VIP membership plans
 - [Buy coins](/coins): coin packs used for gifting and tipping hosts
 - [Sign in / Join free](/auth): create an account or sign in
 
