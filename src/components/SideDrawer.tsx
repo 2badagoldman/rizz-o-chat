@@ -125,7 +125,7 @@ export function SideDrawer({ open, onClose }: Props) {
         }`}
         aria-label="Main menu"
         aria-hidden={!open}
-        {...(!open ? { inert: "" as unknown as boolean } : {})}
+        inert={!open}
         role="dialog"
       >
         {/* Frosted glass shell — floating, fully rounded */}
