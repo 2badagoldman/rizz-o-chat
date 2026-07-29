@@ -22,7 +22,7 @@ import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SafetyMenu } from "@/components/SafetyMenu";
 import { useAiQuota } from "@/hooks/useAiQuota";
 import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
-import { EmojiTray } from "@/components/chat/EmojiTray";
+import { EmojiTray, useEmojiMode } from "@/components/chat/EmojiTray";
 
 
 
@@ -60,6 +60,9 @@ function HostChat() {
   const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`host:${hostId}`);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
+  // "send" delivers the emoji as a message; "react" only bursts + tags the latest message.
+  const { mode: emojiMode, setMode: setEmojiMode } = useEmojiMode(`host:${hostId}`);
+
   const { fire, layer } = useFloatingReactions();
   // Per-message reactions (Apple-style): messageId -> emojis.
   const [msgReactions, setMsgReactions] = useState<Record<string, string[]>>({});
@@ -196,6 +199,13 @@ function HostChat() {
       try { localStorage.setItem(reactionsKey, JSON.stringify(map)); } catch {}
       return map;
     });
+  };
+
+  // React-only mode: burst the emoji and tag the newest message, send nothing.
+  const reactToLatest = (emoji: string) => {
+    const last = messages[messages.length - 1];
+    if (!last) { fire(emoji); return; }
+    reactToMessage(last.id, emoji, { x: window.innerWidth / 2, y: window.innerHeight * 0.7 });
   };
 
 
@@ -432,11 +442,16 @@ function HostChat() {
         <EmojiTray
           open={emojiOpen}
           onClose={() => setEmojiOpen(false)}
-          onPick={(e) => sendReaction(e, { draft: true })}
+          mode={emojiMode}
+          onModeChange={setEmojiMode}
+          onPick={(e, m) =>
+            m === "send" ? sendReaction(e, { draft: true }) : reactToLatest(e)
+          }
           peerName={host.name}
           disabled={chatLocked}
           emojis={REACTIONS}
         />
+
 
 
         {aiQuotaReached ? (

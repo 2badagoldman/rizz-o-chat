@@ -16,7 +16,7 @@ import { useChatAccess } from "@/hooks/useChatAccess";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SafetyMenu } from "@/components/SafetyMenu";
 import { useFloatingReactions } from "@/components/chat/FloatingReactions";
-import { EmojiTray } from "@/components/chat/EmojiTray";
+import { EmojiTray, useEmojiMode, type EmojiMode } from "@/components/chat/EmojiTray";
 
 
 const DM_REACTIONS = ["❤️", "😍", "🔥", "😘", "😂", "🥰", "💋", "👀", "🙌", "😉", "💕", "✨"];
@@ -44,6 +44,7 @@ function UserChat() {
   const [pending, setPending] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
   const [emojiOpen, setEmojiOpen] = useState(false);
+  const { mode: emojiMode, setMode: setEmojiMode } = useEmojiMode(`dm:${userId}`);
   const { fire, layer } = useFloatingReactions();
 
   const peerOnline = useIsOnline(userId);
@@ -171,11 +172,13 @@ function UserChat() {
 
   // Tap an emoji: it bursts toward the member, is delivered as a message, and
   // is appended to the draft so it can be reused in a sentence.
-  const tapEmoji = (emoji: string) => {
+  const tapEmoji = (emoji: string, mode: EmojiMode = "send") => {
     fire(emoji);
+    if (mode === "react") return; // burst only — nothing sent, draft untouched
     setInput((v) => v + emoji);
     void deliver(emoji).catch(() => {});
   };
+
 
 
   return (
@@ -230,6 +233,8 @@ function UserChat() {
         <EmojiTray
           open={emojiOpen}
           onClose={() => setEmojiOpen(false)}
+          mode={emojiMode}
+          onModeChange={setEmojiMode}
           onPick={tapEmoji}
           peerName={peer?.display_name ?? "them"}
           disabled={locked}
