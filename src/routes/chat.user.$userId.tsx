@@ -16,6 +16,8 @@ import { useChatAccess } from "@/hooks/useChatAccess";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SafetyMenu } from "@/components/SafetyMenu";
 import { useFloatingReactions } from "@/components/chat/FloatingReactions";
+import { EmojiTray } from "@/components/chat/EmojiTray";
+
 
 const DM_REACTIONS = ["❤️", "😍", "🔥", "😘", "😂", "🥰", "💋", "👀", "🙌", "😉", "💕", "✨"];
 
@@ -225,34 +227,15 @@ function UserChat() {
 
         <ChatTrialBanner locked={locked} onTrial={onTrial} daysLeft={daysLeft} />
 
-        {emojiOpen ? (
-          <div className="mb-1 rounded-2xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur animate-in fade-in slide-in-from-bottom-2">
-            <p className="mb-2 text-[10px] uppercase tracking-widest text-muted-foreground">
-              Tap to send {peer?.display_name ?? "them"} a reaction — it&apos;s added to your draft too
-            </p>
-            <div className="grid grid-cols-6 gap-1">
-              {DM_REACTIONS.map((e) => (
-                <button
-                  key={e}
-                  type="button"
-                  onClick={() => tapEmoji(e)}
-                  disabled={locked}
-                  className="rounded-xl py-2 text-2xl transition-transform hover:scale-125 active:scale-95 disabled:opacity-50"
-                  aria-label={`Send ${e} and add it to your message`}
-                >
-                  {e}
-                </button>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setEmojiOpen(false)}
-              className="mt-2 w-full rounded-xl border border-border py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
-            >
-              Close
-            </button>
-          </div>
-        ) : null}
+        <EmojiTray
+          open={emojiOpen}
+          onClose={() => setEmojiOpen(false)}
+          onPick={tapEmoji}
+          peerName={peer?.display_name ?? "them"}
+          disabled={locked}
+          emojis={DM_REACTIONS}
+        />
+
 
         <form onSubmit={submit} className="sticky bottom-0 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
           <PendingAttachments markers={pending} onRemove={(m) => setPending((p) => p.filter((x) => x !== m))} />
@@ -260,7 +243,9 @@ function UserChat() {
           <ChatAttachButton disabled={locked} onUploaded={(m) => setPending((p) => [...p, m])} />
           <button
             type="button"
+            data-emoji-toggle
             onClick={() => setEmojiOpen((v) => !v)}
+
             aria-label="Emoji reactions"
             aria-expanded={emojiOpen}
             className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border transition-colors ${emojiOpen ? "border-primary bg-primary/10 text-primary" : "bg-card text-muted-foreground hover:text-primary"}`}
