@@ -1611,22 +1611,23 @@ body::after {
   opacity: .7;
 }
 
-/* Chrome sheen sweeping across gilded glass */
+/* Chrome sheen sweeping across gilded glass (transform-only: no layout work) */
 .crush-sheen {
-  position: absolute; top: -20%; bottom: -20%; width: 46vw;
+  position: absolute; top: -20%; bottom: -20%; left: -55%; width: 46vw;
   background: linear-gradient(100deg, transparent, rgba(255,255,255,.48) 42%, rgba(255,214,140,.42) 58%, transparent);
   filter: blur(18px);
-  transform: skewX(-14deg);
   animation: crush-sheen-sweep 16s cubic-bezier(.4,0,.2,1) infinite;
   mix-blend-mode: screen;
   opacity: 0;
+  will-change: transform, opacity;
 }
 @keyframes crush-sheen-sweep {
-  0%   { left: -55%; opacity: 0; }
+  0%   { transform: translate3d(0, 0, 0) skewX(-14deg); opacity: 0; }
   16%  { opacity: .7; }
   64%  { opacity: .45; }
-  100% { left: 115%; opacity: 0; }
+  100% { transform: translate3d(170vw, 0, 0) skewX(-14deg); opacity: 0; }
 }
+
 
 /* Molten horizon at the base — slow, luxurious swell */
 .crush-liquid {
