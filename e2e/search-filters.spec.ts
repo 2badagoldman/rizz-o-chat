@@ -13,7 +13,7 @@ test.describe("discover search, filters and sorting", () => {
     const total = await cards(page).count();
     expect(total).toBeGreaterThan(5);
 
-    const search = page.getByLabel("Search hosts", { exact: true });
+    const search = page.getByLabel("Search hosts, cities and interests");
     await search.fill("zzzz-no-such-host");
     await expect(page.getByText("No hosts match")).toBeVisible();
     await expect(cards(page)).toHaveCount(0);
@@ -92,13 +92,13 @@ test.describe("discover search, filters and sorting", () => {
     await waitForShell(page);
 
     await page.getByLabel("Sort hosts").selectOption("price-desc");
-    await page.getByLabel("Search hosts", { exact: true }).fill("a");
+    await page.getByLabel("Search hosts, cities and interests").fill("a");
     await expect(page.getByLabel("Sort hosts")).toHaveValue("price-desc");
 
     const count = await cards(page).count();
     await page.getByRole("button", { name: "Online", exact: true }).click();
     expect(await cards(page).count()).toBeLessThanOrEqual(count);
-    await expect(page.getByLabel("Search hosts", { exact: true })).toHaveValue("a");
+    await expect(page.getByLabel("Search hosts, cities and interests")).toHaveValue("a");
     await expect(page.getByLabel("Sort hosts")).toHaveValue("price-desc");
   });
 });
@@ -112,7 +112,7 @@ for (const theme of THEMES) {
     await waitForShell(page);
     await setTheme(page, theme);
 
-    await page.getByLabel("Search hosts", { exact: true }).fill("zzzz-no-such-host");
+    await page.getByLabel("Search hosts, cities and interests").fill("zzzz-no-such-host");
 
     const empty = page.getByText("No hosts match");
     await expect(empty).toBeVisible();

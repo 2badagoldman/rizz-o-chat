@@ -92,7 +92,7 @@ function Discover() {
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search hosts, cities, interests…"
-          aria-label="Search hosts"
+          aria-label="Search hosts, cities and interests"
           className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
         />
         {q ? (
