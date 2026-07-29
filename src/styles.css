@@ -1708,10 +1708,7 @@ body::after {
 }
 
 /* ---- Crush perf scaling: cheaper paint on mid/low-end and small screens ---- */
-.crush-atmos {
-  contain: strict;
-  content-visibility: auto;
-}
+.crush-atmos { contain: layout paint style; }
 .crush-glow, .crush-liquid, .crush-glint, .crush-rays { will-change: transform, opacity; }
 
 /* Pause every decorative loop while the tab is hidden. */
