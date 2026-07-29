@@ -20,14 +20,14 @@ const WAVE = (color: string, opacity: number) =>
 const SHAFTS = ["8%", "34%", "62%", "86%"];
 
 const PETALS = [
-  { left: "6%", size: 14, dur: "17s", delay: "0s", sway: "50px", color: "#d97e7e" },
-  { left: "18%", size: 9, dur: "22s", delay: "3s", sway: "-40px", color: "#f3c9c2" },
-  { left: "31%", size: 16, dur: "19s", delay: "6s", sway: "60px", color: "#c2536b" },
-  { left: "47%", size: 11, dur: "25s", delay: "1.5s", sway: "-55px", color: "#e79aa1" },
-  { left: "59%", size: 13, dur: "20s", delay: "8s", sway: "45px", color: "#d97e7e" },
-  { left: "72%", size: 8, dur: "24s", delay: "4.5s", sway: "-35px", color: "#f6d9cf" },
-  { left: "84%", size: 15, dur: "18s", delay: "10s", sway: "65px", color: "#b8465f" },
-  { left: "93%", size: 10, dur: "23s", delay: "7s", sway: "-50px", color: "#e8a8ae" },
+  { left: "6%", size: 29, dur: "17s", delay: "0s", sway: "50px", color: "#d97e7e" },
+  { left: "18%", size: 18, dur: "22s", delay: "3s", sway: "-40px", color: "#f3c9c2" },
+  { left: "31%", size: 33, dur: "19s", delay: "6s", sway: "60px", color: "#c2536b" },
+  { left: "47%", size: 23, dur: "25s", delay: "1.5s", sway: "-55px", color: "#e79aa1" },
+  { left: "59%", size: 27, dur: "20s", delay: "8s", sway: "45px", color: "#d97e7e" },
+  { left: "72%", size: 16, dur: "24s", delay: "4.5s", sway: "-35px", color: "#f6d9cf" },
+  { left: "84%", size: 31, dur: "18s", delay: "10s", sway: "65px", color: "#b8465f" },
+  { left: "93%", size: 21, dur: "23s", delay: "7s", sway: "-50px", color: "#e8a8ae" },
 ];
 
 function SeaLayer() {
@@ -80,12 +80,12 @@ function RoseLayer() {
 
 
 const BUBBLES = [
-  { left: "5%", size: 44, delay: "0s", tint: "from-primary/30" },
-  { left: "22%", size: 20, delay: "1.4s", tint: "from-accent/40" },
-  { left: "44%", size: 58, delay: "3.2s", tint: "from-primary/20" },
-  { left: "63%", size: 26, delay: "0.9s", tint: "from-accent/30" },
-  { left: "81%", size: 38, delay: "2.2s", tint: "from-primary/25" },
-  { left: "94%", size: 16, delay: "4.1s", tint: "from-accent/40" },
+  { left: "5%", size: 92, delay: "0s", tint: "from-primary/30" },
+  { left: "22%", size: 42, delay: "1.4s", tint: "from-accent/40" },
+  { left: "44%", size: 121, delay: "3.2s", tint: "from-primary/20" },
+  { left: "63%", size: 54, delay: "0.9s", tint: "from-accent/30" },
+  { left: "81%", size: 79, delay: "2.2s", tint: "from-primary/25" },
+  { left: "94%", size: 33, delay: "4.1s", tint: "from-accent/40" },
 ];
 
 const AURORAS = [

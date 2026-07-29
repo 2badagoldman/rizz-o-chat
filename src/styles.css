@@ -1392,16 +1392,16 @@ body::after {
   top: -8vh;
   border-radius: 60% 0 60% 0;
   background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.85), var(--petal-color, #d97e7e));
-  box-shadow: 0 6px 18px -8px rgba(168,98,107,.6);
+  box-shadow: 0 8px 22px -8px rgba(168,98,107,.75);
   opacity: 0;
   animation: petal-fall var(--dur, 18s) linear infinite;
   transform: translateY(calc(var(--sea-scroll, 0) * 24px));
 }
 @keyframes petal-fall {
   0%   { opacity: 0; transform: translate3d(0, -10vh, 0) rotate(0deg); }
-  12%  { opacity: .85; }
+  12%  { opacity: 1; }
   50%  { transform: translate3d(var(--sway, 40px), 50vh, 0) rotate(180deg); }
-  88%  { opacity: .7; }
+  88%  { opacity: .9; }
   100% { opacity: 0; transform: translate3d(calc(var(--sway, 40px) * -1), 108vh, 0) rotate(360deg); }
 }
 .rose-bloom {
