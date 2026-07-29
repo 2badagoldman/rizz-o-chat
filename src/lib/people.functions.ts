@@ -32,7 +32,9 @@ export const discoverPeople = createServerFn({ method: "POST" })
       .select("account_type")
       .eq("id", context.userId)
       .maybeSingle();
-    const memberOnly = me?.account_type === "member";
+    // Matchmaking: you always discover the *other* side.
+    // Members find hosts; hosts find members.
+    const wantType = me?.account_type === "host" ? "member" : "host";
 
     // Exact email lookup (privacy: exact match only, never partial email search).
     if (term.includes("@") && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(term)) {
@@ -54,7 +56,7 @@ export const discoverPeople = createServerFn({ method: "POST" })
         .filter((id) => id !== context.userId);
       if (ids.length === 0) return [];
       let adminQuery = supabaseAdmin.from("profiles").select(SELECT).in("id", ids).is("deleted_at", null);
-      if (memberOnly) adminQuery = adminQuery.eq("account_type", "host");
+      adminQuery = adminQuery.eq("account_type", wantType);
       const { data: rows } = await adminQuery;
       return (rows ?? []) as PersonRow[];
     }
@@ -68,7 +70,7 @@ export const discoverPeople = createServerFn({ method: "POST" })
       .order("created_at", { ascending: false })
       .limit(data.limit);
 
-    if (memberOnly) query = query.eq("account_type", "host");
+    query = query.eq("account_type", wantType);
     if (term) query = query.ilike("display_name", `%${term.replace(/^@/, "")}%`);
 
     const { data: rows, error } = await query;

@@ -6,6 +6,8 @@ import { Search, X, MessageCircle, Sparkle, Crown } from "lucide-react";
 import { discoverPeople, getPublicProfile, type PersonRow } from "@/lib/people.functions";
 import { OnlineDot, useOnlineUsers } from "@/lib/presence";
 import { useAuth } from "@/lib/auth";
+import { DEMO_HOSTS } from "@/lib/demo-hosts";
+import { hostAvatarThumb } from "@/lib/host-avatars";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 interface Props {
@@ -31,7 +33,6 @@ export function PeopleDiscovery({ open, onClose }: Props) {
   const fetchProfile = useServerFn(getPublicProfile);
   const [q, setQ] = useState("");
   const [debounced, setDebounced] = useState("");
-  const [tab, setTab] = useState<"all" | "member" | "host">("all");
   const onlineUsers = useOnlineUsers();
 
   const { data: myProfile } = useQuery({
@@ -39,7 +40,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     queryFn: () => fetchProfile({ data: { userId: user!.id } }),
     enabled: !!user,
   });
-  const isMember = myProfile?.account_type === "member";
+  const isHost = myProfile?.account_type === "host";
 
   useEffect(() => {
     const t = setTimeout(() => setDebounced(q), 250);
@@ -53,10 +54,6 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  useEffect(() => {
-    if (isMember && tab !== "host") setTab("host");
-  }, [isMember, tab]);
-
   const { data, isLoading, error } = useQuery({
     queryKey: ["discover-people", debounced],
     queryFn: () => fetchPeople({ data: { q: debounced, limit: 60 } }),
@@ -65,15 +62,21 @@ export function PeopleDiscovery({ open, onClose }: Props) {
   });
 
   const all = useMemo(() => (data ?? []) as PersonRow[], [data]);
-  const people = useMemo(
-    () => (tab === "all" ? all : all.filter((p) => p.account_type === tab)),
-    [all, tab],
-  );
-  const weekCount = useMemo(
-    () => all.filter((p) => Date.now() - new Date(p.created_at).getTime() < 7 * 864e5).length,
-    [all],
-  );
 
+  // Members also get the AI hosts in the pool so there's always someone to chat with.
+  const aiHosts = useMemo(() => {
+    if (isHost) return [];
+    const term = debounced.trim().toLowerCase().replace(/^@/, "");
+    return DEMO_HOSTS.filter((h) => h.aiEnabled).filter(
+      (h) =>
+        !term ||
+        h.name.toLowerCase().includes(term) ||
+        h.handle.toLowerCase().includes(term),
+    );
+  }, [isHost, debounced]);
+
+  const people = all;
+  const total = people.length + aiHosts.length;
 
   if (!open) return null;
 
@@ -132,31 +135,6 @@ export function PeopleDiscovery({ open, onClose }: Props) {
           ) : null}
         </div>
 
-        <div className="mt-3 flex gap-2 px-4">
-          {(isMember
-            ? ([{ key: "host", label: "Hosts" }] as const)
-            : ([
-                { key: "all", label: "Everyone" },
-                { key: "member", label: "Members" },
-                { key: "host", label: "Hosts" },
-              ] as const)
-          ).map((t) => (
-            <button
-              key={t.key}
-              onClick={() => setTab(t.key)}
-              aria-pressed={tab === t.key}
-              className={`rounded-full border px-3 py-1.5 text-xs font-bold transition ${
-                tab === t.key
-                  ? "border-transparent text-white shadow-glow"
-                  : "border-border/60 bg-card/70 text-muted-foreground hover:text-foreground"
-              }`}
-              style={tab === t.key ? { background: "var(--gradient-brand)" } : undefined}
-            >
-              {t.label}
-            </button>
-          ))}
-        </div>
-
         <div className="mt-3 flex-1 overflow-y-auto px-3 pb-5">
           {!user ? (
             <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find your crush on Crush.</p>
@@ -166,46 +144,81 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             <p className="p-6 text-center text-sm text-destructive">
               Couldn’t load people right now. Pull down to retry in a moment.
             </p>
-          ) : people.length === 0 ? (
+          ) : total === 0 ? (
             <div className="px-4 py-10 text-center">
               <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow">
                 <Search className="h-5 w-5" />
               </div>
               <p className="mt-3 text-[15px] font-extrabold tracking-tight text-foreground">
-                {debounced
-                  ? "No one found"
-                  : isMember
-                    ? "No hosts yet"
-                    : tab === "all"
-                      ? "No new people yet"
-                      : `No ${tab === "host" ? "hosts" : "members"} yet`}
+                {debounced ? "No one found" : isHost ? "No new members yet" : "No hosts yet"}
               </p>
               <p className="mx-auto mt-1 max-w-[16rem] text-xs font-semibold text-muted-foreground">
                 {debounced
                   ? debounced.includes("@")
                     ? `No account uses “${debounced}”.`
                     : `Nobody matches “${debounced}”. Try a different name.`
-                  : isMember
-                    ? "Check back soon — new hosts join Crush every day."
-                    : "Check back soon — new faces join Crush every day."}
+                  : isHost
+                    ? "Check back soon — new members join Crush every day."
+                    : "Check back soon — new hosts join Crush every day."}
               </p>
               {debounced ? (
                 <button
                   type="button"
-                  onClick={() => {
-                    setQ("");
-                    if (!isMember) setTab("all");
-                  }}
+                  onClick={() => setQ("")}
                   className="mt-4 rounded-full px-4 py-2 text-xs font-bold text-white shadow-glow transition active:scale-95"
                   style={{ background: "var(--gradient-brand)" }}
                 >
-                  {isMember ? "Show all hosts" : "Show everyone"}
+                  {isHost ? "Show new members" : "Show all hosts"}
                 </button>
               ) : null}
             </div>
           ) : (
 
             <ul className="grid gap-1">
+              {aiHosts.map((h) => (
+                <li
+                  key={h.id}
+                  className="flex items-center gap-3 rounded-2xl px-2 py-2 transition hover:bg-primary/15"
+                >
+                  <button
+                    onClick={() => {
+                      onClose();
+                      navigate({ to: "/host/$hostId", params: { hostId: h.id } });
+                    }}
+                    aria-label={`View ${h.name}`}
+                    className="relative h-12 w-12 shrink-0 transition active:scale-95"
+                  >
+                    <img
+                      src={hostAvatarThumb(h.id)}
+                      alt=""
+                      loading="lazy"
+                      className="h-12 w-12 rounded-full border-2 border-white object-cover"
+                    />
+                    <OnlineDot online className="absolute bottom-0 right-0" />
+                  </button>
+                  <button
+                    onClick={() => {
+                      onClose();
+                      navigate({ to: "/chat/$hostId", params: { hostId: h.id } });
+                    }}
+                    className="flex min-w-0 flex-1 items-center gap-3 text-left active:scale-[0.99]"
+                  >
+                    <span className="min-w-0 flex-1">
+                      <span className="flex items-center gap-1.5">
+                        <span className="truncate text-sm font-bold">{h.name}</span>
+                        <Crown className="h-3.5 w-3.5 shrink-0 text-primary" />
+                        <span className="shrink-0 rounded-full bg-gradient-brand px-2 py-[2px] text-[8.5px] font-black uppercase tracking-[0.12em] text-white">
+                          AI
+                        </span>
+                      </span>
+                      <span className="mt-0.5 flex items-center gap-1 truncate text-[11px] text-muted-foreground">
+                        <Sparkle className="h-3 w-3 shrink-0" /> {h.city} · replies instantly
+                      </span>
+                    </span>
+                    <MessageCircle className="h-4 w-4 shrink-0 text-primary" />
+                  </button>
+                </li>
+              ))}
               {people.map((p) => {
                 const isNew = Date.now() - new Date(p.created_at).getTime() < 7 * 864e5;
                 return (
