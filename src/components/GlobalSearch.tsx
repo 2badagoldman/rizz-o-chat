@@ -19,7 +19,7 @@ type InboxEntry = {
   subtitle: string;
   avatar: string;
   badge: string;
-  to: "/chat/$hostId" | "/dm/$userId";
+  to: "/chat/$hostId" | "/chat/user/$userId";
   params: Record<string, string>;
   online?: boolean;
 };
@@ -93,7 +93,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
         subtitle: t.lastBody ? `${t.lastFromMe ? "You: " : ""}${t.lastBody}` : "Say hi",
         avatar: t.profile?.avatar_url ?? hostAvatarThumb(id),
         badge: t.profile?.account_type === "host" ? "Host" : "Member",
-        to: "/dm/$userId",
+        to: "/chat/user/$userId",
         params: { userId: id },
       });
     });
