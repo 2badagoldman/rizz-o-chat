@@ -10,6 +10,7 @@ import { ArrowLeft, Send, Circle, Gift, Sparkles, Heart, Smile } from "lucide-re
 import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
+import { pickOpener } from "@/lib/host-personas";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 import { ChatAttachButton, PendingAttachments } from "@/components/chat/ChatMedia";
 import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
@@ -413,9 +414,11 @@ function HostChat() {
           }
           empty={
             <div className="mb-3 rounded-2xl border border-border bg-card p-4 text-sm">
-              {isJen
-                ? "hey you 💌 so glad you found me — tell me something about your day"
-                : `hey — ${host.teaser.toLowerCase()} what's up with you?`}
+              {pickOpener(
+                hostId,
+                user?.id ?? "guest",
+                `hey — ${host.teaser.toLowerCase()} what's up with you?`,
+              )}
             </div>
           }
         />
