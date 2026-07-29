@@ -33,7 +33,7 @@ function RoomChatPage() {
   const [err, setErr] = useState<string | null>(null);
   const [showMembers, setShowMembers] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin();
+  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`room:${roomId}`);
 
 
   useEffect(() => {
