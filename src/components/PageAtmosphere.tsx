@@ -80,6 +80,80 @@ function RoseLayer({ level }: { level: string }) {
 }
 
 
+const ROSE_SVG = (petal: string, deep: string, leaf: string) =>
+  `url("data:image/svg+xml,${encodeURIComponent(
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+      <path d='M50 96 C48 78 40 66 26 58' stroke='${leaf}' stroke-width='4' fill='none' stroke-linecap='round'/>
+      <path d='M30 62 C18 56 12 46 14 36 C26 36 36 44 38 56 Z' fill='${leaf}'/>
+      <circle cx='50' cy='42' r='30' fill='${petal}'/>
+      <path d='M50 12 C68 18 78 32 76 48 C74 64 62 72 50 72 C38 72 26 64 24 48 C22 32 32 18 50 12 Z' fill='${deep}' opacity='.55'/>
+      <circle cx='50' cy='42' r='20' fill='${petal}'/>
+      <path d='M50 24 C62 28 68 36 66 46 C64 56 56 60 50 58 C44 56 38 50 38 42 C38 32 42 26 50 24 Z' fill='${deep}' opacity='.5'/>
+      <circle cx='50' cy='42' r='10' fill='${petal}'/>
+      <path d='M50 34 C56 36 58 42 55 46 C52 50 46 48 45 43 C44 38 46 35 50 34 Z' fill='${deep}' opacity='.6'/>
+    </svg>`,
+  )}")`;
+
+const ROMANCE_ROSES = [
+  { side: "left" as const, top: "5%", size: 96, offset: "-16px", tilt: "-8deg", delay: "0s" },
+  { side: "left" as const, top: "31%", size: 62, offset: "6px", tilt: "12deg", delay: "2.4s" },
+  { side: "left" as const, top: "58%", size: 108, offset: "-26px", tilt: "-4deg", delay: "4.8s" },
+  { side: "left" as const, top: "82%", size: 70, offset: "2px", tilt: "9deg", delay: "1.2s" },
+  { side: "right" as const, top: "9%", size: 74, offset: "0px", tilt: "7deg", delay: "3.1s" },
+  { side: "right" as const, top: "36%", size: 112, offset: "-24px", tilt: "-10deg", delay: "0.6s" },
+  { side: "right" as const, top: "63%", size: 66, offset: "8px", tilt: "5deg", delay: "5.4s" },
+  { side: "right" as const, top: "87%", size: 94, offset: "-14px", tilt: "-6deg", delay: "2.9s" },
+];
+
+/**
+ * Romance: a deep valentine-red frame. Silk flows and roses live on the left
+ * and right edges only — nothing falls across the content, so it never
+ * distracts from reading or chatting.
+ */
+function RomanceLayer({ level }: { level: string }) {
+  const roses =
+    level === "lite"
+      ? ROMANCE_ROSES.filter((_, i) => i % 4 === 0)
+      : level === "mid"
+        ? ROMANCE_ROSES.filter((_, i) => i % 2 === 0)
+        : ROMANCE_ROSES;
+
+  const deepRose = ROSE_SVG("%23d81e3c", "%235c0a18", "%233f6b3a");
+  const softRose = ROSE_SVG("%23f28a97", "%23a30d26", "%234a7a44");
+
+  return (
+    <div className="theme-atmos romance-atmos">
+      <span className="romance-edge is-left" />
+      <span className="romance-edge is-right" />
+      {level !== "lite" && (
+        <>
+          <span className="romance-flow is-left" />
+          <span className="romance-flow is-right" />
+        </>
+      )}
+      <span className="romance-glow" style={{ left: "-10%", top: "10%", width: 260, height: 260 }} />
+      <span className="romance-glow" style={{ right: "-12%", bottom: "12%", width: 300, height: 300, animationDelay: "5s" }} />
+      {roses.map((r, i) => (
+        <span
+          key={`${r.side}-${r.top}`}
+          className="romance-rose"
+          style={{
+            top: r.top,
+            width: r.size,
+            height: r.size,
+            [r.side]: r.offset,
+            backgroundImage: i % 2 === 0 ? deepRose : softRose,
+            animationDelay: r.delay,
+            ["--tilt" as string]: r.tilt,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+
+
 
 const BUBBLES = [
   { left: "5%", size: 44, delay: "0s", tint: "from-primary/30" },
