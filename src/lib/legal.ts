@@ -3,7 +3,7 @@
 
 export const LEGAL = {
   brand: "Crush",
-  productName: "Crush Chat (Crush)",
+  productName: "Crush Chat",
   entity: "KOLO TECHNOLOGY LLC",
   addressLines: ["1802 Pleasant Valley Rd, Ste 400", "Garland, TX 75040-2861", "United States"],
   address: "1802 Pleasant Valley Rd, Ste 400, Garland, TX 75040-2861, United States",
