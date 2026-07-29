@@ -52,9 +52,31 @@ async function handleInvoicePaid(invoice: any) {
 }
 
 
+async function handleGuestSubscription(subscription: any, env: StripeEnv) {
+  const code = subscription.metadata?.guestCode;
+  if (!code) return;
+  await sb()
+    .from('guest_subscriptions')
+    .update({
+      stripe_subscription_id: subscription.id,
+      stripe_customer_id: subscription.customer,
+      status: subscription.status,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('code', code)
+    .eq('environment', env);
+}
+
 async function handleSubscriptionUpsert(subscription: any, env: StripeEnv) {
   const userId = subscription.metadata?.userId;
-  if (!userId) return console.error('subscription missing userId');
+  if (!userId) {
+    // Guest checkout — no account yet. Park it against the claim code so the
+    // buyer can attach it after they sign up.
+    if (subscription.metadata?.guestCode) return handleGuestSubscription(subscription, env);
+    return console.error('subscription missing userId');
+  }
+  if (subscription.metadata?.guestCode) await handleGuestSubscription(subscription, env);
+
   const item = subscription.items?.data?.[0];
   const priceId = item?.price?.lookup_key || item?.price?.metadata?.lovable_external_id || item?.price?.id;
   const productId = item?.price?.product;
