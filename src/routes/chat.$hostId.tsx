@@ -201,6 +201,13 @@ function HostChat() {
     });
   };
 
+  // React-only mode: burst the emoji and tag the newest message, send nothing.
+  const reactToLatest = (emoji: string) => {
+    const last = messages[messages.length - 1];
+    if (!last) { fire(emoji); return; }
+    reactToMessage(last.id, emoji, { x: window.innerWidth / 2, y: window.innerHeight * 0.7 });
+  };
+
 
 
   // Typing state: shown while the host is composing a reply.
