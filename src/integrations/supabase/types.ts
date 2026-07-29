@@ -1139,6 +1139,7 @@ export type Database = {
         Returns: boolean
       }
       host_self_stats: { Args: { _since?: string }; Returns: Json }
+      install_conversion_metrics: { Args: { _days?: number }; Returns: Json }
       is_blocked_between: { Args: { _a: string; _b: string }; Returns: boolean }
       is_room_host: {
         Args: { _room_id: string; _user_id: string }
