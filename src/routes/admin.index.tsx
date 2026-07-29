@@ -5,6 +5,7 @@ import { getAdminMetrics } from "@/lib/admin.functions";
 import { listEarlyAccessSignups } from "@/lib/early-access.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { DollarSign, Users, TrendingUp, Wallet, Crown, Inbox, Radio, MessageSquare } from "lucide-react";
+import { InstallConversionPanel } from "@/components/admin/InstallConversionPanel";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
@@ -108,6 +109,7 @@ function AdminDashboard() {
               </div>
             </section>
           </div>
+          <InstallConversionPanel defaultDays={days} />
           <WaitlistPanel />
         </>
       )}
