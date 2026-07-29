@@ -293,7 +293,7 @@ export function PageAtmosphere() {
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
       <SeaLayer level={level} />
-      <RoseLayer level={level} />
+      <SicoLayer level={level} />
       <RomanceLayer level={level} />
       <CrushLayer level={level} />
 
