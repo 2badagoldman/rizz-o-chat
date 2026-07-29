@@ -18,15 +18,33 @@ export const CHAT_SKINS: { id: ChatSkin; label: string; swatch: string }[] = [
 const KEY = "rizz.chatSkin";
 const CONTRAST_KEY = "rizz.chatContrast";
 
-export function useChatSkin() {
+const skinKey = (scope?: string) => (scope ? `${KEY}:${scope}` : KEY);
+const contrastKey = (scope?: string) => (scope ? `${CONTRAST_KEY}:${scope}` : CONTRAST_KEY);
+const isSkin = (v: unknown): v is ChatSkin => CHAT_SKINS.some((s) => s.id === v);
+
+/**
+ * Per-conversation chat theme.
+ * Pass a stable `scopeKey` (e.g. `dm:<userId>`, `host:<hostId>`, `room:<roomId>`) so each
+ * chat remembers its own look. Falls back to the global default when the chat has none yet,
+ * and syncs the choice to the account so it sticks across devices.
+ */
+export function useChatSkin(scopeKey?: string) {
   const [skin, setSkin] = useState<ChatSkin>("brand");
   const [highContrast, setHighContrast] = useState(false);
+  const scopeRef = useRef(scopeKey);
+  scopeRef.current = scopeKey;
 
+  // Local (instant) hydration.
   useEffect(() => {
+    let cancelled = false;
     try {
-      const saved = localStorage.getItem(KEY) as ChatSkin | null;
-      if (saved && CHAT_SKINS.some((s) => s.id === saved)) setSkin(saved);
-      const savedContrast = localStorage.getItem(CONTRAST_KEY);
+      const saved =
+        (localStorage.getItem(skinKey(scopeKey)) as ChatSkin | null) ??
+        (localStorage.getItem(KEY) as ChatSkin | null);
+      setSkin(isSkin(saved) ? saved : "brand");
+
+      const savedContrast =
+        localStorage.getItem(contrastKey(scopeKey)) ?? localStorage.getItem(CONTRAST_KEY);
       if (savedContrast === "1" || savedContrast === "0") {
         setHighContrast(savedContrast === "1");
       } else if (typeof window !== "undefined" && window.matchMedia) {
@@ -36,24 +54,70 @@ export function useChatSkin() {
     } catch {
       /* noop */
     }
-  }, []);
+
+    // Remote hydration so the choice follows the user to any device.
+    if (scopeKey) {
+      (async () => {
+        try {
+          const { data: auth } = await supabase.auth.getUser();
+          if (!auth?.user) return;
+          const { data } = await supabase
+            .from("chat_theme_prefs")
+            .select("skin, high_contrast")
+            .eq("user_id", auth.user.id)
+            .eq("scope_key", scopeKey)
+            .maybeSingle();
+          if (cancelled || !data || scopeRef.current !== scopeKey) return;
+          if (isSkin(data.skin)) setSkin(data.skin);
+          setHighContrast(Boolean(data.high_contrast));
+        } catch {
+          /* offline / signed out — local value stands */
+        }
+      })();
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, [scopeKey]);
+
+  const persist = useCallback(
+    async (nextSkin: ChatSkin, nextContrast: boolean) => {
+      try {
+        localStorage.setItem(skinKey(scopeKey), nextSkin);
+        localStorage.setItem(contrastKey(scopeKey), nextContrast ? "1" : "0");
+        if (!scopeKey) localStorage.setItem(KEY, nextSkin);
+      } catch {
+        /* noop */
+      }
+      if (!scopeKey) return;
+      try {
+        const { data: auth } = await supabase.auth.getUser();
+        if (!auth?.user) return;
+        await supabase.from("chat_theme_prefs").upsert(
+          {
+            user_id: auth.user.id,
+            scope_key: scopeKey,
+            skin: nextSkin,
+            high_contrast: nextContrast,
+          },
+          { onConflict: "user_id,scope_key" },
+        );
+      } catch {
+        /* noop */
+      }
+    },
+    [scopeKey],
+  );
 
   const updateContrast = (v: boolean) => {
     setHighContrast(v);
-    try {
-      localStorage.setItem(CONTRAST_KEY, v ? "1" : "0");
-    } catch {
-      /* noop */
-    }
+    void persist(skin, v);
   };
 
   const update = (s: ChatSkin) => {
     setSkin(s);
-    try {
-      localStorage.setItem(KEY, s);
-    } catch {
-      /* noop */
-    }
+    void persist(s, highContrast);
   };
 
   return {
@@ -64,6 +128,7 @@ export function useChatSkin() {
     contrastAttr: highContrast ? "high" : undefined,
   };
 }
+
 
 export function ChatSkinPicker({
   skin,
