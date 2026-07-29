@@ -30,5 +30,6 @@ export const LEGAL_PAGES = [
   { to: "/legal/dmca", title: "DMCA & Content Removal", blurb: "Report copyright infringement or non-consensual content." },
   { to: "/legal/law-enforcement", title: "Law Enforcement Guidelines", blurb: "How agencies submit legal, preservation and emergency requests." },
   { to: "/legal/trust", title: "Trust & Security", blurb: "How the platform is built, hosted and protected." },
+  { to: "/legal/delete-account", title: "Delete Your Account & Data", blurb: "How to permanently delete your account and what we must retain." },
   { to: "/legal/contact", title: "Contact & Business Details", blurb: "Legal entity, address, support hours and escalation." },
 ] as const;
