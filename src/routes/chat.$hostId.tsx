@@ -22,6 +22,8 @@ import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SafetyMenu } from "@/components/SafetyMenu";
 import { useAiQuota } from "@/hooks/useAiQuota";
 import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
+import { EmojiTray } from "@/components/chat/EmojiTray";
+
 
 
 
