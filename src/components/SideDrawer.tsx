@@ -114,9 +114,11 @@ export function SideDrawer({ open, onClose }: Props) {
       {/* Panel */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-[88%] max-w-[392px] p-2.5 transition-[transform,opacity] duration-[550ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          open ? "translate-x-0 opacity-100" : "-translate-x-[104%] opacity-60"
+          open ? "translate-x-0 opacity-100" : "pointer-events-none -translate-x-[104%] opacity-60"
         }`}
         aria-label="Main menu"
+        aria-hidden={!open}
+        {...(!open ? { inert: "" as unknown as boolean } : {})}
         role="dialog"
       >
         {/* Frosted glass shell — floating, fully rounded */}
