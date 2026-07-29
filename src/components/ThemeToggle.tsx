@@ -7,8 +7,8 @@ const KEY = "rizz.theme";
 
 const ALL: Theme[] = ["pink", "blue", "ocean", "abyss", "rose", "romance"];
 const EXTRA: { id: Theme; label: string; swatch: string }[] = [
+  { id: "blue", label: "Blue", swatch: "linear-gradient(135deg,#2563eb,#7dd3fc)" },
   { id: "ocean", label: "Ocean", swatch: "linear-gradient(135deg,#073b4c,#35c3b6)" },
-  { id: "abyss", label: "Sea", swatch: "linear-gradient(135deg,#04122e,#1b7fb8,#6fe4e0)" },
   { id: "rose", label: "Rose", swatch: "linear-gradient(135deg,#fbe6e2,#d97e7e)" },
   { id: "romance", label: "Romance", swatch: "linear-gradient(135deg,#4a0f2e,#e35f8c,#f6cf9a)" },
 ];
@@ -89,13 +89,13 @@ export function ThemeToggle() {
         </button>
         <button
           type="button"
-          onClick={() => { setTheme("blue"); setOpen(false); }}
-          aria-pressed={theme === "blue"}
+          onClick={() => { setTheme("abyss"); setOpen(false); }}
+          aria-pressed={theme === "abyss"}
           className={`rounded-full px-2.5 py-1 transition-colors ${
-            theme === "blue" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
+            theme === "abyss" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
           }`}
         >
-          Blue
+          Sea
         </button>
         <button
           ref={btnRef}
