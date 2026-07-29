@@ -56,9 +56,8 @@ function SeaLayer({ level }: { level: string }) {
 }
 
 /**
- * SICO: a dystopian skyline under an irradiated sky. Perspective grid running
- * to the horizon, monolith spires, hue-shifting plasma blooms and CRT scan
- * glitches — colors that don't map to anything real.
+ * SICO: a romantic dusk horizon. Orchid and champagne silk blooms drifting
+ * over a velvet skyline — no scanlines, no glitching, nothing distracting.
  */
 function SicoLayer({ level }: { level: string }) {
   const spires = level === "lite" ? SPIRES.slice(0, 3) : level === "mid" ? SPIRES.slice(0, 5) : SPIRES;
@@ -68,7 +67,7 @@ function SicoLayer({ level }: { level: string }) {
       <span className="sico-bloom" style={{ left: "-14%", top: "4%", width: 320, height: 320 }} />
       <span
         className="sico-bloom"
-        style={{ right: "-16%", top: "34%", width: 380, height: 380, animationDelay: "-7s", animationDirection: "reverse" }}
+        style={{ right: "-16%", top: "34%", width: 380, height: 380, animationDelay: "-11s", animationDirection: "reverse" }}
       />
       {spires.map((s) => (
         <span
@@ -84,16 +83,10 @@ function SicoLayer({ level }: { level: string }) {
         />
       ))}
       {level !== "lite" && <div className="sico-grid" />}
-      {level === "full" && (
-        <>
-          <div className="sico-scan" />
-          <span className="sico-glitch" style={{ top: "38%", ["--dur" as string]: "7s" }} />
-          <span className="sico-glitch" style={{ top: "66%", ["--dur" as string]: "11s", animationDelay: "-3s" }} />
-        </>
-      )}
     </div>
   );
 }
+
 
 
 const ROSE_SVG = (petal: string, deep: string, leaf: string) =>
