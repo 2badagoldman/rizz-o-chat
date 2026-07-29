@@ -168,7 +168,11 @@ export function ChatSkinPicker({
           <div className="absolute right-0 top-12 z-[91] w-52 rounded-2xl border border-border bg-card p-2 shadow-xl backdrop-blur animate-in fade-in zoom-in-95">
             <p className="px-2 pb-1 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
               Chat theme
+              <span className="block text-[9px] font-semibold normal-case tracking-normal text-primary">
+                Saved for this chat
+              </span>
             </p>
+
             {CHAT_SKINS.map((s) => (
               <button
                 key={s.id}
