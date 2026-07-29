@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ChevronDown } from "lucide-react";
 
 export type Theme = "pink" | "blue" | "ocean" | "abyss" | "rose" | "romance";
@@ -37,18 +38,37 @@ export function useTheme() {
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState<{ top: number; right: number } | null>(null);
   const ref = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const place = () => {
+    const r = btnRef.current?.getBoundingClientRect();
+    if (r) setPos({ top: r.bottom + 8, right: Math.max(8, window.innerWidth - r.right) });
+  };
 
   useEffect(() => {
     if (!open) return;
+    place();
     const onDown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      const t = e.target as Node;
+      if (ref.current?.contains(t) || menuRef.current?.contains(t)) return;
+      setOpen(false);
     };
+    const onMove = () => place();
     document.addEventListener("mousedown", onDown);
-    return () => document.removeEventListener("mousedown", onDown);
+    window.addEventListener("scroll", onMove, true);
+    window.addEventListener("resize", onMove);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      window.removeEventListener("scroll", onMove, true);
+      window.removeEventListener("resize", onMove);
+    };
   }, [open]);
 
   const extraActive = EXTRA.some((t) => t.id === theme);
+
 
   return (
     <div ref={ref} className="relative">
@@ -78,6 +98,7 @@ export function ThemeToggle() {
           Blue
         </button>
         <button
+          ref={btnRef}
           type="button"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
@@ -92,28 +113,34 @@ export function ThemeToggle() {
         </button>
       </div>
 
-      {open ? (
-        <div
-          role="menu"
-          className="absolute right-0 top-[calc(100%+6px)] z-50 w-40 animate-scale-in overflow-hidden rounded-2xl border border-border bg-popover p-1 shadow-pop"
-        >
-          {EXTRA.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              role="menuitemradio"
-              aria-checked={theme === t.id}
-              onClick={() => { setTheme(t.id); setOpen(false); }}
-              className={`flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-xs font-semibold transition-colors ${
-                theme === t.id ? "bg-primary/10 text-primary" : "text-foreground hover:bg-muted"
-              }`}
+      {open && typeof document !== "undefined"
+        ? createPortal(
+            <div
+              ref={menuRef}
+              role="menu"
+              style={{ top: pos?.top ?? 60, right: pos?.right ?? 12 }}
+              className="fixed z-[200] w-44 animate-scale-in overflow-hidden rounded-2xl border border-border bg-popover p-1 shadow-pop"
             >
-              <span className="h-4 w-4 shrink-0 rounded-full border border-border" style={{ background: t.swatch }} />
-              {t.label}
-            </button>
-          ))}
-        </div>
-      ) : null}
+              {EXTRA.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={theme === t.id}
+                  onClick={() => { setTheme(t.id); setOpen(false); }}
+                  className={`flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-xs font-semibold transition-colors ${
+                    theme === t.id ? "bg-primary/10 text-primary" : "text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <span className="h-4 w-4 shrink-0 rounded-full border border-border" style={{ background: t.swatch }} />
+                  {t.label}
+                </button>
+              ))}
+            </div>,
+            document.body,
+          )
+        : null}
+
     </div>
   );
 }
