@@ -288,6 +288,8 @@ function UserChat() {
           </div>
         </form>
       </div>
+      {layer}
     </AppShell>
+
   );
 }
