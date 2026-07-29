@@ -338,6 +338,49 @@
   --aurora-4: rgba(92,10,24,0.22);
 }
 
+/* CRUSH MODE — crushed-soda orange over shaved ice */
+.theme-crush {
+  --background: oklch(0.985 0.018 75);
+  --foreground: oklch(0.24 0.06 45);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.06 45);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.06 45);
+
+  --primary: oklch(0.68 0.20 48);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.958 0.035 78);
+  --secondary-foreground: oklch(0.36 0.11 50);
+  --muted: oklch(0.968 0.018 80);
+  --muted-foreground: oklch(0.50 0.055 55);
+  --accent: oklch(0.85 0.075 215);
+  --accent-foreground: oklch(0.24 0.06 45);
+
+  --brand-pink: #ffb347;
+  --brand-purple: #d64500;
+  --brand-coral: #ff6a13;
+  --brand-violet: #9fe8ff;
+
+  --border: oklch(0.36 0.07 48 / 13%);
+  --input: oklch(0.36 0.07 48 / 13%);
+  --ring: oklch(0.68 0.20 48 / 55%);
+
+  --gradient-brand: linear-gradient(135deg, #ffd166 0%, #ff9f1c 34%, #ff6a13 68%, #d64500 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(255,209,102,0.24) 0%, rgba(255,106,19,0.16) 55%, rgba(159,232,255,0.22) 100%);
+  --gradient-sunset: linear-gradient(135deg, #fff1d6 0%, #ffa23a 45%, #ff5a00 100%);
+  --gradient-night: linear-gradient(135deg, #d64500 0%, #9fe8ff 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #ff5a00, #ff9f1c, #ffd166, #9fe8ff, #ff5a00);
+
+  --shadow-glow: 0 24px 70px -20px rgba(255, 106, 19, 0.48);
+  --shadow-card: 0 18px 48px -22px rgba(214, 69, 0, 0.26), 0 2px 8px -3px rgba(159, 232, 255, 0.30);
+  --shadow-pop:  0 40px 100px -26px rgba(255, 106, 19, 0.40);
+
+  --aurora-1: rgba(255,209,102,0.55);
+  --aurora-2: rgba(255,106,19,0.34);
+  --aurora-3: rgba(159,232,255,0.34);
+  --aurora-4: rgba(214,69,0,0.20);
+}
+
 
 
 .host-theme {
