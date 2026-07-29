@@ -53,6 +53,7 @@ import { Route as HostInboxRouteImport } from './routes/host.inbox'
 import { Route as HostHostIdRouteImport } from './routes/host.$hostId'
 import { Route as CheckoutReturnRouteImport } from './routes/checkout.return'
 import { Route as ChatHostIdRouteImport } from './routes/chat.$hostId'
+import { Route as BlogCreatorPricingGuideRouteImport } from './routes/blog.creator-pricing-guide'
 import { Route as ApiHostChatRouteImport } from './routes/api/host-chat'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AdminWarRoomRouteImport } from './routes/admin.war-room'
@@ -297,6 +298,11 @@ const ChatHostIdRoute = ChatHostIdRouteImport.update({
   path: '/chat/$hostId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogCreatorPricingGuideRoute = BlogCreatorPricingGuideRouteImport.update({
+  id: '/blog/creator-pricing-guide',
+  path: '/blog/creator-pricing-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiHostChatRoute = ApiHostChatRouteImport.update({
   id: '/api/host-chat',
   path: '/api/host-chat',
@@ -449,6 +455,7 @@ export interface FileRoutesByFullPath {
   '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
   '/api/host-chat': typeof ApiHostChatRoute
+  '/blog/creator-pricing-guide': typeof BlogCreatorPricingGuideRoute
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
@@ -517,6 +524,7 @@ export interface FileRoutesByTo {
   '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
   '/api/host-chat': typeof ApiHostChatRoute
+  '/blog/creator-pricing-guide': typeof BlogCreatorPricingGuideRoute
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
@@ -587,6 +595,7 @@ export interface FileRoutesById {
   '/admin/war-room': typeof AdminWarRoomRoute
   '/api/chat': typeof ApiChatRoute
   '/api/host-chat': typeof ApiHostChatRoute
+  '/blog/creator-pricing-guide': typeof BlogCreatorPricingGuideRoute
   '/chat/$hostId': typeof ChatHostIdRoute
   '/checkout/return': typeof CheckoutReturnRoute
   '/host/$hostId': typeof HostHostIdRoute
@@ -658,6 +667,7 @@ export interface FileRouteTypes {
     | '/admin/war-room'
     | '/api/chat'
     | '/api/host-chat'
+    | '/blog/creator-pricing-guide'
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
@@ -726,6 +736,7 @@ export interface FileRouteTypes {
     | '/admin/war-room'
     | '/api/chat'
     | '/api/host-chat'
+    | '/blog/creator-pricing-guide'
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
@@ -795,6 +806,7 @@ export interface FileRouteTypes {
     | '/admin/war-room'
     | '/api/chat'
     | '/api/host-chat'
+    | '/blog/creator-pricing-guide'
     | '/chat/$hostId'
     | '/checkout/return'
     | '/host/$hostId'
@@ -853,6 +865,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiHostChatRoute: typeof ApiHostChatRoute
+  BlogCreatorPricingGuideRoute: typeof BlogCreatorPricingGuideRoute
   ChatHostIdRoute: typeof ChatHostIdRoute
   CheckoutReturnRoute: typeof CheckoutReturnRoute
   HostHostIdRoute: typeof HostHostIdRoute
@@ -1200,6 +1213,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatHostIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/creator-pricing-guide': {
+      id: '/blog/creator-pricing-guide'
+      path: '/blog/creator-pricing-guide'
+      fullPath: '/blog/creator-pricing-guide'
+      preLoaderRoute: typeof BlogCreatorPricingGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/host-chat': {
       id: '/api/host-chat'
       path: '/api/host-chat'
@@ -1430,6 +1450,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApiChatRoute: ApiChatRoute,
   ApiHostChatRoute: ApiHostChatRoute,
+  BlogCreatorPricingGuideRoute: BlogCreatorPricingGuideRoute,
   ChatHostIdRoute: ChatHostIdRoute,
   CheckoutReturnRoute: CheckoutReturnRoute,
   HostHostIdRoute: HostHostIdRoute,
