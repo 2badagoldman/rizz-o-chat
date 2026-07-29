@@ -1,11 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, TrendingUp, Crown, Sparkles } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
-import { pageHead, SITE_URL } from "@/lib/seo";
+import { pageHead, SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 const TITLE = "Creator Subscription Pricing Guide — How to Price Your Friends List";
 const DESCRIPTION =
   "A practical creator subscription pricing guide: how the New, Rising, Popular and Elite tiers work, what the Milestone Flip at 100 Friends does to long-term earnings, and how to price a membership site for engagement instead of one-off spikes.";
+const URL = `${SITE_URL}/blog/creator-pricing-guide`;
+const PUBLISHED = "2026-07-24T09:00:00+00:00";
+const MODIFIED = "2026-07-29T00:00:00+00:00";
 
 export const Route = createFileRoute("/blog/creator-pricing-guide")({
   head: () => ({
@@ -16,22 +19,55 @@ export const Route = createFileRoute("/blog/creator-pricing-guide")({
       type: "article",
       keywords:
         "creator subscription pricing, membership site strategy, how to price a fan subscription, creator economy earnings, friends list pricing",
+      extraMeta: [
+        { property: "article:published_time", content: PUBLISHED },
+        { property: "article:modified_time", content: MODIFIED },
+        { property: "article:section", content: "Creator economy" },
+      ],
     }),
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "Article",
-          headline: TITLE,
-          description: DESCRIPTION,
-          mainEntityOfPage: `${SITE_URL}/blog/creator-pricing-guide`,
-          author: { "@type": "Organization", name: "Crush" },
-          publisher: { "@type": "Organization", name: "Crush" },
+          "@graph": [
+            {
+              "@type": "Article",
+              "@id": `${URL}#article`,
+              headline: TITLE,
+              description: DESCRIPTION,
+              image: [DEFAULT_OG_IMAGE],
+              inLanguage: "en-US",
+              datePublished: PUBLISHED,
+              dateModified: MODIFIED,
+              mainEntityOfPage: { "@type": "WebPage", "@id": URL },
+              author: { "@type": "Organization", name: "Crush", url: SITE_URL },
+              publisher: {
+                "@type": "Organization",
+                name: "Crush",
+                url: SITE_URL,
+                logo: {
+                  "@type": "ImageObject",
+                  url: `${SITE_URL}/icon-512.png`,
+                  width: 512,
+                  height: 512,
+                },
+              },
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": `${URL}#breadcrumbs`,
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Crush", item: SITE_URL },
+                { "@type": "ListItem", position: 2, name: "Creator pricing guide", item: URL },
+              ],
+            },
+          ],
         }),
       },
     ],
   }),
+
   component: CreatorPricingGuide,
 });
 
