@@ -7,6 +7,9 @@ import { getStripeEnvironment } from '@/lib/stripe';
 import { getCheckoutStatus, type CheckoutStatus } from '@/utils/payments.functions';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import type { CheckoutRequest } from '@/components/StripeEmbeddedCheckout';
+import { supabase } from '@/integrations/supabase/client';
+import { getGuestClaimCode } from '@/lib/guest-checkout.functions';
+import { rememberGuestCode } from '@/lib/guest-checkout';
 
 
 export const Route = createFileRoute('/checkout/return')({
