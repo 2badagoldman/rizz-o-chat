@@ -55,27 +55,42 @@ function SeaLayer({ level }: { level: string }) {
   );
 }
 
-function RoseLayer({ level }: { level: string }) {
-  const petals = level === "lite" ? PETALS.slice(0, 3) : level === "mid" ? PETALS.slice(0, 5) : PETALS;
+/**
+ * SICO: a dystopian skyline under an irradiated sky. Perspective grid running
+ * to the horizon, monolith spires, hue-shifting plasma blooms and CRT scan
+ * glitches — colors that don't map to anything real.
+ */
+function SicoLayer({ level }: { level: string }) {
+  const spires = level === "lite" ? SPIRES.slice(0, 3) : level === "mid" ? SPIRES.slice(0, 5) : SPIRES;
   return (
-    <div className="theme-atmos rose-atmos">
-      <span className="rose-bloom" style={{ left: "-12%", top: "6%", width: 260, height: 260 }} />
-      <span className="rose-bloom" style={{ right: "-14%", bottom: "8%", width: 300, height: 300, animationDelay: "3s" }} />
-      {petals.map((p) => (
+    <div className="theme-atmos sico-atmos">
+      <div className="sico-veil" />
+      <span className="sico-bloom" style={{ left: "-14%", top: "4%", width: 320, height: 320 }} />
+      <span
+        className="sico-bloom"
+        style={{ right: "-16%", top: "34%", width: 380, height: 380, animationDelay: "-7s", animationDirection: "reverse" }}
+      />
+      {spires.map((s) => (
         <span
-          key={p.left}
-          className="rose-petal"
+          key={s.left}
+          className="sico-spire"
           style={{
-            left: p.left,
-            width: p.size,
-            height: p.size,
-            animationDelay: p.delay,
-            ["--dur" as string]: p.dur,
-            ["--sway" as string]: p.sway,
-            ["--petal-color" as string]: p.color,
+            left: s.left,
+            width: s.w,
+            height: s.h,
+            animationDelay: s.delay,
+            ["--dur" as string]: s.dur,
           }}
         />
       ))}
+      {level !== "lite" && <div className="sico-grid" />}
+      {level === "full" && (
+        <>
+          <div className="sico-scan" />
+          <span className="sico-glitch" style={{ top: "38%", ["--dur" as string]: "7s" }} />
+          <span className="sico-glitch" style={{ top: "66%", ["--dur" as string]: "11s", animationDelay: "-3s" }} />
+        </>
+      )}
     </div>
   );
 }
