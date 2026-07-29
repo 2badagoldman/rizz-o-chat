@@ -34,7 +34,9 @@ const NEXT_STEPS = [
 function CheckoutReturn() {
   const { session_id } = Route.useSearch();
   const fetchStatus = useServerFn(getCheckoutStatus);
+  const fetchGuestCode = useServerFn(getGuestClaimCode);
   const [status, setStatus] = useState<CheckoutStatus | null>(null);
+  const [guest, setGuest] = useState<{ code: string } | null>(null);
   const [checking, setChecking] = useState(!!session_id);
   const { openCheckout, checkoutElement } = useStripeCheckout();
 
@@ -47,6 +49,24 @@ function CheckoutReturn() {
     setChecking(true);
     (async () => {
       try {
+        const { data: sess } = await supabase.auth.getSession();
+        // Guest checkout: no account yet, so hand back the claim code instead.
+        if (!sess.session?.access_token) {
+          const res = await fetchGuestCode({
+            data: { sessionId: session_id, environment: getStripeEnvironment() },
+          });
+          if (!alive) return;
+          if (res.state === 'ready') {
+            rememberGuestCode(res.code);
+            setGuest({ code: res.code });
+            setStatus({ state: 'paid' });
+          } else if (res.state === 'pending') {
+            setStatus({ state: 'processing' });
+          } else {
+            setStatus({ state: 'unknown', reason: res.reason });
+          }
+          return;
+        }
         const res = await fetchStatus({
           data: { sessionId: session_id, environment: getStripeEnvironment() },
         });
@@ -66,7 +86,8 @@ function CheckoutReturn() {
     return () => {
       alive = false;
     };
-  }, [session_id, fetchStatus]);
+  }, [session_id, fetchStatus, fetchGuestCode]);
+
 
   const failed = status?.state === 'failed';
   const processing = status?.state === 'processing';
