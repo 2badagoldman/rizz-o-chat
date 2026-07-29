@@ -162,26 +162,6 @@ function RomanceLayer({ level }: { level: string }) {
 }
 
 
-const SHARDS = [
-  { left: "7%", size: 34, dur: "21s", delay: "0s", sway: "44px" },
-  { left: "19%", size: 20, dur: "26s", delay: "3.4s", sway: "-38px" },
-  { left: "33%", size: 42, dur: "19s", delay: "6.2s", sway: "56px" },
-  { left: "48%", size: 26, dur: "28s", delay: "1.8s", sway: "-50px" },
-  { left: "61%", size: 30, dur: "23s", delay: "8.5s", sway: "40px" },
-  { left: "76%", size: 18, dur: "25s", delay: "4.6s", sway: "-32px" },
-  { left: "88%", size: 38, dur: "20s", delay: "10.2s", sway: "60px" },
-  { left: "96%", size: 22, dur: "24s", delay: "7.1s", sway: "-46px" },
-];
-
-const FIZZ = [
-  { left: "12%", size: 10, dur: "13s", delay: "0s", sway: "16px" },
-  { left: "27%", size: 6, dur: "17s", delay: "2.2s", sway: "-12px" },
-  { left: "41%", size: 13, dur: "11s", delay: "4.8s", sway: "22px" },
-  { left: "55%", size: 7, dur: "16s", delay: "1.1s", sway: "-18px" },
-  { left: "69%", size: 11, dur: "14s", delay: "6.4s", sway: "14px" },
-  { left: "83%", size: 8, dur: "18s", delay: "3.7s", sway: "-20px" },
-];
-
 const GLINTS = [
   { left: "12%", top: "18%", size: 22, dur: "7s", delay: "0.4s" },
   { left: "76%", top: "12%", size: 16, dur: "9s", delay: "2.1s" },
@@ -191,13 +171,12 @@ const GLINTS = [
 ];
 
 /**
- * Crush: signature soda-orange poured over glass and cold light.
- * Rotating citrus rays, chrome sheen sweep, sloshing liquid line,
- * tumbling ice shards, rising carbonation and sparkle glints.
+ * Crush: couture saffron-to-ember orange under warm glass.
+ * Slow gilded rays, a single chrome sheen sweep, a molten horizon and
+ * rare gold glints. No falling particles.
  */
+
 function CrushLayer({ level }: { level: string }) {
-  const shards = level === "lite" ? SHARDS.slice(0, 3) : level === "mid" ? SHARDS.slice(0, 5) : SHARDS;
-  const fizz = level === "lite" ? [] : level === "mid" ? FIZZ.slice(0, 3) : FIZZ;
   const glints = level === "lite" ? [] : level === "mid" ? GLINTS.slice(0, 3) : GLINTS;
   return (
     <div className="theme-atmos crush-atmos">
@@ -206,46 +185,18 @@ function CrushLayer({ level }: { level: string }) {
       <div className="crush-frost" />
       <span className="crush-edge is-left" />
       <span className="crush-edge is-right" />
-      <span className="crush-glow" style={{ left: "-12%", top: "8%", width: 300, height: 300 }} />
+      <span className="crush-glow" style={{ left: "-12%", top: "8%", width: 320, height: 320 }} />
       <span
         className="crush-glow is-gold"
-        style={{ left: "46%", top: "-8%", width: 340, height: 340, animationDelay: "2s" }}
+        style={{ left: "46%", top: "-10%", width: 380, height: 380, animationDelay: "2s" }}
       />
       <span
-        className="crush-glow is-ice"
-        style={{ right: "-14%", bottom: "10%", width: 340, height: 340, animationDelay: "4s" }}
+        className="crush-glow is-ember"
+        style={{ right: "-14%", bottom: "8%", width: 360, height: 360, animationDelay: "4s" }}
       />
       <div className="crush-liquid is-back" />
       <div className="crush-liquid" />
       {level !== "lite" ? <span className="crush-sheen" /> : null}
-      {shards.map((s) => (
-        <span
-          key={`shard-${s.left}`}
-          className="crush-shard"
-          style={{
-            left: s.left,
-            width: s.size,
-            height: s.size,
-            animationDelay: s.delay,
-            ["--dur" as string]: s.dur,
-            ["--sway" as string]: s.sway,
-          }}
-        />
-      ))}
-      {fizz.map((f) => (
-        <span
-          key={`fizz-${f.left}`}
-          className="crush-fizz"
-          style={{
-            left: f.left,
-            width: f.size,
-            height: f.size,
-            animationDelay: f.delay,
-            ["--dur" as string]: f.dur,
-            ["--sway" as string]: f.sway,
-          }}
-        />
-      ))}
       {glints.map((g) => (
         <span
           key={`glint-${g.left}-${g.top}`}
@@ -263,6 +214,7 @@ function CrushLayer({ level }: { level: string }) {
     </div>
   );
 }
+
 
 
 

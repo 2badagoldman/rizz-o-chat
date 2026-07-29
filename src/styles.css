@@ -339,48 +339,49 @@
   --aurora-4: rgba(10,1,4,0.60);
 }
 
-/* CRUSH — signature soda-orange, glass, chrome and cold light */
+/* CRUSH — couture saffron → ember orange, gilded glass */
 .theme-crush {
-  --background: oklch(0.982 0.026 72);
-  --foreground: oklch(0.205 0.075 42);
-  --card: oklch(0.998 0.008 80);
-  --card-foreground: oklch(0.205 0.075 42);
-  --popover: oklch(0.998 0.008 80);
-  --popover-foreground: oklch(0.205 0.075 42);
+  --background: oklch(0.980 0.030 70);
+  --foreground: oklch(0.195 0.070 44);
+  --card: oklch(0.997 0.010 78);
+  --card-foreground: oklch(0.195 0.070 44);
+  --popover: oklch(0.997 0.010 78);
+  --popover-foreground: oklch(0.195 0.070 44);
 
-  --primary: oklch(0.645 0.235 42);
+  --primary: oklch(0.618 0.243 40);
   --primary-foreground: oklch(0.995 0.006 80);
-  --secondary: oklch(0.952 0.055 74);
-  --secondary-foreground: oklch(0.33 0.135 45);
-  --muted: oklch(0.962 0.030 78);
-  --muted-foreground: oklch(0.455 0.085 50);
-  --accent: oklch(0.80 0.115 218);
-  --accent-foreground: oklch(0.205 0.075 42);
+  --secondary: oklch(0.948 0.062 72);
+  --secondary-foreground: oklch(0.315 0.140 44);
+  --muted: oklch(0.958 0.034 76);
+  --muted-foreground: oklch(0.440 0.090 50);
+  --accent: oklch(0.790 0.145 66);
+  --accent-foreground: oklch(0.195 0.070 44);
 
-  --brand-pink: #ff8a1f;
-  --brand-purple: #c22f00;
-  --brand-coral: #ff4d00;
-  --brand-violet: #7fdcff;
+  --brand-pink: #ff9425;
+  --brand-purple: #a32800;
+  --brand-coral: #ff5a00;
+  --brand-violet: #ffc978;
 
   --border: oklch(0.40 0.11 46 / 16%);
   --input: oklch(0.40 0.11 46 / 16%);
-  --ring: oklch(0.645 0.235 42 / 62%);
+  --ring: oklch(0.618 0.243 40 / 62%);
 
-  --gradient-brand: linear-gradient(135deg, #ffe08a 0%, #ffb03a 26%, #ff6a00 58%, #e02f00 84%, #a81f00 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(255,224,138,0.30) 0%, rgba(255,106,0,0.20) 52%, rgba(127,220,255,0.26) 100%);
-  --gradient-sunset: linear-gradient(135deg, #fff4dd 0%, #ffab2e 42%, #ff4d00 78%, #c22f00 100%);
-  --gradient-night: linear-gradient(135deg, #ff4d00 0%, #ff9a1f 45%, #7fdcff 100%);
-  --gradient-story: conic-gradient(from 200deg at 50% 50%, #ff4d00, #ff9a1f, #ffe08a, #7fdcff, #ff4d00);
+  --gradient-brand: linear-gradient(135deg, #ffe3a3 0%, #ffba50 24%, #ff7a14 56%, #e04405 82%, #8f1f00 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(255,227,163,0.32) 0%, rgba(255,122,20,0.22) 54%, rgba(143,31,0,0.18) 100%);
+  --gradient-sunset: linear-gradient(135deg, #fff5e2 0%, #ffb238 40%, #ff5a00 76%, #a32800 100%);
+  --gradient-night: linear-gradient(135deg, #8f1f00 0%, #ff5a00 48%, #ffc978 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #ff5a00, #ffa42e, #ffe3a3, #c23a00, #ff5a00);
 
-  --shadow-glow: 0 26px 80px -18px rgba(255, 77, 0, 0.55), 0 0 0 1px rgba(255, 176, 58, 0.22);
-  --shadow-card: 0 20px 54px -22px rgba(194, 47, 0, 0.32), 0 2px 10px -3px rgba(127, 220, 255, 0.34), inset 0 1px 0 rgba(255,255,255,0.7);
-  --shadow-pop:  0 46px 110px -26px rgba(255, 77, 0, 0.46);
+  --shadow-glow: 0 26px 80px -18px rgba(255, 90, 0, 0.52), 0 0 0 1px rgba(255, 186, 80, 0.24);
+  --shadow-card: 0 22px 56px -22px rgba(143, 31, 0, 0.30), 0 2px 10px -3px rgba(255, 186, 80, 0.36), inset 0 1px 0 rgba(255,255,255,0.72);
+  --shadow-pop:  0 46px 110px -26px rgba(255, 90, 0, 0.44);
 
-  --aurora-1: rgba(255,224,138,0.60);
-  --aurora-2: rgba(255,77,0,0.38);
-  --aurora-3: rgba(127,220,255,0.38);
-  --aurora-4: rgba(194,47,0,0.24);
+  --aurora-1: rgba(255,227,163,0.60);
+  --aurora-2: rgba(255,90,0,0.38);
+  --aurora-3: rgba(255,186,80,0.40);
+  --aurora-4: rgba(143,31,0,0.24);
 }
+
 
 
 
@@ -1567,177 +1568,142 @@ body::after {
   outline-color: var(--primary);
 }
 
-/* ---------- Crush: soda-orange liquid, glass, chrome + cold light ---------- */
+/* ---------- Crush: couture saffron → ember orange, gilded glass ---------- */
 .crush-atmos { display: none; }
 .theme-crush .crush-atmos { display: block; }
 
-/* Base pour: deep citrus light bleeding in from the top, cold light below */
+/* Base pour: warm saffron light from above, deep ember settling below */
 .crush-veil {
   position: absolute; inset: 0;
   background:
-    radial-gradient(130% 78% at 50% -16%, rgba(255,138,31,.30), transparent 64%),
-    radial-gradient(100% 62% at 6% 104%, rgba(127,220,255,.28), transparent 68%),
-    radial-gradient(100% 62% at 96% 100%, rgba(255,77,0,.20), transparent 70%),
-    radial-gradient(70% 46% at 50% 46%, rgba(255,224,138,.16), transparent 76%);
+    radial-gradient(130% 78% at 50% -16%, rgba(255,164,52,.30), transparent 64%),
+    radial-gradient(100% 62% at 6% 104%, rgba(198,68,10,.22), transparent 68%),
+    radial-gradient(100% 62% at 96% 100%, rgba(255,106,0,.20), transparent 70%),
+    radial-gradient(70% 46% at 50% 46%, rgba(255,226,163,.18), transparent 76%);
 }
 
-/* Sun-rays through the glass — slow rotating citrus beams */
+/* Gilded rays through the glass — very slow, barely-there beams */
 .crush-rays {
   position: absolute; left: 50%; top: -34vh;
   width: 150vmax; height: 150vmax;
   transform: translateX(-50%);
   background: conic-gradient(from 0deg,
-    rgba(255,176,58,.16) 0deg, transparent 12deg,
-    rgba(255,224,138,.13) 24deg, transparent 38deg,
-    rgba(255,106,0,.12) 52deg, transparent 70deg,
-    rgba(255,176,58,.14) 96deg, transparent 118deg,
-    rgba(255,224,138,.10) 150deg, transparent 180deg,
-    rgba(255,106,0,.12) 214deg, transparent 246deg,
-    rgba(255,176,58,.14) 292deg, transparent 320deg,
-    rgba(255,224,138,.12) 348deg, transparent 360deg);
-  mask-image: radial-gradient(closest-side, #000 12%, rgba(0,0,0,.55) 46%, transparent 78%);
-  animation: crush-rays-spin 90s linear infinite;
-  opacity: .8;
+    rgba(255,186,80,.13) 0deg, transparent 14deg,
+    rgba(255,226,163,.10) 30deg, transparent 46deg,
+    rgba(255,120,20,.10) 64deg, transparent 88deg,
+    rgba(255,186,80,.11) 118deg, transparent 148deg,
+    rgba(255,226,163,.08) 182deg, transparent 214deg,
+    rgba(255,120,20,.10) 246deg, transparent 282deg,
+    rgba(255,186,80,.11) 316deg, transparent 360deg);
+  mask-image: radial-gradient(closest-side, #000 10%, rgba(0,0,0,.45) 44%, transparent 76%);
+  animation: crush-rays-spin 140s linear infinite;
+  opacity: .62;
 }
 @keyframes crush-rays-spin { to { transform: translateX(-50%) rotate(360deg); } }
 
-/* Condensation + specular sheen on the cold glass */
+/* Warm glass: soft top highlight, amber base bloom, fine linen grain */
 .crush-frost {
   position: absolute; inset: 0;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.62), transparent 20%),
-    linear-gradient(0deg, rgba(206,239,255,.50), transparent 24%),
-    repeating-linear-gradient(115deg, rgba(255,255,255,.055) 0 2px, transparent 2px 7px);
-  opacity: .75;
+    linear-gradient(180deg, rgba(255,255,255,.55), transparent 22%),
+    linear-gradient(0deg, rgba(255,214,150,.42), transparent 26%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.035) 0 2px, transparent 2px 8px);
+  opacity: .7;
 }
 
-/* Chrome sheen sweeping across, like light raking a cold can */
+/* Chrome sheen sweeping across gilded glass */
 .crush-sheen {
-  position: absolute; top: -20%; bottom: -20%; width: 42vw;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,.55) 42%, rgba(255,224,138,.35) 56%, transparent);
-  filter: blur(14px);
+  position: absolute; top: -20%; bottom: -20%; width: 46vw;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.48) 42%, rgba(255,214,140,.42) 58%, transparent);
+  filter: blur(18px);
   transform: skewX(-14deg);
-  animation: crush-sheen-sweep 11s cubic-bezier(.4,0,.2,1) infinite;
+  animation: crush-sheen-sweep 16s cubic-bezier(.4,0,.2,1) infinite;
   mix-blend-mode: screen;
   opacity: 0;
 }
 @keyframes crush-sheen-sweep {
   0%   { left: -55%; opacity: 0; }
-  14%  { opacity: .85; }
-  62%  { opacity: .55; }
+  16%  { opacity: .7; }
+  64%  { opacity: .45; }
   100% { left: 115%; opacity: 0; }
 }
 
-/* Liquid line at the bottom — the soda level, gently sloshing */
+/* Molten horizon at the base — slow, luxurious swell */
 .crush-liquid {
   position: absolute; left: -12%; right: -12%; bottom: -6vh;
   height: 34vh;
   background:
-    radial-gradient(120% 100% at 50% 100%, rgba(255,77,0,.30), transparent 72%),
-    linear-gradient(0deg, rgba(255,106,0,.26), transparent 78%);
+    radial-gradient(120% 100% at 50% 100%, rgba(214,72,8,.32), transparent 72%),
+    linear-gradient(0deg, rgba(255,120,20,.26), transparent 78%);
   border-radius: 50% 50% 0 0 / 22% 22% 0 0;
-  filter: blur(2px);
-  animation: crush-slosh 14s ease-in-out infinite;
+  filter: blur(3px);
+  animation: crush-slosh 22s ease-in-out infinite;
   transform: translateY(calc(var(--sea-scroll, 0) * -18px));
 }
 .crush-liquid.is-back {
-  bottom: -9vh; height: 28vh; opacity: .6;
-  animation-duration: 19s; animation-direction: reverse;
-  background: linear-gradient(0deg, rgba(255,176,58,.28), transparent 76%);
+  bottom: -9vh; height: 28vh; opacity: .55;
+  animation-duration: 30s; animation-direction: reverse;
+  background: linear-gradient(0deg, rgba(255,186,80,.28), transparent 76%);
 }
 @keyframes crush-slosh {
-  0%, 100% { transform: translate3d(-2%, 0, 0) rotate(-.6deg); }
-  50%      { transform: translate3d(2%, -1.4vh, 0) rotate(.6deg); }
+  0%, 100% { transform: translate3d(-1.4%, 0, 0) rotate(-.4deg); }
+  50%      { transform: translate3d(1.4%, -1vh, 0) rotate(.4deg); }
 }
 
-/* Ice shards: faceted crystals tumbling with a glassy edge */
-.crush-shard {
-  position: absolute;
-  background:
-    linear-gradient(150deg, rgba(255,255,255,.96), rgba(178,232,255,.60) 44%, rgba(255,138,31,.34));
-  clip-path: polygon(50% 0%, 92% 30%, 78% 92%, 22% 88%, 6% 34%);
-  box-shadow: 0 12px 30px -10px rgba(40,120,170,.60), inset 0 0 10px rgba(255,255,255,.75);
-  opacity: 0;
-  animation: crush-drift var(--dur, 20s) linear infinite;
-}
-@keyframes crush-drift {
-  0%   { opacity: 0; transform: translate3d(0, -14vh, 0) rotate(0deg) scale(.85); }
-  12%  { opacity: .9; }
-  50%  { transform: translate3d(var(--sway, 40px), 48vh, 0) rotate(180deg) scale(1.08); }
-  88%  { opacity: .6; }
-  100% { opacity: 0; transform: translate3d(calc(var(--sway, 40px) * -1), 112vh, 0) rotate(360deg) scale(.9); }
-}
-
-/* Glints: tiny four-point sparkles catching the light */
+/* Glints: rare gold sparkles catching the light */
 .crush-glint {
   position: absolute;
   background:
-    linear-gradient(0deg, transparent 46%, rgba(255,255,255,.95) 50%, transparent 54%),
-    linear-gradient(90deg, transparent 46%, rgba(255,255,255,.95) 50%, transparent 54%);
-  filter: drop-shadow(0 0 6px rgba(255,208,120,.9));
+    linear-gradient(0deg, transparent 46%, rgba(255,240,214,.95) 50%, transparent 54%),
+    linear-gradient(90deg, transparent 46%, rgba(255,240,214,.95) 50%, transparent 54%);
+  filter: drop-shadow(0 0 7px rgba(255,190,96,.9));
   opacity: 0;
   animation: crush-glint-pop var(--dur, 6s) ease-in-out infinite;
 }
 @keyframes crush-glint-pop {
-  0%, 82%, 100% { opacity: 0; transform: scale(.4) rotate(0deg); }
-  88%           { opacity: 1; transform: scale(1) rotate(28deg); }
-  94%           { opacity: .3; transform: scale(.7) rotate(46deg); }
+  0%, 84%, 100% { opacity: 0; transform: scale(.4) rotate(0deg); }
+  90%           { opacity: .95; transform: scale(1) rotate(28deg); }
+  95%           { opacity: .28; transform: scale(.7) rotate(46deg); }
 }
 
-/* Fizz: carbonation rising through the orange */
-.crush-fizz {
-  position: absolute; bottom: -4vh;
-  border-radius: 999px;
-  background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.98), rgba(255,159,28,.50));
-  box-shadow: 0 0 14px rgba(255,140,40,.55), inset 0 0 6px rgba(255,255,255,.8);
-  opacity: 0;
-  animation: crush-fizz-rise var(--dur, 14s) ease-in infinite;
-}
-@keyframes crush-fizz-rise {
-  0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(.6); }
-  10%  { opacity: .9; }
-  70%  { opacity: .6; }
-  100% { opacity: 0; transform: translate3d(var(--sway, 18px), -110vh, 0) scale(1.25); }
-}
-
-/* Frozen edge crystals pinned to the sides, breathing light */
+/* Gilded edge light pinned to the sides, breathing slowly */
 .crush-edge {
   position: absolute; top: 0; bottom: 0;
-  width: clamp(90px, 16vw, 230px);
-  opacity: .85;
-  animation: crush-edge-breathe 12s ease-in-out infinite;
+  width: clamp(90px, 16vw, 240px);
+  opacity: .8;
+  animation: crush-edge-breathe 18s ease-in-out infinite;
 }
 .crush-edge.is-left {
   left: 0;
   background:
-    radial-gradient(120% 60% at 0% 16%, rgba(127,220,255,.40), transparent 70%),
-    radial-gradient(120% 60% at 0% 84%, rgba(255,77,0,.22), transparent 72%),
-    linear-gradient(90deg, rgba(255,224,138,.20), transparent 88%);
+    radial-gradient(120% 60% at 0% 16%, rgba(255,196,104,.36), transparent 70%),
+    radial-gradient(120% 60% at 0% 84%, rgba(198,60,6,.24), transparent 72%),
+    linear-gradient(90deg, rgba(255,226,163,.22), transparent 88%);
 }
 .crush-edge.is-right {
-  right: 0; animation-delay: 3s;
+  right: 0; animation-delay: 5s;
   background:
-    radial-gradient(120% 60% at 100% 24%, rgba(127,220,255,.40), transparent 70%),
-    radial-gradient(120% 60% at 100% 88%, rgba(255,77,0,.22), transparent 72%),
-    linear-gradient(270deg, rgba(255,224,138,.20), transparent 88%);
+    radial-gradient(120% 60% at 100% 24%, rgba(255,196,104,.36), transparent 70%),
+    radial-gradient(120% 60% at 100% 88%, rgba(198,60,6,.24), transparent 72%),
+    linear-gradient(270deg, rgba(255,226,163,.22), transparent 88%);
 }
 @keyframes crush-edge-breathe {
-  0%, 100% { opacity: .62; }
-  50%      { opacity: .95; }
+  0%, 100% { opacity: .58; }
+  50%      { opacity: .92; }
 }
 
 .crush-glow {
-  position: absolute; border-radius: 999px; filter: blur(52px);
-  background: radial-gradient(circle, rgba(255,77,0,.48), transparent 70%);
-  animation: glow-breathe 10s ease-in-out infinite;
+  position: absolute; border-radius: 999px; filter: blur(58px);
+  background: radial-gradient(circle, rgba(255,120,20,.46), transparent 70%);
+  animation: glow-breathe 16s ease-in-out infinite;
 }
-.crush-glow.is-ice { background: radial-gradient(circle, rgba(127,220,255,.58), transparent 70%); }
-.crush-glow.is-gold { background: radial-gradient(circle, rgba(255,208,120,.55), transparent 70%); }
+.crush-glow.is-ember { background: radial-gradient(circle, rgba(190,52,4,.46), transparent 70%); }
+.crush-glow.is-gold { background: radial-gradient(circle, rgba(255,205,120,.55), transparent 70%); }
 
 @media (prefers-reduced-motion: reduce) {
-  .crush-shard, .crush-fizz, .crush-glow, .crush-rays,
-  .crush-sheen, .crush-liquid, .crush-glint, .crush-edge { animation: none; }
-  .crush-shard, .crush-fizz { opacity: .5; }
+  .crush-glow, .crush-rays, .crush-sheen,
+  .crush-liquid, .crush-glint, .crush-edge { animation: none; }
   .crush-sheen, .crush-glint { opacity: 0; }
 }
+
 
