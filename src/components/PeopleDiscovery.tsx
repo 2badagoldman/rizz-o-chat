@@ -99,14 +99,25 @@ export function PeopleDiscovery({ open, onClose }: Props) {
         </div>
 
         <div className="mx-4 mt-3 flex items-center gap-2 rounded-2xl border border-border/60 bg-card/70 px-3 py-2">
-          <Search className="h-4 w-4 text-muted-foreground" />
+          <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
           <input
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search by username or exact email…"
-            className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            aria-label="Search people"
+            className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
+          {q ? (
+            <button
+              type="button"
+              onClick={() => setQ("")}
+              aria-label="Clear people search"
+              className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-muted-foreground transition hover:bg-primary/10 hover:text-primary"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          ) : null}
         </div>
 
         <div className="mt-3 flex gap-2 px-4">
@@ -118,11 +129,13 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className="rounded-full px-3 py-1.5 text-xs font-bold transition"
-              style={{
-                background: tab === t.key ? "var(--gradient-brand)" : "rgba(255,255,255,0.7)",
-                color: tab === t.key ? "white" : "var(--color-muted-foreground)",
-              }}
+              aria-pressed={tab === t.key}
+              className={`rounded-full border px-3 py-1.5 text-xs font-bold transition ${
+                tab === t.key
+                  ? "border-transparent text-white shadow-glow"
+                  : "border-border/60 bg-card/70 text-muted-foreground hover:text-foreground"
+              }`}
+              style={tab === t.key ? { background: "var(--gradient-brand)" } : undefined}
             >
               {t.label}
             </button>
@@ -139,14 +152,36 @@ export function PeopleDiscovery({ open, onClose }: Props) {
               Couldn’t load people right now. Pull down to retry in a moment.
             </p>
           ) : people.length === 0 ? (
-            <p className="p-6 text-center text-sm text-muted-foreground">
-              {debounced
-                ? debounced.includes("@")
-                  ? `No account uses “${debounced}”.`
-                  : `Nobody matches “${debounced}”.`
-                : "No new people yet — check back soon."}
-            </p>
+            <div className="px-4 py-10 text-center">
+              <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow">
+                <Search className="h-5 w-5" />
+              </div>
+              <p className="mt-3 text-[15px] font-extrabold tracking-tight text-foreground">
+                {debounced ? "No one found" : tab === "all" ? "No new people yet" : `No ${tab === "host" ? "hosts" : "members"} yet`}
+              </p>
+              <p className="mx-auto mt-1 max-w-[16rem] text-xs font-semibold text-muted-foreground">
+                {debounced
+                  ? debounced.includes("@")
+                    ? `No account uses “${debounced}”.`
+                    : `Nobody matches “${debounced}”. Try a different name.`
+                  : "Check back soon — new faces join Rizzla every day."}
+              </p>
+              {(debounced || tab !== "all") ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQ("");
+                    setTab("all");
+                  }}
+                  className="mt-4 rounded-full px-4 py-2 text-xs font-bold text-white shadow-glow transition active:scale-95"
+                  style={{ background: "var(--gradient-brand)" }}
+                >
+                  Show everyone
+                </button>
+              ) : null}
+            </div>
           ) : (
+
             <ul className="grid gap-1">
               {people.map((p) => {
                 const isNew = Date.now() - new Date(p.created_at).getTime() < 7 * 864e5;
