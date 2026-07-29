@@ -166,6 +166,7 @@ function RootComponent() {
       m.startAnalytics();
       m.trackPageview(window.location.pathname);
     });
+    void import("../lib/install-tracking").then((m) => m.startInstallTracking());
   }, []);
 
   useEffect(() => {
