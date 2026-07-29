@@ -38,7 +38,7 @@ function Home() {
           <span className="text-gradient-brand">verified hosts</span>.
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Every host runs a Friends List — a little chapter of our family tree. Subscribe, meet the host, bring your rizz.
+          Every host runs a Friends List — a little chapter of our family tree. Subscribe, meet the host, find your Crush.
         </p>
       </header>
 
