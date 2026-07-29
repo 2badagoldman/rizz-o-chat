@@ -75,7 +75,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="mx-auto mt-10 flex max-h-[85vh] w-[94%] max-w-[440px] flex-col overflow-hidden rounded-[30px] border border-white/60 bg-white/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
+        className="mx-auto mt-10 flex max-h-[85vh] w-[94%] max-w-[440px] flex-col overflow-hidden rounded-[30px] border border-border/60 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
       >
         <div className="flex items-start justify-between px-5 pt-5">
           <div>
@@ -92,13 +92,13 @@ export function PeopleDiscovery({ open, onClose }: Props) {
           <button
             onClick={onClose}
             aria-label="Close find people"
-            className="grid h-9 w-9 place-items-center rounded-full border border-white/60 bg-white/70 text-foreground/70 transition-transform hover:scale-110 active:scale-90"
+            className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-card/70 text-foreground/70 transition-transform hover:scale-110 active:scale-90"
           >
             <X className="h-4 w-4" strokeWidth={2.5} />
           </button>
         </div>
 
-        <div className="mx-4 mt-3 flex items-center gap-2 rounded-2xl border border-white/60 bg-white/70 px-3 py-2">
+        <div className="mx-4 mt-3 flex items-center gap-2 rounded-2xl border border-border/60 bg-card/70 px-3 py-2">
           <Search className="h-4 w-4 text-muted-foreground" />
           <input
             autoFocus
@@ -151,7 +151,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
               {people.map((p) => {
                 const isNew = Date.now() - new Date(p.created_at).getTime() < 7 * 864e5;
                 return (
-                  <li key={p.id} className="flex items-center gap-3 rounded-2xl px-2 py-2 transition hover:bg-white/80">
+                  <li key={p.id} className="flex items-center gap-3 rounded-2xl px-2 py-2 transition hover:bg-primary/15">
                     <button
                       onClick={() => {
                         onClose();
