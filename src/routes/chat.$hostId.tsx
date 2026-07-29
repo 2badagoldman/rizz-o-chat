@@ -427,43 +427,15 @@ function HostChat() {
         />
 
 
-        {emojiOpen ? (
-          <div className="sticky bottom-[76px] z-10 mb-1 rounded-2xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur animate-in fade-in slide-in-from-bottom-2">
-            <p className="mb-2 text-[10px] uppercase tracking-widest text-muted-foreground">
-              Tap to send {host.name} a reaction — it&apos;s added to your draft too
-            </p>
-            <div className="grid grid-cols-6 gap-1">
-              {REACTIONS.map((e) => (
-                <button
-                  key={e}
-                  type="button"
-                  onClick={() => sendReaction(e, { draft: true })}
-                  className="rounded-xl py-2 text-2xl transition-transform hover:scale-125 active:scale-95"
-                  aria-label={`Send ${e} and add it to your message`}
-                >
-                  {e}
-                </button>
-              ))}
-            </div>
-            <div className="mt-2 flex gap-2">
-              <button
-                type="button"
-                onClick={() => setInput((v) => v + "❤️")}
-                className="flex-1 rounded-xl border border-border py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
-              >
-                Add ❤️ to message only
-              </button>
-              <button
-                type="button"
-                onClick={() => setEmojiOpen(false)}
+        <EmojiTray
+          open={emojiOpen}
+          onClose={() => setEmojiOpen(false)}
+          onPick={(e) => sendReaction(e, { draft: true })}
+          peerName={host.name}
+          disabled={chatLocked}
+          emojis={REACTIONS}
+        />
 
-                className="rounded-xl border border-border px-3 py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        ) : null}
 
         {aiQuotaReached ? (
           <div className="px-3 pb-2">
