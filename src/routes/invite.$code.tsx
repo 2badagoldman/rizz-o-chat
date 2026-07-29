@@ -9,8 +9,15 @@ import { pageHead } from "@/lib/seo";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/invite/$code")({
-  head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "You're invited — Crush" }] }),
+  head: ({ params }) =>
+    pageHead({
+      path: `/invite/${params.code}`,
+      title: "You're invited — Crush",
+      description:
+        "Someone saved you a free spot on their Crush Friends List. Open the invite to join the chat.",
+      noindex: true,
+    }),
+
   component: InvitePage,
 });
 
