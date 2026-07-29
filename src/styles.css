@@ -1298,3 +1298,122 @@ body::after {
   .chat-bubble-mine,
   .chat-bubble-peer { animation: none; }
 }
+
+/* ============================================================
+   ABYSS MODE — deep blue sea (dark, luminous, underwater)
+   ============================================================ */
+.theme-abyss {
+  --background: oklch(0.20 0.055 250);
+  --foreground: oklch(0.96 0.015 220);
+  --card: oklch(0.26 0.055 250);
+  --card-foreground: oklch(0.96 0.015 220);
+  --popover: oklch(0.24 0.055 250);
+  --popover-foreground: oklch(0.96 0.015 220);
+
+  --primary: oklch(0.72 0.135 215);
+  --primary-foreground: oklch(0.17 0.05 250);
+  --secondary: oklch(0.31 0.055 250);
+  --secondary-foreground: oklch(0.93 0.02 220);
+  --muted: oklch(0.29 0.045 250);
+  --muted-foreground: oklch(0.76 0.03 220);
+  --accent: oklch(0.78 0.12 190);
+  --accent-foreground: oklch(0.18 0.05 250);
+
+  --brand-pink: #7fe7e0;
+  --brand-purple: #0a2d63;
+  --brand-coral: #2ec5d9;
+  --brand-violet: #1b5fb0;
+
+  --border: oklch(0.85 0.05 220 / 16%);
+  --input: oklch(0.85 0.05 220 / 16%);
+  --ring: oklch(0.72 0.135 215 / 55%);
+
+  --gradient-brand: linear-gradient(135deg, #04122e 0%, #0a2d63 30%, #1b7fb8 66%, #6fe4e0 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(10,45,99,0.55) 0%, rgba(27,127,184,0.35) 55%, rgba(111,228,224,0.20) 100%);
+  --gradient-sunset: linear-gradient(135deg, #04122e 0%, #145b8f 45%, #6fe4e0 100%);
+  --gradient-night: linear-gradient(135deg, #02091c 0%, #0f4d86 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #04122e, #0a2d63, #2ec5d9, #6fe4e0, #04122e);
+
+  --shadow-glow: 0 24px 70px -20px rgba(46, 197, 217, 0.45);
+  --shadow-card: 0 18px 48px -22px rgba(2, 9, 28, 0.75), 0 2px 10px -3px rgba(46, 197, 217, 0.28);
+  --shadow-pop:  0 40px 100px -26px rgba(2, 9, 28, 0.85);
+
+  --aurora-1: rgba(46,197,217,0.30);
+  --aurora-2: rgba(27,95,176,0.34);
+  --aurora-3: rgba(111,228,224,0.20);
+  --aurora-4: rgba(4,18,46,0.60);
+}
+.theme-abyss body::after { mix-blend-mode: screen; opacity: .04; }
+
+/* ---------- Theme atmospheres: sea + roses ---------- */
+.theme-atmos { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+/* Sea: layered waves that sway, drift with scroll, and caustic light shafts */
+.sea-atmos { display: none; }
+.theme-abyss .sea-atmos { display: block; }
+
+.sea-veil {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 70% at 50% -10%, rgba(111,228,224,.16), transparent 60%),
+    linear-gradient(180deg, rgba(4,18,46,0) 0%, rgba(2,9,28,.55) 100%);
+}
+.sea-shaft {
+  position: absolute; top: -30%; height: 160%; width: 22%;
+  background: linear-gradient(180deg, rgba(150,240,255,.20), rgba(150,240,255,0) 72%);
+  filter: blur(14px);
+  transform: rotate(12deg) translateY(calc(var(--sea-scroll, 0) * -30px));
+  animation: sea-shaft-sway 11s ease-in-out infinite alternate;
+}
+@keyframes sea-shaft-sway {
+  from { opacity: .35; transform: rotate(10deg) scaleY(.96) translateY(calc(var(--sea-scroll, 0) * -30px)); }
+  to   { opacity: .75; transform: rotate(15deg) scaleY(1.04) translateY(calc(var(--sea-scroll, 0) * -30px)); }
+}
+.sea-wave {
+  position: absolute; left: -25%; width: 150%; height: 42vh; bottom: -8vh;
+  background-repeat: repeat-x;
+  background-size: 50% 100%;
+  opacity: .5;
+  animation: sea-wave-roll 16s linear infinite;
+  transform: translateY(calc(var(--sea-scroll, 0) * 40px));
+}
+@keyframes sea-wave-roll {
+  from { background-position-x: 0; }
+  to   { background-position-x: 50%; }
+}
+
+/* Roses: petals drifting + soft bloom glows, only in rose/romance themes */
+.rose-atmos { display: none; }
+.theme-rose .rose-atmos,
+.theme-romance .rose-atmos { display: block; }
+
+.rose-petal {
+  position: absolute;
+  top: -8vh;
+  border-radius: 60% 0 60% 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.85), var(--petal-color, #d97e7e));
+  box-shadow: 0 6px 18px -8px rgba(168,98,107,.6);
+  opacity: 0;
+  animation: petal-fall var(--dur, 18s) linear infinite;
+  transform: translateY(calc(var(--sea-scroll, 0) * 24px));
+}
+@keyframes petal-fall {
+  0%   { opacity: 0; transform: translate3d(0, -10vh, 0) rotate(0deg); }
+  12%  { opacity: .85; }
+  50%  { transform: translate3d(var(--sway, 40px), 50vh, 0) rotate(180deg); }
+  88%  { opacity: .7; }
+  100% { opacity: 0; transform: translate3d(calc(var(--sway, 40px) * -1), 108vh, 0) rotate(360deg); }
+}
+.rose-bloom {
+  position: absolute; border-radius: 999px; filter: blur(42px);
+  background: radial-gradient(circle, rgba(217,126,126,.45), transparent 70%);
+  animation: glow-breathe 9s ease-in-out infinite;
+}
+.theme-romance .rose-bloom { background: radial-gradient(circle, rgba(199,62,110,.45), transparent 70%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sea-wave, .sea-shaft, .rose-petal, .rose-bloom { animation: none; }
+  .rose-petal { opacity: .5; }
+}
+html[data-perf="lite"] .sea-shaft,
+html[data-perf="lite"] .rose-petal { display: none; }
