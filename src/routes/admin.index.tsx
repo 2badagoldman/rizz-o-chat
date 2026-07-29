@@ -109,6 +109,7 @@ function AdminDashboard() {
               </div>
             </section>
           </div>
+          <InstallConversionPanel days-placeholder />
           <WaitlistPanel />
         </>
       )}
