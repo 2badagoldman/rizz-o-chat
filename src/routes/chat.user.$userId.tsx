@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Send, Smile } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { OnlineDot, useIsOnline } from "@/lib/presence";
 
@@ -15,6 +15,10 @@ import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
 import { useChatAccess } from "@/hooks/useChatAccess";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SafetyMenu } from "@/components/SafetyMenu";
+import { useFloatingReactions } from "@/components/chat/FloatingReactions";
+
+const DM_REACTIONS = ["❤️", "😍", "🔥", "😘", "😂", "🥰", "💋", "👀", "🙌", "😉", "💕", "✨"];
+
 
 
 
@@ -37,6 +41,9 @@ function UserChat() {
   const [input, setInput] = useState("");
   const [pending, setPending] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
+  const [emojiOpen, setEmojiOpen] = useState(false);
+  const { fire, layer } = useFloatingReactions();
+
   const peerOnline = useIsOnline(userId);
   const { locked, onTrial, daysLeft } = useChatAccess();
   const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`dm:${userId}`);
@@ -121,15 +128,9 @@ function UserChat() {
     );
   }
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const text = [input.trim(), ...pending].filter(Boolean).join("\n");
-    if (!text || busy || locked) return;
-    setBusy(true);
-    const tempId = `pending:${Date.now()}`;
-    setInput("");
-    setPending([]);
-    // Optimistic bubble so mobile feels instant; swapped for the real row.
+  const deliver = async (text: string) => {
+    if (!text || locked) return;
+    const tempId = `pending:${Date.now()}:${Math.random().toString(36).slice(2)}`;
     setMessages((m) => [
       ...m,
       { id: tempId, sender_id: user.id, recipient_id: userId, body: text, created_at: new Date().toISOString() },
@@ -145,12 +146,35 @@ function UserChat() {
       );
     } catch (err) {
       setMessages((m) => m.filter((x) => x.id !== tempId));
-      setInput(text);
       toast.error((err as Error).message);
+      throw err;
+    }
+  };
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const text = [input.trim(), ...pending].filter(Boolean).join("\n");
+    if (!text || busy || locked) return;
+    setBusy(true);
+    setInput("");
+    setPending([]);
+    try {
+      await deliver(text);
+    } catch {
+      setInput(text);
     } finally {
       setBusy(false);
     }
   };
+
+  // Tap an emoji: it bursts toward the member, is delivered as a message, and
+  // is appended to the draft so it can be reused in a sentence.
+  const tapEmoji = (emoji: string) => {
+    fire(emoji);
+    setInput((v) => v + emoji);
+    void deliver(emoji).catch(() => {});
+  };
+
 
   return (
     <AppShell hideNav>
@@ -201,10 +225,49 @@ function UserChat() {
 
         <ChatTrialBanner locked={locked} onTrial={onTrial} daysLeft={daysLeft} />
 
+        {emojiOpen ? (
+          <div className="mb-1 rounded-2xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur animate-in fade-in slide-in-from-bottom-2">
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-muted-foreground">
+              Tap to send {peer?.display_name ?? "them"} a reaction — it&apos;s added to your draft too
+            </p>
+            <div className="grid grid-cols-6 gap-1">
+              {DM_REACTIONS.map((e) => (
+                <button
+                  key={e}
+                  type="button"
+                  onClick={() => tapEmoji(e)}
+                  disabled={locked}
+                  className="rounded-xl py-2 text-2xl transition-transform hover:scale-125 active:scale-95 disabled:opacity-50"
+                  aria-label={`Send ${e} and add it to your message`}
+                >
+                  {e}
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={() => setEmojiOpen(false)}
+              className="mt-2 w-full rounded-xl border border-border py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
+            >
+              Close
+            </button>
+          </div>
+        ) : null}
+
         <form onSubmit={submit} className="sticky bottom-0 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
           <PendingAttachments markers={pending} onRemove={(m) => setPending((p) => p.filter((x) => x !== m))} />
           <div className="flex items-end gap-2">
           <ChatAttachButton disabled={locked} onUploaded={(m) => setPending((p) => [...p, m])} />
+          <button
+            type="button"
+            onClick={() => setEmojiOpen((v) => !v)}
+            aria-label="Emoji reactions"
+            aria-expanded={emojiOpen}
+            className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border transition-colors ${emojiOpen ? "border-primary bg-primary/10 text-primary" : "bg-card text-muted-foreground hover:text-primary"}`}
+          >
+            <Smile className="h-5 w-5" />
+          </button>
+
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -225,6 +288,8 @@ function UserChat() {
           </div>
         </form>
       </div>
+      {layer}
     </AppShell>
+
   );
 }

@@ -289,11 +289,14 @@ function HostChat() {
     setPending([]);
   };
 
-  // Tap a reaction: it bursts up the screen and is delivered to the host as a message.
-  const sendReaction = (emoji: string) => {
+  // Tap a reaction: it bursts up the screen, is delivered to the host as a
+  // message, and is also appended to the draft so it can be reused in context.
+  const sendReaction = (emoji: string, opts?: { draft?: boolean }) => {
     fire(emoji);
     if (!busy && !chatLocked) sendMessage({ text: emoji });
+    if (opts?.draft) setInput((v) => v + emoji);
   };
+
 
   return (
 
@@ -427,16 +430,16 @@ function HostChat() {
         {emojiOpen ? (
           <div className="sticky bottom-[76px] z-10 mb-1 rounded-2xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur animate-in fade-in slide-in-from-bottom-2">
             <p className="mb-2 text-[10px] uppercase tracking-widest text-muted-foreground">
-              Tap to send {host.name} a reaction
+              Tap to send {host.name} a reaction — it&apos;s added to your draft too
             </p>
             <div className="grid grid-cols-6 gap-1">
               {REACTIONS.map((e) => (
                 <button
                   key={e}
                   type="button"
-                  onClick={() => sendReaction(e)}
+                  onClick={() => sendReaction(e, { draft: true })}
                   className="rounded-xl py-2 text-2xl transition-transform hover:scale-125 active:scale-95"
-                  aria-label={`Send ${e}`}
+                  aria-label={`Send ${e} and add it to your message`}
                 >
                   {e}
                 </button>
@@ -445,14 +448,15 @@ function HostChat() {
             <div className="mt-2 flex gap-2">
               <button
                 type="button"
-                onClick={() => { setInput((v) => v + "❤️"); }}
+                onClick={() => setInput((v) => v + "❤️")}
                 className="flex-1 rounded-xl border border-border py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
               >
-                Add ❤️ to message
+                Add ❤️ to message only
               </button>
               <button
                 type="button"
                 onClick={() => setEmojiOpen(false)}
+
                 className="rounded-xl border border-border px-3 py-1.5 text-[11px] text-muted-foreground hover:border-primary hover:text-primary"
               >
                 Close
