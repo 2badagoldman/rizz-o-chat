@@ -4,6 +4,10 @@ import { collectErrors, setTheme, THEMES, waitForShell } from "./helpers";
 const cards = (page: import("@playwright/test").Page) =>
   page.locator('a[href^="/host/"]');
 
+// The rooms showcase reuses the same pill labels, so filters are always scoped.
+const filter = (page: import("@playwright/test").Page, name: string) =>
+  page.getByRole("group", { name: "Filter hosts" }).getByRole("button", { name, exact: true });
+
 test.describe("discover search, filters and sorting", () => {
   test("search narrows results and clears cleanly", async ({ page }) => {
     const collector = collectErrors(page);
@@ -44,8 +48,8 @@ test.describe("discover search, filters and sorting", () => {
     const total = await cards(page).count();
 
     for (const label of ["Online", "New", "Rising", "Popular", "Elite"]) {
-      await page.getByRole("button", { name: label, exact: true }).click();
-      await expect(page.getByRole("button", { name: label, exact: true })).toHaveAttribute(
+      await filter(page, label).click();
+      await expect(filter(page, label)).toHaveAttribute(
         "aria-pressed",
         "true",
       );
@@ -55,7 +59,7 @@ test.describe("discover search, filters and sorting", () => {
       if (count === 0) await expect(page.getByText("No hosts match")).toBeVisible();
     }
 
-    await page.getByRole("button", { name: "All", exact: true }).click();
+    await filter(page, "All").click();
     await expect(cards(page)).toHaveCount(total);
 
     expect(collector.errors).toEqual([]);
@@ -96,7 +100,7 @@ test.describe("discover search, filters and sorting", () => {
     await expect(page.getByLabel("Sort hosts")).toHaveValue("price-desc");
 
     const count = await cards(page).count();
-    await page.getByRole("button", { name: "Online", exact: true }).click();
+    await filter(page, "Online").click();
     expect(await cards(page).count()).toBeLessThanOrEqual(count);
     await expect(page.getByLabel("Search hosts, cities and interests")).toHaveValue("a");
     await expect(page.getByLabel("Sort hosts")).toHaveValue("price-desc");
@@ -108,9 +112,9 @@ test.describe("discover search, filters and sorting", () => {
 for (const theme of THEMES) {
   test(`discover empty state is legible and on-screen (${theme})`, async ({ page }) => {
     const collector = collectErrors(page);
+    await setTheme(page, theme);
     await page.goto("/discover");
     await waitForShell(page);
-    await setTheme(page, theme);
 
     await page.getByLabel("Search hosts, cities and interests").fill("zzzz-no-such-host");
 

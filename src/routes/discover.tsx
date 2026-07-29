@@ -107,7 +107,7 @@ function Discover() {
         ) : null}
       </div>
 
-      <div className="mt-3 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+      <div role="group" aria-label="Filter hosts" className="mt-3 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
         {FILTERS.map((f) => (
           <button
             key={f.key}
