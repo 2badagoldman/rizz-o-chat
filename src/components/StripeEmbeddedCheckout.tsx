@@ -79,7 +79,13 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
     console.info(`[checkout] ${target}: requesting session (env=${environment}, attempt=${attempt + 1})`);
     try {
       let result;
-      if (props.kind === 'catalog') {
+      if (guestEmail && props.kind === 'catalog') {
+        const guest = await createGuestCheckoutSession({
+          data: { priceId: props.priceId, email: guestEmail, returnUrl, environment },
+        });
+        if ('code' in guest) rememberGuestCode(guest.code);
+        result = guest;
+      } else if (props.kind === 'catalog') {
         result = await createCheckoutSession({ data: { priceId: props.priceId, returnUrl, environment } });
       } else if (props.kind === 'friends_list') {
         result = await createFriendsListCheckout({
@@ -96,6 +102,7 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
           },
         });
       }
+
 
       if ('error' in result) throw new Error(result.error);
       if (!result.clientSecret) throw new Error('Stripe did not return a client secret.');
