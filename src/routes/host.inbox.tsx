@@ -43,6 +43,35 @@ function HostInbox() {
   const [filter, setFilter] = useState<"unread" | "all">("unread");
   const [reply, setReply] = useState("");
   const [sending, setSending] = useState(false);
+  const loadRooms = useServerFn(listMyRooms);
+  const postRooms = useServerFn(broadcastToRooms);
+  const [rooms, setRooms] = useState<Array<{ id: string; name: string }>>([]);
+  const [pickedRooms, setPickedRooms] = useState<Set<string>>(new Set());
+  const [roomReply, setRoomReply] = useState("");
+  const [roomSending, setRoomSending] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    loadRooms({})
+      .then((rs: any[]) => setRooms((rs ?? []).map((r) => ({ id: r.id, name: r.name }))))
+      .catch(() => {});
+  }, [user, loadRooms]);
+
+  const doRoomBroadcast = async () => {
+    const ids = Array.from(pickedRooms);
+    setRoomSending(true);
+    try {
+      const res = await postRooms({ data: { roomIds: ids, body: roomReply } });
+      toast.success(`Posted to ${res.sent} room${res.sent === 1 ? "" : "s"}`);
+      setRoomReply("");
+      setPickedRooms(new Set());
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setRoomSending(false);
+    }
+  };
+
 
   const refresh = useCallback(() => {
     setBusy(true);
