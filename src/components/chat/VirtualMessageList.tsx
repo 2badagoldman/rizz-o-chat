@@ -57,15 +57,23 @@ export function VirtualMessageList({
   useLayoutEffect(() => {
     if (!stick || count === 0) return;
     virtualizer.scrollToIndex(count - 1, { align: "end" });
+    // Second pass after dynamic measurement settles so the newest bubble is
+    // fully visible even when it wraps to multiple lines.
+    const r = requestAnimationFrame(() => {
+      const el = parentRef.current;
+      if (el) el.scrollTop = el.scrollHeight;
+    });
+    return () => cancelAnimationFrame(r);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [count, stick]);
+  }, [count, stick, typingName]);
 
   // Re-pin after the on-screen keyboard resizes the viewport on mobile.
   useEffect(() => {
     const vv = typeof window !== "undefined" ? window.visualViewport : null;
     if (!vv) return;
     const handler = () => {
-      if (stick && count > 0) virtualizer.scrollToIndex(count - 1, { align: "end" });
+      const el = parentRef.current;
+      if (stick && el) el.scrollTop = el.scrollHeight;
     };
     vv.addEventListener("resize", handler);
     return () => vv.removeEventListener("resize", handler);
@@ -75,8 +83,9 @@ export function VirtualMessageList({
     <div
       ref={parentRef}
       onScroll={onScroll}
-      className="flex-1 overflow-y-auto overscroll-contain py-3 [-webkit-overflow-scrolling:touch]"
+      className="min-h-0 flex-1 overflow-y-auto overscroll-contain py-3 [-webkit-overflow-scrolling:touch]"
     >
+
       {header ? <div className="pb-3">{header}</div> : null}
       {items.length === 0 && !typingName ? empty : null}
       <div className="relative w-full" style={{ height: virtualizer.getTotalSize() }}>

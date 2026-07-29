@@ -313,7 +313,7 @@ function HostChat() {
           <p className="mt-2 text-sm opacity-90">Say hi — she's online now 💌</p>
         </div>
       ) : null}
-      <div data-chat-skin={skin} data-chat-contrast={contrastAttr} className="chat-wallpaper flex min-h-[calc(100vh-1rem)] flex-col">
+      <div data-chat-skin={skin} data-chat-contrast={contrastAttr} className="chat-wallpaper -mb-24 flex h-[calc(100dvh-9rem)] min-h-[420px] flex-col overflow-hidden">
         <header className="flex items-center gap-3 pt-3 pb-2">
           <button type="button" aria-label={`Back to ${host.name}'s profile`} onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="grid h-11 w-11 place-items-center rounded-full border border-border">
             <ArrowLeft className="h-4 w-4" />
