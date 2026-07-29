@@ -29,14 +29,31 @@ const FILTERS: Array<{ key: "all" | DemoHost["tier"] | "online"; label: string }
   { key: "elite", label: "Elite" },
 ];
 
+type SortKey = "featured" | "online" | "price-asc" | "price-desc" | "subscribers";
+
+const SORTS: Array<{ key: SortKey; label: string }> = [
+  { key: "featured", label: "Featured" },
+  { key: "online", label: "Online first" },
+  { key: "price-asc", label: "Price: low to high" },
+  { key: "price-desc", label: "Price: high to low" },
+  { key: "subscribers", label: "Most subscribers" },
+];
+
 function Discover() {
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["key"]>("all");
+  const [sort, setSort] = useState<SortKey>("featured");
 
   const shuffled = useShuffled(DEMO_HOSTS, 10_000);
+  const term = q.trim().toLowerCase();
+  const isFiltered = term.length > 0 || filter !== "all" || sort !== "featured";
+
   const hosts = useMemo(() => {
-    const term = q.trim().toLowerCase();
-    return shuffled.filter((h) => {
+    // Reshuffling under an active search/sort would make results jump while the
+    // user reads them, so only the untouched "Featured" view rotates.
+    const base = sort === "featured" && !term ? shuffled : DEMO_HOSTS;
+
+    const matched = base.filter((h) => {
       if (filter === "online" && !h.online) return false;
       if (filter !== "all" && filter !== "online" && h.tier !== filter) return false;
       if (!term) return true;
@@ -47,7 +64,20 @@ function Discover() {
         h.interests.some((i) => i.toLowerCase().includes(term))
       );
     });
-  }, [q, filter, shuffled]);
+
+    const sorted = matched.slice();
+    if (sort === "online") sorted.sort((a, b) => Number(b.online) - Number(a.online));
+    if (sort === "price-asc") sorted.sort((a, b) => a.priceMonthly - b.priceMonthly);
+    if (sort === "price-desc") sorted.sort((a, b) => b.priceMonthly - a.priceMonthly);
+    if (sort === "subscribers") sorted.sort((a, b) => b.subscribers - a.subscribers);
+    return sorted;
+  }, [q, term, filter, sort, shuffled]);
+
+  const reset = () => {
+    setQ("");
+    setFilter("all");
+    setSort("featured");
+  };
 
   return (
     <AppShell footerNote={<>Hosts on Rizz Social are compensated partners.</>}>
@@ -57,13 +87,24 @@ function Discover() {
       </header>
 
       <div className="mt-4 flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2">
-        <Search className="h-4 w-4 text-muted-foreground" />
+        <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder="Search hosts, cities, interests…"
-          className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+          aria-label="Search hosts"
+          className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
         />
+        {q ? (
+          <button
+            type="button"
+            onClick={() => setQ("")}
+            aria-label="Clear search"
+            className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-muted-foreground transition hover:bg-muted hover:text-foreground"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        ) : null}
       </div>
 
       <div className="mt-3 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
@@ -71,6 +112,7 @@ function Discover() {
           <button
             key={f.key}
             onClick={() => setFilter(f.key)}
+            aria-pressed={filter === f.key}
             className="whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold transition"
             style={{
               borderColor: filter === f.key ? "transparent" : "var(--color-border)",
@@ -85,31 +127,65 @@ function Discover() {
 
       <RoomsShowcase />
 
-      <div className="mt-6 flex items-end justify-between">
-        <div>
+      <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
+        <div className="min-w-0">
           <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Hosts</p>
-          <h2 className="mt-0.5 text-lg font-bold">Meet your next favorite</h2>
+          <h2 className="mt-0.5 truncate text-lg font-bold">Meet your next favorite</h2>
+          <p className="mt-0.5 text-[11px] font-semibold text-muted-foreground" aria-live="polite">
+            {hosts.length} {hosts.length === 1 ? "host" : "hosts"}
+            {isFiltered ? " match your search" : " available"}
+          </p>
         </div>
+        <label className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-2.5 py-1.5">
+          <ArrowUpDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+          <span className="sr-only">Sort hosts</span>
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortKey)}
+            aria-label="Sort hosts"
+            className="max-w-[9.5rem] bg-transparent text-xs font-semibold text-foreground outline-none"
+          >
+            {SORTS.map((s) => (
+              <option key={s.key} value={s.key}>
+                {s.label}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
-
-      <section className="mt-3 grid grid-cols-2 gap-3">
-        {hosts.map((h) => (
-          <HostCard key={h.id} host={h} />
-        ))}
-      </section>
 
       {hosts.length === 0 ? (
         <PrismEmptyState
-          className="mt-8"
+          className="mt-6"
           icon={<Sparkles className="h-6 w-6" />}
           title="No hosts match"
-          description="Try a different filter or widen your search to see more friends."
+          description={
+            term
+              ? <>Nothing matched &ldquo;{q.trim()}&rdquo;. Try a different name, city, or interest.</>
+              : "Try a different filter to see more friends."
+          }
+          action={
+            <button
+              type="button"
+              onClick={reset}
+              className="mt-1 rounded-full bg-gradient-brand px-4 py-2 text-xs font-bold text-white shadow-glow transition active:scale-95"
+            >
+              Clear search &amp; filters
+            </button>
+          }
         />
-      ) : null}
+      ) : (
+        <section className="mt-3 grid grid-cols-2 gap-3">
+          {hosts.map((h) => (
+            <HostCard key={h.id} host={h} />
+          ))}
+        </section>
+      )}
 
     </AppShell>
   );
 }
+
 
 function HostCard({ host }: { host: DemoHost }) {
   return (
