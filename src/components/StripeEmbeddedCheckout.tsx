@@ -44,6 +44,12 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
     };
   }, [attempt]);
 
+  // Guest checkout (no account): allowed for membership plans only.
+  const guestEligible = props.kind === 'catalog' && (GUEST_PLAN_IDS as readonly string[]).includes(props.priceId);
+  const [guestEmail, setGuestEmail] = useState<string | null>(null);
+  const [emailDraft, setEmailDraft] = useState('');
+
+
   // getStripe() throws when VITE_PAYMENTS_CLIENT_TOKEN is missing/unrecognized,
   // which would blow up render before fetchClientSecret ever runs.
   let stripePromise: ReturnType<typeof getStripe> | null = null;
