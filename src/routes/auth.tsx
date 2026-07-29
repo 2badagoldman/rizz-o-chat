@@ -6,6 +6,7 @@ import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { pageHead } from "@/lib/seo";
+import { readGuestCode } from "@/lib/guest-checkout";
 
 export const Route = createFileRoute("/auth")({
   head: () => pageHead({
