@@ -10,7 +10,7 @@ import {
   createTipCheckout,
 } from '@/utils/payments.functions';
 import { createGuestCheckoutSession } from '@/lib/guest-checkout.functions';
-import { GUEST_CODE_STORAGE_KEY, GUEST_PLAN_IDS } from '@/lib/guest-checkout';
+import { GUEST_PLAN_IDS, rememberGuestCode } from '@/lib/guest-checkout';
 
 export type CheckoutRequest =
   | { kind: 'catalog'; priceId: string; returnUrl?: string }
