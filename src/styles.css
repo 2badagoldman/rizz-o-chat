@@ -295,47 +295,47 @@
   --aurora-4: rgba(202,160,122,0.22);
 }
 
-/* ROMANCE MODE — candlelit burgundy, plum and gold */
+/* ROMANCE MODE — deep valentine red, crimson velvet and rose gold */
 .theme-romance {
-  --background: oklch(0.982 0.014 340);
-  --foreground: oklch(0.22 0.06 340);
+  --background: oklch(0.984 0.012 22);
+  --foreground: oklch(0.21 0.075 20);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.06 340);
+  --card-foreground: oklch(0.21 0.075 20);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.06 340);
+  --popover-foreground: oklch(0.21 0.075 20);
 
-  --primary: oklch(0.47 0.155 350);
+  --primary: oklch(0.45 0.195 22);
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.958 0.028 340);
-  --secondary-foreground: oklch(0.32 0.10 345);
-  --muted: oklch(0.968 0.016 340);
-  --muted-foreground: oklch(0.50 0.05 340);
-  --accent: oklch(0.80 0.10 85);
-  --accent-foreground: oklch(0.20 0.05 340);
+  --secondary: oklch(0.955 0.03 22);
+  --secondary-foreground: oklch(0.30 0.12 22);
+  --muted: oklch(0.966 0.016 22);
+  --muted-foreground: oklch(0.48 0.06 20);
+  --accent: oklch(0.72 0.13 30);
+  --accent-foreground: oklch(0.20 0.06 22);
 
-  --brand-pink: #f2b8cf;
-  --brand-purple: #6d1e46;
-  --brand-coral: #b81e5a;
-  --brand-violet: #d9a441;
+  --brand-pink: #f0a9ab;
+  --brand-purple: #6b0f1d;
+  --brand-coral: #c1122d;
+  --brand-violet: #e2707a;
 
-  --border: oklch(0.30 0.07 340 / 13%);
-  --input: oklch(0.30 0.07 340 / 13%);
-  --ring: oklch(0.47 0.155 350 / 50%);
+  --border: oklch(0.30 0.09 22 / 14%);
+  --input: oklch(0.30 0.09 22 / 14%);
+  --ring: oklch(0.45 0.195 22 / 50%);
 
-  --gradient-brand: linear-gradient(135deg, #4a0f2e 0%, #98185a 34%, #e35f8c 68%, #f6cf9a 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(152,24,90,0.16) 0%, rgba(227,95,140,0.16) 55%, rgba(246,207,154,0.20) 100%);
-  --gradient-sunset: linear-gradient(135deg, #fde3ec 0%, #e35f8c 45%, #98185a 100%);
-  --gradient-night: linear-gradient(135deg, #4a0f2e 0%, #d9a441 100%);
-  --gradient-story: conic-gradient(from 200deg at 50% 50%, #4a0f2e, #98185a, #e35f8c, #f6cf9a, #4a0f2e);
+  --gradient-brand: linear-gradient(135deg, #5c0a18 0%, #a30d26 34%, #d81e3c 68%, #f2a3a8 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(163,13,38,0.16) 0%, rgba(216,30,60,0.14) 55%, rgba(242,163,168,0.20) 100%);
+  --gradient-sunset: linear-gradient(135deg, #ffe4e4 0%, #e2586a 45%, #a30d26 100%);
+  --gradient-night: linear-gradient(135deg, #5c0a18 0%, #e2707a 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #5c0a18, #a30d26, #d81e3c, #f2a3a8, #5c0a18);
 
-  --shadow-glow: 0 24px 70px -20px rgba(152, 24, 90, 0.45);
-  --shadow-card: 0 18px 48px -22px rgba(74, 15, 46, 0.30), 0 2px 8px -3px rgba(227, 95, 140, 0.26);
-  --shadow-pop:  0 40px 100px -26px rgba(152, 24, 90, 0.40);
+  --shadow-glow: 0 24px 70px -20px rgba(163, 13, 38, 0.45);
+  --shadow-card: 0 18px 48px -22px rgba(92, 10, 24, 0.30), 0 2px 8px -3px rgba(216, 30, 60, 0.24);
+  --shadow-pop:  0 40px 100px -26px rgba(163, 13, 38, 0.40);
 
-  --aurora-1: rgba(246,207,154,0.42);
-  --aurora-2: rgba(227,95,140,0.40);
-  --aurora-3: rgba(152,24,90,0.28);
-  --aurora-4: rgba(74,15,46,0.22);
+  --aurora-1: rgba(242,163,168,0.42);
+  --aurora-2: rgba(216,30,60,0.34);
+  --aurora-3: rgba(163,13,38,0.26);
+  --aurora-4: rgba(92,10,24,0.22);
 }
 
 
@@ -1382,10 +1382,9 @@ body::after {
   to   { background-position-x: 50%; }
 }
 
-/* Roses: petals drifting + soft bloom glows, only in rose/romance themes */
+/* Roses: petals drifting + soft bloom glows — rose theme only */
 .rose-atmos { display: none; }
-.theme-rose .rose-atmos,
-.theme-romance .rose-atmos { display: block; }
+.theme-rose .rose-atmos { display: block; }
 
 .rose-petal {
   position: absolute;
@@ -1409,10 +1408,76 @@ body::after {
   background: radial-gradient(circle, rgba(217,126,126,.45), transparent 70%);
   animation: glow-breathe 9s ease-in-out infinite;
 }
-.theme-romance .rose-bloom { background: radial-gradient(circle, rgba(199,62,110,.45), transparent 70%); }
+
+/* ---------- Romance: valentine side flows + roses, nothing falling ---------- */
+.romance-atmos { display: none; }
+.theme-romance .romance-atmos { display: block; }
+
+.romance-edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(90px, 16vw, 220px);
+  opacity: .85;
+}
+.romance-edge.is-left {
+  left: 0;
+  background:
+    radial-gradient(120% 60% at 0% 22%, rgba(216,30,60,.20), transparent 70%),
+    radial-gradient(120% 60% at 0% 78%, rgba(92,10,24,.18), transparent 72%),
+    linear-gradient(90deg, rgba(163,13,38,.16), transparent 88%);
+}
+.romance-edge.is-right {
+  right: 0;
+  background:
+    radial-gradient(120% 60% at 100% 30%, rgba(216,30,60,.20), transparent 70%),
+    radial-gradient(120% 60% at 100% 82%, rgba(92,10,24,.18), transparent 72%),
+    linear-gradient(270deg, rgba(163,13,38,.16), transparent 88%);
+}
+
+/* Slow silk "flow" ribbons hugging each edge — drift only, never fall */
+.romance-flow {
+  position: absolute;
+  top: -10%;
+  height: 120%;
+  width: clamp(70px, 12vw, 170px);
+  filter: blur(26px);
+  opacity: .55;
+  background: linear-gradient(180deg, transparent, rgba(216,30,60,.55), rgba(242,163,168,.35), transparent);
+  animation: romance-sway 16s ease-in-out infinite alternate;
+}
+.romance-flow.is-left { left: -3%; }
+.romance-flow.is-right { right: -3%; animation-duration: 21s; animation-delay: -6s; }
+
+@keyframes romance-sway {
+  from { transform: translate3d(0, 0, 0) scaleY(1); }
+  to   { transform: translate3d(14px, -18px, 0) scaleY(1.08); }
+}
+
+/* Static roses pinned along both sides, breathing gently in place */
+.romance-rose {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform-origin: center;
+  animation: romance-bloom 11s ease-in-out infinite;
+  filter: drop-shadow(0 12px 26px rgba(92,10,24,.32));
+}
+@keyframes romance-bloom {
+  0%, 100% { transform: scale(1) rotate(var(--tilt, 0deg)); opacity: .82; }
+  50%      { transform: scale(1.045) rotate(calc(var(--tilt, 0deg) + 2deg)); opacity: 1; }
+}
+
+.romance-glow {
+  position: absolute; border-radius: 999px; filter: blur(48px);
+  background: radial-gradient(circle, rgba(193,18,45,.42), transparent 70%);
+  animation: glow-breathe 12s ease-in-out infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .sea-wave, .sea-shaft, .rose-petal, .rose-bloom { animation: none; }
+  .sea-wave, .sea-shaft, .rose-petal, .rose-bloom,
+  .romance-flow, .romance-rose, .romance-glow { animation: none; }
   .rose-petal { opacity: .5; }
 }
+
 
