@@ -91,7 +91,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
           </div>
           <button
             onClick={onClose}
-            aria-label="Close find people"
+            aria-label="Close find your crush"
             className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-card/70 text-foreground/70 transition-transform hover:scale-110 active:scale-90"
           >
             <X className="h-4 w-4" strokeWidth={2.5} />
