@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/dmca")({
   head: () => pageHead({
     path: "/legal/dmca",
-    title: "DMCA & Content Removal \u2014 Rizzla Chat",
-    description: "How to report copyright infringement, non-consensual imagery or impersonation on Rizzla Chat, what a valid DMCA notice must include, and how counter-notices are handled.",
+    title: "DMCA & Content Removal \u2014 Crush Chat",
+    description: "How to report copyright infringement, non-consensual imagery or impersonation on Crush Chat, what a valid DMCA notice must include, and how counter-notices are handled.",
     type: "article",
   }),
   component: Dmca,
@@ -21,7 +21,7 @@ function Dmca() {
     >
       <Section heading="1. Urgent removal requests">
         <p>
-          If content on Rizzla shows you (or someone you are reporting for) without consent, or involves a minor, email{" "}
+          If content on Crush shows you (or someone you are reporting for) without consent, or involves a minor, email{" "}
           <a className="font-semibold text-primary" href={`mailto:${LEGAL.supportEmail}`}>
             {LEGAL.supportEmail}
           </a>{" "}
@@ -36,7 +36,7 @@ function Dmca() {
           items={[
             "Your full name, address, phone number and email address.",
             "Identification of the copyrighted work you claim was infringed.",
-            "The location on Rizzla of the material (profile name plus a link or screenshot).",
+            "The location on Crush of the material (profile name plus a link or screenshot).",
             "A statement that you have a good-faith belief the use is not authorised by the copyright owner, its agent, or the law.",
             "A statement that the information in the notice is accurate and, under penalty of perjury, that you are the owner or authorised to act on the owner's behalf.",
             "Your physical or electronic signature.",
@@ -74,7 +74,7 @@ function Dmca() {
       <Section heading="5. Misuse of this process">
         <p>
           Knowingly false takedown or counter-notices may result in liability for damages under 17 U.S.C. § 512(f) and
-          termination of your Rizzla account.
+          termination of your Crush account.
         </p>
       </Section>
     </LegalDoc>

@@ -11,7 +11,7 @@ import { InstallConversionPanel } from "@/components/admin/InstallConversionPane
 
 export const Route = createFileRoute("/admin/war-room")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "War Room — Rizzla Admin" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "War Room — Crush Admin" }] }),
   component: WarRoom,
 });
 

@@ -201,8 +201,8 @@ export async function runBrainCore(trigger: "manual" | "cron") {
   let refreshed = 0;
   if (key && targets.length > 0) {
     const system = [
-      `You are the Rizzla Welcome Showcase Copywriter.`,
-      `Rizzla is a chat entertainment app where verified women (Hosts) run paid Friends Lists.`,
+      `You are the Crush Welcome Showcase Copywriter.`,
+      `Crush is a chat entertainment app where verified women (Hosts) run paid Friends Lists.`,
       `Write ONE punchy welcome caption per slide. Tone: ${tone}.`,
       `Rules: max 60 chars, no hashtags, no @mentions, no quotes, one emoji max, invite the viewer to join / chat / peek / start chatting. Never sexual.`,
       `Vary phrasing across slides — do not repeat verbs or emojis. Never mention prices.`,

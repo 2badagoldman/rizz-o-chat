@@ -13,7 +13,7 @@ export default defineTool({
   name: "update_my_profile",
   title: "Update my profile",
   description:
-    "Update the signed-in user's Rizzla profile fields (display name, bio, interests).",
+    "Update the signed-in user's Crush profile fields (display name, bio, interests).",
   inputSchema: {
     display_name: z.string().trim().min(1).max(60).optional().describe("New public display name."),
     bio: z.string().trim().max(500).optional().describe("Short bio shown on the profile."),

@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/creators")({
   head: () => pageHead({
     path: "/legal/creators",
-    title: "Creator & Payout Terms \u2014 Rizzla Chat",
-    description: "Terms for Rizzla Chat Hosts: revenue split, Friends List pricing limits, payout schedule and thresholds, chargeback clawbacks, tax responsibility and content obligations.",
+    title: "Creator & Payout Terms \u2014 Crush Chat",
+    description: "Terms for Crush Chat Hosts: revenue split, Friends List pricing limits, payout schedule and thresholds, chargeback clawbacks, tax responsibility and content obligations.",
     type: "article",
   }),
   component: Creators,
@@ -75,7 +75,7 @@ function Creators() {
             "You warrant that you own or license all content you upload and that every person in it is a consenting adult.",
             "You must follow the Acceptable Use & Content Policy in all chats, rooms and uploads.",
             "You must deliver what you advertise. Selling access and then failing to engage is grounds for refunds to members and enforcement against you.",
-            "You must not move members off-platform to avoid fees, or request payments outside Rizzla.",
+            "You must not move members off-platform to avoid fees, or request payments outside Crush.",
             "Admin staff may review your profile media, member chats and rooms for safety and dispute investigation.",
           ]}
         />
@@ -83,7 +83,7 @@ function Creators() {
 
       <Section heading="7. Taxes">
         <p>
-          You are solely responsible for reporting and paying all income, self-employment and other taxes on your Rizzla
+          You are solely responsible for reporting and paying all income, self-employment and other taxes on your Crush
           earnings. We may issue information returns (for example a US Form 1099) where required and will request the
           necessary tax details from you before payout.
         </p>

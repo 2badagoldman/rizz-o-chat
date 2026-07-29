@@ -5,7 +5,7 @@ import { getChatAccess } from "@/lib/chat-access.functions";
 import type { ChatAccess } from "@/lib/chat-access.server";
 
 /**
- * 7-day free chat trial, then Rizz Gold / Diamond is required.
+ * 7-day free chat trial, then Crush Gold / Diamond is required.
  * Hosts are never gated.
  */
 export function useChatAccess() {

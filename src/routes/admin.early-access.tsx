@@ -9,7 +9,7 @@ export const Route = createFileRoute("/admin/early-access")({
   component: EarlyAccessAdmin,
   head: () => ({
     meta: [
-      { title: "Waitlist & Early Access — Rizzla Admin" },
+      { title: "Waitlist & Early Access — Crush Admin" },
       { name: "description", content: "Live waitlist signups by category, with member notes and comments." },
     ],
   }),

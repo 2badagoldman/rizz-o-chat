@@ -7,9 +7,9 @@ export const Route = createFileRoute("/legal/delete-account")({
   head: () =>
     pageHead({
       path: "/legal/delete-account",
-      title: "Delete Your Account & Data — Rizzla Chat",
+      title: "Delete Your Account & Data — Crush Chat",
       description:
-        "How to delete your Rizzla Chat account and personal data from inside the app or by email, what is erased immediately, and what we must keep for legal reasons.",
+        "How to delete your Crush Chat account and personal data from inside the app or by email, what is erased immediately, and what we must keep for legal reasons.",
       type: "article",
     }),
   component: DeleteAccount,
@@ -19,7 +19,7 @@ function DeleteAccount() {
   return (
     <LegalDoc
       title="Delete Your Account & Data"
-      subtitle="You can permanently delete your Rizzla account yourself, at any time, from inside the app — no email required."
+      subtitle="You can permanently delete your Crush account yourself, at any time, from inside the app — no email required."
     >
       <Section heading="Delete from inside the app">
         <Bullets

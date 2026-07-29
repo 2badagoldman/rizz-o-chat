@@ -67,7 +67,7 @@ export function PushNotificationsCard() {
             {state === "on"
               ? "You'll get a push when someone messages you, joins your Friends List or sends a gift."
               : state === "denied"
-                ? "Notifications are turned off for Rizzla. Enable them in your device Settings to hear about new messages."
+                ? "Notifications are turned off for Crush. Enable them in your device Settings to hear about new messages."
                 : "Get a push when someone messages you, joins your Friends List or sends a gift."}
           </p>
           {state !== "on" && state !== "denied" ? (

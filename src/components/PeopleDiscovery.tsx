@@ -79,14 +79,14 @@ export function PeopleDiscovery({ open, onClose }: Props) {
       >
         <div className="flex items-start justify-between px-5 pt-5">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">Rizzla</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">Crush</p>
             <h2 className="bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[22px] font-black leading-tight text-transparent">
               Find people
             </h2>
             <p className="text-[11.5px] text-muted-foreground">
               {debounced
                 ? "Search by name or exact email"
-                : `${all.length} on Rizzla · ${weekCount} joined this week`}
+                : `${all.length} on Crush · ${weekCount} joined this week`}
             </p>
           </div>
           <button
@@ -144,7 +144,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
 
         <div className="mt-3 flex-1 overflow-y-auto px-3 pb-5">
           {!user ? (
-            <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find people on Rizzla.</p>
+            <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find people on Crush.</p>
           ) : isLoading ? (
             <p className="p-6 text-center text-sm text-muted-foreground">Loading the newest faces…</p>
           ) : error ? (
@@ -164,7 +164,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
                   ? debounced.includes("@")
                     ? `No account uses “${debounced}”.`
                     : `Nobody matches “${debounced}”. Try a different name.`
-                  : "Check back soon — new faces join Rizzla every day."}
+                  : "Check back soon — new faces join Crush every day."}
               </p>
               {(debounced || tab !== "all") ? (
                 <button
@@ -212,7 +212,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
                     >
                       <span className="min-w-0 flex-1">
                         <span className="flex items-center gap-1.5">
-                          <span className="truncate text-sm font-bold">{p.display_name || "Rizzla friend"}</span>
+                          <span className="truncate text-sm font-bold">{p.display_name || "Crush friend"}</span>
                           {p.account_type === "host" ? (
                             <Crown className="h-3.5 w-3.5 shrink-0 text-primary" />
                           ) : null}

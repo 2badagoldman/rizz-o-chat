@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/terms")({
   head: () => pageHead({
     path: "/legal/terms",
-    title: "Terms of Service \u2014 Rizzla Chat",
-    description: "The Rizzla Chat Terms of Service: eligibility (18+), account rules, coins and memberships, creator obligations, payments, liability and dispute resolution.",
+    title: "Terms of Service \u2014 Crush Chat",
+    description: "The Crush Chat Terms of Service: eligibility (18+), account rules, coins and memberships, creator obligations, payments, liability and dispute resolution.",
     type: "article",
   }),
   component: Terms,
@@ -17,7 +17,7 @@ function Terms() {
   return (
     <LegalDoc
       title="Terms of Service"
-      subtitle={`These Terms are a binding agreement between you and ${LEGAL.entity} ("Rizzla", "we", "us") covering your use of ${LEGAL.siteLabel} and the Rizzla apps.`}
+      subtitle={`These Terms are a binding agreement between you and ${LEGAL.entity} ("Crush", "we", "us") covering your use of ${LEGAL.siteLabel} and the Crush apps.`}
     >
       <Section heading="1. Acceptance of these Terms">
         <p>
@@ -43,15 +43,15 @@ function Terms() {
         />
       </Section>
 
-      <Section heading="3. What Rizzla is (and is not)">
+      <Section heading="3. What Crush is (and is not)">
         <p>
-          Rizzla is a social chat and creator-membership platform. Members can browse creator ("Host") profiles, join a
+          Crush is a social chat and creator-membership platform. Members can browse creator ("Host") profiles, join a
           Host's Friends List, chat one-to-one, join group Rooms, send digital gifts and tips, and use our AI chat
           assistant for conversation coaching.
         </p>
         <Bullets
           items={[
-            "Rizzla is entertainment and social networking. We do not provide escort, dating-guarantee, matchmaking, financial, legal, medical or therapeutic services.",
+            "Crush is entertainment and social networking. We do not provide escort, dating-guarantee, matchmaking, financial, legal, medical or therapeutic services.",
             "Some profiles are clearly labelled as AI hosts or demo content. AI conversations are machine-generated, may be inaccurate, and are not a real person's advice.",
             "We do not employ Hosts. Hosts are independent creators responsible for their own content and conduct.",
             "Nothing on the Service is an offer of, or payment for, sexual services. Such use is prohibited and reported where required.",
@@ -73,9 +73,9 @@ function Terms() {
       <Section heading="5. Coins, memberships, gifts and tips">
         <Bullets
           items={[
-            "Coins are a limited, revocable licence to access digital features inside Rizzla. Coins are not money, not a deposit, not stored value redeemable for cash, and carry no interest or ownership rights.",
+            "Coins are a limited, revocable licence to access digital features inside Crush. Coins are not money, not a deposit, not stored value redeemable for cash, and carry no interest or ownership rights.",
             "Coins have no cash value, cannot be exchanged for cash, transferred between accounts, or sold outside the Service.",
-            "Memberships (including Rizz Gold, Rizz Diamond VIP and a Host's Friends List) are recurring subscriptions that renew automatically until cancelled.",
+            "Memberships (including Crush Gold, Crush Diamond VIP and a Host's Friends List) are recurring subscriptions that renew automatically until cancelled.",
             "Gifts and tips are voluntary, immediately delivered digital items. Once sent, they are consumed and non-reversible.",
             "Prices are shown in " + LEGAL.currency + " before payment. Full pricing, tax and renewal detail is in our Billing & Payment Terms.",
           ]}

@@ -1,15 +1,15 @@
-# Rizz Social
+# Crush
 
 > A paid social chat platform where verified hosts run Friends Lists and members subscribe to chat, meet, and make real connections.
 
-Rizz Social pairs members with verified hosts through private Friends Lists, DMs, group Rooms near you, coin gifting, and an AI copilot that helps members craft better conversations. Payments are handled by Stripe; hosts are compensated partners.
+Crush pairs members with verified hosts through private Friends Lists, DMs, group Rooms near you, coin gifting, and an AI copilot that helps members craft better conversations. Payments are handled by Stripe; hosts are compensated partners.
 
 ## Pages
-- [Home](/): overview of Rizz Social, online hosts, and featured Friends Lists
+- [Home](/): overview of Crush, online hosts, and featured Friends Lists
 - [Discover hosts](/discover): browse and search verified hosts by tier
 - [Rooms near you](/rooms): live group chat rooms in cities across the US
-- [Rizz AI copilot](/copilot): AI wingman that helps members write better messages
-- [Upgrade](/upgrade): Rizz+ and VIP membership plans
+- [Crush AI copilot](/copilot): AI wingman that helps members write better messages
+- [Upgrade](/upgrade): Crush+ and VIP membership plans
 - [Buy coins](/coins): coin packs used for gifting and tipping hosts
 - [Sign in / Join free](/auth): create an account or sign in
 

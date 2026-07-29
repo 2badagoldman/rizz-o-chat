@@ -9,7 +9,7 @@ import { MapPin, Loader2, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/rooms/new")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Create a Room — Rizzla" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Create a Room — Crush" }] }),
   component: NewRoomPage,
 });
 
@@ -33,7 +33,7 @@ function NewRoomPage() {
     <AppShell>
       <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
         <h1 className="text-xl">Sign in to create a room</h1>
-        <p className="mt-1 text-sm text-muted-foreground">You need a Rizzla account (member or host) to create rooms.</p>
+        <p className="mt-1 text-sm text-muted-foreground">You need a Crush account (member or host) to create rooms.</p>
         <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
       </div>
     </AppShell>

@@ -11,8 +11,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/rooms/")({
   head: () => pageHead({
     path: "/rooms",
-    title: "Rooms near you \u2014 Rizz Social",
-    description: "Join live chat rooms near you. Meet hosts and members in city rooms across the US on Rizz Social.",
+    title: "Rooms near you \u2014 Crush",
+    description: "Join live chat rooms near you. Meet hosts and members in city rooms across the US on Crush.",
   }),
 
   component: RoomsBrowsePage,

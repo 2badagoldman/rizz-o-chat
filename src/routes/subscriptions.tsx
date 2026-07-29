@@ -13,8 +13,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute('/subscriptions')({
   head: () => pageHead({
     path: "/subscriptions",
-    title: "My subscriptions \u2014 Rizz Social",
-    description: "Manage your Friends List memberships and Rizz Gold subscription on Rizz Social.",
+    title: "My subscriptions \u2014 Crush",
+    description: "Manage your Friends List memberships and Crush Gold subscription on Crush.",
     noindex: true,
   }),
 
@@ -31,10 +31,10 @@ type Row = {
 };
 
 const LABEL: Record<string, string> = {
-  rizz_gold_weekly: 'Rizz Gold',
-  rizz_diamond_weekly: 'Rizz Diamond VIP',
-  rizz_plus_monthly: 'Rizz Gold',
-  rizz_vip_monthly: 'Rizz VIP',
+  rizz_gold_weekly: 'Crush Gold',
+  rizz_diamond_weekly: 'Crush Diamond VIP',
+  rizz_plus_monthly: 'Crush Gold',
+  rizz_vip_monthly: 'Crush VIP',
 };
 
 function statusPill(s: string) {
@@ -117,7 +117,7 @@ function SubscriptionsPage() {
         <div className="rounded-2xl border border-border bg-card p-6 text-center">
           <Sparkles className="mx-auto h-6 w-6 text-primary" />
           <p className="mt-2 text-sm">No active subscriptions yet.</p>
-          <Link to="/upgrade" className="btn-brand mt-3 inline-flex">Explore Rizz Gold</Link>
+          <Link to="/upgrade" className="btn-brand mt-3 inline-flex">Explore Crush Gold</Link>
         </div>
       ) : (
         <ul className="space-y-3">

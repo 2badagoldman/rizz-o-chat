@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/trust")({
   head: () => pageHead({
     path: "/legal/trust",
-    title: "Trust & Security \u2014 Rizzla Chat",
-    description: "How Rizzla Chat protects accounts, private media and payments: row-level database security, signed media links, role-based admin access, verified payment webhooks and no card data on our servers.",
+    title: "Trust & Security \u2014 Crush Chat",
+    description: "How Crush Chat protects accounts, private media and payments: row-level database security, signed media links, role-based admin access, verified payment webhooks and no card data on our servers.",
     type: "article",
   }),
   component: Trust,

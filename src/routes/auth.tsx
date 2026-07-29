@@ -10,8 +10,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/auth")({
   head: () => pageHead({
     path: "/auth",
-    title: "Sign in or join free \u2014 Rizz Social",
-    description: "Join Rizz Social free. Chat with verified hosts, join Friends Lists, and meet new friends.",
+    title: "Sign in or join free \u2014 Crush",
+    description: "Join Crush free. Chat with verified hosts, join Friends Lists, and meet new friends.",
     noindex: true,
   }),
 
@@ -76,7 +76,7 @@ function AuthPage() {
           return;
         }
         if (birth > eighteen) {
-          setError("Rizzla is strictly 18+. You can’t join yet.");
+          setError("Crush is strictly 18+. You can’t join yet.");
           setBusy(false);
           return;
         }
@@ -131,15 +131,15 @@ function AuthPage() {
   return (
     <AppShell hideNav>
       <header className="pt-6 text-center">
-        <a href="/" aria-label="Rizzla home — reload" className="inline-block">
+        <a href="/" aria-label="Crush home — reload" className="inline-block">
           <img
             src={rizzAiLogo.url}
-            alt="Rizzla"
+            alt="Crush"
             className="mx-auto h-16 w-16 rounded-full shadow-glow"
           />
         </a>
         <p className="mt-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">
-          Rizzla AI
+          Crush
         </p>
         <h1 className="mt-1 text-3xl">
           {mode === "signup" ? "Create your account" : "Welcome back"}

@@ -9,7 +9,7 @@ export const Route = createFileRoute("/host/pricing")({
   head: () => ({
     meta: [
       { name: "robots", content: "noindex, nofollow" },
-      { title: "Edit Friends List Pricing — Rizz Social" },
+      { title: "Edit Friends List Pricing — Crush" },
       { name: "description", content: "Adjust your Friends List monthly price and preview what members will see." },
     ],
   }),

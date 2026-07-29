@@ -9,7 +9,7 @@ export const Route = createFileRoute("/admin/compliance")({
   head: () => ({
     meta: [
       { name: "robots", content: "noindex, nofollow" },
-      { title: "Daily Verification Report — Rizzla Admin" },
+      { title: "Daily Verification Report — Crush Admin" },
     ],
   }),
   component: ComplianceReportPage,

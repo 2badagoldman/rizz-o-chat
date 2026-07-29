@@ -91,10 +91,10 @@ function Consent() {
   return (
     <main className="mx-auto max-w-md p-6">
       <div className="rounded-2xl bg-card p-6 shadow-lg">
-        <h1 className="text-2xl font-semibold">Connect {clientName} to Rizzla AI</h1>
+        <h1 className="text-2xl font-semibold">Connect {clientName} to Crush</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          {clientName} will be able to call Rizzla's tools while you are signed in.
-          This does not bypass Rizzla's permissions or backend policies.
+          {clientName} will be able to call Crush's tools while you are signed in.
+          This does not bypass Crush's permissions or backend policies.
         </p>
         <ul className="mt-4 space-y-1 text-sm">
           <li>• Share your basic profile</li>

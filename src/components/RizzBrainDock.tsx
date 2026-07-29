@@ -86,10 +86,10 @@ export function RizzBrainDock() {
           <div className="flex items-center justify-between border-b border-white/15 px-3 py-2 bg-white/5">
             <div className="flex items-center gap-2">
               <div className="h-7 w-7 overflow-hidden rounded-full shadow-glow">
-                <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
+                <img src={rizzAiLogo.url} alt="Crush AI" className="h-full w-full object-cover" />
               </div>
               <div>
-                <p className="text-xs font-semibold leading-tight">Rizz AI</p>
+                <p className="text-xs font-semibold leading-tight">Crush AI</p>
                 <p className="text-[10px] text-muted-foreground">Your copilot</p>
               </div>
             </div>
@@ -115,7 +115,7 @@ export function RizzBrainDock() {
             {messages.length === 0 ? (
               <div className="rounded-2xl border border-white/20 bg-white/10 dark:bg-black/20 p-3 backdrop-blur">
                 <p className="text-sm">
-                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>, your <span className="font-semibold">Rizz Wizard</span>.
+                  Hey — I&apos;m <span className="text-gradient-brand font-semibold">Crush AI</span>, your <span className="font-semibold">Crush Wizard</span>.
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
                   Stuck on what to say to a Host, a crush, or any girl? Paste the context — or drop a screenshot of the chat / her profile — and I&apos;ll give you 3 lines to send.
@@ -174,7 +174,7 @@ export function RizzBrainDock() {
             })}
 
             {busy && messages[messages.length - 1]?.role === "user" ? (
-              <p className="text-xs text-muted-foreground animate-pulse">Rizz AI is thinking…</p>
+              <p className="text-xs text-muted-foreground animate-pulse">Crush AI is thinking…</p>
             ) : null}
           </div>
 
@@ -224,7 +224,7 @@ export function RizzBrainDock() {
                     submit(e);
                   }
                 }}
-                placeholder={files.length ? "What should I say back?" : "Ask Rizz AI, or drop a screenshot…"}
+                placeholder={files.length ? "What should I say back?" : "Ask Crush AI, or drop a screenshot…"}
                 rows={1}
                 className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm outline-none backdrop-blur focus:border-primary"
               />
@@ -246,14 +246,14 @@ export function RizzBrainDock() {
       {!open ? (
         <button
           onClick={() => setOpen(true)}
-          aria-label="Open Rizz AI"
+          aria-label="Open Crush AI"
           className="fixed z-40 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/20 shadow-glow backdrop-blur-xl backdrop-saturate-150 transition-transform hover:scale-105 active:scale-95"
           style={{
             right: "max(0.75rem, env(safe-area-inset-right))",
             bottom: "calc(env(safe-area-inset-bottom) + 4.25rem)",
           }}
         >
-          <img src={rizzAiLogo.url} alt="Rizz AI" className="h-8 w-8 rounded-full object-cover" />
+          <img src={rizzAiLogo.url} alt="Crush AI" className="h-8 w-8 rounded-full object-cover" />
         </button>
       ) : null}
     </>

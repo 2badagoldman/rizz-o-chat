@@ -7,7 +7,7 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/admin/copilot")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Admin Copilot — Rizzla" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Admin Copilot — Crush" }] }),
   component: AdminCopilot,
 });
 
@@ -27,7 +27,7 @@ function AdminCopilot() {
     {
       role: "assistant",
       content:
-        "Hey — I'm your Rizzla Admin Copilot. I can read your live 24h analytics, draft copy, brainstorm features, and help you moderate. What are we working on?",
+        "Hey — I'm your Crush Admin Copilot. I can read your live 24h analytics, draft copy, brainstorm features, and help you moderate. What are we working on?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -57,7 +57,7 @@ function AdminCopilot() {
           <h1 className="text-lg font-bold flex items-center gap-2">
             Admin Copilot <Sparkles className="h-4 w-4 text-primary" />
           </h1>
-          <p className="text-xs text-muted-foreground">Grounded in your live app analytics · powered by Rizz AI brain</p>
+          <p className="text-xs text-muted-foreground">Grounded in your live app analytics · powered by Crush AI brain</p>
         </div>
       </div>
 

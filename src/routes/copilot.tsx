@@ -13,8 +13,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/copilot")({
   head: () => pageHead({
     path: "/copilot",
-    title: "Rizz AI copilot \u2014 your chat wingman",
-    description: "The AI wingman inside Rizz Social. Get help crafting messages, breaking the ice, and building real chats.",
+    title: "Crush AI copilot \u2014 your chat wingman",
+    description: "The AI wingman inside Crush. Get help crafting messages, breaking the ice, and building real chats.",
   }),
   component: Copilot,
 });
@@ -51,7 +51,7 @@ function Copilot() {
         "What should my first message be?",
       ]
     : [
-        "What is Rizzla Social?",
+        "What is Crush Social?",
         "How much can Hosts earn?",
         "Explain the Milestone Flip",
         "Is this a dating app?",
@@ -66,11 +66,11 @@ function Copilot() {
           </Link>
           <div className="flex items-center gap-2">
             <div className="h-9 w-9 overflow-hidden rounded-full shadow-glow">
-              <img src={rizzAiLogo.url} alt="Rizz AI" className="h-full w-full object-cover" />
+              <img src={rizzAiLogo.url} alt="Crush AI" className="h-full w-full object-cover" />
             </div>
 
             <div>
-              <h1 className="text-base font-semibold leading-tight">Rizz AI</h1>
+              <h1 className="text-base font-semibold leading-tight">Crush AI</h1>
               <p className="text-[11px] text-muted-foreground">Your in-app copilot</p>
             </div>
           </div>
@@ -80,7 +80,7 @@ function Copilot() {
           {messages.length === 0 ? (
             <div className="rounded-2xl border border-border bg-card p-4">
               <p className="text-sm">
-                Hey — I&apos;m <span className="text-gradient-brand font-semibold">Rizz AI</span>. I&apos;ll walk you through
+                Hey — I&apos;m <span className="text-gradient-brand font-semibold">Crush AI</span>. I&apos;ll walk you through
                 anything in the app: applying as a Host, pricing your Friends List, picking who to chat with, or
                 writing your first message. Ask me anything.
               </p>
@@ -123,7 +123,7 @@ function Copilot() {
           })}
 
           {busy && messages[messages.length - 1]?.role === "user" ? (
-            <p className="text-xs text-muted-foreground animate-pulse">Rizz AI is thinking…</p>
+            <p className="text-xs text-muted-foreground animate-pulse">Crush AI is thinking…</p>
           ) : null}
         </div>
 
@@ -137,7 +137,7 @@ function Copilot() {
                 submit(e);
               }
             }}
-            placeholder="Ask Rizz AI anything…"
+            placeholder="Ask Crush AI anything…"
             rows={1}
             className="min-h-[44px] max-h-32 flex-1 resize-none rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
           />

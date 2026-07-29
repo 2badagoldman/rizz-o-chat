@@ -6,7 +6,7 @@ import { Brain, Play, Sparkles, Image as ImageIcon, Loader2, TrendingUp, Refresh
 
 export const Route = createFileRoute("/admin/showcase-brain")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Showcase Brain — Rizzla Admin" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Showcase Brain — Crush Admin" }] }),
   component: Page,
 });
 

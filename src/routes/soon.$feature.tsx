@@ -14,7 +14,7 @@ export const Route = createFileRoute("/soon/$feature")({
     return {
       meta: [
       { name: "robots", content: "noindex, nofollow" },
-        { title: `${f.title} — Coming Soon | Rizzla` },
+        { title: `${f.title} — Coming Soon | Crush` },
         { name: "description", content: `Get early access to ${f.title}. ${f.tagline}` },
       ],
     };
@@ -81,7 +81,7 @@ function SoonPage() {
           <p className="mt-1 text-sm text-muted-foreground">
             We'll email you the moment {meta.title} goes live.
           </p>
-          <Link to="/" className="btn-brand mt-4 inline-flex">Back to Rizzla</Link>
+          <Link to="/" className="btn-brand mt-4 inline-flex">Back to Crush</Link>
         </div>
       ) : (
         <form onSubmit={submit} className="mt-5 rounded-2xl border border-border bg-card p-5 space-y-3">

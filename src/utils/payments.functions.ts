@@ -34,7 +34,7 @@ async function resolveOrCreateCustomer(
   return created.id;
 }
 
-// ---- Fixed-price checkout: coin packs, Rizz Gold, Rizz Diamond VIP ----
+// ---- Fixed-price checkout: coin packs, Crush Gold, Crush Diamond VIP ----
 export const createCheckoutSession = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { priceId: string; returnUrl: string; environment: StripeEnv }) => {
@@ -117,7 +117,7 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
     try {
       const { userId, supabase } = context;
 
-      // GATE: Friends Lists can only be unlocked by Rizz Gold (or VIP) members.
+      // GATE: Friends Lists can only be unlocked by Crush Gold (or VIP) members.
       const { data: me, error: meErr } = await supabase
         .from('profiles')
         .select('platform_tier')
@@ -126,7 +126,7 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
       if (meErr) throw new Error(meErr.message);
       const tier = me?.platform_tier ?? 'free';
       if (tier !== 'plus' && tier !== 'vip') {
-        return { error: 'Rizz Gold required — upgrade to Rizz Gold to unlock any Friends List.' };
+        return { error: 'Crush Gold required — upgrade to Crush Gold to unlock any Friends List.' };
       }
 
       // SECURITY: look up the host's real listed price server-side; never trust

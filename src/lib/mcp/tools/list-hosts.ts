@@ -12,7 +12,7 @@ function supabaseForUser(ctx: ToolContext) {
 export default defineTool({
   name: "list_hosts",
   title: "List hosts",
-  description: "List Rizzla hosts (creators) with their display name, bio, interests, and verification status.",
+  description: "List Crush hosts (creators) with their display name, bio, interests, and verification status.",
   inputSchema: {
     limit: z.number().int().min(1).max(50).optional().describe("Max hosts to return. Default 20."),
   },

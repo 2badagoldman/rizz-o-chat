@@ -9,7 +9,7 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 export const Route = createFileRoute("/invite/$code")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "You're invited — Rizzla" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "You're invited — Crush" }] }),
   component: InvitePage,
 });
 
@@ -69,7 +69,7 @@ function InvitePage() {
   return (
     <AppShell hideNav>
       <div className="px-4 pt-10 text-center">
-        <img src={rizzAiLogo.url} alt="Rizzla" className="mx-auto h-20 w-20 rounded-full shadow-glow" />
+        <img src={rizzAiLogo.url} alt="Crush" className="mx-auto h-20 w-20 rounded-full shadow-glow" />
         <p className="mt-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">You're invited</p>
         <h1 className="mt-1 text-3xl">Free access to a Friends List</h1>
         <p className="mt-2 text-sm text-muted-foreground">

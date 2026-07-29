@@ -16,7 +16,7 @@ import { Camera } from "lucide-react";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Profile — Rizz Social" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Profile — Crush" }] }),
   component: Profile,
 });
 
@@ -247,7 +247,7 @@ function Profile() {
   const avatarSrc = avatarSignedUrl ?? rizzAiLogo.url;
 
   return (
-    <AppShell footerNote={<>Hosts on Rizz Social are compensated partners.</>}>
+    <AppShell footerNote={<>Hosts on Crush are compensated partners.</>}>
       <h1 className="pt-6 text-2xl">Profile</h1>
 
       {/* Identity card */}

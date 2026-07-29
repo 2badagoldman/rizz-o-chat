@@ -8,13 +8,13 @@
  */
 
 export const SITE_URL = "https://rizzlachat.com";
-export const SITE_NAME = "Rizzla AI";
+export const SITE_NAME = "Crush";
 export const TWITTER_HANDLE = "@rizzlachat";
 
 /** 1200x630 branded share card — the size every social platform crops from. */
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
 export const DEFAULT_OG_IMAGE_ALT =
-  "Rizzla AI — real chats with verified hosts";
+  "Crush — real chats with verified hosts";
 
 export type PageHeadInput = {
   /** Absolute path, e.g. "/discover". Used for canonical + og:url. */
@@ -96,6 +96,6 @@ export function pageHead(input: PageHeadInput) {
 }
 
 /** Convenience for gated app surfaces that should never be indexed. */
-export function privateHead(title: string, description = "Rizzla AI") {
+export function privateHead(title: string, description = "Crush") {
   return pageHead({ path: "/", title, description, noindex: true });
 }

@@ -16,7 +16,7 @@ export function ChatTrialBanner({
       <div className="mb-2 flex items-center gap-3 rounded-2xl border border-primary/30 bg-primary/10 p-3 backdrop-blur">
         <Lock className="h-4 w-4 shrink-0 text-primary" />
         <p className="flex-1 text-xs leading-snug">
-          Your 7-day free chat trial has ended. Upgrade to <strong>Rizz Gold</strong> to keep chatting.
+          Your 7-day free chat trial has ended. Upgrade to <strong>Crush Gold</strong> to keep chatting.
         </p>
         <Link to="/upgrade" className="btn-brand shrink-0 px-3 py-1.5 text-xs">
           Upgrade

@@ -6,8 +6,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/legal/billing")({
   head: () => pageHead({
     path: "/legal/billing",
-    title: "Billing & Payment Terms \u2014 Rizzla Chat",
-    description: "Rizzla Chat billing terms: prices in USD, coin packs and memberships, automatic renewals, taxes, card statement descriptor, receipts, failed payments and secure card handling via Stripe.",
+    title: "Billing & Payment Terms \u2014 Crush Chat",
+    description: "Crush Chat billing terms: prices in USD, coin packs and memberships, automatic renewals, taxes, card statement descriptor, receipts, failed payments and secure card handling via Stripe.",
     type: "article",
   }),
   component: Billing,
@@ -17,7 +17,7 @@ function Billing() {
   return (
     <LegalDoc
       title="Billing & Payment Terms"
-      subtitle={`How pricing, taxes, renewals and receipts work when you pay ${LEGAL.entity} for Rizzla products.`}
+      subtitle={`How pricing, taxes, renewals and receipts work when you pay ${LEGAL.entity} for Crush products.`}
     >
       <Section heading="1. Merchant of record">
         <p>
@@ -39,7 +39,7 @@ function Billing() {
               unlocks. Coins are credited to your wallet immediately after payment.
             </>,
             <>
-              <b className="text-foreground">Rizz Gold and Rizz Diamond VIP</b> — weekly platform memberships with perks such as
+              <b className="text-foreground">Crush Gold and Crush Diamond VIP</b> — weekly platform memberships with perks such as
               boosted visibility and coin drops.
             </>,
             <>

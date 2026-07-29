@@ -196,12 +196,12 @@ export function WelcomeShowcase() {
         {/* header */}
         <div className="flex items-center justify-between px-4 pb-2 pt-4">
           <div className="flex items-center gap-2">
-            <img src={rizzAiLogo.url} alt="Rizzla" className="h-7 w-7 rounded-full ring-1 ring-white/25" />
+            <img src={rizzAiLogo.url} alt="Crush" className="h-7 w-7 rounded-full ring-1 ring-white/25" />
             <div className="leading-tight">
               <p className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.25em] text-white/60">
                 <Sparkles className="h-2.5 w-2.5" /> Welcome
               </p>
-              <p className="text-sm font-extrabold">Rizz Chat</p>
+              <p className="text-sm font-extrabold">Crush Chat</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -245,7 +245,7 @@ export function WelcomeShowcase() {
               <img
                 key={item.id}
                 src={item.url}
-                alt={item.caption ?? "Rizzla showcase"}
+                alt={item.caption ?? "Crush showcase"}
                 loading={Math.abs(i - index) <= 2 ? "eager" : "lazy"}
                 className={
                   "absolute inset-0 h-full w-full object-contain transition-opacity duration-700 ease-out " +
@@ -305,7 +305,7 @@ export function WelcomeShowcase() {
             onClick={() => close("complete")}
             className="btn-brand inline-flex flex-1 items-center justify-center gap-2 hover-scale"
           >
-            Enter Rizz Chat <ArrowRight className="h-4 w-4" />
+            Enter Crush Chat <ArrowRight className="h-4 w-4" />
           </button>
           <button
             onClick={() => close()}
