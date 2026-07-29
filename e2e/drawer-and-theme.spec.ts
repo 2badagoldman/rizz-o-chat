@@ -76,10 +76,13 @@ test("theme toggle switches every theme and persists across reloads", async ({ p
   await page.goto("/");
   await waitForShell(page);
 
-  // Primary toggles.
-  for (const name of ["Pink", "Sea"]) {
-    await page.getByRole("button", { name, exact: true }).click({ force: true });
-    await page.waitForTimeout(300);
+  // Primary toggles (Pink + Sea live directly in the header).
+  for (const [name, cls] of [
+    ["Pink", "theme-pink"],
+    ["Sea", "theme-abyss"],
+  ] as const) {
+    await page.getByRole("button", { name, exact: true }).first().click({ force: true });
+    await expect(page.locator("html")).toHaveClass(new RegExp(`${cls}\\b`));
   }
 
   // Extra themes live behind the dropdown, which is portaled to <body>.
@@ -89,12 +92,15 @@ test("theme toggle switches every theme and persists across reloads", async ({ p
     ["Rose", "theme-rose"],
     ["Romance", "theme-romance"],
   ] as const) {
-    await page.getByRole("button", { name: /More themes/i }).click({ force: true });
-    await page.getByRole("button", { name: label, exact: true }).click({ force: true });
+    await page.getByRole("button", { name: /More themes/i }).first().click({ force: true });
+    const item = page.getByRole("menuitemradio", { name: label, exact: true });
+    await expect(item).toBeVisible();
+    await item.click({ force: true });
     await expect(page.locator("html")).toHaveClass(new RegExp(`${cls}\\b`));
     await page.reload({ waitUntil: "domcontentloaded" });
     await expect(page.locator("html")).toHaveClass(new RegExp(`${cls}\\b`));
   }
+
 
   expect(collector.errors).toEqual([]);
 });
