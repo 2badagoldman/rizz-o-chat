@@ -28,7 +28,7 @@ export const Route = createFileRoute("/host/inbox")({
 const TEMPLATES = [
   "hey you 💕 just catching up on messages — tell me one thing about your day",
   "thank you for the love today 🥹 replying to everyone one by one, you're next",
-  "posting something new in the Friends List tonight — don't miss it 😘",
+  "posting something new in the Friends List tonight — don't miss it ✨",
 ];
 
 function HostInbox() {
