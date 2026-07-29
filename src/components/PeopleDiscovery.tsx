@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { Search, X, MessageCircle, Sparkle, Crown } from "lucide-react";
-import { discoverPeople, type PersonRow } from "@/lib/people.functions";
+import { discoverPeople, getPublicProfile, type PersonRow } from "@/lib/people.functions";
 import { OnlineDot, useOnlineUsers } from "@/lib/presence";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
