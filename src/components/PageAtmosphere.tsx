@@ -177,26 +177,32 @@ const GLINTS = [
  */
 
 function CrushLayer({ level }: { level: string }) {
-  const glints = level === "lite" ? [] : level === "mid" ? GLINTS.slice(0, 3) : GLINTS;
+  const glints = level === "lite" ? [] : level === "mid" ? GLINTS.slice(0, 2) : GLINTS;
+  const lite = level === "lite";
+  const full = level === "full";
   return (
     <div className="theme-atmos crush-atmos">
       <div className="crush-veil" />
-      {level !== "lite" ? <div className="crush-rays" /> : null}
+      {full ? <div className="crush-rays" /> : null}
       <div className="crush-frost" />
       <span className="crush-edge is-left" />
       <span className="crush-edge is-right" />
       <span className="crush-glow" style={{ left: "-12%", top: "8%", width: 320, height: 320 }} />
-      <span
-        className="crush-glow is-gold"
-        style={{ left: "46%", top: "-10%", width: 380, height: 380, animationDelay: "2s" }}
-      />
-      <span
-        className="crush-glow is-ember"
-        style={{ right: "-14%", bottom: "8%", width: 360, height: 360, animationDelay: "4s" }}
-      />
-      <div className="crush-liquid is-back" />
+      {!lite && (
+        <span
+          className="crush-glow is-gold"
+          style={{ left: "46%", top: "-10%", width: 380, height: 380, animationDelay: "2s" }}
+        />
+      )}
+      {full && (
+        <span
+          className="crush-glow is-ember"
+          style={{ right: "-14%", bottom: "8%", width: 360, height: 360, animationDelay: "4s" }}
+        />
+      )}
+      {full ? <div className="crush-liquid is-back" /> : null}
       <div className="crush-liquid" />
-      {level !== "lite" ? <span className="crush-sheen" /> : null}
+      {full ? <span className="crush-sheen" /> : null}
       {glints.map((g) => (
         <span
           key={`glint-${g.left}-${g.top}`}
@@ -214,6 +220,7 @@ function CrushLayer({ level }: { level: string }) {
     </div>
   );
 }
+
 
 
 
