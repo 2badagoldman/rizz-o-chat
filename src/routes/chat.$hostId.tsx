@@ -19,6 +19,8 @@ import { sendChatGift } from "@/lib/subscriptions.functions";
 import { toast } from "sonner";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SafetyMenu } from "@/components/SafetyMenu";
+import { useAiQuota } from "@/hooks/useAiQuota";
+import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
 
 
 
@@ -116,6 +118,14 @@ function HostChat() {
     messages: initialMessages,
     transport,
   });
+
+  // Free AI replies: 10 per AI host, then Crush Gold is required.
+  const aiQuota = useAiQuota(`host:${hostId}`);
+  const assistantCount = messages.filter((m) => m.role === "assistant").length;
+  useEffect(() => {
+    if (aiHost) aiQuota.track(assistantCount);
+  }, [aiHost, assistantCount, aiQuota.track]);
+  const aiQuotaReached = aiHost && aiQuota.reached;
 
   const reactionsKey = `${storageKey}:reactions`;
 
@@ -267,7 +277,7 @@ function HostChat() {
 
 
   const busy = status === "submitted" || status === "streaming";
-  const chatLocked = locked && !aiHost;
+  const chatLocked = (locked && !aiHost) || aiQuotaReached;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -448,7 +458,13 @@ function HostChat() {
           </div>
         ) : null}
 
-        <ChatTrialBanner locked={chatLocked} onTrial={onTrial && !aiHost} daysLeft={daysLeft} />
+        {aiQuotaReached ? (
+          <div className="px-3 pb-2">
+            <AiQuotaPrompt limit={aiQuota.limit} who={host.name} />
+          </div>
+        ) : (
+          <ChatTrialBanner locked={chatLocked} onTrial={onTrial && !aiHost} daysLeft={daysLeft} />
+        )}
 
         <form onSubmit={submit} className="sticky bottom-0 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
           <PendingAttachments markers={pending} onRemove={(m) => setPending((p) => p.filter((x) => x !== m))} />
@@ -474,7 +490,7 @@ function HostChat() {
               }
             }}
             disabled={chatLocked}
-            placeholder={chatLocked ? "Upgrade to Crush Gold to keep chatting…" : `Message ${host.name}…`}
+            placeholder={chatLocked ? "Subscribe to Crush Gold to keep chatting…" : `Message ${host.name}…`}
             rows={1}
             className="chat-type min-h-[48px] max-h-32 flex-1 resize-none rounded-[22px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
           />

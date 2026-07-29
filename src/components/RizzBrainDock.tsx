@@ -5,6 +5,8 @@ import ReactMarkdown from "react-markdown";
 import { Send, X, ChevronDown, Image as ImageIcon } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import { useAiQuota } from "@/hooks/useAiQuota";
+import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
 
 const DISMISS_KEY = "rizz_brain_dock_dismissed_v1";
 
@@ -32,6 +34,13 @@ export function RizzBrainDock() {
     transport: createAuthedChatTransport({ api: "/api/chat" }),
   });
 
+  // 10 free Crush AI replies, then subscribe.
+  const quota = useAiQuota("dock");
+  const assistantCount = messages.filter((m) => m.role === "assistant").length;
+  useEffect(() => {
+    quota.track(assistantCount);
+  }, [assistantCount, quota.track]);
+
   useEffect(() => {
     if (open) {
       scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -54,7 +63,7 @@ export function RizzBrainDock() {
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     const t = input.trim();
-    if ((!t && files.length === 0) || busy) return;
+    if ((!t && files.length === 0) || busy || quota.reached) return;
     const dt = new DataTransfer();
     files.forEach((f) => dt.items.add(f));
     sendMessage({ text: t || "What should I say? Coach me with 3 options.", files: files.length ? dt.files : undefined });
@@ -129,7 +138,7 @@ export function RizzBrainDock() {
                   ].map((s) => (
                     <button
                       key={s}
-                      onClick={() => sendMessage({ text: s })}
+                      onClick={() => { if (!quota.reached) sendMessage({ text: s }); }}
                       className="rounded-xl border border-border bg-card px-3 py-1.5 text-left text-xs hover:border-primary/60"
                     >
                       {s}
@@ -176,6 +185,8 @@ export function RizzBrainDock() {
             {busy && messages[messages.length - 1]?.role === "user" ? (
               <p className="text-xs text-muted-foreground animate-pulse">Crush AI is thinking…</p>
             ) : null}
+
+            {quota.reached ? <AiQuotaPrompt limit={quota.limit} compact /> : null}
           </div>
 
           <form onSubmit={submit} className="flex flex-col gap-2 border-t border-white/15 bg-white/5 px-2 py-2">
@@ -224,13 +235,14 @@ export function RizzBrainDock() {
                     submit(e);
                   }
                 }}
-                placeholder={files.length ? "What should I say back?" : "Ask Crush AI, or drop a screenshot…"}
+                disabled={quota.reached}
+                placeholder={quota.reached ? "Subscribe to Crush Gold to keep chatting…" : files.length ? "What should I say back?" : "Ask Crush AI, or drop a screenshot…"}
                 rows={1}
                 className="min-h-[36px] max-h-24 flex-1 resize-none rounded-2xl border border-white/20 bg-white/10 px-3 py-2 text-sm outline-none backdrop-blur focus:border-primary"
               />
               <button
                 type="submit"
-                disabled={busy || (!input.trim() && files.length === 0)}
+                disabled={busy || quota.reached || (!input.trim() && files.length === 0)}
                 className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
                 aria-label="Send"
               >
