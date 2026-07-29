@@ -7,16 +7,20 @@ import { useAuth } from "@/lib/auth";
 import { OnlineDot, useIsOnline } from "@/lib/presence";
 import { getPublicProfile } from "@/lib/people.functions";
 import { SafetyMenu } from "@/components/SafetyMenu";
+import { pageHead } from "@/lib/seo";
 
 
 export const Route = createFileRoute("/u/$userId")({
-  head: () => ({
-    meta: [
-      { name: "robots", content: "noindex, nofollow" },
-      { title: "Profile — Crush" },
-      { name: "description", content: "View a Crush member profile and start chatting." },
-    ],
+  head: ({ params }) => ({
+    ...pageHead({
+      path: `/u/${params.userId}`,
+      title: "Member profile — Crush",
+      description: "View a Crush member profile and start chatting.",
+      type: "profile",
+      noindex: true,
+    }),
   }),
+
   component: PublicProfilePage,
 });
 

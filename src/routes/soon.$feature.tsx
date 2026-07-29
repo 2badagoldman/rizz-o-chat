@@ -6,19 +6,19 @@ import { useAuth } from "@/lib/auth";
 import { Sparkles, ArrowLeft, CheckCircle2 } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { FEATURES } from "@/lib/soon-features";
+import { pageHead } from "@/lib/seo";
 
 
 export const Route = createFileRoute("/soon/$feature")({
   head: ({ params }) => {
     const f = FEATURES[params.feature] ?? { title: "Coming Soon", tagline: "" };
-    return {
-      meta: [
-      { name: "robots", content: "noindex, nofollow" },
-        { title: `${f.title} — Coming Soon | Crush` },
-        { name: "description", content: `Get early access to ${f.title}. ${f.tagline}` },
-      ],
-    };
+    return pageHead({
+      path: `/soon/${params.feature}`,
+      title: `${f.title} — Coming Soon | Crush`,
+      description: `Get early access to ${f.title}. ${f.tagline}`.trim(),
+    });
   },
+
   component: SoonPage,
 });
 
