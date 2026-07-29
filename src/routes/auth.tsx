@@ -96,6 +96,11 @@ function AuthPage() {
         });
         if (err) throw err;
         try { localStorage.setItem("rizzla:showWelcome", "1"); } catch {}
+        // Someone who subscribed as a guest gets sent straight to redemption.
+        if (readGuestCode()) {
+          router.navigate({ to: "/claim" });
+          return;
+        }
         // Send new Hosts straight into the creator-studio onboarding wizard,
         // unless a specific post-auth destination was requested.
         if (role === "host" && nextPath === "/") {
@@ -105,9 +110,14 @@ function AuthPage() {
       } else {
         const { error: err } = await supabase.auth.signInWithPassword({ email, password });
         if (err) throw err;
+        if (readGuestCode()) {
+          router.navigate({ to: "/claim" });
+          return;
+        }
       }
       if (nextPath !== "/") window.location.href = nextPath;
       else router.navigate({ to: "/" });
+
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
