@@ -59,9 +59,24 @@ function UserChat() {
         setMessages((prev) => [...(rows as Msg[]), ...prev.filter((m) => m.id.startsWith("pending:"))]);
       }).catch(() => {});
     load();
-    const t = setInterval(load, 3000);
-    return () => { stop = true; clearInterval(t); };
+
+    // Live: any DM addressed to me (including a host's bulk reply) refreshes
+    // the thread the moment it lands. Polling stays as a slow safety net.
+    const ch = supabase
+      .channel(`dm-${user.id}-${userId}`)
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages", filter: `recipient_id=eq.${user.id}` },
+        (payload: any) => {
+          if (payload.new?.sender_id === userId) load();
+        },
+      )
+      .subscribe();
+
+    const t = setInterval(load, 8000);
+    return () => { stop = true; clearInterval(t); supabase.removeChannel(ch); };
   }, [user, userId, fetchThread]);
+
 
   // Seen-state: my message counts as seen once the peer has sent anything
   // after it; otherwise it is delivered (or sending while in flight).
