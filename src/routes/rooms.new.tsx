@@ -99,7 +99,7 @@ function NewRoomPage() {
             <label className="text-xs font-semibold text-muted-foreground">Category</label>
             <select value={category} onChange={(e) => setCategory(e.target.value)}
               className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary">
-              {["Local","Hot","Romance","Flirt","Late Night","Party","Chill"].map((c) => <option key={c}>{c}</option>)}
+              {["Local","Trending","Conversation","Evening","Party","Chill"].map((c) => <option key={c}>{c}</option>)}
             </select>
           </div>
           <div>

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const CHAT_REACTIONS = ["❤️", "😍", "🔥", "😘", "😂", "🥰", "💋", "👀", "🙌", "😉", "💕", "✨"];
+export const CHAT_REACTIONS = ["❤️", "😍", "🔥", "😂", "🥰", "🎉", "👀", "🙌", "😉", "💕", "☕", "✨"];
 
 export type EmojiMode = "send" | "react";
 

@@ -19,7 +19,7 @@ import { useFloatingReactions } from "@/components/chat/FloatingReactions";
 import { EmojiTray, useEmojiMode, type EmojiMode } from "@/components/chat/EmojiTray";
 
 
-const DM_REACTIONS = ["❤️", "😍", "🔥", "😘", "😂", "🥰", "💋", "👀", "🙌", "😉", "💕", "✨"];
+const DM_REACTIONS = ["❤️", "😍", "🔥", "😂", "🥰", "🎉", "👀", "🙌", "😉", "💕", "☕", "✨"];
 
 
 
