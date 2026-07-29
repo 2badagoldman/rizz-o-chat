@@ -86,14 +86,21 @@ export function SideDrawer({ open, onClose }: Props) {
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    // Escape must close the topmost layer only: when "Find people" is open it
+    // owns the key, otherwise the drawer would slide away beneath it and leave
+    // the app stuck behind an orphaned overlay.
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || peopleOpen) return;
+      onClose();
+    };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
     };
-  }, [open, onClose]);
+  }, [open, onClose, peopleOpen]);
+
 
   const displayName =
     (user?.user_metadata as { display_name?: string } | undefined)?.display_name ||
@@ -118,7 +125,7 @@ export function SideDrawer({ open, onClose }: Props) {
         }`}
         aria-label="Main menu"
         aria-hidden={!open}
-        {...(!open ? { inert: "" as unknown as boolean } : {})}
+        inert={!open}
         role="dialog"
       >
         {/* Frosted glass shell — floating, fully rounded */}
