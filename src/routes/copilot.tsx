@@ -61,7 +61,7 @@ function Copilot() {
     <AppShell hideNav>
       <div className="flex min-h-[calc(100vh-1rem)] flex-col">
         <header className="flex items-center gap-3 pt-3 pb-2">
-          <Link to="/" className="rounded-full border border-border p-2">
+          <Link to="/" aria-label="Back to home" className="rounded-full border border-border p-2">
             <ArrowLeft className="h-4 w-4" />
           </Link>
           <div className="flex items-center gap-2">
