@@ -59,12 +59,20 @@ function AcceptableUse() {
         />
       </Section>
 
-      <Section heading="4. Adult content that is allowed">
+      <Section heading="4. No sexual or sexually suggestive content">
         <p>
-          Flirtatious, suggestive and tasteful adult-oriented content between consenting adults is permitted, subject to
-          the rules above and to any additional restrictions imposed by our payment provider or app store distribution
-          rules. Explicit pornographic content, and any content offered in exchange for sexual services, is not permitted
-          on Crush.
+          Crush is a non-sexual conversation platform. Sexually explicit and sexually suggestive content is prohibited
+          everywhere on the Service — in profiles, bios, photos, videos, captions, display names, room names, direct
+          messages, room messages and AI conversations. This includes nudity, partial nudity, lingerie or underwear
+          shots, sexual acts or simulations, sexual roleplay or &quot;sexting&quot;, fetish content, and any content
+          offered, requested or implied in exchange for money, coins, gifts or a membership.
+        </p>
+        <p className="mt-3">
+          Conversations on Crush are friendly, social and PG-13: getting to know someone, shared interests, everyday
+          life, encouragement and light-hearted banter. Our AI Hosts are instructed to refuse sexual requests, to state
+          that Crush is 18+ and non-sexual, and to redirect the conversation. Members who attempt to steer chats toward
+          sexual content are warned, then restricted or banned. Nothing on Crush is an offer of, or payment for, sexual
+          services or sexual content of any kind.
         </p>
       </Section>
 
