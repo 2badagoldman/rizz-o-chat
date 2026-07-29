@@ -26,6 +26,14 @@ export const discoverPeople = createServerFn({ method: "POST" })
     const term = data.q;
     const SELECT = "id, display_name, avatar_url, account_type, created_at";
 
+    // Members can only discover hosts; hosts and admins can discover everyone.
+    const { data: me } = await context.supabase
+      .from("profiles")
+      .select("account_type")
+      .eq("id", context.userId)
+      .maybeSingle();
+    const memberOnly = me?.account_type === "member";
+
     // Exact email lookup (privacy: exact match only, never partial email search).
     if (term.includes("@") && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(term)) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -45,11 +53,9 @@ export const discoverPeople = createServerFn({ method: "POST" })
         .map((u) => u.id)
         .filter((id) => id !== context.userId);
       if (ids.length === 0) return [];
-      const { data: rows } = await supabaseAdmin
-        .from("profiles")
-        .select(SELECT)
-        .in("id", ids)
-        .is("deleted_at", null);
+      let adminQuery = supabaseAdmin.from("profiles").select(SELECT).in("id", ids).is("deleted_at", null);
+      if (memberOnly) adminQuery = adminQuery.eq("account_type", "host");
+      const { data: rows } = await adminQuery;
       return (rows ?? []) as PersonRow[];
     }
 
@@ -62,6 +68,7 @@ export const discoverPeople = createServerFn({ method: "POST" })
       .order("created_at", { ascending: false })
       .limit(data.limit);
 
+    if (memberOnly) query = query.eq("account_type", "host");
     if (term) query = query.ilike("display_name", `%${term.replace(/^@/, "")}%`);
 
     const { data: rows, error } = await query;

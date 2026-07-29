@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { Search, X, MessageCircle, Sparkle, Crown } from "lucide-react";
-import { discoverPeople, type PersonRow } from "@/lib/people.functions";
+import { discoverPeople, getPublicProfile, type PersonRow } from "@/lib/people.functions";
 import { OnlineDot, useOnlineUsers } from "@/lib/presence";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -28,10 +28,18 @@ export function PeopleDiscovery({ open, onClose }: Props) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchPeople = useServerFn(discoverPeople);
+  const fetchProfile = useServerFn(getPublicProfile);
   const [q, setQ] = useState("");
   const [debounced, setDebounced] = useState("");
   const [tab, setTab] = useState<"all" | "member" | "host">("all");
   const onlineUsers = useOnlineUsers();
+
+  const { data: myProfile } = useQuery({
+    queryKey: ["my-public-profile", user?.id],
+    queryFn: () => fetchProfile({ data: { userId: user!.id } }),
+    enabled: !!user,
+  });
+  const isMember = myProfile?.account_type === "member";
 
   useEffect(() => {
     const t = setTimeout(() => setDebounced(q), 250);
@@ -44,6 +52,10 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
+
+  useEffect(() => {
+    if (isMember && tab !== "host") setTab("host");
+  }, [isMember, tab]);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["discover-people", debounced],
@@ -121,11 +133,14 @@ export function PeopleDiscovery({ open, onClose }: Props) {
         </div>
 
         <div className="mt-3 flex gap-2 px-4">
-          {([
-            { key: "all", label: "Everyone" },
-            { key: "member", label: "Members" },
-            { key: "host", label: "Hosts" },
-          ] as const).map((t) => (
+          {(isMember
+            ? ([{ key: "host", label: "Hosts" }] as const)
+            : ([
+                { key: "all", label: "Everyone" },
+                { key: "member", label: "Members" },
+                { key: "host", label: "Hosts" },
+              ] as const)
+          ).map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
@@ -157,26 +172,34 @@ export function PeopleDiscovery({ open, onClose }: Props) {
                 <Search className="h-5 w-5" />
               </div>
               <p className="mt-3 text-[15px] font-extrabold tracking-tight text-foreground">
-                {debounced ? "No one found" : tab === "all" ? "No new people yet" : `No ${tab === "host" ? "hosts" : "members"} yet`}
+                {debounced
+                  ? "No one found"
+                  : isMember
+                    ? "No hosts yet"
+                    : tab === "all"
+                      ? "No new people yet"
+                      : `No ${tab === "host" ? "hosts" : "members"} yet`}
               </p>
               <p className="mx-auto mt-1 max-w-[16rem] text-xs font-semibold text-muted-foreground">
                 {debounced
                   ? debounced.includes("@")
                     ? `No account uses “${debounced}”.`
                     : `Nobody matches “${debounced}”. Try a different name.`
-                  : "Check back soon — new faces join Crush every day."}
+                  : isMember
+                    ? "Check back soon — new hosts join Crush every day."
+                    : "Check back soon — new faces join Crush every day."}
               </p>
-              {(debounced || tab !== "all") ? (
+              {debounced ? (
                 <button
                   type="button"
                   onClick={() => {
                     setQ("");
-                    setTab("all");
+                    if (!isMember) setTab("all");
                   }}
                   className="mt-4 rounded-full px-4 py-2 text-xs font-bold text-white shadow-glow transition active:scale-95"
                   style={{ background: "var(--gradient-brand)" }}
                 >
-                  Show everyone
+                  {isMember ? "Show all hosts" : "Show everyone"}
                 </button>
               ) : null}
             </div>
