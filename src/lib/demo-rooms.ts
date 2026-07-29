@@ -33,15 +33,14 @@ export function roomImage(room: DemoRoom): string {
 
 function categoryTags(cat: DemoRoom["category"]): string {
   switch (cat) {
-    case "Hot":        return "neon,nightclub,red,glow";
-    case "Romance":    return "roses,candlelight,romantic,pink";
-    case "Flirt":      return "lipstick,pink,glitter,love";
-    case "Late Night": return "moon,night,city,lights";
-    case "Party":      return "party,confetti,disco,lights";
-    case "Chill":      return "sunset,beach,pastel";
-    case "Fitness":    return "yoga,pink,studio";
-    case "Coffee":     return "latte,cafe,cozy";
-    default:           return "city,skyline,night";
+    case "Trending":     return "confetti,lights,celebration";
+    case "Conversation": return "cafe,friends,coffee,talk";
+    case "Evening":      return "moon,night,city,lights";
+    case "Party":        return "party,confetti,disco,lights";
+    case "Chill":        return "sunset,beach,pastel";
+    case "Fitness":      return "yoga,pink,studio";
+    case "Coffee":       return "latte,cafe,cozy";
+    default:             return "city,skyline,night";
   }
 }
 
