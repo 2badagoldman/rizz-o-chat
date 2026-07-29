@@ -11,6 +11,7 @@ import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
+import { ChatAttachButton, PendingAttachments } from "@/components/chat/ChatMedia";
 import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
 import { useChatAccess } from "@/hooks/useChatAccess";
 import { useFloatingReactions } from "@/components/chat/FloatingReactions";
@@ -49,6 +50,7 @@ function HostChat() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [input, setInput] = useState("");
+  const [pending, setPending] = useState<string[]>([]);
   const [giftOpen, setGiftOpen] = useState(false);
   const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`host:${hostId}`);
 
@@ -269,10 +271,11 @@ function HostChat() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    const text = input.trim();
+    const text = [input.trim(), ...pending].filter(Boolean).join("\n");
     if (!text || busy || chatLocked) return;
     sendMessage({ text });
     setInput("");
+    setPending([]);
   };
 
   // Tap a reaction: it bursts up the screen and is delivered to the host as a message.
@@ -447,7 +450,12 @@ function HostChat() {
 
         <ChatTrialBanner locked={chatLocked} onTrial={onTrial && !aiHost} daysLeft={daysLeft} />
 
-        <form onSubmit={submit} className="sticky bottom-0 flex items-end gap-2 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
+        <form onSubmit={submit} className="sticky bottom-0 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
+          <PendingAttachments markers={pending} onRemove={(m) => setPending((p) => p.filter((x) => x !== m))} />
+          <div className="flex items-end gap-2">
+          {user ? (
+            <ChatAttachButton disabled={chatLocked} onUploaded={(m) => setPending((p) => [...p, m])} />
+          ) : null}
           <button
             type="button"
             onClick={() => setEmojiOpen((v) => !v)}
@@ -470,7 +478,7 @@ function HostChat() {
             rows={1}
             className="chat-type min-h-[48px] max-h-32 flex-1 resize-none rounded-[22px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
           />
-          {input.trim() ? (
+          {input.trim() || pending.length ? (
             <button
               type="submit"
               disabled={busy || chatLocked}
@@ -489,6 +497,7 @@ function HostChat() {
               <Heart className="h-5 w-5 fill-white" />
             </button>
           )}
+          </div>
         </form>
         {layer}
 

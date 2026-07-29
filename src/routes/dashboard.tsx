@@ -83,6 +83,16 @@ function Dashboard() {
           {isHost && (
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <Link
+                to="/host/inbox"
+                className="flex items-center justify-between rounded-2xl border border-primary/40 bg-gradient-brand-soft p-4 hover:border-primary transition-colors"
+              >
+                <div>
+                  <p className="text-sm font-semibold">Inbox manager (notifications)</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Quick-read unread messages in bulk and send one reply to everyone.</p>
+                </div>
+                <span className="text-gradient-brand font-semibold">→</span>
+              </Link>
+              <Link
                 to="/host/pricing"
                 className="flex items-center justify-between rounded-2xl border border-border bg-card p-4 hover:border-primary/50 transition-colors"
               >

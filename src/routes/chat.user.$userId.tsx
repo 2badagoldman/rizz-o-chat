@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { dmSendMessage, dmFetchThread } from "@/lib/dm.functions";
 import { toast } from "sonner";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
+import { ChatAttachButton, PendingAttachments } from "@/components/chat/ChatMedia";
 import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
 import { useChatAccess } from "@/hooks/useChatAccess";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
@@ -34,6 +35,7 @@ function UserChat() {
   const [peer, setPeer] = useState<{ display_name: string | null; avatar_url: string | null } | null>(null);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
+  const [pending, setPending] = useState<string[]>([]);
   const [busy, setBusy] = useState(false);
   const peerOnline = useIsOnline(userId);
   const { locked, onTrial, daysLeft } = useChatAccess();
@@ -106,11 +108,12 @@ function UserChat() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const text = input.trim();
+    const text = [input.trim(), ...pending].filter(Boolean).join("\n");
     if (!text || busy || locked) return;
     setBusy(true);
     const tempId = `pending:${Date.now()}`;
     setInput("");
+    setPending([]);
     // Optimistic bubble so mobile feels instant; swapped for the real row.
     setMessages((m) => [
       ...m,
@@ -183,7 +186,10 @@ function UserChat() {
 
         <ChatTrialBanner locked={locked} onTrial={onTrial} daysLeft={daysLeft} />
 
-        <form onSubmit={submit} className="sticky bottom-0 flex items-end gap-2 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
+        <form onSubmit={submit} className="sticky bottom-0 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
+          <PendingAttachments markers={pending} onRemove={(m) => setPending((p) => p.filter((x) => x !== m))} />
+          <div className="flex items-end gap-2">
+          <ChatAttachButton disabled={locked} onUploaded={(m) => setPending((p) => [...p, m])} />
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -195,12 +201,13 @@ function UserChat() {
           />
           <button
             type="submit"
-            disabled={busy || locked || !input.trim()}
+            disabled={busy || locked || (!input.trim() && !pending.length)}
             className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-brand text-white shadow-glow disabled:opacity-50"
             aria-label="Send"
           >
             <Send className="h-4 w-4" />
           </button>
+          </div>
         </form>
       </div>
     </AppShell>
