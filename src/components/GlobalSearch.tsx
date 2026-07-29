@@ -184,11 +184,11 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
             </section>
           ) : null}
 
-          <p className="px-2 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+          <p className="px-2 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-primary">
             Discover hosts
           </p>
           {results.length === 0 ? (
-            <p className="p-6 text-center text-sm text-muted-foreground">
+            <p className="p-6 text-center text-sm font-semibold text-foreground/70">
               No hosts match &ldquo;{q}&rdquo;.
             </p>
           ) : (
@@ -199,9 +199,9 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                     to="/host/$hostId"
                     params={{ hostId: h.id }}
                     onClick={onClose}
-                    className="flex items-center gap-3 rounded-2xl p-2 transition hover:bg-muted"
+                    className="flex items-center gap-3 rounded-2xl border border-transparent bg-card/50 p-2 transition hover:border-primary/30 hover:bg-primary/10"
                   >
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-primary/25">
                       <img
                         src={hostAvatarThumb(h.id)}
                         alt=""
@@ -215,12 +215,12 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                       ) : null}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold">
-                        {h.name}, {h.age} <span className="text-muted-foreground">· {h.handle}</span>
+                      <p className="truncate text-[15px] font-extrabold tracking-tight text-foreground">
+                        {h.name}, {h.age} <span className="font-semibold text-primary">· {h.handle}</span>
                       </p>
-                      <p className="truncate text-[11px] text-muted-foreground">{h.city} · {h.interests.slice(0, 3).join(" · ")}</p>
+                      <p className="truncate text-xs font-semibold text-foreground/70">{h.city} · {h.interests.slice(0, 3).join(" · ")}</p>
                     </div>
-                    <span className="whitespace-nowrap text-[11px] font-bold text-gradient-brand">
+                    <span className="whitespace-nowrap text-[11px] font-extrabold text-gradient-brand">
                       {h.id === "demo-jen" ? "Free" : `$${h.priceMonthly}/mo`}
                     </span>
                   </Link>
