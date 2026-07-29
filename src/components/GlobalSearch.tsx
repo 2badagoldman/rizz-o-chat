@@ -122,7 +122,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[90] bg-foreground/45 backdrop-blur-md"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -130,18 +130,18 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="mx-auto mt-16 flex max-h-[80vh] w-full max-w-[480px] flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-2xl"
+        className="mx-auto mt-16 flex max-h-[80vh] w-full max-w-[480px] flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card/75 shadow-2xl ring-1 ring-inset ring-white/40 backdrop-blur-2xl backdrop-saturate-150"
       >
-        <div className="flex items-center gap-2 border-b border-border px-4 py-3">
-          <Search className="h-4 w-4 text-muted-foreground" />
+        <div className="flex items-center gap-2 border-b border-primary/20 bg-card/40 px-4 py-3">
+          <Search className="h-4 w-4 text-primary" />
           <input
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search your chats, hosts, cities…"
-            className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            className="w-full bg-transparent text-sm font-semibold text-foreground outline-none placeholder:font-medium placeholder:text-foreground/45"
           />
-          <button onClick={onClose} aria-label="Close search" className="rounded-full p-1 hover:bg-muted">
+          <button onClick={onClose} aria-label="Close search" className="rounded-full p-1 text-foreground/70 hover:bg-primary/10 hover:text-primary">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -149,7 +149,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
         <div className="flex-1 overflow-y-auto p-2">
           {inboxResults.length > 0 ? (
             <section className="mb-2">
-              <p className="flex items-center gap-1.5 px-2 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+              <p className="flex items-center gap-1.5 px-2 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-primary">
                 <Inbox className="h-3.5 w-3.5" /> In your inbox
               </p>
               <ul className="grid gap-1">
