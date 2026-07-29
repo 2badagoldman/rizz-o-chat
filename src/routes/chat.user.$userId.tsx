@@ -16,6 +16,8 @@ import { useChatAccess } from "@/hooks/useChatAccess";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SafetyMenu } from "@/components/SafetyMenu";
 import { useFloatingReactions } from "@/components/chat/FloatingReactions";
+import { EmojiTray } from "@/components/chat/EmojiTray";
+
 
 const DM_REACTIONS = ["❤️", "😍", "🔥", "😘", "😂", "🥰", "💋", "👀", "🙌", "😉", "💕", "✨"];
 
