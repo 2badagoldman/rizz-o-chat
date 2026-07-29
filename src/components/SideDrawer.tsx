@@ -172,14 +172,14 @@ export function SideDrawer({ open, onClose }: Props) {
                 <img
                   src={rizzAiLogo.url}
                   alt=""
-                  className="block h-16 w-16 rounded-full border-[3px] border-white bg-white object-cover"
+                  className="block h-16 w-16 rounded-full border-[3px] border-card bg-card object-cover"
                 />
               </span>
               <div className="min-w-0">
                 <p className="truncate text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">
                   Rizzla
                 </p>
-                <p className="truncate bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[26px] font-black leading-tight tracking-tight text-transparent">
+                <p className="truncate bg-[image:var(--gradient-brand)] bg-clip-text text-[26px] font-black leading-tight tracking-tight text-transparent">
                   Hey {displayName}
                 </p>
                 <p className="truncate text-[11.5px] text-muted-foreground">Friends Always ✦ Welcome back</p>
