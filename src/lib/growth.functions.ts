@@ -129,7 +129,7 @@ export const getGrowthBreakdown = createServerFn({ method: "POST" })
       .from("analytics_events")
       .select("id, session_id, user_id, event_type, path, device, country, metadata, created_at")
       .gte("created_at", since)
-      .eq(...(data.kind === "installs" ? (["event_type", "app_install"] as const) : (["event_type", "pageview"] as const)))
+      .eq("event_type", data.kind === "installs" ? "app_install" : "pageview")
       .order("created_at", { ascending: false })
       .limit(2000);
     if (error) throw error;
