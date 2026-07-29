@@ -115,17 +115,18 @@ function AuthPage() {
     }
   };
 
-  const google = async () => {
+  const oauth = async (provider: "google" | "apple") => {
     setError(null);
     if (mode === "signup" && !ageConfirmed) {
-      setError("Confirm you are 18+ before continuing with Google.");
+      setError(`Confirm you are 18+ before continuing with ${provider === "apple" ? "Apple" : "Google"}.`);
       return;
     }
-    const result = await lovable.auth.signInWithOAuth("google", {
+    const result = await lovable.auth.signInWithOAuth(provider, {
       redirect_uri: window.location.origin + nextPath,
     });
-    if (result.error) setError(result.error.message ?? "Google sign-in failed");
+    if (result.error) setError(result.error.message ?? "Sign-in failed");
   };
+
 
   return (
     <AppShell hideNav>
