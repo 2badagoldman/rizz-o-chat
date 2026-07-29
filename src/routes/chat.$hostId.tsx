@@ -60,6 +60,9 @@ function HostChat() {
   const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`host:${hostId}`);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
+  // "send" delivers the emoji as a message; "react" only bursts + tags the latest message.
+  const { mode: emojiMode, setMode: setEmojiMode } = useEmojiMode(`host:${hostId}`);
+
   const { fire, layer } = useFloatingReactions();
   // Per-message reactions (Apple-style): messageId -> emojis.
   const [msgReactions, setMsgReactions] = useState<Record<string, string[]>>({});
