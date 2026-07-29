@@ -30,11 +30,12 @@ const PETALS = [
   { left: "93%", size: 21, dur: "23s", delay: "7s", sway: "-50px", color: "#e8a8ae" },
 ];
 
-function SeaLayer() {
+function SeaLayer({ level }: { level: string }) {
+  const shafts = level === "lite" ? SHAFTS.slice(0, 1) : level === "mid" ? SHAFTS.slice(0, 2) : SHAFTS;
   return (
     <div className="theme-atmos sea-atmos">
       <div className="sea-veil" />
-      {SHAFTS.map((left, i) => (
+      {shafts.map((left, i) => (
         <span key={left} className="sea-shaft" style={{ left, animationDelay: `${i * 1.7}s` }} />
       ))}
       <span
@@ -53,12 +54,13 @@ function SeaLayer() {
   );
 }
 
-function RoseLayer() {
+function RoseLayer({ level }: { level: string }) {
+  const petals = level === "lite" ? PETALS.slice(0, 3) : level === "mid" ? PETALS.slice(0, 5) : PETALS;
   return (
     <div className="theme-atmos rose-atmos">
       <span className="rose-bloom" style={{ left: "-12%", top: "6%", width: 260, height: 260 }} />
       <span className="rose-bloom" style={{ right: "-14%", bottom: "8%", width: 300, height: 300, animationDelay: "3s" }} />
-      {PETALS.map((p) => (
+      {petals.map((p) => (
         <span
           key={p.left}
           className="rose-petal"
@@ -131,8 +133,8 @@ export function PageAtmosphere() {
       data-anim-scope
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
-      <SeaLayer />
-      <RoseLayer />
+      <SeaLayer level={level} />
+      <RoseLayer level={level} />
 
       {auroras.map((a) => (
         <div
