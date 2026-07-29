@@ -37,7 +37,7 @@ function UserChat() {
   const [busy, setBusy] = useState(false);
   const peerOnline = useIsOnline(userId);
   const { locked, onTrial, daysLeft } = useChatAccess();
-  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin();
+  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`dm:${userId}`);
 
 
 

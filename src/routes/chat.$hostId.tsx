@@ -50,7 +50,7 @@ function HostChat() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [giftOpen, setGiftOpen] = useState(false);
-  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin();
+  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`host:${hostId}`);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
   const { fire, layer } = useFloatingReactions();

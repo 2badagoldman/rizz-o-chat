@@ -92,6 +92,36 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_theme_prefs: {
+        Row: {
+          created_at: string
+          high_contrast: boolean
+          id: string
+          scope_key: string
+          skin: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          high_contrast?: boolean
+          id?: string
+          scope_key: string
+          skin?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          high_contrast?: boolean
+          id?: string
+          scope_key?: string
+          skin?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       early_access_signups: {
         Row: {
           created_at: string
