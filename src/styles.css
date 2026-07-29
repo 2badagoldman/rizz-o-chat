@@ -42,8 +42,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-display: "Sora", ui-rounded, -apple-system, "SF Pro Rounded", system-ui, sans-serif;
-  --font-sans: "Manrope", ui-rounded, -apple-system, "SF Pro Rounded", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Syne", ui-rounded, -apple-system, "SF Pro Rounded", system-ui, sans-serif;
+  --font-sans: "Plus Jakarta Sans", ui-rounded, -apple-system, "SF Pro Rounded", "Segoe UI", system-ui, sans-serif;
   /* Chat: rounded, high-legibility face for message bubbles */
   --font-chat: "Nunito", ui-rounded, -apple-system, "SF Pro Rounded", system-ui, sans-serif;
 }
@@ -70,50 +70,51 @@
   /* Bubbly by design — big rounded corners everywhere */
   --radius: 1.5rem;
 
-  /* SUNSET BLAZE — Apple-bright coral → tangerine → magenta → indigo */
-  --background: oklch(0.985 0.014 60);
-  --foreground: oklch(0.22 0.05 300);
+  /* OCEAN ROSE — deep ocean teal, soft blush pink, couture red.
+     Light, luminous, expensive. */
+  --background: oklch(0.987 0.012 350);
+  --foreground: oklch(0.24 0.05 340);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.05 300);
+  --card-foreground: oklch(0.24 0.05 340);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.05 300);
+  --popover-foreground: oklch(0.24 0.05 340);
 
-  --primary: oklch(0.68 0.22 15);          /* #ff6b35 coral */
+  --primary: oklch(0.60 0.235 18);           /* couture red */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.96 0.05 55);         /* peachy cream */
-  --secondary-foreground: oklch(0.32 0.10 30);
-  --muted: oklch(0.97 0.02 40);
-  --muted-foreground: oklch(0.50 0.05 300);
-  --accent: oklch(0.62 0.20 300);           /* #6c5ce7 indigo */
+  --secondary: oklch(0.965 0.028 350);        /* blush */
+  --secondary-foreground: oklch(0.34 0.10 350);
+  --muted: oklch(0.972 0.014 340);
+  --muted-foreground: oklch(0.52 0.04 330);
+  --accent: oklch(0.56 0.115 225);            /* ocean */
   --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.62 0.25 27);
+  --destructive: oklch(0.60 0.24 25);
   --destructive-foreground: oklch(1 0 0);
-  --success: oklch(0.72 0.18 155);
+  --success: oklch(0.70 0.15 175);
   --success-foreground: oklch(1 0 0);
 
-  --brand-pink: #e84393;
-  --brand-purple: #6c5ce7;
-  --brand-coral: #ff6b35;
-  --brand-violet: #6c5ce7;
+  --brand-pink: #ff8fb3;
+  --brand-purple: #14657f;
+  --brand-coral: #e8384f;
+  --brand-violet: #1c7f9b;
 
-  --border: oklch(0.35 0.05 30 / 10%);
-  --input: oklch(0.35 0.05 30 / 10%);
-  --ring: oklch(0.68 0.22 15 / 55%);
+  --border: oklch(0.40 0.05 340 / 10%);
+  --input: oklch(0.40 0.05 340 / 10%);
+  --ring: oklch(0.60 0.235 18 / 50%);
 
-  --gradient-brand: linear-gradient(135deg, #ff6b35 0%, #f7931e 30%, #e84393 65%, #6c5ce7 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(255,107,53,0.18) 0%, rgba(232,67,147,0.14) 55%, rgba(108,92,231,0.18) 100%);
-  --gradient-sunset: linear-gradient(135deg, #ffb37a 0%, #ff6b35 40%, #e84393 100%);
-  --gradient-night: linear-gradient(135deg, #6c5ce7 0%, #e84393 100%);
-  --gradient-story: conic-gradient(from 200deg at 50% 50%, #ff6b35, #f7931e, #e84393, #6c5ce7, #ff6b35);
+  --gradient-brand: linear-gradient(135deg, #0f5b74 0%, #1c8fa8 22%, #ff8fb3 58%, #e8384f 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(28,143,168,0.16) 0%, rgba(255,143,179,0.16) 55%, rgba(232,56,79,0.14) 100%);
+  --gradient-sunset: linear-gradient(135deg, #ffd6e2 0%, #ff8fb3 45%, #e8384f 100%);
+  --gradient-night: linear-gradient(135deg, #0f5b74 0%, #ff8fb3 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #0f5b74, #1c8fa8, #ff8fb3, #e8384f, #0f5b74);
 
-  --shadow-glow: 0 20px 60px -18px rgba(232, 67, 147, 0.55);
-  --shadow-card: 0 14px 44px -18px rgba(108, 92, 231, 0.28), 0 3px 10px -4px rgba(255, 107, 53, 0.14);
-  --shadow-pop:  0 34px 90px -22px rgba(247, 147, 30, 0.40);
+  --shadow-glow: 0 24px 70px -20px rgba(232, 56, 79, 0.42);
+  --shadow-card: 0 18px 48px -22px rgba(15, 91, 116, 0.30), 0 2px 8px -3px rgba(255, 143, 179, 0.22);
+  --shadow-pop:  0 40px 100px -26px rgba(28, 143, 168, 0.38);
 
-  --aurora-1: rgba(255,107,53,0.55);
-  --aurora-2: rgba(247,147,30,0.42);
-  --aurora-3: rgba(232,67,147,0.45);
-  --aurora-4: rgba(108,92,231,0.38);
+  --aurora-1: rgba(255,143,179,0.50);
+  --aurora-2: rgba(28,143,168,0.34);
+  --aurora-3: rgba(232,56,79,0.30);
+  --aurora-4: rgba(15,91,116,0.26);
 
   --host-primary: #E9B872;
   --host-primary-fg: #1A140A;
