@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Send, Smile } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { OnlineDot, useIsOnline } from "@/lib/presence";
 
