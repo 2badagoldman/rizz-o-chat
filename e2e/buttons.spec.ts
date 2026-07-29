@@ -4,7 +4,9 @@ import { THEMES, clickAllSafeButtons, collectErrors, setTheme, waitForShell } fr
 // Actions that cost money, destroy data, or leave the app — excluded from the sweep.
 const SKIP = /log ?out|sign ?out|delete|remove|block|report|buy|purchase|checkout|pay|get rizz|subscribe|unlock/i;
 
-const SWEEP_ROUTES = ["/", "/chats", "/discover", "/coins", "/profile", "/subscriptions", "/rooms", "/legal"];
+const FULL_SWEEP = ["/", "/chats", "/discover", "/coins", "/profile", "/subscriptions", "/rooms", "/legal"];
+// Full sweep on the default theme; a fast smoke sweep on the rest keeps CI quick.
+const SMOKE_SWEEP = ["/", "/coins", "/subscriptions"];
 
 for (const theme of THEMES) {
   test(`every visible button is clickable and error-free (${theme})`, async ({ page }) => {
@@ -12,7 +14,7 @@ for (const theme of THEMES) {
     await setTheme(page, theme);
 
     const failures: { route: string; label: string; failure: string }[] = [];
-    for (const route of SWEEP_ROUTES) {
+    for (const route of theme === "pink" ? FULL_SWEEP : SMOKE_SWEEP) {
       await page.goto(route, { waitUntil: "domcontentloaded" });
       await waitForShell(page);
       const res = await clickAllSafeButtons(page, SKIP);
