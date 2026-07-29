@@ -140,3 +140,36 @@ export const bulkReply = createServerFn({ method: "POST" })
 
     return { sent: targets.length, skipped: data.peerIds.length - targets.length };
   });
+
+/** Post one message into several of my rooms — everyone in them sees it live. */
+export const broadcastToRooms = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = i as { roomIds?: string[]; body?: string };
+    const roomIds = (x?.roomIds ?? []).filter(Boolean).slice(0, 100);
+    const body = (x?.body ?? "").trim();
+    if (!roomIds.length) throw new Error("Pick at least one room");
+    if (!body) throw new Error("Write a message first");
+    if (body.length > 2000) throw new Error("Message too long");
+    return { roomIds, body };
+  })
+  .handler(async ({ data, context }) => {
+    // Only rooms I host or belong to (RLS also enforces this on insert).
+    const [{ data: hosted }, { data: joined }] = await Promise.all([
+      context.supabase.from("host_rooms").select("id").eq("host_id", context.userId).in("id", data.roomIds),
+      context.supabase.from("room_members").select("room_id").eq("user_id", context.userId).in("room_id", data.roomIds),
+    ]);
+    const allowed = new Set<string>([
+      ...(hosted ?? []).map((r: any) => r.id),
+      ...(joined ?? []).map((r: any) => r.room_id),
+    ]);
+    const targets = data.roomIds.filter((id) => allowed.has(id));
+    if (!targets.length) return { sent: 0, skipped: data.roomIds.length };
+
+    const { error } = await context.supabase
+      .from("room_messages")
+      .insert(targets.map((room_id) => ({ room_id, sender_id: context.userId, body: data.body })));
+    if (error) throw error;
+    return { sent: targets.length, skipped: data.roomIds.length - targets.length };
+  });
+
