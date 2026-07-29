@@ -144,7 +144,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
 
         <div className="mt-3 flex-1 overflow-y-auto px-3 pb-5">
           {!user ? (
-            <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find people on Crush.</p>
+            <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find your crush on Crush.</p>
           ) : isLoading ? (
             <p className="p-6 text-center text-sm text-muted-foreground">Loading the newest faces…</p>
           ) : error ? (
