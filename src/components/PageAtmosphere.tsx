@@ -80,12 +80,13 @@ function RoseLayer() {
 
 
 const BUBBLES = [
-  { left: "5%", size: 92, delay: "0s", tint: "from-primary/30" },
-  { left: "22%", size: 42, delay: "1.4s", tint: "from-accent/40" },
-  { left: "44%", size: 121, delay: "3.2s", tint: "from-primary/20" },
-  { left: "63%", size: 54, delay: "0.9s", tint: "from-accent/30" },
-  { left: "81%", size: 79, delay: "2.2s", tint: "from-primary/25" },
-  { left: "94%", size: 33, delay: "4.1s", tint: "from-accent/40" },
+  { left: "5%", size: 44, delay: "0s", tint: "from-primary/30" },
+  { left: "22%", size: 20, delay: "1.4s", tint: "from-accent/40" },
+  { left: "44%", size: 58, delay: "3.2s", tint: "from-primary/20" },
+  { left: "63%", size: 26, delay: "0.9s", tint: "from-accent/30" },
+  { left: "81%", size: 38, delay: "2.2s", tint: "from-primary/25" },
+  { left: "94%", size: 16, delay: "4.1s", tint: "from-accent/40" },
+
 ];
 
 const AURORAS = [
