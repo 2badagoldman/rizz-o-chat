@@ -85,7 +85,7 @@ export const DEMO_HOSTS: DemoHost[] = [
     accent: "#7C5CFF",
     photoCount: 9,
     hasVideo: false,
-    teaser: "Pinned online — send me a message and let's test the chat 💬",
+    teaser: "Pinned online — say hi, I answer fast 💬",
     aiEnabled: true,
 
   },
