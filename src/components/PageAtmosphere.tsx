@@ -279,6 +279,7 @@ export function PageAtmosphere() {
       <SeaLayer level={level} />
       <RoseLayer level={level} />
       <RomanceLayer level={level} />
+      <CrushLayer level={level} />
 
       {auroras.map((a) => (
         <div
