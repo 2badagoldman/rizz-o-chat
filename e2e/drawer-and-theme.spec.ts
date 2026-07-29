@@ -39,18 +39,19 @@ for (const theme of THEMES) {
     }, DRAWER);
     expect(contrastIssues, `hidden drawer text under ${theme}`).toEqual([]);
 
-    // People discovery opens from inside the drawer.
+    // People discovery opens from inside the drawer, and Escape closes only
+    // that top layer — the drawer must stay open beneath it.
     await page.getByRole("button", { name: /Find people/i }).click({ force: true });
-    await page.waitForTimeout(800);
+    await expect(page.getByRole("dialog", { name: "Find people" })).toBeVisible();
     await page.keyboard.press("Escape");
-    await page.waitForTimeout(400);
+    await expect(page.getByRole("dialog", { name: "Find people" })).toHaveCount(0);
+    await expect(drawer).toHaveAttribute("aria-hidden", "false");
 
     // A drawer link navigates and the drawer closes behind it.
-    await page.getByLabel("Open menu").click({ force: true });
-    await expect(drawer).toHaveAttribute("aria-hidden", "false");
     await page.getByRole("link", { name: /Policies & legal/i }).click({ force: true });
     await page.waitForURL("**/legal", { timeout: 15_000 });
     await expect(drawer).toHaveAttribute("aria-hidden", "true");
+
 
     // CLOSE via the X button.
     await page.getByLabel("Open menu").click({ force: true });
