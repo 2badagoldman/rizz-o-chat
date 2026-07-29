@@ -11,14 +11,13 @@ import { FEATURES } from "@/lib/soon-features";
 export const Route = createFileRoute("/soon/$feature")({
   head: ({ params }) => {
     const f = FEATURES[params.feature] ?? { title: "Coming Soon", tagline: "" };
-    return {
-      meta: [
-      { name: "robots", content: "noindex, nofollow" },
-        { title: `${f.title} — Coming Soon | Crush` },
-        { name: "description", content: `Get early access to ${f.title}. ${f.tagline}` },
-      ],
-    };
+    return pageHead({
+      path: `/soon/${params.feature}`,
+      title: `${f.title} — Coming Soon | Crush`,
+      description: `Get early access to ${f.title}. ${f.tagline}`.trim(),
+    });
   },
+
   component: SoonPage,
 });
 
