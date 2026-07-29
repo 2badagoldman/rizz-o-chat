@@ -33,6 +33,21 @@ export const loadHostThread = createServerFn({ method: "POST" })
     };
   });
 
+/** List every host the signed-in member already has a saved chat thread with. */
+export const listHostThreads = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data: rows } = await context.supabase
+      .from("host_chat_threads")
+      .select("host_id, updated_at")
+      .eq("user_id", context.userId)
+      .order("updated_at", { ascending: false })
+      .limit(100);
+    return (rows ?? []).map((r) => ({ hostId: r.host_id as string, updatedAt: r.updated_at as string }));
+  });
+
+
+
 /** Persist the thread to the member's account so it survives new sessions/devices. */
 export const saveHostThread = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
