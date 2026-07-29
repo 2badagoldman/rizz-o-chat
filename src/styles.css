@@ -1590,90 +1590,177 @@ body::after {
   outline-color: var(--primary);
 }
 
-/* ---------- Crush: crushed-soda orange + shaved ice ---------- */
+/* ---------- Crush: soda-orange liquid, glass, chrome + cold light ---------- */
 .crush-atmos { display: none; }
 .theme-crush .crush-atmos { display: block; }
 
+/* Base pour: deep citrus light bleeding in from the top, cold light below */
 .crush-veil {
   position: absolute; inset: 0;
   background:
-    radial-gradient(120% 70% at 50% -12%, rgba(255,159,28,.20), transparent 62%),
-    radial-gradient(90% 60% at 8% 100%, rgba(159,232,255,.22), transparent 68%),
-    radial-gradient(90% 60% at 92% 96%, rgba(255,106,19,.14), transparent 70%);
+    radial-gradient(130% 78% at 50% -16%, rgba(255,138,31,.30), transparent 64%),
+    radial-gradient(100% 62% at 6% 104%, rgba(127,220,255,.28), transparent 68%),
+    radial-gradient(100% 62% at 96% 100%, rgba(255,77,0,.20), transparent 70%),
+    radial-gradient(70% 46% at 50% 46%, rgba(255,224,138,.16), transparent 76%);
 }
 
-/* Frosted rim, like condensation on a cold glass */
+/* Sun-rays through the glass — slow rotating citrus beams */
+.crush-rays {
+  position: absolute; left: 50%; top: -34vh;
+  width: 150vmax; height: 150vmax;
+  transform: translateX(-50%);
+  background: conic-gradient(from 0deg,
+    rgba(255,176,58,.16) 0deg, transparent 12deg,
+    rgba(255,224,138,.13) 24deg, transparent 38deg,
+    rgba(255,106,0,.12) 52deg, transparent 70deg,
+    rgba(255,176,58,.14) 96deg, transparent 118deg,
+    rgba(255,224,138,.10) 150deg, transparent 180deg,
+    rgba(255,106,0,.12) 214deg, transparent 246deg,
+    rgba(255,176,58,.14) 292deg, transparent 320deg,
+    rgba(255,224,138,.12) 348deg, transparent 360deg);
+  mask-image: radial-gradient(closest-side, #000 12%, rgba(0,0,0,.55) 46%, transparent 78%);
+  animation: crush-rays-spin 90s linear infinite;
+  opacity: .8;
+}
+@keyframes crush-rays-spin { to { transform: translateX(-50%) rotate(360deg); } }
+
+/* Condensation + specular sheen on the cold glass */
 .crush-frost {
   position: absolute; inset: 0;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.55), transparent 22%),
-    linear-gradient(0deg, rgba(214,241,255,.45), transparent 26%);
-  opacity: .7;
+    linear-gradient(180deg, rgba(255,255,255,.62), transparent 20%),
+    linear-gradient(0deg, rgba(206,239,255,.50), transparent 24%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.055) 0 2px, transparent 2px 7px);
+  opacity: .75;
 }
 
-/* Ice shards: faceted crystals drifting slowly, glinting */
+/* Chrome sheen sweeping across, like light raking a cold can */
+.crush-sheen {
+  position: absolute; top: -20%; bottom: -20%; width: 42vw;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.55) 42%, rgba(255,224,138,.35) 56%, transparent);
+  filter: blur(14px);
+  transform: skewX(-14deg);
+  animation: crush-sheen-sweep 11s cubic-bezier(.4,0,.2,1) infinite;
+  mix-blend-mode: screen;
+  opacity: 0;
+}
+@keyframes crush-sheen-sweep {
+  0%   { left: -55%; opacity: 0; }
+  14%  { opacity: .85; }
+  62%  { opacity: .55; }
+  100% { left: 115%; opacity: 0; }
+}
+
+/* Liquid line at the bottom — the soda level, gently sloshing */
+.crush-liquid {
+  position: absolute; left: -12%; right: -12%; bottom: -6vh;
+  height: 34vh;
+  background:
+    radial-gradient(120% 100% at 50% 100%, rgba(255,77,0,.30), transparent 72%),
+    linear-gradient(0deg, rgba(255,106,0,.26), transparent 78%);
+  border-radius: 50% 50% 0 0 / 22% 22% 0 0;
+  filter: blur(2px);
+  animation: crush-slosh 14s ease-in-out infinite;
+  transform: translateY(calc(var(--sea-scroll, 0) * -18px));
+}
+.crush-liquid.is-back {
+  bottom: -9vh; height: 28vh; opacity: .6;
+  animation-duration: 19s; animation-direction: reverse;
+  background: linear-gradient(0deg, rgba(255,176,58,.28), transparent 76%);
+}
+@keyframes crush-slosh {
+  0%, 100% { transform: translate3d(-2%, 0, 0) rotate(-.6deg); }
+  50%      { transform: translate3d(2%, -1.4vh, 0) rotate(.6deg); }
+}
+
+/* Ice shards: faceted crystals tumbling with a glassy edge */
 .crush-shard {
   position: absolute;
-  background: linear-gradient(150deg, rgba(255,255,255,.92), rgba(190,236,255,.55) 45%, rgba(255,159,28,.28));
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.96), rgba(178,232,255,.60) 44%, rgba(255,138,31,.34));
   clip-path: polygon(50% 0%, 92% 30%, 78% 92%, 22% 88%, 6% 34%);
-  box-shadow: 0 10px 26px -10px rgba(70,140,180,.55);
-  opacity: .0;
+  box-shadow: 0 12px 30px -10px rgba(40,120,170,.60), inset 0 0 10px rgba(255,255,255,.75);
+  opacity: 0;
   animation: crush-drift var(--dur, 20s) linear infinite;
-  transform: translateY(calc(var(--sea-scroll, 0) * 26px));
 }
 @keyframes crush-drift {
-  0%   { opacity: 0; transform: translate3d(0, -12vh, 0) rotate(0deg); }
-  14%  { opacity: .85; }
-  50%  { transform: translate3d(var(--sway, 40px), 48vh, 0) rotate(160deg); }
-  86%  { opacity: .7; }
-  100% { opacity: 0; transform: translate3d(calc(var(--sway, 40px) * -1), 110vh, 0) rotate(340deg); }
+  0%   { opacity: 0; transform: translate3d(0, -14vh, 0) rotate(0deg) scale(.85); }
+  12%  { opacity: .9; }
+  50%  { transform: translate3d(var(--sway, 40px), 48vh, 0) rotate(180deg) scale(1.08); }
+  88%  { opacity: .6; }
+  100% { opacity: 0; transform: translate3d(calc(var(--sway, 40px) * -1), 112vh, 0) rotate(360deg) scale(.9); }
+}
+
+/* Glints: tiny four-point sparkles catching the light */
+.crush-glint {
+  position: absolute;
+  background:
+    linear-gradient(0deg, transparent 46%, rgba(255,255,255,.95) 50%, transparent 54%),
+    linear-gradient(90deg, transparent 46%, rgba(255,255,255,.95) 50%, transparent 54%);
+  filter: drop-shadow(0 0 6px rgba(255,208,120,.9));
+  opacity: 0;
+  animation: crush-glint-pop var(--dur, 6s) ease-in-out infinite;
+}
+@keyframes crush-glint-pop {
+  0%, 82%, 100% { opacity: 0; transform: scale(.4) rotate(0deg); }
+  88%           { opacity: 1; transform: scale(1) rotate(28deg); }
+  94%           { opacity: .3; transform: scale(.7) rotate(46deg); }
 }
 
 /* Fizz: carbonation rising through the orange */
 .crush-fizz {
   position: absolute; bottom: -4vh;
   border-radius: 999px;
-  background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.95), rgba(255,159,28,.45));
-  box-shadow: 0 0 12px rgba(255,140,40,.45);
+  background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.98), rgba(255,159,28,.50));
+  box-shadow: 0 0 14px rgba(255,140,40,.55), inset 0 0 6px rgba(255,255,255,.8);
   opacity: 0;
   animation: crush-fizz-rise var(--dur, 14s) ease-in infinite;
 }
 @keyframes crush-fizz-rise {
-  0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(.7); }
-  10%  { opacity: .85; }
+  0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(.6); }
+  10%  { opacity: .9; }
   70%  { opacity: .6; }
-  100% { opacity: 0; transform: translate3d(var(--sway, 18px), -108vh, 0) scale(1.15); }
+  100% { opacity: 0; transform: translate3d(var(--sway, 18px), -110vh, 0) scale(1.25); }
 }
 
 /* Frozen edge crystals pinned to the sides, breathing light */
 .crush-edge {
   position: absolute; top: 0; bottom: 0;
-  width: clamp(80px, 14vw, 200px);
-  opacity: .8;
+  width: clamp(90px, 16vw, 230px);
+  opacity: .85;
+  animation: crush-edge-breathe 12s ease-in-out infinite;
 }
 .crush-edge.is-left {
   left: 0;
   background:
-    radial-gradient(120% 60% at 0% 18%, rgba(159,232,255,.34), transparent 70%),
-    radial-gradient(120% 60% at 0% 82%, rgba(255,106,19,.18), transparent 72%),
-    linear-gradient(90deg, rgba(255,209,102,.16), transparent 88%);
+    radial-gradient(120% 60% at 0% 16%, rgba(127,220,255,.40), transparent 70%),
+    radial-gradient(120% 60% at 0% 84%, rgba(255,77,0,.22), transparent 72%),
+    linear-gradient(90deg, rgba(255,224,138,.20), transparent 88%);
 }
 .crush-edge.is-right {
-  right: 0;
+  right: 0; animation-delay: 3s;
   background:
-    radial-gradient(120% 60% at 100% 26%, rgba(159,232,255,.34), transparent 70%),
-    radial-gradient(120% 60% at 100% 86%, rgba(255,106,19,.18), transparent 72%),
-    linear-gradient(270deg, rgba(255,209,102,.16), transparent 88%);
+    radial-gradient(120% 60% at 100% 24%, rgba(127,220,255,.40), transparent 70%),
+    radial-gradient(120% 60% at 100% 88%, rgba(255,77,0,.22), transparent 72%),
+    linear-gradient(270deg, rgba(255,224,138,.20), transparent 88%);
+}
+@keyframes crush-edge-breathe {
+  0%, 100% { opacity: .62; }
+  50%      { opacity: .95; }
 }
 
 .crush-glow {
-  position: absolute; border-radius: 999px; filter: blur(46px);
-  background: radial-gradient(circle, rgba(255,106,19,.42), transparent 70%);
+  position: absolute; border-radius: 999px; filter: blur(52px);
+  background: radial-gradient(circle, rgba(255,77,0,.48), transparent 70%);
   animation: glow-breathe 10s ease-in-out infinite;
 }
-.crush-glow.is-ice { background: radial-gradient(circle, rgba(159,232,255,.55), transparent 70%); }
+.crush-glow.is-ice { background: radial-gradient(circle, rgba(127,220,255,.58), transparent 70%); }
+.crush-glow.is-gold { background: radial-gradient(circle, rgba(255,208,120,.55), transparent 70%); }
 
 @media (prefers-reduced-motion: reduce) {
-  .crush-shard, .crush-fizz, .crush-glow { animation: none; }
+  .crush-shard, .crush-fizz, .crush-glow, .crush-rays,
+  .crush-sheen, .crush-liquid, .crush-glint, .crush-edge { animation: none; }
   .crush-shard, .crush-fizz { opacity: .5; }
+  .crush-sheen, .crush-glint { opacity: 0; }
 }
+
