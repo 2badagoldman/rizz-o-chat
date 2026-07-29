@@ -122,7 +122,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[90] bg-foreground/45 backdrop-blur-md"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -130,18 +130,18 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="mx-auto mt-16 flex max-h-[80vh] w-full max-w-[480px] flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-2xl"
+        className="mx-auto mt-16 flex max-h-[80vh] w-full max-w-[480px] flex-col overflow-hidden rounded-3xl border border-primary/25 bg-card/75 shadow-2xl ring-1 ring-inset ring-white/40 backdrop-blur-2xl backdrop-saturate-150"
       >
-        <div className="flex items-center gap-2 border-b border-border px-4 py-3">
-          <Search className="h-4 w-4 text-muted-foreground" />
+        <div className="flex items-center gap-2 border-b border-primary/20 bg-card/40 px-4 py-3">
+          <Search className="h-4 w-4 text-primary" />
           <input
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search your chats, hosts, cities…"
-            className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            className="w-full bg-transparent text-sm font-semibold text-foreground outline-none placeholder:font-medium placeholder:text-foreground/45"
           />
-          <button onClick={onClose} aria-label="Close search" className="rounded-full p-1 hover:bg-muted">
+          <button onClick={onClose} aria-label="Close search" className="rounded-full p-1 text-foreground/70 hover:bg-primary/10 hover:text-primary">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -149,7 +149,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
         <div className="flex-1 overflow-y-auto p-2">
           {inboxResults.length > 0 ? (
             <section className="mb-2">
-              <p className="flex items-center gap-1.5 px-2 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+              <p className="flex items-center gap-1.5 px-2 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-primary">
                 <Inbox className="h-3.5 w-3.5" /> In your inbox
               </p>
               <ul className="grid gap-1">
@@ -159,9 +159,9 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                       to={e.to as any}
                       params={e.params as any}
                       onClick={onClose}
-                      className="flex items-center gap-3 rounded-2xl p-2 transition hover:bg-muted"
+                      className="flex items-center gap-3 rounded-2xl border border-transparent bg-card/50 p-2 transition hover:border-primary/30 hover:bg-primary/10"
                     >
-                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
+                      <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-primary/25">
                         <img src={e.avatar} alt="" loading="lazy" className="h-full w-full object-cover" />
                         {e.online ? (
                           <span className="absolute bottom-0 right-0 grid h-3.5 w-3.5 place-items-center rounded-full bg-card">
@@ -170,10 +170,10 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                         ) : null}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-semibold">{e.name}</p>
-                        <p className="truncate text-[11px] text-muted-foreground">{e.subtitle}</p>
+                        <p className="truncate text-[15px] font-extrabold tracking-tight text-foreground">{e.name}</p>
+                        <p className="truncate text-xs font-semibold text-foreground/70">{e.subtitle}</p>
                       </div>
-                      <span className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-gradient-brand px-2 py-0.5 text-[10px] font-semibold text-white">
+                      <span className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full bg-gradient-brand px-2 py-0.5 text-[10px] font-bold text-white shadow-sm">
                         {e.badge.startsWith("AI") ? <Sparkles className="h-2.5 w-2.5" /> : null}
                         {e.badge}
                       </span>
@@ -184,11 +184,11 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
             </section>
           ) : null}
 
-          <p className="px-2 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+          <p className="px-2 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-primary">
             Discover hosts
           </p>
           {results.length === 0 ? (
-            <p className="p-6 text-center text-sm text-muted-foreground">
+            <p className="p-6 text-center text-sm font-semibold text-foreground/70">
               No hosts match &ldquo;{q}&rdquo;.
             </p>
           ) : (
@@ -199,9 +199,9 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                     to="/host/$hostId"
                     params={{ hostId: h.id }}
                     onClick={onClose}
-                    className="flex items-center gap-3 rounded-2xl p-2 transition hover:bg-muted"
+                    className="flex items-center gap-3 rounded-2xl border border-transparent bg-card/50 p-2 transition hover:border-primary/30 hover:bg-primary/10"
                   >
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-primary/25">
                       <img
                         src={hostAvatarThumb(h.id)}
                         alt=""
@@ -215,12 +215,12 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                       ) : null}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold">
-                        {h.name}, {h.age} <span className="text-muted-foreground">· {h.handle}</span>
+                      <p className="truncate text-[15px] font-extrabold tracking-tight text-foreground">
+                        {h.name}, {h.age} <span className="font-semibold text-primary">· {h.handle}</span>
                       </p>
-                      <p className="truncate text-[11px] text-muted-foreground">{h.city} · {h.interests.slice(0, 3).join(" · ")}</p>
+                      <p className="truncate text-xs font-semibold text-foreground/70">{h.city} · {h.interests.slice(0, 3).join(" · ")}</p>
                     </div>
-                    <span className="whitespace-nowrap text-[11px] font-bold text-gradient-brand">
+                    <span className="whitespace-nowrap text-[11px] font-extrabold text-gradient-brand">
                       {h.id === "demo-jen" ? "Free" : `$${h.priceMonthly}/mo`}
                     </span>
                   </Link>
