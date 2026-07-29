@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Palette, Check, Contrast } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+
 
 export type ChatSkin = "brand" | "midnight" | "ocean" | "sunset" | "mint" | "lavender" | "noir";
 
