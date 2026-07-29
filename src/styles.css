@@ -252,48 +252,49 @@
   --aurora-4: rgba(7,59,76,0.22);
 }
 
-/* SICO MODE — dystopian future: irradiated chartreuse, plasma magenta, void black */
+/* SICO MODE — romantic dusk: velvet plum, orchid, lilac ice, champagne */
 .theme-sico {
-  --background: oklch(0.16 0.045 285);
-  --foreground: oklch(0.95 0.075 150);
-  --card: oklch(0.215 0.055 288);
-  --card-foreground: oklch(0.95 0.06 150);
-  --popover: oklch(0.20 0.055 288);
-  --popover-foreground: oklch(0.95 0.06 150);
+  --background: oklch(0.185 0.055 320);
+  --foreground: oklch(0.965 0.022 340);
+  --card: oklch(0.245 0.062 322);
+  --card-foreground: oklch(0.965 0.020 340);
+  --popover: oklch(0.225 0.060 322);
+  --popover-foreground: oklch(0.965 0.020 340);
 
-  --primary: oklch(0.86 0.26 145);
-  --primary-foreground: oklch(0.14 0.05 285);
-  --secondary: oklch(0.28 0.09 300);
-  --secondary-foreground: oklch(0.93 0.09 150);
-  --muted: oklch(0.25 0.06 292);
-  --muted-foreground: oklch(0.76 0.10 175);
-  --accent: oklch(0.70 0.29 330);
-  --accent-foreground: oklch(0.14 0.05 285);
+  --primary: oklch(0.745 0.185 348);
+  --primary-foreground: oklch(0.165 0.05 320);
+  --secondary: oklch(0.315 0.085 315);
+  --secondary-foreground: oklch(0.955 0.030 340);
+  --muted: oklch(0.285 0.070 318);
+  --muted-foreground: oklch(0.815 0.070 330);
+  --accent: oklch(0.775 0.135 300);
+  --accent-foreground: oklch(0.165 0.05 320);
 
-  --brand-pink: #ff2fd0;
-  --brand-purple: #6a00ff;
-  --brand-coral: #b8ff2f;
-  --brand-violet: #00f0d0;
+  --brand-pink: #ff79b8;
+  --brand-purple: #a97bff;
+  --brand-coral: #ffc9a3;
+  --brand-violet: #d9b8ff;
 
-  --border: oklch(0.86 0.26 145 / 22%);
-  --input: oklch(0.86 0.26 145 / 20%);
-  --ring: oklch(0.86 0.26 145 / 65%);
+  --border: oklch(0.86 0.10 335 / 20%);
+  --input: oklch(0.86 0.10 335 / 18%);
+  --ring: oklch(0.745 0.185 348 / 62%);
 
-  --gradient-brand: linear-gradient(135deg, #b8ff2f 0%, #00f0d0 34%, #6a00ff 68%, #ff2fd0 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(184,255,47,0.18) 0%, rgba(0,240,208,0.16) 55%, rgba(255,47,208,0.20) 100%);
-  --gradient-sunset: linear-gradient(135deg, #06010f 0%, #6a00ff 45%, #ff2fd0 100%);
-  --gradient-night: linear-gradient(135deg, #06010f 0%, #00f0d0 100%);
-  --gradient-story: conic-gradient(from 200deg at 50% 50%, #b8ff2f, #00f0d0, #6a00ff, #ff2fd0, #b8ff2f);
+  --gradient-brand: linear-gradient(135deg, #ffd6b0 0%, #ff9ecb 30%, #ff5fa8 62%, #a97bff 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(255,214,176,0.18) 0%, rgba(255,95,168,0.18) 55%, rgba(169,123,255,0.22) 100%);
+  --gradient-sunset: linear-gradient(135deg, #1c0a26 0%, #ff5fa8 52%, #ffd6b0 100%);
+  --gradient-night: linear-gradient(135deg, #1c0a26 0%, #a97bff 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #ffd6b0, #ff9ecb, #ff5fa8, #a97bff, #ffd6b0);
 
-  --shadow-glow: 0 24px 70px -18px rgba(184, 255, 47, 0.45);
-  --shadow-card: 0 18px 48px -20px rgba(6, 1, 15, 0.85), 0 0 0 1px rgba(0, 240, 208, 0.14);
-  --shadow-pop:  0 40px 100px -24px rgba(106, 0, 255, 0.60);
+  --shadow-glow: 0 24px 74px -18px rgba(255, 95, 168, 0.48);
+  --shadow-card: 0 18px 48px -20px rgba(20, 6, 28, 0.85), 0 0 0 1px rgba(217, 184, 255, 0.16);
+  --shadow-pop:  0 40px 100px -24px rgba(169, 123, 255, 0.52);
 
-  --aurora-1: rgba(184,255,47,0.30);
-  --aurora-2: rgba(0,240,208,0.28);
-  --aurora-3: rgba(255,47,208,0.26);
-  --aurora-4: rgba(106,0,255,0.34);
+  --aurora-1: rgba(255,214,176,0.26);
+  --aurora-2: rgba(255,95,168,0.30);
+  --aurora-3: rgba(217,184,255,0.28);
+  --aurora-4: rgba(58,18,74,0.42);
 }
+
 
 /* ROMANCE MODE — midnight valentine: black velvet, crimson silk, rose gold */
 .theme-romance {
