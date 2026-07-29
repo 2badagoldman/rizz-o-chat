@@ -71,7 +71,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label="Find people"
+      aria-label="Find your crush"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -81,12 +81,12 @@ export function PeopleDiscovery({ open, onClose }: Props) {
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">Crush</p>
             <h2 className="bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[22px] font-black leading-tight text-transparent">
-              Find people
+              Find your crush
             </h2>
             <p className="text-[11.5px] text-muted-foreground">
               {debounced
                 ? "Search by name or exact email"
-                : `${all.length} on Crush · ${weekCount} joined this week`}
+                : "Join the rush as everyone finds their crush on Crush."}
             </p>
           </div>
           <button
