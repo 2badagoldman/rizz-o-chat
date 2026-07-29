@@ -172,26 +172,34 @@ export function PeopleDiscovery({ open, onClose }: Props) {
                 <Search className="h-5 w-5" />
               </div>
               <p className="mt-3 text-[15px] font-extrabold tracking-tight text-foreground">
-                {debounced ? "No one found" : tab === "all" ? "No new people yet" : `No ${tab === "host" ? "hosts" : "members"} yet`}
+                {debounced
+                  ? "No one found"
+                  : isMember
+                    ? "No hosts yet"
+                    : tab === "all"
+                      ? "No new people yet"
+                      : `No ${tab === "host" ? "hosts" : "members"} yet`}
               </p>
               <p className="mx-auto mt-1 max-w-[16rem] text-xs font-semibold text-muted-foreground">
                 {debounced
                   ? debounced.includes("@")
                     ? `No account uses “${debounced}”.`
                     : `Nobody matches “${debounced}”. Try a different name.`
-                  : "Check back soon — new faces join Crush every day."}
+                  : isMember
+                    ? "Check back soon — new hosts join Crush every day."
+                    : "Check back soon — new faces join Crush every day."}
               </p>
-              {(debounced || tab !== "all") ? (
+              {debounced ? (
                 <button
                   type="button"
                   onClick={() => {
                     setQ("");
-                    setTab("all");
+                    if (!isMember) setTab("all");
                   }}
                   className="mt-4 rounded-full px-4 py-2 text-xs font-bold text-white shadow-glow transition active:scale-95"
                   style={{ background: "var(--gradient-brand)" }}
                 >
-                  Show everyone
+                  {isMember ? "Show all hosts" : "Show everyone"}
                 </button>
               ) : null}
             </div>
