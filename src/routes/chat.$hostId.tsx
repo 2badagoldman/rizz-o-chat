@@ -414,7 +414,7 @@ function HostChat() {
           empty={
             <div className="mb-3 rounded-2xl border border-border bg-card p-4 text-sm">
               {isJen
-                ? "hey! so glad you're actually testing this with me 💌 tell me something about your day"
+                ? "hey you 💌 so glad you found me — tell me something about your day"
                 : `hey — ${host.teaser.toLowerCase()} what's up with you?`}
             </div>
           }
