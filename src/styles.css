@@ -209,6 +209,136 @@
   --aurora-4: rgba(12,74,96,0.26);
 }
 
+/* OCEAN MODE — deep sea teal, foam and sand */
+.theme-ocean {
+  --background: oklch(0.986 0.016 200);
+  --foreground: oklch(0.22 0.05 220);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.05 220);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.05 220);
+
+  --primary: oklch(0.55 0.105 205);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.960 0.030 200);
+  --secondary-foreground: oklch(0.32 0.07 210);
+  --muted: oklch(0.970 0.016 200);
+  --muted-foreground: oklch(0.50 0.038 210);
+  --accent: oklch(0.76 0.115 190);
+  --accent-foreground: oklch(0.18 0.04 220);
+
+  --brand-pink: #a9e6de;
+  --brand-purple: #0b6070;
+  --brand-coral: #1fb5a6;
+  --brand-violet: #14808f;
+
+  --border: oklch(0.30 0.05 210 / 12%);
+  --input: oklch(0.30 0.05 210 / 12%);
+  --ring: oklch(0.55 0.105 205 / 50%);
+
+  --gradient-brand: linear-gradient(135deg, #073b4c 0%, #0e7c8c 32%, #35c3b6 66%, #b9ede3 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(14,124,140,0.18) 0%, rgba(53,195,182,0.16) 55%, rgba(185,237,227,0.20) 100%);
+  --gradient-sunset: linear-gradient(135deg, #e2f7f3 0%, #7fdccf 42%, #0e7c8c 100%);
+  --gradient-night: linear-gradient(135deg, #073b4c 0%, #35c3b6 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #073b4c, #0e7c8c, #35c3b6, #b9ede3, #073b4c);
+
+  --shadow-glow: 0 24px 70px -20px rgba(14, 124, 140, 0.45);
+  --shadow-card: 0 18px 48px -22px rgba(7, 59, 76, 0.28), 0 2px 8px -3px rgba(53, 195, 182, 0.22);
+  --shadow-pop:  0 40px 100px -26px rgba(14, 124, 140, 0.40);
+
+  --aurora-1: rgba(185,237,227,0.55);
+  --aurora-2: rgba(53,195,182,0.36);
+  --aurora-3: rgba(14,124,140,0.30);
+  --aurora-4: rgba(7,59,76,0.22);
+}
+
+/* ROSE MODE — powdered rose, champagne and dusk mauve */
+.theme-rose {
+  --background: oklch(0.988 0.012 20);
+  --foreground: oklch(0.24 0.045 15);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.045 15);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.045 15);
+
+  --primary: oklch(0.62 0.145 18);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.963 0.024 20);
+  --secondary-foreground: oklch(0.34 0.08 18);
+  --muted: oklch(0.972 0.012 20);
+  --muted-foreground: oklch(0.52 0.038 15);
+  --accent: oklch(0.78 0.075 45);
+  --accent-foreground: oklch(0.22 0.04 20);
+
+  --brand-pink: #f3c9c2;
+  --brand-purple: #a8626b;
+  --brand-coral: #d97e7e;
+  --brand-violet: #caa07a;
+
+  --border: oklch(0.36 0.05 15 / 12%);
+  --input: oklch(0.36 0.05 15 / 12%);
+  --ring: oklch(0.62 0.145 18 / 50%);
+
+  --gradient-brand: linear-gradient(135deg, #fbe6e2 0%, #f3c9c2 32%, #d97e7e 70%, #a8626b 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(251,230,226,0.32) 0%, rgba(243,201,194,0.22) 55%, rgba(217,126,126,0.14) 100%);
+  --gradient-sunset: linear-gradient(135deg, #fdeeea 0%, #f0c3ae 42%, #d97e7e 100%);
+  --gradient-night: linear-gradient(135deg, #6d3f49 0%, #f3c9c2 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #fbe6e2, #f3c9c2, #d97e7e, #caa07a, #fbe6e2);
+
+  --shadow-glow: 0 24px 70px -20px rgba(217, 126, 126, 0.40);
+  --shadow-card: 0 18px 48px -22px rgba(168, 98, 107, 0.24), 0 2px 8px -3px rgba(243, 201, 194, 0.30);
+  --shadow-pop:  0 40px 100px -26px rgba(217, 126, 126, 0.34);
+
+  --aurora-1: rgba(251,230,226,0.62);
+  --aurora-2: rgba(243,201,194,0.48);
+  --aurora-3: rgba(217,126,126,0.26);
+  --aurora-4: rgba(202,160,122,0.22);
+}
+
+/* ROMANCE MODE — candlelit burgundy, plum and gold */
+.theme-romance {
+  --background: oklch(0.982 0.014 340);
+  --foreground: oklch(0.22 0.06 340);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.06 340);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.06 340);
+
+  --primary: oklch(0.47 0.155 350);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.958 0.028 340);
+  --secondary-foreground: oklch(0.32 0.10 345);
+  --muted: oklch(0.968 0.016 340);
+  --muted-foreground: oklch(0.50 0.05 340);
+  --accent: oklch(0.80 0.10 85);
+  --accent-foreground: oklch(0.20 0.05 340);
+
+  --brand-pink: #f2b8cf;
+  --brand-purple: #6d1e46;
+  --brand-coral: #b81e5a;
+  --brand-violet: #d9a441;
+
+  --border: oklch(0.30 0.07 340 / 13%);
+  --input: oklch(0.30 0.07 340 / 13%);
+  --ring: oklch(0.47 0.155 350 / 50%);
+
+  --gradient-brand: linear-gradient(135deg, #4a0f2e 0%, #98185a 34%, #e35f8c 68%, #f6cf9a 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(152,24,90,0.16) 0%, rgba(227,95,140,0.16) 55%, rgba(246,207,154,0.20) 100%);
+  --gradient-sunset: linear-gradient(135deg, #fde3ec 0%, #e35f8c 45%, #98185a 100%);
+  --gradient-night: linear-gradient(135deg, #4a0f2e 0%, #d9a441 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #4a0f2e, #98185a, #e35f8c, #f6cf9a, #4a0f2e);
+
+  --shadow-glow: 0 24px 70px -20px rgba(152, 24, 90, 0.45);
+  --shadow-card: 0 18px 48px -22px rgba(74, 15, 46, 0.30), 0 2px 8px -3px rgba(227, 95, 140, 0.26);
+  --shadow-pop:  0 40px 100px -26px rgba(152, 24, 90, 0.40);
+
+  --aurora-1: rgba(246,207,154,0.42);
+  --aurora-2: rgba(227,95,140,0.40);
+  --aurora-3: rgba(152,24,90,0.28);
+  --aurora-4: rgba(74,15,46,0.22);
+}
+
+
 
 .host-theme {
   --color-primary: var(--host-primary);
