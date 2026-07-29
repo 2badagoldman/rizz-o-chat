@@ -243,7 +243,9 @@ function UserChat() {
           <ChatAttachButton disabled={locked} onUploaded={(m) => setPending((p) => [...p, m])} />
           <button
             type="button"
+            data-emoji-toggle
             onClick={() => setEmojiOpen((v) => !v)}
+
             aria-label="Emoji reactions"
             aria-expanded={emojiOpen}
             className={`grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-border transition-colors ${emojiOpen ? "border-primary bg-primary/10 text-primary" : "bg-card text-muted-foreground hover:text-primary"}`}
