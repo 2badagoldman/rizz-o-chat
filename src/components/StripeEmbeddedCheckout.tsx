@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertCircle, RefreshCw, Ticket } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import { supabase } from '@/integrations/supabase/client';
 import { getStripe, getStripeEnvironment } from '@/lib/stripe';
@@ -9,6 +9,8 @@ import {
   createFriendsListCheckout,
   createTipCheckout,
 } from '@/utils/payments.functions';
+import { createGuestCheckoutSession } from '@/lib/guest-checkout.functions';
+import { GUEST_CODE_STORAGE_KEY, GUEST_PLAN_IDS } from '@/lib/guest-checkout';
 
 export type CheckoutRequest =
   | { kind: 'catalog'; priceId: string; returnUrl?: string }
@@ -20,6 +22,7 @@ function describe(props: CheckoutRequest) {
   if (props.kind === 'friends_list') return `friends_list:${props.hostId}`;
   return `tip:${props.hostId}:${props.amountCents}`;
 }
+
 
 export function StripeEmbeddedCheckout(props: CheckoutRequest) {
   // `attempt` remounts the Stripe provider on retry — a provider cannot reuse
