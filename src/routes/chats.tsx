@@ -10,6 +10,7 @@ import { dmListThreads } from "@/lib/dm.functions";
 import { searchUsers } from "@/lib/admin-data.functions";
 import { pageHead } from "@/lib/seo";
 import { OnlineDot, useOnlineUsers } from "@/lib/presence";
+import { KycInboxNotice } from "@/components/KycInboxNotice";
 
 export const Route = createFileRoute("/chats")({
   head: () => pageHead({
@@ -189,6 +190,8 @@ function Chats() {
     <AppShell>
       <h1 className="pt-6 text-2xl font-bold">Chats</h1>
       <p className="mt-1 text-sm text-muted-foreground">Find anyone, send a message, keep the vibes going.</p>
+
+      <KycInboxNotice />
 
       <div className="mt-4 flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2">
         <Search className="h-4 w-4 text-muted-foreground" />
