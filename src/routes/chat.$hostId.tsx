@@ -432,11 +432,16 @@ function HostChat() {
         <EmojiTray
           open={emojiOpen}
           onClose={() => setEmojiOpen(false)}
-          onPick={(e) => sendReaction(e, { draft: true })}
+          mode={emojiMode}
+          onModeChange={setEmojiMode}
+          onPick={(e, m) =>
+            m === "send" ? sendReaction(e, { draft: true }) : reactToLatest(e)
+          }
           peerName={host.name}
           disabled={chatLocked}
           emojis={REACTIONS}
         />
+
 
 
         {aiQuotaReached ? (
