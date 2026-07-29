@@ -121,43 +121,44 @@ export function SideDrawer({ open, onClose }: Props) {
       >
         {/* Frosted glass shell — floating, fully rounded */}
         <div
-          className="relative flex h-full flex-col overflow-hidden rounded-[32px] border border-white/50 bg-white/55 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.85)] backdrop-blur-2xl backdrop-saturate-150"
+          className="relative flex h-full flex-col overflow-hidden rounded-[32px] border border-border/50 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.85)] backdrop-blur-2xl backdrop-saturate-150"
         >
-          {/* Aurora blobs — soft, breathing */}
+          {/* Aurora blobs — theme-driven, soft, breathing */}
           <span
             aria-hidden
-            className="pointer-events-none absolute -left-20 -top-24 h-72 w-72 rounded-full opacity-70 blur-3xl"
-            style={{ background: "radial-gradient(circle, #ff3d9a 0%, transparent 66%)" }}
+            className="pointer-events-none absolute -left-20 -top-24 h-72 w-72 rounded-full opacity-40 blur-3xl"
+            style={{ background: "radial-gradient(circle, var(--primary) 0%, transparent 66%)" }}
           />
           <span
             aria-hidden
-            className="pointer-events-none absolute -right-16 top-16 h-64 w-64 rounded-full opacity-60 blur-3xl"
-            style={{ background: "radial-gradient(circle, #6c5ce7 0%, transparent 66%)" }}
+            className="pointer-events-none absolute -right-16 top-16 h-64 w-64 rounded-full opacity-35 blur-3xl"
+            style={{ background: "radial-gradient(circle, var(--accent) 0%, transparent 66%)" }}
           />
           <span
             aria-hidden
-            className="pointer-events-none absolute -bottom-24 left-4 h-64 w-64 rounded-full opacity-50 blur-3xl"
-            style={{ background: "radial-gradient(circle, #3ddcff 0%, transparent 66%)" }}
+            className="pointer-events-none absolute -bottom-24 left-4 h-64 w-64 rounded-full opacity-30 blur-3xl"
+            style={{ background: "radial-gradient(circle, var(--secondary) 0%, transparent 66%)" }}
           />
           {/* Specular sheen along the top edge */}
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,rgba(255,255,255,0.75),transparent)]"
+            className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--card)_70%,transparent),transparent)]"
           />
+
 
           {/* Header — profile hero */}
           <div className="relative px-5 pt-6 pb-4">
             <button
               onClick={onClose}
               aria-label="Close menu"
-              className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-white/60 bg-white/60 text-foreground/70 shadow-[0_8px_20px_-8px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 hover:text-foreground active:scale-90"
+              className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full border border-border/60 bg-card/70 text-foreground/70 shadow-[0_8px_20px_-8px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-110 hover:text-foreground active:scale-90"
             >
               <X className="h-4 w-4" strokeWidth={2.5} />
             </button>
 
             <a
               href="/"
-              className="group flex items-center gap-4 rounded-[26px] p-2 -m-2 transition-colors duration-300 hover:bg-white/50"
+              className="group flex items-center gap-4 rounded-[26px] p-2 -m-2 transition-colors duration-300 hover:bg-primary/10"
               onClick={(e) => {
                 e.preventDefault();
                 window.location.assign("/");
@@ -171,14 +172,14 @@ export function SideDrawer({ open, onClose }: Props) {
                 <img
                   src={rizzAiLogo.url}
                   alt=""
-                  className="block h-16 w-16 rounded-full border-[3px] border-white bg-white object-cover"
+                  className="block h-16 w-16 rounded-full border-[3px] border-card bg-card object-cover"
                 />
               </span>
               <div className="min-w-0">
                 <p className="truncate text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">
                   Rizzla
                 </p>
-                <p className="truncate bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[26px] font-black leading-tight tracking-tight text-transparent">
+                <p className="truncate bg-[image:var(--gradient-brand)] bg-clip-text text-[26px] font-black leading-tight tracking-tight text-transparent">
                   Hey {displayName}
                 </p>
                 <p className="truncate text-[11.5px] text-muted-foreground">Friends Always ✦ Welcome back</p>
@@ -191,7 +192,7 @@ export function SideDrawer({ open, onClose }: Props) {
             <Group label="Discover people" note="Live" open={open} index={0}>
               <button
                 onClick={() => setPeopleOpen(true)}
-                className="group relative flex w-full items-center gap-3.5 px-4 py-3 text-left transition-colors duration-300 hover:bg-white/70 active:bg-white/80"
+                className="group relative flex w-full items-center gap-3.5 px-4 py-3 text-left transition-colors duration-300 hover:bg-primary/10 active:bg-primary/15"
               >
                 <span
                   className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white ring-1 ring-white/50 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95"
@@ -259,7 +260,7 @@ export function SideDrawer({ open, onClose }: Props) {
                   await signOut();
                   onClose();
                 }}
-                className="mt-4 flex w-full items-center gap-3.5 rounded-[24px] border border-white/60 bg-white/60 px-4 py-3.5 text-left shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.015] active:scale-[0.97]"
+                className="mt-4 flex w-full items-center gap-3.5 rounded-[24px] border border-border/60 bg-card/70 px-4 py-3.5 text-left shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.015] active:scale-[0.97]"
               >
                 <span
                   className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white shadow-[0_8px_18px_-8px_rgba(255,45,117,0.9),inset_0_1px_0_rgba(255,255,255,0.6)]"
@@ -270,7 +271,7 @@ export function SideDrawer({ open, onClose }: Props) {
                 <span className="flex-1 text-[15px] font-bold text-destructive">Log out</span>
               </button>
             ) : (
-              <div className="mt-4 overflow-hidden rounded-[24px] border border-white/60 bg-white/60 shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
+              <div className="mt-4 overflow-hidden rounded-[24px] border border-border/60 bg-card/70 shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
                 <SettingsRow
                   label="Sign in"
                   to="/auth"
@@ -318,13 +319,13 @@ function Group({
           {label}
         </h3>
         {note ? (
-          <span className="rounded-full bg-white/60 px-2 py-[3px] text-[9px] font-bold uppercase tracking-[0.14em] text-primary shadow-sm ring-1 ring-white/70">
+          <span className="rounded-full bg-card/70 px-2 py-[3px] text-[9px] font-bold uppercase tracking-[0.14em] text-primary shadow-sm ring-1 ring-border/60">
             {note}
           </span>
         ) : null}
       </div>
       {/* Bubbly glass grouped card */}
-      <div className="overflow-hidden rounded-[26px] border border-white/60 bg-white/55 shadow-[0_18px_40px_-24px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
+      <div className="overflow-hidden rounded-[26px] border border-border/60 bg-card/70 shadow-[0_18px_40px_-24px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
         {children}
       </div>
     </section>
@@ -355,7 +356,7 @@ function SettingsRow({
       to={to as any}
       params={params as any}
       onClick={onNavigate}
-      className="group relative flex items-center gap-3.5 border-b border-white/50 px-4 py-3 transition-colors duration-300 last:border-b-0 hover:bg-white/70 active:bg-white/80"
+      className="group relative flex items-center gap-3.5 border-b border-border/50 px-4 py-3 transition-colors duration-300 last:border-b-0 hover:bg-primary/10 active:bg-primary/15"
     >
       <span
         className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white ring-1 ring-white/50 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95"
