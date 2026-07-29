@@ -7,6 +7,7 @@ import {
   Activity, Users, Eye, Timer, Globe2, Monitor, TrendingUp, RefreshCw,
   Radio, MapPin, Link as LinkIcon, Smartphone, UserPlus, Repeat,
 } from "lucide-react";
+import { InstallConversionPanel } from "@/components/admin/InstallConversionPanel";
 
 export const Route = createFileRoute("/admin/war-room")({
   head: () => ({ meta: [
@@ -395,6 +396,7 @@ function WarRoom() {
           />
         </div>
       </div>
+      <InstallConversionPanel />
     </div>
   );
 }
