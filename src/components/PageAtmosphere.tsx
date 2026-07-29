@@ -19,16 +19,17 @@ const WAVE = (color: string, opacity: number) =>
 
 const SHAFTS = ["8%", "34%", "62%", "86%"];
 
-const PETALS = [
-  { left: "6%", size: 29, dur: "17s", delay: "0s", sway: "50px", color: "#d97e7e" },
-  { left: "18%", size: 18, dur: "22s", delay: "3s", sway: "-40px", color: "#f3c9c2" },
-  { left: "31%", size: 33, dur: "19s", delay: "6s", sway: "60px", color: "#c2536b" },
-  { left: "47%", size: 23, dur: "25s", delay: "1.5s", sway: "-55px", color: "#e79aa1" },
-  { left: "59%", size: 27, dur: "20s", delay: "8s", sway: "45px", color: "#d97e7e" },
-  { left: "72%", size: 16, dur: "24s", delay: "4.5s", sway: "-35px", color: "#f6d9cf" },
-  { left: "84%", size: 31, dur: "18s", delay: "10s", sway: "65px", color: "#b8465f" },
-  { left: "93%", size: 21, dur: "23s", delay: "7s", sway: "-50px", color: "#e8a8ae" },
+const SPIRES = [
+  { left: "4%", w: 46, h: "34vh", dur: "9s", delay: "0s" },
+  { left: "14%", w: 22, h: "20vh", dur: "11s", delay: "1.6s" },
+  { left: "26%", w: 60, h: "46vh", dur: "8s", delay: "3.2s" },
+  { left: "42%", w: 30, h: "26vh", dur: "13s", delay: "0.8s" },
+  { left: "58%", w: 52, h: "40vh", dur: "10s", delay: "4.4s" },
+  { left: "72%", w: 26, h: "22vh", dur: "12s", delay: "2.1s" },
+  { left: "84%", w: 64, h: "52vh", dur: "9.5s", delay: "5.6s" },
+  { left: "94%", w: 20, h: "18vh", dur: "14s", delay: "3.9s" },
 ];
+
 
 function SeaLayer({ level }: { level: string }) {
   const shafts = level === "lite" ? SHAFTS.slice(0, 1) : level === "mid" ? SHAFTS.slice(0, 2) : SHAFTS;
