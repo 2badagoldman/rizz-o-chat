@@ -36,30 +36,12 @@ export const discoverPeople = createServerFn({ method: "POST" })
     // Members find hosts; hosts find members.
     const wantType = me?.account_type === "host" ? "member" : "host";
 
-    // Exact email lookup (privacy: exact match only, never partial email search).
+    // Email lookup is intentionally NOT supported: allowing exact-email search
+    // enables email-to-identity enumeration. Name search only.
     if (term.includes("@") && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(term)) {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      const res = await fetch(
-        `${process.env.SUPABASE_URL}/auth/v1/admin/users?filter=${encodeURIComponent(term)}&per_page=5`,
-        {
-          headers: {
-            apikey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-            Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY!}`,
-          },
-        },
-      );
-      if (!res.ok) return [];
-      const body = (await res.json()) as { users?: Array<{ id: string; email?: string }> };
-      const ids = (body.users ?? [])
-        .filter((u) => (u.email ?? "").toLowerCase() === term.toLowerCase())
-        .map((u) => u.id)
-        .filter((id) => id !== context.userId);
-      if (ids.length === 0) return [];
-      let adminQuery = supabaseAdmin.from("profiles").select(SELECT).in("id", ids).is("deleted_at", null);
-      adminQuery = adminQuery.eq("account_type", wantType);
-      const { data: rows } = await adminQuery;
-      return (rows ?? []) as PersonRow[];
+      return [];
     }
+
 
     // NOTE: `deleted_at` is not readable by the `authenticated` role, so it can't be
     // used as a filter here — RLS already hides soft-deleted profiles.

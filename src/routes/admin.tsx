@@ -164,6 +164,7 @@ function AdminLayout() {
 
 function NotAdmin({ userId, onPromoted }: { userId: string; onPromoted: () => void }) {
   const [busy, setBusy] = useState(false);
+  const [secret, setSecret] = useState("");
   const [err, setErr] = useState<string | null>(null);
   return (
     <div className="min-h-screen grid place-items-center p-6">
@@ -171,29 +172,39 @@ function NotAdmin({ userId, onPromoted }: { userId: string; onPromoted: () => vo
         <ShieldAlert className="mx-auto h-8 w-8 text-primary" />
         <h1 className="mt-3 text-lg font-semibold">Admin access required</h1>
         <p className="mt-1 text-xs text-muted-foreground">
-          If no master admin exists yet, you can bootstrap yourself.
+          Your account doesn't have admin access. Operators performing first-time
+          setup can enter the setup key below.
         </p>
+        <input
+          type="password"
+          value={secret}
+          onChange={(e) => setSecret(e.target.value)}
+          placeholder="Setup key"
+          aria-label="Admin setup key"
+          className="mt-4 w-full rounded-xl border border-border bg-background px-3 py-2 text-sm"
+        />
         <button
-          disabled={busy}
-          className="btn-brand mt-4 w-full disabled:opacity-50"
+          disabled={busy || !secret}
+          className="btn-brand mt-3 w-full disabled:opacity-50"
           onClick={async () => {
             setBusy(true);
             setErr(null);
             try {
               const { grantAdminRole } = await import("@/lib/admin.functions");
-              await grantAdminRole({ data: { targetUserId: userId } });
+              await grantAdminRole({ data: { targetUserId: userId, secret } });
               onPromoted();
-            } catch (e) {
-              setErr((e as Error).message);
+            } catch {
+              setErr("Setup key rejected.");
             } finally {
               setBusy(false);
             }
           }}
         >
-          {busy ? "Working…" : "Make me master admin"}
+          {busy ? "Working…" : "Complete admin setup"}
         </button>
         {err ? <p className="mt-2 text-xs text-destructive">{err}</p> : null}
       </div>
     </div>
   );
 }
+

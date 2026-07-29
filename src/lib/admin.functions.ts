@@ -48,19 +48,26 @@ export const grantAdminRole = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
-    // Bootstrap allowance: if no admin exists yet, allow the caller to promote themselves.
+
     if (!isAdmin) {
+      // One-time operator bootstrap: requires the ADMIN_BOOTSTRAP_SECRET known
+      // only to the deploying operator. No "first caller wins" race.
+      const expected = process.env.ADMIN_BOOTSTRAP_SECRET ?? "";
+      if (!expected || data.secret.length !== expected.length || data.secret !== expected) {
+        throw new Error("Forbidden");
+      }
+      if (data.targetUserId !== userId) throw new Error("Bootstrap can only self-promote");
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { count } = await supabaseAdmin
         .from("user_roles")
         .select("*", { count: "exact", head: true })
         .eq("role", "admin");
       if ((count ?? 0) > 0) throw new Error("Forbidden");
-      if (data.targetUserId !== userId) throw new Error("Bootstrap can only self-promote");
       const { error } = await supabaseAdmin.from("user_roles").insert({ user_id: userId, role: "admin" });
       if (error) throw error;
       return { ok: true, bootstrap: true };
     }
+
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin
       .from("user_roles")
@@ -68,3 +75,4 @@ export const grantAdminRole = createServerFn({ method: "POST" })
     if (error) throw error;
     return { ok: true };
   });
+
