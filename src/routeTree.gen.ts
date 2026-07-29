@@ -37,6 +37,7 @@ import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
 import { Route as LegalPricingRouteImport } from './routes/legal.pricing'
 import { Route as LegalLawEnforcementRouteImport } from './routes/legal.law-enforcement'
 import { Route as LegalDmcaRouteImport } from './routes/legal.dmca'
+import { Route as LegalDeleteAccountRouteImport } from './routes/legal.delete-account'
 import { Route as LegalCreatorsRouteImport } from './routes/legal.creators'
 import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
 import { Route as LegalContactRouteImport } from './routes/legal.contact'
@@ -213,6 +214,11 @@ const LegalLawEnforcementRoute = LegalLawEnforcementRouteImport.update({
 const LegalDmcaRoute = LegalDmcaRouteImport.update({
   id: '/legal/dmca',
   path: '/legal/dmca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalDeleteAccountRoute = LegalDeleteAccountRouteImport.update({
+  id: '/legal/delete-account',
+  path: '/legal/delete-account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalCreatorsRoute = LegalCreatorsRouteImport.update({
@@ -451,6 +457,7 @@ export interface FileRoutesByFullPath {
   '/legal/contact': typeof LegalContactRoute
   '/legal/cookies': typeof LegalCookiesRoute
   '/legal/creators': typeof LegalCreatorsRoute
+  '/legal/delete-account': typeof LegalDeleteAccountRoute
   '/legal/dmca': typeof LegalDmcaRoute
   '/legal/law-enforcement': typeof LegalLawEnforcementRoute
   '/legal/pricing': typeof LegalPricingRoute
@@ -517,6 +524,7 @@ export interface FileRoutesByTo {
   '/legal/contact': typeof LegalContactRoute
   '/legal/cookies': typeof LegalCookiesRoute
   '/legal/creators': typeof LegalCreatorsRoute
+  '/legal/delete-account': typeof LegalDeleteAccountRoute
   '/legal/dmca': typeof LegalDmcaRoute
   '/legal/law-enforcement': typeof LegalLawEnforcementRoute
   '/legal/pricing': typeof LegalPricingRoute
@@ -585,6 +593,7 @@ export interface FileRoutesById {
   '/legal/contact': typeof LegalContactRoute
   '/legal/cookies': typeof LegalCookiesRoute
   '/legal/creators': typeof LegalCreatorsRoute
+  '/legal/delete-account': typeof LegalDeleteAccountRoute
   '/legal/dmca': typeof LegalDmcaRoute
   '/legal/law-enforcement': typeof LegalLawEnforcementRoute
   '/legal/pricing': typeof LegalPricingRoute
@@ -654,6 +663,7 @@ export interface FileRouteTypes {
     | '/legal/contact'
     | '/legal/cookies'
     | '/legal/creators'
+    | '/legal/delete-account'
     | '/legal/dmca'
     | '/legal/law-enforcement'
     | '/legal/pricing'
@@ -720,6 +730,7 @@ export interface FileRouteTypes {
     | '/legal/contact'
     | '/legal/cookies'
     | '/legal/creators'
+    | '/legal/delete-account'
     | '/legal/dmca'
     | '/legal/law-enforcement'
     | '/legal/pricing'
@@ -787,6 +798,7 @@ export interface FileRouteTypes {
     | '/legal/contact'
     | '/legal/cookies'
     | '/legal/creators'
+    | '/legal/delete-account'
     | '/legal/dmca'
     | '/legal/law-enforcement'
     | '/legal/pricing'
@@ -843,6 +855,7 @@ export interface RootRouteChildren {
   LegalContactRoute: typeof LegalContactRoute
   LegalCookiesRoute: typeof LegalCookiesRoute
   LegalCreatorsRoute: typeof LegalCreatorsRoute
+  LegalDeleteAccountRoute: typeof LegalDeleteAccountRoute
   LegalDmcaRoute: typeof LegalDmcaRoute
   LegalLawEnforcementRoute: typeof LegalLawEnforcementRoute
   LegalPricingRoute: typeof LegalPricingRoute
@@ -1060,6 +1073,13 @@ declare module '@tanstack/react-router' {
       path: '/legal/dmca'
       fullPath: '/legal/dmca'
       preLoaderRoute: typeof LegalDmcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/delete-account': {
+      id: '/legal/delete-account'
+      path: '/legal/delete-account'
+      fullPath: '/legal/delete-account'
+      preLoaderRoute: typeof LegalDeleteAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/creators': {
@@ -1404,6 +1424,7 @@ const rootRouteChildren: RootRouteChildren = {
   LegalContactRoute: LegalContactRoute,
   LegalCookiesRoute: LegalCookiesRoute,
   LegalCreatorsRoute: LegalCreatorsRoute,
+  LegalDeleteAccountRoute: LegalDeleteAccountRoute,
   LegalDmcaRoute: LegalDmcaRoute,
   LegalLawEnforcementRoute: LegalLawEnforcementRoute,
   LegalPricingRoute: LegalPricingRoute,

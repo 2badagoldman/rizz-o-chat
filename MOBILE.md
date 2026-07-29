@@ -85,15 +85,51 @@ npx cap sync android
 npx cap open android
 ```
 
-In Android Studio: set adaptive icons, then Build → Generate Signed Bundle (AAB).
-Keep the keystore safe — it can never be replaced.
+In Android Studio: set adaptive icons (`public/icon-512.png`), target the latest
+required API level, then Build → Generate Signed Bundle (AAB). Keep the keystore
+safe — it can never be replaced.
 
-In Play Console:
-- Content rating: **Mature 17+**; complete the Data safety form (photos, ID docs,
-  messages, purchase history; data is encrypted in transit and deletable in-app).
-- Add the account deletion URL: `https://rizzlachat.com/profile`.
-- Play billing: Google allows external payments for user-to-user services, but if
-  Play flags coins as digital goods, gate them the same way as iOS.
+### Play policy checklist (implemented in code)
+
+| Play requirement | Status | Where |
+| --- | --- | --- |
+| In-app account deletion | Done | Profile → “Delete my account” |
+| Public web deletion instructions URL | Done | `https://rizzlachat.com/legal/delete-account` |
+| Privacy Policy URL (public, no login) | Done | `/legal/privacy` |
+| UGC policy: report, block, blocked list, moderation queue | Done | `SafetyMenu`, `/admin/reports` |
+| Adult / mature content gate (18+ signup + ID KYC) | Done | `/verify`, `KycGate` |
+| Hardware back button handling | Done | `src/lib/native.ts` |
+| Maskable + 192/512 icons | Done | `public/manifest.webmanifest` |
+| Runtime permission prompts only in context (camera, notifications) | Done | Profile page |
+
+### In Play Console
+
+- Content rating questionnaire: **Mature 17+** (dating/social, user interaction,
+  user-generated content, in-app purchases).
+- Data safety form: photos/videos, ID documents, messages, email, purchase
+  history; encrypted in transit; deletable in-app.
+- **Account deletion URL:** `https://rizzlachat.com/legal/delete-account`
+- App access: provide a reviewer login with KYC pre-approved and coins loaded,
+  otherwise review hits the verification wall.
+- Declare the app as containing user-generated content and describe the
+  moderation process (24h report SLA).
+
+### Play billing
+
+Google allows external payment for person-to-person services, so the Android
+build keeps the coin/membership CTAs visible by default. If Play review
+classifies coins as digital goods, rebuild with
+`VITE_ANDROID_BILLING_RESTRICTED=true` — that hides every purchase CTA in the
+Android build exactly like the iOS build, with zero code changes and no effect
+on web or iOS.
+
+### Permissions
+
+`npx cap sync android` adds only what the installed plugins need: `INTERNET`,
+`CAMERA`, `READ_MEDIA_IMAGES`/`READ_MEDIA_VIDEO`, and `POST_NOTIFICATIONS`.
+Remove anything else Android Studio adds — unused permissions trigger Play
+policy reviews.
+
 
 ## 3. Windows (Microsoft Store)
 
