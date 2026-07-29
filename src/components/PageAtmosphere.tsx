@@ -189,24 +189,42 @@ const FIZZ = [
   { left: "83%", size: 8, dur: "18s", delay: "3.7s", sway: "-20px" },
 ];
 
+const GLINTS = [
+  { left: "12%", top: "18%", size: 22, dur: "7s", delay: "0.4s" },
+  { left: "76%", top: "12%", size: 16, dur: "9s", delay: "2.1s" },
+  { left: "58%", top: "62%", size: 26, dur: "8s", delay: "4.6s" },
+  { left: "24%", top: "74%", size: 18, dur: "11s", delay: "6.2s" },
+  { left: "88%", top: "48%", size: 14, dur: "10s", delay: "1.3s" },
+];
+
 /**
- * Crush: crushed-soda orange poured over shaved ice. Frosted glass rim,
- * drifting ice shards, rising carbonation fizz and cold blue edge crystals.
+ * Crush: signature soda-orange poured over glass and cold light.
+ * Rotating citrus rays, chrome sheen sweep, sloshing liquid line,
+ * tumbling ice shards, rising carbonation and sparkle glints.
  */
 function CrushLayer({ level }: { level: string }) {
   const shards = level === "lite" ? SHARDS.slice(0, 3) : level === "mid" ? SHARDS.slice(0, 5) : SHARDS;
   const fizz = level === "lite" ? [] : level === "mid" ? FIZZ.slice(0, 3) : FIZZ;
+  const glints = level === "lite" ? [] : level === "mid" ? GLINTS.slice(0, 3) : GLINTS;
   return (
     <div className="theme-atmos crush-atmos">
       <div className="crush-veil" />
+      {level !== "lite" ? <div className="crush-rays" /> : null}
       <div className="crush-frost" />
       <span className="crush-edge is-left" />
       <span className="crush-edge is-right" />
-      <span className="crush-glow" style={{ left: "-12%", top: "8%", width: 280, height: 280 }} />
+      <span className="crush-glow" style={{ left: "-12%", top: "8%", width: 300, height: 300 }} />
+      <span
+        className="crush-glow is-gold"
+        style={{ left: "46%", top: "-8%", width: 340, height: 340, animationDelay: "2s" }}
+      />
       <span
         className="crush-glow is-ice"
-        style={{ right: "-14%", bottom: "10%", width: 320, height: 320, animationDelay: "4s" }}
+        style={{ right: "-14%", bottom: "10%", width: 340, height: 340, animationDelay: "4s" }}
       />
+      <div className="crush-liquid is-back" />
+      <div className="crush-liquid" />
+      {level !== "lite" ? <span className="crush-sheen" /> : null}
       {shards.map((s) => (
         <span
           key={`shard-${s.left}`}
@@ -235,9 +253,24 @@ function CrushLayer({ level }: { level: string }) {
           }}
         />
       ))}
+      {glints.map((g) => (
+        <span
+          key={`glint-${g.left}-${g.top}`}
+          className="crush-glint"
+          style={{
+            left: g.left,
+            top: g.top,
+            width: g.size,
+            height: g.size,
+            animationDelay: g.delay,
+            ["--dur" as string]: g.dur,
+          }}
+        />
+      ))}
     </div>
   );
 }
+
 
 
 const BUBBLES = [
