@@ -19,6 +19,7 @@ import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CopilotRouteImport } from './routes/copilot'
 import { Route as CoinsRouteImport } from './routes/coins'
+import { Route as ClaimRouteImport } from './routes/claim'
 import { Route as ChatsRouteImport } from './routes/chats'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -126,6 +127,11 @@ const CopilotRoute = CopilotRouteImport.update({
 const CoinsRoute = CoinsRouteImport.update({
   id: '/coins',
   path: '/coins',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClaimRoute = ClaimRouteImport.update({
+  id: '/claim',
+  path: '/claim',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChatsRoute = ChatsRouteImport.update({
@@ -429,6 +435,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/chats': typeof ChatsRoute
+  '/claim': typeof ClaimRoute
   '/coins': typeof CoinsRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
@@ -498,6 +505,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/chats': typeof ChatsRoute
+  '/claim': typeof ClaimRoute
   '/coins': typeof CoinsRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
@@ -569,6 +577,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/chats': typeof ChatsRoute
+  '/claim': typeof ClaimRoute
   '/coins': typeof CoinsRoute
   '/copilot': typeof CopilotRoute
   '/dashboard': typeof DashboardRoute
@@ -641,6 +650,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/chats'
+    | '/claim'
     | '/coins'
     | '/copilot'
     | '/dashboard'
@@ -710,6 +720,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/chats'
+    | '/claim'
     | '/coins'
     | '/copilot'
     | '/dashboard'
@@ -780,6 +791,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/chats'
+    | '/claim'
     | '/coins'
     | '/copilot'
     | '/dashboard'
@@ -851,6 +863,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AuthRoute: typeof AuthRoute
   ChatsRoute: typeof ChatsRoute
+  ClaimRoute: typeof ClaimRoute
   CoinsRoute: typeof CoinsRoute
   CopilotRoute: typeof CopilotRoute
   DashboardRoute: typeof DashboardRoute
@@ -973,6 +986,13 @@ declare module '@tanstack/react-router' {
       path: '/coins'
       fullPath: '/coins'
       preLoaderRoute: typeof CoinsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/claim': {
+      id: '/claim'
+      path: '/claim'
+      fullPath: '/claim'
+      preLoaderRoute: typeof ClaimRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chats': {
@@ -1435,6 +1455,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AuthRoute: AuthRoute,
   ChatsRoute: ChatsRoute,
+  ClaimRoute: ClaimRoute,
   CoinsRoute: CoinsRoute,
   CopilotRoute: CopilotRoute,
   DashboardRoute: DashboardRoute,

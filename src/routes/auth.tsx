@@ -6,6 +6,7 @@ import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { pageHead } from "@/lib/seo";
+import { readGuestCode } from "@/lib/guest-checkout";
 
 export const Route = createFileRoute("/auth")({
   head: () => pageHead({
@@ -96,6 +97,11 @@ function AuthPage() {
         });
         if (err) throw err;
         try { localStorage.setItem("rizzla:showWelcome", "1"); } catch {}
+        // Someone who subscribed as a guest gets sent straight to redemption.
+        if (readGuestCode()) {
+          router.navigate({ to: "/claim" });
+          return;
+        }
         // Send new Hosts straight into the creator-studio onboarding wizard,
         // unless a specific post-auth destination was requested.
         if (role === "host" && nextPath === "/") {
@@ -105,9 +111,14 @@ function AuthPage() {
       } else {
         const { error: err } = await supabase.auth.signInWithPassword({ email, password });
         if (err) throw err;
+        if (readGuestCode()) {
+          router.navigate({ to: "/claim" });
+          return;
+        }
       }
       if (nextPath !== "/") window.location.href = nextPath;
       else router.navigate({ to: "/" });
+
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Something went wrong");
     } finally {
@@ -121,8 +132,10 @@ function AuthPage() {
       setError(`Confirm you are 18+ before continuing with ${provider === "apple" ? "Apple" : "Google"}.`);
       return;
     }
+    // Guests who already paid land on the redemption screen after OAuth.
+    const dest = readGuestCode() ? "/claim" : nextPath;
     const result = await lovable.auth.signInWithOAuth(provider, {
-      redirect_uri: window.location.origin + nextPath,
+      redirect_uri: window.location.origin + dest,
     });
     if (result.error) setError(result.error.message ?? "Sign-in failed");
   };

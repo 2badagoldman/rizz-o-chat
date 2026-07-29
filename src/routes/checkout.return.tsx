@@ -7,6 +7,9 @@ import { getStripeEnvironment } from '@/lib/stripe';
 import { getCheckoutStatus, type CheckoutStatus } from '@/utils/payments.functions';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import type { CheckoutRequest } from '@/components/StripeEmbeddedCheckout';
+import { supabase } from '@/integrations/supabase/client';
+import { getGuestClaimCode } from '@/lib/guest-checkout.functions';
+import { rememberGuestCode } from '@/lib/guest-checkout';
 
 
 export const Route = createFileRoute('/checkout/return')({
@@ -34,7 +37,9 @@ const NEXT_STEPS = [
 function CheckoutReturn() {
   const { session_id } = Route.useSearch();
   const fetchStatus = useServerFn(getCheckoutStatus);
+  const fetchGuestCode = useServerFn(getGuestClaimCode);
   const [status, setStatus] = useState<CheckoutStatus | null>(null);
+  const [guest, setGuest] = useState<{ code: string } | null>(null);
   const [checking, setChecking] = useState(!!session_id);
   const { openCheckout, checkoutElement } = useStripeCheckout();
 
@@ -47,6 +52,24 @@ function CheckoutReturn() {
     setChecking(true);
     (async () => {
       try {
+        const { data: sess } = await supabase.auth.getSession();
+        // Guest checkout: no account yet, so hand back the claim code instead.
+        if (!sess.session?.access_token) {
+          const res = await fetchGuestCode({
+            data: { sessionId: session_id, environment: getStripeEnvironment() },
+          });
+          if (!alive) return;
+          if (res.state === 'ready') {
+            rememberGuestCode(res.code);
+            setGuest({ code: res.code });
+            setStatus({ state: 'paid' });
+          } else if (res.state === 'pending') {
+            setStatus({ state: 'processing' });
+          } else {
+            setStatus({ state: 'unknown', reason: res.reason });
+          }
+          return;
+        }
         const res = await fetchStatus({
           data: { sessionId: session_id, environment: getStripeEnvironment() },
         });
@@ -66,7 +89,8 @@ function CheckoutReturn() {
     return () => {
       alive = false;
     };
-  }, [session_id, fetchStatus]);
+  }, [session_id, fetchStatus, fetchGuestCode]);
+
 
   const failed = status?.state === 'failed';
   const processing = status?.state === 'processing';
@@ -245,12 +269,32 @@ function CheckoutReturn() {
               {ok ? "You're all set" : 'Almost there'}
             </h1>
             <p className="relative mx-auto mt-2 max-w-[36ch] text-sm text-muted-foreground">
-              {ok
-                ? 'Payment confirmed. Your access is unlocking right now — coins, memberships and Friends Lists appear within a few seconds.'
-                : 'We could not find your session details, but your payment may still be processing. Check My subscriptions in a moment.'}
+              {guest
+                ? 'Payment confirmed. Save this subscription code — create your account and enter it to switch your membership on.'
+                : ok
+                  ? 'Payment confirmed. Your access is unlocking right now — coins, memberships and Friends Lists appear within a few seconds.'
+                  : 'We could not find your session details, but your payment may still be processing. Check My subscriptions in a moment.'}
             </p>
 
-            {ok && (
+            {guest && (
+              <div className="relative mx-auto mt-6 max-w-sm rounded-2xl border border-border/70 bg-card/70 p-4 backdrop-blur-xl">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                  Your subscription code
+                </p>
+                <p className="mt-2 select-all text-xl font-black tracking-[0.12em] text-foreground">{guest.code}</p>
+                <button
+                  onClick={() => navigator.clipboard?.writeText(guest.code)}
+                  className="press-spring mt-3 rounded-full border border-border/70 bg-card/70 px-3 py-1.5 text-[11px] font-bold"
+                >
+                  Copy code
+                </button>
+                <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
+                  We also emailed your receipt. Keep this code — it links your payment to your new account.
+                </p>
+              </div>
+            )}
+
+            {ok && !guest && (
               <ul className="relative mx-auto mt-6 max-w-sm space-y-3 text-left">
                 {NEXT_STEPS.map((s, i) => (
                   <li
@@ -271,30 +315,53 @@ function CheckoutReturn() {
             )}
 
             <div className="relative mt-7 flex flex-col gap-2.5">
-              <Link
-                to="/discover"
-                className="press-spring relative w-full overflow-hidden rounded-2xl bg-[linear-gradient(110deg,#38bdf8,#a855f7,#ec4899,#38bdf8)] bg-[length:240%_100%] py-3.5 text-sm font-black tracking-tight text-white shadow-glow hover:bg-[position:100%_50%]"
-                style={{ transition: 'background-position 900ms ease, transform 320ms cubic-bezier(.2,1.3,.3,1)' }}
-              >
-                <span className="relative z-10 inline-flex items-center justify-center gap-2">
-                  <Gem className="h-4 w-4" /> Start meeting hosts
-                </span>
-              </Link>
-              <div className="flex gap-2.5">
-                <Link
-                  to="/dashboard"
-                  className="press-spring flex-1 rounded-2xl border border-border/70 bg-card/70 py-3 text-center text-sm font-semibold backdrop-blur-xl"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  to="/subscriptions"
-                  className="press-spring flex-1 rounded-2xl border border-border/70 bg-card/70 py-3 text-center text-sm font-semibold backdrop-blur-xl"
-                >
-                  My subscriptions
-                </Link>
-              </div>
+              {guest ? (
+                <>
+                  <Link
+                    to="/auth"
+                    className="press-spring relative w-full overflow-hidden rounded-2xl bg-[linear-gradient(110deg,#38bdf8,#a855f7,#ec4899,#38bdf8)] bg-[length:240%_100%] py-3.5 text-sm font-black tracking-tight text-white shadow-glow hover:bg-[position:100%_50%]"
+                    style={{ transition: 'background-position 900ms ease, transform 320ms cubic-bezier(.2,1.3,.3,1)' }}
+                  >
+                    <span className="relative z-10 inline-flex items-center justify-center gap-2">
+                      <Gem className="h-4 w-4" /> Create your account
+                    </span>
+                  </Link>
+                  <Link
+                    to="/claim"
+                    className="press-spring rounded-2xl border border-border/70 bg-card/70 py-3 text-center text-sm font-semibold backdrop-blur-xl"
+                  >
+                    I already have an account — redeem code
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/discover"
+                    className="press-spring relative w-full overflow-hidden rounded-2xl bg-[linear-gradient(110deg,#38bdf8,#a855f7,#ec4899,#38bdf8)] bg-[length:240%_100%] py-3.5 text-sm font-black tracking-tight text-white shadow-glow hover:bg-[position:100%_50%]"
+                    style={{ transition: 'background-position 900ms ease, transform 320ms cubic-bezier(.2,1.3,.3,1)' }}
+                  >
+                    <span className="relative z-10 inline-flex items-center justify-center gap-2">
+                      <Gem className="h-4 w-4" /> Start meeting hosts
+                    </span>
+                  </Link>
+                  <div className="flex gap-2.5">
+                    <Link
+                      to="/dashboard"
+                      className="press-spring flex-1 rounded-2xl border border-border/70 bg-card/70 py-3 text-center text-sm font-semibold backdrop-blur-xl"
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/subscriptions"
+                      className="press-spring flex-1 rounded-2xl border border-border/70 bg-card/70 py-3 text-center text-sm font-semibold backdrop-blur-xl"
+                    >
+                      My subscriptions
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
+
           </div>
         </div>
 
