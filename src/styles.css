@@ -1481,3 +1481,13 @@ body::after {
 }
 
 
+
+/* Accessibility: a visible keyboard focus ring on every theme. */
+:where(a, button, [role="button"], input, textarea, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring, var(--primary));
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+.chat-wallpaper :where(a, button, textarea):focus-visible {
+  outline-color: var(--primary);
+}

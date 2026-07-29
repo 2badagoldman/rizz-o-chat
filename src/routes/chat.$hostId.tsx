@@ -243,7 +243,7 @@ function HostChat() {
     return (
       <AppShell hideNav>
         <header className="flex items-center gap-3 pt-3 pb-2">
-          <button onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="rounded-full border border-border p-2">
+          <button type="button" aria-label={`Back to ${host.name}'s profile`} onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="grid h-11 w-11 place-items-center rounded-full border border-border">
             <ArrowLeft className="h-4 w-4" />
           </button>
           <h1 className="text-base font-semibold">{host.name}</h1>
@@ -301,7 +301,7 @@ function HostChat() {
       ) : null}
       <div data-chat-skin={skin} data-chat-contrast={contrastAttr} className="chat-wallpaper flex min-h-[calc(100vh-1rem)] flex-col">
         <header className="flex items-center gap-3 pt-3 pb-2">
-          <button onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="rounded-full border border-border p-2">
+          <button type="button" aria-label={`Back to ${host.name}'s profile`} onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="grid h-11 w-11 place-items-center rounded-full border border-border">
             <ArrowLeft className="h-4 w-4" />
           </button>
           <button
