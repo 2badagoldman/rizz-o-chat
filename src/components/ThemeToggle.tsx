@@ -8,7 +8,7 @@ const KEY = "rizz.theme";
 const ALL: Theme[] = ["pink", "blue", "ocean", "abyss", "sico", "romance", "crush"];
 const EXTRA: { id: Theme; label: string; swatch: string }[] = [
   { id: "crush", label: "Crush", swatch: "linear-gradient(135deg,#ffe08a,#ff9a1f,#ff4d00,#7fdcff)" },
-  { id: "sico", label: "Sico Mode", swatch: "linear-gradient(135deg,#b8ff2f,#00f0d0,#6a00ff,#ff2fd0)" },
+  { id: "sico", label: "Sico Mode", swatch: "linear-gradient(135deg,#ffd6b0,#ff9ecb,#ff5fa8,#a97bff)" },
   { id: "romance", label: "Romance", swatch: "linear-gradient(135deg,#0a0104,#d4132f,#e8b98a)" },
   { id: "blue", label: "Blue", swatch: "linear-gradient(135deg,#2563eb,#7dd3fc)" },
   { id: "ocean", label: "Ocean", swatch: "linear-gradient(135deg,#073b4c,#35c3b6)" },

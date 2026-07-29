@@ -1551,7 +1551,7 @@ body::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sea-wave, .sea-shaft, .sico-grid, .sico-bloom, .sico-scan, .sico-glitch, .sico-spire,
+  .sea-wave, .sea-shaft, .sico-grid, .sico-bloom, .sico-spire,
   .romance-flow, .romance-rose, .romance-glow { animation: none; }
   .sico-glitch { opacity: 0; }
 }
