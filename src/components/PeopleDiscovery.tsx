@@ -71,7 +71,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label="Find people"
+      aria-label="Find your crush"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -81,17 +81,17 @@ export function PeopleDiscovery({ open, onClose }: Props) {
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">Crush</p>
             <h2 className="bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[22px] font-black leading-tight text-transparent">
-              Find people
+              Find your crush
             </h2>
             <p className="text-[11.5px] text-muted-foreground">
               {debounced
                 ? "Search by name or exact email"
-                : `${all.length} on Crush · ${weekCount} joined this week`}
+                : "Join the rush as everyone finds their crush on Crush."}
             </p>
           </div>
           <button
             onClick={onClose}
-            aria-label="Close find people"
+            aria-label="Close find your crush"
             className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-card/70 text-foreground/70 transition-transform hover:scale-110 active:scale-90"
           >
             <X className="h-4 w-4" strokeWidth={2.5} />
@@ -144,7 +144,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
 
         <div className="mt-3 flex-1 overflow-y-auto px-3 pb-5">
           {!user ? (
-            <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find people on Crush.</p>
+            <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find your crush on Crush.</p>
           ) : isLoading ? (
             <p className="p-6 text-center text-sm text-muted-foreground">Loading the newest faces…</p>
           ) : error ? (

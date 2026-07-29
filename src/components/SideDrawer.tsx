@@ -215,10 +215,10 @@ export function SideDrawer({ open, onClose }: Props) {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-[15px] font-bold leading-tight tracking-[-0.01em] text-foreground">
-                    Find people
+                    Find your crush
                   </span>
                   <span className="mt-0.5 block truncate text-[11.5px] text-muted-foreground">
-                    Newly joined members & hosts
+                    Join the rush as everyone finds their crush
                   </span>
                 </span>
                 <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
