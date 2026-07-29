@@ -133,11 +133,14 @@ export function PeopleDiscovery({ open, onClose }: Props) {
         </div>
 
         <div className="mt-3 flex gap-2 px-4">
-          {([
-            { key: "all", label: "Everyone" },
-            { key: "member", label: "Members" },
-            { key: "host", label: "Hosts" },
-          ] as const).map((t) => (
+          {(isMember
+            ? ([{ key: "host", label: "Hosts" }] as const)
+            : ([
+                { key: "all", label: "Everyone" },
+                { key: "member", label: "Members" },
+                { key: "host", label: "Hosts" },
+              ] as const)
+          ).map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
