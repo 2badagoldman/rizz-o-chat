@@ -132,8 +132,10 @@ function AuthPage() {
       setError(`Confirm you are 18+ before continuing with ${provider === "apple" ? "Apple" : "Google"}.`);
       return;
     }
+    // Guests who already paid land on the redemption screen after OAuth.
+    const dest = readGuestCode() ? "/claim" : nextPath;
     const result = await lovable.auth.signInWithOAuth(provider, {
-      redirect_uri: window.location.origin + nextPath,
+      redirect_uri: window.location.origin + dest,
     });
     if (result.error) setError(result.error.message ?? "Sign-in failed");
   };
