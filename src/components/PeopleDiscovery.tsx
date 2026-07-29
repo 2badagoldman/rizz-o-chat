@@ -28,10 +28,18 @@ export function PeopleDiscovery({ open, onClose }: Props) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchPeople = useServerFn(discoverPeople);
+  const fetchProfile = useServerFn(getPublicProfile);
   const [q, setQ] = useState("");
   const [debounced, setDebounced] = useState("");
   const [tab, setTab] = useState<"all" | "member" | "host">("all");
   const onlineUsers = useOnlineUsers();
+
+  const { data: myProfile } = useQuery({
+    queryKey: ["my-public-profile", user?.id],
+    queryFn: () => fetchProfile({ data: { userId: user!.id } }),
+    enabled: !!user,
+  });
+  const isMember = myProfile?.account_type === "member";
 
   useEffect(() => {
     const t = setTimeout(() => setDebounced(q), 250);
