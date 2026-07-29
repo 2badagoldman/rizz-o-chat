@@ -289,11 +289,14 @@ function HostChat() {
     setPending([]);
   };
 
-  // Tap a reaction: it bursts up the screen and is delivered to the host as a message.
-  const sendReaction = (emoji: string) => {
+  // Tap a reaction: it bursts up the screen, is delivered to the host as a
+  // message, and is also appended to the draft so it can be reused in context.
+  const sendReaction = (emoji: string, opts?: { draft?: boolean }) => {
     fire(emoji);
     if (!busy && !chatLocked) sendMessage({ text: emoji });
+    if (opts?.draft) setInput((v) => v + emoji);
   };
+
 
   return (
 
