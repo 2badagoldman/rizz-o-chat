@@ -113,7 +113,6 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
 
       <main key={pathname} className="page-anim relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4 pb-32">
 
-        <KycGate />
         {children}
         {footerNote ? (
           <p className="mt-8 text-center text-[11px] leading-relaxed text-muted-foreground">
