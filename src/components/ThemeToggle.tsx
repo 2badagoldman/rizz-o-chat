@@ -89,13 +89,13 @@ export function ThemeToggle() {
         </button>
         <button
           type="button"
-          onClick={() => { setTheme("blue"); setOpen(false); }}
-          aria-pressed={theme === "blue"}
+          onClick={() => { setTheme("abyss"); setOpen(false); }}
+          aria-pressed={theme === "abyss"}
           className={`rounded-full px-2.5 py-1 transition-colors ${
-            theme === "blue" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
+            theme === "abyss" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
           }`}
         >
-          Blue
+          Sea
         </button>
         <button
           ref={btnRef}
