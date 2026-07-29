@@ -103,12 +103,36 @@ export function PageAtmosphere() {
   const auroras = level === "lite" ? AURORAS.slice(0, 1) : level === "mid" ? AURORAS.slice(0, 2) : AURORAS;
   const bubbles = level === "lite" ? [] : level === "mid" ? BUBBLES.slice(0, 3) : BUBBLES;
 
+  // Scroll-linked depth: waves sink and light shafts rise as you scroll.
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        ref.current?.style.setProperty("--sea-scroll", String(Math.min(1, window.scrollY / max)));
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <div
+      ref={ref}
       aria-hidden
       data-anim-scope
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
     >
+      <SeaLayer />
+      <RoseLayer />
+
       {auroras.map((a) => (
         <div
           key={a.className}
