@@ -11,6 +11,7 @@ import { PushNotificationsCard } from "@/components/PushNotificationsCard";
 import { useNativePlatform } from "@/hooks/useNative";
 import { captureNativePhoto } from "@/lib/native";
 import { Camera } from "lucide-react";
+import { SubscriptionStatusCard } from "@/components/SubscriptionStatusCard";
 
 
 
@@ -491,6 +492,8 @@ function Profile() {
           {error}
         </div>
       ) : null}
+
+      <SubscriptionStatusCard />
 
       <div className="mt-6 space-y-2">
         <button
