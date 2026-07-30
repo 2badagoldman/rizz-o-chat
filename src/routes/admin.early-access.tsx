@@ -66,38 +66,30 @@ function EarlyAccessAdmin() {
     return () => clearInterval(i);
   }, []);
 
-  // realtime: new signups + edits land instantly
+  // periodic refresh: new signups land within 15s (realtime broadcast disabled for privacy)
   useEffect(() => {
-    const channel = supabase
-      .channel("admin-early-access")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "early_access_signups" },
-        (payload) => {
-          const row = (payload.new ?? payload.old) as Row | undefined;
-          if (!row?.id) return;
-          if (payload.eventType === "DELETE") {
-            setRows((prev) => prev.filter((r) => r.id !== row.id));
-            return;
-          }
-          setRows((prev) => {
-            const next = prev.filter((r) => r.id !== row.id);
-            return [row, ...next].sort(
-              (a, b) => +new Date(b.created_at) - +new Date(a.created_at),
-            );
-          });
-          if (payload.eventType === "INSERT" && !seen.current.has(row.id)) {
-            seen.current.add(row.id);
-            setFlash(`${row.email} joined the ${row.feature} waitlist`);
-            setTimeout(() => setFlash(null), 6000);
-          }
-        },
-      )
-      .subscribe((status) => setLive(status === "SUBSCRIBED"));
+    setLive(true);
+    const i = setInterval(async () => {
+      try {
+        const r = (await fetchRows()) as Row[];
+        const fresh = r.filter((x) => !seen.current.has(x.id));
+        seen.current = new Set(r.map((x) => x.id));
+        setRows(r);
+        if (fresh.length) {
+          const f = fresh[0];
+          setFlash(`${f.email} joined the ${f.feature} waitlist`);
+          setTimeout(() => setFlash(null), 6000);
+        }
+      } catch {
+        /* keep last good data */
+      }
+    }, 15_000);
     return () => {
-      supabase.removeChannel(channel);
+      clearInterval(i);
+      setLive(false);
     };
-  }, []);
+  }, [fetchRows]);
+
 
   const grouped = useMemo(() => {
     const m = new Map<string, Row[]>();
