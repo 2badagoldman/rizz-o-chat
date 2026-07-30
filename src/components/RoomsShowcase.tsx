@@ -74,13 +74,15 @@ export function RoomsShowcase() {
   // Map real rooms into the DemoRoom shape so they render in the same cards
   const realAsDemo: (DemoRoom & { id?: string; real?: boolean; distance_miles?: number | null })[] =
     realRooms.map((r) => ({
-      slug: r.id,
+      slug: r.slug || r.id,
       id: r.id,
       real: true,
       name: r.name,
-      emoji: "💬",
+      emoji: r.emoji || "💬",
       tagline: r.description || r.category || "Public room",
-      category: "Local",
+      category: (r.category as DemoRoom["category"]) || "Local",
+      coHosts: (r.co_hosts as string[]) ?? [],
+      official: !!r.is_official,
       members: r.member_count ?? 0,
       online: Math.max(1, Math.floor((r.member_count ?? 0) / 3)),
       gradient: "linear-gradient(135deg,#e84393,#6c5ce7)",
@@ -92,11 +94,13 @@ export function RoomsShowcase() {
     }));
 
   const rooms = useMemo(() => {
-    if (cat === "All") return [...realAsDemo, ...DEMO_ROOMS];
+    // Once the real rooms are live they replace the static preview cards.
+    const fallback = realAsDemo.length ? [] : DEMO_ROOMS;
+    if (cat === "All") return [...realAsDemo, ...fallback];
     if (cat === "Near Me") {
       const merged = [
-        ...realAsDemo,
-        ...CITY_ROOMS.map((r) => ({ ...r, real: false as const })),
+        ...realAsDemo.filter((r: any) => r.city),
+        ...(realAsDemo.length ? [] : CITY_ROOMS.map((r) => ({ ...r, real: false as const }))),
       ];
       if (!coords) return merged;
       return merged
@@ -107,7 +111,7 @@ export function RoomsShowcase() {
         .sort((a, b) => a.d - b.d)
         .map(({ r }) => r);
     }
-    return DEMO_ROOMS.filter((r) => r.category === cat);
+    return [...realAsDemo, ...fallback].filter((r: any) => r.category === cat);
   }, [cat, coords, realAsDemo]);
 
   const nearbyRealCount = coords
@@ -257,6 +261,9 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
         <div>
           <p className="text-lg font-bold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">{room.name}</p>
           <p className="mt-0.5 text-[11px] opacity-90 drop-shadow">{room.tagline}</p>
+          {room.coHosts?.length ? (
+            <p className="mt-1 text-[10px] font-semibold opacity-90 drop-shadow">Co-hosts: Cleo · Remy · Lena</p>
+          ) : null}
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-semibold">
             <span className="flex items-center gap-1">
               <Circle className="h-2 w-2 fill-success text-success" /> {room.online} online

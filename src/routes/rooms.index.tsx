@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { listPublicRooms, joinPublicRoom } from "@/lib/rooms.functions";
+import { listPublicRooms, joinPublicRoom, getRoomAccess } from "@/lib/rooms.functions";
+import { DEMO_HOSTS } from "@/lib/demo-hosts";
+import { hostAvatarThumb } from "@/lib/host-avatars";
 import { MapPin, Plus, Users, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { pageHead } from "@/lib/seo";
@@ -23,6 +25,8 @@ function RoomsBrowsePage() {
   const navigate = useNavigate();
   const fetchPublic = useServerFn(listPublicRooms);
   const doJoin = useServerFn(joinPublicRoom);
+  const fetchAccess = useServerFn(getRoomAccess);
+  const [access, setAccess] = useState<{ allowed: boolean } | null>(null);
   const [rooms, setRooms] = useState<any[]>([]);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -34,6 +38,10 @@ function RoomsBrowsePage() {
       .then(setRooms).catch((e) => toast.error(e.message)).finally(() => setLoading(false));
   };
   useEffect(() => { load(coords); /* eslint-disable-next-line */ }, [user]);
+  useEffect(() => {
+    if (!user) { setAccess(null); return; }
+    fetchAccess({ data: {} as any }).then(setAccess).catch(() => setAccess(null));
+  }, [user, fetchAccess]);
 
   const askLocation = () => {
     if (!("geolocation" in navigator)) { toast.error("Location not supported"); return; }
@@ -69,6 +77,16 @@ function RoomsBrowsePage() {
         <Link to="/rooms/new" className="btn-brand inline-flex shrink-0 items-center gap-1"><Plus className="h-4 w-4" /> Create</Link>
       </div>
 
+      {access && !access.allowed ? (
+        <div className="mt-4 rounded-2xl border border-primary/40 bg-gradient-brand-soft p-4">
+          <p className="text-sm font-bold text-primary">Rooms are a members-only space</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Crush Gold and Diamond members can join every room — with Cleo, Remy and Lena co-hosting so the conversation never dies.
+          </p>
+          <Link to="/subscriptions" className="btn-brand mt-3 inline-flex">Upgrade to join</Link>
+        </div>
+      ) : null}
+
       <button onClick={askLocation} className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-gradient-brand-soft px-3 py-1.5 text-xs font-semibold text-primary">
         <MapPin className="h-3 w-3" /> {coords ? "Sorted by distance" : "Sort by rooms near me"}
       </button>
@@ -87,7 +105,7 @@ function RoomsBrowsePage() {
             <li key={r.id}>
               <button onClick={() => join(r.id)} className="w-full rounded-2xl border border-border bg-card p-3 text-left transition hover:border-primary/60">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="font-semibold">{r.name}</p>
+                  <p className="font-semibold">{r.emoji ? `${r.emoji} ` : ""}{r.name}</p>
                   {typeof r.distance_miles === "number" ? (
                     <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
                       {r.distance_miles < 10 ? r.distance_miles.toFixed(1) : Math.round(r.distance_miles)} mi
@@ -99,6 +117,18 @@ function RoomsBrowsePage() {
                   {r.city ? <span className="flex items-center gap-1"><MapPin className="h-3 w-3" /> {r.city}{r.state ? `, ${r.state}` : ""}</span> : null}
                   <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {r.member_count ?? 0}</span>
                 </div>
+                {(r.co_hosts?.length ?? 0) > 0 ? (
+                  <div className="mt-2 flex items-center gap-1.5">
+                    <div className="flex -space-x-2">
+                      {(r.co_hosts as string[]).map((id) => (
+                        <img key={id} src={hostAvatarThumb(id)} alt="" className="h-5 w-5 rounded-full object-cover ring-2 ring-card" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-semibold text-primary">
+                      Co-hosted by {(r.co_hosts as string[]).map((id) => DEMO_HOSTS.find((h) => h.id === id)?.name).filter(Boolean).join(", ")}
+                    </span>
+                  </div>
+                ) : null}
               </button>
             </li>
           ))}
