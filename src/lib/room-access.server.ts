@@ -13,7 +13,7 @@ export type RoomAccess = {
 };
 
 export async function evaluateRoomAccess(
-  supabase: { from: (t: string) => any; rpc: (fn: string, args: any) => any },
+  supabase: any,
   userId: string,
 ): Promise<RoomAccess> {
   const { data: profile } = await supabase
@@ -26,7 +26,7 @@ export async function evaluateRoomAccess(
   if (profile?.account_type === "host") return { allowed: true, reason: "host", tier };
   if (tier === "plus" || tier === "vip") return { allowed: true, reason: "subscription", tier };
 
-  const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
+  const { data: isAdmin } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" as const });
   if (isAdmin) return { allowed: true, reason: "admin", tier };
 
   return { allowed: false, reason: "locked", tier };
