@@ -257,19 +257,19 @@ export const listRoomMessages = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { data: rows, error } = await context.supabase
       .from("room_messages")
-      .select("id, sender_id, body, created_at")
+      .select("id, sender_id, ai_host_id, body, created_at")
       .eq("room_id", data.roomId)
       .order("created_at", { ascending: true })
       .limit(Math.min(data.limit ?? 200, 500));
     if (error) throw error;
-    const ids = Array.from(new Set((rows ?? []).map((m: any) => m.sender_id)));
+    const ids = Array.from(new Set((rows ?? []).map((m: any) => m.sender_id).filter(Boolean)));
     let profiles: any[] = [];
     if (ids.length > 0) {
       const r = await context.supabase.from("profiles").select("id, display_name, avatar_url").in("id", ids);
       profiles = r.data ?? [];
     }
     const byId = new Map(profiles.map((p) => [p.id, p]));
-    return (rows ?? []).map((m: any) => ({ ...m, sender: byId.get(m.sender_id) ?? null }));
+    return (rows ?? []).map((m: any) => ({ ...m, sender: m.sender_id ? byId.get(m.sender_id) ?? null : null }));
   });
 
 export const sendRoomMessage = createServerFn({ method: "POST" })
@@ -282,11 +282,41 @@ export const sendRoomMessage = createServerFn({ method: "POST" })
     return { roomId: x.roomId, body: body.slice(0, 2000) };
   })
   .handler(async ({ data, context }) => {
+    const { assertRoomAccess } = await import("./room-access.server");
+    await assertRoomAccess(context.supabase, context.userId);
     const { data: row, error } = await context.supabase
       .from("room_messages")
       .insert({ room_id: data.roomId, sender_id: context.userId, body: data.body })
-      .select("id, sender_id, body, created_at")
+      .select("id, sender_id, ai_host_id, body, created_at")
       .single();
     if (error) throw error;
     return row;
+  });
+
+/**
+ * Lets an AI co-host (Cleo / Remy / Lena) take a turn in the room when the
+ * human host isn't engaged. Called fire-and-forget by the room UI after a
+ * member posts; the reply arrives over realtime.
+ */
+export const requestCoHostReply = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => i as { roomId: string })
+  .handler(async ({ data, context }) => {
+    const { evaluateRoomAccess } = await import("./room-access.server");
+    const access = await evaluateRoomAccess(context.supabase, context.userId);
+    if (!access.allowed) return { posted: false };
+    // Confirm the caller can actually see this room before spending a turn.
+    const { data: member } = await context.supabase
+      .from("room_messages").select("id").eq("room_id", data.roomId).limit(1);
+    if (!member) return { posted: false };
+    const { runCoHostTurn } = await import("./room-cohost.server");
+    return await runCoHostTurn(data.roomId);
+  });
+
+/** Whether the signed-in user can join / post in rooms. */
+export const getRoomAccess = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { evaluateRoomAccess } = await import("./room-access.server");
+    return await evaluateRoomAccess(context.supabase, context.userId);
   });
