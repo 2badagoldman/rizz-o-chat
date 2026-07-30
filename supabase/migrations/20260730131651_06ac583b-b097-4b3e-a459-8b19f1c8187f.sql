@@ -1,0 +1,1 @@
+UPDATE public.showcase_media SET is_active = true WHERE is_active = false;

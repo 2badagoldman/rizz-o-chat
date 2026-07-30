@@ -7,6 +7,8 @@ import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 import { pageHead } from "@/lib/seo";
+import { ShowcaseRail } from "@/components/ShowcaseRail";
+
 
 export const Route = createFileRoute("/")({
   head: () => pageHead({
@@ -42,8 +44,12 @@ function Home() {
         </p>
       </header>
 
+      {/* Showcase reel */}
+      <ShowcaseRail title="Showcase" subtitle="Today's best looks" limit={20} />
+
       {/* Online now rail */}
       <section className="mt-7 rise-in rise-in-1">
+
         <div className="mb-2 flex items-baseline justify-between">
           <h2 className="text-sm font-display font-bold">Online now</h2>
           <Link to="/discover" className="text-[11px] text-muted-foreground hover:text-primary">See all</Link>

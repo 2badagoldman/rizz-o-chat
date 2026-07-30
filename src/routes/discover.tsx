@@ -8,6 +8,8 @@ import { Search, Users, Circle, Sparkles, X, ArrowUpDown } from "lucide-react";
 import { useShuffled } from "@/hooks/useShuffled";
 import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { RoomsShowcase } from "@/components/RoomsShowcase";
+import { ShowcaseRail } from "@/components/ShowcaseRail";
+
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/discover")({
@@ -125,7 +127,10 @@ function Discover() {
         ))}
       </div>
 
+      <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={24} />
+
       <RoomsShowcase />
+
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
         <div className="min-w-0">
