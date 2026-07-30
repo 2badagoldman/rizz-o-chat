@@ -8,6 +8,7 @@ import { CheckCheck, Inbox, Loader2, MailOpen, Send, Users } from "lucide-react"
 import { inboxThreads, markThreadsRead, bulkReply, broadcastToRooms, type InboxThread } from "@/lib/host-inbox.functions";
 import { listMyRooms } from "@/lib/rooms.functions";
 import { previewChatBody } from "@/lib/chat-media";
+import { RestrictedGroupPanel } from "@/components/host/RestrictedGroupPanel";
 
 
 export const Route = createFileRoute("/host/inbox")({
@@ -335,6 +336,7 @@ function HostInbox() {
           </>
         )}
       </section>
+      <RestrictedGroupPanel />
     </AppShell>
   );
 }
