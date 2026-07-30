@@ -6,7 +6,9 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowLeft, Send, Users, Settings } from "lucide-react";
 import { toast } from "sonner";
-import { getRoom, listRoomMessages, sendRoomMessage, listRoomMembers } from "@/lib/rooms.functions";
+import { getRoom, listRoomMessages, sendRoomMessage, listRoomMembers, requestCoHostReply } from "@/lib/rooms.functions";
+import { DEMO_HOSTS } from "@/lib/demo-hosts";
+import { hostAvatarThumb } from "@/lib/host-avatars";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 
 
@@ -24,6 +26,7 @@ function RoomChatPage() {
   const fetchMsgs = useServerFn(listRoomMessages);
   const send = useServerFn(sendRoomMessage);
   const fetchMembers = useServerFn(listRoomMembers);
+  const nudgeCoHost = useServerFn(requestCoHostReply);
 
   const [room, setRoom] = useState<any>(null);
   const [msgs, setMsgs] = useState<any[]>([]);
@@ -32,6 +35,7 @@ function RoomChatPage() {
   const [sending, setSending] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [showMembers, setShowMembers] = useState(false);
+  const [coHostTyping, setCoHostTyping] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`room:${roomId}`);
 
@@ -50,8 +54,10 @@ function RoomChatPage() {
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "room_messages", filter: `room_id=eq.${roomId}` },
         async (payload: any) => {
           const m = payload.new;
-          // fetch sender profile lazily
-          const { data: prof } = await supabase.from("profiles").select("id, display_name, avatar_url").eq("id", m.sender_id).maybeSingle();
+          // fetch sender profile lazily (AI co-hosts have no profile row)
+          const { data: prof } = m.sender_id
+            ? await supabase.from("profiles").select("id, display_name, avatar_url").eq("id", m.sender_id).maybeSingle()
+            : { data: null };
           setMsgs((prev) => prev.some((x) => x.id === m.id) ? prev : [...prev, { ...m, sender: prof ?? null }]);
         })
       .subscribe();
@@ -69,6 +75,11 @@ function RoomChatPage() {
       const row = await send({ data: { roomId, body } });
       setText("");
       setMsgs((prev) => prev.some((x) => x.id === row.id) ? prev : [...prev, { ...row, sender: { id: user!.id, display_name: user!.email } }]);
+      // Let a co-host take a turn if the human host is away — reply arrives over realtime.
+      setCoHostTyping(true);
+      nudgeCoHost({ data: { roomId } })
+        .catch(() => {})
+        .finally(() => setCoHostTyping(false));
     } catch (e) { toast.error((e as Error).message); }
     finally { setSending(false); }
   }
@@ -102,6 +113,12 @@ function RoomChatPage() {
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold">{room.name}</p>
           <p className="text-[11px] text-muted-foreground">{members.length + 1} in room · group chat</p>
+          {(room.co_hosts?.length ?? 0) > 0 ? (
+            <p className="flex items-center gap-1 text-[10px] text-primary">
+              Co-hosts:{" "}
+              {(room.co_hosts as string[]).map((id) => DEMO_HOSTS.find((h) => h.id === id)?.name).filter(Boolean).join(", ")}
+            </p>
+          ) : null}
         </div>
         <ChatSkinPicker skin={skin} onChange={setSkin} highContrast={highContrast} onHighContrastChange={setHighContrast} />
         <button onClick={() => setShowMembers((v) => !v)} className="rounded-full border border-border p-2 hover:border-primary hover:text-primary" aria-label="Members">
@@ -132,16 +149,28 @@ function RoomChatPage() {
         {msgs.length === 0 ? (
           <p className="text-center text-xs text-muted-foreground pt-10">Say hi 👋 — this is the start of {room.name}.</p>
         ) : msgs.map((m) => {
-          const mine = m.sender_id === user.id;
+          const mine = !!m.sender_id && m.sender_id === user.id;
+          const ai = m.ai_host_id ? DEMO_HOSTS.find((h) => h.id === m.ai_host_id) : null;
           return (
-            <div key={m.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+            <div key={m.id} className={`flex items-end gap-2 ${mine ? "justify-end" : "justify-start"}`}>
+              {ai ? (
+                <img src={hostAvatarThumb(ai.id)} alt="" className="h-7 w-7 shrink-0 rounded-full object-cover ring-2 ring-primary/40" />
+              ) : null}
               <div className={`max-w-[80%] rounded-[22px] px-4 py-2.5 ${mine ? "rounded-br-md chat-bubble-mine" : "rounded-bl-md chat-bubble-peer"}`}>
-                {!mine ? <p className="chat-meta opacity-70">{m.sender?.display_name ?? "Member"}</p> : null}
+                {!mine ? (
+                  <p className="chat-meta flex items-center gap-1 opacity-70">
+                    {ai ? ai.name : m.sender?.display_name ?? "Member"}
+                    {ai ? <span className="rounded-full bg-primary/15 px-1.5 py-px text-[9px] font-bold uppercase tracking-wide text-primary">Co-host</span> : null}
+                  </p>
+                ) : null}
                 <p className="chat-type whitespace-pre-wrap break-words">{m.body}</p>
               </div>
             </div>
           );
         })}
+        {coHostTyping ? (
+          <p className="chat-meta pl-2 text-muted-foreground">A co-host is typing…</p>
+        ) : null}
         <div ref={bottomRef} />
       </div>
       </div>
