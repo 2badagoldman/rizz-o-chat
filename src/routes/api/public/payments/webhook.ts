@@ -166,6 +166,10 @@ async function handleSubscriptionDeleted(subscription: any, env: StripeEnv) {
 
 async function handleCheckoutCompleted(session: any) {
   if (session.mode !== 'payment') return; // subscription flows are handled by subscription events
+  // Delayed-notification methods (SEPA, Bacs, boleto, OXXO) complete checkout
+  // while payment_status is still "unpaid" — money lands days later. Wait for
+  // checkout.session.async_payment_succeeded before crediting anything.
+  if (session.payment_status === 'unpaid') return;
   const meta = session.metadata || {};
   const userId = meta.userId;
   if (!userId) return;
