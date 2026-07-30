@@ -261,6 +261,9 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
         <div>
           <p className="text-lg font-bold leading-tight drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">{room.name}</p>
           <p className="mt-0.5 text-[11px] opacity-90 drop-shadow">{room.tagline}</p>
+          {room.coHosts?.length ? (
+            <p className="mt-1 text-[10px] font-semibold opacity-90 drop-shadow">Co-hosts: Cleo · Remy · Lena</p>
+          ) : null}
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-semibold">
             <span className="flex items-center gap-1">
               <Circle className="h-2 w-2 fill-success text-success" /> {room.online} online
