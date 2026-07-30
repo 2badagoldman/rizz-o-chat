@@ -1,3 +1,4 @@
+import type Stripe from 'stripe';
 import { createServerFn } from '@tanstack/react-start';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 import { type StripeEnv, createStripeClient, getStripeErrorMessage } from '@/lib/stripe.server';
@@ -69,17 +70,19 @@ export const createCheckoutSession = createServerFn({ method: 'POST' })
         mode: isRecurring ? 'subscription' : 'payment',
         ui_mode: 'embedded_page',
         return_url: data.returnUrl,
-        // Charge in the price's own currency and turn off adaptive pricing, so
-        // buyers land straight on the card form instead of a currency chooser.
+        // Charge in the price's own currency; adaptive_pricing is incompatible
+        // with end-to-end compliance handling, so it stays off here.
         currency: price.currency,
-        adaptive_pricing: { enabled: false },
+        // Stripe handles tax calculation, collection, filing and remittance,
+        // plus fraud/dispute/transaction support, for our catalog products.
+        managed_payments: { enabled: true },
         customer: customerId,
         ...(!isRecurring && { payment_intent_data: { description: productDescription } }),
-        metadata: { userId, kind: 'catalog', priceLookupKey: data.priceId },
+        metadata: { userId, kind: 'catalog', priceLookupKey: data.priceId, managed_payments: 'true' },
         ...(isRecurring && {
           subscription_data: { metadata: { userId, kind: 'platform', priceLookupKey: data.priceId } },
         }),
-      });
+      } as Stripe.Checkout.SessionCreateParams);
       const { logPaymentEvent } = await import('@/lib/payment-audit.server');
       await logPaymentEvent({
         userId, sessionId: session.id, kind: 'catalog', status: 'created',
