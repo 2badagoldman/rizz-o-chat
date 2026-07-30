@@ -462,7 +462,7 @@ function HostChat() {
           <ChatTrialBanner locked={chatLocked} onTrial={onTrial && !aiHost} daysLeft={daysLeft} />
         )}
 
-        <form onSubmit={submit} className="sticky bottom-0 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
+        <form onSubmit={submit} className="sticky bottom-0 z-30 border-t border-border bg-background pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 backdrop-blur">
           <PendingAttachments markers={pending} onRemove={(m) => setPending((p) => p.filter((x) => x !== m))} />
           <div className="flex items-end gap-2">
           {user ? (

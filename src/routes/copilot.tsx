@@ -127,7 +127,7 @@ function Copilot() {
           ) : null}
         </div>
 
-        <form onSubmit={submit} className="sticky bottom-0 flex items-end gap-2 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
+        <form onSubmit={submit} className="sticky bottom-0 z-30 flex items-end gap-2 border-t border-border bg-background pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 backdrop-blur">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
