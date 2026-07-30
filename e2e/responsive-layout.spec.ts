@@ -36,14 +36,26 @@ async function horizontalOverflow(page: Page) {
   return page.evaluate(() => {
     const docWidth = document.documentElement.clientWidth;
     const offenders: string[] = [];
+    // Elements inside an intentional horizontal scroller (carousels, filter
+    // rails) are allowed to extend past the fold.
+    const inScroller = (el: Element) => {
+      let node: Element | null = el.parentElement;
+      while (node && node !== document.body) {
+        const ox = getComputedStyle(node).overflowX;
+        if (ox === "auto" || ox === "scroll") return true;
+        node = node.parentElement;
+      }
+      return false;
+    };
     for (const el of Array.from(document.body.querySelectorAll<HTMLElement>("*"))) {
       const style = getComputedStyle(el);
       if (style.display === "none" || style.visibility === "hidden") continue;
-      if (style.position === "fixed" && el.getAttribute("aria-hidden") === "true") continue;
       const rect = el.getBoundingClientRect();
       if (rect.width === 0 || rect.height === 0) continue;
-      // Decorative/atmosphere layers are intentionally oversized.
-      if (el.closest('[aria-hidden="true"]')) continue;
+      // Decorative/atmosphere layers and off-canvas panels are intentional.
+      if (el.closest('[aria-hidden="true"], [inert]')) continue;
+      if (el.closest('aside[role="dialog"]')) continue;
+      if (inScroller(el)) continue;
       if (rect.right > docWidth + 2 || rect.left < -2) {
         offenders.push(
           `${el.tagName.toLowerCase()}.${(el.className || "").toString().split(" ").filter(Boolean).slice(0, 2).join(".")} [${Math.round(rect.left)}..${Math.round(rect.right)}] > ${docWidth}`,
