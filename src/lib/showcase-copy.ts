@@ -47,6 +47,24 @@ const BANNED = [
   "real fun",
   "dirty",
   "hot",
+  "secret",
+  "secrets",
+  "in private",
+  "if you dare",
+  "closer",
+  "peek",
+  "sneak",
+  "what you missed",
+  "best line",
+  "night lights",
+  "hide",
+  "shy",
+  "spill",
+  "catch my attention",
+  "inner circle",
+  "text me first",
+  "impression",
+
 ];
 
 const BANNED_EMOJI = ["💋", "😏", "🔥", "🌶️", "🍑", "🍆", "😈", "👅", "🥵", "💦", "🍸", "🥂"];
