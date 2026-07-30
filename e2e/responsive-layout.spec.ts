@@ -110,8 +110,11 @@ for (const bp of BREAKPOINTS) {
         await page.goto(route, { waitUntil: "domcontentloaded" });
         await waitForShell(page);
         // Scroll to the very bottom: that is where stacking bugs surface.
-        await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-        await page.waitForTimeout(400);
+        // Lazy content keeps growing the page: scroll until the offset settles.
+        for (let i = 0; i < 4; i++) {
+          await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+          await page.waitForTimeout(400);
+        }
 
         const { bottomNav, dock, footer, header } = await chromeBoxes(page);
         if (!bottomNav) {
@@ -167,9 +170,17 @@ for (const bp of BREAKPOINTS) {
     test("open side drawer covers the page without clipping its own controls", async ({ page }) => {
       await page.goto("/", { waitUntil: "domcontentloaded" });
       await waitForShell(page);
+      const drawer = page.locator('aside[role="dialog"]');
+      await drawer.waitFor({ state: "attached" });
       await page.getByRole("button", { name: /open menu/i }).click({ force: true });
-      // Drawer slide-in transition is 550ms.
-      await page.waitForTimeout(1000);
+      // Drawer slide-in transition is 550ms; wait for it to actually land.
+      await page
+        .waitForFunction(() => {
+          const el = document.querySelector('aside[role="dialog"]');
+          return !!el && el.getBoundingClientRect().left > -2;
+        }, undefined, { timeout: 10_000 })
+        .catch(() => {});
+      await page.waitForTimeout(300);
 
       const offenders = await page.evaluate(() => {
         const w = document.documentElement.clientWidth;
