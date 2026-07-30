@@ -127,7 +127,29 @@ function AuthPage() {
     }
   };
 
+  const forgotPassword = async () => {
+    setError(null);
+    setNotice(null);
+    if (!email) {
+      setError("Enter your email above first, then tap “Forgot password?”.");
+      return;
+    }
+    setBusy(true);
+    try {
+      const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (err) throw err;
+      setNotice(`Reset link sent to ${email}. Check your inbox and spam folder.`);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Could not send reset email");
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const oauth = async (provider: "google" | "apple") => {
+
     setError(null);
     if (mode === "signup" && !ageConfirmed) {
       setError(`Confirm you are 18+ before continuing with ${provider === "apple" ? "Apple" : "Google"}.`);
