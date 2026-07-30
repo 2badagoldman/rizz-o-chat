@@ -237,7 +237,9 @@ export async function runBrainCore(trigger: "manual" | "cron") {
         const list: Array<{ id: string; caption: string }> = Array.isArray(parsed?.captions) ? parsed.captions : [];
         for (const c of list) {
           const clean = String(c.caption ?? "").trim().slice(0, 80);
-          if (!clean || !c.id) continue;
+          // Compliance gate: never persist a suggestive caption, even if the model returns one.
+          if (!clean || !c.id || !isCaptionCompliant(clean)) continue;
+
           // Preserve original caption once so we can always recover creator intent.
           const target = targets.find((t) => t.id === c.id);
           const patch: Record<string, unknown> = {
