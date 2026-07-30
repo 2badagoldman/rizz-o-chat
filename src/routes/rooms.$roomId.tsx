@@ -111,10 +111,10 @@ function RoomChatPage() {
     <AppShell>
       <div data-chat-skin={skin} data-chat-contrast={contrastAttr} className="chat-wallpaper -mx-4 px-4">
       <div className="sticky top-0 z-10 -mx-4 flex items-center gap-3 border-b border-border bg-background/90 px-4 py-3 backdrop-blur">
-        <button onClick={() => navigate({ to: "/chats" })} className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5" /></button>
+        <button onClick={() => navigate({ to: "/chats" })} aria-label="Back to chats" className="rounded-full p-1 hover:bg-muted"><ArrowLeft className="h-5 w-5" /></button>
         <div className="h-9 w-9 grid place-items-center rounded-full bg-gradient-brand text-white"><Users className="h-4 w-4" /></div>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold">{room.name}</p>
+          <h1 className="truncate text-sm font-semibold">{room.name}</h1>
           <p className="text-[11px] text-muted-foreground">{members.length + 1} in room · group chat</p>
           {(room.co_hosts?.length ?? 0) > 0 ? (
             <p className="flex items-center gap-1 text-[10px] text-primary">
@@ -211,7 +211,7 @@ function RoomChatPage() {
             placeholder={`Message ${room.name}…`}
             className="chat-type flex-1 rounded-full border border-border bg-card px-5 py-3 outline-none focus:border-primary"
           />
-          <button type="submit" disabled={sending || !text.trim()} className="btn-brand inline-flex h-11 w-11 items-center justify-center rounded-full p-0 disabled:opacity-50">
+          <button type="submit" aria-label="Send message" disabled={sending || !text.trim()} className="btn-brand inline-flex h-11 w-11 items-center justify-center rounded-full p-0 disabled:opacity-50">
             <Send className="h-4 w-4" />
           </button>
         </div>
