@@ -7,6 +7,7 @@ import { pageHead } from "@/lib/seo";
 import { useIosBillingRestricted } from '@/hooks/useNative';
 import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 import { RevenueCatPurchase } from '@/components/RevenueCatPurchase';
+import { AltPaymentOptions } from '@/components/AltPaymentOptions';
 import { useRevenueCat } from '@/hooks/useRevenueCat';
 import type { CrushPriceId } from '@/lib/revenuecat';
 
@@ -287,12 +288,15 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
         </button>
       )}
 
-      {/* Alternative rail: App Store / Google Play billing via RevenueCat.
-          Always visible so members have a fast, international backup if card
-          checkout is unavailable. */}
+      {/* Alternative rails: App Store / Google Play billing via RevenueCat plus
+          the partner processors (Cash App Pay, CCBill, SegPay, Epoch). Always
+          visible so members have a fast, international backup if card checkout
+          is unavailable. */}
       <div className={hideCard ? 'mt-6' : 'mt-3'}>
         <RevenueCatPurchase priceId={plan.id as CrushPriceId} label={`Get ${plan.name} with store billing`} />
+        {!hideCard && <AltPaymentOptions priceId={plan.id} onCashApp={onSubscribe} />}
       </div>
+
       </div>
     </div>
   );

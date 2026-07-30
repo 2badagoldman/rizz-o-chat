@@ -77,7 +77,10 @@ import { Route as AdminHostsHostIdRouteImport } from './routes/admin.hosts.$host
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
+import { Route as ApiPublicPaymentsSegpayRouteImport } from './routes/api/public/payments/segpay'
 import { Route as ApiPublicPaymentsRevenuecatRouteImport } from './routes/api/public/payments/revenuecat'
+import { Route as ApiPublicPaymentsEpochRouteImport } from './routes/api/public/payments/epoch'
+import { Route as ApiPublicPaymentsCcbillRouteImport } from './routes/api/public/payments/ccbill'
 import { Route as ApiPublicHooksShowcaseBrainRouteImport } from './routes/api/public/hooks/showcase-brain'
 
 const VerifyRoute = VerifyRouteImport.update({
@@ -424,12 +427,27 @@ const ApiPublicPaymentsWebhookRoute =
     path: '/api/public/payments/webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPaymentsSegpayRoute = ApiPublicPaymentsSegpayRouteImport.update({
+  id: '/api/public/payments/segpay',
+  path: '/api/public/payments/segpay',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPaymentsRevenuecatRoute =
   ApiPublicPaymentsRevenuecatRouteImport.update({
     id: '/api/public/payments/revenuecat',
     path: '/api/public/payments/revenuecat',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPaymentsEpochRoute = ApiPublicPaymentsEpochRouteImport.update({
+  id: '/api/public/payments/epoch',
+  path: '/api/public/payments/epoch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPaymentsCcbillRoute = ApiPublicPaymentsCcbillRouteImport.update({
+  id: '/api/public/payments/ccbill',
+  path: '/api/public/payments/ccbill',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicHooksShowcaseBrainRoute =
   ApiPublicHooksShowcaseBrainRouteImport.update({
     id: '/api/public/hooks/showcase-brain',
@@ -506,7 +524,10 @@ export interface FileRoutesByFullPath {
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
+  '/api/public/payments/ccbill': typeof ApiPublicPaymentsCcbillRoute
+  '/api/public/payments/epoch': typeof ApiPublicPaymentsEpochRoute
   '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
+  '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -577,7 +598,10 @@ export interface FileRoutesByTo {
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
+  '/api/public/payments/ccbill': typeof ApiPublicPaymentsCcbillRoute
+  '/api/public/payments/epoch': typeof ApiPublicPaymentsEpochRoute
   '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
+  '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -650,7 +674,10 @@ export interface FileRoutesById {
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
+  '/api/public/payments/ccbill': typeof ApiPublicPaymentsCcbillRoute
+  '/api/public/payments/epoch': typeof ApiPublicPaymentsEpochRoute
   '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
+  '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -724,7 +751,10 @@ export interface FileRouteTypes {
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
     | '/api/public/hooks/showcase-brain'
+    | '/api/public/payments/ccbill'
+    | '/api/public/payments/epoch'
     | '/api/public/payments/revenuecat'
+    | '/api/public/payments/segpay'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -795,7 +825,10 @@ export interface FileRouteTypes {
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
     | '/api/public/hooks/showcase-brain'
+    | '/api/public/payments/ccbill'
+    | '/api/public/payments/epoch'
     | '/api/public/payments/revenuecat'
+    | '/api/public/payments/segpay'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -867,7 +900,10 @@ export interface FileRouteTypes {
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
     | '/api/public/hooks/showcase-brain'
+    | '/api/public/payments/ccbill'
+    | '/api/public/payments/epoch'
     | '/api/public/payments/revenuecat'
+    | '/api/public/payments/segpay'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -926,7 +962,10 @@ export interface RootRouteChildren {
   ApiPublicDemoChatRoute: typeof ApiPublicDemoChatRoute
   ChatUserUserIdRoute: typeof ChatUserUserIdRoute
   ApiPublicHooksShowcaseBrainRoute: typeof ApiPublicHooksShowcaseBrainRoute
+  ApiPublicPaymentsCcbillRoute: typeof ApiPublicPaymentsCcbillRoute
+  ApiPublicPaymentsEpochRoute: typeof ApiPublicPaymentsEpochRoute
   ApiPublicPaymentsRevenuecatRoute: typeof ApiPublicPaymentsRevenuecatRoute
+  ApiPublicPaymentsSegpayRoute: typeof ApiPublicPaymentsSegpayRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -1408,11 +1447,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/payments/segpay': {
+      id: '/api/public/payments/segpay'
+      path: '/api/public/payments/segpay'
+      fullPath: '/api/public/payments/segpay'
+      preLoaderRoute: typeof ApiPublicPaymentsSegpayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/payments/revenuecat': {
       id: '/api/public/payments/revenuecat'
       path: '/api/public/payments/revenuecat'
       fullPath: '/api/public/payments/revenuecat'
       preLoaderRoute: typeof ApiPublicPaymentsRevenuecatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/epoch': {
+      id: '/api/public/payments/epoch'
+      path: '/api/public/payments/epoch'
+      fullPath: '/api/public/payments/epoch'
+      preLoaderRoute: typeof ApiPublicPaymentsEpochRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/ccbill': {
+      id: '/api/public/payments/ccbill'
+      path: '/api/public/payments/ccbill'
+      fullPath: '/api/public/payments/ccbill'
+      preLoaderRoute: typeof ApiPublicPaymentsCcbillRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/hooks/showcase-brain': {
@@ -1527,7 +1587,10 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicDemoChatRoute: ApiPublicDemoChatRoute,
   ChatUserUserIdRoute: ChatUserUserIdRoute,
   ApiPublicHooksShowcaseBrainRoute: ApiPublicHooksShowcaseBrainRoute,
+  ApiPublicPaymentsCcbillRoute: ApiPublicPaymentsCcbillRoute,
+  ApiPublicPaymentsEpochRoute: ApiPublicPaymentsEpochRoute,
   ApiPublicPaymentsRevenuecatRoute: ApiPublicPaymentsRevenuecatRoute,
+  ApiPublicPaymentsSegpayRoute: ApiPublicPaymentsSegpayRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
