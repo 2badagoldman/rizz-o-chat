@@ -67,7 +67,7 @@ const BANNED = [
 
 ];
 
-const BANNED_EMOJI = ["💋", "😏", "🔥", "🌶️", "🍑", "🍆", "😈", "👅", "🥵", "💦", "🍸", "🥂"];
+const BANNED_EMOJI = ["💋", "😏", "🔥", "🌶️", "🍑", "🍆", "😈", "👅", "🥵", "💦", "🍸", "🥂", "😉", "🙈", "🍒", "💅", "🖤", "🎀"];
 
 const SAFE_CAPTIONS = [
   "Say hi and start a real conversation 💬",
