@@ -125,7 +125,10 @@ function Discover() {
         ))}
       </div>
 
+      <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={24} />
+
       <RoomsShowcase />
+
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
         <div className="min-w-0">
