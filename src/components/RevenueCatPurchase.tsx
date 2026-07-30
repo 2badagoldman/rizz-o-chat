@@ -14,14 +14,19 @@ export function RevenueCatPurchase({
   priceId,
   label,
   onSuccess,
+  webNote = true,
 }: {
   priceId: CrushPriceId;
   label: string;
   onSuccess?: () => void;
+  /** Show the "available in the mobile app" hint on web. Turn off when the
+   *  page renders many purchase rows and only needs the hint once. */
+  webNote?: boolean;
 }) {
   const { available, ready, busy, packageFor, purchase, restore } = useRevenueCat();
 
   if (!available) {
+    if (!webNote) return null;
     return (
       <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[11px] text-muted-foreground">
         <Store className="h-3 w-3 shrink-0" />
