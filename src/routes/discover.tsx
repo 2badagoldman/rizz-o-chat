@@ -8,6 +8,8 @@ import { Search, Users, Circle, Sparkles, X, ArrowUpDown } from "lucide-react";
 import { useShuffled } from "@/hooks/useShuffled";
 import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { RoomsShowcase } from "@/components/RoomsShowcase";
+import { ShowcaseRail } from "@/components/ShowcaseRail";
+
 import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/discover")({
