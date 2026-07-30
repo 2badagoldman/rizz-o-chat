@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowLeft, Send, Users, Settings } from "lucide-react";
+import { ArrowLeft, Send, Users, Settings, Smile } from "lucide-react";
 import { toast } from "sonner";
 import { getRoom, listRoomMessages, sendRoomMessage, listRoomMembers, requestCoHostReply } from "@/lib/rooms.functions";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
@@ -17,6 +17,8 @@ export const Route = createFileRoute("/rooms/$roomId")({
       { name: "robots", content: "noindex, nofollow" },{ title: "Room — Crush" }] }),
   component: RoomChatPage,
 });
+
+const ROOM_EMOJIS = ["😀","😂","🥰","😍","😉","😎","🤗","🙌","👋","👏","💗","💕","✨","🎉","☕","🌸","🌊","🔆","💬","🙏","😅","🤝","👀","💯"];
 
 function RoomChatPage() {
   const { roomId } = Route.useParams();
@@ -36,6 +38,7 @@ function RoomChatPage() {
   const [err, setErr] = useState<string | null>(null);
   const [showMembers, setShowMembers] = useState(false);
   const [coHostTyping, setCoHostTyping] = useState(false);
+  const [emojiOpen, setEmojiOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`room:${roomId}`);
 
@@ -177,7 +180,31 @@ function RoomChatPage() {
 
 
       <form onSubmit={onSend} className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 p-3 backdrop-blur">
+        {emojiOpen ? (
+          <div className="mx-auto mb-2 flex max-w-2xl flex-wrap gap-1 rounded-2xl border border-border bg-card p-2">
+            {ROOM_EMOJIS.map((e) => (
+              <button
+                key={e}
+                type="button"
+                onClick={() => setText((v) => v + e)}
+                className="rounded-full px-2 py-1 text-xl transition hover:bg-muted"
+                aria-label={`Add ${e}`}
+              >
+                {e}
+              </button>
+            ))}
+          </div>
+        ) : null}
         <div className="mx-auto flex max-w-2xl items-end gap-2">
+          <button
+            type="button"
+            onClick={() => setEmojiOpen((v) => !v)}
+            aria-label="Emoji"
+            aria-expanded={emojiOpen}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border text-muted-foreground transition hover:text-foreground"
+          >
+            <Smile className="h-5 w-5" />
+          </button>
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -188,6 +215,9 @@ function RoomChatPage() {
             <Send className="h-4 w-4" />
           </button>
         </div>
+        <p className="mx-auto mt-1.5 max-w-2xl text-center text-[10px] text-muted-foreground">
+          Rooms are text &amp; emoji only — share photos or video in a one-on-one chat.
+        </p>
       </form>
     </AppShell>
   );
