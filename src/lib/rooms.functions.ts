@@ -91,7 +91,7 @@ export const listPublicRooms = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { data: rows, error } = await context.supabase
       .from("host_rooms")
-      .select("id, host_id, name, description, category, city, state, lat, lng, created_at")
+      .select("id, host_id, name, description, category, city, state, lat, lng, created_at, slug, emoji, is_official, co_hosts")
       .eq("is_public", true)
       .order("created_at", { ascending: false })
       .limit(data.limit);
