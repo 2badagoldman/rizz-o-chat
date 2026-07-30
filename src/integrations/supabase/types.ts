@@ -550,6 +550,36 @@ export type Database = {
           },
         ]
       }
+      member_restrictions: {
+        Row: {
+          created_at: string
+          host_id: string
+          id: string
+          media_blocked: boolean
+          member_id: string
+          reason: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          host_id: string
+          id?: string
+          media_blocked?: boolean
+          member_id: string
+          reason?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          host_id?: string
+          id?: string
+          media_blocked?: boolean
+          member_id?: string
+          reason?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       message_reads: {
         Row: {
           created_at: string
