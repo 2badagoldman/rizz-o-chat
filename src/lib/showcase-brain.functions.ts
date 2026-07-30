@@ -41,7 +41,7 @@ export const getShowcaseReel = createServerFn({ method: "POST" })
       if (!signed?.signedUrl) continue;
       items.push({
         id: r.id,
-        caption: r.caption,
+        caption: sanitizeShowcaseCaption(r.caption, r.id),
         media_type: (r.media_type === "video" ? "video" : "image") as "image" | "video",
         storage_path: r.storage_path,
         url: signed.signedUrl,
