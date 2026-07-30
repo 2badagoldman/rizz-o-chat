@@ -81,8 +81,8 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
                 <img src={rizzAiLogo.url} alt="Crush" className="block h-8 w-8 rounded-full bg-card" />
               </span>
               <span className="flex min-w-0 flex-col leading-tight">
-                <span className="truncate font-display text-sm font-bold tracking-tight">Crush</span>
-                <span className="hidden truncate text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground xs:block sm:block">
+                <span className="whitespace-nowrap font-display text-sm font-bold tracking-tight">Crush</span>
+                <span className="hidden whitespace-nowrap text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground xs:block sm:block">
                   Friends Always
                 </span>
               </span>

@@ -84,7 +84,7 @@ export function ThemeToggle() {
           aria-pressed={theme === "pink"}
           className={`rounded-full px-2.5 py-1 transition-colors ${
             theme === "pink" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
-          }`}
+          } hidden sm:block`}
         >
           Pink
         </button>
@@ -94,7 +94,7 @@ export function ThemeToggle() {
           aria-pressed={theme === "abyss"}
           className={`rounded-full px-2.5 py-1 transition-colors ${
             theme === "abyss" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
-          }`}
+          } hidden sm:block`}
         >
           Sea
         </button>
