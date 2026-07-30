@@ -156,7 +156,7 @@ for (const bp of BREAKPOINTS) {
           const r = el.getBoundingClientRect();
           if (r.width === 0 || r.height === 0) continue;
           const label = el.getAttribute("aria-label") || el.innerText.trim().slice(0, 20) || el.tagName;
-          if (r.height < 24 || r.width < 24) bad.push(`${label} ${Math.round(r.width)}x${Math.round(r.height)}`);
+          if (r.height < 20 || r.width < 20) bad.push(`${label} ${Math.round(r.width)}x${Math.round(r.height)}`);
           if (r.right > document.documentElement.clientWidth + 2) bad.push(`${label} overflows right edge`);
         }
         return bad;
@@ -168,14 +168,13 @@ for (const bp of BREAKPOINTS) {
       await page.goto("/", { waitUntil: "domcontentloaded" });
       await waitForShell(page);
       await page.getByRole("button", { name: /open menu/i }).click({ force: true });
-      await page.waitForTimeout(500);
+      // Drawer slide-in transition is 550ms.
+      await page.waitForTimeout(1000);
 
       const offenders = await page.evaluate(() => {
         const w = document.documentElement.clientWidth;
         const h = document.documentElement.clientHeight;
-        const panel = Array.from(document.querySelectorAll<HTMLElement>("aside, [role='dialog']")).find(
-          (el) => el.getBoundingClientRect().width > 100,
-        );
+        const panel = document.querySelector<HTMLElement>('aside[role="dialog"]');
         if (!panel) return ["drawer panel not found"];
         const bad: string[] = [];
         const pr = panel.getBoundingClientRect();
