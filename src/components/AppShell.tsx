@@ -58,12 +58,12 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
           className="prism-shift h-[3px] w-full bg-gradient-brand"
           style={{ backgroundSize: "260% 100%" }}
         />
-        <div className="mx-auto flex w-full max-w-[480px] items-center justify-between px-4 py-2.5">
+        <div className="mx-auto grid w-full max-w-[480px] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 py-2.5">
 
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 items-center gap-2">
             <button
               onClick={() => setDrawerOpen(true)}
-              className="rounded-lg p-1.5 hover:bg-muted transition-colors"
+              className="shrink-0 rounded-lg p-1.5 hover:bg-muted transition-colors"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />
@@ -74,24 +74,24 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
                 e.preventDefault();
                 window.location.assign("/");
               }}
-              className="flex items-center gap-2"
+              className="flex min-w-0 items-center gap-2"
               aria-label="Crush home — reload"
             >
-              <span className="ring-story inline-block">
+              <span className="ring-story inline-block shrink-0">
                 <img src={rizzAiLogo.url} alt="Crush" className="block h-8 w-8 rounded-full bg-card" />
               </span>
-              <span className="flex flex-col leading-tight">
-                <span className="font-display text-sm font-bold tracking-tight">Crush</span>
-                <span className="text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+              <span className="flex min-w-0 flex-col leading-tight">
+                <span className="truncate font-display text-sm font-bold tracking-tight">Crush</span>
+                <span className="hidden truncate text-[9px] font-medium uppercase tracking-[0.18em] text-muted-foreground xs:block sm:block">
                   Friends Always
                 </span>
               </span>
             </a>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5">
             <button
               onClick={() => setSearchOpen(true)}
-              className="press-spring rounded-full border border-border/70 bg-card/60 p-1.5 text-foreground backdrop-blur-xl hover:bg-primary/10"
+              className="press-spring shrink-0 rounded-full border border-border/70 bg-card/60 p-1.5 text-foreground backdrop-blur-xl hover:bg-primary/10"
               aria-label="Search hosts"
             >
               <Search className="h-4 w-4" />
@@ -101,13 +101,13 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
               <>
                 <Link
                   to="/coins"
-                  className="press-spring rounded-full border border-border/70 bg-card/60 px-3 py-1 text-[11px] font-semibold text-foreground backdrop-blur-xl hover:bg-primary/10"
+                  className="press-spring hidden shrink-0 rounded-full border border-border/70 bg-card/60 px-3 py-1 text-[11px] font-semibold text-foreground backdrop-blur-xl hover:bg-primary/10 sm:inline-flex"
                 >
                   Coins
                 </Link>
                 <Link
                   to="/upgrade"
-                  className="press-spring btn-brand !py-1 !px-3 text-[11px] hover:btn-brand-hover"
+                  className="press-spring btn-brand shrink-0 !py-1 !px-3 text-[11px] hover:btn-brand-hover"
                 >
                   Upgrade
                 </Link>
@@ -118,7 +118,15 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
         </div>
       </header>
 
-      <main key={pathname} className="page-anim lux-scroll relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4 pb-32">
+      <main
+        key={pathname}
+        className="page-anim lux-scroll relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4"
+        style={{
+          paddingBottom: hideNav
+            ? "calc(env(safe-area-inset-bottom) + 1.5rem)"
+            : "calc(env(safe-area-inset-bottom) + 7.5rem)",
+        }}
+      >
 
         {children}
         {footerNote ? (
@@ -126,9 +134,10 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
             {footerNote}
           </p>
         ) : null}
-        <LegalFooter />
+        {!suppressFooter ? <LegalFooter /> : null}
 
       </main>
+
       {!suppressDock ? <RizzBrainDock /> : null}
       {!hideNav ? <BottomNav /> : null}
       <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
