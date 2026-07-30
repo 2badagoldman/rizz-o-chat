@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
-import { ArrowLeft, Send, Smile } from "lucide-react";
+import { ArrowLeft, Send, Smile, ShieldOff, ShieldAlert } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { OnlineDot, useIsOnline } from "@/lib/presence";
 
@@ -17,6 +17,8 @@ import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SafetyMenu } from "@/components/SafetyMenu";
 import { useFloatingReactions } from "@/components/chat/FloatingReactions";
 import { EmojiTray, useEmojiMode, type EmojiMode } from "@/components/chat/EmojiTray";
+import { getRestrictionState, setRestriction } from "@/lib/restrictions.functions";
+import { supabase as sb } from "@/integrations/supabase/client";
 
 
 const DM_REACTIONS = ["❤️", "😍", "🔥", "😂", "🥰", "🎉", "👀", "🙌", "😉", "💕", "☕", "✨"];
@@ -46,6 +48,10 @@ function UserChat() {
   const [emojiOpen, setEmojiOpen] = useState(false);
   const { mode: emojiMode, setMode: setEmojiMode } = useEmojiMode(`dm:${userId}`);
   const { fire, layer } = useFloatingReactions();
+  const loadRestriction = useServerFn(getRestrictionState);
+  const saveRestriction = useServerFn(setRestriction);
+  const [restriction, setRestrictionState] = useState<{ iRestrictPeer: boolean; peerRestrictsMe: boolean } | null>(null);
+  const [iAmHost, setIAmHost] = useState(false);
 
   const peerOnline = useIsOnline(userId);
   const { locked, onTrial, daysLeft } = useChatAccess();
@@ -58,6 +64,24 @@ function UserChat() {
     supabase.from("profiles").select("display_name, avatar_url").eq("id", userId).maybeSingle()
       .then(({ data }) => setPeer(data));
   }, [user, userId]);
+
+  useEffect(() => {
+    if (!user) return;
+    sb.from("profiles").select("account_type").eq("id", user.id).maybeSingle()
+      .then(({ data }) => setIAmHost(data?.account_type === "host"));
+    loadRestriction({ data: { peerId: userId } }).then(setRestrictionState).catch(() => setRestrictionState(null));
+  }, [user, userId, loadRestriction]);
+
+  const toggleRestriction = async () => {
+    const next = !restriction?.iRestrictPeer;
+    try {
+      await saveRestriction({ data: { memberId: userId, restricted: next } });
+      setRestrictionState((r) => ({ peerRestrictsMe: r?.peerRestrictsMe ?? false, iRestrictPeer: next }));
+      toast.success(next
+        ? `${peer?.display_name ?? "They"} can still text you, but can no longer send photos or video.`
+        : "Restriction removed — photos and video are allowed again.");
+    } catch (e) { toast.error((e as Error).message); }
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -214,6 +238,18 @@ function UserChat() {
             </div>
           </button>
           <ChatSkinPicker skin={skin} onChange={setSkin} highContrast={highContrast} onHighContrastChange={setHighContrast} className="ml-auto" />
+          {iAmHost ? (
+            <button
+              type="button"
+              onClick={toggleRestriction}
+              aria-pressed={!!restriction?.iRestrictPeer}
+              title={restriction?.iRestrictPeer ? "Remove from restricted group" : "Restrict media from this member"}
+              aria-label={restriction?.iRestrictPeer ? "Remove from restricted group" : "Restrict media from this member"}
+              className={`rounded-full border p-2 transition ${restriction?.iRestrictPeer ? "border-amber-500/60 bg-amber-500/15 text-amber-600" : "border-border text-muted-foreground hover:text-foreground"}`}
+            >
+              {restriction?.iRestrictPeer ? <ShieldOff className="h-4 w-4" /> : <ShieldAlert className="h-4 w-4" />}
+            </button>
+          ) : null}
           <SafetyMenu userId={userId} name={peer?.display_name ?? "this member"} context="direct message" />
 
         </header>
@@ -230,6 +266,16 @@ function UserChat() {
 
         <ChatTrialBanner locked={locked} onTrial={onTrial} daysLeft={daysLeft} />
 
+        {restriction?.iRestrictPeer ? (
+          <p className="mb-2 rounded-xl border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-[11px] text-amber-700">
+            Restricted: this member can only send you text. Tap the shield to undo.
+          </p>
+        ) : restriction?.peerRestrictsMe ? (
+          <p className="mb-2 rounded-xl border border-border bg-muted/60 px-3 py-2 text-[11px] text-muted-foreground">
+            This host has limited your chat to text and emoji only.
+          </p>
+        ) : null}
+
         <EmojiTray
           open={emojiOpen}
           onClose={() => setEmojiOpen(false)}
@@ -245,7 +291,9 @@ function UserChat() {
         <form onSubmit={submit} className="sticky bottom-0 border-t border-border bg-background/95 pb-3 pt-3 backdrop-blur">
           <PendingAttachments markers={pending} onRemove={(m) => setPending((p) => p.filter((x) => x !== m))} />
           <div className="flex items-end gap-2">
-          <ChatAttachButton disabled={locked} onUploaded={(m) => setPending((p) => [...p, m])} />
+          {restriction?.peerRestrictsMe ? null : (
+            <ChatAttachButton disabled={locked} onUploaded={(m) => setPending((p) => [...p, m])} />
+          )}
           <button
             type="button"
             data-emoji-toggle

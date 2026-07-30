@@ -278,7 +278,9 @@ export const sendRoomMessage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
     const x = i as { roomId: string; body: string };
-    const body = (x.body ?? "").trim();
+    let body = (x.body ?? "").trim();
+    // Rooms are text + emoji only — no photo or video sharing in group chat.
+    if (body.includes("[[media:")) throw new Error("Rooms are text and emoji only.");
     if (!x.roomId) throw new Error("roomId required");
     if (!body) throw new Error("Empty message");
     return { roomId: x.roomId, body: body.slice(0, 2000) };

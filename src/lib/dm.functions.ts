@@ -23,6 +23,19 @@ export const dmSendMessage = createServerFn({ method: "POST" })
     });
     if (blocked) throw new Error("You can't message this person.");
 
+    // Restricted members keep text chat but lose photo/video sending.
+    if (data.body.includes("[[media:")) {
+      const { data: restriction } = await context.supabase
+        .from("member_restrictions")
+        .select("media_blocked")
+        .eq("host_id", data.recipientId)
+        .eq("member_id", context.userId)
+        .maybeSingle();
+      if (restriction && restriction.media_blocked !== false) {
+        throw new Error("This host has limited you to text-only messages.");
+      }
+    }
+
 
 
     const { error, data: row } = await context.supabase
