@@ -74,13 +74,15 @@ export function RoomsShowcase() {
   // Map real rooms into the DemoRoom shape so they render in the same cards
   const realAsDemo: (DemoRoom & { id?: string; real?: boolean; distance_miles?: number | null })[] =
     realRooms.map((r) => ({
-      slug: r.id,
+      slug: r.slug || r.id,
       id: r.id,
       real: true,
       name: r.name,
-      emoji: "💬",
+      emoji: r.emoji || "💬",
       tagline: r.description || r.category || "Public room",
-      category: "Local",
+      category: (r.category as DemoRoom["category"]) || "Local",
+      coHosts: (r.co_hosts as string[]) ?? [],
+      official: !!r.is_official,
       members: r.member_count ?? 0,
       online: Math.max(1, Math.floor((r.member_count ?? 0) / 3)),
       gradient: "linear-gradient(135deg,#e84393,#6c5ce7)",
@@ -92,11 +94,13 @@ export function RoomsShowcase() {
     }));
 
   const rooms = useMemo(() => {
-    if (cat === "All") return [...realAsDemo, ...DEMO_ROOMS];
+    // Once the real rooms are live they replace the static preview cards.
+    const fallback = realAsDemo.length ? [] : DEMO_ROOMS;
+    if (cat === "All") return [...realAsDemo, ...fallback];
     if (cat === "Near Me") {
       const merged = [
-        ...realAsDemo,
-        ...CITY_ROOMS.map((r) => ({ ...r, real: false as const })),
+        ...realAsDemo.filter((r: any) => r.city),
+        ...(realAsDemo.length ? [] : CITY_ROOMS.map((r) => ({ ...r, real: false as const }))),
       ];
       if (!coords) return merged;
       return merged
@@ -107,7 +111,7 @@ export function RoomsShowcase() {
         .sort((a, b) => a.d - b.d)
         .map(({ r }) => r);
     }
-    return DEMO_ROOMS.filter((r) => r.category === cat);
+    return [...realAsDemo, ...fallback].filter((r: any) => r.category === cat);
   }, [cat, coords, realAsDemo]);
 
   const nearbyRealCount = coords
