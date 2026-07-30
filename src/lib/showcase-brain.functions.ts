@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { sanitizeShowcaseCaption, isCaptionCompliant } from "@/lib/showcase-copy";
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PUBLIC: fetch a fresh, ranked reel + log anonymous engagement events.
