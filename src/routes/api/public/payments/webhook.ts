@@ -110,8 +110,9 @@ async function handleSubscriptionUpsert(subscription: any, env: StripeEnv) {
         : 'free';
     await sb().from('profiles').update({ platform_tier: tier }).eq('id', userId);
   } else if (kind === 'platform' && !isActive) {
-    await sb().from('profiles').update({ platform_tier: 'free' }).eq('id', userId);
+    await syncPlatformTier(userId, env);
   }
+
 
   if (kind === 'friends_list' && hostId && isActive) {
     const priceCents = Number(subscription.metadata?.priceCents ?? 0) || (item?.price?.unit_amount ?? 0);
