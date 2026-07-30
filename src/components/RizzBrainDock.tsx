@@ -87,7 +87,7 @@ export function RizzBrainDock() {
           className="fixed z-[60] flex flex-col rounded-3xl border border-white/30 bg-white/10 dark:bg-black/15 shadow-glow overflow-hidden backdrop-blur-3xl backdrop-saturate-150"
           style={{
             right: "max(0.75rem, env(safe-area-inset-right))",
-            bottom: "calc(env(safe-area-inset-bottom) + 4.75rem)",
+            bottom: "calc(env(safe-area-inset-bottom) + 6.25rem)",
             width: "min(340px, calc(100vw - 1.5rem))",
             height: "min(58vh, 500px)",
           }}
@@ -262,7 +262,7 @@ export function RizzBrainDock() {
           className="fixed z-40 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/20 shadow-glow backdrop-blur-xl backdrop-saturate-150 transition-transform hover:scale-105 active:scale-95"
           style={{
             right: "max(0.75rem, env(safe-area-inset-right))",
-            bottom: "calc(env(safe-area-inset-bottom) + 4.25rem)",
+            bottom: "calc(env(safe-area-inset-bottom) + 5.75rem)",
           }}
         >
           <img src={rizzAiLogo.url} alt="Crush AI" className="h-8 w-8 rounded-full object-cover" />
