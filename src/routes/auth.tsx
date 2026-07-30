@@ -316,6 +316,12 @@ function AuthPage() {
           </p>
         )}
 
+        {notice && (
+          <p className="rounded-[10px] bg-primary/10 px-3 py-2 text-sm text-primary">
+            {notice}
+          </p>
+        )}
+
         <button
           type="submit"
           disabled={busy || (mode === "signup" && !ageConfirmed)}
@@ -323,7 +329,19 @@ function AuthPage() {
         >
           {busy ? "Please wait…" : mode === "signup" ? "Create account" : "Sign in"}
         </button>
+
+        {mode === "signin" && (
+          <button
+            type="button"
+            onClick={forgotPassword}
+            disabled={busy}
+            className="mt-1 text-sm font-semibold text-primary underline disabled:opacity-50"
+          >
+            Forgot password?
+          </button>
+        )}
       </form>
+
 
       <div className="my-5 flex items-center gap-3 text-[11px] text-muted-foreground">
         <div className="h-px flex-1 bg-border" /> or <div className="h-px flex-1 bg-border" />
