@@ -172,15 +172,19 @@ for (const bp of BREAKPOINTS) {
       await waitForShell(page);
       const drawer = page.locator('aside[role="dialog"]');
       await drawer.waitFor({ state: "attached" });
-      await page.getByRole("button", { name: /open menu/i }).click({ force: true });
-      // Drawer slide-in transition is 550ms; wait for it to actually land.
-      await page
-        .waitForFunction(() => {
-          const el = document.querySelector('aside[role="dialog"]');
-          return !!el && el.getBoundingClientRect().left > -2;
-        }, undefined, { timeout: 10_000 })
-        .catch(() => {});
-      await page.waitForTimeout(300);
+      const menu = page.getByRole("button", { name: /open menu/i });
+      // Hydration can land a beat after paint; retry until the panel slides in.
+      for (let i = 0; i < 5; i++) {
+        await menu.click({ force: true }).catch(() => {});
+        try {
+          await expect(drawer).toHaveClass(/translate-x-0/, { timeout: 2000 });
+          break;
+        } catch {
+          /* retry */
+        }
+      }
+      await expect(drawer).toHaveClass(/translate-x-0/);
+      await page.waitForTimeout(700);
 
       const offenders = await page.evaluate(() => {
         const w = document.documentElement.clientWidth;
