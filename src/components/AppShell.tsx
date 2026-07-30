@@ -21,13 +21,19 @@ interface AppShellProps {
   children: ReactNode;
   hideNav?: boolean;
   hideDock?: boolean;
+  hideFooter?: boolean;
   theme?: "member" | "host";
   footerNote?: ReactNode;
 }
 
-export function AppShell({ children, hideNav, hideDock, theme = "member", footerNote }: AppShellProps) {
+export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "member", footerNote }: AppShellProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const suppressDock = hideNav || hideDock || pathname === "/copilot" || pathname === "/auth";
+  // Conversation surfaces own the bottom of the screen with a sticky composer,
+  // so nothing else may float there.
+  const isConversation =
+    pathname.startsWith("/chat/") || /^\/rooms\/[^/]+$/.test(pathname) || pathname === "/copilot";
+  const suppressDock = hideNav || hideDock || isConversation || pathname === "/auth";
+  const suppressFooter = hideFooter || isConversation;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const iosRestricted = useIosBillingRestricted();
@@ -36,6 +42,7 @@ export function AppShell({ children, hideNav, hideDock, theme = "member", footer
     initScrollReveal();
     initAnimScopes();
   }, [pathname]);
+
 
   return (
     <div className={`relative min-h-screen text-foreground ${theme === "host" ? "host-theme" : ""}`}>
