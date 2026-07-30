@@ -245,7 +245,11 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
               await handleSubscriptionDeleted(event.data.object, env);
               break;
             case 'checkout.session.completed':
+            case 'checkout.session.async_payment_succeeded':
               await handleCheckoutCompleted(event.data.object);
+              break;
+            case 'checkout.session.async_payment_failed':
+              console.log('Delayed payment failed for session:', event.data.object?.id);
               break;
             // Stripe sends BOTH invoice.paid and invoice.payment_succeeded for the
             // same payment (distinct event ids, so the dedupe table won't catch it).
