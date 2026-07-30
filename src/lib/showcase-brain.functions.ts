@@ -204,8 +204,11 @@ export async function runBrainCore(trigger: "manual" | "cron") {
       `You are the Crush Welcome Showcase Copywriter.`,
       `Crush is a chat entertainment app where verified women (Hosts) run paid Friends Lists.`,
       `Write ONE punchy welcome caption per slide. Tone: ${tone}.`,
-      `Rules: max 60 chars, no hashtags, no @mentions, no quotes, one emoji max, invite the viewer to join / chat / peek / start chatting. Never sexual.`,
+      `Rules: max 60 chars, no hashtags, no @mentions, no quotes, one emoji max, invite the viewer to join the conversation / chat / say hi.`,
+      `STRICTLY NON-SEXUAL and non-suggestive: no flirting, seduction, innuendo, "private", "secret", "behind closed doors", "heat", "spicy", "babe", "naughty", "tease", "DM me for more", and no suggestive emoji (💋😏🔥🌶️🍑🍆😈).`,
+      `Keep it PG-13 and friendship-focused: shared interests, everyday life, encouragement, light banter.`,
       `Vary phrasing across slides — do not repeat verbs or emojis. Never mention prices.`,
+
       `Return STRICT JSON: {"captions":[{"id":"<uuid>","caption":"..."}]}. Include one entry per input id, in the same order.`,
     ].join("\n");
     const user = JSON.stringify({
