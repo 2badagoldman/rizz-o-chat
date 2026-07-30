@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { sanitizeShowcaseCaption, isCaptionCompliant } from "@/lib/showcase-copy";
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // PUBLIC: fetch a fresh, ranked reel + log anonymous engagement events.
@@ -41,7 +43,7 @@ export const getShowcaseReel = createServerFn({ method: "POST" })
       if (!signed?.signedUrl) continue;
       items.push({
         id: r.id,
-        caption: r.caption,
+        caption: sanitizeShowcaseCaption(r.caption, r.id),
         media_type: (r.media_type === "video" ? "video" : "image") as "image" | "video",
         storage_path: r.storage_path,
         url: signed.signedUrl,
@@ -204,8 +206,11 @@ export async function runBrainCore(trigger: "manual" | "cron") {
       `You are the Crush Welcome Showcase Copywriter.`,
       `Crush is a chat entertainment app where verified women (Hosts) run paid Friends Lists.`,
       `Write ONE punchy welcome caption per slide. Tone: ${tone}.`,
-      `Rules: max 60 chars, no hashtags, no @mentions, no quotes, one emoji max, invite the viewer to join / chat / peek / start chatting. Never sexual.`,
+      `Rules: max 60 chars, no hashtags, no @mentions, no quotes, one emoji max, invite the viewer to join the conversation / chat / say hi.`,
+      `STRICTLY NON-SEXUAL and non-suggestive: no flirting, seduction, innuendo, "private", "secret", "behind closed doors", "heat", "spicy", "babe", "naughty", "tease", "DM me for more", and no suggestive emoji (💋😏🔥🌶️🍑🍆😈).`,
+      `Keep it PG-13 and friendship-focused: shared interests, everyday life, encouragement, light banter.`,
       `Vary phrasing across slides — do not repeat verbs or emojis. Never mention prices.`,
+
       `Return STRICT JSON: {"captions":[{"id":"<uuid>","caption":"..."}]}. Include one entry per input id, in the same order.`,
     ].join("\n");
     const user = JSON.stringify({
@@ -232,7 +237,9 @@ export async function runBrainCore(trigger: "manual" | "cron") {
         const list: Array<{ id: string; caption: string }> = Array.isArray(parsed?.captions) ? parsed.captions : [];
         for (const c of list) {
           const clean = String(c.caption ?? "").trim().slice(0, 80);
-          if (!clean || !c.id) continue;
+          // Compliance gate: never persist a suggestive caption, even if the model returns one.
+          if (!clean || !c.id || !isCaptionCompliant(clean)) continue;
+
           // Preserve original caption once so we can always recover creator intent.
           const target = targets.find((t) => t.id === c.id);
           const patch: Record<string, unknown> = {
