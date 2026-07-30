@@ -166,6 +166,10 @@ async function handleSubscriptionDeleted(subscription: any, env: StripeEnv) {
 
 async function handleCheckoutCompleted(session: any) {
   if (session.mode !== 'payment') return; // subscription flows are handled by subscription events
+  // Delayed-notification methods (SEPA, Bacs, boleto, OXXO) complete checkout
+  // while payment_status is still "unpaid" — money lands days later. Wait for
+  // checkout.session.async_payment_succeeded before crediting anything.
+  if (session.payment_status === 'unpaid') return;
   const meta = session.metadata || {};
   const userId = meta.userId;
   if (!userId) return;
@@ -241,7 +245,11 @@ export const Route = createFileRoute('/api/public/payments/webhook')({
               await handleSubscriptionDeleted(event.data.object, env);
               break;
             case 'checkout.session.completed':
+            case 'checkout.session.async_payment_succeeded':
               await handleCheckoutCompleted(event.data.object);
+              break;
+            case 'checkout.session.async_payment_failed':
+              console.log('Delayed payment failed for session:', event.data.object?.id);
               break;
             // Stripe sends BOTH invoice.paid and invoice.payment_succeeded for the
             // same payment (distinct event ids, so the dedupe table won't catch it).
