@@ -123,6 +123,26 @@ async function handleSubscriptionUpsert(subscription: any, env: StripeEnv) {
   }
 }
 
+function tierForPrice(priceId: string | null | undefined): 'vip' | 'plus' | 'free' {
+  if (priceId === 'rizz_diamond_weekly' || priceId === 'rizz_vip_monthly') return 'vip';
+  if (priceId === 'rizz_gold_weekly' || priceId === 'rizz_plus_monthly') return 'plus';
+  return 'free';
+}
+
+// Recompute the tier from whatever platform subscriptions are still live, so
+// cancelling one plan while another is active doesn't drop the user to free.
+async function syncPlatformTier(userId: string, env: StripeEnv) {
+  const { data: rows } = await sb()
+    .from('subscriptions')
+    .select('price_id, status')
+    .eq('user_id', userId)
+    .eq('environment', env)
+    .in('status', ['active', 'trialing']);
+  const tiers = (rows ?? []).map((r) => tierForPrice(r.price_id));
+  const tier = tiers.includes('vip') ? 'vip' : tiers.includes('plus') ? 'plus' : 'free';
+  await sb().from('profiles').update({ platform_tier: tier }).eq('id', userId);
+}
+
 async function handleSubscriptionDeleted(subscription: any, env: StripeEnv) {
   await sb().from('subscriptions').update({
     status: 'canceled',
@@ -134,8 +154,9 @@ async function handleSubscriptionDeleted(subscription: any, env: StripeEnv) {
   const hostId = subscription.metadata?.hostId;
 
   if (kind === 'platform' && userId) {
-    await sb().from('profiles').update({ platform_tier: 'free' }).eq('id', userId);
+    await syncPlatformTier(userId, env);
   }
+
   if (kind === 'friends_list' && userId && hostId) {
     // 30-minute chat access grace period
     await sb().rpc('friends_list_grace_end', { _member_id: userId, _host_id: hostId });
