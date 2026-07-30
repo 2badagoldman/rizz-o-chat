@@ -58,13 +58,18 @@ export const createGuestCheckoutSession = createServerFn({ method: 'POST' })
         ui_mode: 'embedded_page',
         return_url: data.returnUrl,
         currency: price.currency,
-        adaptive_pricing: { enabled: false },
+        managed_payments: { enabled: true },
         customer: customer.id,
-        metadata: { kind: 'guest_platform', guestCode: code, priceLookupKey: data.priceId },
+        metadata: {
+          kind: 'guest_platform',
+          guestCode: code,
+          priceLookupKey: data.priceId,
+          managed_payments: 'true',
+        },
         subscription_data: {
           metadata: { kind: 'guest_platform', guestCode: code, priceLookupKey: data.priceId },
         },
-      });
+      } as Stripe.Checkout.SessionCreateParams);
 
       const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
       const { error } = await supabaseAdmin.from('guest_subscriptions').insert({
