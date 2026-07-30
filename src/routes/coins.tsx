@@ -2,11 +2,14 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { CoinIcon } from '@/components/CoinIcon';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Store } from 'lucide-react';
 import rizzAiLogo from '@/assets/rizz-ai-logo.webp.asset.json';
 import { pageHead } from "@/lib/seo";
 import { useIosBillingRestricted } from '@/hooks/useNative';
 import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
+import { RevenueCatPurchase } from '@/components/RevenueCatPurchase';
+import { useRevenueCat } from '@/hooks/useRevenueCat';
+import type { CrushPriceId } from '@/lib/revenuecat';
 
 export const Route = createFileRoute('/coins')({
   head: () => pageHead({
@@ -123,6 +126,10 @@ function PackRow({ pack, index, onBuy }: { pack: Pack; index: number; onBuy: () 
 function CoinsPage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
   const iosRestricted = useIosBillingRestricted();
+  const { available: storeBilling } = useRevenueCat();
+  // Card checkout is hidden inside the iOS build; store billing stays on so
+  // members always have a working way to buy coins.
+  const hideCard = iosRestricted;
   return (
     <AppShell>
       <div className="page-anim relative">
@@ -142,15 +149,32 @@ function CoinsPage() {
           </p>
         </header>
 
-        {iosRestricted ? (
+        {hideCard && !storeBilling ? (
           <AppStoreBillingNotice what="Coin packs" />
         ) : (
-          <div className="relative space-y-3">
+          <div className="relative space-y-4">
             {PACKS.map((p, i) => (
-              <PackRow key={p.id} pack={p} index={i} onBuy={() => openCheckout({ kind: 'catalog', priceId: p.id })} />
+              <div key={p.id} className="space-y-1">
+                {!hideCard && (
+                  <PackRow pack={p} index={i} onBuy={() => openCheckout({ kind: 'catalog', priceId: p.id })} />
+                )}
+                {/* Alternative rail: App Store / Google Play billing (RevenueCat) */}
+                <RevenueCatPurchase
+                  priceId={p.id as CrushPriceId}
+                  label={`Buy ${p.coins.toLocaleString()} coins with store billing`}
+                  webNote={false}
+                />
+              </div>
             ))}
           </div>
         )}
+
+        {!storeBilling ? (
+          <p className="mt-5 flex items-center justify-center gap-1.5 text-center text-[11px] text-muted-foreground">
+            <Store className="h-3 w-3 shrink-0" />
+            Card down? The same coin packs are also available through App Store or Google Play billing in the Crush mobile app.
+          </p>
+        ) : null}
 
         <p className="mt-6 flex items-center justify-center gap-1.5 text-center text-[11px] text-muted-foreground">
           <img src={rizzAiLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" /> Coins are added to your wallet instantly after payment.

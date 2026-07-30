@@ -1071,6 +1071,7 @@ export type Database = {
           id: string
           price_id: string
           product_id: string
+          provider: string
           status: string
           stripe_customer_id: string
           stripe_subscription_id: string
@@ -1087,6 +1088,7 @@ export type Database = {
           id?: string
           price_id: string
           product_id: string
+          provider?: string
           status?: string
           stripe_customer_id: string
           stripe_subscription_id: string
@@ -1103,6 +1105,7 @@ export type Database = {
           id?: string
           price_id?: string
           product_id?: string
+          provider?: string
           status?: string
           stripe_customer_id?: string
           stripe_subscription_id?: string
