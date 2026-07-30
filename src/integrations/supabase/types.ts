@@ -408,42 +408,54 @@ export type Database = {
         Row: {
           category: string | null
           city: string | null
+          co_hosts: string[]
           created_at: string
           description: string | null
+          emoji: string | null
           host_id: string
           id: string
+          is_official: boolean
           is_public: boolean
           lat: number | null
           lng: number | null
           name: string
+          slug: string | null
           state: string | null
           updated_at: string
         }
         Insert: {
           category?: string | null
           city?: string | null
+          co_hosts?: string[]
           created_at?: string
           description?: string | null
+          emoji?: string | null
           host_id: string
           id?: string
+          is_official?: boolean
           is_public?: boolean
           lat?: number | null
           lng?: number | null
           name: string
+          slug?: string | null
           state?: string | null
           updated_at?: string
         }
         Update: {
           category?: string | null
           city?: string | null
+          co_hosts?: string[]
           created_at?: string
           description?: string | null
+          emoji?: string | null
           host_id?: string
           id?: string
+          is_official?: boolean
           is_public?: boolean
           lat?: number | null
           lng?: number | null
           name?: string
+          slug?: string | null
           state?: string | null
           updated_at?: string
         }
@@ -868,25 +880,28 @@ export type Database = {
       }
       room_messages: {
         Row: {
+          ai_host_id: string | null
           body: string
           created_at: string
           id: string
           room_id: string
-          sender_id: string
+          sender_id: string | null
         }
         Insert: {
+          ai_host_id?: string | null
           body: string
           created_at?: string
           id?: string
           room_id: string
-          sender_id: string
+          sender_id?: string | null
         }
         Update: {
+          ai_host_id?: string | null
           body?: string
           created_at?: string
           id?: string
           room_id?: string
-          sender_id?: string
+          sender_id?: string | null
         }
         Relationships: [
           {
