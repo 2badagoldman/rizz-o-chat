@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { listEarlyAccessSignups } from "@/lib/early-access.functions";
-import { supabase } from "@/integrations/supabase/client";
 import { Download, Inbox, MessageSquare, Radio } from "lucide-react";
 
 export const Route = createFileRoute("/admin/early-access")({
