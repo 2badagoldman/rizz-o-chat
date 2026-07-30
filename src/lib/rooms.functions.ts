@@ -125,6 +125,8 @@ export const joinPublicRoom = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { roomId: string })
   .handler(async ({ data, context }) => {
+    const { assertRoomAccess } = await import("./room-access.server");
+    await assertRoomAccess(context.supabase, context.userId);
     const { data: room, error: rErr } = await context.supabase
       .from("host_rooms").select("id, is_public").eq("id", data.roomId).maybeSingle();
     if (rErr) throw rErr;
