@@ -7,6 +7,8 @@ import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 import { pageHead } from "@/lib/seo";
+import { ShowcaseRail } from "@/components/ShowcaseRail";
+
 
 export const Route = createFileRoute("/")({
   head: () => pageHead({
