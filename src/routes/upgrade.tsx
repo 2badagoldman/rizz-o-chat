@@ -6,6 +6,9 @@ import { DiamondGem, GoldMedallion } from '@/components/PreciousIcons';
 import { pageHead } from "@/lib/seo";
 import { useIosBillingRestricted } from '@/hooks/useNative';
 import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
+import { RevenueCatPurchase } from '@/components/RevenueCatPurchase';
+import { useRevenueCat } from '@/hooks/useRevenueCat';
+import type { CrushPriceId } from '@/lib/revenuecat';
 
 
 export const Route = createFileRoute('/upgrade')({
@@ -85,7 +88,7 @@ function Bubbles() {
   );
 }
 
-function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onSubscribe: () => void }) {
+function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; index: number; onSubscribe: () => void; hideCard?: boolean }) {
   const Icon = plan.icon;
   const diamond = !!plan.diamond;
   return (
@@ -266,29 +269,44 @@ function PlanCard({ plan, index, onSubscribe }: { plan: Plan; index: number; onS
       </ul>
 
 
-      <button
-        onClick={onSubscribe}
-        className={`press-spring relative mt-6 w-full overflow-hidden rounded-2xl py-3.5 text-sm font-black tracking-tight ${
-          diamond
-            ? 'bg-[linear-gradient(110deg,#38bdf8,#a855f7,#ec4899,#38bdf8)] bg-[length:240%_100%] text-white shadow-glow hover:bg-[position:100%_50%]'
-            : 'gold-surface text-[#4a2d02] shadow-[0_8px_20px_-8px_rgba(180,130,20,.8),inset_0_1px_0_rgba(255,255,255,.85)]'
-        }`}
+      {!hideCard && (
+        <button
+          onClick={onSubscribe}
+          className={`press-spring relative mt-6 w-full overflow-hidden rounded-2xl py-3.5 text-sm font-black tracking-tight ${
+            diamond
+              ? 'bg-[linear-gradient(110deg,#38bdf8,#a855f7,#ec4899,#38bdf8)] bg-[length:240%_100%] text-white shadow-glow hover:bg-[position:100%_50%]'
+              : 'gold-surface text-[#4a2d02] shadow-[0_8px_20px_-8px_rgba(180,130,20,.8),inset_0_1px_0_rgba(255,255,255,.85)]'
+          }`}
 
-        style={diamond ? { transition: 'background-position 900ms ease, transform 320ms cubic-bezier(.2,1.3,.3,1)' } : undefined}
-      >
-        <span className="relative z-10 inline-flex items-center justify-center gap-2">
-          {diamond ? <Gem className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
-          Get {plan.name}
-        </span>
-      </button>
+          style={diamond ? { transition: 'background-position 900ms ease, transform 320ms cubic-bezier(.2,1.3,.3,1)' } : undefined}
+        >
+          <span className="relative z-10 inline-flex items-center justify-center gap-2">
+            {diamond ? <Gem className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
+            Pay by card · Get {plan.name}
+          </span>
+        </button>
+      )}
+
+      {/* Alternative rail: App Store / Google Play billing via RevenueCat.
+          Always visible so members have a fast, international backup if card
+          checkout is unavailable. */}
+      <div className={hideCard ? 'mt-6' : 'mt-3'}>
+        <RevenueCatPurchase priceId={plan.id as CrushPriceId} label={`Get ${plan.name} with store billing`} />
+      </div>
       </div>
     </div>
   );
 }
 
+
+
 function UpgradePage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
   const iosRestricted = useIosBillingRestricted();
+  const { available: storeBilling } = useRevenueCat();
+  // Card checkout is hidden inside the iOS build (Apple guideline 3.1.1); the
+  // store rail below stays available so members can still subscribe there.
+  const hideCard = iosRestricted;
   return (
     <AppShell>
       <div className="page-anim relative">
@@ -311,13 +329,14 @@ function UpgradePage() {
           </p>
         </header>
 
-        {iosRestricted ? <AppStoreBillingNotice what="Crush Gold and Diamond VIP" /> : null}
-        <div className={`relative space-y-5 ${iosRestricted ? 'pointer-events-none mt-5 opacity-60' : ''}`}>
+        {iosRestricted && !storeBilling ? <AppStoreBillingNotice what="Crush Gold and Diamond VIP" /> : null}
+        <div className={`relative space-y-5 ${iosRestricted && !storeBilling ? 'pointer-events-none mt-5 opacity-60' : ''}`}>
           {PLANS.map((p, i) => (
             <PlanCard
               key={p.id}
               plan={p}
               index={i}
+              hideCard={hideCard}
               onSubscribe={() =>
                 iosRestricted ? undefined : openCheckout(
                   { kind: 'catalog', priceId: p.id },
