@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { X, Sparkles } from "lucide-react";
+import { X, Sparkles, MessageCircle } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { getShowcaseReel, type ReelItem } from "@/lib/showcase-brain.functions";
 
 /**
