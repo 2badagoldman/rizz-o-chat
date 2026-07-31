@@ -17,14 +17,15 @@ export function ShowcaseRail({
   subtitle?: string;
   limit?: number;
 }) {
-  const [items, setItems] = useState<ReelItem[]>([]);
+  const [allItems, setAllItems] = useState<ReelItem[]>([]);
+  const [broken, setBroken] = useState<string[]>([]);
   const [open, setOpen] = useState<number | null>(null);
 
   useEffect(() => {
     let alive = true;
     getShowcaseReel({ data: { limit } })
       .then((reel) => {
-        if (alive && reel) setItems(reel.filter((r) => r.url));
+        if (alive && reel) setAllItems(reel.filter((r) => r.url));
       })
       .catch(() => {});
     return () => {
@@ -40,6 +41,12 @@ export function ShowcaseRail({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
+
+  // Media whose signed URL failed is dropped entirely — otherwise the tile
+  // collapses to raw alt text, which is what made the rail look broken.
+  const items = allItems.filter((i) => !broken.includes(i.id));
+  const markBroken = (id: string) =>
+    setBroken((prev) => (prev.includes(id) ? prev : [...prev, id]));
 
   if (items.length === 0) return null;
 
