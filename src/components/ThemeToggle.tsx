@@ -180,6 +180,29 @@ export function ThemeToggle() {
                   {t.label}
                 </button>
               ))}
+              <div className="my-1 h-px bg-border" />
+              <button
+                type="button"
+                role="menuitemcheckbox"
+                aria-checked={autoShow}
+                onClick={toggleAutoShow}
+                className="flex w-full items-start gap-2 rounded-xl px-2.5 py-2 text-left text-xs font-semibold text-foreground transition-colors hover:bg-muted"
+              >
+                <span
+                  className={`mt-0.5 h-4 w-7 shrink-0 rounded-full border border-border transition-colors ${autoShow ? "bg-primary" : "bg-muted"}`}
+                >
+                  <span
+                    className={`block h-3 w-3 translate-y-[1px] rounded-full bg-background transition-transform ${autoShow ? "translate-x-[15px]" : "translate-x-[2px]"}`}
+                  />
+                </span>
+                <span className="leading-tight">
+                  Theme show
+                  <span className="block text-[10px] font-medium text-muted-foreground">
+                    Sea → Pink (2 min) → Sea
+                  </span>
+                </span>
+              </button>
+
             </div>,
             document.body,
           )
