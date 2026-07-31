@@ -304,16 +304,20 @@ export function WelcomeShowcase() {
         {/* CTA */}
         <div className="flex items-center gap-2 p-5">
           <button
-            onClick={() => close("complete")}
+            onClick={() => {
+              track("showcase_chat_now_click", { metadata: { slide_id: current.id, index } });
+              close("complete");
+              navigate({ to: "/upgrade" });
+            }}
             className="btn-brand inline-flex flex-1 items-center justify-center gap-2 hover-scale"
           >
-            Enter Crush Chat <ArrowRight className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4" /> Chat now
           </button>
           <button
-            onClick={() => close()}
-            className="rounded-[14px] bg-white/10 px-4 py-3 text-sm font-semibold text-white/90 ring-1 ring-white/15 transition hover:bg-white/20"
+            onClick={() => close("complete")}
+            className="inline-flex items-center gap-1 rounded-[14px] bg-white/10 px-4 py-3 text-sm font-semibold text-white/90 ring-1 ring-white/15 transition hover:bg-white/20"
           >
-            Skip
+            Browse <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>
