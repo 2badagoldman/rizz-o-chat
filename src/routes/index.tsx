@@ -45,7 +45,7 @@ function Home() {
       </header>
 
       {/* Showcase reel */}
-      <ShowcaseRail title="Showcase" subtitle="Today's best looks" limit={20} />
+      <ShowcaseRail title="Showcase" subtitle="Today's best looks" limit={25} />
 
       {/* Online now rail */}
       <section className="mt-7 rise-in rise-in-1">

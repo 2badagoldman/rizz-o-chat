@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useRouterState } from "@tanstack/react-router";
-import { X, Volume2, VolumeX, Sparkles, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouterState, useNavigate } from "@tanstack/react-router";
+import { X, Volume2, VolumeX, MessageCircle, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getShowcaseReel, logShowcaseEvent, type ReelItem } from "@/lib/showcase-brain.functions";
 import { track } from "@/lib/analytics";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 
 const FLAG_KEY = "rizzla:showWelcome";           // explicit trigger (e.g. right after sign-up)
 const SESSION_SHOWN_KEY = "rizzla:welcomeShown"; // once per browser session
@@ -25,6 +26,7 @@ export function markWelcomeShowcasePending() {
 
 export function WelcomeShowcase() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
   // Never cover legal/policy pages — Stripe and other reviewers need to read the text.
   const isLegalPage = pathname.startsWith("/legal");
 
@@ -42,7 +44,7 @@ export function WelcomeShowcase() {
   const loadReel = async () => {
     const t0 = Date.now();
     try {
-      const reel = await getShowcaseReel({ data: { limit: 20 } });
+      const reel = await getShowcaseReel({ data: { limit: 25 } });
       const loadMs = Date.now() - t0;
       if (!reel || reel.length === 0) {
         track("showcase_empty", { metadata: { load_ms: loadMs } });
@@ -199,9 +201,10 @@ export function WelcomeShowcase() {
             <img src={rizzAiLogo.url} alt="Crush" className="h-7 w-7 rounded-full ring-1 ring-white/25" />
             <div className="leading-tight">
               <p className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.25em] text-white/60">
-                <Sparkles className="h-2.5 w-2.5" /> Welcome
+                <img src={rizzAiLogo.url} alt="" className="h-2.5 w-2.5 rounded-full" /> Welcome
               </p>
               <p className="text-sm font-extrabold">Crush Chat</p>
+
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -302,16 +305,20 @@ export function WelcomeShowcase() {
         {/* CTA */}
         <div className="flex items-center gap-2 p-5">
           <button
-            onClick={() => close("complete")}
+            onClick={() => {
+              track("showcase_chat_now_click", { metadata: { slide_id: current.id, index } });
+              close("complete");
+              navigate({ to: "/upgrade" });
+            }}
             className="btn-brand inline-flex flex-1 items-center justify-center gap-2 hover-scale"
           >
-            Enter Crush Chat <ArrowRight className="h-4 w-4" />
+            <MessageCircle className="h-4 w-4" /> Chat now
           </button>
           <button
-            onClick={() => close()}
-            className="rounded-[14px] bg-white/10 px-4 py-3 text-sm font-semibold text-white/90 ring-1 ring-white/15 transition hover:bg-white/20"
+            onClick={() => close("complete")}
+            className="inline-flex items-center gap-1 rounded-[14px] bg-white/10 px-4 py-3 text-sm font-semibold text-white/90 ring-1 ring-white/15 transition hover:bg-white/20"
           >
-            Skip
+            Browse <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </div>
       </div>

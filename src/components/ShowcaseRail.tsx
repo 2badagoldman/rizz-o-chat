@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { X, Sparkles, MessageCircle } from "lucide-react";
+import { X, MessageCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getShowcaseReel, type ReelItem } from "@/lib/showcase-brain.functions";
+import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 
 /**
  * Showcase rail — a horizontally scrolling strip of the best-performing
@@ -56,7 +58,7 @@ export function ShowcaseRail({
     <section className="mt-7 rise-in">
       <div className="mb-2 flex items-baseline justify-between">
         <h2 className="flex items-center gap-1.5 text-sm font-display font-bold">
-          <Sparkles className="h-3.5 w-3.5 text-primary" />
+          <img src={crushLogo.url} alt="" className="h-4 w-4 rounded-full" />
           {title}
         </h2>
         <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
