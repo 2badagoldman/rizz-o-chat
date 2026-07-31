@@ -26,6 +26,7 @@ export function markWelcomeShowcasePending() {
 
 export function WelcomeShowcase() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
   // Never cover legal/policy pages — Stripe and other reviewers need to read the text.
   const isLegalPage = pathname.startsWith("/legal");
 
