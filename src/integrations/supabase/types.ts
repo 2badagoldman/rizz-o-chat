@@ -293,6 +293,51 @@ export type Database = {
         }
         Relationships: []
       }
+      host_applications: {
+        Row: {
+          city: string | null
+          created_at: string
+          id: string
+          pitch: string
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          social_handle: string | null
+          stage_name: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string
+          id?: string
+          pitch: string
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          social_handle?: string | null
+          stage_name: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          city?: string | null
+          created_at?: string
+          id?: string
+          pitch?: string
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          social_handle?: string | null
+          stage_name?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       host_chat_threads: {
         Row: {
           created_at: string
@@ -1243,6 +1288,10 @@ export type Database = {
     }
     Functions: {
       admin_platform_metrics: { Args: { _since?: string }; Returns: Json }
+      admin_review_host_application: {
+        Args: { _application_id: string; _approve: boolean; _notes?: string }
+        Returns: Json
+      }
       admin_review_kyc: {
         Args: { _approve: boolean; _notes?: string; _submission_id: string }
         Returns: Json
