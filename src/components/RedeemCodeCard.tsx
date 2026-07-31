@@ -1,17 +1,36 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Check, Loader2, Ticket } from "lucide-react";
-import { claimGuestSubscription } from "@/lib/guest-checkout.functions";
+import { autoClaimGuestSubscription, claimGuestSubscription } from "@/lib/guest-checkout.functions";
 import { getStripeEnvironment } from "@/lib/stripe";
 import { clearGuestCode } from "@/lib/guest-checkout";
 
 /** Inline redeem widget so any member or host can attach a guest subscription code. */
 export function RedeemCodeCard() {
   const claim = useServerFn(claimGuestSubscription);
+  const autoClaim = useServerFn(autoClaimGuestSubscription);
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [done, setDone] = useState<"plus" | "vip" | null>(null);
+
+  const [auto, setAuto] = useState(false);
+  const ran = useRef(false);
+
+  // Subscribed as a guest with this email or phone? Attach it silently on load.
+  useEffect(() => {
+    if (ran.current) return;
+    ran.current = true;
+    autoClaim()
+      .then((res) => {
+        if (res.ok) {
+          clearGuestCode();
+          setAuto(true);
+          setDone(res.tier);
+        }
+      })
+      .catch(() => {});
+  }, [autoClaim]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +61,7 @@ export function RedeemCodeCard() {
         <p className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-primary">
           <Check className="h-3.5 w-3.5" strokeWidth={3} />
           {done === "vip" ? "Crush Diamond VIP" : "Crush Gold"} is now active on your account.
+          {auto && " We matched your guest purchase automatically."}
         </p>
       ) : (
         <>
