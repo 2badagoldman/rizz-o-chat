@@ -70,19 +70,32 @@ const BANNED = [
 const BANNED_EMOJI = ["💋", "😏", "🔥", "🌶️", "🍑", "🍆", "😈", "👅", "🥵", "💦", "🍸", "🥂", "😉", "🙈", "🍒", "💅", "🖤", "🎀"];
 
 const SAFE_CAPTIONS = [
-  "Say hi and start a real conversation 💬",
-  "New here? Come meet the group ✨",
-  "Good chats, good people — join in 🙌",
-  "Tell me about your day ☀️",
-  "Looking for someone to talk to? 💬",
-  "Join the conversation, no pressure 🌿",
-  "Friendly faces, real talk 💫",
-  "Come say hello to the community 👋",
-  "Chat about music, food, life 🎧",
-  "Bring your questions, we'll bring the banter 😊",
-  "Start with a hello — that's it 💬",
-  "Meet people who actually reply ✨",
+  "I'm here, I'm listening. What's on your mind? 💬",
+  "Coffee's brewing — come tell me something good ☕",
+  "Best conversation of your night starts with hi 💫",
+  "Fair warning: I actually reply, and fast ⚡",
+  "Golden hour and good company — join me ✨",
+  "Tell me the story you never get to tell 🌙",
+  "Come as you are. Stay for the conversation 🤍",
+  "Some people scroll. You could be talking to me 💬",
+  "The first message is the hardest — I'll make it easy 🌸",
+  "Ask me anything, I promise you a real answer ✨",
+  "Long talks, late laughs, zero pressure 🌿",
+  "Your day sounds interesting. Prove me right ☀️",
+  "I'd rather know you than know of you 💫",
+  "Two words: say hi. I'll take it from there 💬",
+  "Room for one more good conversation tonight 🌙",
+  "Real talk, real laughs, real me 🤍",
+  "Bring the energy — I'll match it ⚡",
+  "Somewhere between hello and 3am conversations 🌙",
+  "Come find out what I'm actually like ✨",
+  "Music, food, ridiculous opinions — let's go 🎧",
+  "I like people who go first. Be that person 💬",
+  "You've made it this far. Might as well say hi 😊",
+  "Genuine, curious, a little too honest 🌸",
+  "Let's skip the small talk and get to the good part 💫",
 ];
+
 
 export function isCaptionCompliant(caption: string): boolean {
   const c = caption.toLowerCase();
