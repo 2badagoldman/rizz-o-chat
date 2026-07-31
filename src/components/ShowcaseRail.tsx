@@ -79,7 +79,7 @@ export function ShowcaseRail({
           <button
             key={it.id}
             type="button"
-            onClick={() => setOpen(i)}
+            onClick={() => setOpenId(it.id)}
             aria-label={it.caption ? `Open showcase photo: ${it.caption}` : "Open showcase photo"}
             className="group relative aspect-[3/4] w-full overflow-hidden rounded-3xl border border-border/60 shadow-card transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             style={{ animation: `rise-in 600ms ${Math.min(i, 10) * 45}ms cubic-bezier(.2,.8,.2,1) both` }}
@@ -120,11 +120,11 @@ export function ShowcaseRail({
           className="fixed inset-0 z-[120] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
           role="dialog"
           aria-modal="true"
-          onClick={() => setOpen(null)}
+          onClick={() => setOpenId(null)}
         >
           <button
             type="button"
-            onClick={() => setOpen(null)}
+            onClick={() => setOpenId(null)}
             aria-label="Close photo"
             className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/25"
           >
@@ -157,7 +157,7 @@ export function ShowcaseRail({
               ) : null}
               <Link
                 to="/upgrade"
-                onClick={() => setOpen(null)}
+                onClick={() => setOpenId(null)}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-white shadow-glow transition active:scale-95"
               >
                 <MessageCircle className="h-4 w-4" />
