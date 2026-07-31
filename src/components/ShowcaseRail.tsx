@@ -121,15 +121,26 @@ export function ShowcaseRail({
           </button>
           <figure className="max-h-[85vh] w-full max-w-md overflow-hidden rounded-3xl" onClick={(e) => e.stopPropagation()}>
             {active.media_type === "video" ? (
-              <video src={active.url} controls autoPlay playsInline className="max-h-[75vh] w-full object-contain" />
+              <video src={active.url} controls autoPlay playsInline className="max-h-[65vh] w-full object-contain" />
             ) : (
-              <img src={active.url} alt={active.caption ?? "Showcase"} className="max-h-[75vh] w-full object-contain" />
+              <img src={active.url} alt={active.caption ?? "Showcase"} className="max-h-[65vh] w-full object-contain" />
             )}
-            {active.caption ? (
-              <figcaption className="bg-black/60 px-4 py-3 text-center text-sm font-semibold text-white">
-                {active.caption}
-              </figcaption>
-            ) : null}
+            <figcaption className="space-y-3 bg-black/70 px-4 py-4 text-center">
+              {active.caption ? (
+                <p className="text-sm font-semibold text-white">{active.caption}</p>
+              ) : null}
+              <Link
+                to="/upgrade"
+                onClick={() => setOpen(null)}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-white shadow-glow transition active:scale-95"
+              >
+                <MessageCircle className="h-4 w-4" />
+                Subscribe to chat with her
+              </Link>
+              <p className="text-[11px] text-white/70">
+                Crush Gold unlocks Friends Lists and direct chat with showcase hosts.
+              </p>
+            </figcaption>
           </figure>
         </div>
       ) : null}
