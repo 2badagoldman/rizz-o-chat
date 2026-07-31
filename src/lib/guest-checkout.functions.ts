@@ -132,11 +132,12 @@ export const claimGuestSubscription = createServerFn({ method: 'POST' })
     const { userId } = context;
     try {
       const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+      // Match on the code alone — a live code must still redeem from a test-mode
+      // preview build. The row's own environment drives the Stripe calls below.
       const { data: row, error } = await supabaseAdmin
         .from('guest_subscriptions')
         .select('*')
         .eq('code', data.code)
-        .eq('environment', data.environment)
         .maybeSingle();
       if (error) throw new Error(error.message);
       if (!row) return { error: 'We couldn’t find that subscription code.' };
