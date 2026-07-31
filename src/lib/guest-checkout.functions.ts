@@ -148,7 +148,8 @@ export const claimGuestSubscription = createServerFn({ method: 'POST' })
         return { error: 'This payment is still processing — try again in a minute.' };
       }
 
-      const stripe = createStripeClient(data.environment);
+      const rowEnv: StripeEnv = row.environment === 'live' ? 'live' : 'sandbox';
+      const stripe = createStripeClient(rowEnv);
       const subscription = await stripe.subscriptions.retrieve(row.stripe_subscription_id);
       const active = subscription.status === 'active' || subscription.status === 'trialing';
       if (!active) return { error: 'That subscription is no longer active.' };
