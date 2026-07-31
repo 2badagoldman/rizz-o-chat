@@ -6,7 +6,7 @@ import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { pageHead } from "@/lib/seo";
-import { readGuestCode } from "@/lib/guest-checkout";
+import { readGuestCode, normalizePhone, phoneToLoginEmail } from "@/lib/guest-checkout";
 
 export const Route = createFileRoute("/auth")({
   head: () => pageHead({
@@ -32,6 +32,7 @@ function safeNext(next: string | undefined): string {
 type Mode = "signin" | "signup";
 type Role = "member" | "host";
 type Gender = "female" | "male" | "nonbinary" | "other";
+type Contact = "email" | "phone";
 
 
 function AuthPage() {
@@ -41,7 +42,9 @@ function AuthPage() {
   const [role, setRole] = useState<Role>("member");
   const [gender, setGender] = useState<Gender>("female");
   const [displayName, setDisplayName] = useState("");
+  const [contact, setContact] = useState<Contact>("email");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [dob, setDob] = useState("");
@@ -63,6 +66,13 @@ function AuthPage() {
     setError(null);
     setBusy(true);
     try {
+      const normPhone = contact === "phone" ? normalizePhone(phone) : null;
+      if (contact === "phone" && !normPhone) {
+        setError("Enter a valid phone number.");
+        setBusy(false);
+        return;
+      }
+      const loginEmail = contact === "phone" ? phoneToLoginEmail(phone)! : email;
       if (mode === "signup") {
         if (!ageConfirmed) {
           setError("You must confirm you are 18 or older.");
@@ -83,13 +93,14 @@ function AuthPage() {
           return;
         }
         const { error: err } = await supabase.auth.signUp({
-          email,
+          email: loginEmail,
           password,
           options: {
             emailRedirectTo: window.location.origin + nextPath,
             data: {
               account_type: role,
-              display_name: displayName || email.split("@")[0],
+              display_name: displayName || (normPhone ? `Crush ${normPhone.slice(-4)}` : email.split("@")[0]),
+              phone: normPhone ?? undefined,
               age_confirmed: true,
               date_of_birth: dob,
               gender: role === "host" ? gender : undefined,
@@ -110,7 +121,7 @@ function AuthPage() {
           return;
         }
       } else {
-        const { error: err } = await supabase.auth.signInWithPassword({ email, password });
+        const { error: err } = await supabase.auth.signInWithPassword({ email: loginEmail, password });
         if (err) throw err;
         if (readGuestCode()) {
           router.navigate({ to: "/claim" });
@@ -130,6 +141,10 @@ function AuthPage() {
   const forgotPassword = async () => {
     setError(null);
     setNotice(null);
+    if (contact === "phone") {
+      setError("Password reset needs an email address. Contact support to recover a phone account.");
+      return;
+    }
     if (!email) {
       setError("Enter your email above first, then tap “Forgot password?”.");
       return;
@@ -257,14 +272,48 @@ function AuthPage() {
           </>
         )}
 
-        <input
-          required
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="rounded-[14px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
-        />
+        <div className="grid grid-cols-2 gap-2 rounded-[14px] bg-card p-1 text-xs">
+          {(["email", "phone"] as const).map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setContact(c)}
+              className="rounded-[10px] py-2 font-semibold capitalize transition"
+              style={{
+                background: contact === c ? "var(--gradient-brand-soft)" : "transparent",
+                color: contact === c ? "var(--color-foreground)" : "var(--color-muted-foreground)",
+              }}
+            >
+              {c === "email" ? "Email" : "Phone number"}
+            </button>
+          ))}
+        </div>
+
+        {contact === "email" ? (
+          <input
+            required
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="rounded-[14px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
+          />
+        ) : (
+          <div className="grid gap-1">
+            <input
+              required
+              type="tel"
+              inputMode="tel"
+              placeholder="Phone number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="rounded-[14px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
+            />
+            <span className="text-[11px] text-muted-foreground">
+              Sign in with your number and password. Password reset by email isn’t available for phone accounts.
+            </span>
+          </div>
+        )}
         <input
           required
           minLength={6}
@@ -330,7 +379,7 @@ function AuthPage() {
           {busy ? "Please wait…" : mode === "signup" ? "Create account" : "Sign in"}
         </button>
 
-        {mode === "signin" && (
+        {mode === "signin" && contact === "email" && (
           <button
             type="button"
             onClick={forgotPassword}
