@@ -81,14 +81,16 @@ export function ShowcaseRail({
                 loop
                 playsInline
                 autoPlay
+                onError={() => markBroken(it.id)}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
               <img
                 src={it.url}
-                alt={it.caption ?? "Showcase"}
+                alt=""
                 loading={i < 3 ? "eager" : "lazy"}
                 decoding="async"
+                onError={() => markBroken(it.id)}
                 className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
               />
             )}
