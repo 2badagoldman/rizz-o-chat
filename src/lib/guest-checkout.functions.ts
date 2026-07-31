@@ -2,7 +2,7 @@ import type Stripe from 'stripe';
 import { createServerFn } from '@tanstack/react-start';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 import { type StripeEnv, createStripeClient, getStripeErrorMessage } from '@/lib/stripe.server';
-import { findGuestRowForUser, normalizePhone, redeemGuestRow, tierFor } from '@/lib/guest-checkout.server';
+import { normalizePhone } from '@/lib/guest-checkout';
 
 // Guest checkout: a signed-out visitor can subscribe with just an email (and
 // optionally a phone number). We mint a claim code up front, stamp it on the
@@ -147,6 +147,7 @@ export const claimGuestSubscription = createServerFn({ method: 'POST' })
       if (error) throw new Error(error.message);
       if (!row) return { error: 'We couldn’t find that subscription code.' };
 
+      const { redeemGuestRow } = await import('@/lib/guest-checkout.server');
       return await redeemGuestRow(row as any, userId);
     } catch (err) {
       console.error('[payments] claimGuestSubscription failed:', err);
@@ -159,6 +160,7 @@ export const autoClaimGuestSubscription = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<AutoClaimResult> => {
     try {
+      const { findGuestRowForUser, redeemGuestRow } = await import('@/lib/guest-checkout.server');
       const row = await findGuestRowForUser(context.userId);
       if (!row) return { ok: false };
       const result = await redeemGuestRow(row, context.userId);
@@ -169,5 +171,3 @@ export const autoClaimGuestSubscription = createServerFn({ method: 'POST' })
       return { ok: false };
     }
   });
-
-export { tierFor };

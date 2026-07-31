@@ -1,4 +1,5 @@
 import { type StripeEnv, createStripeClient } from '@/lib/stripe.server';
+import { normalizePhone } from '@/lib/guest-checkout';
 
 // Server-only helpers shared by the guest-subscription server functions.
 
@@ -17,13 +18,6 @@ export type GuestRow = {
 
 export function tierFor(priceId: string): 'plus' | 'vip' {
   return priceId === 'rizz_diamond_weekly' || priceId === 'rizz_vip_monthly' ? 'vip' : 'plus';
-}
-
-/** Digits-only E.164-ish normalisation so "(555) 123-4567" matches "+15551234567". */
-export function normalizePhone(raw: string): string | null {
-  const digits = raw.replace(/\D/g, '');
-  if (digits.length < 7 || digits.length > 15) return null;
-  return `+${digits.length === 10 ? `1${digits}` : digits}`;
 }
 
 /**
