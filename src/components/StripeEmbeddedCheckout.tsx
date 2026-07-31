@@ -10,7 +10,7 @@ import {
   createTipCheckout,
 } from '@/utils/payments.functions';
 import { createGuestCheckoutSession } from '@/lib/guest-checkout.functions';
-import { GUEST_PLAN_IDS, rememberGuestCode } from '@/lib/guest-checkout';
+import { GUEST_PLAN_IDS, rememberGuestCode, normalizePhone } from '@/lib/guest-checkout';
 
 export type CheckoutRequest =
   | { kind: 'catalog'; priceId: string; returnUrl?: string }
@@ -48,6 +48,8 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
   const guestEligible = props.kind === 'catalog' && (GUEST_PLAN_IDS as readonly string[]).includes(props.priceId);
   const [guestEmail, setGuestEmail] = useState<string | null>(null);
   const [emailDraft, setEmailDraft] = useState('');
+  const [guestPhone, setGuestPhone] = useState<string | null>(null);
+  const [phoneDraft, setPhoneDraft] = useState('');
 
 
   // getStripe() throws when VITE_PAYMENTS_CLIENT_TOKEN is missing/unrecognized,
@@ -81,7 +83,7 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
       let result;
       if (guestEmail && props.kind === 'catalog') {
         const guest = await createGuestCheckoutSession({
-          data: { priceId: props.priceId, email: guestEmail, returnUrl, environment },
+          data: { priceId: props.priceId, email: guestEmail, phone: guestPhone ?? undefined, returnUrl, environment },
         });
         if ('code' in guest) rememberGuestCode(guest.code);
         result = guest;
@@ -122,7 +124,7 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
       throw err;
     }
 
-  }, [props, attempt, guestEmail]);
+  }, [props, attempt, guestEmail, guestPhone]);
 
   const retry = () => {
     failedRef.current = false;
@@ -156,7 +158,13 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
             setFailure('Enter a valid email address.');
             return;
           }
+          const phone = phoneDraft.trim();
+          if (phone && !normalizePhone(phone)) {
+            setFailure('Enter a valid phone number.');
+            return;
+          }
           setFailure(null);
+          setGuestPhone(phone ? normalizePhone(phone) : null);
           setGuestEmail(email);
         }}
         className="mx-auto max-w-md px-5 py-10 text-center"
@@ -166,8 +174,8 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
         </div>
         <h2 className="mt-4 text-base font-black tracking-tight">Subscribe now, sign up after</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Pay as a guest and we&apos;ll give you a subscription code. Enter it after you create your account and
-          your membership attaches instantly.
+          Pay as a guest and we&apos;ll give you a subscription code. Sign up later with the same email or phone
+          and your membership attaches automatically.
         </p>
         <input
           type="email"
@@ -177,6 +185,15 @@ export function StripeEmbeddedCheckout(props: CheckoutRequest) {
           placeholder="you@email.com"
           aria-label="Email for your receipt and subscription code"
           className="mt-5 w-full rounded-2xl border border-border/70 bg-card/70 px-4 py-3 text-sm font-semibold outline-none backdrop-blur-xl focus-visible:ring-2 focus-visible:ring-ring"
+        />
+        <input
+          type="tel"
+          inputMode="tel"
+          value={phoneDraft}
+          onChange={(e) => setPhoneDraft(e.target.value)}
+          placeholder="Phone number (optional)"
+          aria-label="Phone number so we can match your subscription when you sign up"
+          className="mt-2 w-full rounded-2xl border border-border/70 bg-card/70 px-4 py-3 text-sm font-semibold outline-none backdrop-blur-xl focus-visible:ring-2 focus-visible:ring-ring"
         />
         {failure && <p className="mt-2 text-xs font-semibold text-destructive">{failure}</p>}
         <button
