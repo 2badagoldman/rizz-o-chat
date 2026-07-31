@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { X, MessageCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getShowcaseReel, type ReelItem } from "@/lib/showcase-brain.functions";
+import { useShuffled } from "@/hooks/useShuffled";
 import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 
 /**
- * Showcase rail — a horizontally scrolling strip of the best-performing
- * showcase photos. Rendered on Home and Discover so the gallery isn't
- * locked behind the welcome popup. Tap any tile to open it full-screen.
+ * Showcase grid — the best-performing showcase photos, reshuffled on a timer
+ * so the section feels fresh (same rotation as the host cards elsewhere).
+ * Rendered on Home and Discover. Tap any tile to open it full-screen.
  */
 export function ShowcaseRail({
   title = "Showcase",
   subtitle = "Fresh looks from our hosts",
-  limit = 20,
+  limit = 25,
 }: {
   title?: string;
   subtitle?: string;
@@ -21,7 +22,7 @@ export function ShowcaseRail({
 }) {
   const [allItems, setAllItems] = useState<ReelItem[]>([]);
   const [broken, setBroken] = useState<string[]>([]);
-  const [open, setOpen] = useState<number | null>(null);
+  const [openId, setOpenId] = useState<string | null>(null);
 
   useEffect(() => {
     let alive = true;
@@ -36,23 +37,30 @@ export function ShowcaseRail({
   }, [limit]);
 
   useEffect(() => {
-    if (open === null) return;
+    if (!openId) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(null);
+      if (e.key === "Escape") setOpenId(null);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [openId]);
 
   // Media whose signed URL failed is dropped entirely — otherwise the tile
   // collapses to raw alt text, which is what made the rail look broken.
-  const items = allItems.filter((i) => !broken.includes(i.id));
+  const usable = useMemo(
+    () => allItems.filter((i) => !broken.includes(i.id)),
+    [allItems, broken],
+  );
+  // Reshuffle every 15s so returning visitors see a different set first.
+  const items = useShuffled(usable, 15_000);
   const markBroken = (id: string) =>
     setBroken((prev) => (prev.includes(id) ? prev : [...prev, id]));
 
   if (items.length === 0) return null;
 
-  const active = open !== null ? items[open] : null;
+  // Keyed by id, not index, so a reshuffle never swaps the open photo.
+  const active = openId ? items.find((i) => i.id === openId) ?? null : null;
+
 
   return (
     <section className="mt-7 rise-in">
