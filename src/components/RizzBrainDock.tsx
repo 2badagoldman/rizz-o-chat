@@ -259,6 +259,7 @@ export function RizzBrainDock() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open Crush AI"
+          data-ai-dock
           className="fixed z-40 grid h-11 w-11 place-items-center rounded-full border border-white/25 bg-white/20 shadow-glow backdrop-blur-xl backdrop-saturate-150 transition-transform hover:scale-105 active:scale-95"
           style={{
             right: "max(0.75rem, env(safe-area-inset-right))",

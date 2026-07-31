@@ -124,7 +124,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
         style={{
           paddingBottom: hideNav
             ? "calc(env(safe-area-inset-bottom) + 1.5rem)"
-            : "calc(env(safe-area-inset-bottom) + 7.5rem)",
+            : "calc(env(safe-area-inset-bottom) + 9.5rem)",
         }}
       >
 

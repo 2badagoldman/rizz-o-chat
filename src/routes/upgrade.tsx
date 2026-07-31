@@ -197,16 +197,16 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
 
 
 
-      <div className="relative flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="relative grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           {diamond ? (
-            <div className="relative grid h-12 w-12 place-items-center transition-transform duration-500 group-hover:scale-110">
+            <div className="relative grid h-12 w-12 shrink-0 place-items-center transition-transform duration-500 group-hover:scale-110">
               <DiamondGem className="h-11 w-11" />
             </div>
           ) : (
-            <GoldMedallion className="h-12 w-12 transition-transform duration-500 group-hover:scale-110" />
+            <GoldMedallion className="h-12 w-12 shrink-0 transition-transform duration-500 group-hover:scale-110" />
           )}
-          <div>
+          <div className="min-w-0">
             <h2
               className={`text-lg leading-tight font-black ${
                 diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : 'gold-text'
