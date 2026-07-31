@@ -132,11 +132,12 @@ export const claimGuestSubscription = createServerFn({ method: 'POST' })
     const { userId } = context;
     try {
       const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+      // Match on the code alone — a live code must still redeem from a test-mode
+      // preview build. The row's own environment drives the Stripe calls below.
       const { data: row, error } = await supabaseAdmin
         .from('guest_subscriptions')
         .select('*')
         .eq('code', data.code)
-        .eq('environment', data.environment)
         .maybeSingle();
       if (error) throw new Error(error.message);
       if (!row) return { error: 'We couldn’t find that subscription code.' };
@@ -147,7 +148,8 @@ export const claimGuestSubscription = createServerFn({ method: 'POST' })
         return { error: 'This payment is still processing — try again in a minute.' };
       }
 
-      const stripe = createStripeClient(data.environment);
+      const rowEnv: StripeEnv = row.environment === 'live' ? 'live' : 'sandbox';
+      const stripe = createStripeClient(rowEnv);
       const subscription = await stripe.subscriptions.retrieve(row.stripe_subscription_id);
       const active = subscription.status === 'active' || subscription.status === 'trialing';
       if (!active) return { error: 'That subscription is no longer active.' };
@@ -176,7 +178,7 @@ export const claimGuestSubscription = createServerFn({ method: 'POST' })
           current_period_start: periodStart ? new Date(periodStart * 1000).toISOString() : null,
           current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
           cancel_at_period_end: subscription.cancel_at_period_end || false,
-          environment: data.environment,
+          environment: rowEnv,
           updated_at: new Date().toISOString(),
         },
         { onConflict: 'stripe_subscription_id' },
