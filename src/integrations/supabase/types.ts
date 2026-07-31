@@ -254,6 +254,7 @@ export type Database = {
           email: string | null
           environment: string
           id: string
+          phone: string | null
           price_id: string
           status: string
           stripe_checkout_session_id: string | null
@@ -269,6 +270,7 @@ export type Database = {
           email?: string | null
           environment?: string
           id?: string
+          phone?: string | null
           price_id: string
           status?: string
           stripe_checkout_session_id?: string | null
@@ -284,6 +286,7 @@ export type Database = {
           email?: string | null
           environment?: string
           id?: string
+          phone?: string | null
           price_id?: string
           status?: string
           stripe_checkout_session_id?: string | null
