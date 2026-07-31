@@ -1,0 +1,3 @@
+UPDATE public.showcase_media SET is_active = false WHERE id = 'e34d6ee1-fb43-4acd-93fe-8efa00a037f6';
+INSERT INTO public.showcase_media (uploader_id, storage_path, media_type, caption, sort_order, is_active)
+VALUES ('4328fae5-6998-4f8f-950b-cd0b18458c64', '4328fae5-6998-4f8f-950b-cd0b18458c64/900a9ff6-4d9d-491c-aa39-d9060efd59b2.jpg', 'image', 'Somewhere between hello and 3am conversations 🌙', 5, true);
