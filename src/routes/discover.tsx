@@ -127,7 +127,7 @@ function Discover() {
         ))}
       </div>
 
-      <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={24} />
+      <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={25} />
 
       <RoomsShowcase />
 
