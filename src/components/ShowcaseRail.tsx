@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { X, Sparkles, MessageCircle } from "lucide-react";
+import { X, MessageCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getShowcaseReel, type ReelItem } from "@/lib/showcase-brain.functions";
+import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 
 /**
  * Showcase rail — a horizontally scrolling strip of the best-performing
