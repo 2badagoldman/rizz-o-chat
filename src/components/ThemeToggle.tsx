@@ -122,16 +122,6 @@ export function ThemeToggle() {
       >
         <button
           type="button"
-          onClick={() => { setTheme("pink"); setOpen(false); }}
-          aria-pressed={theme === "pink"}
-          className={`rounded-full px-2.5 py-1 transition-colors ${
-            theme === "pink" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
-          } hidden sm:block`}
-        >
-          Pink
-        </button>
-        <button
-          type="button"
           onClick={() => { setTheme("abyss"); setOpen(false); }}
           aria-pressed={theme === "abyss"}
           className={`rounded-full px-2.5 py-1 transition-colors ${
@@ -140,6 +130,17 @@ export function ThemeToggle() {
         >
           Sea
         </button>
+        <button
+          type="button"
+          onClick={() => { setTheme("pink"); setOpen(false); }}
+          aria-pressed={theme === "pink"}
+          className={`rounded-full px-2.5 py-1 transition-colors ${
+            theme === "pink" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
+          } hidden sm:block`}
+        >
+          Pink
+        </button>
+
         <button
           ref={btnRef}
           type="button"
