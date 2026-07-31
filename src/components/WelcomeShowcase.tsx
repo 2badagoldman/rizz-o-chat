@@ -44,7 +44,7 @@ export function WelcomeShowcase() {
   const loadReel = async () => {
     const t0 = Date.now();
     try {
-      const reel = await getShowcaseReel({ data: { limit: 20 } });
+      const reel = await getShowcaseReel({ data: { limit: 25 } });
       const loadMs = Date.now() - t0;
       if (!reel || reel.length === 0) {
         track("showcase_empty", { metadata: { load_ms: loadMs } });
