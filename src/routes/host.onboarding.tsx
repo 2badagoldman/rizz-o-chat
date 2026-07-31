@@ -82,7 +82,7 @@ function HostOnboarding() {
     setBusy(true);
     setErr(null);
     try {
-      // Update profile
+      // Update profile (account_type is NEVER self-granted — admins approve hosts)
       const parsedInterests = interests
         .split(",")
         .map((s) => s.trim())
@@ -93,22 +93,38 @@ function HostOnboarding() {
           display_name: displayName || (user.email ?? "").split("@")[0],
           bio,
           interests: parsedInterests,
-          account_type: "host",
         })
         .eq("id", user.id);
       if (pErr) throw pErr;
 
-      // Create friends list
-      const tier = priceCents < 500 ? "new" : priceCents < 2000 ? "rising" : priceCents < 5000 ? "popular" : "elite";
-      const { error: fErr } = await supabase.from("friends_lists").insert({
-        host_id: user.id,
-        title: title || `${displayName || "My"} · Friends List`,
-        description,
-        price_cents: priceCents,
-        tier,
-        active: true,
-      });
-      if (fErr) throw fErr;
+      const { data: prof } = await supabase
+        .from("profiles")
+        .select("account_type")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (prof?.account_type === "host") {
+        // Already approved — create/refresh the Friends List
+        const tier = priceCents < 500 ? "new" : priceCents < 2000 ? "rising" : priceCents < 5000 ? "popular" : "elite";
+        const { error: fErr } = await supabase.from("friends_lists").insert({
+          host_id: user.id,
+          title: title || `${displayName || "My"} · Friends List`,
+          description,
+          price_cents: priceCents,
+          tier,
+          active: true,
+        });
+        if (fErr) throw fErr;
+      } else {
+        // Submit a host application for review; host tools stay locked until approved
+        const { error: aErr } = await supabase.from("host_applications").insert({
+          user_id: user.id,
+          stage_name: displayName || (user.email ?? "").split("@")[0],
+          pitch: description || bio || "Applied via host onboarding.",
+        });
+        if (aErr && !aErr.message.includes("duplicate")) throw aErr;
+      }
+
 
       navigate({ to: "/dashboard" });
     } catch (e) {

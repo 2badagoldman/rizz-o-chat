@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
+import { HostApplicationCard } from "@/components/HostApplicationCard";
+import { RedeemCodeCard } from "@/components/RedeemCodeCard";
 import { useAuth } from "@/lib/auth";
 import { getHostSelfStats } from "@/lib/host-stats.functions";
 import { TrendingUp, Users, Wallet, Trophy } from "lucide-react";
@@ -66,12 +68,18 @@ function Dashboard() {
           {isHost ? (
             <MilestoneCard active={data?.activeFriends ?? 0} toFlip={data?.friendsToFlip ?? 100} unlocked={data?.flipUnlocked ?? false} split={data?.currentSplitPct ?? 35} />
           ) : (
-            <div className="mt-5 rounded-2xl border border-border bg-gradient-brand-soft p-4">
-              <p className="text-sm">
-                You&apos;re signed in as a Member. Head to <Link to="/discover" className="text-gradient-brand font-semibold">Discover</Link> to find your first Friends List.
-              </p>
-            </div>
+            <>
+              <div className="mt-5 rounded-2xl border border-border bg-gradient-brand-soft p-4">
+                <p className="text-sm">
+                  You&apos;re signed in as a Member. Head to <Link to="/discover" className="text-gradient-brand font-semibold">Discover</Link> to find your first Friends List.
+                </p>
+              </div>
+              <HostApplicationCard />
+            </>
           )}
+
+          <RedeemCodeCard />
+
 
           <section className="mt-5 grid grid-cols-2 gap-3">
             <MetricCard icon={<Wallet className="h-4 w-4" />} label="Earned (30d)" value={usd(data?.stats?.host_share_cents)} accent />
