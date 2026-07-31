@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { X, Sparkles } from "lucide-react";
+import { X, Sparkles, MessageCircle } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { getShowcaseReel, type ReelItem } from "@/lib/showcase-brain.functions";
 
 /**
@@ -16,14 +17,15 @@ export function ShowcaseRail({
   subtitle?: string;
   limit?: number;
 }) {
-  const [items, setItems] = useState<ReelItem[]>([]);
+  const [allItems, setAllItems] = useState<ReelItem[]>([]);
+  const [broken, setBroken] = useState<string[]>([]);
   const [open, setOpen] = useState<number | null>(null);
 
   useEffect(() => {
     let alive = true;
     getShowcaseReel({ data: { limit } })
       .then((reel) => {
-        if (alive && reel) setItems(reel.filter((r) => r.url));
+        if (alive && reel) setAllItems(reel.filter((r) => r.url));
       })
       .catch(() => {});
     return () => {
@@ -39,6 +41,12 @@ export function ShowcaseRail({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
+
+  // Media whose signed URL failed is dropped entirely — otherwise the tile
+  // collapses to raw alt text, which is what made the rail look broken.
+  const items = allItems.filter((i) => !broken.includes(i.id));
+  const markBroken = (id: string) =>
+    setBroken((prev) => (prev.includes(id) ? prev : [...prev, id]));
 
   if (items.length === 0) return null;
 
@@ -73,14 +81,16 @@ export function ShowcaseRail({
                 loop
                 playsInline
                 autoPlay
+                onError={() => markBroken(it.id)}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
               <img
                 src={it.url}
-                alt={it.caption ?? "Showcase"}
+                alt=""
                 loading={i < 3 ? "eager" : "lazy"}
                 decoding="async"
+                onError={() => markBroken(it.id)}
                 className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
               />
             )}
@@ -111,15 +121,26 @@ export function ShowcaseRail({
           </button>
           <figure className="max-h-[85vh] w-full max-w-md overflow-hidden rounded-3xl" onClick={(e) => e.stopPropagation()}>
             {active.media_type === "video" ? (
-              <video src={active.url} controls autoPlay playsInline className="max-h-[75vh] w-full object-contain" />
+              <video src={active.url} controls autoPlay playsInline className="max-h-[65vh] w-full object-contain" />
             ) : (
-              <img src={active.url} alt={active.caption ?? "Showcase"} className="max-h-[75vh] w-full object-contain" />
+              <img src={active.url} alt={active.caption ?? "Showcase"} className="max-h-[65vh] w-full object-contain" />
             )}
-            {active.caption ? (
-              <figcaption className="bg-black/60 px-4 py-3 text-center text-sm font-semibold text-white">
-                {active.caption}
-              </figcaption>
-            ) : null}
+            <figcaption className="space-y-3 bg-black/70 px-4 py-4 text-center">
+              {active.caption ? (
+                <p className="text-sm font-semibold text-white">{active.caption}</p>
+              ) : null}
+              <Link
+                to="/upgrade"
+                onClick={() => setOpen(null)}
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-white shadow-glow transition active:scale-95"
+              >
+                <MessageCircle className="h-4 w-4" />
+                Subscribe to chat with her
+              </Link>
+              <p className="text-[11px] text-white/70">
+                Crush Gold unlocks Friends Lists and direct chat with showcase hosts.
+              </p>
+            </figcaption>
           </figure>
         </div>
       ) : null}
