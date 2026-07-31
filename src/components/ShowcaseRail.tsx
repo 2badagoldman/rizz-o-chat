@@ -64,14 +64,14 @@ export function ShowcaseRail({
         </span>
       </div>
 
-      <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {items.map((it, i) => (
           <button
             key={it.id}
             type="button"
             onClick={() => setOpen(i)}
             aria-label={it.caption ? `Open showcase photo: ${it.caption}` : "Open showcase photo"}
-            className="group relative h-56 w-40 shrink-0 snap-start overflow-hidden rounded-3xl border border-border/60 shadow-card transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="group relative aspect-[3/4] w-full overflow-hidden rounded-3xl border border-border/60 shadow-card transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             style={{ animation: `rise-in 600ms ${Math.min(i, 10) * 45}ms cubic-bezier(.2,.8,.2,1) both` }}
           >
             {it.media_type === "video" ? (
@@ -88,7 +88,7 @@ export function ShowcaseRail({
               <img
                 src={it.url}
                 alt=""
-                loading={i < 3 ? "eager" : "lazy"}
+                loading={i < 6 ? "eager" : "lazy"}
                 decoding="async"
                 onError={() => markBroken(it.id)}
                 className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
@@ -103,6 +103,7 @@ export function ShowcaseRail({
           </button>
         ))}
       </div>
+
 
       {active ? (
         <div
