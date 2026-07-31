@@ -106,7 +106,7 @@ export function ShowcaseRail({
 
       {active ? (
         <div
-          className="fixed inset-0 z-[95] grid place-items-center bg-black/85 p-4 backdrop-blur-md"
+          className="fixed inset-0 z-[120] overflow-y-auto overscroll-contain bg-black/85 p-4 backdrop-blur-md"
           role="dialog"
           aria-modal="true"
           onClick={() => setOpen(null)}
@@ -115,33 +115,48 @@ export function ShowcaseRail({
             type="button"
             onClick={() => setOpen(null)}
             aria-label="Close photo"
-            className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/25"
+            className="fixed right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/25"
           >
             <X className="h-5 w-5" />
           </button>
-          <figure className="max-h-[85vh] w-full max-w-md overflow-hidden rounded-3xl" onClick={(e) => e.stopPropagation()}>
-            {active.media_type === "video" ? (
-              <video src={active.url} controls autoPlay playsInline className="max-h-[65vh] w-full object-contain" />
-            ) : (
-              <img src={active.url} alt={active.caption ?? "Showcase"} className="max-h-[65vh] w-full object-contain" />
-            )}
-            <figcaption className="space-y-3 bg-black/70 px-4 py-4 text-center">
-              {active.caption ? (
-                <p className="text-sm font-semibold text-white">{active.caption}</p>
-              ) : null}
-              <Link
-                to="/upgrade"
-                onClick={() => setOpen(null)}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-white shadow-glow transition active:scale-95"
-              >
-                <MessageCircle className="h-4 w-4" />
-                Subscribe to chat with her
-              </Link>
-              <p className="text-[11px] text-white/70">
-                Crush Gold unlocks Friends Lists and direct chat with showcase hosts.
-              </p>
-            </figcaption>
-          </figure>
+          <div className="flex min-h-full items-center justify-center py-8">
+            <figure
+              className="w-full max-w-md overflow-hidden rounded-3xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {active.media_type === "video" ? (
+                <video
+                  src={active.url}
+                  controls
+                  autoPlay
+                  playsInline
+                  className="max-h-[55vh] w-full bg-black object-contain"
+                />
+              ) : (
+                <img
+                  src={active.url}
+                  alt={active.caption ?? "Showcase"}
+                  className="max-h-[55vh] w-full bg-black object-contain"
+                />
+              )}
+              <figcaption className="space-y-3 bg-black/80 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 text-center">
+                {active.caption ? (
+                  <p className="text-sm font-semibold text-white">{active.caption}</p>
+                ) : null}
+                <Link
+                  to="/upgrade"
+                  onClick={() => setOpen(null)}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-white shadow-glow transition active:scale-95"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  Subscribe to chat with her
+                </Link>
+                <p className="text-[11px] text-white/70">
+                  Crush Gold unlocks Friends Lists and direct chat with showcase hosts.
+                </p>
+              </figcaption>
+            </figure>
+          </div>
         </div>
       ) : null}
     </section>
