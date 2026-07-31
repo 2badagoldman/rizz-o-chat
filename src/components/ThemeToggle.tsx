@@ -20,24 +20,66 @@ function apply(theme: Theme) {
   ALL.forEach((t) => root.classList.toggle(`theme-${t}`, t === theme));
 }
 
+const SHOW_KEY = "rizz.theme.autoShow";
+const SHOW_STEP_MS = 120_000; // 2 minutes
+
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>("pink");
+  const [theme, setTheme] = useState<Theme>("abyss");
+  const [autoShow, setAutoShow] = useState(true);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const manual = useRef(false);
+
+  const clearTimers = () => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+  };
+
   useEffect(() => {
     const saved = localStorage.getItem(KEY) as Theme | null;
-    const next = saved && ALL.includes(saved) ? saved : "pink";
+    const next = saved && ALL.includes(saved) ? saved : "abyss";
     setTheme(next);
     apply(next);
+    setAutoShow(localStorage.getItem(SHOW_KEY) !== "off");
   }, []);
+
+  // Theme show: sea -> pink after 2 min -> sea after 2 more min, then stays.
+  useEffect(() => {
+    clearTimers();
+    if (!autoShow || manual.current) return;
+    const step = (t: Theme) => {
+      if (manual.current) return;
+      setTheme(t);
+      apply(t);
+      try { localStorage.setItem(KEY, t); } catch { /* noop */ }
+    };
+    timers.current.push(setTimeout(() => step("pink"), SHOW_STEP_MS));
+    timers.current.push(setTimeout(() => step("abyss"), SHOW_STEP_MS * 2));
+    return clearTimers;
+  }, [autoShow]);
+
   const update = (t: Theme) => {
+    manual.current = true;
+    clearTimers();
     setTheme(t);
     apply(t);
     try { localStorage.setItem(KEY, t); } catch { /* noop */ }
   };
-  return { theme, setTheme: update };
+
+  const toggleAutoShow = () => {
+    setAutoShow((v) => {
+      const next = !v;
+      manual.current = false;
+      try { localStorage.setItem(SHOW_KEY, next ? "on" : "off"); } catch { /* noop */ }
+      return next;
+    });
+  };
+
+  return { theme, setTheme: update, autoShow, toggleAutoShow };
 }
 
+
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, autoShow, toggleAutoShow } = useTheme();
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number; right: number } | null>(null);
   const ref = useRef<HTMLDivElement>(null);
@@ -80,16 +122,6 @@ export function ThemeToggle() {
       >
         <button
           type="button"
-          onClick={() => { setTheme("pink"); setOpen(false); }}
-          aria-pressed={theme === "pink"}
-          className={`rounded-full px-2.5 py-1 transition-colors ${
-            theme === "pink" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
-          } hidden sm:block`}
-        >
-          Pink
-        </button>
-        <button
-          type="button"
           onClick={() => { setTheme("abyss"); setOpen(false); }}
           aria-pressed={theme === "abyss"}
           className={`rounded-full px-2.5 py-1 transition-colors ${
@@ -98,6 +130,17 @@ export function ThemeToggle() {
         >
           Sea
         </button>
+        <button
+          type="button"
+          onClick={() => { setTheme("pink"); setOpen(false); }}
+          aria-pressed={theme === "pink"}
+          className={`rounded-full px-2.5 py-1 transition-colors ${
+            theme === "pink" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
+          } hidden sm:block`}
+        >
+          Pink
+        </button>
+
         <button
           ref={btnRef}
           type="button"
@@ -137,6 +180,29 @@ export function ThemeToggle() {
                   {t.label}
                 </button>
               ))}
+              <div className="my-1 h-px bg-border" />
+              <button
+                type="button"
+                role="menuitemcheckbox"
+                aria-checked={autoShow}
+                onClick={toggleAutoShow}
+                className="flex w-full items-start gap-2 rounded-xl px-2.5 py-2 text-left text-xs font-semibold text-foreground transition-colors hover:bg-muted"
+              >
+                <span
+                  className={`mt-0.5 h-4 w-7 shrink-0 rounded-full border border-border transition-colors ${autoShow ? "bg-primary" : "bg-muted"}`}
+                >
+                  <span
+                    className={`block h-3 w-3 translate-y-[1px] rounded-full bg-background transition-transform ${autoShow ? "translate-x-[15px]" : "translate-x-[2px]"}`}
+                  />
+                </span>
+                <span className="leading-tight">
+                  Theme show
+                  <span className="block text-[10px] font-medium text-muted-foreground">
+                    Sea → Pink (2 min) → Sea
+                  </span>
+                </span>
+              </button>
+
             </div>,
             document.body,
           )
