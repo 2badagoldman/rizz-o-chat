@@ -47,7 +47,7 @@ function AdminApplications() {
     const { data, error } = await supabase.rpc("admin_review_host_application", {
       _application_id: id,
       _approve: approve,
-      _notes: null,
+      _notes: undefined,
     });
     setBusy(null);
     if (error) {
