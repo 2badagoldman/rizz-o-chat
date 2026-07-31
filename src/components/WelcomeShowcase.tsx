@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useRouterState } from "@tanstack/react-router";
-import { X, Volume2, VolumeX, Sparkles, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouterState, useNavigate } from "@tanstack/react-router";
+import { X, Volume2, VolumeX, MessageCircle, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getShowcaseReel, logShowcaseEvent, type ReelItem } from "@/lib/showcase-brain.functions";
 import { track } from "@/lib/analytics";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+
 
 const FLAG_KEY = "rizzla:showWelcome";           // explicit trigger (e.g. right after sign-up)
 const SESSION_SHOWN_KEY = "rizzla:welcomeShown"; // once per browser session
