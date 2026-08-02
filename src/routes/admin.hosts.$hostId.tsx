@@ -1,9 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { getHostDetail, setHostVerification } from "@/lib/admin-data.functions";
-import { ArrowLeft, Check, Clock, X, MessageSquare, Users as UsersIcon } from "lucide-react";
+import {
+  getHostDetail,
+  setHostVerification,
+  getHostAccountRecord,
+  generateHostRecoveryLink,
+} from "@/lib/admin-data.functions";
+import { ArrowLeft, Check, Clock, X, MessageSquare, Users as UsersIcon, KeyRound, Copy } from "lucide-react";
 import { toast } from "sonner";
+
 
 export const Route = createFileRoute("/admin/hosts/$hostId")({
   head: () => ({ meta: [
@@ -19,7 +25,7 @@ function AdminHostDetail() {
   const setStatus = useServerFn(setHostVerification);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [err, setErr] = useState<string | null>(null);
-  const [tab, setTab] = useState<"photos" | "dms" | "rooms">("photos");
+  const [tab, setTab] = useState<"account" | "photos" | "dms" | "rooms">("account");
 
   const load = () => {
     setErr(null);
@@ -97,10 +103,12 @@ function AdminHostDetail() {
       {/* Tabs */}
       <div className="mt-5 flex gap-1 border-b border-border text-xs font-semibold">
         {([
+          ["account", "Account & recovery"],
           ["photos", `Photos & video (${detail.media.length})`],
           ["dms", `Direct chats (${detail.messages.length})`],
           ["rooms", `Room chats (${detail.roomMessages.length})`],
         ] as const).map(([id, label]) => (
+
           <button
             key={id}
             onClick={() => setTab(id)}
@@ -115,7 +123,10 @@ function AdminHostDetail() {
       </div>
 
       <div className="mt-4">
-        {tab === "photos" ? (
+        {tab === "account" ? (
+          <AccountPanel hostId={hostId} />
+        ) : tab === "photos" ? (
+
           detail.media.length === 0 ? (
             <p className="text-sm text-muted-foreground">No uploads yet.</p>
           ) : (
@@ -197,5 +208,152 @@ function MessagesList({
         </li>
       ))}
     </ul>
+  );
+}
+
+type AccountRecord = Awaited<ReturnType<typeof getHostAccountRecord>>;
+
+function AccountPanel({ hostId }: { hostId: string }) {
+  const fetchAccount = useServerFn(getHostAccountRecord);
+  const mintLink = useServerFn(generateHostRecoveryLink);
+  const [rec, setRec] = useState<AccountRecord | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  const [link, setLink] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    setErr(null);
+    fetchAccount({ data: { hostId } })
+      .then(setRec)
+      .catch((e) => setErr(String((e as Error).message ?? e)));
+  }, [hostId, fetchAccount]);
+
+  async function makeLink() {
+    setBusy(true);
+    try {
+      const r = await mintLink({
+        data: { hostId, redirectTo: `${window.location.origin}/reset-password` },
+      });
+      setLink(r.url);
+      toast.success(`Recovery link ready for ${r.email}`);
+    } catch (e) {
+      toast.error((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (err) return <p className="text-sm text-destructive">{err}</p>;
+  if (!rec) return <p className="text-sm text-muted-foreground">Loading account record…</p>;
+
+  const a = rec.account;
+  const fmt = (v?: string | null) => (v ? new Date(v).toLocaleString() : "—");
+
+  return (
+    <div className="space-y-4">
+      <section className="rounded-2xl border border-border bg-card p-4">
+        <h3 className="text-sm font-semibold">Sign-in identifiers</h3>
+        <dl className="mt-3 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
+          <Row label="Email" value={a?.email ?? "—"} mono />
+          <Row label="Phone" value={a?.phone || "—"} mono />
+          <Row label="Sign-in methods" value={(a?.providers ?? []).join(", ") || "password"} />
+          <Row label="Account created" value={fmt(a?.created_at)} />
+          <Row label="Last sign-in" value={fmt(a?.last_sign_in_at)} />
+          <Row label="Email confirmed" value={fmt(a?.email_confirmed_at)} />
+          <Row label="Phone confirmed" value={fmt(a?.phone_confirmed_at)} />
+          <Row label="Suspended until" value={fmt(a?.banned_until)} />
+        </dl>
+      </section>
+
+      <section className="rounded-2xl border border-primary/30 bg-gradient-brand-soft p-4">
+        <h3 className="flex items-center gap-1.5 text-sm font-semibold">
+          <KeyRound className="h-4 w-4" /> Password recovery
+        </h3>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Passwords are stored as one-way salted hashes, so no one — including you — can read a
+          member&apos;s password. To get a locked-out host back in, mint a one-time reset link below and
+          send it to the email on file. The link expires after a single use.
+        </p>
+        <button
+          onClick={makeLink}
+          disabled={busy}
+          className="mt-3 rounded-xl bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-60"
+        >
+          {busy ? "Generating…" : "Generate reset link"}
+        </button>
+        {link && (
+          <div className="mt-3 flex items-start gap-2 rounded-xl border border-border bg-card p-2">
+            <code className="min-w-0 flex-1 break-all text-[11px]">{link}</code>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(link);
+                toast.success("Copied");
+              }}
+              className="shrink-0 rounded-lg border border-border px-2 py-1 text-[11px] font-semibold"
+            >
+              <Copy className="mr-1 inline h-3 w-3" />Copy
+            </button>
+          </div>
+        )}
+      </section>
+
+      <section className="rounded-2xl border border-border bg-card p-4">
+        <h3 className="text-sm font-semibold">Audience &amp; activity</h3>
+        <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Stat label="Active friends" value={rec.activeMembers} />
+          <Stat label="Total members" value={rec.totalMembers} />
+          <Stat label="Direct messages" value={rec.dmMessageCount} />
+          <Stat label="Room messages" value={rec.roomMessageCount} />
+        </div>
+        {rec.lists.length > 0 && (
+          <ul className="mt-3 space-y-1 text-xs text-muted-foreground">
+            {rec.lists.map((l) => (
+              <li key={l.id}>
+                {l.title ?? "Friends list"} — ${(Number(l.price_cents ?? 0) / 100).toFixed(2)} ·{" "}
+                {l.subscriber_count ?? 0} subscribers · {l.active ? "active" : "inactive"}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="rounded-2xl border border-border bg-card p-4">
+        <h3 className="text-sm font-semibold">Who they chat with</h3>
+        {rec.chatPartners.length === 0 ? (
+          <p className="mt-2 text-xs text-muted-foreground">No direct conversations yet.</p>
+        ) : (
+          <ul className="mt-3 divide-y divide-border/60">
+            {rec.chatPartners.map((p) => (
+              <li key={p.id} className="flex items-center justify-between py-1.5 text-sm">
+                <Link to="/admin/hosts/$hostId" params={{ hostId: p.id }} className="truncate hover:underline">
+                  {p.name}
+                </Link>
+                <span className="shrink-0 text-[11px] text-muted-foreground">
+                  {p.messages} msgs · last {new Date(p.last).toLocaleDateString()}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function Row({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3 border-b border-border/50 pb-1">
+      <dt className="text-xs text-muted-foreground">{label}</dt>
+      <dd className={"truncate text-right " + (mono ? "font-mono text-xs" : "text-xs")}>{value}</dd>
+    </div>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-xl border border-border bg-background p-3">
+      <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="mt-0.5 text-lg font-semibold">{value}</p>
+    </div>
   );
 }

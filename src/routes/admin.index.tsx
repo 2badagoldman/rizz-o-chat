@@ -244,29 +244,34 @@ function Metric({ icon, label, value, accent }: { icon?: React.ReactNode; label:
   );
 }
 
-type BgRow = { label: string; count: number; pct: number };
+type BgRow = { label: string; count: number; members: number; hosts: number; last30: number; pct: number };
 
 function BackgroundPanel() {
   const load = useServerFn(signupsByBackground);
   const [rows, setRows] = useState<BgRow[]>([]);
   const [total, setTotal] = useState(0);
+  const [notStated, setNotStated] = useState(0);
 
   useEffect(() => {
     load(undefined as never)
       .then((r) => {
         setRows(r.rows as BgRow[]);
         setTotal(r.total);
+        setNotStated(r.notStated ?? 0);
       })
       .catch(() => {});
   }, [load]);
 
+  const top = rows[0];
+
   return (
     <section className="mt-5 rounded-2xl border border-border bg-card p-4">
       <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-        Signups by background
+        Signups by race / background
       </h2>
       <p className="mt-1 text-[11px] text-muted-foreground">
-        Optional, self-reported at signup. {total} member{total === 1 ? "" : "s"} answered.
+        Optional, self-reported at signup. {total} answered · {notStated} not stated
+        {top ? ` · largest group: ${top.label} (${top.pct}%)` : ""}.
       </p>
       <div className="mt-3 space-y-2">
         {rows.length === 0 ? (
@@ -275,16 +280,25 @@ function BackgroundPanel() {
           rows.map((r) => (
             <div key={r.label} className="flex items-center gap-3">
               <span className="w-36 shrink-0 truncate text-sm">{r.label}</span>
-              <span className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
-                <span className="block h-full rounded-full bg-gradient-brand" style={{ width: `${r.pct}%` }} />
+              <span className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-muted">
+                <span
+                  className="absolute inset-y-0 left-0 rounded-full bg-gradient-brand"
+                  style={{ width: `${r.pct}%` }}
+                />
               </span>
-              <span className="w-16 shrink-0 text-right text-xs text-muted-foreground">
-                {r.count} \u00b7 {r.pct}%
+              <span className="w-44 shrink-0 text-right text-[11px] text-muted-foreground">
+                <span className="font-mono text-foreground">{r.count}</span> · {r.pct}% ·{" "}
+                {r.members}M / {r.hosts}H
+                {r.last30 > 0 ? <span className="text-emerald-600"> · +{r.last30} 30d</span> : null}
               </span>
             </div>
           ))
         )}
       </div>
+      <p className="mt-3 text-[10px] text-muted-foreground">
+        M = members, H = hosts. Used for audience insight only — never for gating access.
+      </p>
     </section>
   );
 }
+
