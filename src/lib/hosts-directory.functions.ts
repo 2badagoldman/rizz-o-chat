@@ -17,6 +17,8 @@ export const listApprovedHosts = createServerFn({ method: "GET" }).handler(
       .select("id, display_name, avatar_url, bio, created_at")
       .eq("account_type", "host")
       .eq("verification_status", "verified")
+      .not("avatar_url", "is", null)
+      .neq("avatar_url", "")
       .is("deleted_at", null)
       .order("created_at", { ascending: false })
       .limit(60);
