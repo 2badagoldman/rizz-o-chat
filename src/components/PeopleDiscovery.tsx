@@ -109,7 +109,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             </h2>
             <p className="text-[11.5px] text-muted-foreground">
               {debounced
-                ? "Search by name or exact email"
+                ? "Searching every username — hosts and members"
                 : "Join the rush as everyone finds their crush on Crush."}
             </p>
           </div>
@@ -128,7 +128,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search by username or exact email…"
+            placeholder="Search any username — hosts & members…"
             aria-label="Search people"
             className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
@@ -163,9 +163,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
               </p>
               <p className="mx-auto mt-1 max-w-[16rem] text-xs font-semibold text-muted-foreground">
                 {debounced
-                  ? debounced.includes("@")
-                    ? `No account uses “${debounced}”.`
-                    : `Nobody matches “${debounced}”. Try a different name.`
+                  ? `Nobody matches “${debounced}”. Try their exact username.`
                   : isHost
                     ? "Check back soon — new members join Crush every day."
                     : "Check back soon — new hosts join Crush every day."}
