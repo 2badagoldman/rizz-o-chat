@@ -103,10 +103,12 @@ function AdminHostDetail() {
       {/* Tabs */}
       <div className="mt-5 flex gap-1 border-b border-border text-xs font-semibold">
         {([
+          ["account", "Account & recovery"],
           ["photos", `Photos & video (${detail.media.length})`],
           ["dms", `Direct chats (${detail.messages.length})`],
           ["rooms", `Room chats (${detail.roomMessages.length})`],
         ] as const).map(([id, label]) => (
+
           <button
             key={id}
             onClick={() => setTab(id)}
