@@ -131,7 +131,7 @@ function Discover() {
         ))}
       </div>
 
-      <ApprovedHosts />
+      
 
       <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={25} />
 
