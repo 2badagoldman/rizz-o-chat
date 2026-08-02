@@ -277,7 +277,20 @@ export function PeopleDiscovery({ open, onClose }: Props) {
 
                 );
               })}
+              {hasNextPage ? (
+                <li className="px-2 py-3 text-center">
+                  <button
+                    type="button"
+                    onClick={() => void fetchNextPage()}
+                    disabled={isFetchingNextPage}
+                    className="rounded-full border border-border/70 bg-card/70 px-4 py-2 text-xs font-bold text-foreground transition active:scale-95 disabled:opacity-60"
+                  >
+                    {isFetchingNextPage ? "Loading…" : "Load more people"}
+                  </button>
+                </li>
+              ) : null}
             </ul>
+
           )}
         </div>
       </div>
