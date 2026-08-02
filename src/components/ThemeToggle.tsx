@@ -43,6 +43,8 @@ export function useTheme() {
   }, []);
 
   // Theme show: sea -> pink after 2 min -> sea after 2 more min, then stays.
+  // The showcase steps are deliberately NOT persisted: saving "pink" here made
+  // returning visitors boot into pink and flash back to sea.
   useEffect(() => {
     clearTimers();
     if (!autoShow || manual.current) return;
@@ -50,12 +52,12 @@ export function useTheme() {
       if (manual.current) return;
       setTheme(t);
       apply(t);
-      try { localStorage.setItem(KEY, t); } catch { /* noop */ }
     };
     timers.current.push(setTimeout(() => step("pink"), SHOW_STEP_MS));
     timers.current.push(setTimeout(() => step("abyss"), SHOW_STEP_MS * 2));
     return clearTimers;
   }, [autoShow]);
+
 
   const update = (t: Theme) => {
     manual.current = true;
