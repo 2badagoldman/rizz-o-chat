@@ -105,7 +105,7 @@ async function handleSubscriptionUpsert(subscription: any, env: StripeEnv) {
   if (kind === 'platform' && isActive) {
     const tier = priceId === 'rizz_diamond_weekly' || priceId === 'rizz_vip_monthly'
       ? 'vip'
-      : priceId === 'rizz_gold_weekly' || priceId === 'rizz_plus_monthly'
+      : priceId === 'rizz_gold_weekly' || priceId === 'rizz_plus_monthly' || priceId === 'crush_intro_monthly' || priceId === 'crush_last_chance_monthly'
         ? 'plus'
         : 'free';
     await sb().from('profiles').update({ platform_tier: tier }).eq('id', userId);
@@ -126,7 +126,7 @@ async function handleSubscriptionUpsert(subscription: any, env: StripeEnv) {
 
 function tierForPrice(priceId: string | null | undefined): 'vip' | 'plus' | 'free' {
   if (priceId === 'rizz_diamond_weekly' || priceId === 'rizz_vip_monthly') return 'vip';
-  if (priceId === 'rizz_gold_weekly' || priceId === 'rizz_plus_monthly') return 'plus';
+  if (priceId === 'rizz_gold_weekly' || priceId === 'rizz_plus_monthly' || priceId === 'crush_intro_monthly' || priceId === 'crush_last_chance_monthly') return 'plus';
   return 'free';
 }
 

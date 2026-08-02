@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, Search } from "lucide-react";
+import { Link, useRouterState, useRouter } from "@tanstack/react-router";
+import { Menu, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { BottomNav } from "./BottomNav";
 import { RizzBrainDock } from "./RizzBrainDock";
 import { PaymentTestModeBanner } from "./PaymentTestModeBanner";
@@ -8,6 +8,8 @@ import { ThemeToggle } from "./ThemeToggle";
 import { SideDrawer } from "./SideDrawer";
 import { GlobalSearch } from "./GlobalSearch";
 import { LegalFooter } from "./LegalFooter";
+import { OfferOverlay } from "./OfferOverlay";
+
 
 import { PageAtmosphere } from "./PageAtmosphere";
 import { PrismLayer } from "./Prism";
@@ -26,6 +28,8 @@ interface AppShellProps {
   footerNote?: ReactNode;
 }
 
+let forwardAvailable = false;
+
 export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "member", footerNote }: AppShellProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   // Conversation surfaces own the bottom of the screen with a sticky composer,
@@ -36,7 +40,17 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
   const suppressFooter = hideFooter || isConversation;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const router = useRouter();
+  // Module-scoped so the forward affordance survives the shell remounting on
+  // every route change.
+  const [canForward, setCanForward] = useState(forwardAvailable);
   const iosRestricted = useIosBillingRestricted();
+
+  // Browser-style back/forward inside the app shell (native shells have no chrome).
+  useEffect(() => {
+    setCanForward(false);
+  }, [pathname]);
+
 
   useEffect(() => {
     initScrollReveal();
@@ -60,7 +74,33 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
         />
         <div className="mx-auto grid w-full max-w-[480px] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 py-2.5 md:max-w-[680px] lg:max-w-[820px]">
 
-          <div className="flex min-w-0 items-center gap-2">
+          <div className="flex min-w-0 items-center gap-1">
+            <button
+              onClick={() => {
+                forwardAvailable = true;
+                setCanForward(true);
+                router.history.back();
+              }}
+              className="press-spring shrink-0 rounded-lg p-1.5 text-foreground transition-colors hover:bg-muted"
+              aria-label="Go back"
+              data-testid="nav-back"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => {
+                forwardAvailable = false;
+                setCanForward(false);
+                router.history.forward();
+              }}
+              disabled={!canForward}
+              className="press-spring shrink-0 rounded-lg p-1.5 text-foreground transition-colors hover:bg-muted disabled:opacity-30"
+              aria-label="Go forward"
+              data-testid="nav-forward"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
             <button
               onClick={() => setDrawerOpen(true)}
               className="shrink-0 rounded-lg p-1.5 hover:bg-muted transition-colors"
@@ -141,6 +181,8 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
       {!suppressDock ? <RizzBrainDock /> : null}
       {!hideNav ? <BottomNav /> : null}
       <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <OfferOverlay />
+
       <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );
