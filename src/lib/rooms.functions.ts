@@ -128,15 +128,22 @@ export const joinPublicRoom = createServerFn({ method: "POST" })
     const { assertRoomAccess } = await import("./room-access.server");
     await assertRoomAccess(context.supabase, context.userId);
     const { data: room, error: rErr } = await context.supabase
-      .from("host_rooms").select("id, is_public").eq("id", data.roomId).maybeSingle();
+      .from("host_rooms").select("id, is_public, host_id").eq("id", data.roomId).maybeSingle();
     if (rErr) throw rErr;
     if (!room || !room.is_public) throw new Error("Room is not public");
+    if (room.host_id === context.userId) return { ok: true, already: true };
+    // Already a member? Nothing to do — an upsert here would need an UPDATE
+    // policy members don't have, so re-joining would fail with an RLS error.
+    const { data: existing } = await context.supabase
+      .from("room_members").select("id").eq("room_id", data.roomId).eq("user_id", context.userId).maybeSingle();
+    if (existing) return { ok: true, already: true };
     const { error } = await context.supabase
       .from("room_members")
-      .upsert({ room_id: data.roomId, user_id: context.userId }, { onConflict: "room_id,user_id" });
-    if (error) throw error;
+      .insert({ room_id: data.roomId, user_id: context.userId });
+    if (error && !/duplicate key/i.test(error.message)) throw error;
     return { ok: true };
   });
+
 
 
 export const updateRoom = createServerFn({ method: "POST" })
