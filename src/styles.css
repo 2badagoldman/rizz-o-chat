@@ -749,10 +749,11 @@
   animation: gold-flow 7s linear infinite;
 }
 @keyframes gold-glint {
-  0%, 82%, 100% { opacity: 0; transform: scale(.3) rotate(0deg); }
-  90%           { opacity: 1; transform: scale(1) rotate(35deg); }
+  0%, 82%, 100% { opacity: 0; transform: scale(.5) rotate(0deg); }
+  90%           { opacity: .6; transform: scale(1) rotate(35deg); }
 }
-.gold-glint { animation: gold-glint 4.5s ease-in-out infinite; }
+.gold-glint { animation: gold-glint 9s ease-in-out infinite; }
+
 
 /* ---- real diamond ---- */
 @keyframes gem-float {
