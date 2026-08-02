@@ -278,3 +278,133 @@ export const signupsByBackground = createServerFn({ method: "POST" })
         .sort((a, b) => b.count - a.count),
     };
   });
+
+/**
+ * Account-recovery record for a host (admin only).
+ *
+ * Passwords are stored by the auth system as one-way salted hashes and are not
+ * readable by anyone — including the platform owner. Instead this returns every
+ * identifier needed to recover an account (email, phone, sign-in providers,
+ * confirmation + last-sign-in timestamps) plus audience/engagement counts.
+ */
+export const getHostAccountRecord = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = i as { hostId: string };
+    if (!x?.hostId) throw new Error("hostId required");
+    return x;
+  })
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: u, error: uErr } = await supabaseAdmin.auth.admin.getUserById(data.hostId);
+    if (uErr) throw uErr;
+    const user = u?.user ?? null;
+
+    // Friends list + membership counts
+    const { data: lists } = await supabaseAdmin
+      .from("friends_lists")
+      .select("id, title, price_cents, subscriber_count, active")
+      .eq("host_id", data.hostId);
+    const listIds = (lists ?? []).map((l) => l.id);
+
+    let activeMembers = 0;
+    let totalMembers = 0;
+    if (listIds.length > 0) {
+      const { count: total } = await supabaseAdmin
+        .from("list_memberships")
+        .select("id", { count: "exact", head: true })
+        .in("list_id", listIds);
+      const { count: active } = await supabaseAdmin
+        .from("list_memberships")
+        .select("id", { count: "exact", head: true })
+        .in("list_id", listIds)
+        .eq("status", "active");
+      totalMembers = total ?? 0;
+      activeMembers = active ?? 0;
+    }
+
+    // Who they chat with (distinct DM counterparts + volume)
+    const { data: msgs } = await supabaseAdmin
+      .from("messages")
+      .select("sender_id, recipient_id, created_at")
+      .or(`sender_id.eq.${data.hostId},recipient_id.eq.${data.hostId}`)
+      .order("created_at", { ascending: false })
+      .limit(2000);
+
+    const tally = new Map<string, { messages: number; last: string }>();
+    for (const m of msgs ?? []) {
+      const other = m.sender_id === data.hostId ? m.recipient_id : m.sender_id;
+      if (!other) continue;
+      const prev = tally.get(other);
+      tally.set(other, { messages: (prev?.messages ?? 0) + 1, last: prev?.last ?? m.created_at });
+    }
+    let partnerNames: Record<string, string> = {};
+    if (tally.size > 0) {
+      const { data: np } = await supabaseAdmin
+        .from("profiles")
+        .select("id, display_name, account_type")
+        .in("id", Array.from(tally.keys()));
+      partnerNames = Object.fromEntries((np ?? []).map((p) => [p.id, p.display_name ?? "—"]));
+    }
+    const chatPartners = Array.from(tally.entries())
+      .map(([id, v]) => ({ id, name: partnerNames[id] ?? id.slice(0, 8), messages: v.messages, last: v.last }))
+      .sort((a, b) => b.messages - a.messages)
+      .slice(0, 50);
+
+    const { count: roomMessageCount } = await supabaseAdmin
+      .from("room_messages")
+      .select("id", { count: "exact", head: true })
+      .eq("sender_id", data.hostId);
+
+    return {
+      account: user
+        ? {
+            email: user.email ?? null,
+            phone: user.phone ?? null,
+            providers: (user.app_metadata?.providers as string[] | undefined) ??
+              (user.app_metadata?.provider ? [user.app_metadata.provider as string] : []),
+            created_at: user.created_at ?? null,
+            last_sign_in_at: user.last_sign_in_at ?? null,
+            email_confirmed_at: (user as { email_confirmed_at?: string | null }).email_confirmed_at ?? null,
+            phone_confirmed_at: (user as { phone_confirmed_at?: string | null }).phone_confirmed_at ?? null,
+            banned_until: (user as { banned_until?: string | null }).banned_until ?? null,
+          }
+        : null,
+      lists: lists ?? [],
+      totalMembers,
+      activeMembers,
+      dmMessageCount: (msgs ?? []).length,
+      roomMessageCount: roomMessageCount ?? 0,
+      chatPartners,
+    };
+  });
+
+/**
+ * Mint a one-time password-recovery link for a host who lost access.
+ * This is the supported alternative to reading a password: the hash cannot be
+ * reversed, so recovery works by issuing a fresh reset link.
+ */
+export const generateHostRecoveryLink = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = i as { hostId: string; redirectTo?: string };
+    if (!x?.hostId) throw new Error("hostId required");
+    return { hostId: x.hostId, redirectTo: x.redirectTo ?? "" };
+  })
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: u, error: uErr } = await supabaseAdmin.auth.admin.getUserById(data.hostId);
+    if (uErr) throw uErr;
+    const email = u?.user?.email;
+    if (!email) throw new Error("This account has no email address — recover via phone OTP instead.");
+    const { data: link, error } = await supabaseAdmin.auth.admin.generateLink({
+      type: "recovery",
+      email,
+      options: data.redirectTo ? { redirectTo: data.redirectTo } : undefined,
+    });
+    if (error) throw error;
+    return { email, url: link?.properties?.action_link ?? null };
+  });
