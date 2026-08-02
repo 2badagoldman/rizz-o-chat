@@ -187,6 +187,7 @@ function Discover() {
         />
       ) : (
         <section className="mt-3 grid grid-cols-2 gap-3">
+          <RealHostCards term={term} />
           {hosts.map((h) => (
             <HostCard key={h.id} host={h} />
           ))}
@@ -198,53 +199,54 @@ function Discover() {
 }
 
 
-function ApprovedHosts() {
+/** Approved real hosts, mixed into the main grid. Only hosts with a photo. */
+function RealHostCards({ term }: { term: string }) {
   const fetchHosts = useServerFn(listApprovedHosts);
   const { data } = useQuery({
     queryKey: ["approved-hosts"],
     queryFn: () => fetchHosts({} as never) as Promise<DirectoryHost[]>,
     staleTime: 60_000,
   });
-  const hosts = data ?? [];
+  const hosts = (data ?? []).filter(
+    (h) =>
+      Boolean(h.avatar_url) &&
+      (!term || h.display_name.toLowerCase().includes(term)),
+  );
   if (hosts.length === 0) return null;
   return (
-    <section className="mt-6">
-      <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Newly approved</p>
-      <h2 className="mt-0.5 text-lg font-bold">Real hosts on Crush</h2>
-      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {hosts.map((h) => (
-          <Link
-            key={h.id}
-            to="/u/$userId"
-            params={{ userId: h.id }}
-            className="group overflow-hidden rounded-3xl border border-border bg-card transition active:scale-[0.98]"
-          >
-            <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
-              {h.avatar_url ? (
-                <img
-                  src={h.avatar_url}
-                  alt={h.display_name}
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover transition group-hover:scale-[1.03]"
-                />
-              ) : (
-                <div className="absolute inset-0 grid place-items-center text-3xl font-black text-muted-foreground">
-                  {h.display_name.slice(0, 1).toUpperCase()}
-                </div>
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute inset-x-2 bottom-2 text-white">
-                <p className="truncate text-base font-bold leading-tight">{h.display_name}</p>
-                <p className="truncate text-[11px] opacity-90">{h.bio ?? "Verified host"}</p>
-              </div>
+    <>
+      {hosts.map((h) => (
+        <Link
+          key={h.id}
+          to="/u/$userId"
+          params={{ userId: h.id }}
+          className="group overflow-hidden rounded-3xl border border-border bg-card transition active:scale-[0.98]"
+        >
+          <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
+            <img
+              src={h.avatar_url!}
+              alt={h.display_name}
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover transition group-hover:scale-[1.03]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+            <div className="absolute inset-x-2 top-2">
+              <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
+                Verified
+              </span>
             </div>
-          </Link>
-        ))}
-      </div>
-    </section>
+            <div className="absolute inset-x-2 bottom-2 text-white">
+              <p className="truncate text-base font-bold leading-tight">{h.display_name}</p>
+              <p className="truncate text-[11px] opacity-90">{h.bio ?? "Verified host"}</p>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </>
   );
 }
+
 
 function HostCard({ host }: { host: DemoHost }) {
   return (
