@@ -8,8 +8,13 @@ import { useStripeCheckout } from "@/hooks/useStripeCheckout";
 import { useIosBillingRestricted } from "@/hooks/useNative";
 
 const SNOOZE_KEY = "crush:offerSnoozeUntil";
-const SNOOZE_MS = 24 * 60 * 60 * 1000;
-const IDLE_TRIGGER_MS = 40_000;
+const SESSION_COUNT_KEY = "crush:offerSessionCount";
+const LAST_SESSION_KEY = "crush:offerLastSession";
+const SNOOZE_MS = 24 * 60 * 60 * 1000; // 24h after a user dismisses the final offer
+const IDLE_TRIGGER_MS = 90_000; // 90s before auto-trigger
+const MIN_TIME_ON_SITE_MS = 20_000; // at least 20s on the page before any offer
+const MAX_PER_SESSION = 1; // one auto/exit-intent offer per session
+const MAX_PER_DAY = 3; // hard daily ceiling across sessions
 
 export const OFFER_EVENT = "crush:show-offer";
 
