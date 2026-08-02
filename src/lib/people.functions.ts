@@ -61,7 +61,10 @@ export const discoverPeople = createServerFn({ method: "POST" })
       .order("created_at", { ascending: false })
       .limit(data.limit);
 
-    query = query.eq("account_type", wantType);
+    // Browsing (no term) shows the other side of the marketplace.
+    // Searching by name/username searches EVERYONE (hosts + members), so people
+    // can find each other directly when they know a username.
+    if (!term) query = query.eq("account_type", wantType);
     if (data.cursor) query = query.lt("created_at", data.cursor);
     if (term) query = query.ilike("display_name", `%${term.replace(/^@/, "")}%`);
 
