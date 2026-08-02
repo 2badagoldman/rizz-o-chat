@@ -801,6 +801,7 @@ export type Database = {
           display_name: string
           flipped_at: string | null
           gender: Database["public"]["Enums"]["gender"] | null
+          heritage: string | null
           id: string
           interests: string[]
           kyc_approved_at: string | null
@@ -821,6 +822,7 @@ export type Database = {
           display_name?: string
           flipped_at?: string | null
           gender?: Database["public"]["Enums"]["gender"] | null
+          heritage?: string | null
           id: string
           interests?: string[]
           kyc_approved_at?: string | null
@@ -841,6 +843,7 @@ export type Database = {
           display_name?: string
           flipped_at?: string | null
           gender?: Database["public"]["Enums"]["gender"] | null
+          heritage?: string | null
           id?: string
           interests?: string[]
           kyc_approved_at?: string | null
