@@ -169,6 +169,18 @@ function RoomsBrowsePage() {
               </button>
             </li>
           ))}
+          {!exhausted && rooms.length > 0 ? (
+            <li className="pt-2 text-center">
+              <button
+                type="button"
+                onClick={loadMore}
+                disabled={loadingMore}
+                className="rounded-full border border-border/70 bg-card/70 px-5 py-2 text-xs font-bold text-foreground transition active:scale-95 disabled:opacity-60"
+              >
+                {loadingMore ? "Loading…" : "Load more rooms"}
+              </button>
+            </li>
+          ) : null}
         </ul>
       )}
     </AppShell>
