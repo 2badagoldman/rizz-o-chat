@@ -146,17 +146,18 @@ export function OfferOverlay() {
           <X className="h-4 w-4" />
         </button>
 
-        <span className="relative inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
-          <Sparkles className="h-3 w-3" /> {offer.badge}
+        <span className="relative inline-flex items-center gap-1.5 rounded-full border border-emerald-500/50 bg-emerald-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-500">
+          <img src={crushLogo.url} alt="" aria-hidden className="h-3.5 w-3.5 rounded-full object-cover" /> {offer.badge}
         </span>
 
         <h2 className="relative mt-3 text-[1.6rem] font-black leading-tight">{offer.title}</h2>
         <p className="relative mt-1 text-sm text-muted-foreground">{offer.compare}</p>
 
         <div className="relative mt-4 flex items-end gap-2">
-          <span className="text-gradient-brand text-4xl font-black">{offer.price}</span>
+          <span className="text-4xl font-black text-emerald-500">{offer.price}</span>
           <span className="pb-1 text-sm text-muted-foreground">{offer.per}</span>
         </div>
+
 
         <ul className="relative mt-4 space-y-2">
           {offer.perks.map((p) => (
