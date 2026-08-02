@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Sparkles, Check } from "lucide-react";
+import { X, Check } from "lucide-react";
+import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { useAuth } from "@/lib/auth";
 import { useGoldAccess } from "@/hooks/useGoldAccess";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
@@ -145,22 +146,23 @@ export function OfferOverlay() {
           <X className="h-4 w-4" />
         </button>
 
-        <span className="relative inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
-          <Sparkles className="h-3 w-3" /> {offer.badge}
+        <span className="relative inline-flex items-center gap-1.5 rounded-full border border-emerald-500/50 bg-emerald-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-500">
+          <img src={crushLogo.url} alt="" aria-hidden className="h-3.5 w-3.5 rounded-full object-cover" /> {offer.badge}
         </span>
 
         <h2 className="relative mt-3 text-[1.6rem] font-black leading-tight">{offer.title}</h2>
         <p className="relative mt-1 text-sm text-muted-foreground">{offer.compare}</p>
 
         <div className="relative mt-4 flex items-end gap-2">
-          <span className="text-gradient-brand text-4xl font-black">{offer.price}</span>
+          <span className="text-4xl font-black text-emerald-500">{offer.price}</span>
           <span className="pb-1 text-sm text-muted-foreground">{offer.per}</span>
         </div>
+
 
         <ul className="relative mt-4 space-y-2">
           {offer.perks.map((p) => (
             <li key={p} className="flex items-start gap-2 text-sm">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
               <span>{p}</span>
             </li>
           ))}
@@ -174,10 +176,11 @@ export function OfferOverlay() {
               { title: "Crush Gold", subtitle: `${offer.price} first month, then monthly` },
             )
           }
-          className="press-spring btn-brand mt-5 w-full justify-center py-3 text-sm font-bold"
+          className="press-spring mt-5 w-full justify-center rounded-full bg-emerald-500 py-3 text-sm font-bold text-white shadow-pop transition-colors hover:bg-emerald-600"
         >
           {offer.cta}
         </button>
+
         <button
           onClick={dismiss}
           className="mt-2 w-full py-2 text-[12px] font-semibold text-muted-foreground"
