@@ -25,7 +25,7 @@ function AdminHostDetail() {
   const setStatus = useServerFn(setHostVerification);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [err, setErr] = useState<string | null>(null);
-  const [tab, setTab] = useState<"photos" | "dms" | "rooms">("photos");
+  const [tab, setTab] = useState<"account" | "photos" | "dms" | "rooms">("account");
 
   const load = () => {
     setErr(null);
