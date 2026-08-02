@@ -3,7 +3,25 @@ import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
 export const getRouter = () => {
-  const queryClient = new QueryClient();
+  // Tuned for scale: fewer duplicate fetches per user means far less backend
+  // pressure when many members are online at once.
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60_000,
+        gcTime: 5 * 60_000,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: true,
+        retry: (failureCount, error) => {
+          const status = (error as { status?: number } | null)?.status;
+          if (typeof status === "number" && status >= 400 && status < 500) return false;
+          return failureCount < 2;
+        },
+        retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 8000),
+      },
+      mutations: { retry: 0 },
+    },
+  });
 
   const router = createRouter({
     routeTree,

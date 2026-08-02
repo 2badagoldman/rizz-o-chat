@@ -95,7 +95,7 @@ export function RizzBrainDock() {
           <div className="flex items-center justify-between border-b border-white/15 px-3 py-2 bg-white/5">
             <div className="flex items-center gap-2">
               <div className="h-7 w-7 overflow-hidden rounded-full shadow-glow">
-                <img src={rizzAiLogo.url} alt="Crush AI" className="h-full w-full object-cover" />
+                <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="Crush AI" className="h-full w-full object-cover" />
               </div>
               <div>
                 <p className="text-xs font-semibold leading-tight">Crush AI</p>
@@ -166,7 +166,7 @@ export function RizzBrainDock() {
                     {imgs.length > 0 ? (
                       <div className="grid grid-cols-2 gap-1">
                         {imgs.map((p, i) => (
-                          <img key={i} src={p.url} alt="attachment" className="rounded-lg max-h-40 object-cover" />
+                          <img loading="lazy" decoding="async" key={i} src={p.url} alt="attachment" className="rounded-lg max-h-40 object-cover" />
                         ))}
                       </div>
                     ) : null}
@@ -194,7 +194,7 @@ export function RizzBrainDock() {
               <div className="flex flex-wrap gap-1.5 px-1">
                 {files.map((f, i) => (
                   <div key={i} className="relative">
-                    <img src={URL.createObjectURL(f)} alt="preview" className="h-12 w-12 rounded-lg object-cover border border-white/20" />
+                    <img loading="lazy" decoding="async" src={URL.createObjectURL(f)} alt="preview" className="h-12 w-12 rounded-lg object-cover border border-white/20" />
                     <button
                       type="button"
                       onClick={() => setFiles((prev) => prev.filter((_, j) => j !== i))}
@@ -266,7 +266,7 @@ export function RizzBrainDock() {
             bottom: "calc(env(safe-area-inset-bottom) + 5.75rem)",
           }}
         >
-          <img src={rizzAiLogo.url} alt="Crush AI" className="h-8 w-8 rounded-full object-cover" />
+          <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="Crush AI" className="h-8 w-8 rounded-full object-cover" />
         </button>
       ) : null}
     </>

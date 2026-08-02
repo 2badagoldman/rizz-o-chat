@@ -63,7 +63,7 @@ function ResetPasswordPage() {
   return (
     <AppShell hideNav>
       <header className="pt-6 text-center">
-        <img
+        <img loading="lazy" decoding="async"
           src={rizzAiLogo.url}
           alt="Crush app logo"
           className="mx-auto h-16 w-16 rounded-full shadow-glow"

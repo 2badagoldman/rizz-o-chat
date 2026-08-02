@@ -202,7 +202,7 @@ function AdminShowcase() {
                 row.media_type === "video" ? (
                   <video src={row.url} className="h-full w-full object-cover" muted playsInline loop autoPlay />
                 ) : (
-                  <img src={row.url} alt={row.caption ?? ""} className="h-full w-full object-cover" />
+                  <img loading="lazy" decoding="async" src={row.url} alt={row.caption ?? ""} className="h-full w-full object-cover" />
                 )
               ) : null}
             </div>

@@ -316,7 +316,7 @@ function HostChat() {
       {welcome ? (
         <div onClick={() => setWelcome(false)} className="fixed inset-0 z-[120] flex cursor-pointer flex-col items-center justify-center bg-gradient-to-br from-primary/90 via-fuchsia-500/80 to-rose-500/90 text-white animate-in fade-in duration-300">
           <div className="relative">
-            <img
+            <img loading="lazy" decoding="async"
               src={hostAvatar(host.id)}
               alt={host.name}
               className="h-32 w-32 rounded-full border-4 border-white/70 object-cover shadow-2xl animate-in zoom-in-50 duration-700"
@@ -340,7 +340,7 @@ function HostChat() {
             aria-label={`View ${host.name}'s profile`}
           >
             <div className="relative h-10 w-10 overflow-hidden rounded-full shadow-glow" style={{ background: host.gradient }}>
-              <img src={hostAvatar(host.id)} alt={host.name} className="h-full w-full object-cover" />
+              <img loading="lazy" decoding="async" src={hostAvatar(host.id)} alt={host.name} className="h-full w-full object-cover" />
             </div>
             <div>
               <h1 className="text-base font-semibold leading-tight">{host.name}</h1>

@@ -80,7 +80,7 @@ function PublicProfilePage() {
         <div className="mt-2 rounded-3xl border border-border bg-card/80 p-6 text-center backdrop-blur">
           <div className="relative mx-auto h-28 w-28">
             {profile.avatar_url ? (
-              <img src={profile.avatar_url} alt={name} className="h-28 w-28 rounded-full object-cover shadow-glow" />
+              <img loading="lazy" decoding="async" src={profile.avatar_url} alt={name} className="h-28 w-28 rounded-full object-cover shadow-glow" />
             ) : (
               <div className="grid h-28 w-28 place-items-center rounded-full bg-gradient-brand text-3xl font-bold text-white">
                 {name.slice(0, 1).toUpperCase()}

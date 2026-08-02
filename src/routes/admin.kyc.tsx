@@ -147,7 +147,7 @@ function AdminKyc() {
                 <div className="mt-3 grid grid-cols-2 gap-2">
                   {[r.document_path, r.selfie_path].filter(Boolean).map((p) => (
                     <a key={p} href={urls[p as string]} target="_blank" rel="noreferrer">
-                      <img
+                      <img loading="lazy" decoding="async"
                         src={urls[p as string]}
                         alt="Verification document"
                         className="h-40 w-full rounded-xl border border-border object-cover"

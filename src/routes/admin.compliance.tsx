@@ -210,7 +210,7 @@ function Stat({
 function Row({ row, onMessage }: { row: ComplianceRow; onMessage: () => void }) {
   return (
     <li className="flex flex-wrap items-center gap-3 p-3">
-      <img
+      <img loading="lazy" decoding="async"
         src={row.avatar_url ?? "/favicon.ico"}
         alt=""
         className="h-9 w-9 rounded-full object-cover bg-muted"

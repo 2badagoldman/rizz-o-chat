@@ -92,7 +92,7 @@ function AdminLayout() {
       >
         <div className="flex items-center justify-between border-b border-border px-4 py-3">
           <Link to="/admin" className="flex items-center gap-2">
-            <img src={rizzAiLogo.url} alt="" className="h-7 w-7 rounded-full" />
+            <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="h-7 w-7 rounded-full" />
             <div>
               <p className="text-sm font-bold leading-tight">Crush Admin</p>
               <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Master console</p>

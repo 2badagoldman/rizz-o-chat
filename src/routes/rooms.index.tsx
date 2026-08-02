@@ -127,7 +127,7 @@ function RoomsBrowsePage() {
                   <div className="mt-2 flex items-center gap-1.5">
                     <div className="flex -space-x-2">
                       {(r.co_hosts as string[]).map((id) => (
-                        <img key={id} src={hostAvatarThumb(id)} alt="" className="h-5 w-5 rounded-full object-cover ring-2 ring-card" />
+                        <img loading="lazy" decoding="async" key={id} src={hostAvatarThumb(id)} alt="" className="h-5 w-5 rounded-full object-cover ring-2 ring-card" />
                       ))}
                     </div>
                     <span className="text-[10px] font-semibold text-primary">

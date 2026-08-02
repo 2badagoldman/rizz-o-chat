@@ -54,14 +54,14 @@ function ChatMediaItem({ item }: { item: ChatAttachment }) {
   return (
     <>
       <button type="button" onClick={() => setZoom(true)} className="block">
-        <img src={url} alt="Shared photo" className="max-h-72 w-56 max-w-full rounded-2xl object-cover" />
+        <img loading="lazy" decoding="async" src={url} alt="Shared photo" className="max-h-72 w-56 max-w-full rounded-2xl object-cover" />
       </button>
       {zoom ? (
         <div
           className="fixed inset-0 z-[120] grid place-items-center bg-black/90 p-4"
           onClick={() => setZoom(false)}
         >
-          <img src={url} alt="Shared photo" className="max-h-full max-w-full rounded-2xl object-contain" />
+          <img loading="lazy" decoding="async" src={url} alt="Shared photo" className="max-h-full max-w-full rounded-2xl object-contain" />
           <button
             type="button"
             aria-label="Close photo"

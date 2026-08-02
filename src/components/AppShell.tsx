@@ -58,7 +58,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
           className="prism-shift h-[3px] w-full bg-gradient-brand"
           style={{ backgroundSize: "260% 100%" }}
         />
-        <div className="mx-auto grid w-full max-w-[480px] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 py-2.5">
+        <div className="mx-auto grid w-full max-w-[480px] grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-4 py-2.5 md:max-w-[680px] lg:max-w-[820px]">
 
           <div className="flex min-w-0 items-center gap-2">
             <button
@@ -78,7 +78,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
               aria-label="Crush home — reload"
             >
               <span className="ring-story inline-block shrink-0">
-                <img src={rizzAiLogo.url} alt="Crush" className="block h-8 w-8 rounded-full bg-card" />
+                <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="Crush" className="block h-8 w-8 rounded-full bg-card" />
               </span>
               <span className="flex min-w-0 flex-col leading-tight">
                 <span className="whitespace-nowrap font-display text-sm font-bold tracking-tight">Crush</span>
@@ -120,7 +120,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
 
       <main
         key={pathname}
-        className="page-anim lux-scroll relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4"
+        className="page-anim lux-scroll relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4 md:max-w-[680px] md:px-6 lg:max-w-[820px]"
         style={{
           paddingBottom: hideNav
             ? "calc(env(safe-area-inset-bottom) + 1.5rem)"

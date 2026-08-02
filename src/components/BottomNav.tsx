@@ -15,7 +15,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[440px] -translate-x-1/2 overflow-hidden rounded-[1.75rem] border border-border/60 bg-card/65 shadow-pop backdrop-blur-2xl"
+      className="fixed left-1/2 z-40 w-[calc(100%-1.5rem)] max-w-[440px] -translate-x-1/2 overflow-hidden rounded-[1.75rem] border border-border/60 bg-card/65 shadow-pop backdrop-blur-2xl md:max-w-[560px]"
       style={{ bottom: "calc(env(safe-area-inset-bottom) + 0.75rem)" }}
       aria-label="Primary"
     >

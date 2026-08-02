@@ -55,7 +55,7 @@ function Dashboard() {
       <header className="pt-4">
         <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Your dashboard</p>
         <h1 className="text-2xl">
-          Hey {data?.profile?.display_name ?? "there"} <img src={rizzAiLogo.url} alt="" className="inline-block h-7 w-7 rounded-full align-[-4px]" />
+          Hey {data?.profile?.display_name ?? "there"} <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="inline-block h-7 w-7 rounded-full align-[-4px]" />
         </h1>
       </header>
 
@@ -170,7 +170,7 @@ function Dashboard() {
           >
             <div>
               <p className="text-sm font-semibold flex items-center gap-1.5">
-                <img src={rizzAiLogo.url} alt="" className="h-5 w-5 rounded-full" /> Ask Crush AI
+                <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="h-5 w-5 rounded-full" /> Ask Crush AI
               </p>
 
               <p className="text-xs text-muted-foreground mt-0.5">

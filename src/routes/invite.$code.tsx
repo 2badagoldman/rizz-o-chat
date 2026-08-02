@@ -77,7 +77,7 @@ function InvitePage() {
   return (
     <AppShell hideNav>
       <div className="px-4 pt-10 text-center">
-        <img src={rizzAiLogo.url} alt="Crush" className="mx-auto h-20 w-20 rounded-full shadow-glow" />
+        <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="Crush" className="mx-auto h-20 w-20 rounded-full shadow-glow" />
         <p className="mt-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">You're invited</p>
         <h1 className="mt-1 text-3xl">Free access to a Friends List</h1>
         <p className="mt-2 text-sm text-muted-foreground">

@@ -72,7 +72,7 @@ function AdminHostDetail() {
       <div className="flex items-start gap-4 rounded-2xl border border-border bg-card p-4">
         <div className="h-20 w-20 shrink-0 overflow-hidden rounded-2xl bg-gradient-brand-soft">
           {detail.avatarSignedUrl ? (
-            <img src={detail.avatarSignedUrl} alt="" className="h-full w-full object-cover" />
+            <img loading="lazy" decoding="async" src={detail.avatarSignedUrl} alt="" className="h-full w-full object-cover" />
           ) : (
             <div className="grid h-full w-full place-items-center text-2xl font-bold text-primary">
               {(p.display_name ?? "?").slice(0, 1).toUpperCase()}
@@ -127,7 +127,7 @@ function AdminHostDetail() {
                       m.media_type === "video" ? (
                         <video src={m.signedUrl} className="h-full w-full object-cover" muted playsInline controls />
                       ) : (
-                        <img src={m.signedUrl} alt="" className="h-full w-full object-cover" />
+                        <img loading="lazy" decoding="async" src={m.signedUrl} alt="" className="h-full w-full object-cover" />
                       )
                     ) : (
                       <div className="grid h-full place-items-center text-xs text-muted-foreground">No preview</div>

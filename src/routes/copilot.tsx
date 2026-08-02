@@ -66,7 +66,7 @@ function Copilot() {
           </Link>
           <div className="flex items-center gap-2">
             <div className="h-9 w-9 overflow-hidden rounded-full shadow-glow">
-              <img src={rizzAiLogo.url} alt="Crush AI" className="h-full w-full object-cover" />
+              <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="Crush AI" className="h-full w-full object-cover" />
             </div>
 
             <div>

@@ -179,7 +179,7 @@ export function SideDrawer({ open, onClose }: Props) {
                 className="relative inline-block shrink-0 rounded-full p-[3px] shadow-[0_10px_30px_-10px_rgba(255,61,154,0.9)] transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-105 group-active:scale-95"
                 style={{ background: "conic-gradient(from 180deg at 50% 50%, #ff3d9a, #ff9a3d, #6c5ce7, #3ddcff, #ff3d9a)" }}
               >
-                <img
+                <img loading="lazy" decoding="async"
                   src={rizzAiLogo.url}
                   alt=""
                   className="block h-16 w-16 rounded-full border-[3px] border-card bg-card object-cover"

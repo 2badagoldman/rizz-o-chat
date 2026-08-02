@@ -151,7 +151,7 @@ function HostProfile() {
         {/* Carousel */}
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
           {/* Full-bleed portrait — blurred when locked */}
-          <img
+          <img loading="lazy" decoding="async"
             src={hostAvatar(host.id)}
             alt={host.name}
             className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${
@@ -272,7 +272,7 @@ function HostProfile() {
                     onClick={onSubscribe}
                     className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
                   >
-                    <img src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
+                    <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
                     {hasGold ? "Unlock Friends List" : "Get Crush Gold to Unlock"}
                   </button>
                 )}

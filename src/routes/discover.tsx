@@ -243,7 +243,7 @@ function HostCard({ host }: { host: DemoHost }) {
           <Users className="h-3 w-3" /> {host.subscribers}
         </div>
         <div className="flex items-center gap-1 text-xs font-semibold">
-          <img src={rizzLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" />
+          <img loading="lazy" decoding="async" src={rizzLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" />
           ${host.priceMonthly}/mo
         </div>
       </div>
