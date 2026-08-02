@@ -78,20 +78,51 @@ export function OfferOverlay() {
     }
   }, []);
 
-  const open = useCallback(() => {
-    if (!eligible || shownRef.current || snoozed()) return;
-    shownRef.current = true;
-    setStage("intro");
-  }, [eligible, snoozed]);
+  const sessionCounts = useCallback(() => {
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      const lastSession = localStorage.getItem(LAST_SESSION_KEY) ?? today;
+      let count = Number(localStorage.getItem(SESSION_COUNT_KEY) ?? 0);
+      if (lastSession !== today) count = 0;
+      return { today, count };
+    } catch {
+      return { today: "", count: 0 };
+    }
+  }, []);
+
+  const underDailyCap = useCallback(() => {
+    const { count } = sessionCounts();
+    return count < MAX_PER_DAY;
+  }, [sessionCounts]);
+
+  const bumpSessionCount = useCallback(() => {
+    try {
+      const { today, count } = sessionCounts();
+      localStorage.setItem(LAST_SESSION_KEY, today);
+      localStorage.setItem(SESSION_COUNT_KEY, String(count + 1));
+    } catch {
+      /* storage unavailable */
+    }
+  }, [sessionCounts]);
+
+  const open = useCallback(
+    (source: "idle" | "exit" | "manual") => {
+      if (!eligible) return;
+      if (source !== "manual") {
+        if (shownRef.current) return; // already shown this session
+        if (snoozed()) return; // user dismissed final offer recently
+        if (!underDailyCap()) return; // daily ceiling hit
+      }
+      shownRef.current = true;
+      bumpSessionCount();
+      setStage("intro");
+    },
+    [eligible, snoozed, underDailyCap, bumpSessionCount],
+  );
 
   // Manual trigger from paywalls elsewhere in the app.
   useEffect(() => {
-    const handler = () => {
-      // Explicit triggers (paywalls, QA) always show — callers already know the
-      // member needs the deal.
-      shownRef.current = true;
-      setStage("intro");
-    };
+    const handler = () => open("manual");
     window.addEventListener(OFFER_EVENT, handler);
     return () => window.removeEventListener(OFFER_EVENT, handler);
   }, [open]);
@@ -99,15 +130,18 @@ export function OfferOverlay() {
   // Time-on-site + exit-intent triggers.
   useEffect(() => {
     if (!eligible) return;
-    const t = setTimeout(open, IDLE_TRIGGER_MS);
-    const onLeave = (e: MouseEvent) => {
-      if (e.clientY <= 2) open();
-    };
-    document.addEventListener("mouseout", onLeave);
-    return () => {
-      clearTimeout(t);
-      document.removeEventListener("mouseout", onLeave);
-    };
+    const minTimer = setTimeout(() => {
+      const idleTimer = setTimeout(() => open("idle"), IDLE_TRIGGER_MS);
+      const onLeave = (e: MouseEvent) => {
+        if (e.clientY <= 2) open("exit");
+      };
+      document.addEventListener("mouseout", onLeave);
+      return () => {
+        clearTimeout(idleTimer);
+        document.removeEventListener("mouseout", onLeave);
+      };
+    }, MIN_TIME_ON_SITE_MS);
+    return () => clearTimeout(minTimer);
   }, [eligible, open]);
 
   const dismiss = () => {
