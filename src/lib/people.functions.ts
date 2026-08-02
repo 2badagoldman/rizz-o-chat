@@ -13,16 +13,23 @@ export type PersonRow = {
  * Member-to-member + host discovery.
  * Empty query => newest joiners. Non-empty => name search across everyone.
  */
+export type PeoplePage = {
+  people: PersonRow[];
+  /** Pass back as `cursor` to fetch the next page; null when the list is exhausted. */
+  nextCursor: string | null;
+};
+
 export const discoverPeople = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
-    const x = (i ?? {}) as { q?: string; limit?: number };
+    const x = (i ?? {}) as { q?: string; limit?: number; cursor?: string | null };
     return {
       q: (x.q ?? "").trim().slice(0, 60),
       limit: Math.min(Math.max(Number(x.limit) || 40, 1), 60),
+      cursor: typeof x.cursor === "string" && x.cursor ? x.cursor : null,
     };
   })
-  .handler(async ({ data, context }): Promise<PersonRow[]> => {
+  .handler(async ({ data, context }): Promise<PeoplePage> => {
     const term = data.q;
     const SELECT = "id, display_name, avatar_url, account_type, created_at";
 
@@ -39,12 +46,14 @@ export const discoverPeople = createServerFn({ method: "POST" })
     // Email lookup is intentionally NOT supported: allowing exact-email search
     // enables email-to-identity enumeration. Name search only.
     if (term.includes("@") && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(term)) {
-      return [];
+      return { people: [], nextCursor: null };
     }
 
 
     // NOTE: `deleted_at` is not readable by the `authenticated` role, so it can't be
     // used as a filter here — RLS already hides soft-deleted profiles.
+    // Keyset pagination on created_at: constant cost per page no matter how
+    // many members exist, unlike OFFSET which re-scans everything before it.
     let query = context.supabase
       .from("profiles")
       .select(SELECT)
@@ -53,11 +62,15 @@ export const discoverPeople = createServerFn({ method: "POST" })
       .limit(data.limit);
 
     query = query.eq("account_type", wantType);
+    if (data.cursor) query = query.lt("created_at", data.cursor);
     if (term) query = query.ilike("display_name", `%${term.replace(/^@/, "")}%`);
 
     const { data: rows, error } = await query;
     if (error) throw error;
-    return (rows ?? []) as PersonRow[];
+    const people = (rows ?? []) as PersonRow[];
+    const nextCursor =
+      people.length === data.limit ? (people[people.length - 1]?.created_at ?? null) : null;
+    return { people, nextCursor };
   });
 
 export type PublicProfile = PersonRow & {

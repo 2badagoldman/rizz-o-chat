@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { Search, X, MessageCircle, Sparkle, Crown } from "lucide-react";
 import { discoverPeople, getPublicProfile, type PersonRow } from "@/lib/people.functions";
 import { OnlineDot, useOnlineUsers } from "@/lib/presence";
@@ -54,14 +54,23 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["discover-people", debounced],
-    queryFn: () => fetchPeople({ data: { q: debounced, limit: 60 } }),
-    enabled: open && !!user,
-    refetchInterval: open ? 20_000 : false,
-  });
+  // Server-side keyset pagination: we fetch 30 at a time instead of pulling a
+  // large slab of the member table on every open.
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["discover-people", debounced],
+      initialPageParam: null as string | null,
+      queryFn: ({ pageParam }) =>
+        fetchPeople({ data: { q: debounced, limit: 30, cursor: pageParam } }),
+      getNextPageParam: (last) => last.nextCursor,
+      enabled: open && !!user,
+      refetchInterval: open ? 60_000 : false,
+    });
 
-  const all = useMemo(() => (data ?? []) as PersonRow[], [data]);
+  const all = useMemo(
+    () => (data?.pages ?? []).flatMap((p) => p.people) as PersonRow[],
+    [data],
+  );
 
   // Members also get the AI hosts in the pool so there's always someone to chat with.
   const aiHosts = useMemo(() => {
@@ -268,7 +277,20 @@ export function PeopleDiscovery({ open, onClose }: Props) {
 
                 );
               })}
+              {hasNextPage ? (
+                <li className="px-2 py-3 text-center">
+                  <button
+                    type="button"
+                    onClick={() => void fetchNextPage()}
+                    disabled={isFetchingNextPage}
+                    className="rounded-full border border-border/70 bg-card/70 px-4 py-2 text-xs font-bold text-foreground transition active:scale-95 disabled:opacity-60"
+                  >
+                    {isFetchingNextPage ? "Loading…" : "Load more people"}
+                  </button>
+                </li>
+              ) : null}
             </ul>
+
           )}
         </div>
       </div>
