@@ -200,6 +200,8 @@ function RootComponent() {
         <PresenceProvider>
           <Outlet />
           <WelcomeShowcase />
+          <InstallAppPrompt />
+
         </PresenceProvider>
       </AuthProvider>
 
