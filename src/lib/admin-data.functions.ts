@@ -254,30 +254,61 @@ export const getHostDetail = createServerFn({ method: "POST" })
   });
 
 
-/** Signup mix by self-reported background (admin analytics only). */
+/**
+ * Signup mix by self-reported background / race (admin analytics only).
+ * Splits members vs hosts, and reports how many answered in the last 30 days.
+ */
 export const signupsByBackground = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data, error } = await supabaseAdmin
-      .from("profile_demographics")
-      .select("ethnicity")
-      .limit(5000);
+
+    const [{ data: demo, error }, { data: profiles }] = await Promise.all([
+      supabaseAdmin.from("profile_demographics").select("user_id, ethnicity").limit(10000),
+      supabaseAdmin
+        .from("profiles")
+        .select("id, account_type, heritage, created_at")
+        .is("deleted_at", null)
+        .limit(10000),
+    ]);
     if (error) throw error;
-    const counts: Record<string, number> = {};
-    for (const row of (data ?? []) as { ethnicity: string | null }[]) {
-      const key = row.ethnicity || "Not stated";
-      counts[key] = (counts[key] ?? 0) + 1;
+
+    const byId = new Map(
+      (profiles ?? []).map((p) => [p.id, p as { id: string; account_type: string; heritage: string | null; created_at: string }]),
+    );
+    const demoById = new Map((demo ?? []).map((d) => [d.user_id, d.ethnicity as string | null]));
+
+    const counts = new Map<string, { members: number; hosts: number; last30: number }>();
+    let answered = 0;
+    const since = Date.now() - 30 * 24 * 60 * 60 * 1000;
+
+    for (const p of byId.values()) {
+      const label = (demoById.get(p.id) || p.heritage || "").trim();
+      if (!label) continue;
+      answered += 1;
+      const bucket = counts.get(label) ?? { members: 0, hosts: 0, last30: 0 };
+      if (p.account_type === "host") bucket.hosts += 1;
+      else bucket.members += 1;
+      if (+new Date(p.created_at) >= since) bucket.last30 += 1;
+      counts.set(label, bucket);
     }
-    const total = Object.values(counts).reduce((a, b) => a + b, 0);
-    return {
-      total,
-      rows: Object.entries(counts)
-        .map(([label, count]) => ({ label, count, pct: total ? Math.round((count / total) * 100) : 0 }))
-        .sort((a, b) => b.count - a.count),
-    };
+
+    const totalProfiles = byId.size;
+    const rows = Array.from(counts.entries())
+      .map(([label, v]) => ({
+        label,
+        count: v.members + v.hosts,
+        members: v.members,
+        hosts: v.hosts,
+        last30: v.last30,
+        pct: answered ? Math.round(((v.members + v.hosts) / answered) * 100) : 0,
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    return { total: answered, totalProfiles, notStated: Math.max(0, totalProfiles - answered), rows };
   });
+
 
 /**
  * Account-recovery record for a host (admin only).
