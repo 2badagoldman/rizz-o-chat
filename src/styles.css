@@ -1043,14 +1043,33 @@ html.is-native ::-webkit-scrollbar {
    CHAT SKINS — per-user chat color themes
    Applied via [data-chat-skin] on the chat container.
    ============================================================ */
+/* Default skin is theme-independent and always bright:
+   white text on the brand gradient, near-white peer bubbles. */
 [data-chat-skin] {
   --chat-mine-bg: var(--gradient-brand);
-  --chat-mine-fg: var(--primary-foreground);
-  --chat-peer-bg: var(--card);
-  --chat-peer-fg: var(--card-foreground);
-  --chat-peer-border: var(--border);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #ffffff;
+  --chat-peer-fg: #12151c;
+  --chat-peer-border: rgba(16, 21, 28, 0.14);
   --chat-wallpaper: transparent;
   --chat-mine-shadow: var(--shadow-glow);
+}
+
+/* Keep bubble text legible no matter which app theme is active. */
+[data-chat-skin] .chat-bubble-mine,
+[data-chat-skin] .chat-bubble-mine .chat-type,
+[data-chat-skin] .chat-bubble-mine * {
+  color: var(--chat-mine-fg);
+}
+[data-chat-skin] .chat-bubble-peer,
+[data-chat-skin] .chat-bubble-peer .chat-type,
+[data-chat-skin] .chat-bubble-peer * {
+  color: var(--chat-peer-fg);
+}
+[data-chat-skin] .chat-bubble-mine .chat-type,
+[data-chat-skin] .chat-bubble-peer .chat-type {
+  text-shadow: none;
+  font-weight: 600;
 }
 
 [data-chat-skin="midnight"] {
