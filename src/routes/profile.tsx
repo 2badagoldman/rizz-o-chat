@@ -8,6 +8,7 @@ import { deleteMyAccount } from "@/lib/account.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { BlockedAccounts } from "@/components/BlockedAccounts";
 import { PushNotificationsCard } from "@/components/PushNotificationsCard";
+import { LiveAlertsCard } from "@/components/LiveAlertsCard";
 import { useNativePlatform } from "@/hooks/useNative";
 import { captureNativePhoto } from "@/lib/native";
 import { Camera } from "lucide-react";
@@ -314,6 +315,7 @@ function Profile() {
       </section>
 
       <PushNotificationsCard />
+      <LiveAlertsCard />
 
 
       {/* About me */}

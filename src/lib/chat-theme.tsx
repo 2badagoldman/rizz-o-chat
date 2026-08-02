@@ -3,9 +3,10 @@ import { Palette, Check, Contrast } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 
-export type ChatSkin = "brand" | "midnight" | "ocean" | "sunset" | "mint" | "lavender" | "noir";
+export type ChatSkin = "imessage" | "brand" | "midnight" | "ocean" | "sunset" | "mint" | "lavender" | "noir";
 
 export const CHAT_SKINS: { id: ChatSkin; label: string; swatch: string }[] = [
+  { id: "imessage", label: "Classic", swatch: "linear-gradient(135deg,#2b9bff,#0a84ff)" },
   { id: "brand", label: "Crush", swatch: "linear-gradient(135deg,#ff6b35,#e84393,#6c5ce7)" },
   { id: "midnight", label: "Midnight", swatch: "linear-gradient(135deg,#6366f1,#a855f7)" },
   { id: "ocean", label: "Ocean", swatch: "linear-gradient(135deg,#0ea5e9,#1d4ed8)" },
@@ -29,7 +30,7 @@ const isSkin = (v: unknown): v is ChatSkin => CHAT_SKINS.some((s) => s.id === v)
  * and syncs the choice to the account so it sticks across devices.
  */
 export function useChatSkin(scopeKey?: string) {
-  const [skin, setSkin] = useState<ChatSkin>("brand");
+  const [skin, setSkin] = useState<ChatSkin>("imessage");
   const [highContrast, setHighContrast] = useState(false);
   const scopeRef = useRef(scopeKey);
   scopeRef.current = scopeKey;
@@ -41,7 +42,7 @@ export function useChatSkin(scopeKey?: string) {
       const saved =
         (localStorage.getItem(skinKey(scopeKey)) as ChatSkin | null) ??
         (localStorage.getItem(KEY) as ChatSkin | null);
-      setSkin(isSkin(saved) ? saved : "brand");
+      setSkin(isSkin(saved) ? saved : "imessage");
 
       const savedContrast =
         localStorage.getItem(contrastKey(scopeKey)) ?? localStorage.getItem(CONTRAST_KEY);
