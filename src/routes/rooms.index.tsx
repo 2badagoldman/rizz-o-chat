@@ -30,13 +30,44 @@ function RoomsBrowsePage() {
   const [rooms, setRooms] = useState<any[]>([]);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [exhausted, setExhausted] = useState(false);
+
+  const PAGE = 30;
 
   const load = (c?: { lat: number; lng: number } | null) => {
     if (!user) { setRooms([]); setLoading(false); return; }
     setLoading(true);
-    fetchPublic({ data: { lat: c?.lat ?? undefined, lng: c?.lng ?? undefined } as any })
-      .then(setRooms).catch((e) => toast.error(e.message)).finally(() => setLoading(false));
+    setExhausted(false);
+    fetchPublic({ data: { lat: c?.lat ?? undefined, lng: c?.lng ?? undefined, limit: PAGE } as any })
+      .then((r: any[]) => { setRooms(r); setExhausted(r.length < PAGE); })
+      .catch((e) => toast.error(e.message))
+      .finally(() => setLoading(false));
   };
+
+  // Keyset pagination — ask the server for the next page starting after the
+  // oldest room we already have, so page cost stays flat as rooms grow.
+  const loadMore = () => {
+    if (!user || loadingMore || exhausted || rooms.length === 0) return;
+    const oldest = rooms.reduce(
+      (min: string, r: any) => (r.created_at < min ? r.created_at : min),
+      rooms[0].created_at as string,
+    );
+    setLoadingMore(true);
+    fetchPublic({
+      data: { lat: coords?.lat ?? undefined, lng: coords?.lng ?? undefined, limit: PAGE, cursor: oldest } as any,
+    })
+      .then((next: any[]) => {
+        setExhausted(next.length < PAGE);
+        setRooms((prev) => {
+          const seen = new Set(prev.map((r: any) => r.id));
+          return [...prev, ...next.filter((r: any) => !seen.has(r.id))];
+        });
+      })
+      .catch((e) => toast.error(e.message))
+      .finally(() => setLoadingMore(false));
+  };
+
   useEffect(() => { load(coords); /* eslint-disable-next-line */ }, [user]);
   useEffect(() => {
     if (!user) { setAccess(null); return; }
