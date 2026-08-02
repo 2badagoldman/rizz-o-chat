@@ -1055,14 +1055,7 @@ html.is-native ::-webkit-scrollbar {
   --chat-mine-shadow: 0 10px 26px -18px rgba(10, 132, 255, 0.75);
 }
 
-/* Dark app themes get Apple's dark Messages pair (grey #262629 / white text). */
-.dark [data-chat-skin],
-[data-theme-dark] [data-chat-skin] {
-  --chat-peer-bg: #262629;
-  --chat-peer-fg: #f5f5f7;
-  --chat-peer-border: rgba(255, 255, 255, 0.08);
-}
-
+/* Chat stays bright and readable on every app theme (light or dark). */
 [data-chat-skin="imessage"] {
   --chat-mine-bg: linear-gradient(180deg, #2b9bff 0%, #0a84ff 100%);
   --chat-mine-fg: #ffffff;
@@ -1072,11 +1065,19 @@ html.is-native ::-webkit-scrollbar {
   --chat-wallpaper: transparent;
   --chat-mine-shadow: 0 10px 26px -18px rgba(10, 132, 255, 0.75);
 }
-.dark [data-chat-skin="imessage"] {
-  --chat-peer-bg: #262629;
-  --chat-peer-fg: #f5f5f7;
-  --chat-peer-border: rgba(255, 255, 255, 0.08);
+
+/* Never let a theme/glass layer tint the bubbles into unreadable territory. */
+[data-chat-skin] .chat-bubble-peer {
+  background-color: var(--chat-peer-bg) !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
 }
+[data-chat-skin] .chat-bubble-mine {
+  background-color: transparent;
+  background-image: var(--chat-mine-bg) !important;
+  backdrop-filter: none !important;
+}
+
 
 [data-chat-skin="brand"] {
   --chat-mine-bg: var(--gradient-brand);
