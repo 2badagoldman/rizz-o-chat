@@ -22,8 +22,9 @@ export function AiQuotaPrompt({
         You&apos;ve used your {limit} free replies
       </p>
       <p className="mt-1 text-[11.5px] font-semibold text-muted-foreground">
-        Subscribe to Crush Gold to keep chatting with {who} — unlimited replies, no waiting.
+        Join Crush Gold to keep chatting with {who} — unlimited replies, no waiting.
       </p>
+
       <Link
         to="/upgrade"
         className="mt-2.5 inline-flex rounded-full px-4 py-1.5 text-xs font-bold text-white shadow-glow transition active:scale-95"

@@ -3,11 +3,12 @@ import { useAuth } from "@/lib/auth";
 import { useGoldAccess } from "@/hooks/useGoldAccess";
 
 /**
- * Free AI-response quota. Every AI experience (AI hosts + the Crush AI dock)
- * gives 10 free replies, then members are prompted to subscribe.
+ * Free AI-response quota. Every AI experience (AI hosts/co-hosts + the Crush AI
+ * dock) gives free members 3 replies, then they hit the subscription wall.
  * Crush Gold / Diamond members are never limited.
  */
-export const AI_FREE_LIMIT = 10;
+export const AI_FREE_LIMIT = 3;
+
 
 export function useAiQuota(scope: string, limit: number = AI_FREE_LIMIT) {
   const { user } = useAuth();
