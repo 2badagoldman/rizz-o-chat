@@ -81,20 +81,25 @@ export const createRoom = createServerFn({ method: "POST" })
 export const listPublicRooms = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
-    const x = (i ?? {}) as { lat?: number; lng?: number; limit?: number };
+    const x = (i ?? {}) as { lat?: number; lng?: number; limit?: number; cursor?: string | null };
     return {
       lat: typeof x.lat === "number" ? x.lat : null,
       lng: typeof x.lng === "number" ? x.lng : null,
-      limit: Math.min(Math.max(x.limit ?? 60, 1), 200),
+      limit: Math.min(Math.max(x.limit ?? 30, 1), 60),
+      cursor: typeof x.cursor === "string" && x.cursor ? x.cursor : null,
     };
   })
   .handler(async ({ data, context }) => {
-    const { data: rows, error } = await context.supabase
+    // Keyset pagination: each page costs the same regardless of how many
+    // rooms exist, and the member-count fan-out stays bounded to one page.
+    let q = context.supabase
       .from("host_rooms")
       .select("id, host_id, name, description, category, city, state, lat, lng, created_at, slug, emoji, is_official, co_hosts")
       .eq("is_public", true)
       .order("created_at", { ascending: false })
       .limit(data.limit);
+    if (data.cursor) q = q.lt("created_at", data.cursor);
+    const { data: rows, error } = await q;
     if (error) throw error;
     // Member counts
     const ids = (rows ?? []).map((r: any) => r.id);
