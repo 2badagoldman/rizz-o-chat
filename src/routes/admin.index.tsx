@@ -252,7 +252,7 @@ function BackgroundPanel() {
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    load({ data: {} })
+    load(undefined as never)
       .then((r) => {
         setRows(r.rows as BgRow[]);
         setTotal(r.total);
