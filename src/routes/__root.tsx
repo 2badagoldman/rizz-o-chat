@@ -146,10 +146,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+/**
+ * Sea ("abyss") is the default theme, so it ships on the server-rendered <html>
+ * and a tiny blocking script swaps in the visitor's saved theme before first
+ * paint. Without this the page painted unthemed (pink-ish) until React hydrated.
+ */
+const THEME_BOOT = `(function(){try{var a=["pink","blue","ocean","abyss","sico","romance","crush"];var s=localStorage.getItem("rizz.theme");var t=a.indexOf(s)>-1?s:"abyss";var r=document.documentElement;a.forEach(function(x){r.classList.toggle("theme-"+x,x===t)});}catch(e){}})();`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="theme-abyss">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
         <HeadContent />
       </head>
       <body>
@@ -159,6 +167,7 @@ function RootShell({ children }: { children: ReactNode }) {
     </html>
   );
 }
+
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
