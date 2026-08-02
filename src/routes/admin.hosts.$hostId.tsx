@@ -123,7 +123,10 @@ function AdminHostDetail() {
       </div>
 
       <div className="mt-4">
-        {tab === "photos" ? (
+        {tab === "account" ? (
+          <AccountPanel hostId={hostId} />
+        ) : tab === "photos" ? (
+
           detail.media.length === 0 ? (
             <p className="text-sm text-muted-foreground">No uploads yet.</p>
           ) : (
