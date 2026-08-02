@@ -1043,15 +1043,47 @@ html.is-native ::-webkit-scrollbar {
    CHAT SKINS — per-user chat color themes
    Applied via [data-chat-skin] on the chat container.
    ============================================================ */
-/* Default skin is theme-independent and always bright:
-   white text on the brand gradient, near-white peer bubbles. */
+/* Default skin: Apple Messages palette — always bright, theme-independent.
+   iOS blue with pure-white text on my bubbles, soft grey bubbles for them. */
 [data-chat-skin] {
+  --chat-mine-bg: linear-gradient(180deg, #2b9bff 0%, #0a84ff 100%);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #e9e9eb;
+  --chat-peer-fg: #0b0b0d;
+  --chat-peer-border: rgba(9, 9, 12, 0.06);
+  --chat-wallpaper: transparent;
+  --chat-mine-shadow: 0 10px 26px -18px rgba(10, 132, 255, 0.75);
+}
+
+/* Dark app themes get Apple's dark Messages pair (grey #262629 / white text). */
+.dark [data-chat-skin],
+[data-theme-dark] [data-chat-skin] {
+  --chat-peer-bg: #262629;
+  --chat-peer-fg: #f5f5f7;
+  --chat-peer-border: rgba(255, 255, 255, 0.08);
+}
+
+[data-chat-skin="imessage"] {
+  --chat-mine-bg: linear-gradient(180deg, #2b9bff 0%, #0a84ff 100%);
+  --chat-mine-fg: #ffffff;
+  --chat-peer-bg: #e9e9eb;
+  --chat-peer-fg: #0b0b0d;
+  --chat-peer-border: rgba(9, 9, 12, 0.06);
+  --chat-wallpaper: transparent;
+  --chat-mine-shadow: 0 10px 26px -18px rgba(10, 132, 255, 0.75);
+}
+.dark [data-chat-skin="imessage"] {
+  --chat-peer-bg: #262629;
+  --chat-peer-fg: #f5f5f7;
+  --chat-peer-border: rgba(255, 255, 255, 0.08);
+}
+
+[data-chat-skin="brand"] {
   --chat-mine-bg: var(--gradient-brand);
   --chat-mine-fg: #ffffff;
   --chat-peer-bg: #ffffff;
   --chat-peer-fg: #12151c;
   --chat-peer-border: rgba(16, 21, 28, 0.14);
-  --chat-wallpaper: transparent;
   --chat-mine-shadow: var(--shadow-glow);
 }
 
@@ -1069,8 +1101,19 @@ html.is-native ::-webkit-scrollbar {
 [data-chat-skin] .chat-bubble-mine .chat-type,
 [data-chat-skin] .chat-bubble-peer .chat-type {
   text-shadow: none;
-  font-weight: 600;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
+/* Timestamps / ticks: tinted, never harsh black-on-colour. */
+[data-chat-skin] .chat-bubble-mine .chat-meta,
+[data-chat-skin] .chat-bubble-mine .chat-meta * {
+  color: rgba(255, 255, 255, 0.85);
+}
+[data-chat-skin] .chat-bubble-peer .chat-meta,
+[data-chat-skin] .chat-bubble-peer .chat-meta * {
+  color: color-mix(in srgb, var(--chat-peer-fg) 55%, transparent);
+}
+
 
 [data-chat-skin="midnight"] {
   --chat-mine-bg: linear-gradient(135deg, #6366f1 0%, #8b5cf6 55%, #a855f7 100%);

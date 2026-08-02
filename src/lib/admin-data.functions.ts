@@ -253,3 +253,28 @@ export const getHostDetail = createServerFn({ method: "POST" })
     };
   });
 
+
+/** Signup mix by self-reported background (admin analytics only). */
+export const signupsByBackground = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data, error } = await supabaseAdmin
+      .from("profile_demographics")
+      .select("ethnicity")
+      .limit(5000);
+    if (error) throw error;
+    const counts: Record<string, number> = {};
+    for (const row of (data ?? []) as { ethnicity: string | null }[]) {
+      const key = row.ethnicity || "Not stated";
+      counts[key] = (counts[key] ?? 0) + 1;
+    }
+    const total = Object.values(counts).reduce((a, b) => a + b, 0);
+    return {
+      total,
+      rows: Object.entries(counts)
+        .map(([label, count]) => ({ label, count, pct: total ? Math.round((count / total) * 100) : 0 }))
+        .sort((a, b) => b.count - a.count),
+    };
+  });

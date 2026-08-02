@@ -738,6 +738,27 @@ export type Database = {
         }
         Relationships: []
       }
+      profile_demographics: {
+        Row: {
+          created_at: string
+          ethnicity: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          ethnicity?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          ethnicity?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profile_media: {
         Row: {
           caption: string | null
@@ -780,6 +801,7 @@ export type Database = {
           display_name: string
           flipped_at: string | null
           gender: Database["public"]["Enums"]["gender"] | null
+          heritage: string | null
           id: string
           interests: string[]
           kyc_approved_at: string | null
@@ -800,6 +822,7 @@ export type Database = {
           display_name?: string
           flipped_at?: string | null
           gender?: Database["public"]["Enums"]["gender"] | null
+          heritage?: string | null
           id: string
           interests?: string[]
           kyc_approved_at?: string | null
@@ -820,6 +843,7 @@ export type Database = {
           display_name?: string
           flipped_at?: string | null
           gender?: Database["public"]["Enums"]["gender"] | null
+          heritage?: string | null
           id?: string
           interests?: string[]
           kyc_approved_at?: string | null

@@ -1,6 +1,7 @@
 import { createFileRoute, useRouter, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
+import { ETHNICITY_OPTIONS, stashEthnicity, syncPendingEthnicity } from "@/lib/ethnicity";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
@@ -48,6 +49,7 @@ function AuthPage() {
   const [password, setPassword] = useState("");
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [dob, setDob] = useState("");
+  const [ethnicity, setEthnicity] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -104,10 +106,14 @@ function AuthPage() {
               age_confirmed: true,
               date_of_birth: dob,
               gender: role === "host" ? gender : undefined,
+              heritage: role === "host" && ethnicity ? ethnicity : undefined,
             },
           },
         });
         if (err) throw err;
+        stashEthnicity(ethnicity || null);
+        const { data: sess } = await supabase.auth.getUser();
+        if (sess.user) await syncPendingEthnicity(sess.user.id);
         try { localStorage.setItem("rizzla:showWelcome", "1"); } catch {}
         // Someone who subscribed as a guest gets sent straight to redemption.
         if (readGuestCode()) {
@@ -269,6 +275,27 @@ function AuthPage() {
                 </div>
               </div>
             )}
+            <div>
+              <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Background{" "}
+                <span className="normal-case tracking-normal text-muted-foreground/70">(optional)</span>
+              </p>
+              <select
+                value={ethnicity}
+                onChange={(e) => setEthnicity(e.target.value)}
+                className="w-full rounded-[14px] border border-border bg-card px-4 py-3 text-sm outline-none focus:border-primary"
+              >
+                <option value="">Rather not pick</option>
+                {ETHNICITY_OPTIONS.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+              <p className="mt-1 text-[11px] text-muted-foreground">
+                Helps us show you people you\u2019ll click with. Private \u2014 never shown on your profile.
+              </p>
+            </div>
           </>
         )}
 
