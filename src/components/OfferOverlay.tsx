@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Sparkles, Check } from "lucide-react";
+import { X, Check } from "lucide-react";
+import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { useAuth } from "@/lib/auth";
 import { useGoldAccess } from "@/hooks/useGoldAccess";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
