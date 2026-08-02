@@ -162,7 +162,7 @@ export function OfferOverlay() {
         <ul className="relative mt-4 space-y-2">
           {offer.perks.map((p) => (
             <li key={p} className="flex items-start gap-2 text-sm">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
               <span>{p}</span>
             </li>
           ))}
@@ -176,10 +176,11 @@ export function OfferOverlay() {
               { title: "Crush Gold", subtitle: `${offer.price} first month, then monthly` },
             )
           }
-          className="press-spring btn-brand mt-5 w-full justify-center py-3 text-sm font-bold"
+          className="press-spring mt-5 w-full justify-center rounded-full bg-emerald-500 py-3 text-sm font-bold text-white shadow-pop transition-colors hover:bg-emerald-600"
         >
           {offer.cta}
         </button>
+
         <button
           onClick={dismiss}
           className="mt-2 w-full py-2 text-[12px] font-semibold text-muted-foreground"
