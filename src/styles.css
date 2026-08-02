@@ -585,16 +585,17 @@
 
   @keyframes sheen-sweep {
     0%   { transform: translateX(-120%) rotate(18deg); opacity: 0; }
-    12%  { opacity: .9; }
-    60%  { opacity: .5; }
+    18%  { opacity: .28; }
+    60%  { opacity: .16; }
     100% { transform: translateX(220%) rotate(18deg); opacity: 0; }
   }
   .sheen-sweep::after {
     content: ""; position: absolute; top: -40%; bottom: -40%; width: 42%;
-    background: linear-gradient(100deg, transparent, rgba(255,255,255,.85), transparent);
-    animation: sheen-sweep 4.5s cubic-bezier(.35,.1,.25,1) infinite;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.6), transparent);
+    animation: sheen-sweep 9s ease-in-out infinite;
     pointer-events: none;
   }
+
 
   @keyframes bubble-rise {
     0%   { transform: translateY(12px) scale(.9); opacity: 0; }
