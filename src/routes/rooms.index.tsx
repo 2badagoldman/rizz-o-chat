@@ -53,9 +53,15 @@ function RoomsBrowsePage() {
 
   async function join(id: string) {
     if (!user) { navigate({ to: "/auth" }); return; }
+    if (access && !access.allowed) {
+      toast.info("Rooms are for Crush Gold and Diamond members.");
+      navigate({ to: "/upgrade" });
+      return;
+    }
     try { await doJoin({ data: { roomId: id } }); navigate({ to: "/rooms/$roomId", params: { roomId: id } }); }
     catch (e) { toast.error((e as Error).message); }
   }
+
 
   if (!user) return (
     <AppShell>
