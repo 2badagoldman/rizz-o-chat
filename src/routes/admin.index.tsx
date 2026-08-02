@@ -6,6 +6,7 @@ import { listEarlyAccessSignups } from "@/lib/early-access.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { DollarSign, Users, TrendingUp, Wallet, Crown, Inbox, Radio, MessageSquare } from "lucide-react";
 import { InstallConversionPanel } from "@/components/admin/InstallConversionPanel";
+import { signupsByBackground } from "@/lib/admin-data.functions";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminDashboard,
@@ -110,6 +111,7 @@ function AdminDashboard() {
             </section>
           </div>
           <InstallConversionPanel defaultDays={days} />
+          <BackgroundPanel />
           <WaitlistPanel />
         </>
       )}
@@ -239,5 +241,50 @@ function Metric({ icon, label, value, accent }: { icon?: React.ReactNode; label:
       </div>
       <div className={"mt-1 text-xl " + (accent ? "text-gradient-brand font-semibold" : "")}>{value}</div>
     </div>
+  );
+}
+
+type BgRow = { label: string; count: number; pct: number };
+
+function BackgroundPanel() {
+  const load = useServerFn(signupsByBackground);
+  const [rows, setRows] = useState<BgRow[]>([]);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    load({ data: {} })
+      .then((r) => {
+        setRows(r.rows as BgRow[]);
+        setTotal(r.total);
+      })
+      .catch(() => {});
+  }, [load]);
+
+  return (
+    <section className="mt-5 rounded-2xl border border-border bg-card p-4">
+      <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
+        Signups by background
+      </h2>
+      <p className="mt-1 text-[11px] text-muted-foreground">
+        Optional, self-reported at signup. {total} member{total === 1 ? "" : "s"} answered.
+      </p>
+      <div className="mt-3 space-y-2">
+        {rows.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No answers yet.</p>
+        ) : (
+          rows.map((r) => (
+            <div key={r.label} className="flex items-center gap-3">
+              <span className="w-36 shrink-0 truncate text-sm">{r.label}</span>
+              <span className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
+                <span className="block h-full rounded-full bg-gradient-brand" style={{ width: `${r.pct}%` }} />
+              </span>
+              <span className="w-16 shrink-0 text-right text-xs text-muted-foreground">
+                {r.count} \u00b7 {r.pct}%
+              </span>
+            </div>
+          ))
+        )}
+      </div>
+    </section>
   );
 }
