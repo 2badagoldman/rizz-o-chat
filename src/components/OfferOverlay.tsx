@@ -130,18 +130,19 @@ export function OfferOverlay() {
   // Time-on-site + exit-intent triggers.
   useEffect(() => {
     if (!eligible) return;
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+    const onLeave = (e: MouseEvent) => {
+      if (e.clientY <= 2) open("exit");
+    };
     const minTimer = setTimeout(() => {
-      const idleTimer = setTimeout(() => open("idle"), IDLE_TRIGGER_MS);
-      const onLeave = (e: MouseEvent) => {
-        if (e.clientY <= 2) open("exit");
-      };
+      idleTimer = setTimeout(() => open("idle"), IDLE_TRIGGER_MS);
       document.addEventListener("mouseout", onLeave);
-      return () => {
-        clearTimeout(idleTimer);
-        document.removeEventListener("mouseout", onLeave);
-      };
     }, MIN_TIME_ON_SITE_MS);
-    return () => clearTimeout(minTimer);
+    return () => {
+      clearTimeout(minTimer);
+      if (idleTimer) clearTimeout(idleTimer);
+      document.removeEventListener("mouseout", onLeave);
+    };
   }, [eligible, open]);
 
   const dismiss = () => {
