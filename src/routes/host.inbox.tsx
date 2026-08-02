@@ -210,7 +210,7 @@ function HostInbox() {
                 />
                 <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
                   {t.avatar ? (
-                    <img src={t.avatar} alt="" className="h-full w-full object-cover" />
+                    <img loading="lazy" decoding="async" src={t.avatar} alt="" className="h-full w-full object-cover" />
                   ) : (
                     t.name.slice(0, 1).toUpperCase()
                   )}

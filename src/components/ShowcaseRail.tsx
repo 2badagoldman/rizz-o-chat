@@ -66,7 +66,7 @@ export function ShowcaseRail({
     <section className="mt-7 rise-in">
       <div className="mb-2 flex items-baseline justify-between">
         <h2 className="flex items-center gap-1.5 text-sm font-display font-bold">
-          <img src={crushLogo.url} alt="" className="h-4 w-4 rounded-full" />
+          <img loading="lazy" decoding="async" src={crushLogo.url} alt="" className="h-4 w-4 rounded-full" />
           {title}
         </h2>
         <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
@@ -144,7 +144,7 @@ export function ShowcaseRail({
                   className="h-full max-h-full w-full object-contain"
                 />
               ) : (
-                <img
+                <img loading="lazy" decoding="async"
                   src={active.url}
                   alt={active.caption ?? "Showcase"}
                   className="h-full max-h-full w-full object-contain"

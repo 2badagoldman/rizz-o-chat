@@ -52,7 +52,7 @@ function AdminCopilot() {
   return (
     <div className="mx-auto flex h-[calc(100vh-8rem)] max-w-3xl flex-col">
       <div className="mb-3 flex items-center gap-2">
-        <img src={rizzAiLogo.url} alt="" className="h-8 w-8 rounded-full" />
+        <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="h-8 w-8 rounded-full" />
         <div>
           <h1 className="text-lg font-bold flex items-center gap-2">
             Admin Copilot <Sparkles className="h-4 w-4 text-primary" />

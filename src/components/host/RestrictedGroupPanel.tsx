@@ -59,7 +59,7 @@ export function RestrictedGroupPanel() {
             <li key={r.memberId} className="flex items-center gap-3 rounded-xl border border-border bg-background/60 p-2">
               <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-gradient-brand grid place-items-center text-xs font-bold text-white">
                 {r.profile?.avatar_url ? (
-                  <img src={r.profile.avatar_url} alt="" className="h-full w-full object-cover" />
+                  <img loading="lazy" decoding="async" src={r.profile.avatar_url} alt="" className="h-full w-full object-cover" />
                 ) : (
                   (r.profile?.display_name ?? "?").slice(0, 1).toUpperCase()
                 )}

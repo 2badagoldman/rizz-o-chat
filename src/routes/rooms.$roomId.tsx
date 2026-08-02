@@ -157,7 +157,7 @@ function RoomChatPage() {
           return (
             <div key={m.id} className={`flex items-end gap-2 ${mine ? "justify-end" : "justify-start"}`}>
               {ai ? (
-                <img src={hostAvatarThumb(ai.id)} alt="" className="h-7 w-7 shrink-0 rounded-full object-cover ring-2 ring-primary/40" />
+                <img loading="lazy" decoding="async" src={hostAvatarThumb(ai.id)} alt="" className="h-7 w-7 shrink-0 rounded-full object-cover ring-2 ring-primary/40" />
               ) : null}
               <div className={`max-w-[80%] rounded-[22px] px-4 py-2.5 ${mine ? "rounded-br-md chat-bubble-mine" : "rounded-bl-md chat-bubble-peer"}`}>
                 {!mine ? (

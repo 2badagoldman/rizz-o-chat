@@ -198,10 +198,10 @@ export function WelcomeShowcase() {
         {/* header */}
         <div className="flex items-center justify-between px-4 pb-2 pt-4">
           <div className="flex items-center gap-2">
-            <img src={rizzAiLogo.url} alt="Crush" className="h-7 w-7 rounded-full ring-1 ring-white/25" />
+            <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="Crush" className="h-7 w-7 rounded-full ring-1 ring-white/25" />
             <div className="leading-tight">
               <p className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-[0.25em] text-white/60">
-                <img src={rizzAiLogo.url} alt="" className="h-2.5 w-2.5 rounded-full" /> Welcome
+                <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="h-2.5 w-2.5 rounded-full" /> Welcome
               </p>
               <p className="text-sm font-extrabold">Crush Chat</p>
 

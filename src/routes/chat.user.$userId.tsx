@@ -222,7 +222,7 @@ function UserChat() {
             <div className="relative">
               <div className="h-10 w-10 overflow-hidden rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
                 {peer?.avatar_url ? (
-                  <img src={peer.avatar_url} alt={peer.display_name ?? "User"} className="h-full w-full object-cover" />
+                  <img loading="lazy" decoding="async" src={peer.avatar_url} alt={peer.display_name ?? "User"} className="h-full w-full object-cover" />
                 ) : (
                   (peer?.display_name ?? "?").slice(0, 1).toUpperCase()
                 )}

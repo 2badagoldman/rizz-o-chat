@@ -63,7 +63,7 @@ function SoonPage() {
         <div className="absolute -top-8 -right-8 h-32 w-32 rounded-full bg-primary/20 blur-3xl" />
         <div className="absolute -bottom-8 -left-8 h-32 w-32 rounded-full bg-accent/20 blur-3xl" />
         <div className="relative">
-          <img src={rizzAiLogo.url} alt="" className="mx-auto h-16 w-16 rounded-full ring-4 ring-white/40" />
+          <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="mx-auto h-16 w-16 rounded-full ring-4 ring-white/40" />
           <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white/70 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
             <Sparkles className="h-3 w-3" /> Coming Soon
           </p>

@@ -260,7 +260,7 @@ function Profile() {
             className="group relative h-16 w-16 shrink-0 overflow-hidden rounded-full shadow-glow"
             aria-label="Change profile picture"
           >
-            <img src={avatarSrc} alt="Your avatar" className="h-full w-full object-cover" />
+            <img loading="lazy" decoding="async" src={avatarSrc} alt="Your avatar" className="h-full w-full object-cover" />
             <span className="absolute inset-0 flex items-center justify-center bg-black/40 text-[10px] font-semibold uppercase tracking-wider text-white opacity-0 transition group-hover:opacity-100">
               {uploadingAvatar ? "…" : "Edit"}
             </span>
@@ -417,7 +417,7 @@ function Profile() {
                   {row.media_type === "video" ? (
                     <video src={row.signedUrl} className="h-full w-full object-cover" muted playsInline />
                   ) : (
-                    <img src={row.signedUrl} alt="" className="h-full w-full object-cover" />
+                    <img loading="lazy" decoding="async" src={row.signedUrl} alt="" className="h-full w-full object-cover" />
                   )}
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col">

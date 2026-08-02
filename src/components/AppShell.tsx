@@ -78,7 +78,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
               aria-label="Crush home — reload"
             >
               <span className="ring-story inline-block shrink-0">
-                <img src={rizzAiLogo.url} alt="Crush" className="block h-8 w-8 rounded-full bg-card" />
+                <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="Crush" className="block h-8 w-8 rounded-full bg-card" />
               </span>
               <span className="flex min-w-0 flex-col leading-tight">
                 <span className="whitespace-nowrap font-display text-sm font-bold tracking-tight">Crush</span>
