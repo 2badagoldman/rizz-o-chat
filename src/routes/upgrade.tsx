@@ -129,7 +129,7 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
           {/* holographic facet sheet */}
           <span
             aria-hidden
-            className="prism-shift pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay bg-[linear-gradient(115deg,transparent_20%,rgba(255,255,255,.9)_35%,transparent_48%,rgba(125,211,252,.7)_60%,transparent_72%,rgba(244,114,182,.7)_84%,transparent_95%)]"
+            className="prism-shift pointer-events-none absolute inset-0 opacity-[.16] mix-blend-soft-light bg-[linear-gradient(115deg,transparent_20%,rgba(255,255,255,.9)_35%,transparent_48%,rgba(125,211,252,.7)_60%,transparent_72%,rgba(244,114,182,.7)_84%,transparent_95%)]"
           />
           <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]" />
           <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[1.75rem] ring-1 ring-inset ring-white/80" />
@@ -170,7 +170,7 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
           {/* gold leaf sheen sweeping across the card */}
           <span
             aria-hidden
-            className="prism-shift pointer-events-none absolute inset-0 opacity-30 mix-blend-overlay bg-[linear-gradient(115deg,transparent_25%,rgba(255,251,230,.95)_38%,transparent_50%,rgba(212,160,23,.6)_64%,transparent_78%)]"
+            className="prism-shift pointer-events-none absolute inset-0 opacity-[.12] mix-blend-soft-light bg-[linear-gradient(115deg,transparent_25%,rgba(255,251,230,.95)_38%,transparent_50%,rgba(212,160,23,.6)_64%,transparent_78%)]"
           />
           <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]" />
           {[

@@ -585,16 +585,17 @@
 
   @keyframes sheen-sweep {
     0%   { transform: translateX(-120%) rotate(18deg); opacity: 0; }
-    12%  { opacity: .9; }
-    60%  { opacity: .5; }
+    18%  { opacity: .28; }
+    60%  { opacity: .16; }
     100% { transform: translateX(220%) rotate(18deg); opacity: 0; }
   }
   .sheen-sweep::after {
     content: ""; position: absolute; top: -40%; bottom: -40%; width: 42%;
-    background: linear-gradient(100deg, transparent, rgba(255,255,255,.85), transparent);
-    animation: sheen-sweep 4.5s cubic-bezier(.35,.1,.25,1) infinite;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.6), transparent);
+    animation: sheen-sweep 9s ease-in-out infinite;
     pointer-events: none;
   }
+
 
   @keyframes bubble-rise {
     0%   { transform: translateY(12px) scale(.9); opacity: 0; }
@@ -607,10 +608,11 @@
   .facet-spin { animation: facet-spin 18s linear infinite; }
 
   @keyframes glow-breathe {
-    0%, 100% { opacity: .45; transform: scale(1); }
-    50%      { opacity: .85; transform: scale(1.06); }
+    0%, 100% { opacity: .5; transform: scale(1); }
+    50%      { opacity: .68; transform: scale(1.03); }
   }
-  .glow-breathe { animation: glow-breathe 4.2s ease-in-out infinite; }
+  .glow-breathe { animation: glow-breathe 9s ease-in-out infinite; }
+
 
   .press-spring { transition: transform 320ms cubic-bezier(.2,1.3,.3,1), box-shadow 320ms ease, filter 320ms ease; }
   .press-spring:hover { transform: translateY(-3px) scale(1.015); }
@@ -722,10 +724,11 @@
 .prism-shift { background-size: 260% 260%; animation: prism-shift 9s ease-in-out infinite; }
 
 @keyframes twinkle {
-  0%, 100% { opacity: 0; transform: scale(.4) rotate(0deg); }
-  50%      { opacity: 1; transform: scale(1) rotate(45deg); }
+  0%, 100% { opacity: .1; transform: scale(.6) rotate(0deg); }
+  50%      { opacity: .7; transform: scale(1) rotate(45deg); }
 }
-.twinkle { animation: twinkle 3.2s ease-in-out infinite; }
+.twinkle { animation: twinkle 7s ease-in-out infinite; }
+
 
 /* ---- real gold ---- */
 @keyframes gold-flow {
@@ -746,10 +749,11 @@
   animation: gold-flow 7s linear infinite;
 }
 @keyframes gold-glint {
-  0%, 82%, 100% { opacity: 0; transform: scale(.3) rotate(0deg); }
-  90%           { opacity: 1; transform: scale(1) rotate(35deg); }
+  0%, 82%, 100% { opacity: 0; transform: scale(.5) rotate(0deg); }
+  90%           { opacity: .6; transform: scale(1) rotate(35deg); }
 }
-.gold-glint { animation: gold-glint 4.5s ease-in-out infinite; }
+.gold-glint { animation: gold-glint 9s ease-in-out infinite; }
+
 
 /* ---- real diamond ---- */
 @keyframes gem-float {
