@@ -12,6 +12,7 @@ import { useNativePlatform } from "@/hooks/useNative";
 import { captureNativePhoto } from "@/lib/native";
 import { Camera } from "lucide-react";
 import { SubscriptionStatusCard } from "@/components/SubscriptionStatusCard";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 
 
@@ -43,6 +44,7 @@ const BIO_MAX = 500;
 
 function Profile() {
   const { user, loading, signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const router = useRouter();
   const [profile, setProfile] = useState<ProfileRow | null>(null);
   const [bio, setBio] = useState("");
@@ -496,27 +498,32 @@ function Profile() {
       <SubscriptionStatusCard />
 
       <div className="mt-6 space-y-2">
-        <button
-          className="w-full rounded-[14px] border border-primary/40 bg-primary/10 px-5 py-3 text-sm font-semibold text-primary"
-          onClick={() => {
-            try { localStorage.setItem("rizzla:showWelcome", "1"); } catch {}
-            window.location.reload();
-          }}
-        >
-          Preview welcome reel
-        </button>
+        {isAdmin ? (
+          <button
+            className="w-full rounded-[14px] border border-primary/40 bg-primary/10 px-5 py-3 text-sm font-semibold text-primary"
+            onClick={() => {
+              try { localStorage.setItem("rizzla:showWelcome", "1"); } catch {}
+              window.location.reload();
+            }}
+          >
+            Preview welcome reel (admin)
+          </button>
+        ) : null}
         <Link
           to="/subscriptions"
           className="block w-full rounded-[14px] border border-border bg-card px-5 py-3 text-center text-sm font-semibold"
         >
           My subscriptions & billing
         </Link>
-        <a
-          href="/admin/showcase"
-          className="block w-full rounded-[14px] border border-border bg-card px-5 py-3 text-center text-sm font-semibold"
-        >
-          Manage welcome reel (admin)
-        </a>
+        {isAdmin ? (
+          <a
+            href="/admin/showcase"
+            className="block w-full rounded-[14px] border border-border bg-card px-5 py-3 text-center text-sm font-semibold"
+          >
+            Manage welcome reel (admin)
+          </a>
+        ) : null}
+
         <button
           className="w-full rounded-[14px] border border-border bg-card px-5 py-3 text-sm font-semibold"
           onClick={async () => {

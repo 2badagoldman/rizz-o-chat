@@ -35,6 +35,8 @@ const LABEL: Record<string, string> = {
   rizz_diamond_weekly: 'Crush Diamond VIP',
   rizz_plus_monthly: 'Crush Gold',
   rizz_vip_monthly: 'Crush VIP',
+  crush_intro_monthly: 'Crush Gold (welcome offer)',
+  crush_last_chance_monthly: 'Crush Gold (offer)',
 };
 
 function statusPill(s: string) {
