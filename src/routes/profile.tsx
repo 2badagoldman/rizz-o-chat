@@ -207,7 +207,13 @@ function Profile() {
           setError(`Skipped ${file.name}: too large.`);
           continue;
         }
+        const verdict = await reviewImageBeforeUpload(file);
+        if (!verdict.allow) {
+          setError(`Skipped ${file.name}: ${MODERATION_BLOCK_MESSAGE}`);
+          continue;
+        }
         const ext = file.name.split(".").pop() || (isVideo ? "mp4" : "jpg");
+
         const path = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
         const { error: upErr } = await supabase.storage
           .from("profile-media")
