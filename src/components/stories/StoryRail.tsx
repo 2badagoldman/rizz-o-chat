@@ -507,8 +507,11 @@ function StoryViewer({
             <Eye className="h-4 w-4" />
             {story.view_count} {story.view_count === 1 ? "view" : "views"}
           </button>
+        ) : quota.reached ? (
+          <AiQuotaPrompt limit={quota.limit} compact who={group.display_name} />
         ) : (
           <form
+
             onSubmit={(e) => {
               e.preventDefault();
               if (reply.trim()) replyMut.mutate();
