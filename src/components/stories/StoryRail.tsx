@@ -468,7 +468,7 @@ function StoryViewer({
       <button type="button" aria-label="Next" onClick={next} className="absolute inset-y-0 right-0 z-[1] w-1/3" />
 
       {/* Footer */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 space-y-3 bg-gradient-to-t from-black/70 to-transparent px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-8">
+      <div className="absolute bottom-0 left-0 right-0 z-20 space-y-3 bg-gradient-to-t from-black/70 to-transparent px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-8">
         {story.caption && story.kind === "media" ? (
           <p className="text-center text-sm text-white/90">{story.caption}</p>
         ) : null}
