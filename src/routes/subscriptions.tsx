@@ -10,6 +10,7 @@ import { CreditCard, ExternalLink, XCircle, RotateCcw, Sparkles } from 'lucide-r
 import { toast } from 'sonner';
 import { pageHead } from "@/lib/seo";
 
+import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute('/subscriptions')({
   head: () => pageHead({
     path: "/subscriptions",
