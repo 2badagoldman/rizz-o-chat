@@ -328,11 +328,21 @@ function StoryComposer({ onClose, onPosted }: { onClose: () => void; onPosted: (
           {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "Share to story"}
         </button>
       </div>
-    </div>
+    </Overlay>
   );
 }
 
+/** Renders story overlays into <body> so page stacking contexts can't cover them. */
+function Overlay({ className, children }: { className: string; children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  return createPortal(<div className={className}>{children}</div>, document.body);
+}
+
 /* -------------------------------- viewer -------------------------------- */
+
+
 
 function StoryViewer({
   groups,
