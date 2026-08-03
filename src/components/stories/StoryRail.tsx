@@ -30,6 +30,9 @@ import {
   type StoryRow,
 } from "@/lib/stories";
 import { buildDemoStoryGroups, isDemoStoryId, shuffleGroups } from "@/lib/demo-stories";
+import { useAiQuota } from "@/hooks/useAiQuota";
+import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
+
 
 
 /** Instagram-style story rail: tap a ring to watch, reply, or see your viewers. */
