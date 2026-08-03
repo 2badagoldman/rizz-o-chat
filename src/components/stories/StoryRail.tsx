@@ -503,7 +503,7 @@ function StoryViewer({
       </div>
 
       {showViewers ? <ViewersSheet storyId={story.id} onClose={() => setShowViewers(false)} /> : null}
-    </div>
+    </Overlay>
   );
 }
 
