@@ -6,6 +6,7 @@
  * no code change needed to go live.
  */
 import { createServerFn } from '@tanstack/react-start';
+import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 import type { PartnerId, PartnerStatus } from '@/lib/payment-partners';
 import { CATALOG } from '@/lib/payment-partners';
 
@@ -73,7 +74,7 @@ export const createPartnerCheckout = createServerFn({ method: 'POST' })
           : {}),
         currencyCode: '840',
         // Passed straight back on the postback so we can attribute the payment.
-        'X-userId': data.userId,
+        'X-userId': userId,
         'X-priceId': data.priceId,
       });
       return { url: `https://api.ccbill.com/wap-frontflex/flexforms/${formId}?${params}` };
@@ -84,7 +85,7 @@ export const createPartnerCheckout = createServerFn({ method: 'POST' })
       if (!eticket) return { error: 'No SegPay package configured for this product' };
       const params = new URLSearchParams({
         'x-eticketid': eticket,
-        'x-userid': data.userId,
+        'x-userid': userId,
         'x-priceid': data.priceId,
         ...(data.returnUrl ? { 'x-return': data.returnUrl } : {}),
       });
@@ -97,7 +98,7 @@ export const createPartnerCheckout = createServerFn({ method: 'POST' })
       const params = new URLSearchParams({
         co: process.env.EPOCH_CO_CODE!,
         pi,
-        'x-userid': data.userId,
+        'x-userid': userId,
         'x-priceid': data.priceId,
       });
       return { url: `https://wnu.com/secure/?${params}` };
