@@ -690,6 +690,42 @@ export type Database = {
           },
         ]
       }
+      ops_runs: {
+        Row: {
+          created_at: string
+          details: Json
+          duration_ms: number
+          id: string
+          items: number
+          manager: string
+          status: string
+          summary: string | null
+          trigger: string
+        }
+        Insert: {
+          created_at?: string
+          details?: Json
+          duration_ms?: number
+          id?: string
+          items?: number
+          manager: string
+          status?: string
+          summary?: string | null
+          trigger?: string
+        }
+        Update: {
+          created_at?: string
+          details?: Json
+          duration_ms?: number
+          id?: string
+          items?: number
+          manager?: string
+          status?: string
+          summary?: string | null
+          trigger?: string
+        }
+        Relationships: []
+      }
       payment_audit_log: {
         Row: {
           amount_cents: number | null
