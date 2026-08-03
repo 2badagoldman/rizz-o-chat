@@ -64,6 +64,18 @@ export function InstallAppPrompt() {
         setShowIos(true);
         setOpen(true);
       }, 3500);
+    } else {
+      // Browsers that never fire beforeinstallprompt (desktop Safari, Firefox)
+      // still get manual add-to-home-screen guidance.
+      t = setTimeout(() => {
+        setDeferred((d) => {
+          if (!d) {
+            setShowIos(true);
+            setOpen(true);
+          }
+          return d;
+        });
+      }, 8000);
     }
 
     const onInstalled = () => setHidden(true);
