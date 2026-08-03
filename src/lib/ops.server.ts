@@ -17,7 +17,7 @@ export type ManagerResult = {
   summary: string;
   items: number;
   duration_ms: number;
-  details: Record<string, unknown>;
+  details: Record<string, string | number | boolean | null>;
 };
 
 export const MANAGERS: ReadonlyArray<{ id: ManagerId; label: string; blurb: string }> = [

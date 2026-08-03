@@ -9,7 +9,7 @@ export type OpsRun = {
   summary: string | null;
   items: number;
   duration_ms: number;
-  details: Record<string, unknown>;
+  details: Record<string, string | number | boolean | null>;
   trigger: string;
   created_at: string;
 };
