@@ -144,12 +144,18 @@ function Profile() {
     }
     setUploadingAvatar(true);
     try {
+      const verdict = await reviewImageBeforeUpload(file);
+      if (!verdict.allow) {
+        setError(`${MODERATION_BLOCK_MESSAGE} (${verdict.reason})`);
+        return;
+      }
       const ext = file.name.split(".").pop() || "jpg";
       const path = `${user.id}/avatar-${Date.now()}.${ext}`;
       const { error: upErr } = await supabase.storage
         .from("avatars")
         .upload(path, file, { upsert: true, contentType: file.type });
       if (upErr) throw upErr;
+
       const { error: dbErr } = await supabase
         .from("profiles")
         .update({ avatar_url: path })
