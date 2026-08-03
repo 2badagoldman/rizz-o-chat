@@ -65,6 +65,7 @@ import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
 import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
+import { Route as AdminOpsRouteImport } from './routes/admin.ops'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
@@ -365,6 +366,11 @@ const AdminPaymentsRoute = AdminPaymentsRouteImport.update({
   path: '/payments',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminOpsRoute = AdminOpsRouteImport.update({
+  id: '/ops',
+  path: '/ops',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminKycRoute = AdminKycRouteImport.update({
   id: '/kyc',
   path: '/kyc',
@@ -492,6 +498,7 @@ export interface FileRoutesByFullPath {
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/ops': typeof AdminOpsRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/reports': typeof AdminReportsRoute
@@ -568,6 +575,7 @@ export interface FileRoutesByTo {
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/ops': typeof AdminOpsRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/reports': typeof AdminReportsRoute
@@ -646,6 +654,7 @@ export interface FileRoutesById {
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
+  '/admin/ops': typeof AdminOpsRoute
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/reports': typeof AdminReportsRoute
@@ -725,6 +734,7 @@ export interface FileRouteTypes {
     | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/kyc'
+    | '/admin/ops'
     | '/admin/payments'
     | '/admin/payouts'
     | '/admin/reports'
@@ -801,6 +811,7 @@ export interface FileRouteTypes {
     | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/kyc'
+    | '/admin/ops'
     | '/admin/payments'
     | '/admin/payouts'
     | '/admin/reports'
@@ -878,6 +889,7 @@ export interface FileRouteTypes {
     | '/admin/early-access'
     | '/admin/hosts'
     | '/admin/kyc'
+    | '/admin/ops'
     | '/admin/payments'
     | '/admin/payouts'
     | '/admin/reports'
@@ -1388,6 +1400,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminPaymentsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/ops': {
+      id: '/admin/ops'
+      path: '/ops'
+      fullPath: '/admin/ops'
+      preLoaderRoute: typeof AdminOpsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/kyc': {
       id: '/admin/kyc'
       path: '/kyc'
@@ -1543,6 +1562,7 @@ interface AdminRouteChildren {
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminHostsRoute: typeof AdminHostsRouteWithChildren
   AdminKycRoute: typeof AdminKycRoute
+  AdminOpsRoute: typeof AdminOpsRoute
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminReportsRoute: typeof AdminReportsRoute
@@ -1560,6 +1580,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminHostsRoute: AdminHostsRouteWithChildren,
   AdminKycRoute: AdminKycRoute,
+  AdminOpsRoute: AdminOpsRoute,
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminReportsRoute: AdminReportsRoute,
