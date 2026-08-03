@@ -26,6 +26,8 @@ import {
   type StoryKind,
   type StoryRow,
 } from "@/lib/stories";
+import { buildDemoStoryGroups, isDemoStoryId, shuffleGroups } from "@/lib/demo-stories";
+
 
 /** Instagram-style story rail: tap a ring to watch, reply, or see your viewers. */
 export function StoryRail() {
