@@ -12,6 +12,7 @@ import { pageHead } from "@/lib/seo";
 import { OnlineDot, useOnlineUsers } from "@/lib/presence";
 import { KycInboxNotice } from "@/components/KycInboxNotice";
 
+import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute("/chats")({
   head: () => pageHead({
     path: "/chats",
@@ -136,6 +137,7 @@ function Chats() {
   );
 
   // Signed-out visitors: search across AI hosts + full AI roster below.
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
       <AppShell>

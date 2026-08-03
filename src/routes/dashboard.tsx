@@ -10,6 +10,7 @@ import { TrendingUp, Users, Wallet, Trophy } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 
+import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [
       { name: "robots", content: "noindex, nofollow" },{ title: "Dashboard — Crush" }] }),
@@ -37,6 +38,7 @@ function Dashboard() {
   }, [user, fetchStats]);
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
       <AppShell>

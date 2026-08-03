@@ -21,6 +21,7 @@ import { getRestrictionState, setRestriction } from "@/lib/restrictions.function
 import { supabase as sb } from "@/integrations/supabase/client";
 
 
+import { PageSkeleton } from "@/components/AuthGate";
 const DM_REACTIONS = ["❤️", "😍", "🔥", "😂", "🥰", "🎉", "👀", "🙌", "😉", "💕", "☕", "✨"];
 
 
@@ -139,6 +140,7 @@ function UserChat() {
   }, [messages, user?.id]);
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
       <AppShell>

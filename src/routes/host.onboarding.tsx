@@ -3,6 +3,7 @@ import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { PageSkeleton } from "@/components/AuthGate";
 import {
   Sparkles,
   ShieldCheck,
@@ -59,6 +60,7 @@ function HostOnboarding() {
       </AppShell>
     );
 
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
       <AppShell theme="host">
