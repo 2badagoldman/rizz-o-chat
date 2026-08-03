@@ -85,6 +85,7 @@ import { Route as ApiPublicPaymentsRevenuecatRouteImport } from './routes/api/pu
 import { Route as ApiPublicPaymentsEpochRouteImport } from './routes/api/public/payments/epoch'
 import { Route as ApiPublicPaymentsCcbillRouteImport } from './routes/api/public/payments/ccbill'
 import { Route as ApiPublicHooksShowcaseBrainRouteImport } from './routes/api/public/hooks/showcase-brain'
+import { Route as ApiPublicHooksOpsManagersRouteImport } from './routes/api/public/hooks/ops-managers'
 
 const VerifyRoute = VerifyRouteImport.update({
   id: '/verify',
@@ -472,6 +473,12 @@ const ApiPublicHooksShowcaseBrainRoute =
     path: '/api/public/hooks/showcase-brain',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicHooksOpsManagersRoute =
+  ApiPublicHooksOpsManagersRouteImport.update({
+    id: '/api/public/hooks/ops-managers',
+    path: '/api/public/hooks/ops-managers',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -544,6 +551,7 @@ export interface FileRoutesByFullPath {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
+  '/api/public/hooks/ops-managers': typeof ApiPublicHooksOpsManagersRoute
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/ccbill': typeof ApiPublicPaymentsCcbillRoute
   '/api/public/payments/epoch': typeof ApiPublicPaymentsEpochRoute
@@ -621,6 +629,7 @@ export interface FileRoutesByTo {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
+  '/api/public/hooks/ops-managers': typeof ApiPublicHooksOpsManagersRoute
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/ccbill': typeof ApiPublicPaymentsCcbillRoute
   '/api/public/payments/epoch': typeof ApiPublicPaymentsEpochRoute
@@ -700,6 +709,7 @@ export interface FileRoutesById {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
+  '/api/public/hooks/ops-managers': typeof ApiPublicHooksOpsManagersRoute
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/ccbill': typeof ApiPublicPaymentsCcbillRoute
   '/api/public/payments/epoch': typeof ApiPublicPaymentsEpochRoute
@@ -780,6 +790,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
+    | '/api/public/hooks/ops-managers'
     | '/api/public/hooks/showcase-brain'
     | '/api/public/payments/ccbill'
     | '/api/public/payments/epoch'
@@ -857,6 +868,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
+    | '/api/public/hooks/ops-managers'
     | '/api/public/hooks/showcase-brain'
     | '/api/public/payments/ccbill'
     | '/api/public/payments/epoch'
@@ -935,6 +947,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
+    | '/api/public/hooks/ops-managers'
     | '/api/public/hooks/showcase-brain'
     | '/api/public/payments/ccbill'
     | '/api/public/payments/epoch'
@@ -998,6 +1011,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicDemoChatRoute: typeof ApiPublicDemoChatRoute
   ChatUserUserIdRoute: typeof ChatUserUserIdRoute
+  ApiPublicHooksOpsManagersRoute: typeof ApiPublicHooksOpsManagersRoute
   ApiPublicHooksShowcaseBrainRoute: typeof ApiPublicHooksShowcaseBrainRoute
   ApiPublicPaymentsCcbillRoute: typeof ApiPublicPaymentsCcbillRoute
   ApiPublicPaymentsEpochRoute: typeof ApiPublicPaymentsEpochRoute
@@ -1540,6 +1554,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksShowcaseBrainRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/ops-managers': {
+      id: '/api/public/hooks/ops-managers'
+      path: '/api/public/hooks/ops-managers'
+      fullPath: '/api/public/hooks/ops-managers'
+      preLoaderRoute: typeof ApiPublicHooksOpsManagersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1649,6 +1670,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicDemoChatRoute: ApiPublicDemoChatRoute,
   ChatUserUserIdRoute: ChatUserUserIdRoute,
+  ApiPublicHooksOpsManagersRoute: ApiPublicHooksOpsManagersRoute,
   ApiPublicHooksShowcaseBrainRoute: ApiPublicHooksShowcaseBrainRoute,
   ApiPublicPaymentsCcbillRoute: ApiPublicPaymentsCcbillRoute,
   ApiPublicPaymentsEpochRoute: ApiPublicPaymentsEpochRoute,
