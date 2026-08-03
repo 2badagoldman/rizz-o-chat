@@ -9,6 +9,7 @@ import { useShuffled } from "@/hooks/useShuffled";
 import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { RoomsShowcase } from "@/components/RoomsShowcase";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
+import { StoryRail } from "@/components/stories/StoryRail";
 
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -132,6 +133,8 @@ function Discover() {
       </div>
 
       
+
+      <StoryRail />
 
       <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={25} />
 
