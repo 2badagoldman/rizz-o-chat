@@ -432,7 +432,7 @@ function StoryViewer({
       </div>
 
       {/* Header */}
-      <div className="absolute left-0 right-0 top-10 z-10 flex items-center gap-3 px-4 py-3 text-white">
+      <div className="absolute left-0 right-0 top-10 z-20 flex items-center gap-3 px-4 py-3 text-white">the
         {group.avatar_url ? (
           <img src={group.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
         ) : (
