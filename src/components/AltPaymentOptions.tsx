@@ -53,7 +53,7 @@ export function AltPaymentOptions({
     setBusy(id);
     try {
       const result = await startCheckout({
-        data: { partner: id, priceId, userId: user.id, returnUrl: window.location.href },
+        data: { partner: id, priceId, returnUrl: window.location.href },
       });
       if ('error' in result) throw new Error(result.error);
       window.location.assign(result.url);
