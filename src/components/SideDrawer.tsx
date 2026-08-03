@@ -271,18 +271,18 @@ export function SideDrawer({ open, onClose }: Props) {
                   await signOut();
                   onClose();
                 }}
-                className="mt-4 flex w-full items-center gap-3.5 rounded-[24px] border border-border/60 bg-card/70 px-4 py-3.5 text-left shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.015] active:scale-[0.97]"
+                className="mt-4 flex w-full items-center gap-3.5 rounded-[24px] bg-[#162032] px-4 py-3.5 text-left shadow-[0_16px_40px_-20px_rgba(0,0,0,0.55)] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.015] active:scale-[0.97]"
               >
                 <span
-                  className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white shadow-[0_8px_18px_-8px_rgba(255,45,117,0.9),inset_0_1px_0_rgba(255,255,255,0.6)]"
-                  style={{ background: "linear-gradient(135deg,#ff8080,#ff2d75)" }}
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white"
+                  style={{ background: "linear-gradient(135deg,#ff6b6b,#ff2d75)" }}
                 >
                   <LogOut className="h-[18px] w-[18px]" strokeWidth={2.4} />
                 </span>
-                <span className="flex-1 text-[15px] font-bold text-destructive">Log out</span>
+                <span className="flex-1 text-[15px] font-bold text-[#ff4d6d]">Log out</span>
               </button>
             ) : (
-              <div className="mt-4 overflow-hidden rounded-[24px] border border-border/60 bg-card/70 shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
+              <div className="mt-4 overflow-hidden rounded-[24px] bg-[#162032] shadow-[0_16px_40px_-20px_rgba(0,0,0,0.55)]">
                 <SettingsRow
                   label="Sign in"
                   to="/auth"
@@ -290,6 +290,7 @@ export function SideDrawer({ open, onClose }: Props) {
                   tint="#3d8dff"
                   hint="Continue with email"
                   onNavigate={onClose}
+                  variant="solid"
                 />
               </div>
             )}
