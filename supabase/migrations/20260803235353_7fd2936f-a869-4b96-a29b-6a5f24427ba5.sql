@@ -1,0 +1,5 @@
+UPDATE public.showcase_media
+SET is_active = false, updated_at = now()
+WHERE split_part(storage_path, '/', 2) IN (
+'e9db5aca-9dd7-44ed-b115-8bf52c2e1f9e.jpeg','fd49bc77-d270-47ec-9e76-8ac452d3f7fc.jpeg','3c2dfe04-0e4f-4ac7-a6eb-02a98231a39a.jpg','d064d6d1-ba8a-4149-bd12-f6042991f5a5.jpg','8cc979f0-8e1d-455a-a248-512f53d37191.jpg','6f73e79f-88e0-469c-bbde-17e710ae1d1e.jpg','dbe8516a-5714-4b76-88ca-892587ae7b0d.jpg','532d9e20-bfa6-4c32-9561-8ea789d2b700.jpg','742cbc4c-0c72-44c8-a88c-233c7f65ba77.jpeg','098b61e4-5661-4c0b-a80f-ac37ff849091.jpg','37a3bfe3-d397-43f7-b76d-a20ff1a20f50.jpg','9109ec8b-ff0c-4be4-81de-94908447cca7.avif','615769c6-663d-4922-946c-047e2be50119.jpg','69ae8231-9407-478d-acf9-2b9599562a27.jpg','e775bc2d-0c5f-4748-9d1e-16809bfc4adc.jpg','838e43f2-9624-4e85-a891-a3c8c95be041.jpeg','19eaceb0-0231-4774-a8ba-c3ee5a07831f.jpg','5dfa92e0-50fa-4f74-be80-3a6c05dcd491.jpg'
+);
