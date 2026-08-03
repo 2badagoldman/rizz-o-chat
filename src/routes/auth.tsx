@@ -9,6 +9,7 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { pageHead } from "@/lib/seo";
 import { readGuestCode, normalizePhone, phoneToLoginEmail } from "@/lib/guest-checkout";
 
+import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute("/auth")({
   head: () => pageHead({
     path: "/auth",
