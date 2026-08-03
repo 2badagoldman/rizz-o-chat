@@ -218,7 +218,7 @@ function StoryComposer({ onClose, onPosted }: { onClose: () => void; onPosted: (
   };
 
   return (
-    <div className="fixed inset-0 z-[130] grid place-items-end bg-black/70 backdrop-blur-sm sm:place-items-center">
+    <Overlay className="fixed inset-0 z-[9998] grid place-items-end bg-black/70 backdrop-blur-sm sm:place-items-center">
       <div className="max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-border bg-card p-5 sm:max-w-md sm:rounded-3xl">
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg font-bold">New story</h3>
