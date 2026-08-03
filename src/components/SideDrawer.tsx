@@ -248,9 +248,9 @@ export function SideDrawer({ open, onClose }: Props) {
               ))}
             </Group>
 
-            <Group label="Account" open={open} index={3}>
+            <Group label="Account" open={open} index={3} variant="solid">
               {FOOT.map((r) => (
-                <SettingsRow key={r.label} {...r} onNavigate={onClose} />
+                <SettingsRow key={r.label} {...r} onNavigate={onClose} variant="solid" />
               ))}
               {isAdmin && (
                 <SettingsRow
@@ -260,6 +260,7 @@ export function SideDrawer({ open, onClose }: Props) {
                   tint="#0f172a"
                   hint="Portal & controls"
                   onNavigate={onClose}
+                  variant="solid"
                 />
               )}
             </Group>
