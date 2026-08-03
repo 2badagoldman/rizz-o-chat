@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState, useRouter } from "@tanstack/react-router";
-import { Menu, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Menu, Search, ChevronLeft, ChevronRight, Shield } from "lucide-react";
 import { BottomNav } from "./BottomNav";
 import { RizzBrainDock } from "./RizzBrainDock";
 import { PaymentTestModeBanner } from "./PaymentTestModeBanner";
@@ -15,6 +15,8 @@ import { LiveHostAlerts } from "./LiveHostAlerts";
 import { PageAtmosphere } from "./PageAtmosphere";
 import { PrismLayer } from "./Prism";
 import { useIosBillingRestricted } from "@/hooks/useNative";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
+
 
 
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -46,6 +48,8 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
   // every route change.
   const [canForward, setCanForward] = useState(forwardAvailable);
   const iosRestricted = useIosBillingRestricted();
+  const { isAdmin } = useIsAdmin();
+
 
   // Browser-style back/forward inside the app shell (native shells have no chrome).
   useEffect(() => {
@@ -130,6 +134,16 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
             </a>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
+            {isAdmin ? (
+              <Link
+                to="/admin"
+                className="press-spring shrink-0 rounded-full border border-border/70 bg-card/60 p-1.5 text-foreground backdrop-blur-xl hover:bg-primary/10"
+                aria-label="Admin portal"
+                title="Admin portal"
+              >
+                <Shield className="h-4 w-4" />
+              </Link>
+            ) : null}
             <button
               onClick={() => setSearchOpen(true)}
               className="press-spring shrink-0 rounded-full border border-border/70 bg-card/60 p-1.5 text-foreground backdrop-blur-xl hover:bg-primary/10"
@@ -138,6 +152,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
               <Search className="h-4 w-4" />
             </button>
             <ThemeToggle />
+
             {!iosRestricted ? (
               <>
                 <Link
