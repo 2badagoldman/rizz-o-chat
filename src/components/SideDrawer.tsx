@@ -58,9 +58,9 @@ const SOON: Array<{ label: string; slug: string; icon: IconType; tint: string; h
 ];
 
 const FOOT: Row[] = [
-  { label: "Settings", to: "/profile", icon: Settings, tint: "#8a8a8f" },
-  { label: "Help & support", to: "/soon/$feature", icon: HelpCircle, tint: "#3d8dff", params: { feature: "help" } },
-  { label: "Policies & legal", to: "/legal", icon: Scale, tint: "#2d3436", hint: "Terms, privacy, refunds" },
+  { label: "Settings", to: "/profile", icon: Settings, tint: "#5a5a66" },
+  { label: "Help & support", to: "/soon/$feature", icon: HelpCircle, tint: "#5a7fff", params: { feature: "help" } },
+  { label: "Policies & legal", to: "/legal", icon: Scale, tint: "#3a3a44", hint: "Terms, privacy, refunds" },
 ];
 
 export function SideDrawer({ open, onClose }: Props) {
@@ -248,9 +248,9 @@ export function SideDrawer({ open, onClose }: Props) {
               ))}
             </Group>
 
-            <Group label="Account" open={open} index={3}>
+            <Group label="Account" open={open} index={3} variant="solid">
               {FOOT.map((r) => (
-                <SettingsRow key={r.label} {...r} onNavigate={onClose} />
+                <SettingsRow key={r.label} {...r} onNavigate={onClose} variant="solid" />
               ))}
               {isAdmin && (
                 <SettingsRow
@@ -260,6 +260,7 @@ export function SideDrawer({ open, onClose }: Props) {
                   tint="#0f172a"
                   hint="Portal & controls"
                   onNavigate={onClose}
+                  variant="solid"
                 />
               )}
             </Group>
@@ -270,18 +271,18 @@ export function SideDrawer({ open, onClose }: Props) {
                   await signOut();
                   onClose();
                 }}
-                className="mt-4 flex w-full items-center gap-3.5 rounded-[24px] border border-border/60 bg-card/70 px-4 py-3.5 text-left shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.015] active:scale-[0.97]"
+                className="mt-4 flex w-full items-center gap-3.5 rounded-[24px] bg-[#162032] px-4 py-3.5 text-left shadow-[0_16px_40px_-20px_rgba(0,0,0,0.55)] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-[1.015] active:scale-[0.97]"
               >
                 <span
-                  className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white shadow-[0_8px_18px_-8px_rgba(255,45,117,0.9),inset_0_1px_0_rgba(255,255,255,0.6)]"
-                  style={{ background: "linear-gradient(135deg,#ff8080,#ff2d75)" }}
+                  className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white"
+                  style={{ background: "linear-gradient(135deg,#ff6b6b,#ff2d75)" }}
                 >
                   <LogOut className="h-[18px] w-[18px]" strokeWidth={2.4} />
                 </span>
-                <span className="flex-1 text-[15px] font-bold text-destructive">Log out</span>
+                <span className="flex-1 text-[15px] font-bold text-[#ff4d6d]">Log out</span>
               </button>
             ) : (
-              <div className="mt-4 overflow-hidden rounded-[24px] border border-border/60 bg-card/70 shadow-[0_12px_30px_-18px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
+              <div className="mt-4 overflow-hidden rounded-[24px] bg-[#162032] shadow-[0_16px_40px_-20px_rgba(0,0,0,0.55)]">
                 <SettingsRow
                   label="Sign in"
                   to="/auth"
@@ -289,6 +290,7 @@ export function SideDrawer({ open, onClose }: Props) {
                   tint="#3d8dff"
                   hint="Continue with email"
                   onNavigate={onClose}
+                  variant="solid"
                 />
               </div>
             )}
@@ -309,14 +311,21 @@ function Group({
   note,
   index = 0,
   open,
+  variant = "glass",
   children,
 }: {
   label: string;
   note?: string;
   index?: number;
   open: boolean;
+  variant?: "glass" | "solid";
   children: React.ReactNode;
 }) {
+  const cardClass =
+    variant === "solid"
+      ? "overflow-hidden rounded-[24px] bg-[#162032] shadow-[0_16px_40px_-20px_rgba(0,0,0,0.55)]"
+      : "overflow-hidden rounded-[26px] border border-border/60 bg-card/70 shadow-[0_18px_40px_-24px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl";
+
   return (
     <section
       className={`mt-5 first:mt-1 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
@@ -334,10 +343,7 @@ function Group({
           </span>
         ) : null}
       </div>
-      {/* Bubbly glass grouped card */}
-      <div className="overflow-hidden rounded-[26px] border border-border/60 bg-card/70 shadow-[0_18px_40px_-24px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
-        {children}
-      </div>
+      <div className={cardClass}>{children}</div>
     </section>
   );
 }
@@ -351,6 +357,7 @@ function SettingsRow({
   badge,
   params,
   onNavigate,
+  variant = "glass",
 }: {
   label: string;
   to: string;
@@ -360,25 +367,33 @@ function SettingsRow({
   badge?: string;
   params?: Record<string, string>;
   onNavigate?: () => void;
+  variant?: "glass" | "solid";
 }) {
+  const isSolid = variant === "solid";
   return (
     <Link
       to={to as any}
       params={params as any}
       onClick={onNavigate}
-      className="group relative flex items-center gap-3.5 border-b border-border/50 px-4 py-3 transition-colors duration-300 last:border-b-0 hover:bg-primary/10 active:bg-primary/15"
+      className={`group relative flex items-center gap-3.5 px-4 py-3 transition-colors duration-300 ${
+        isSolid
+          ? "border-b border-white/5 hover:bg-white/5 active:bg-white/8 last:border-b-0"
+          : "border-b border-border/50 hover:bg-primary/10 active:bg-primary/15 last:border-b-0"
+      }`}
     >
       <span
-        className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white ring-1 ring-white/50 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95"
+        className={`grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95 ${
+          isSolid ? "" : "ring-1 ring-white/50"
+        }`}
         style={{
-          background: `linear-gradient(135deg, ${shade(tint, 18)}, ${shade(tint, -18)})`,
-          boxShadow: `0 10px 20px -10px ${tint}, inset 0 1px 0 rgba(255,255,255,0.55)`,
+          background: isSolid ? tint : `linear-gradient(135deg, ${shade(tint, 18)}, ${shade(tint, -18)})`,
+          boxShadow: isSolid ? "none" : `0 10px 20px -10px ${tint}, inset 0 1px 0 rgba(255,255,255,0.55)`,
         }}
       >
         <Icon className="h-[18px] w-[18px]" strokeWidth={2.35} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-[15px] font-bold leading-tight tracking-[-0.01em] text-foreground">
+        <span className={`block truncate text-[15px] font-bold leading-tight tracking-[-0.01em] ${isSolid ? "text-white" : "text-foreground"}`}>
           {label}
         </span>
         {hint ? (
@@ -390,7 +405,7 @@ function SettingsRow({
           {badge}
         </span>
       ) : null}
-      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+      <ChevronRight className={`h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 ${isSolid ? "text-white/30 group-hover:text-white/70" : "text-muted-foreground/50 group-hover:text-primary"}`} />
     </Link>
   );
 }
