@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState, useRouter } from "@tanstack/react-router";
-import { Menu, Search, ChevronLeft, ChevronRight } from "lucide-react";
+import { Menu, Search, ChevronLeft, ChevronRight, Shield } from "lucide-react";
 import { BottomNav } from "./BottomNav";
 import { RizzBrainDock } from "./RizzBrainDock";
 import { PaymentTestModeBanner } from "./PaymentTestModeBanner";
