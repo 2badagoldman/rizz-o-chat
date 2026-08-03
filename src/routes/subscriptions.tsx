@@ -94,7 +94,10 @@ function SubscriptionsPage() {
     window.open(res.url, '_blank');
   };
 
+  if (authLoading || !user) return <AppShell><PageSkeleton /></AppShell>;
+
   return (
+
     <AppShell>
       <header className="mb-4">
         <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Billing</p>
