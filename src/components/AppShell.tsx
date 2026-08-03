@@ -15,6 +15,8 @@ import { LiveHostAlerts } from "./LiveHostAlerts";
 import { PageAtmosphere } from "./PageAtmosphere";
 import { PrismLayer } from "./Prism";
 import { useIosBillingRestricted } from "@/hooks/useNative";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
+
 
 
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
