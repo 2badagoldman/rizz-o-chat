@@ -379,7 +379,7 @@ function StoryViewer({
   };
 
   useEffect(() => {
-    if (!story) return;
+    if (!story || isDemoStoryId(story.id)) return;
     seen({ data: { id: story.id } }).catch(() => {});
   }, [story, seen]);
 
@@ -390,13 +390,17 @@ function StoryViewer({
   }, [story, showViewers, next]);
 
   const replyMut = useMutation({
-    mutationFn: async () => send({ data: { id: story!.id, body: reply } }),
+    mutationFn: async () => {
+      if (isDemoStoryId(story!.id)) return { ok: true };
+      return send({ data: { id: story!.id, body: reply } });
+    },
     onSuccess: () => {
       setReply("");
       toast.success("Reply sent");
     },
     onError: (e: Error) => toast.error(e.message),
   });
+
 
   if (!story) return null;
 
