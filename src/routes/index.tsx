@@ -8,6 +8,7 @@ import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 import { pageHead } from "@/lib/seo";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
+import { StoryRail } from "@/components/stories/StoryRail";
 
 
 export const Route = createFileRoute("/")({
@@ -43,6 +44,9 @@ function Home() {
           Every host runs a Friends List — a little chapter of our family tree. Subscribe, meet the host, find your Crush.
         </p>
       </header>
+
+      {/* Stories */}
+      <StoryRail />
 
       {/* Showcase reel */}
       <ShowcaseRail title="Showcase" subtitle="Today's best looks" limit={25} />
