@@ -416,7 +416,7 @@ function StoryViewer({
   if (!story) return null;
 
   return (
-    <div className="fixed inset-0 z-[140] flex flex-col bg-black">
+    <Overlay className="fixed inset-0 z-[9999] flex flex-col bg-black">
       <div className="flex gap-1 px-3 pt-3">
         {group.stories.map((s, i) => (
           <span key={s.id} className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/25">
