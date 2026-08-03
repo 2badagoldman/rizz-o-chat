@@ -37,7 +37,7 @@ export function StoryRail() {
 
   const { data: groups = [] } = useQuery({
     queryKey: ["stories"],
-    queryFn: () => fetchStories({ data: {} }),
+    queryFn: () => fetchStories(),
     enabled: !!user,
     staleTime: 30_000,
   });
