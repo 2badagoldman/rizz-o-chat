@@ -14,6 +14,8 @@ import { captureNativePhoto } from "@/lib/native";
 import { Camera } from "lucide-react";
 import { SubscriptionStatusCard } from "@/components/SubscriptionStatusCard";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { reviewImageBeforeUpload, MODERATION_BLOCK_MESSAGE } from "@/lib/media-moderation";
+
 
 
 
@@ -144,12 +146,18 @@ function Profile() {
     }
     setUploadingAvatar(true);
     try {
+      const verdict = await reviewImageBeforeUpload(file);
+      if (!verdict.allow) {
+        setError(`${MODERATION_BLOCK_MESSAGE} (${verdict.reason})`);
+        return;
+      }
       const ext = file.name.split(".").pop() || "jpg";
       const path = `${user.id}/avatar-${Date.now()}.${ext}`;
       const { error: upErr } = await supabase.storage
         .from("avatars")
         .upload(path, file, { upsert: true, contentType: file.type });
       if (upErr) throw upErr;
+
       const { error: dbErr } = await supabase
         .from("profiles")
         .update({ avatar_url: path })
@@ -199,7 +207,13 @@ function Profile() {
           setError(`Skipped ${file.name}: too large.`);
           continue;
         }
+        const verdict = await reviewImageBeforeUpload(file);
+        if (!verdict.allow) {
+          setError(`Skipped ${file.name}: ${MODERATION_BLOCK_MESSAGE}`);
+          continue;
+        }
         const ext = file.name.split(".").pop() || (isVideo ? "mp4" : "jpg");
+
         const path = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
         const { error: upErr } = await supabase.storage
           .from("profile-media")

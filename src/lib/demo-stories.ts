@@ -22,7 +22,7 @@ const BEATS: Record<string, Beat[]> = {
   ],
   "demo-jen": [
     { kind: "media", caption: "New fit, thoughts?", minutesAgo: 18 },
-    { kind: "coins", caption: "Someone just spoiled me 😌", coins: 250, accent: "gold", minutesAgo: 130 },
+    { kind: "coins", caption: "Someone just sent a gift — thank you! 😊", coins: 250, accent: "gold", minutesAgo: 130 },
   ],
   "demo-lena": [
     { kind: "text", caption: "Room's open tonight — pull up.", accent: "violet", minutesAgo: 55 },
@@ -37,10 +37,10 @@ const BEATS: Record<string, Beat[]> = {
   ],
   "demo-harper": [
     { kind: "media", caption: "Beach reset 🌊", minutesAgo: 74 },
-    { kind: "coins", caption: "Top spoiler of the week gets a voice note", coins: 500, accent: "gold", minutesAgo: 260 },
+    { kind: "coins", caption: "Most talkative friend this week gets a voice note", coins: 500, accent: "gold", minutesAgo: 260 },
   ],
   "demo-cleo": [
-    { kind: "media", caption: "Late night, good playlist", minutesAgo: 21 },
+    { kind: "media", caption: "Evening in, good playlist", minutesAgo: 21 },
     { kind: "text", caption: "Co-hosting the lounge in 10 mins.", accent: "sea", minutesAgo: 150 },
   ],
   "demo-yuna": [
@@ -52,7 +52,7 @@ const BEATS: Record<string, Beat[]> = {
 const FILLER: Beat[] = [
   { kind: "media", caption: "Today's look 💫", minutesAgo: 26 },
   { kind: "text", caption: "Online now — come say hi.", accent: "sea", minutesAgo: 88 },
-  { kind: "coins", caption: "Spoil me and I'll reply first 😌", coins: 100, accent: "gold", minutesAgo: 170 },
+  { kind: "coins", caption: "Say hi and I'll reply first 😊", coins: 100, accent: "gold", minutesAgo: 170 },
   { kind: "gift", caption: "Thank you for the gift 💐", accent: "rose", minutesAgo: 240 },
   { kind: "text", caption: "Ask me anything for the next hour.", accent: "violet", minutesAgo: 320 },
 ];

@@ -471,11 +471,18 @@ function AuthPage() {
         </form>
       </div>
 
-      <p className="mt-6 text-center text-[11px] text-muted-foreground">
+      <p className="mx-auto mt-6 max-w-md rounded-xl border border-border bg-card p-3 text-center text-[11px] font-semibold text-muted-foreground">
+        Crush is a non-sexual, PG-13 conversation platform for adults 18+. Nudity, sexual or suggestive content, sexual
+        services, escorting and hookup solicitation are prohibited. Uploads are screened automatically and violations
+        are removed and banned.{" "}
+        <Link to="/legal/acceptable-use" className="text-primary underline">Content policy</Link>
+      </p>
+      <p className="mt-3 text-center text-[11px] text-muted-foreground">
         By continuing you agree to our{" "}
         <Link to="/legal/terms" className="underline">Terms of Service</Link> and{" "}
         <Link to="/legal/privacy" className="underline">Privacy Policy</Link>.
       </p>
+
     </AppShell>
   );
 }

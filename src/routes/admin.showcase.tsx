@@ -64,7 +64,11 @@ function AdminShowcase() {
     if (!isVideo && !isImage) throw new Error(`${file.name}: not an image or video`);
     const maxMB = isVideo ? 100 : 15;
     if (file.size > maxMB * 1024 * 1024) throw new Error(`${file.name}: exceeds ${maxMB}MB`);
+    const { reviewImageBeforeUpload, MODERATION_BLOCK_MESSAGE } = await import("@/lib/media-moderation");
+    const verdict = await reviewImageBeforeUpload(file);
+    if (!verdict.allow) throw new Error(`${file.name}: ${MODERATION_BLOCK_MESSAGE}`);
     const ext = file.name.split(".").pop() || (isVideo ? "mp4" : "jpg");
+
     const path = `${user.id}/${crypto.randomUUID()}.${ext}`;
     const { error: upErr } = await supabase.storage.from("showcase").upload(path, file, {
       contentType: file.type, upsert: false,
