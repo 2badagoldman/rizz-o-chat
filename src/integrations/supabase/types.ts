@@ -1132,6 +1132,109 @@ export type Database = {
         }
         Relationships: []
       }
+      stories: {
+        Row: {
+          accent: string | null
+          author_id: string
+          caption: string | null
+          coin_value: number | null
+          created_at: string
+          expires_at: string
+          id: string
+          kind: string
+          media_path: string | null
+          media_type: string | null
+          updated_at: string
+        }
+        Insert: {
+          accent?: string | null
+          author_id: string
+          caption?: string | null
+          coin_value?: number | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          kind?: string
+          media_path?: string | null
+          media_type?: string | null
+          updated_at?: string
+        }
+        Update: {
+          accent?: string | null
+          author_id?: string
+          caption?: string | null
+          coin_value?: number | null
+          created_at?: string
+          expires_at?: string
+          id?: string
+          kind?: string
+          media_path?: string | null
+          media_type?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      story_replies: {
+        Row: {
+          body: string
+          created_at: string
+          id: string
+          sender_id: string
+          story_id: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          id?: string
+          sender_id: string
+          story_id: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          id?: string
+          sender_id?: string
+          story_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_replies_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      story_views: {
+        Row: {
+          created_at: string
+          id: string
+          story_id: string
+          viewer_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          story_id: string
+          viewer_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          story_id?: string
+          viewer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_views_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           cancel_at_period_end: boolean | null
