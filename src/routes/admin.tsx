@@ -28,7 +28,9 @@ export const Route = createFileRoute("/admin")({
 
 const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/admin/ops", label: "Control Room", icon: Activity },
   { to: "/admin/war-room", label: "War Room", icon: Radio },
+
   { to: "/admin/copilot", label: "Copilot", icon: Sparkles },
   { to: "/admin/applications", label: "Host Applications", icon: Crown },
   { to: "/admin/hosts", label: "Hosts", icon: Crown },
