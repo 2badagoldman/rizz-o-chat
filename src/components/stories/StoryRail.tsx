@@ -344,6 +344,15 @@ function Overlay({ className, children }: { className: string; children: React.R
 
 /* -------------------------------- viewer -------------------------------- */
 
+/** Demo co-hosts live at /host/:id, real members at /u/:id. */
+function profileLink(authorId: string) {
+  return authorId.startsWith("demo-")
+    ? ({ to: "/host/$hostId", params: { hostId: authorId } } as const)
+    : ({ to: "/u/$userId", params: { userId: authorId } } as const);
+}
+
+
+
 
 
 function StoryViewer({
