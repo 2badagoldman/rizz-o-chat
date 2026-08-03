@@ -396,7 +396,7 @@ function StoryViewer({
 
   useEffect(() => {
     if (showViewers || !story) return;
-    const t = setTimeout(next, 6000);
+    const t = setTimeout(next, 5000);
     return () => clearTimeout(t);
   }, [story, showViewers, next]);
 
