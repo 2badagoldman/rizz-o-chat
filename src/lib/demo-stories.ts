@@ -48,16 +48,34 @@ const BEATS: Record<string, Beat[]> = {
   ],
 };
 
-/** Build the AI co-host story groups. `now` keeps timestamps fresh per render. */
+/** Filler beats so every available profile always has at least 3 stories. */
+const FILLER: Beat[] = [
+  { kind: "media", caption: "Today's look 💫", minutesAgo: 26 },
+  { kind: "text", caption: "Online now — come say hi.", accent: "sea", minutesAgo: 88 },
+  { kind: "coins", caption: "Spoil me and I'll reply first 😌", coins: 100, accent: "gold", minutesAgo: 170 },
+  { kind: "gift", caption: "Thank you for the gift 💐", accent: "rose", minutesAgo: 240 },
+  { kind: "text", caption: "Ask me anything for the next hour.", accent: "violet", minutesAgo: 320 },
+];
+
+const MIN_STORIES = 3;
+
+/** Build story groups for every online/available demo profile. */
 export function buildDemoStoryGroups(): StoryGroup[] {
   const now = Date.now();
   const groups: StoryGroup[] = [];
 
-  for (const id of AI_HOST_IDS) {
-    const host = DEMO_HOSTS.find((h) => h.id === id);
-    if (!host) continue;
-    const beats = BEATS[id] ?? [];
-    if (!beats.length) continue;
+  const hosts = DEMO_HOSTS.filter((h) => h.online || (AI_HOST_IDS as readonly string[]).includes(h.id));
+
+  for (const host of hosts) {
+    const id = host.id;
+    const beats = [...(BEATS[id] ?? [])];
+    // Everyone keeps at least 3 viewable stories so the rail never looks dead.
+    let f = 0;
+    while (beats.length < MIN_STORIES) {
+      const base = FILLER[(f + id.length) % FILLER.length];
+      beats.push({ ...base, minutesAgo: base.minutesAgo + f * 17 });
+      f++;
+    }
 
     const avatar = hostAvatarMed(id);
     const stories: StoryRow[] = beats.map((b, i) => {
@@ -89,6 +107,7 @@ export function buildDemoStoryGroups(): StoryGroup[] {
 
   return groups;
 }
+
 
 export function shuffleGroups<T>(items: readonly T[]): T[] {
   const a = items.slice();

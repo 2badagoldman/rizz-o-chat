@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Coins, Eye, Gift, ImagePlus, Loader2, Plus, Send, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+
 import { useAuth } from "@/lib/auth";
 import {
   createStory,
@@ -28,6 +30,9 @@ import {
   type StoryRow,
 } from "@/lib/stories";
 import { buildDemoStoryGroups, isDemoStoryId, shuffleGroups } from "@/lib/demo-stories";
+import { useAiQuota } from "@/hooks/useAiQuota";
+import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
+
 
 
 /** Instagram-style story rail: tap a ring to watch, reply, or see your viewers. */
@@ -342,6 +347,15 @@ function Overlay({ className, children }: { className: string; children: React.R
 
 /* -------------------------------- viewer -------------------------------- */
 
+/** Demo co-hosts live at /host/:id, real members at /u/:id. */
+function profileLink(authorId: string) {
+  return authorId.startsWith("demo-")
+    ? ({ to: "/host/$hostId", params: { hostId: authorId } } as const)
+    : ({ to: "/u/$userId", params: { userId: authorId } } as const);
+}
+
+
+
 
 
 function StoryViewer({
@@ -400,6 +414,8 @@ function StoryViewer({
     return () => clearTimeout(t);
   }, [story, showViewers, next]);
 
+  const quota = useAiQuota("chat");
+
   const replyMut = useMutation({
     mutationFn: async () => {
       if (isDemoStoryId(story!.id)) return { ok: true };
@@ -407,10 +423,12 @@ function StoryViewer({
     },
     onSuccess: () => {
       setReply("");
+      quota.spend(1);
       toast.success("Reply sent");
     },
     onError: (e: Error) => toast.error(e.message),
   });
+
 
 
   if (!story) return null;
@@ -431,19 +449,26 @@ function StoryViewer({
         ))}
       </div>
 
-      {/* Header */}
+      {/* Header — tapping the avatar/name opens that person's page (IG style) */}
       <div className="absolute left-0 right-0 top-10 z-20 flex items-center gap-3 px-4 py-3 text-white">
-        {group.avatar_url ? (
-          <img src={group.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
-        ) : (
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20 text-sm font-bold">
-            {group.display_name.slice(0, 1).toUpperCase()}
-          </span>
-        )}
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold">{isMine ? "Your story" : group.display_name}</p>
-          <p className="text-[11px] text-white/60">{timeAgo(story.created_at)} ago</p>
-        </div>
+        <Link
+          {...profileLink(group.author_id)}
+          onClick={onClose}
+          className="flex min-w-0 flex-1 items-center gap-3"
+        >
+          {group.avatar_url ? (
+            <img src={group.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
+          ) : (
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20 text-sm font-bold">
+              {group.display_name.slice(0, 1).toUpperCase()}
+            </span>
+          )}
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold">{isMine ? "Your story" : group.display_name}</p>
+            <p className="text-[11px] text-white/60">{timeAgo(story.created_at)} ago</p>
+          </div>
+        </Link>
+
         {isMine ? (
           <button
             type="button"
@@ -482,8 +507,11 @@ function StoryViewer({
             <Eye className="h-4 w-4" />
             {story.view_count} {story.view_count === 1 ? "view" : "views"}
           </button>
+        ) : quota.reached ? (
+          <AiQuotaPrompt limit={quota.limit} compact who={group.display_name} />
         ) : (
           <form
+
             onSubmit={(e) => {
               e.preventDefault();
               if (reply.trim()) replyMut.mutate();

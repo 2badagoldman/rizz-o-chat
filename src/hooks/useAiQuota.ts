@@ -47,6 +47,22 @@ export function useAiQuota(scope: string, limit: number = AI_FREE_LIMIT) {
     [storageKey],
   );
 
+  /** Manually burn quota (story replies, one-off sends). */
+  const spend = useCallback(
+    (n = 1) => {
+      setUsed((u) => {
+        const next = u + n;
+        try {
+          localStorage.setItem(storageKey, String(next));
+        } catch {
+          /* ignore */
+        }
+        return next;
+      });
+    },
+    [storageKey],
+  );
+
   const unlimited = hasGold || loading;
   return {
     used,
@@ -55,5 +71,7 @@ export function useAiQuota(scope: string, limit: number = AI_FREE_LIMIT) {
     reached: !unlimited && used >= limit,
     unlimited,
     track,
+    spend,
   };
 }
+
