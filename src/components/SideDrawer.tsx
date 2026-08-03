@@ -356,6 +356,7 @@ function SettingsRow({
   badge,
   params,
   onNavigate,
+  variant = "glass",
 }: {
   label: string;
   to: string;
@@ -365,25 +366,33 @@ function SettingsRow({
   badge?: string;
   params?: Record<string, string>;
   onNavigate?: () => void;
+  variant?: "glass" | "solid";
 }) {
+  const isSolid = variant === "solid";
   return (
     <Link
       to={to as any}
       params={params as any}
       onClick={onNavigate}
-      className="group relative flex items-center gap-3.5 border-b border-border/50 px-4 py-3 transition-colors duration-300 last:border-b-0 hover:bg-primary/10 active:bg-primary/15"
+      className={`group relative flex items-center gap-3.5 px-4 py-3 transition-colors duration-300 ${
+        isSolid
+          ? "border-b border-white/5 hover:bg-white/5 active:bg-white/8 last:border-b-0"
+          : "border-b border-border/50 hover:bg-primary/10 active:bg-primary/15 last:border-b-0"
+      }`}
     >
       <span
-        className="grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white ring-1 ring-white/50 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95"
+        className={`grid h-10 w-10 shrink-0 place-items-center rounded-[14px] text-white transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95 ${
+          isSolid ? "" : "ring-1 ring-white/50"
+        }`}
         style={{
-          background: `linear-gradient(135deg, ${shade(tint, 18)}, ${shade(tint, -18)})`,
-          boxShadow: `0 10px 20px -10px ${tint}, inset 0 1px 0 rgba(255,255,255,0.55)`,
+          background: isSolid ? tint : `linear-gradient(135deg, ${shade(tint, 18)}, ${shade(tint, -18)})`,
+          boxShadow: isSolid ? "none" : `0 10px 20px -10px ${tint}, inset 0 1px 0 rgba(255,255,255,0.55)`,
         }}
       >
         <Icon className="h-[18px] w-[18px]" strokeWidth={2.35} />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-[15px] font-bold leading-tight tracking-[-0.01em] text-foreground">
+        <span className={`block truncate text-[15px] font-bold leading-tight tracking-[-0.01em] ${isSolid ? "text-white" : "text-foreground"}`}>
           {label}
         </span>
         {hint ? (
@@ -395,7 +404,7 @@ function SettingsRow({
           {badge}
         </span>
       ) : null}
-      <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground/50 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-primary" />
+      <ChevronRight className={`h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1 ${isSolid ? "text-white/30 group-hover:text-white/70" : "text-muted-foreground/50 group-hover:text-primary"}`} />
     </Link>
   );
 }
