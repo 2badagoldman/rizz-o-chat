@@ -310,14 +310,21 @@ function Group({
   note,
   index = 0,
   open,
+  variant = "glass",
   children,
 }: {
   label: string;
   note?: string;
   index?: number;
   open: boolean;
+  variant?: "glass" | "solid";
   children: React.ReactNode;
 }) {
+  const cardClass =
+    variant === "solid"
+      ? "overflow-hidden rounded-[24px] bg-[#162032] shadow-[0_16px_40px_-20px_rgba(0,0,0,0.55)]"
+      : "overflow-hidden rounded-[26px] border border-border/60 bg-card/70 shadow-[0_18px_40px_-24px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl";
+
   return (
     <section
       className={`mt-5 first:mt-1 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
@@ -335,10 +342,7 @@ function Group({
           </span>
         ) : null}
       </div>
-      {/* Bubbly glass grouped card */}
-      <div className="overflow-hidden rounded-[26px] border border-border/60 bg-card/70 shadow-[0_18px_40px_-24px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-xl">
-        {children}
-      </div>
+      <div className={cardClass}>{children}</div>
     </section>
   );
 }
