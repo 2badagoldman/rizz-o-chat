@@ -411,6 +411,8 @@ function StoryViewer({
     return () => clearTimeout(t);
   }, [story, showViewers, next]);
 
+  const quota = useAiQuota("chat");
+
   const replyMut = useMutation({
     mutationFn: async () => {
       if (isDemoStoryId(story!.id)) return { ok: true };
@@ -418,10 +420,12 @@ function StoryViewer({
     },
     onSuccess: () => {
       setReply("");
+      quota.spend(1);
       toast.success("Reply sent");
     },
     onError: (e: Error) => toast.error(e.message),
   });
+
 
 
   if (!story) return null;
