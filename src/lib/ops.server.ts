@@ -3,13 +3,10 @@
  * Server-only: every function here uses the service role.
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { MANAGERS, type ManagerId } from "@/lib/ops.constants";
 
-export type ManagerId =
-  | "health"
-  | "payments"
-  | "compliance"
-  | "content"
-  | "engagement";
+export { MANAGERS };
+export type { ManagerId };
 
 export type ManagerResult = {
   manager: ManagerId;
@@ -20,13 +17,6 @@ export type ManagerResult = {
   details: Record<string, string | number | boolean | null>;
 };
 
-export const MANAGERS: ReadonlyArray<{ id: ManagerId; label: string; blurb: string }> = [
-  { id: "health", label: "Health Manager", blurb: "Database, auth, storage and AI reachability." },
-  { id: "payments", label: "Payments Manager", blurb: "Reconciles checkouts, flags failed or stuck payments." },
-  { id: "compliance", label: "Compliance Manager", blurb: "Tracks 18+ verification deadlines and overdue accounts." },
-  { id: "content", label: "Content Janitor", blurb: "Clears expired stories and prunes old analytics." },
-  { id: "engagement", label: "Engagement Manager", blurb: "Watches live stories, rooms and chat activity." },
-];
 
 type Admin = SupabaseClient<never, never, never>;
 
