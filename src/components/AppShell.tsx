@@ -46,6 +46,8 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
   // every route change.
   const [canForward, setCanForward] = useState(forwardAvailable);
   const iosRestricted = useIosBillingRestricted();
+  const { isAdmin } = useIsAdmin();
+
 
   // Browser-style back/forward inside the app shell (native shells have no chrome).
   useEffect(() => {
