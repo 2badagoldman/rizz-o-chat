@@ -26,6 +26,8 @@ import {
   type StoryKind,
   type StoryRow,
 } from "@/lib/stories";
+import { buildDemoStoryGroups, isDemoStoryId, shuffleGroups } from "@/lib/demo-stories";
+
 
 /** Instagram-style story rail: tap a ring to watch, reply, or see your viewers. */
 export function StoryRail() {
@@ -34,6 +36,7 @@ export function StoryRail() {
   const fetchStories = useServerFn(listStories);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [composing, setComposing] = useState(false);
+  const [demo, setDemo] = useState<StoryGroup[]>([]);
 
   const { data: groups = [] } = useQuery({
     queryKey: ["stories"],
@@ -42,11 +45,39 @@ export function StoryRail() {
     staleTime: 30_000,
   });
 
+  // Shuffle the AI co-host stories once per browser session so the rail feels
+  // alive on every visit but stays stable while the user browses.
+  useEffect(() => {
+    const key = "crush.story-order";
+    const base = buildDemoStoryGroups();
+    let saved: string[] | null = null;
+    try {
+      saved = JSON.parse(sessionStorage.getItem(key) ?? "null");
+    } catch {
+      saved = null;
+    }
+    let arranged: StoryGroup[];
+    if (Array.isArray(saved) && saved.length) {
+      const byId = new Map(base.map((g) => [g.author_id, g]));
+      arranged = saved.map((id) => byId.get(id)).filter(Boolean) as StoryGroup[];
+      for (const g of base) if (!arranged.some((a) => a.author_id === g.author_id)) arranged.push(g);
+    } else {
+      arranged = shuffleGroups(base);
+      try {
+        sessionStorage.setItem(key, JSON.stringify(arranged.map((g) => g.author_id)));
+      } catch {
+        /* private mode — fine */
+      }
+    }
+    setDemo(arranged);
+  }, []);
+
   if (!user) return null;
 
   const mine = groups.find((g) => g.author_id === user.id);
   const others = groups.filter((g) => g.author_id !== user.id);
-  const ordered: StoryGroup[] = mine ? [mine, ...others] : others;
+  const ordered: StoryGroup[] = mine ? [mine, ...others, ...demo] : [...others, ...demo];
+
 
   return (
     <section className="mt-6">
@@ -348,7 +379,7 @@ function StoryViewer({
   };
 
   useEffect(() => {
-    if (!story) return;
+    if (!story || isDemoStoryId(story.id)) return;
     seen({ data: { id: story.id } }).catch(() => {});
   }, [story, seen]);
 
@@ -359,13 +390,17 @@ function StoryViewer({
   }, [story, showViewers, next]);
 
   const replyMut = useMutation({
-    mutationFn: async () => send({ data: { id: story!.id, body: reply } }),
+    mutationFn: async () => {
+      if (isDemoStoryId(story!.id)) return { ok: true };
+      return send({ data: { id: story!.id, body: reply } });
+    },
     onSuccess: () => {
       setReply("");
       toast.success("Reply sent");
     },
     onError: (e: Error) => toast.error(e.message),
   });
+
 
   if (!story) return null;
 
@@ -467,14 +502,21 @@ function StoryCanvas({ story }: { story: StoryRow }) {
 
   useEffect(() => {
     let stop = false;
-    if (!story.media_path) return;
-    sign({ data: { path: story.media_path } })
+    const path = story.media_path;
+    if (!path) return;
+    // Demo co-host stories point straight at a bundled portrait URL.
+    if (path.startsWith("http") || path.startsWith("/")) {
+      setUrl(path);
+      return;
+    }
+    sign({ data: { path } })
       .then((r) => !stop && setUrl(r.url))
       .catch(() => {});
     return () => {
       stop = true;
     };
   }, [story.media_path, sign]);
+
 
   if (story.kind !== "media") {
     return (
