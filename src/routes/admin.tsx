@@ -17,6 +17,8 @@ import {
   Sparkles,
   ReceiptText,
   ClipboardList,
+  Activity,
+
 } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
