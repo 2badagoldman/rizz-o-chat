@@ -513,7 +513,7 @@ function StoryViewer({
   );
 }
 
-function StoryCanvas({ story }: { story: StoryRow }) {
+function StoryCanvas({ story, fitScreen }: { story: StoryRow; fitScreen?: boolean }) {
   const sign = useServerFn(signStoryMedia);
   const [url, setUrl] = useState<string | null>(null);
 
@@ -534,6 +534,9 @@ function StoryCanvas({ story }: { story: StoryRow }) {
     };
   }, [story.media_path, sign]);
 
+  const mediaWrap = fitScreen
+    ? "grid h-full w-full place-items-center"
+    : "grid h-full w-full place-items-center";
 
   if (story.kind !== "media") {
     return (
@@ -556,10 +559,25 @@ function StoryCanvas({ story }: { story: StoryRow }) {
   if (!url) {
     return <div className="h-full w-full animate-pulse bg-white/10" />;
   }
-  return story.media_type === "video" ? (
-    <video src={url} autoPlay muted playsInline loop className="h-full w-full object-contain" />
-  ) : (
-    <img src={url} alt={story.caption ?? "Story"} className="h-full w-full object-contain" />
+  return (
+    <div className={mediaWrap}>
+      {story.media_type === "video" ? (
+        <video
+          src={url}
+          autoPlay
+          muted
+          playsInline
+          loop
+          className="max-h-full max-w-full object-contain"
+        />
+      ) : (
+        <img
+          src={url}
+          alt={story.caption ?? "Story"}
+          className="max-h-full max-w-full object-contain"
+        />
+      )}
+    </div>
   );
 }
 
