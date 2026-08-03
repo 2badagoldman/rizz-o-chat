@@ -46,10 +46,24 @@ const SORTS: Array<{ key: SortKey; label: string }> = [
   { key: "subscribers", label: "Most subscribers" },
 ];
 
+function seededShuffle<T>(arr: readonly T[], seed: number): T[] {
+  const a = arr.slice();
+  let s = seed || 1;
+  for (let i = a.length - 1; i > 0; i--) {
+    s = (s * 1664525 + 1013904223) % 4294967296;
+    const j = s % (i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 function Discover() {
   const [q, setQ] = useState("");
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["key"]>("all");
   const [sort, setSort] = useState<SortKey>("featured");
+  // Bumped on every filter tap so the grid visibly reshuffles instead of
+  // looking frozen when a tier has few hosts.
+  const [bump, setBump] = useState(0);
 
   const shuffled = useShuffled(DEMO_HOSTS, 10_000);
   const term = q.trim().toLowerCase();
@@ -72,19 +86,21 @@ function Discover() {
       );
     });
 
-    const sorted = matched.slice();
+    const sorted = sort === "featured" && !term ? seededShuffle(matched, bump * 7919 + 13) : matched.slice();
     if (sort === "online") sorted.sort((a, b) => Number(b.online) - Number(a.online));
     if (sort === "price-asc") sorted.sort((a, b) => a.priceMonthly - b.priceMonthly);
     if (sort === "price-desc") sorted.sort((a, b) => b.priceMonthly - a.priceMonthly);
     if (sort === "subscribers") sorted.sort((a, b) => b.subscribers - a.subscribers);
     return sorted;
-  }, [q, term, filter, sort, shuffled]);
+  }, [q, term, filter, sort, shuffled, bump]);
 
   const reset = () => {
     setQ("");
     setFilter("all");
     setSort("featured");
+    setBump((n) => n + 1);
   };
+
 
   return (
     <AppShell footerNote={<>Hosts on Crush are compensated partners.</>}>
@@ -118,7 +134,11 @@ function Discover() {
         {FILTERS.map((f) => (
           <button
             key={f.key}
-            onClick={() => setFilter(f.key)}
+            onClick={() => {
+              setFilter(f.key);
+              setBump((n) => n + 1);
+            }}
+
             aria-pressed={filter === f.key}
             className="whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold transition"
             style={{
