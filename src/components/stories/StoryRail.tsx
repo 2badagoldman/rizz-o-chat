@@ -431,19 +431,26 @@ function StoryViewer({
         ))}
       </div>
 
-      {/* Header */}
+      {/* Header — tapping the avatar/name opens that person's page (IG style) */}
       <div className="absolute left-0 right-0 top-10 z-20 flex items-center gap-3 px-4 py-3 text-white">
-        {group.avatar_url ? (
-          <img src={group.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
-        ) : (
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20 text-sm font-bold">
-            {group.display_name.slice(0, 1).toUpperCase()}
-          </span>
-        )}
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold">{isMine ? "Your story" : group.display_name}</p>
-          <p className="text-[11px] text-white/60">{timeAgo(story.created_at)} ago</p>
-        </div>
+        <Link
+          {...profileLink(group.author_id)}
+          onClick={onClose}
+          className="flex min-w-0 flex-1 items-center gap-3"
+        >
+          {group.avatar_url ? (
+            <img src={group.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
+          ) : (
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20 text-sm font-bold">
+              {group.display_name.slice(0, 1).toUpperCase()}
+            </span>
+          )}
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold">{isMine ? "Your story" : group.display_name}</p>
+            <p className="text-[11px] text-white/60">{timeAgo(story.created_at)} ago</p>
+          </div>
+        </Link>
+
         {isMine ? (
           <button
             type="button"
