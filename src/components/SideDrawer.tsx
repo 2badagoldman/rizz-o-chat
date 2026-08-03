@@ -75,15 +75,14 @@ export function SideDrawer({ open, onClose }: Props) {
   useEffect(() => {
     if (!user) { setIsAdmin(false); return; }
     let cancelled = false;
+    // has_role() is SECURITY DEFINER, so it works even when RLS hides
+    // user_roles rows from the signed-in member.
     supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user.id)
-      .eq("role", "admin")
-      .maybeSingle()
-      .then(({ data }) => { if (!cancelled) setIsAdmin(!!data); });
+      .rpc("has_role", { _user_id: user.id, _role: "admin" })
+      .then(({ data }) => { if (!cancelled) setIsAdmin(data === true); });
     return () => { cancelled = true; };
   }, [user]);
+
 
   useEffect(() => {
     if (!open) return;
