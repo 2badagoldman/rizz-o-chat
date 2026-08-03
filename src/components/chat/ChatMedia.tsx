@@ -99,10 +99,17 @@ export function ChatAttachButton({
 
     setBusy(true);
     try {
+      const { reviewImageBeforeUpload, MODERATION_BLOCK_MESSAGE } = await import("@/lib/media-moderation");
+      const verdict = await reviewImageBeforeUpload(file);
+      if (!verdict.allow) {
+        toast.error(MODERATION_BLOCK_MESSAGE);
+        return;
+      }
       const { data: auth } = await supabase.auth.getUser();
       const uid = auth.user?.id;
       if (!uid) throw new Error("Sign in to share media.");
       const path = chatMediaPath(uid, file);
+
       const { error } = await supabase.storage
         .from(CHAT_MEDIA_BUCKET)
         .upload(path, file, { contentType: file.type, upsert: false });
