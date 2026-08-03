@@ -134,7 +134,11 @@ function Discover() {
         {FILTERS.map((f) => (
           <button
             key={f.key}
-            onClick={() => setFilter(f.key)}
+            onClick={() => {
+              setFilter(f.key);
+              setBump((n) => n + 1);
+            }}
+
             aria-pressed={filter === f.key}
             className="whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold transition"
             style={{
