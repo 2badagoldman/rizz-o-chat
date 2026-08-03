@@ -34,6 +34,7 @@ export function StoryRail() {
   const fetchStories = useServerFn(listStories);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [composing, setComposing] = useState(false);
+  const [demo, setDemo] = useState<StoryGroup[]>([]);
 
   const { data: groups = [] } = useQuery({
     queryKey: ["stories"],
@@ -42,11 +43,39 @@ export function StoryRail() {
     staleTime: 30_000,
   });
 
+  // Shuffle the AI co-host stories once per browser session so the rail feels
+  // alive on every visit but stays stable while the user browses.
+  useEffect(() => {
+    const key = "crush.story-order";
+    const base = buildDemoStoryGroups();
+    let saved: string[] | null = null;
+    try {
+      saved = JSON.parse(sessionStorage.getItem(key) ?? "null");
+    } catch {
+      saved = null;
+    }
+    let arranged: StoryGroup[];
+    if (Array.isArray(saved) && saved.length) {
+      const byId = new Map(base.map((g) => [g.author_id, g]));
+      arranged = saved.map((id) => byId.get(id)).filter(Boolean) as StoryGroup[];
+      for (const g of base) if (!arranged.some((a) => a.author_id === g.author_id)) arranged.push(g);
+    } else {
+      arranged = shuffleGroups(base);
+      try {
+        sessionStorage.setItem(key, JSON.stringify(arranged.map((g) => g.author_id)));
+      } catch {
+        /* private mode — fine */
+      }
+    }
+    setDemo(arranged);
+  }, []);
+
   if (!user) return null;
 
   const mine = groups.find((g) => g.author_id === user.id);
   const others = groups.filter((g) => g.author_id !== user.id);
-  const ordered: StoryGroup[] = mine ? [mine, ...others] : others;
+  const ordered: StoryGroup[] = mine ? [mine, ...others, ...demo] : [...others, ...demo];
+
 
   return (
     <section className="mt-6">
