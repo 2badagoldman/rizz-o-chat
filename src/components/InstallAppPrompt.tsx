@@ -122,11 +122,6 @@ export function InstallAppPrompt() {
             <p className="text-sm font-black leading-tight">Install Crush on your phone</p>
             <p className="mt-1 text-[12px] leading-snug text-muted-foreground">
               {showIos && !deferred
-                ? "Tap Share, then Add to Home Screen — Crush opens full screen, no store needed."
-                : "Add it to your home screen for full-screen chats and faster loading. No app store required."}
-            </p>
-            <p className="mt-1 text-[12px] leading-snug text-muted-foreground">
-              {showIos && !deferred
                 ? isIos()
                   ? "Tap Share, then Add to Home Screen — Crush opens full screen, no store needed."
                   : "Use your browser menu, then Install / Add to Home Screen — no app store required."
