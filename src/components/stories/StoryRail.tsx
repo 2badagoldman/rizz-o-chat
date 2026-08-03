@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Coins, Eye, Gift, ImagePlus, Loader2, Plus, Send, Trash2, X } from "lucide-react";
@@ -217,7 +218,7 @@ function StoryComposer({ onClose, onPosted }: { onClose: () => void; onPosted: (
   };
 
   return (
-    <div className="fixed inset-0 z-[130] grid place-items-end bg-black/70 backdrop-blur-sm sm:place-items-center">
+    <Overlay className="fixed inset-0 z-[9998] grid place-items-end bg-black/70 backdrop-blur-sm sm:place-items-center">
       <div className="max-h-[92vh] w-full overflow-y-auto rounded-t-3xl border border-border bg-card p-5 sm:max-w-md sm:rounded-3xl">
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg font-bold">New story</h3>
@@ -327,11 +328,21 @@ function StoryComposer({ onClose, onPosted }: { onClose: () => void; onPosted: (
           {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : "Share to story"}
         </button>
       </div>
-    </div>
+    </Overlay>
   );
 }
 
+/** Renders story overlays into <body> so page stacking contexts can't cover them. */
+function Overlay({ className, children }: { className: string; children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  return createPortal(<div className={className}>{children}</div>, document.body);
+}
+
 /* -------------------------------- viewer -------------------------------- */
+
+
 
 function StoryViewer({
   groups,
@@ -385,7 +396,7 @@ function StoryViewer({
 
   useEffect(() => {
     if (showViewers || !story) return;
-    const t = setTimeout(next, 6000);
+    const t = setTimeout(next, 5000);
     return () => clearTimeout(t);
   }, [story, showViewers, next]);
 
@@ -405,7 +416,7 @@ function StoryViewer({
   if (!story) return null;
 
   return (
-    <div className="fixed inset-0 z-[140] flex flex-col bg-black">
+    <Overlay className="fixed inset-0 z-[9999] flex flex-col bg-black">
       <div className="flex gap-1 px-3 pt-3">
         {group.stories.map((s, i) => (
           <span key={s.id} className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/25">
@@ -492,7 +503,7 @@ function StoryViewer({
       </div>
 
       {showViewers ? <ViewersSheet storyId={story.id} onClose={() => setShowViewers(false)} /> : null}
-    </div>
+    </Overlay>
   );
 }
 
