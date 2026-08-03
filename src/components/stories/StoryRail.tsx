@@ -502,14 +502,21 @@ function StoryCanvas({ story }: { story: StoryRow }) {
 
   useEffect(() => {
     let stop = false;
-    if (!story.media_path) return;
-    sign({ data: { path: story.media_path } })
+    const path = story.media_path;
+    if (!path) return;
+    // Demo co-host stories point straight at a bundled portrait URL.
+    if (path.startsWith("http") || path.startsWith("/")) {
+      setUrl(path);
+      return;
+    }
+    sign({ data: { path } })
       .then((r) => !stop && setUrl(r.url))
       .catch(() => {});
     return () => {
       stop = true;
     };
   }, [story.media_path, sign]);
+
 
   if (story.kind !== "media") {
     return (
