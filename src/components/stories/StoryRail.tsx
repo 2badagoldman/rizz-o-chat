@@ -416,8 +416,14 @@ function StoryViewer({
   if (!story) return null;
 
   return (
-    <Overlay className="fixed inset-0 z-[9999] flex flex-col bg-black">
-      <div className="flex gap-1 px-3 pt-3">
+    <Overlay className="fixed inset-0 z-[9999] bg-black">
+      {/* Media fills the entire viewport so it never gets squeezed by headers/footers */}
+      <div className="absolute inset-0">
+        <StoryCanvas story={story} fitScreen />
+      </div>
+
+      {/* Progress bars */}
+      <div className="absolute left-0 right-0 top-0 z-10 flex gap-1 px-3 pt-3">
         {group.stories.map((s, i) => (
           <span key={s.id} className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/25">
             <span className={`block h-full bg-white ${i < si ? "w-full" : i === si ? "w-1/2" : "w-0"}`} />
@@ -425,7 +431,8 @@ function StoryViewer({
         ))}
       </div>
 
-      <div className="flex items-center gap-3 px-4 py-3 text-white">
+      {/* Header */}
+      <div className="absolute left-0 right-0 top-10 z-10 flex items-center gap-3 px-4 py-3 text-white">
         {group.avatar_url ? (
           <img src={group.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
         ) : (
@@ -456,13 +463,12 @@ function StoryViewer({
         </button>
       </div>
 
-      <div className="relative flex-1">
-        <StoryCanvas story={story} />
-        <button type="button" aria-label="Previous" onClick={prev} className="absolute inset-y-0 left-0 w-1/3" />
-        <button type="button" aria-label="Next" onClick={next} className="absolute inset-y-0 right-0 w-1/3" />
-      </div>
+      {/* Tap zones for prev/next */}
+      <button type="button" aria-label="Previous" onClick={prev} className="absolute inset-y-0 left-0 z-10 w-1/3" />
+      <button type="button" aria-label="Next" onClick={next} className="absolute inset-y-0 right-0 z-10 w-1/3" />
 
-      <div className="space-y-3 px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-3">
+      {/* Footer */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 space-y-3 bg-gradient-to-t from-black/70 to-transparent px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-8">
         {story.caption && story.kind === "media" ? (
           <p className="text-center text-sm text-white/90">{story.caption}</p>
         ) : null}
@@ -507,7 +513,7 @@ function StoryViewer({
   );
 }
 
-function StoryCanvas({ story }: { story: StoryRow }) {
+function StoryCanvas({ story, fitScreen }: { story: StoryRow; fitScreen?: boolean }) {
   const sign = useServerFn(signStoryMedia);
   const [url, setUrl] = useState<string | null>(null);
 
@@ -528,6 +534,9 @@ function StoryCanvas({ story }: { story: StoryRow }) {
     };
   }, [story.media_path, sign]);
 
+  const mediaWrap = fitScreen
+    ? "grid h-full w-full place-items-center"
+    : "grid h-full w-full place-items-center";
 
   if (story.kind !== "media") {
     return (
@@ -550,10 +559,25 @@ function StoryCanvas({ story }: { story: StoryRow }) {
   if (!url) {
     return <div className="h-full w-full animate-pulse bg-white/10" />;
   }
-  return story.media_type === "video" ? (
-    <video src={url} autoPlay muted playsInline loop className="h-full w-full object-contain" />
-  ) : (
-    <img src={url} alt={story.caption ?? "Story"} className="h-full w-full object-contain" />
+  return (
+    <div className={mediaWrap}>
+      {story.media_type === "video" ? (
+        <video
+          src={url}
+          autoPlay
+          muted
+          playsInline
+          loop
+          className="max-h-full max-w-full object-contain"
+        />
+      ) : (
+        <img
+          src={url}
+          alt={story.caption ?? "Story"}
+          className="max-h-full max-w-full object-contain"
+        />
+      )}
+    </div>
   );
 }
 
