@@ -432,7 +432,7 @@ function StoryViewer({
       </div>
 
       {/* Header */}
-      <div className="absolute left-0 right-0 top-10 z-10 flex items-center gap-3 px-4 py-3 text-white">
+      <div className="absolute left-0 right-0 top-10 z-20 flex items-center gap-3 px-4 py-3 text-white">
         {group.avatar_url ? (
           <img src={group.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
         ) : (
@@ -463,12 +463,12 @@ function StoryViewer({
         </button>
       </div>
 
-      {/* Tap zones for prev/next */}
-      <button type="button" aria-label="Previous" onClick={prev} className="absolute inset-y-0 left-0 z-10 w-1/3" />
-      <button type="button" aria-label="Next" onClick={next} className="absolute inset-y-0 right-0 z-10 w-1/3" />
+      {/* Tap zones for prev/next — kept below the chrome so buttons stay clickable */}
+      <button type="button" aria-label="Previous" onClick={prev} className="absolute inset-y-0 left-0 z-[1] w-1/3" />
+      <button type="button" aria-label="Next" onClick={next} className="absolute inset-y-0 right-0 z-[1] w-1/3" />
 
       {/* Footer */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 space-y-3 bg-gradient-to-t from-black/70 to-transparent px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-8">
+      <div className="absolute bottom-0 left-0 right-0 z-20 space-y-3 bg-gradient-to-t from-black/70 to-transparent px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-8">
         {story.caption && story.kind === "media" ? (
           <p className="text-center text-sm text-white/90">{story.caption}</p>
         ) : null}

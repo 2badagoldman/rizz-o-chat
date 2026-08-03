@@ -64,6 +64,18 @@ export function InstallAppPrompt() {
         setShowIos(true);
         setOpen(true);
       }, 3500);
+    } else {
+      // Browsers that never fire beforeinstallprompt (desktop Safari, Firefox)
+      // still get manual add-to-home-screen guidance.
+      t = setTimeout(() => {
+        setDeferred((d) => {
+          if (!d) {
+            setShowIos(true);
+            setOpen(true);
+          }
+          return d;
+        });
+      }, 8000);
     }
 
     const onInstalled = () => setHidden(true);
@@ -110,14 +122,16 @@ export function InstallAppPrompt() {
             <p className="text-sm font-black leading-tight">Install Crush on your phone</p>
             <p className="mt-1 text-[12px] leading-snug text-muted-foreground">
               {showIos && !deferred
-                ? "Tap Share, then Add to Home Screen — Crush opens full screen, no store needed."
+                ? isIos()
+                  ? "Tap Share, then Add to Home Screen — Crush opens full screen, no store needed."
+                  : "Use your browser menu, then Install / Add to Home Screen — no app store required."
                 : "Add it to your home screen for full-screen chats and faster loading. No app store required."}
             </p>
             {showIos && !deferred ? (
               <p className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background/60 px-2.5 py-1 text-[11px] font-semibold">
-                <Share className="h-3.5 w-3.5" /> Share
+                <Share className="h-3.5 w-3.5" /> {isIos() ? "Share" : "Menu"}
                 <span className="text-muted-foreground">then</span>
-                <Plus className="h-3.5 w-3.5" /> Add to Home Screen
+                <Plus className="h-3.5 w-3.5" /> {isIos() ? "Add to Home Screen" : "Install app"}
               </p>
             ) : (
               <button type="button" onClick={install} className="btn-brand mt-3 inline-flex items-center gap-1.5">
