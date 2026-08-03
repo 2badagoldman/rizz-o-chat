@@ -41,19 +41,22 @@ export const getPartnerStatus = createServerFn({ method: 'GET' }).handler(async 
   return ids.map((id) => ({ id, enabled: partnerConfigured(id) }));
 });
 
-type CheckoutInput = { partner: PartnerId; priceId: string; userId: string; returnUrl?: string };
+type CheckoutInput = { partner: PartnerId; priceId: string; returnUrl?: string };
 type CheckoutResult = { url: string } | { error: string };
 
 export const createPartnerCheckout = createServerFn({ method: 'POST' })
+  .middleware([requireSupabaseAuth])
   .inputValidator((data: CheckoutInput) => {
     if (!/^[a-z0-9_]+$/.test(data.priceId)) throw new Error('Invalid priceId');
-    if (!/^[0-9a-f-]{36}$/i.test(data.userId)) throw new Error('Sign in to pay with this partner');
     return data;
   })
-  .handler(async ({ data }): Promise<CheckoutResult> => {
+  .handler(async ({ data, context }): Promise<CheckoutResult> => {
+    // Attribution always comes from the verified session, never the client.
+    const userId = context.userId;
     const item = CATALOG[data.priceId];
     if (!item) return { error: 'Unknown product' };
     if (!partnerConfigured(data.partner)) return { error: 'This payment option is not live yet' };
+
 
     const amount = (item.amountCents / 100).toFixed(2);
 
