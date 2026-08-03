@@ -10,6 +10,7 @@ import { CreditCard, ExternalLink, XCircle, RotateCcw, Sparkles } from 'lucide-r
 import { toast } from 'sonner';
 import { pageHead } from "@/lib/seo";
 
+import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute('/subscriptions')({
   head: () => pageHead({
     path: "/subscriptions",
@@ -94,7 +95,10 @@ function SubscriptionsPage() {
     window.open(res.url, '_blank');
   };
 
+  if (authLoading || !user) return <AppShell><PageSkeleton /></AppShell>;
+
   return (
+
     <AppShell>
       <header className="mb-4">
         <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Billing</p>

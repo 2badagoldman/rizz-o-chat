@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Copy, Link2, Trash2, Power, Plus } from "lucide-react";
+import { PageSkeleton } from "@/components/AuthGate";
 import {
   hostCreateInvite,
   hostListInvites,
@@ -101,6 +102,7 @@ function HostInvites() {
   };
 
   if (loading) return <AppShell><p className="p-6 text-muted-foreground">Loading…</p></AppShell>;
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) return <AppShell><p className="p-6">Please <Link to="/auth" className="underline">sign in</Link>.</p></AppShell>;
   if (isHost === false) return (
     <AppShell>

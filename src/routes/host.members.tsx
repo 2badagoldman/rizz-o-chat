@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Search, UserPlus, Gift, X, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
+import { PageSkeleton } from "@/components/AuthGate";
 import {
   hostSearchMembers,
   hostListMembers,
@@ -64,6 +65,7 @@ function HostMembers() {
   }, [q, isHost, search]);
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
       <AppShell>

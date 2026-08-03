@@ -10,6 +10,7 @@ import { SafetyMenu } from "@/components/SafetyMenu";
 import { pageHead } from "@/lib/seo";
 
 
+import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute("/u/$userId")({
   head: ({ params }) => ({
     ...pageHead({
@@ -39,6 +40,7 @@ function PublicProfilePage() {
 
   if (loading) return <AppShell hideNav><div className="pt-20 text-center text-sm text-muted-foreground">Loading…</div></AppShell>;
 
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
       <AppShell hideNav>

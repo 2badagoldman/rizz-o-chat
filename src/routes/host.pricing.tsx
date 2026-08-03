@@ -5,6 +5,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { DollarSign, Save, Users, Eye, Crown, ArrowLeft } from "lucide-react";
 
+import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute("/host/pricing")({
   head: () => ({
     meta: [
@@ -117,6 +118,7 @@ function HostPricing() {
     );
   }
 
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
       <AppShell theme="host">

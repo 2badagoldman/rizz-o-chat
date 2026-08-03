@@ -27,8 +27,16 @@ export const getRouter = () => {
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
+    defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
+    // Cross-fade between pages instead of a hard swap.
+    defaultViewTransition: true,
+    // Don't show a spinner for fast navigations; when one is needed, keep it
+    // on screen long enough that it never strobes.
+    defaultPendingMs: 250,
+    defaultPendingMinMs: 400,
   });
+
 
   return router;
 };

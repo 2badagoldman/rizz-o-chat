@@ -9,6 +9,7 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { pageHead } from "@/lib/seo";
 import { readGuestCode, normalizePhone, phoneToLoginEmail } from "@/lib/guest-checkout";
 
+import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute("/auth")({
   head: () => pageHead({
     path: "/auth",
@@ -184,8 +185,12 @@ function AuthPage() {
     if (result.error) setError(result.error.message ?? "Sign-in failed");
   };
 
+  // Session still resolving, or already signed in and about to be redirected:
+  // show a placeholder instead of flashing the sign-in form.
+  if (loading || user) return <AppShell hideNav><PageSkeleton rows={2} /></AppShell>;
 
   return (
+
     <AppShell hideNav>
       <header className="pt-6 text-center">
         <a href="/" aria-label="Crush home — reload" className="inline-block">

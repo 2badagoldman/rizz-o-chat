@@ -11,6 +11,7 @@ import { previewChatBody } from "@/lib/chat-media";
 import { RestrictedGroupPanel } from "@/components/host/RestrictedGroupPanel";
 
 
+import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute("/host/inbox")({
   head: () => ({
     meta: [
@@ -132,6 +133,7 @@ function HostInbox() {
   };
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
       <AppShell>

@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Plus, Users, MessageCircle, Trash2, Settings, UserPlus, X, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
+import { PageSkeleton } from "@/components/AuthGate";
 import {
   listMyRooms, createRoom, deleteRoom, updateRoom,
   listRoomMembers, addRoomMember, removeRoomMember, listFriendsForRoom,
@@ -62,6 +63,7 @@ function HostRoomsPage() {
   }
 
   if (loading || isHost === null) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) return (
     <AppShell><div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
       <h1 className="text-xl">Sign in as a host</h1>
