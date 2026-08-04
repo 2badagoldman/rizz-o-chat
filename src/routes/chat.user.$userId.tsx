@@ -114,7 +114,7 @@ function UserChat() {
 
     const t = setInterval(load, 8000);
     return () => { stop = true; clearInterval(t); supabase.removeChannel(ch); };
-  }, [user, userId, fetchThread]);
+  }, [user, userId, fetchThread, markRead]);
 
 
   // Seen-state: my message counts as seen once the peer has sent anything
