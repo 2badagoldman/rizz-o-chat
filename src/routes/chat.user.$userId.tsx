@@ -93,8 +93,11 @@ function UserChat() {
         if (stop) return;
         // Keep in-flight optimistic bubbles on top of the server snapshot.
         setMessages((prev) => [...(rows as Msg[]), ...prev.filter((m) => m.id.startsWith("pending:"))]);
+        // Opening the thread clears its unread badge everywhere.
+        markRead({ data: { peerId: userId } }).catch(() => {});
       }).catch(() => {});
     load();
+
 
     // Live: any DM addressed to me (including a host's bulk reply) refreshes
     // the thread the moment it lands. Polling stays as a slow safety net.
