@@ -104,3 +104,64 @@ export const dmListThreads = createServerFn({ method: "POST" })
     const byId = new Map((profiles ?? []).map((p: any) => [p.id, p]));
     return peerIds.map((id) => ({ ...seen.get(id), profile: byId.get(id) ?? null }));
   });
+
+/** Per-peer unread counts for the signed-in user's direct messages. */
+export const dmUnreadCounts = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data: rows, error } = await context.supabase
+      .from("messages")
+      .select("sender_id, created_at")
+      .is("list_id", null)
+      .is("read_at", null)
+      .eq("recipient_id", context.userId)
+      .order("created_at", { ascending: false })
+      .limit(500);
+    if (error) throw error;
+
+    const byPeer: Record<string, number> = {};
+    let latestAt: string | null = null;
+    for (const m of rows ?? []) {
+      const peer = (m as { sender_id: string | null }).sender_id;
+      if (!peer) continue;
+      byPeer[peer] = (byPeer[peer] ?? 0) + 1;
+      if (!latestAt) latestAt = (m as { created_at: string }).created_at;
+    }
+
+    const peerIds = Object.keys(byPeer);
+    let senders: Array<{ id: string; display_name: string | null; avatar_url: string | null }> = [];
+    if (peerIds.length) {
+      const { data: profiles } = await context.supabase
+        .from("profiles")
+        .select("id, display_name, avatar_url")
+        .in("id", peerIds.slice(0, 20));
+      senders = (profiles ?? []) as typeof senders;
+    }
+
+    return {
+      total: Object.values(byPeer).reduce((a, b) => a + b, 0),
+      byPeer,
+      latestAt,
+      senders,
+    };
+  });
+
+/** Marks every message from a peer as read. */
+export const dmMarkRead = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = i as { peerId: string };
+    if (!x?.peerId) throw new Error("peerId required");
+    return { peerId: x.peerId };
+  })
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase
+      .from("messages")
+      .update({ read_at: new Date().toISOString() })
+      .is("list_id", null)
+      .is("read_at", null)
+      .eq("recipient_id", context.userId)
+      .eq("sender_id", data.peerId);
+    if (error) throw error;
+    return { ok: true };
+  });

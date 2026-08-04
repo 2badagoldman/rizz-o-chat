@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { HostApplicationCard } from "@/components/HostApplicationCard";
 import { RedeemCodeCard } from "@/components/RedeemCodeCard";
+import { NotificationsCard } from "@/components/NotificationsCard";
+
 import { useAuth } from "@/lib/auth";
 import { getHostSelfStats } from "@/lib/host-stats.functions";
 import { TrendingUp, Users, Wallet, Trophy } from "lucide-react";
@@ -60,6 +62,8 @@ function Dashboard() {
           Hey {data?.profile?.display_name ?? "there"} <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="inline-block h-7 w-7 rounded-full align-[-4px]" />
         </h1>
       </header>
+
+      <NotificationsCard />
 
       {loading2 ? (
         <p className="pt-10 text-center text-sm text-muted-foreground">Loading your numbers…</p>

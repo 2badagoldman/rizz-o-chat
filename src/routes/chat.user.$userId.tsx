@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { OnlineDot, useIsOnline } from "@/lib/presence";
 
 import { supabase } from "@/integrations/supabase/client";
-import { dmSendMessage, dmFetchThread } from "@/lib/dm.functions";
+import { dmSendMessage, dmFetchThread, dmMarkRead } from "@/lib/dm.functions";
 import { toast } from "sonner";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 import { ChatAttachButton, PendingAttachments } from "@/components/chat/ChatMedia";
@@ -41,6 +41,7 @@ function UserChat() {
   const navigate = useNavigate();
   const send = useServerFn(dmSendMessage);
   const fetchThread = useServerFn(dmFetchThread);
+  const markRead = useServerFn(dmMarkRead);
   const [peer, setPeer] = useState<{ display_name: string | null; avatar_url: string | null } | null>(null);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -92,8 +93,11 @@ function UserChat() {
         if (stop) return;
         // Keep in-flight optimistic bubbles on top of the server snapshot.
         setMessages((prev) => [...(rows as Msg[]), ...prev.filter((m) => m.id.startsWith("pending:"))]);
+        // Opening the thread clears its unread badge everywhere.
+        markRead({ data: { peerId: userId } }).catch(() => {});
       }).catch(() => {});
     load();
+
 
     // Live: any DM addressed to me (including a host's bulk reply) refreshes
     // the thread the moment it lands. Polling stays as a slow safety net.
@@ -110,7 +114,7 @@ function UserChat() {
 
     const t = setInterval(load, 8000);
     return () => { stop = true; clearInterval(t); supabase.removeChannel(ch); };
-  }, [user, userId, fetchThread]);
+  }, [user, userId, fetchThread, markRead]);
 
 
   // Seen-state: my message counts as seen once the peer has sent anything

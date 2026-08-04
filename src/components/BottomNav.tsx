@@ -1,5 +1,6 @@
 import { Link, useRouter, useRouterState } from "@tanstack/react-router";
 import { Home, Compass, MessageCircle, LayoutDashboard, User } from "lucide-react";
+import { useUnreadMessages } from "@/hooks/useUnreadMessages";
 
 const tabs = [
   { to: "/", label: "Home", icon: Home },
@@ -12,6 +13,7 @@ const tabs = [
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const router = useRouter();
+  const { total: unread } = useUnreadMessages();
 
   return (
     <nav
@@ -42,11 +44,19 @@ export function BottomNav() {
                 style={{ color: active ? "var(--color-primary)" : "var(--color-muted-foreground)" }}
               >
                 <span
-                  className={`grid h-8 w-8 place-items-center rounded-2xl transition-all duration-300 ${
+                  className={`relative grid h-8 w-8 place-items-center rounded-2xl transition-all duration-300 ${
                     active ? "bg-gradient-brand-soft ring-1 ring-primary/25 scale-105" : "scale-100"
                   }`}
                 >
                   <Icon className="h-[18px] w-[18px]" strokeWidth={active ? 2.5 : 2} />
+                  {t.to === "/chats" && unread > 0 ? (
+                    <span
+                      className="absolute -right-0.5 -top-0.5 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-destructive px-1 text-[10px] font-bold leading-none text-destructive-foreground shadow-pop"
+                      aria-label={`${unread} unread messages`}
+                    >
+                      {unread > 99 ? "99+" : unread}
+                    </span>
+                  ) : null}
                 </span>
                 <span>{t.label}</span>
               </Link>
