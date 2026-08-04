@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { OnlineDot, useIsOnline } from "@/lib/presence";
 
 import { supabase } from "@/integrations/supabase/client";
-import { dmSendMessage, dmFetchThread } from "@/lib/dm.functions";
+import { dmSendMessage, dmFetchThread, dmMarkRead } from "@/lib/dm.functions";
 import { toast } from "sonner";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 import { ChatAttachButton, PendingAttachments } from "@/components/chat/ChatMedia";
@@ -41,6 +41,7 @@ function UserChat() {
   const navigate = useNavigate();
   const send = useServerFn(dmSendMessage);
   const fetchThread = useServerFn(dmFetchThread);
+  const markRead = useServerFn(dmMarkRead);
   const [peer, setPeer] = useState<{ display_name: string | null; avatar_url: string | null } | null>(null);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");

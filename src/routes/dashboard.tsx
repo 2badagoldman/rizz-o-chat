@@ -63,6 +63,8 @@ function Dashboard() {
         </h1>
       </header>
 
+      <NotificationsCard />
+
       {loading2 ? (
         <p className="pt-10 text-center text-sm text-muted-foreground">Loading your numbers…</p>
       ) : err ? (

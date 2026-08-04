@@ -11,6 +11,7 @@ import { searchUsers } from "@/lib/admin-data.functions";
 import { pageHead } from "@/lib/seo";
 import { OnlineDot, useOnlineUsers } from "@/lib/presence";
 import { KycInboxNotice } from "@/components/KycInboxNotice";
+import { useUnreadMessages } from "@/hooks/useUnreadMessages";
 
 import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute("/chats")({
@@ -69,6 +70,7 @@ function Chats() {
   const [results, setResults] = useState<any[]>([]);
   const [searching, setSearching] = useState(false);
   const onlineUsers = useOnlineUsers();
+  const { byPeer: unreadByPeer, total: unreadTotal } = useUnreadMessages();
 
   useEffect(() => {
     if (!user) return;
@@ -258,7 +260,9 @@ function Chats() {
 
           {threads.length > 0 ? (
             <section className="mt-5">
-              <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Your conversations</p>
+              <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                Your conversations{unreadTotal > 0 ? ` · ${unreadTotal} unread` : ""}
+              </p>
               <div className="mt-2 space-y-2">
                 {threads.map((t) => (
                   <Link
@@ -276,11 +280,18 @@ function Chats() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between">
                         <p className="truncate font-semibold">{t.profile?.display_name ?? "User"}</p>
-                        <span className="ml-2 shrink-0 text-[10px] text-muted-foreground">
-                          {new Date(t.lastAt).toLocaleDateString()}
+                        <span className="ml-2 flex shrink-0 items-center gap-1.5">
+                          {(unreadByPeer[t.peerId] ?? 0) > 0 ? (
+                            <span className="grid h-5 min-w-5 place-items-center rounded-full bg-destructive px-1.5 text-[10px] font-bold text-destructive-foreground">
+                              {unreadByPeer[t.peerId] > 99 ? "99+" : unreadByPeer[t.peerId]}
+                            </span>
+                          ) : null}
+                          <span className="text-[10px] text-muted-foreground">
+                            {new Date(t.lastAt).toLocaleDateString()}
+                          </span>
                         </span>
                       </div>
-                      <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                      <p className={"mt-0.5 truncate text-xs " + ((unreadByPeer[t.peerId] ?? 0) > 0 ? "font-semibold text-foreground" : "text-muted-foreground")}>
                         {t.lastFromMe ? "You: " : ""}
                         {t.lastBody}
                       </p>
