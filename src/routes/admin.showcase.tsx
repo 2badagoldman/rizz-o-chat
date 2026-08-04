@@ -46,13 +46,18 @@ function AdminShowcase() {
       .order("sort_order", { ascending: true })
       .order("created_at", { ascending: false });
     if (!data) return;
-    const signed = await Promise.all(
-      data.map(async (r) => {
-        const { data: s } = await supabase.storage.from("showcase").createSignedUrl(r.storage_path, 3600);
-        return { ...r, url: s?.signedUrl } as Row;
-      }),
-    );
-    setRows(signed);
+    // Batch-sign in chunks: 45+ parallel single-sign calls get throttled and
+    // silently return no URL, which made hidden items render as blank tiles.
+    const urls = new Map<string, string>();
+    const paths = data.map((r) => r.storage_path);
+    for (let i = 0; i < paths.length; i += 25) {
+      const chunk = paths.slice(i, i + 25);
+      const { data: signed } = await supabase.storage.from("showcase").createSignedUrls(chunk, 3600);
+      signed?.forEach((s) => {
+        if (s.signedUrl && s.path) urls.set(s.path, s.signedUrl);
+      });
+    }
+    setRows(data.map((r) => ({ ...r, url: urls.get(r.storage_path) }) as Row));
   };
 
   useEffect(() => { if (isAdmin) refresh(); }, [isAdmin]);
