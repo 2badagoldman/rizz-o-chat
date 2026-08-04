@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useOnlineUsers } from "@/lib/presence";
-import { loadMyEthnicity, syncPendingEthnicity } from "@/lib/ethnicity";
+import { syncPendingEthnicity } from "@/lib/ethnicity";
 import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { isNativeApp } from "@/lib/native";
 
