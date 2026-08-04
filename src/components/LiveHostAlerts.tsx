@@ -101,7 +101,7 @@ export function LiveHostAlerts() {
       try {
         const { data } = await supabase
           .from("profiles")
-          .select("id, display_name, avatar_url, heritage")
+          .select("id, display_name, avatar_url")
           .in("id", candidates.slice(0, 60))
           .eq("account_type", "host")
           .limit(30);
@@ -112,10 +112,7 @@ export function LiveHostAlerts() {
         );
         if (!fresh.length) return;
 
-        // Prefer a host whose heritage matches what the member picked at signup.
-        const mine = myHeritage.current;
-        const match = mine ? fresh.find((h) => h.heritage && h.heritage === mine) : undefined;
-        const host = match ?? fresh[Math.floor(Math.random() * fresh.length)];
+        const host = fresh[Math.floor(Math.random() * fresh.length)];
         const name = host.display_name ?? "Someone";
 
         const n = new Notification(`${name} is live now`, {
