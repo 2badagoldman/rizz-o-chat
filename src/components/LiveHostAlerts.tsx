@@ -11,8 +11,7 @@ import { isNativeApp } from "@/lib/native";
  * "Jen is live now — come say hi" device notifications.
  *
  * Fires a real OS notification (with the host's photo) when a host comes
- * online, for subscribed and non-subscribed members alike. Ranking prefers
- * hosts whose heritage tag matches the member's own signup answer.
+ * online, for subscribed and non-subscribed members alike.
  *
  * Frequency guardrails so it never feels spammy:
  *  - at most 3 per day
@@ -27,7 +26,7 @@ const LAST_KEY = "crush:liveAlerts:last";
 const HOST_KEY = "crush:liveAlerts:hosts";
 export const LIVE_ALERTS_PREF = "crush:liveAlerts:enabled";
 
-type HostRow = { id: string; display_name: string | null; avatar_url: string | null; heritage: string | null };
+type HostRow = { id: string; display_name: string | null; avatar_url: string | null };
 
 const readJson = <T,>(key: string, fallback: T): T => {
   try {
@@ -72,15 +71,11 @@ export function LiveHostAlerts() {
   const { user } = useAuth();
   const online = useOnlineUsers();
   const navigate = useNavigate();
-  const myHeritage = useRef<string | null>(null);
   const working = useRef(false);
 
   useEffect(() => {
     if (!user) return;
     void syncPendingEthnicity(user.id);
-    void loadMyEthnicity(user.id).then((v) => {
-      myHeritage.current = v;
-    });
   }, [user?.id]);
 
   useEffect(() => {
