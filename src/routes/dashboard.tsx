@@ -4,6 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { HostApplicationCard } from "@/components/HostApplicationCard";
 import { RedeemCodeCard } from "@/components/RedeemCodeCard";
+import { NotificationsCard } from "@/components/NotificationsCard";
+
 import { useAuth } from "@/lib/auth";
 import { getHostSelfStats } from "@/lib/host-stats.functions";
 import { TrendingUp, Users, Wallet, Trophy } from "lucide-react";
