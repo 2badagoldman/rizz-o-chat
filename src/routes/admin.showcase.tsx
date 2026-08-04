@@ -213,8 +213,17 @@ function AdminShowcase() {
                 ) : (
                   <img loading="lazy" decoding="async" src={row.url} alt={row.caption ?? ""} className="h-full w-full object-cover" />
                 )
-              ) : null}
+              ) : (
+                <div className="grid h-full w-full place-items-center px-2 text-center text-[10px] text-muted-foreground">
+                  Preview unavailable
+                </div>
+              )}
             </div>
+            {!row.is_active ? (
+              <span className="absolute left-1 top-1 rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-semibold text-white">
+                Hidden from app
+              </span>
+            ) : null}
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-2">
               <button onClick={() => editCaption(row)} className="line-clamp-2 w-full text-left text-[11px] text-white">
                 {row.caption ?? "Add caption…"}
