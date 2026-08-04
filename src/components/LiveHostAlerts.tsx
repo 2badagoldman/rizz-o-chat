@@ -3,7 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useOnlineUsers } from "@/lib/presence";
-import { loadMyEthnicity, syncPendingEthnicity } from "@/lib/ethnicity";
+import { syncPendingEthnicity } from "@/lib/ethnicity";
 import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 import { isNativeApp } from "@/lib/native";
 
@@ -11,8 +11,7 @@ import { isNativeApp } from "@/lib/native";
  * "Jen is live now — come say hi" device notifications.
  *
  * Fires a real OS notification (with the host's photo) when a host comes
- * online, for subscribed and non-subscribed members alike. Ranking prefers
- * hosts whose heritage tag matches the member's own signup answer.
+ * online, for subscribed and non-subscribed members alike.
  *
  * Frequency guardrails so it never feels spammy:
  *  - at most 3 per day
@@ -27,7 +26,7 @@ const LAST_KEY = "crush:liveAlerts:last";
 const HOST_KEY = "crush:liveAlerts:hosts";
 export const LIVE_ALERTS_PREF = "crush:liveAlerts:enabled";
 
-type HostRow = { id: string; display_name: string | null; avatar_url: string | null; heritage: string | null };
+type HostRow = { id: string; display_name: string | null; avatar_url: string | null };
 
 const readJson = <T,>(key: string, fallback: T): T => {
   try {
@@ -72,15 +71,11 @@ export function LiveHostAlerts() {
   const { user } = useAuth();
   const online = useOnlineUsers();
   const navigate = useNavigate();
-  const myHeritage = useRef<string | null>(null);
   const working = useRef(false);
 
   useEffect(() => {
     if (!user) return;
     void syncPendingEthnicity(user.id);
-    void loadMyEthnicity(user.id).then((v) => {
-      myHeritage.current = v;
-    });
   }, [user?.id]);
 
   useEffect(() => {
@@ -101,7 +96,7 @@ export function LiveHostAlerts() {
       try {
         const { data } = await supabase
           .from("profiles")
-          .select("id, display_name, avatar_url, heritage")
+          .select("id, display_name, avatar_url")
           .in("id", candidates.slice(0, 60))
           .eq("account_type", "host")
           .limit(30);
@@ -112,10 +107,7 @@ export function LiveHostAlerts() {
         );
         if (!fresh.length) return;
 
-        // Prefer a host whose heritage matches what the member picked at signup.
-        const mine = myHeritage.current;
-        const match = mine ? fresh.find((h) => h.heritage && h.heritage === mine) : undefined;
-        const host = match ?? fresh[Math.floor(Math.random() * fresh.length)];
+        const host = fresh[Math.floor(Math.random() * fresh.length)];
         const name = host.display_name ?? "Someone";
 
         const n = new Notification(`${name} is live now`, {

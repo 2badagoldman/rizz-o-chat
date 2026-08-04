@@ -2,15 +2,23 @@ import { createFileRoute } from "@tanstack/react-router";
 
 /**
  * Scheduled entry point for the ops managers.
- * Called by the database scheduler with the project apikey header.
+ * Auth: the `x-cron-secret` header must match the server-only OPS_CRON_SECRET.
+ * The publishable/anon key is NOT accepted — it ships to every browser.
  */
+function safeEqual(a: string, b: string) {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 export const Route = createFileRoute("/api/public/hooks/ops-managers")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const apikey = request.headers.get("apikey") ?? "";
-        const expected = process.env["SUPABASE_ANON_KEY"] ?? "";
-        if (!expected || apikey !== expected) {
+        const provided = request.headers.get("x-cron-secret") ?? "";
+        const expected = process.env["OPS_CRON_SECRET"] ?? "";
+        if (!expected || !provided || !safeEqual(provided, expected)) {
           return new Response(JSON.stringify({ error: "unauthorized" }), {
             status: 401,
             headers: { "Content-Type": "application/json" },
