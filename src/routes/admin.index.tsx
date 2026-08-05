@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { getAdminMetrics } from "@/lib/admin.functions";
 import { listEarlyAccessSignups } from "@/lib/early-access.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { uniqueChannel, safeRemoveChannel } from "@/lib/realtime";
 import { DollarSign, Users, TrendingUp, Wallet, Crown, Inbox, Radio, MessageSquare } from "lucide-react";
 import { InstallConversionPanel } from "@/components/admin/InstallConversionPanel";
 import { signupsByBackground } from "@/lib/admin-data.functions";

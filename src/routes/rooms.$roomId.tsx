@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { uniqueChannel, safeRemoveChannel } from "@/lib/realtime";
 import { ArrowLeft, Send, Users, Settings, Smile } from "lucide-react";
 import { toast } from "sonner";
 import { getRoom, listRoomMessages, sendRoomMessage, listRoomMembers, requestCoHostReply } from "@/lib/rooms.functions";
