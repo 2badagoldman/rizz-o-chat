@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { listPublicRooms, joinPublicRoom, getRoomAccess } from "@/lib/rooms.functions";
+import { listPublicRooms, listRoomsPublic, joinPublicRoom, getRoomAccess } from "@/lib/rooms.functions";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { MapPin, Plus, Users, Loader2 } from "lucide-react";
