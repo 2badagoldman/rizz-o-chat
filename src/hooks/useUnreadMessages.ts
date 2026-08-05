@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -40,20 +40,26 @@ export function useUnreadMessages() {
     refresh();
   }, [refresh]);
 
+  const refreshRef = useRef(refresh);
+  refreshRef.current = refresh;
+
   useEffect(() => {
-    if (!user) return;
+    const userId = user?.id;
+    if (!userId) return;
+    // Unique per mount: several components use this hook, and reusing one
+    // channel name makes the second `.on()` land after `subscribe()`.
     const channel = supabase
-      .channel(`dm-unread-${user.id}`)
+      .channel(`dm-unread-${userId}-${Math.random().toString(36).slice(2)}`)
       .on(
         "postgres_changes",
-        { event: "*", schema: "public", table: "messages", filter: `recipient_id=eq.${user.id}` },
-        () => refresh(),
+        { event: "*", schema: "public", table: "messages", filter: `recipient_id=eq.${userId}` },
+        () => refreshRef.current(),
       )
       .subscribe();
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user, refresh]);
+  }, [user?.id]);
 
   return { ...data, loading, refresh };
 }
