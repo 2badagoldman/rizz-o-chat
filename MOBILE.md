@@ -151,3 +151,39 @@ Users can also install directly from Edge/Chrome via "Install app".
 - **Keywords:** chat, social, creators, friends list, rooms, gifts, dating chat
 - **Support URL:** https://rizzlachat.com/legal/contact
 - **Privacy URL:** https://rizzlachat.com/legal/privacy
+
+---
+
+## Producing the store binaries (.aab / .ipa)
+
+These cannot be built inside Lovable — Android needs the Android SDK + your
+release keystore, and iOS needs a macOS machine, Xcode, and your Apple
+Developer signing certificate. `.github/workflows/mobile-build.yml` builds both
+on GitHub Actions and uploads them as downloadable artifacts.
+
+Repository secrets required:
+
+| Secret | Used for |
+| --- | --- |
+| `ANDROID_KEYSTORE_BASE64` | base64 of your `release.keystore` |
+| `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD` | Play signing |
+| `IOS_CERT_P12_BASE64`, `IOS_CERT_PASSWORD` | Apple distribution certificate |
+| `IOS_PROVISIONING_PROFILE_BASE64` | App Store provisioning profile |
+| `IOS_TEAM_ID` | Apple team identifier |
+
+Run it from the Actions tab (**Mobile builds → Run workflow**) or push a `v*` tag.
+
+### Remaining review risks (fix before submitting)
+
+1. **Apple 3.1.1 — in-app purchase.** Subscriptions and coins are digital goods,
+   so the iOS build must sell them through StoreKit/RevenueCat. Stripe CTAs are
+   already hidden by `useIosBillingRestricted()`, but the RevenueCat products
+   must be live in App Store Connect or Apple will reject for "no way to pay".
+2. **Apple 4.2 / Google minimum functionality.** The shell loads the website;
+   keep native camera, push, haptics and offline messaging active so it isn't
+   judged a repackaged website.
+3. **Google Play Data safety form** must list photos, ID documents (KYC),
+   messages and device tokens.
+4. **UGC apps** need the moderation contact, report flow and blocking to be
+   visible in the review notes — link `/legal/trust` and `/admin/reports`.
+5. **Age rating**: 18+ / Mature 17+ on both stores, matching the in-app gate.
