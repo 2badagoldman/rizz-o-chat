@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { listRuntimeSecrets } from "@/lib/secrets.functions";
 import { KeyRound, Check, X, Copy, Lock, Smartphone } from "lucide-react";
 import { toast } from "sonner";
+import { copyText } from "@/lib/clipboard";
 
 export const Route = createFileRoute("/admin/secrets")({
   head: () => ({ meta: [{ name: "robots", content: "noindex, nofollow" }, { title: "Secret Manager — Crush" }] }),
@@ -24,7 +25,9 @@ const BUILD_SECRETS: ReadonlyArray<{ name: string; where: string; how: string }>
 ];
 
 function copy(text: string) {
-  navigator.clipboard.writeText(text).then(() => toast.success("Copied"));
+  void copyText(text).then((ok) =>
+    ok ? toast.success("Copied") : toast.error("Copy blocked — select and copy manually"),
+  );
 }
 
 function AdminSecrets() {
