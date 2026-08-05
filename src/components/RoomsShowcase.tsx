@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Users, Circle, Flame, MapPin, Loader2, Plus } from "lucide-react";
 import { CITY_ROOMS, DEMO_ROOMS, ROOM_CATEGORIES, haversineMiles, roomImage, type DemoRoom } from "@/lib/demo-rooms";
-import { listPublicRooms, joinPublicRoom } from "@/lib/rooms.functions";
+import { listPublicRooms, listRoomsPublic, joinPublicRoom } from "@/lib/rooms.functions";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
@@ -55,6 +55,7 @@ export function RoomsShowcase() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchPublic = useServerFn(listPublicRooms);
+  const fetchAnon = useServerFn(listRoomsPublic);
   const doJoin = useServerFn(joinPublicRoom);
   const [realRooms, setRealRooms] = useState<any[]>([]);
 
@@ -64,12 +65,13 @@ export function RoomsShowcase() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cat]);
 
-  // Fetch real public rooms (only when signed in — server fn requires auth)
+  // Fetch live public rooms. Signed-out visitors use the anon directory so the
+  // rooms rail always shows real rooms instead of preview placeholders.
   useEffect(() => {
-    if (!user) { setRealRooms([]); return; }
-    fetchPublic({ data: { lat: coords?.lat ?? undefined, lng: coords?.lng ?? undefined } as any })
+    const load = user ? fetchPublic : fetchAnon;
+    load({ data: { lat: coords?.lat ?? undefined, lng: coords?.lng ?? undefined } as any })
       .then(setRealRooms).catch(() => setRealRooms([]));
-  }, [user, coords, fetchPublic]);
+  }, [user, coords, fetchPublic, fetchAnon]);
 
   // Map real rooms into the DemoRoom shape so they render in the same cards
   const realAsDemo: (DemoRoom & { id?: string; real?: boolean; distance_miles?: number | null })[] =
@@ -289,8 +291,10 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
       </button>
     );
   }
+  // Preview cards (shown only if the live directory is empty) send people to
+  // the full rooms browser instead of a "coming soon" page.
   return (
-    <Link to="/soon/$feature" params={{ feature: `room-${room.slug}` }} {...common}>
+    <Link to="/rooms" {...common}>
       {inner}
     </Link>
   );

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { listPublicRooms, joinPublicRoom, getRoomAccess } from "@/lib/rooms.functions";
+import { listPublicRooms, listRoomsPublic, joinPublicRoom, getRoomAccess } from "@/lib/rooms.functions";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { MapPin, Plus, Users, Loader2 } from "lucide-react";
@@ -24,6 +24,7 @@ function RoomsBrowsePage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchPublic = useServerFn(listPublicRooms);
+  const fetchAnon = useServerFn(listRoomsPublic);
   const doJoin = useServerFn(joinPublicRoom);
   const fetchAccess = useServerFn(getRoomAccess);
   const [access, setAccess] = useState<{ allowed: boolean } | null>(null);
@@ -36,11 +37,13 @@ function RoomsBrowsePage() {
   const PAGE = 30;
 
   const load = (c?: { lat: number; lng: number } | null) => {
-    if (!user) { setRooms([]); setLoading(false); return; }
     setLoading(true);
     setExhausted(false);
-    fetchPublic({ data: { lat: c?.lat ?? undefined, lng: c?.lng ?? undefined, limit: PAGE } as any })
-      .then((r: any[]) => { setRooms(r); setExhausted(r.length < PAGE); })
+    // Signed-out visitors read the anon room directory so every live room is
+    // browsable before sign-in; joining still requires an account.
+    const fetcher = user ? fetchPublic : fetchAnon;
+    fetcher({ data: { lat: c?.lat ?? undefined, lng: c?.lng ?? undefined, limit: PAGE } as any })
+      .then((r: any[]) => { setRooms(r); setExhausted(r.length < PAGE || !user); })
       .catch((e) => toast.error(e.message))
       .finally(() => setLoading(false));
   };
