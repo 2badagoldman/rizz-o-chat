@@ -55,6 +55,7 @@ export function RoomsShowcase() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchPublic = useServerFn(listPublicRooms);
+  const fetchAnon = useServerFn(listRoomsPublic);
   const doJoin = useServerFn(joinPublicRoom);
   const [realRooms, setRealRooms] = useState<any[]>([]);
 
@@ -64,12 +65,13 @@ export function RoomsShowcase() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cat]);
 
-  // Fetch real public rooms (only when signed in — server fn requires auth)
+  // Fetch live public rooms. Signed-out visitors use the anon directory so the
+  // rooms rail always shows real rooms instead of preview placeholders.
   useEffect(() => {
-    if (!user) { setRealRooms([]); return; }
-    fetchPublic({ data: { lat: coords?.lat ?? undefined, lng: coords?.lng ?? undefined } as any })
+    const load = user ? fetchPublic : fetchAnon;
+    load({ data: { lat: coords?.lat ?? undefined, lng: coords?.lng ?? undefined } as any })
       .then(setRealRooms).catch(() => setRealRooms([]));
-  }, [user, coords, fetchPublic]);
+  }, [user, coords, fetchPublic, fetchAnon]);
 
   // Map real rooms into the DemoRoom shape so they render in the same cards
   const realAsDemo: (DemoRoom & { id?: string; real?: boolean; distance_miles?: number | null })[] =
