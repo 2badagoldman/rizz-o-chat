@@ -336,3 +336,49 @@ export const getRoomAccess = createServerFn({ method: "POST" })
     const { evaluateRoomAccess } = await import("./room-access.server");
     return await evaluateRoomAccess(context.supabase, context.userId);
   });
+
+/**
+ * Public (no sign-in required) room directory. Signed-out visitors used to see
+ * static "coming soon" preview cards because the authed listing returned
+ * nothing — this returns the same live rooms with an anon-safe projection.
+ */
+export const listRoomsPublic = createServerFn({ method: "POST" })
+  .inputValidator((i: unknown) => {
+    const x = (i ?? {}) as { lat?: number; lng?: number; limit?: number };
+    return {
+      lat: typeof x.lat === "number" ? x.lat : null,
+      lng: typeof x.lng === "number" ? x.lng : null,
+      limit: Math.min(Math.max(x.limit ?? 30, 1), 60),
+    };
+  })
+  .handler(async ({ data }) => {
+    const { createClient } = await import("@supabase/supabase-js");
+    const client = createClient(
+      process.env["SUPABASE_URL"]!,
+      process.env["SUPABASE_PUBLISHABLE_KEY"]!,
+      { auth: { storage: undefined, persistSession: false, autoRefreshToken: false } },
+    );
+    const { data: rows, error } = await client
+      .from("host_rooms")
+      .select("id, name, description, category, city, state, lat, lng, created_at, slug, emoji, is_official, co_hosts")
+      .eq("is_public", true)
+      .order("created_at", { ascending: false })
+      .limit(data.limit);
+    if (error) throw error;
+
+    const list = (rows ?? []).map((r: any) => ({ ...r, member_count: 0 }));
+    if (data.lat != null && data.lng != null) {
+      const R = 3958.7613;
+      const toRad = (d: number) => (d * Math.PI) / 180;
+      list.forEach((r: any) => {
+        if (r.lat != null && r.lng != null) {
+          const dLat = toRad(r.lat - data.lat!);
+          const dLng = toRad(r.lng - data.lng!);
+          const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(data.lat!)) * Math.cos(toRad(r.lat)) * Math.sin(dLng / 2) ** 2;
+          r.distance_miles = 2 * R * Math.asin(Math.sqrt(a));
+        } else r.distance_miles = null;
+      });
+      list.sort((a: any, b: any) => (a.distance_miles ?? 1e9) - (b.distance_miles ?? 1e9));
+    }
+    return list;
+  });
