@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { listRuntimeSecrets } from "@/lib/secrets.functions";
 import { KeyRound, Check, X, Copy, Lock, Smartphone } from "lucide-react";
 import { toast } from "sonner";
+import { copyText } from "@/lib/clipboard";
 
 export const Route = createFileRoute("/admin/secrets")({
   head: () => ({ meta: [{ name: "robots", content: "noindex, nofollow" }, { title: "Secret Manager — Crush" }] }),
