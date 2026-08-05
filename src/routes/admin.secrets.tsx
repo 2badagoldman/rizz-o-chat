@@ -24,7 +24,9 @@ const BUILD_SECRETS: ReadonlyArray<{ name: string; where: string; how: string }>
 ];
 
 function copy(text: string) {
-  navigator.clipboard.writeText(text).then(() => toast.success("Copied"));
+  void copyText(text).then((ok) =>
+    ok ? toast.success("Copied") : toast.error("Copy blocked — select and copy manually"),
+  );
 }
 
 function AdminSecrets() {
