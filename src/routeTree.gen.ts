@@ -62,6 +62,7 @@ import { Route as AdminWarRoomRouteImport } from './routes/admin.war-room'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminShowcaseBrainRouteImport } from './routes/admin.showcase-brain'
 import { Route as AdminShowcaseRouteImport } from './routes/admin.showcase'
+import { Route as AdminSecretsRouteImport } from './routes/admin.secrets'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminPayoutsRouteImport } from './routes/admin.payouts'
 import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
@@ -352,6 +353,11 @@ const AdminShowcaseRoute = AdminShowcaseRouteImport.update({
   path: '/showcase',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminSecretsRoute = AdminSecretsRouteImport.update({
+  id: '/secrets',
+  path: '/secrets',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminReportsRoute = AdminReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -509,6 +515,7 @@ export interface FileRoutesByFullPath {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/reports': typeof AdminReportsRoute
+  '/admin/secrets': typeof AdminSecretsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
@@ -587,6 +594,7 @@ export interface FileRoutesByTo {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/reports': typeof AdminReportsRoute
+  '/admin/secrets': typeof AdminSecretsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
@@ -667,6 +675,7 @@ export interface FileRoutesById {
   '/admin/payments': typeof AdminPaymentsRoute
   '/admin/payouts': typeof AdminPayoutsRoute
   '/admin/reports': typeof AdminReportsRoute
+  '/admin/secrets': typeof AdminSecretsRoute
   '/admin/showcase': typeof AdminShowcaseRoute
   '/admin/showcase-brain': typeof AdminShowcaseBrainRoute
   '/admin/users': typeof AdminUsersRoute
@@ -748,6 +757,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/payouts'
     | '/admin/reports'
+    | '/admin/secrets'
     | '/admin/showcase'
     | '/admin/showcase-brain'
     | '/admin/users'
@@ -826,6 +836,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/payouts'
     | '/admin/reports'
+    | '/admin/secrets'
     | '/admin/showcase'
     | '/admin/showcase-brain'
     | '/admin/users'
@@ -905,6 +916,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/payouts'
     | '/admin/reports'
+    | '/admin/secrets'
     | '/admin/showcase'
     | '/admin/showcase-brain'
     | '/admin/users'
@@ -1393,6 +1405,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminShowcaseRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/secrets': {
+      id: '/admin/secrets'
+      path: '/secrets'
+      fullPath: '/admin/secrets'
+      preLoaderRoute: typeof AdminSecretsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/reports': {
       id: '/admin/reports'
       path: '/reports'
@@ -1587,6 +1606,7 @@ interface AdminRouteChildren {
   AdminPaymentsRoute: typeof AdminPaymentsRoute
   AdminPayoutsRoute: typeof AdminPayoutsRoute
   AdminReportsRoute: typeof AdminReportsRoute
+  AdminSecretsRoute: typeof AdminSecretsRoute
   AdminShowcaseRoute: typeof AdminShowcaseRoute
   AdminShowcaseBrainRoute: typeof AdminShowcaseBrainRoute
   AdminUsersRoute: typeof AdminUsersRoute
@@ -1605,6 +1625,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPaymentsRoute: AdminPaymentsRoute,
   AdminPayoutsRoute: AdminPayoutsRoute,
   AdminReportsRoute: AdminReportsRoute,
+  AdminSecretsRoute: AdminSecretsRoute,
   AdminShowcaseRoute: AdminShowcaseRoute,
   AdminShowcaseBrainRoute: AdminShowcaseBrainRoute,
   AdminUsersRoute: AdminUsersRoute,

@@ -18,6 +18,7 @@ import {
   ReceiptText,
   ClipboardList,
   Activity,
+  KeyRound,
 
 } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -47,6 +48,7 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
   { to: "/admin/showcase", label: "Showcase", icon: ImageIcon },
   { to: "/admin/showcase-brain", label: "Showcase Brain", icon: Sparkles },
   { to: "/admin/early-access", label: "Waitlist", icon: Inbox },
+  { to: "/admin/secrets", label: "Secret Manager", icon: KeyRound },
 ];
 
 function AdminLayout() {
