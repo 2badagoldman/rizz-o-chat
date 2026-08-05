@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Users, Circle, Flame, MapPin, Loader2, Plus } from "lucide-react";
 import { CITY_ROOMS, DEMO_ROOMS, ROOM_CATEGORIES, haversineMiles, roomImage, type DemoRoom } from "@/lib/demo-rooms";
-import { listPublicRooms, joinPublicRoom } from "@/lib/rooms.functions";
+import { listPublicRooms, listRoomsPublic, joinPublicRoom } from "@/lib/rooms.functions";
 import { useAuth } from "@/lib/auth";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
