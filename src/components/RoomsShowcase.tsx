@@ -291,8 +291,10 @@ function RoomCard({ room, coords, showDistance, onClick }: { room: any; coords: 
       </button>
     );
   }
+  // Preview cards (shown only if the live directory is empty) send people to
+  // the full rooms browser instead of a "coming soon" page.
   return (
-    <Link to="/soon/$feature" params={{ feature: `room-${room.slug}` }} {...common}>
+    <Link to="/rooms" {...common}>
       {inner}
     </Link>
   );
