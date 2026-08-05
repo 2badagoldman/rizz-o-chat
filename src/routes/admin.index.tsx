@@ -137,24 +137,28 @@ function WaitlistPanel() {
   }, [load]);
 
   useEffect(() => {
-    const channel = supabase
-      .channel("admin-dashboard-waitlist")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "early_access_signups" },
-        (payload) => {
-          const row = (payload.new ?? payload.old) as WRow | undefined;
-          if (!row?.id) return;
-          setRows((prev) => {
-            const rest = prev.filter((r) => r.id !== row.id);
-            if (payload.eventType === "DELETE") return rest;
-            return [row, ...rest].sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at));
-          });
-        },
-      )
-      .subscribe((status) => setLive(status === "SUBSCRIBED"));
+    let channel: ReturnType<typeof uniqueChannel> | null = null;
+    try {
+      channel = uniqueChannel("admin-dashboard-waitlist")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "early_access_signups" },
+          (payload) => {
+            const row = (payload.new ?? payload.old) as WRow | undefined;
+            if (!row?.id) return;
+            setRows((prev) => {
+              const rest = prev.filter((r) => r.id !== row.id);
+              if (payload.eventType === "DELETE") return rest;
+              return [row, ...rest].sort((a, b) => +new Date(b.created_at) - +new Date(a.created_at));
+            });
+          },
+        )
+        .subscribe((status) => setLive(status === "SUBSCRIBED"));
+    } catch {
+      setLive(false);
+    }
     return () => {
-      supabase.removeChannel(channel);
+      safeRemoveChannel(channel);
     };
   }, []);
 

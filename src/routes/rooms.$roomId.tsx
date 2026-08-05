@@ -52,19 +52,23 @@ function RoomChatPage() {
 
   useEffect(() => {
     if (!user) return;
-    const ch = supabase
-      .channel(`room-${roomId}`)
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "room_messages", filter: `room_id=eq.${roomId}` },
-        async (payload: any) => {
-          const m = payload.new;
-          // fetch sender profile lazily (AI co-hosts have no profile row)
-          const { data: prof } = m.sender_id
-            ? await supabase.from("profiles").select("id, display_name, avatar_url").eq("id", m.sender_id).maybeSingle()
-            : { data: null };
-          setMsgs((prev) => prev.some((x) => x.id === m.id) ? prev : [...prev, { ...m, sender: prof ?? null }]);
-        })
-      .subscribe();
-    return () => { supabase.removeChannel(ch); };
+    let ch: ReturnType<typeof uniqueChannel> | null = null;
+    try {
+      ch = uniqueChannel(`room-${roomId}`)
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "room_messages", filter: `room_id=eq.${roomId}` },
+          async (payload: any) => {
+            const m = payload.new;
+            // fetch sender profile lazily (AI co-hosts have no profile row)
+            const { data: prof } = m.sender_id
+              ? await supabase.from("profiles").select("id, display_name, avatar_url").eq("id", m.sender_id).maybeSingle()
+              : { data: null };
+            setMsgs((prev) => prev.some((x) => x.id === m.id) ? prev : [...prev, { ...m, sender: prof ?? null }]);
+          })
+        .subscribe();
+    } catch {
+      /* ignore realtime setup failures */
+    }
+    return () => { safeRemoveChannel(ch); };
   }, [user, roomId]);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [msgs.length]);

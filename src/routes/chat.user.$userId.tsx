@@ -101,19 +101,23 @@ function UserChat() {
 
     // Live: any DM addressed to me (including a host's bulk reply) refreshes
     // the thread the moment it lands. Polling stays as a slow safety net.
-    const ch = supabase
-      .channel(`dm-${user.id}-${userId}`)
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages", filter: `recipient_id=eq.${user.id}` },
-        (payload: any) => {
-          if (payload.new?.sender_id === userId) load();
-        },
-      )
-      .subscribe();
+    let ch: ReturnType<typeof uniqueChannel> | null = null;
+    try {
+      ch = uniqueChannel(`dm-${user.id}-${userId}`)
+        .on(
+          "postgres_changes",
+          { event: "INSERT", schema: "public", table: "messages", filter: `recipient_id=eq.${user.id}` },
+          (payload: any) => {
+            if (payload.new?.sender_id === userId) load();
+          },
+        )
+        .subscribe();
+    } catch {
+      /* polling below keeps the thread fresh */
+    }
 
     const t = setInterval(load, 8000);
-    return () => { stop = true; clearInterval(t); supabase.removeChannel(ch); };
+    return () => { stop = true; clearInterval(t); safeRemoveChannel(ch); };
   }, [user, userId, fetchThread, markRead]);
 
 
