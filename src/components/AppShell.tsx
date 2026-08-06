@@ -10,6 +10,7 @@ import { GlobalSearch } from "./GlobalSearch";
 import { LegalFooter } from "./LegalFooter";
 import { OfferOverlay } from "./OfferOverlay";
 import { LiveHostAlerts } from "./LiveHostAlerts";
+import { DailyNudge } from "./DailyNudge";
 
 
 import { PageAtmosphere } from "./PageAtmosphere";
@@ -199,6 +200,8 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
       <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
       <OfferOverlay />
       <LiveHostAlerts />
+      <DailyNudge />
+
 
       <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
