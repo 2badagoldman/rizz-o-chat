@@ -199,7 +199,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
       {!hideNav ? <BottomNav /> : null}
       <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
       <OfferOverlay />
-      <LiveHostAlerts />
+      <DailyNudge />
 
       <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
