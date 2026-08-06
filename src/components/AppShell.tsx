@@ -10,6 +10,7 @@ import { GlobalSearch } from "./GlobalSearch";
 import { LegalFooter } from "./LegalFooter";
 import { OfferOverlay } from "./OfferOverlay";
 import { LiveHostAlerts } from "./LiveHostAlerts";
+import { DailyNudge } from "./DailyNudge";
 
 
 import { PageAtmosphere } from "./PageAtmosphere";
