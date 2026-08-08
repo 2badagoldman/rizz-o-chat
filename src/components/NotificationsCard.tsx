@@ -3,9 +3,6 @@ import { Link } from "@tanstack/react-router";
 import { Bell, MessageCircle } from "lucide-react";
 import { useUnreadMessages } from "@/hooks/useUnreadMessages";
 
-function initials(name: string | null) {
-  return (name ?? "?").slice(0, 1).toUpperCase();
-}
 
 /**
  * Dashboard notification centre — live unread DM counts with per-sender rows.
