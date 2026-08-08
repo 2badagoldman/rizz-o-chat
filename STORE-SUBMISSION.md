@@ -161,8 +161,9 @@ Tracking across apps/websites: **No**. No third-party ad SDKs.
 | Field | Value |
 | --- | --- |
 | Demo account required | Yes |
-| Username | `stripe.review@rizzlachat.com` |
-| Password | *(create in the app before submitting and give it to the reviewer — pre-approve KYC and load coins from Admin → Users)* |
+| Username | `appreview@rizzlachat.com` |
+| Password | `Crush!Review2026#Ax7` |
+| Status | Live now — email confirmed, ID/age verification approved, Crush Diamond VIP, 5,000 coins |
 | Contact first/last name | Waleed Ahmad (or the account holder) |
 | Phone | *(developer/owner phone)* |
 | Email | rizzchatsupport@gmail.com |
@@ -287,12 +288,21 @@ in-app and at https://rizzlachat.com/legal/delete-account, and the app has an
 
 ---
 
-# 3. Reviewer demo account — how to create it
+# 3. Reviewer demo account — ready to use
 
-1. Sign up in the app with `stripe.review@rizzlachat.com` and a strong password.
-2. Admin → KYC (`/admin/kyc`): approve that account.
-3. Admin → Users (`/admin/users`): grant Crush Gold and add coins.
-4. Give the developer the password to paste into both consoles.
+| Field | Value |
+| --- | --- |
+| Email | `appreview@rizzlachat.com` |
+| Password | `Crush!Review2026#Ax7` |
+| Display name | App Review |
+| Membership | Crush Diamond VIP (all rooms + unlimited chats) |
+| Coins | 5,000 |
+| Age / ID verification | Approved (no verification wall) |
+| Works on | https://rizzlachat.com, the iOS shell, the Android shell, and Play internal testing |
+
+Use the same credentials in App Store Connect → App Review Information and in
+Play Console → App access. Rotate the password after launch from Profile →
+Settings if it is ever shared outside the review teams.
 
 # 4. Build the binaries
 
