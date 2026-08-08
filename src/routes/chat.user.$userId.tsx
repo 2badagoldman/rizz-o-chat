@@ -1,3 +1,4 @@
+import { AvatarImg } from "@/components/Avatar";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
@@ -232,12 +233,14 @@ function UserChat() {
           >
             <div className="relative">
               <div className="h-10 w-10 overflow-hidden rounded-full bg-gradient-brand grid place-items-center font-bold text-white">
-                {peer?.avatar_url ? (
-                  <img loading="lazy" decoding="async" src={peer.avatar_url} alt={peer.display_name ?? "User"} className="h-full w-full object-cover" />
-                ) : (
-                  (peer?.display_name ?? "?").slice(0, 1).toUpperCase()
-                )}
+                <AvatarImg
+                  src={peer?.avatar_url}
+                  name={peer?.display_name ?? "?"}
+                  className="h-full w-full"
+                  fallbackClassName="h-full w-full bg-transparent text-white"
+                />
               </div>
+
               <OnlineDot online={peerOnline} className="absolute -bottom-0.5 -right-0.5" />
             </div>
 

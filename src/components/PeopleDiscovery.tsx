@@ -1,3 +1,4 @@
+import { AvatarImg } from "@/components/Avatar";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
@@ -238,12 +239,13 @@ export function PeopleDiscovery({ open, onClose }: Props) {
                       aria-label={`View ${p.display_name || "profile"}`}
                       className="relative h-12 w-12 shrink-0 transition active:scale-95"
                     >
-                      <img
+                      <AvatarImg
                         src={p.avatar_url || rizzAiLogo.url}
-                        alt=""
-                        loading="lazy"
-                        className="h-12 w-12 rounded-full border-2 border-white object-cover"
+                        name={p.display_name}
+                        className="h-12 w-12 rounded-full border-2 border-white"
+                        fallbackClassName="h-12 w-12 rounded-full border-2 border-white"
                       />
+
                       <OnlineDot online={onlineUsers.has(p.id)} className="absolute bottom-0 right-0" />
                     </button>
                     <button

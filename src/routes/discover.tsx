@@ -1,3 +1,4 @@
+import { AvatarImg } from "@/components/Avatar";
 import { PrismEmptyState } from "@/components/Prism";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
@@ -246,13 +247,14 @@ function RealHostCards({ term }: { term: string }) {
           className="group overflow-hidden rounded-3xl border border-border bg-card transition active:scale-[0.98]"
         >
           <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
-            <img
-              src={h.avatar_url!}
+            <AvatarImg
+              src={h.avatar_url}
+              name={h.display_name}
               alt={h.display_name}
-              loading="lazy"
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-cover transition group-hover:scale-[1.03]"
+              className="absolute inset-0 h-full w-full transition group-hover:scale-[1.03]"
+              fallbackClassName="absolute inset-0 h-full w-full text-2xl"
             />
+
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
             <div className="absolute inset-x-2 top-2">
               <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">

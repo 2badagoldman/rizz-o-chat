@@ -1,3 +1,4 @@
+import { AvatarImg } from "@/components/Avatar";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
@@ -81,13 +82,14 @@ function PublicProfilePage() {
       ) : (
         <div className="mt-2 rounded-3xl border border-border bg-card/80 p-6 text-center backdrop-blur">
           <div className="relative mx-auto h-28 w-28">
-            {profile.avatar_url ? (
-              <img loading="lazy" decoding="async" src={profile.avatar_url} alt={name} className="h-28 w-28 rounded-full object-cover shadow-glow" />
-            ) : (
-              <div className="grid h-28 w-28 place-items-center rounded-full bg-gradient-brand text-3xl font-bold text-white">
-                {name.slice(0, 1).toUpperCase()}
-              </div>
-            )}
+            <AvatarImg
+              src={profile.avatar_url}
+              name={name}
+              alt={name}
+              className="h-28 w-28 rounded-full shadow-glow"
+              fallbackClassName="h-28 w-28 rounded-full bg-gradient-brand text-3xl text-white"
+            />
+
             <OnlineDot online={online} className="absolute bottom-1 right-1 h-5 w-5" />
           </div>
           <h2 className="mt-4 text-xl font-bold">{name}</h2>
