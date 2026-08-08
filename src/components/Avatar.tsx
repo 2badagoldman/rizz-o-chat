@@ -58,7 +58,7 @@ export function useAvatarSrc(src?: string | null): string | null {
     };
     waiters.add(onDone);
     queue.add(src);
-    if (!flushTimer) flushTimer = setTimeout(flush, 30);
+    if (!flushTimer) flushTimer = setTimeout(() => { void flush(); }, 30);
     return () => {
       alive = false;
       waiters.delete(onDone);
