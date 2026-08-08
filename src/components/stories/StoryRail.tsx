@@ -32,6 +32,8 @@ import {
 import { buildDemoStoryGroups, isDemoStoryId, shuffleGroups } from "@/lib/demo-stories";
 import { useAiQuota } from "@/hooks/useAiQuota";
 import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
+import { AvatarImg } from "@/components/Avatar";
+
 
 
 
@@ -126,11 +128,13 @@ export function StoryRail() {
             >
               <span className="grid h-full w-full place-items-center overflow-hidden rounded-full bg-background p-[2px]">
                 {myAvatar ? (
-                  <img
-                    decoding="async"
+                  <AvatarImg
                     src={myAvatar}
+                    name={myInitial}
                     alt="Your story"
-                    className="h-full w-full rounded-full object-cover"
+                    eager
+                    className="h-full w-full rounded-full"
+                    fallbackClassName="rounded-full"
                   />
                 ) : mine ? (
                   <span className="grid h-full w-full place-items-center rounded-full bg-muted text-sm font-bold">
@@ -142,6 +146,7 @@ export function StoryRail() {
                   </span>
                 )}
               </span>
+
             </span>
             <span
               onClick={(e) => {
@@ -172,20 +177,14 @@ export function StoryRail() {
               }`}
             >
               <span className="grid h-full w-full place-items-center overflow-hidden rounded-full bg-background p-[2px]">
-                {g.avatar_url ? (
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    src={g.avatar_url}
-                    alt={g.display_name}
-                    className="h-full w-full rounded-full object-cover"
-                  />
-                ) : (
-                  <span className="grid h-full w-full place-items-center rounded-full bg-muted text-sm font-bold">
-                    {g.display_name.slice(0, 1).toUpperCase()}
-                  </span>
-                )}
+                <AvatarImg
+                  src={g.avatar_url}
+                  name={g.display_name}
+                  className="h-full w-full rounded-full"
+                  fallbackClassName="h-full w-full rounded-full"
+                />
               </span>
+
             </span>
             <span className="w-full truncate text-center text-[11px] font-semibold">{g.display_name}</span>
           </button>
