@@ -186,7 +186,7 @@ export function OfferOverlay() {
           <X className="h-4 w-4" />
         </button>
 
-        <span className="relative inline-flex items-center gap-1.5 rounded-full border border-primary/50 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-500">
+        <span className="relative inline-flex items-center gap-1.5 rounded-full border border-primary/50 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
           <img src={crushLogo.url} alt="" aria-hidden className="h-3.5 w-3.5 rounded-full object-cover" /> {offer.badge}
         </span>
 
