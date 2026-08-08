@@ -155,7 +155,14 @@ export function RoomsShowcase() {
               color: cat === c ? "white" : "var(--color-muted-foreground)",
             }}
           >
-            {c === "Near Me" ? "📍 Near Me" : c}
+            {c === "Near Me" ? (
+              <span className="inline-flex items-center gap-1">
+                <MapPin className="h-3.5 w-3.5" aria-hidden />
+                Near Me
+              </span>
+            ) : (
+              c
+            )}
           </button>
         ))}
       </div>
