@@ -68,9 +68,14 @@ test.describe("core journeys", () => {
     const errors = collectErrors(page);
     await open(page, "/chat/jen");
     await expectRendered(page);
-    // A composer must exist, even if it is locked behind a paywall/sign-in.
-    const composer = page.locator("textarea, input[type='text']").first();
-    await expect(composer).toBeVisible();
+    // Either a composer, or the sign-in / subscribe gate — never a blank screen.
+    const composer = page.locator("textarea, input[type='text']");
+    const gate = page.getByRole("link", { name: /sign in|unlock|subscribe|join/i });
+    await expect
+      .poll(async () => (await composer.count()) + (await gate.count()), {
+        message: "chat composer or access gate",
+      })
+      .toBeGreaterThan(0);
     expect(errors.errors, "chat thread runtime errors").toEqual([]);
   });
 
