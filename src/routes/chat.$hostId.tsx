@@ -487,7 +487,7 @@ function HostChat() {
               }
             }}
             disabled={chatLocked}
-            placeholder={chatLocked ? "Subscribe to Crush Gold to keep chatting…" : `Message ${host.name}…`}
+            placeholder={chatLocked ? "Subscribe to keep chatting…" : `Message ${host.name}…`}
             rows={1}
             className="chat-type min-h-[48px] max-h-32 flex-1 resize-none rounded-[22px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
           />

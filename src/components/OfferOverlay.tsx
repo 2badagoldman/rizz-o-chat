@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
 import { X, Check } from "lucide-react";
 import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -62,6 +63,14 @@ export function OfferOverlay() {
   const iosRestricted = useIosBillingRestricted();
   const { openCheckout, checkoutElement, isOpen: checkoutOpen } = useStripeCheckout();
   const [stage, setStage] = useState<Stage>(null);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  // Pages where an upsell would interrupt something important.
+  const quietRoute =
+    pathname.startsWith("/chat") ||
+    pathname.startsWith("/rooms/") ||
+    pathname.startsWith("/checkout") ||
+    pathname.startsWith("/verify") ||
+    pathname.startsWith("/admin");
   const shownRef = useRef(false);
 
   // QA escape hatch: window.__crushForceOffer = true previews the flow on any account.
@@ -128,8 +137,9 @@ export function OfferOverlay() {
   }, [open]);
 
   // Time-on-site + exit-intent triggers.
+  // Never interrupt an active conversation, checkout, or age verification.
   useEffect(() => {
-    if (!eligible) return;
+    if (!eligible || quietRoute) return;
     let idleTimer: ReturnType<typeof setTimeout> | null = null;
     const onLeave = (e: MouseEvent) => {
       if (e.clientY <= 2) open("exit");
@@ -143,7 +153,7 @@ export function OfferOverlay() {
       if (idleTimer) clearTimeout(idleTimer);
       document.removeEventListener("mouseout", onLeave);
     };
-  }, [eligible, open]);
+  }, [eligible, open, quietRoute]);
 
   const dismiss = () => {
     if (stage === "intro") {
@@ -186,7 +196,7 @@ export function OfferOverlay() {
           <X className="h-4 w-4" />
         </button>
 
-        <span className="relative inline-flex items-center gap-1.5 rounded-full border border-emerald-500/50 bg-emerald-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-500">
+        <span className="relative inline-flex items-center gap-1.5 rounded-full border border-primary/50 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-primary">
           <img src={crushLogo.url} alt="" aria-hidden className="h-3.5 w-3.5 rounded-full object-cover" /> {offer.badge}
         </span>
 
@@ -194,7 +204,7 @@ export function OfferOverlay() {
         <p className="relative mt-1 text-sm text-muted-foreground">{offer.compare}</p>
 
         <div className="relative mt-4 flex items-end gap-2">
-          <span className="text-4xl font-black text-emerald-500">{offer.price}</span>
+          <span className="text-4xl font-black text-primary">{offer.price}</span>
           <span className="pb-1 text-sm text-muted-foreground">{offer.per}</span>
         </div>
 
@@ -202,7 +212,7 @@ export function OfferOverlay() {
         <ul className="relative mt-4 space-y-2">
           {offer.perks.map((p) => (
             <li key={p} className="flex items-start gap-2 text-sm">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
               <span>{p}</span>
             </li>
           ))}
@@ -216,7 +226,8 @@ export function OfferOverlay() {
               { title: "Crush Gold", subtitle: `${offer.price} first month, then monthly` },
             )
           }
-          className="press-spring mt-5 w-full justify-center rounded-full bg-emerald-500 py-3 text-sm font-bold text-white shadow-pop transition-colors hover:bg-emerald-600"
+          style={{ background: "var(--gradient-brand)" }}
+          className="press-spring mt-5 w-full justify-center rounded-full py-3 text-sm font-bold text-primary-foreground shadow-pop transition-opacity hover:opacity-90"
         >
           {offer.cta}
         </button>
