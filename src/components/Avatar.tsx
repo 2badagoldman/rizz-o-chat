@@ -68,15 +68,34 @@ type AvatarImgProps = {
   fallbackClassName?: string;
   alt?: string;
   eager?: boolean;
+  /** Rendered instead of the initial when the avatar is missing or fails to load. */
+  fallbackSrc?: string | null;
 };
 
 /** Round avatar that transparently signs private storage paths and falls back to an initial. */
-export function AvatarImg({ src, name, className = "", fallbackClassName = "", alt, eager }: AvatarImgProps) {
+export function AvatarImg({ src, name, className = "", fallbackClassName = "", alt, eager, fallbackSrc }: AvatarImgProps) {
   const resolved = useAvatarSrc(src);
   const [broken, setBroken] = useState(false);
+  const [fallbackBroken, setFallbackBroken] = useState(false);
   useEffect(() => setBroken(false), [resolved]);
+  useEffect(() => setFallbackBroken(false), [fallbackSrc]);
 
-  if (!resolved || broken) {
+  const missing = !resolved || broken;
+
+  if (missing && fallbackSrc && !fallbackBroken) {
+    return (
+      <img
+        src={fallbackSrc}
+        alt={alt ?? name ?? ""}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
+        onError={() => setFallbackBroken(true)}
+        className={`object-cover ${className}`}
+      />
+    );
+  }
+
+  if (missing) {
     return (
       <span
         aria-label={alt ?? name ?? "Avatar"}
@@ -98,3 +117,4 @@ export function AvatarImg({ src, name, className = "", fallbackClassName = "", a
     />
   );
 }
+
