@@ -510,13 +510,13 @@ function StoryViewer({
           onClick={onClose}
           className="flex min-w-0 flex-1 items-center gap-3"
         >
-          {group.avatar_url ? (
-            <img src={group.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
-          ) : (
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-white/20 text-sm font-bold">
-              {group.display_name.slice(0, 1).toUpperCase()}
-            </span>
-          )}
+          <AvatarImg
+            src={group.avatar_url}
+            name={group.display_name}
+            className="h-9 w-9 shrink-0 rounded-full"
+            fallbackClassName="h-9 w-9 shrink-0 rounded-full bg-white/20"
+          />
+
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">{isMine ? "Your story" : group.display_name}</p>
             <p className="text-[11px] text-white/60">{timeAgo(story.created_at)} ago</p>
@@ -693,13 +693,13 @@ function ViewersSheet({ storyId, onClose }: { storyId: string; onClose: () => vo
           <ul className="mt-3 space-y-2">
             {viewers.map((v) => (
               <li key={v.id} className="flex items-center gap-3">
-                {v.avatar_url ? (
-                  <img src={v.avatar_url} alt="" className="h-9 w-9 rounded-full object-cover" />
-                ) : (
-                  <span className="grid h-9 w-9 place-items-center rounded-full bg-muted text-xs font-bold">
-                    {v.display_name.slice(0, 1).toUpperCase()}
-                  </span>
-                )}
+                <AvatarImg
+                  src={v.avatar_url}
+                  name={v.display_name}
+                  className="h-9 w-9 shrink-0 rounded-full"
+                  fallbackClassName="h-9 w-9 shrink-0 rounded-full"
+                />
+
                 <span className="flex-1 truncate text-sm font-medium">{v.display_name}</span>
                 <span className="text-[11px] text-muted-foreground">{timeAgo(v.created_at)}</span>
               </li>
