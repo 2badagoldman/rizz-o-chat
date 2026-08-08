@@ -1,3 +1,4 @@
+import { AvatarImg } from "@/components/Avatar";
 import { Link } from "@tanstack/react-router";
 import { Bell, MessageCircle } from "lucide-react";
 import { useUnreadMessages } from "@/hooks/useUnreadMessages";

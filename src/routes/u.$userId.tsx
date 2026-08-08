@@ -1,3 +1,4 @@
+import { AvatarImg } from "@/components/Avatar";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";

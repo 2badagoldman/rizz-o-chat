@@ -1,3 +1,4 @@
+import { AvatarImg } from "@/components/Avatar";
 import { PrismEmptyState } from "@/components/Prism";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";

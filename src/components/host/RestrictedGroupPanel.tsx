@@ -1,3 +1,4 @@
+import { AvatarImg } from "@/components/Avatar";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Link } from "@tanstack/react-router";
