@@ -4,8 +4,8 @@ import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { PageSkeleton } from "@/components/AuthGate";
-import {
 import { SignedOutGate } from "@/components/SignedOutGate";
+import {
   Sparkles,
   ShieldCheck,
   DollarSign,
