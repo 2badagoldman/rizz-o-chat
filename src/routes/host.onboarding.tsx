@@ -4,6 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { PageSkeleton } from "@/components/AuthGate";
+import { SignedOutGate } from "@/components/SignedOutGate";
 import {
   Sparkles,
   ShieldCheck,
@@ -63,16 +64,13 @@ function HostOnboarding() {
   if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
-      <AppShell theme="host">
-        <div className="mt-16 rounded-3xl border border-border bg-card p-6 text-center">
-          <Crown className="mx-auto h-8 w-8 text-[color:var(--host-primary)]" />
-          <h1 className="mt-3 text-xl">Sign up as a Host first</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Create your account and choose &ldquo;Apply as Host&rdquo; on the sign-up screen.
-          </p>
-          <Link to="/auth" className="btn-host mt-5 inline-flex">Go to sign up</Link>
-        </div>
-      </AppShell>
+      <SignedOutGate
+        theme="host"
+        cta="Go to sign up"
+        icon={<Crown className="h-6 w-6" />}
+        title="Sign up as a Host first"
+        description={"Create your account and choose \u201cApply as Host\u201d on the sign-up screen."}
+      />
     );
   }
 

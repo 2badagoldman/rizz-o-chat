@@ -11,6 +11,8 @@ import { getRoom, listRoomMessages, sendRoomMessage, listRoomMembers, requestCoH
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
+import { SignedOutGate } from "@/components/SignedOutGate";
+import { PageSkeleton } from "@/components/AuthGate";
 
 
 export const Route = createFileRoute("/rooms/$roomId")({
@@ -92,13 +94,13 @@ function RoomChatPage() {
     finally { setSending(false); }
   }
 
-  if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
-      <AppShell><div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-        <h1 className="text-xl">Sign in to open this room</h1>
-        <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
-      </div></AppShell>
+      <SignedOutGate
+        title="Sign in to open this room"
+        description="Rooms are live group chats. Sign in to read along and join the conversation."
+      />
     );
   }
   if (err) {

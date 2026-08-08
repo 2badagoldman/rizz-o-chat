@@ -9,6 +9,8 @@ import { hostAvatarThumb } from "@/lib/host-avatars";
 import { MapPin, Plus, Users, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { pageHead } from "@/lib/seo";
+import { SignedOutGate } from "@/components/SignedOutGate";
+import { PrismEmptyState } from "@/components/Prism";
 
 export const Route = createFileRoute("/rooms/")({
   head: () => pageHead({
@@ -97,14 +99,14 @@ function RoomsBrowsePage() {
   }
 
 
-  if (!user) return (
-    <AppShell>
-      <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-        <h1 className="text-xl">Sign in to browse rooms</h1>
-        <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
-      </div>
-    </AppShell>
-  );
+  if (!user)
+    return (
+      <SignedOutGate
+        title="Sign in to browse rooms"
+        description="Rooms are live group chats near you. Sign in to join one, or start your own."
+        icon={<Users className="h-6 w-6" />}
+      />
+    );
 
   return (
     <AppShell>
@@ -134,11 +136,17 @@ function RoomsBrowsePage() {
       {loading ? (
         <p className="mt-8 flex items-center justify-center gap-2 text-sm text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" /> Loading rooms…</p>
       ) : rooms.length === 0 ? (
-        <div className="mt-8 rounded-2xl border-2 border-dashed border-primary/40 bg-gradient-brand-soft p-6 text-center">
-          <p className="text-lg font-bold">No public rooms yet</p>
-          <p className="mt-1 text-sm text-muted-foreground">Be the first — create one for your city or vibe.</p>
-          <Link to="/rooms/new" className="btn-brand mt-4 inline-flex"><Plus className="mr-1 h-4 w-4" /> Create the first room</Link>
-        </div>
+        <PrismEmptyState
+          className="mt-8"
+          icon={<Users className="h-6 w-6" />}
+          title="No public rooms yet"
+          description="Be the first — start one for your city or your vibe and invite people in."
+          action={
+            <Link to="/rooms/new" className="btn-brand mt-1 inline-flex items-center">
+              <Plus className="mr-1 h-4 w-4" /> Create the first room
+            </Link>
+          }
+        />
       ) : (
         <ul className="mt-4 space-y-2">
           {rooms.map((r) => (
