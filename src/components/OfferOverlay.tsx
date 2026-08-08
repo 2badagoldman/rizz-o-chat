@@ -128,8 +128,9 @@ export function OfferOverlay() {
   }, [open]);
 
   // Time-on-site + exit-intent triggers.
+  // Never interrupt an active conversation, checkout, or age verification.
   useEffect(() => {
-    if (!eligible) return;
+    if (!eligible || quietRoute) return;
     let idleTimer: ReturnType<typeof setTimeout> | null = null;
     const onLeave = (e: MouseEvent) => {
       if (e.clientY <= 2) open("exit");
@@ -143,7 +144,7 @@ export function OfferOverlay() {
       if (idleTimer) clearTimeout(idleTimer);
       document.removeEventListener("mouseout", onLeave);
     };
-  }, [eligible, open]);
+  }, [eligible, open, quietRoute]);
 
   const dismiss = () => {
     if (stage === "intro") {
