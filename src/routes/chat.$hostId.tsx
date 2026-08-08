@@ -23,6 +23,7 @@ import { SafetyMenu } from "@/components/SafetyMenu";
 import { useAiQuota } from "@/hooks/useAiQuota";
 import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
 import { EmojiTray, useEmojiMode } from "@/components/chat/EmojiTray";
+import { SignedOutGate } from "@/components/SignedOutGate";
 
 
 
@@ -254,12 +255,10 @@ function HostChat() {
   // Unauthed users can chat AI hosts for free. Everyone else needs to sign in.
   if (!user && !aiHost) {
     return (
-      <AppShell>
-        <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center shadow-card">
-          <h1 className="text-xl">Sign in to chat</h1>
-          <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
-        </div>
-      </AppShell>
+      <SignedOutGate
+        title="Sign in to chat"
+        description="Sign in to message this host — or head to Chats and talk with our AI hosts free."
+      />
     );
   }
 

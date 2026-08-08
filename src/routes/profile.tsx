@@ -15,6 +15,7 @@ import { Camera } from "lucide-react";
 import { SubscriptionStatusCard } from "@/components/SubscriptionStatusCard";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { reviewImageBeforeUpload, MODERATION_BLOCK_MESSAGE } from "@/lib/media-moderation";
+import { SignedOutGate } from "@/components/SignedOutGate";
 
 
 
@@ -123,14 +124,10 @@ function Profile() {
 
   if (!user) {
     return (
-      <AppShell>
-        <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center shadow-card">
-          <h1 className="text-xl">You&apos;re not signed in</h1>
-          <Link to="/auth" className="btn-brand mt-5 inline-flex">
-            Sign in
-          </Link>
-        </div>
-      </AppShell>
+      <SignedOutGate
+        title="You're not signed in"
+        description="Sign in to set up your photo, bio and media — that's what people see first."
+      />
     );
   }
 

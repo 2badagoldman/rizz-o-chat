@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { createRoom } from "@/lib/rooms.functions";
 import { toast } from "sonner";
 import { MapPin, Loader2, ArrowLeft } from "lucide-react";
+import { SignedOutGate } from "@/components/SignedOutGate";
 
 export const Route = createFileRoute("/rooms/new")({
   head: () => ({ meta: [
@@ -28,16 +29,14 @@ function NewRoomPage() {
   const [geoLoading, setGeoLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
-  if (!user) return (
-    <AppShell>
-      <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-        <h1 className="text-xl">Sign in to create a room</h1>
-        <p className="mt-1 text-sm text-muted-foreground">You need a Crush account (member or host) to create rooms.</p>
-        <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
-      </div>
-    </AppShell>
-  );
+  if (loading) return <AppShell><PageSkeleton /></AppShell>;
+  if (!user)
+    return (
+      <SignedOutGate
+        title="Sign in to create a room"
+        description="You need a Crush account (member or host) to host a room."
+      />
+    );
 
   const useMyLocation = () => {
     if (!("geolocation" in navigator)) { toast.error("Location not supported"); return; }

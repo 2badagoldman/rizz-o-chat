@@ -9,6 +9,7 @@ import { hostAvatarThumb } from "@/lib/host-avatars";
 import { MapPin, Plus, Users, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { pageHead } from "@/lib/seo";
+import { SignedOutGate } from "@/components/SignedOutGate";
 
 export const Route = createFileRoute("/rooms/")({
   head: () => pageHead({
@@ -97,14 +98,14 @@ function RoomsBrowsePage() {
   }
 
 
-  if (!user) return (
-    <AppShell>
-      <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-        <h1 className="text-xl">Sign in to browse rooms</h1>
-        <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
-      </div>
-    </AppShell>
-  );
+  if (!user)
+    return (
+      <SignedOutGate
+        title="Sign in to browse rooms"
+        description="Rooms are live group chats near you. Sign in to join one, or start your own."
+        icon={<Users className="h-6 w-6" />}
+      />
+    );
 
   return (
     <AppShell>

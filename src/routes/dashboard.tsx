@@ -13,6 +13,7 @@ import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
 
 
 import { PageSkeleton } from "@/components/AuthGate";
+import { SignedOutGate } from "@/components/SignedOutGate";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({ meta: [
       { name: "robots", content: "noindex, nofollow" },{ title: "Dashboard — Crush" }] }),
@@ -39,16 +40,13 @@ function Dashboard() {
       .finally(() => setLoading2(false));
   }, [user, fetchStats]);
 
-  if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
   if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) {
     return (
-      <AppShell>
-        <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-          <h1 className="text-xl">Sign in to see your dashboard</h1>
-          <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
-        </div>
-      </AppShell>
+      <SignedOutGate
+        title="Sign in to see your dashboard"
+        description="Your earnings, friends list activity and payouts all live here."
+      />
     );
   }
 
