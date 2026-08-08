@@ -165,12 +165,15 @@ export function PrismHeader({
 export function PrismEmptyState({
   icon,
   title,
+  /** Use "h1" when the empty state IS the page (e.g. a signed-out gate). */
+  titleAs: TitleTag = "h3",
   description,
   action,
   className,
 }: {
   icon?: React.ReactNode;
   title: string;
+  titleAs?: "h1" | "h2" | "h3";
   description?: React.ReactNode;
   action?: React.ReactNode;
   className?: string;
@@ -192,10 +195,15 @@ export function PrismEmptyState({
             {icon}
           </div>
         ) : null}
-        <h3 className="font-display text-lg font-bold tracking-tight">{title}</h3>
+        <TitleTag className="text-balance font-display text-xl font-bold leading-tight tracking-tight">
+          {title}
+        </TitleTag>
         {description ? (
-          <p className="max-w-xs text-sm text-muted-foreground">{description}</p>
+          <p className="max-w-[34ch] text-pretty text-sm leading-relaxed text-muted-foreground">
+            {description}
+          </p>
         ) : null}
+
         {action}
       </div>
     </div>
