@@ -53,17 +53,14 @@ export function NotificationsCard() {
                 className="flex items-center gap-3 rounded-xl border border-border/70 bg-background/40 p-2.5 transition hover:border-primary/50 hover:bg-primary/5"
               >
                 <div className="grid h-9 w-9 shrink-0 place-items-center overflow-hidden rounded-full bg-gradient-brand font-bold text-white">
-                  {s.avatar_url ? (
-                    <img
-                      src={s.avatar_url}
-                      alt=""
-                      loading="lazy"
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    initials(s.display_name)
-                  )}
+                  <AvatarImg
+                    src={s.avatar_url}
+                    name={s.display_name}
+                    className="h-full w-full"
+                    fallbackClassName="h-full w-full bg-transparent text-white"
+                  />
                 </div>
+
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-semibold">{s.display_name ?? "Someone"}</p>
                   <p className="text-[11px] text-muted-foreground">
