@@ -66,8 +66,14 @@ test.describe("core journeys", () => {
 
   test("Chat thread opens from Chats", async ({ page }) => {
     const errors = collectErrors(page);
-    await open(page, "/chat/jen");
+    await open(page, "/chats");
+    const thread = page.locator("a[href^='/chat/']").first();
+    await expect(thread).toBeVisible();
+    await thread.click({ force: true });
+    await page.waitForTimeout(1200);
+    expect(page.url(), "opened a chat thread").toContain("/chat/");
     await expectRendered(page);
+    await expect(page.locator("body")).not.toContainText(/host not found/i);
     // Either a composer, or the sign-in / subscribe gate — never a blank screen.
     const composer = page.locator("textarea, input[type='text']");
     const gate = page.getByRole("link", { name: /sign in|unlock|subscribe|join/i });
