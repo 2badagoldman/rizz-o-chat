@@ -29,6 +29,7 @@ export function SignedOutGate({
       <PrismEmptyState
         icon={icon ?? <LogIn className="h-6 w-6" />}
         title={title}
+        titleAs="h1"
         description={description}
         action={
           <div className="mt-2 flex flex-col items-center gap-2">
