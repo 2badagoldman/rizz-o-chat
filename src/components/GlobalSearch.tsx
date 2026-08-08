@@ -163,7 +163,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                       className="flex items-center gap-3 rounded-2xl border border-transparent bg-card/50 p-2 transition hover:border-primary/30 hover:bg-primary/10"
                     >
                       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-primary/25">
-                        <AvatarImg src={e.avatar} name={e.title} className="h-full w-full" fallbackClassName="h-full w-full" />
+                        <AvatarImg src={e.avatar} name={e.name} className="h-full w-full" fallbackClassName="h-full w-full" />
                         {e.online ? (
                           <span className="absolute bottom-0 right-0 grid h-3.5 w-3.5 place-items-center rounded-full bg-card">
                             <Circle className="h-2 w-2 fill-success text-success" />
