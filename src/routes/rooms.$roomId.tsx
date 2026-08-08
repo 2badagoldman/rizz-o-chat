@@ -12,6 +12,7 @@ import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SignedOutGate } from "@/components/SignedOutGate";
+import { PageSkeleton } from "@/components/AuthGate";
 
 
 export const Route = createFileRoute("/rooms/$roomId")({

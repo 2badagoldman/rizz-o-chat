@@ -7,6 +7,7 @@ import { createRoom } from "@/lib/rooms.functions";
 import { toast } from "sonner";
 import { MapPin, Loader2, ArrowLeft } from "lucide-react";
 import { SignedOutGate } from "@/components/SignedOutGate";
+import { PageSkeleton } from "@/components/AuthGate";
 
 export const Route = createFileRoute("/rooms/new")({
   head: () => ({ meta: [
