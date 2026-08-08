@@ -455,6 +455,23 @@
   border-radius: 9999px;
 }
 
+/* Live story ring — soft breathing glow, Instagram-style "your story is live". */
+@utility ring-story-live {
+  position: relative;
+  animation: story-live-glow 2.6s ease-in-out infinite;
+}
+@utility ring-story-live-halo {
+  position: absolute;
+  inset: -5px;
+  border-radius: 9999px;
+  background: var(--gradient-story);
+  filter: blur(7px);
+  opacity: 0.55;
+  animation: story-live-halo 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+
 /* Shimmer chip for tags/badges */
 @utility chip-shimmer {
   background: linear-gradient(110deg, rgba(255,107,107,0.15) 0%, rgba(255,255,255,0.6) 40%, rgba(196,69,105,0.15) 80%);
