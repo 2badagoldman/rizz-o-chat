@@ -165,7 +165,7 @@ Tracking across apps/websites: **No**. No third-party ad SDKs.
 | Password | `Crush!Review2026#Ax7` |
 | Status | Live now — email confirmed, ID/age verification approved, Crush Diamond VIP, 5,000 coins |
 | Contact first/last name | Waleed Ahmad (or the account holder) |
-| Phone | *(developer/owner phone)* |
+| Phone | +1 (415) 470-6477 |
 | Email | rizzchatsupport@gmail.com |
 
 **Notes for App Review** (paste):
@@ -205,7 +205,7 @@ view Stories without hitting the verification wall.
 | Category | Social |
 | Tags | Chat, Messaging, Social networking, Communities, Dating |
 | Contact email | rizzchatsupport@gmail.com |
-| Contact phone | *(optional — owner's number)* |
+| Contact phone | +1 (415) 470-6477 |
 | Website | https://rizzlachat.com |
 | Privacy Policy URL | https://rizzlachat.com/legal/privacy |
 | Account deletion URL | https://rizzlachat.com/legal/delete-account |
