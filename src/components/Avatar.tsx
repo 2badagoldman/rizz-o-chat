@@ -14,11 +14,18 @@ const waiters = new Set<() => void>();
 type Signer = (opts: { data: { paths: string[] } }) => Promise<Record<string, string>>;
 let signer: Signer | null = null;
 
-function flush() {
+async function flush() {
   flushTimer = null;
   const paths = Array.from(queue);
   queue = new Set();
   if (!paths.length || !signer) return;
+  // Signing requires an authenticated session; signed-out visitors just get fallbacks.
+  const { supabase } = await import("@/integrations/supabase/client");
+  const { data } = await supabase.auth.getSession();
+  if (!data.session) {
+    for (const w of Array.from(waiters)) w();
+    return;
+  }
   signer({ data: { paths } })
     .then((map) => {
       for (const [k, v] of Object.entries(map ?? {})) cache.set(k, v);
