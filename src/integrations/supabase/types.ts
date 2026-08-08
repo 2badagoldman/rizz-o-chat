@@ -179,6 +179,66 @@ export type Database = {
         }
         Relationships: []
       }
+      error_logs: {
+        Row: {
+          context: Json
+          created_at: string
+          duration_ms: number | null
+          fingerprint: string | null
+          id: string
+          level: string
+          message: string
+          method: string | null
+          release: string | null
+          route: string | null
+          session_id: string | null
+          source: string
+          stack: string | null
+          status: number | null
+          url: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          context?: Json
+          created_at?: string
+          duration_ms?: number | null
+          fingerprint?: string | null
+          id?: string
+          level?: string
+          message: string
+          method?: string | null
+          release?: string | null
+          route?: string | null
+          session_id?: string | null
+          source?: string
+          stack?: string | null
+          status?: number | null
+          url?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          context?: Json
+          created_at?: string
+          duration_ms?: number | null
+          fingerprint?: string | null
+          id?: string
+          level?: string
+          message?: string
+          method?: string | null
+          release?: string | null
+          route?: string | null
+          session_id?: string | null
+          source?: string
+          stack?: string | null
+          status?: number | null
+          url?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       friends_lists: {
         Row: {
           active: boolean

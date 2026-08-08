@@ -43,6 +43,9 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
   useEffect(() => {
     reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    void import("../lib/error-tracking").then((m) =>
+      m.reportClientError(error, { mechanism: "react_error_boundary" }),
+    );
   }, [error]);
 
   return (
@@ -176,6 +179,7 @@ function RootComponent() {
   useShowcaseAvatarSync();
   useInitPerfTier();
   useEffect(() => {
+    void import("../lib/error-tracking").then((m) => m.installClientErrorTracking());
     void import("../lib/pwa").then((m) => m.registerPwa());
     void import("../lib/native").then((m) => m.initNativeShell());
     void import("../lib/analytics").then((m) => {

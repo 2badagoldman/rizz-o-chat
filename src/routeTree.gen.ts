@@ -69,6 +69,7 @@ import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
 import { Route as AdminOpsRouteImport } from './routes/admin.ops'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
+import { Route as AdminErrorsRouteImport } from './routes/admin.errors'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
 import { Route as AdminCopilotRouteImport } from './routes/admin.copilot'
 import { Route as AdminComplianceRouteImport } from './routes/admin.compliance'
@@ -77,6 +78,7 @@ import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } fr
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ChatUserUserIdRouteImport } from './routes/chat.user.$userId'
 import { Route as ApiPublicDemoChatRouteImport } from './routes/api/public/demo-chat'
+import { Route as ApiPublicClientErrorRouteImport } from './routes/api/public/client-error'
 import { Route as AdminHostsHostIdRouteImport } from './routes/admin.hosts.$hostId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -388,6 +390,11 @@ const AdminHostsRoute = AdminHostsRouteImport.update({
   path: '/hosts',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminErrorsRoute = AdminErrorsRouteImport.update({
+  id: '/errors',
+  path: '/errors',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminEarlyAccessRoute = AdminEarlyAccessRouteImport.update({
   id: '/early-access',
   path: '/early-access',
@@ -428,6 +435,11 @@ const ChatUserUserIdRoute = ChatUserUserIdRouteImport.update({
 const ApiPublicDemoChatRoute = ApiPublicDemoChatRouteImport.update({
   id: '/api/public/demo-chat',
   path: '/api/public/demo-chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicClientErrorRoute = ApiPublicClientErrorRouteImport.update({
+  id: '/api/public/client-error',
+  path: '/api/public/client-error',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminHostsHostIdRoute = AdminHostsHostIdRouteImport.update({
@@ -509,6 +521,7 @@ export interface FileRoutesByFullPath {
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
+  '/admin/errors': typeof AdminErrorsRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
   '/admin/ops': typeof AdminOpsRoute
@@ -556,6 +569,7 @@ export interface FileRoutesByFullPath {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
+  '/api/public/client-error': typeof ApiPublicClientErrorRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/hooks/ops-managers': typeof ApiPublicHooksOpsManagersRoute
@@ -588,6 +602,7 @@ export interface FileRoutesByTo {
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
+  '/admin/errors': typeof AdminErrorsRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
   '/admin/ops': typeof AdminOpsRoute
@@ -635,6 +650,7 @@ export interface FileRoutesByTo {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
+  '/api/public/client-error': typeof ApiPublicClientErrorRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/hooks/ops-managers': typeof ApiPublicHooksOpsManagersRoute
@@ -669,6 +685,7 @@ export interface FileRoutesById {
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
+  '/admin/errors': typeof AdminErrorsRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
   '/admin/ops': typeof AdminOpsRoute
@@ -716,6 +733,7 @@ export interface FileRoutesById {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
+  '/api/public/client-error': typeof ApiPublicClientErrorRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/hooks/ops-managers': typeof ApiPublicHooksOpsManagersRoute
@@ -751,6 +769,7 @@ export interface FileRouteTypes {
     | '/admin/compliance'
     | '/admin/copilot'
     | '/admin/early-access'
+    | '/admin/errors'
     | '/admin/hosts'
     | '/admin/kyc'
     | '/admin/ops'
@@ -798,6 +817,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/hosts/$hostId'
+    | '/api/public/client-error'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
     | '/api/public/hooks/ops-managers'
@@ -830,6 +850,7 @@ export interface FileRouteTypes {
     | '/admin/compliance'
     | '/admin/copilot'
     | '/admin/early-access'
+    | '/admin/errors'
     | '/admin/hosts'
     | '/admin/kyc'
     | '/admin/ops'
@@ -877,6 +898,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/hosts/$hostId'
+    | '/api/public/client-error'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
     | '/api/public/hooks/ops-managers'
@@ -910,6 +932,7 @@ export interface FileRouteTypes {
     | '/admin/compliance'
     | '/admin/copilot'
     | '/admin/early-access'
+    | '/admin/errors'
     | '/admin/hosts'
     | '/admin/kyc'
     | '/admin/ops'
@@ -957,6 +980,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/admin/hosts/$hostId'
+    | '/api/public/client-error'
     | '/api/public/demo-chat'
     | '/chat/user/$userId'
     | '/api/public/hooks/ops-managers'
@@ -1021,6 +1045,7 @@ export interface RootRouteChildren {
   RoomsIndexRoute: typeof RoomsIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  ApiPublicClientErrorRoute: typeof ApiPublicClientErrorRoute
   ApiPublicDemoChatRoute: typeof ApiPublicDemoChatRoute
   ChatUserUserIdRoute: typeof ChatUserUserIdRoute
   ApiPublicHooksOpsManagersRoute: typeof ApiPublicHooksOpsManagersRoute
@@ -1454,6 +1479,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHostsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/errors': {
+      id: '/admin/errors'
+      path: '/errors'
+      fullPath: '/admin/errors'
+      preLoaderRoute: typeof AdminErrorsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/early-access': {
       id: '/admin/early-access'
       path: '/early-access'
@@ -1508,6 +1540,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/demo-chat'
       fullPath: '/api/public/demo-chat'
       preLoaderRoute: typeof ApiPublicDemoChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/client-error': {
+      id: '/api/public/client-error'
+      path: '/api/public/client-error'
+      fullPath: '/api/public/client-error'
+      preLoaderRoute: typeof ApiPublicClientErrorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/hosts/$hostId': {
@@ -1600,6 +1639,7 @@ interface AdminRouteChildren {
   AdminComplianceRoute: typeof AdminComplianceRoute
   AdminCopilotRoute: typeof AdminCopilotRoute
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
+  AdminErrorsRoute: typeof AdminErrorsRoute
   AdminHostsRoute: typeof AdminHostsRouteWithChildren
   AdminKycRoute: typeof AdminKycRoute
   AdminOpsRoute: typeof AdminOpsRoute
@@ -1619,6 +1659,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminComplianceRoute: AdminComplianceRoute,
   AdminCopilotRoute: AdminCopilotRoute,
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
+  AdminErrorsRoute: AdminErrorsRoute,
   AdminHostsRoute: AdminHostsRouteWithChildren,
   AdminKycRoute: AdminKycRoute,
   AdminOpsRoute: AdminOpsRoute,
@@ -1689,6 +1730,7 @@ const rootRouteChildren: RootRouteChildren = {
   RoomsIndexRoute: RoomsIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  ApiPublicClientErrorRoute: ApiPublicClientErrorRoute,
   ApiPublicDemoChatRoute: ApiPublicDemoChatRoute,
   ChatUserUserIdRoute: ChatUserUserIdRoute,
   ApiPublicHooksOpsManagersRoute: ApiPublicHooksOpsManagersRoute,
