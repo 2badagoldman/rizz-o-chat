@@ -180,8 +180,8 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
         className="page-anim lux-scroll relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4 md:max-w-[680px] md:px-6 lg:max-w-[820px]"
         style={{
           paddingBottom: hideNav
-            ? "calc(env(safe-area-inset-bottom) + 1.5rem)"
-            : "calc(env(safe-area-inset-bottom) + 9.5rem)",
+            ? "calc(env(safe-area-inset-bottom) + 2rem)"
+            : "calc(env(safe-area-inset-bottom) + 11rem)",
         }}
       >
 
