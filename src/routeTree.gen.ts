@@ -77,6 +77,7 @@ import { Route as AdminApplicationsRouteImport } from './routes/admin.applicatio
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ChatUserUserIdRouteImport } from './routes/chat.user.$userId'
+import { Route as ApiPublicErrprobeRouteImport } from './routes/api/public/errprobe'
 import { Route as ApiPublicDemoChatRouteImport } from './routes/api/public/demo-chat'
 import { Route as ApiPublicClientErrorRouteImport } from './routes/api/public/client-error'
 import { Route as AdminHostsHostIdRouteImport } from './routes/admin.hosts.$hostId'
@@ -432,6 +433,11 @@ const ChatUserUserIdRoute = ChatUserUserIdRouteImport.update({
   path: '/chat/user/$userId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicErrprobeRoute = ApiPublicErrprobeRouteImport.update({
+  id: '/api/public/errprobe',
+  path: '/api/public/errprobe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicDemoChatRoute = ApiPublicDemoChatRouteImport.update({
   id: '/api/public/demo-chat',
   path: '/api/public/demo-chat',
@@ -571,6 +577,7 @@ export interface FileRoutesByFullPath {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/client-error': typeof ApiPublicClientErrorRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
+  '/api/public/errprobe': typeof ApiPublicErrprobeRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/hooks/ops-managers': typeof ApiPublicHooksOpsManagersRoute
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
@@ -652,6 +659,7 @@ export interface FileRoutesByTo {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/client-error': typeof ApiPublicClientErrorRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
+  '/api/public/errprobe': typeof ApiPublicErrprobeRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/hooks/ops-managers': typeof ApiPublicHooksOpsManagersRoute
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
@@ -735,6 +743,7 @@ export interface FileRoutesById {
   '/admin/hosts/$hostId': typeof AdminHostsHostIdRoute
   '/api/public/client-error': typeof ApiPublicClientErrorRoute
   '/api/public/demo-chat': typeof ApiPublicDemoChatRoute
+  '/api/public/errprobe': typeof ApiPublicErrprobeRoute
   '/chat/user/$userId': typeof ChatUserUserIdRoute
   '/api/public/hooks/ops-managers': typeof ApiPublicHooksOpsManagersRoute
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
@@ -819,6 +828,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/client-error'
     | '/api/public/demo-chat'
+    | '/api/public/errprobe'
     | '/chat/user/$userId'
     | '/api/public/hooks/ops-managers'
     | '/api/public/hooks/showcase-brain'
@@ -900,6 +910,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/client-error'
     | '/api/public/demo-chat'
+    | '/api/public/errprobe'
     | '/chat/user/$userId'
     | '/api/public/hooks/ops-managers'
     | '/api/public/hooks/showcase-brain'
@@ -982,6 +993,7 @@ export interface FileRouteTypes {
     | '/admin/hosts/$hostId'
     | '/api/public/client-error'
     | '/api/public/demo-chat'
+    | '/api/public/errprobe'
     | '/chat/user/$userId'
     | '/api/public/hooks/ops-managers'
     | '/api/public/hooks/showcase-brain'
@@ -1047,6 +1059,7 @@ export interface RootRouteChildren {
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicClientErrorRoute: typeof ApiPublicClientErrorRoute
   ApiPublicDemoChatRoute: typeof ApiPublicDemoChatRoute
+  ApiPublicErrprobeRoute: typeof ApiPublicErrprobeRoute
   ChatUserUserIdRoute: typeof ChatUserUserIdRoute
   ApiPublicHooksOpsManagersRoute: typeof ApiPublicHooksOpsManagersRoute
   ApiPublicHooksShowcaseBrainRoute: typeof ApiPublicHooksShowcaseBrainRoute
@@ -1535,6 +1548,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatUserUserIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/errprobe': {
+      id: '/api/public/errprobe'
+      path: '/api/public/errprobe'
+      fullPath: '/api/public/errprobe'
+      preLoaderRoute: typeof ApiPublicErrprobeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/demo-chat': {
       id: '/api/public/demo-chat'
       path: '/api/public/demo-chat'
@@ -1732,6 +1752,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicClientErrorRoute: ApiPublicClientErrorRoute,
   ApiPublicDemoChatRoute: ApiPublicDemoChatRoute,
+  ApiPublicErrprobeRoute: ApiPublicErrprobeRoute,
   ChatUserUserIdRoute: ChatUserUserIdRoute,
   ApiPublicHooksOpsManagersRoute: ApiPublicHooksOpsManagersRoute,
   ApiPublicHooksShowcaseBrainRoute: ApiPublicHooksShowcaseBrainRoute,
