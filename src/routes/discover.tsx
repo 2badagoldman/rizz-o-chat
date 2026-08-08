@@ -223,7 +223,7 @@ function Discover() {
 }
 
 
-/** Approved real hosts, mixed into the main grid. Only hosts with a photo. */
+/** Approved real hosts, mixed into the main grid. Missing photos get a generated portrait. */
 function RealHostCards({ term }: { term: string }) {
   const fetchHosts = useServerFn(listApprovedHosts);
   const { data } = useQuery({
@@ -232,9 +232,7 @@ function RealHostCards({ term }: { term: string }) {
     staleTime: 60_000,
   });
   const hosts = (data ?? []).filter(
-    (h) =>
-      Boolean(h.avatar_url) &&
-      (!term || h.display_name.toLowerCase().includes(term)),
+    (h) => !term || h.display_name.toLowerCase().includes(term),
   );
   if (hosts.length === 0) return null;
   return (
@@ -251,9 +249,11 @@ function RealHostCards({ term }: { term: string }) {
               src={h.avatar_url}
               name={h.display_name}
               alt={h.display_name}
+              fallbackSrc={hostAvatar(h.id)}
               className="absolute inset-0 h-full w-full transition group-hover:scale-[1.03]"
               fallbackClassName="absolute inset-0 h-full w-full text-2xl"
             />
+
 
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
             <div className="absolute inset-x-2 top-2">
