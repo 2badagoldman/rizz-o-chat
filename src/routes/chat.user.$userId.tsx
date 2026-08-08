@@ -118,7 +118,11 @@ function UserChat() {
       /* polling below keeps the thread fresh */
     }
 
-    const t = setInterval(load, 8000);
+    // Realtime carries the thread; polling is a slow safety net that pauses
+    // while the tab is hidden (keeps read volume — and cost — low at scale).
+    const t = setInterval(() => {
+      if (document.visibilityState === "visible") load();
+    }, 30_000);
     return () => { stop = true; clearInterval(t); safeRemoveChannel(ch); };
   }, [user, userId, fetchThread, markRead]);
 

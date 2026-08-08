@@ -93,8 +93,9 @@ export function trackPageview(path: string) {
   track("pageview", { path });
 }
 
-// Session heartbeat — sends a ping every 30s while the tab is visible so we can
-// measure real dwell time even for single-page visits.
+// Session heartbeat — sends a ping every 2 minutes while the tab is visible so we can
+// measure real dwell time even for single-page visits. Kept at 2 minutes so
+// analytics volume (and cost) stays flat as traffic grows.
 let heartbeatTimer: ReturnType<typeof setInterval> | null = null;
 let pageEnteredAt = Date.now();
 
@@ -107,7 +108,7 @@ export function startAnalytics() {
     if (document.visibilityState !== "visible") return;
     track("heartbeat", { duration_ms: Date.now() - pageEnteredAt });
   };
-  heartbeatTimer = setInterval(beat, 30_000);
+  heartbeatTimer = setInterval(beat, 120_000);
 
   window.addEventListener("beforeunload", () => {
     try {
