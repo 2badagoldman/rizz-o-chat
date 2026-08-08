@@ -68,7 +68,7 @@ In Xcode:
 App Store Connect:
 - Age rating **17+/18+**; declare frequent/intense mature themes.
 - Data safety: photos, ID documents, chat content, payment records.
-- Review notes: reviewer account `stripe.review@rizzlachat.com` (pre-verified KYC),
+- Review notes: reviewer account `appreview@rizzlachat.com` (pre-verified KYC),
   describe the paid Friends List model and that purchases are web-only in the iOS build.
 
 **Billing:** the iOS build hides all coin/membership purchase entry points, so no
