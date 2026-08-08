@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
 import { X, Check } from "lucide-react";
 import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -62,6 +63,14 @@ export function OfferOverlay() {
   const iosRestricted = useIosBillingRestricted();
   const { openCheckout, checkoutElement, isOpen: checkoutOpen } = useStripeCheckout();
   const [stage, setStage] = useState<Stage>(null);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  // Pages where an upsell would interrupt something important.
+  const quietRoute =
+    pathname.startsWith("/chat") ||
+    pathname.startsWith("/rooms/") ||
+    pathname.startsWith("/checkout") ||
+    pathname.startsWith("/verify") ||
+    pathname.startsWith("/admin");
   const shownRef = useRef(false);
 
   // QA escape hatch: window.__crushForceOffer = true previews the flow on any account.
