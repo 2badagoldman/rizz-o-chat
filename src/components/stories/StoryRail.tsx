@@ -51,6 +51,22 @@ export function StoryRail() {
     staleTime: 30_000,
   });
 
+  // Own avatar so "Your story" shows the real profile picture, not an initial.
+  const { data: myProfile } = useQuery({
+    queryKey: ["story-me", user?.id],
+    enabled: !!user,
+    staleTime: 5 * 60_000,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("display_name, avatar_url")
+        .eq("id", user!.id)
+        .maybeSingle();
+      return data as { display_name: string | null; avatar_url: string | null } | null;
+    },
+  });
+
+
   // Shuffle the AI co-host stories once per browser session so the rail feels
   // alive on every visit but stays stable while the user browses.
   useEffect(() => {
@@ -83,7 +99,9 @@ export function StoryRail() {
   const mine = groups.find((g) => g.author_id === user.id);
   const others = groups.filter((g) => g.author_id !== user.id);
   const ordered: StoryGroup[] = mine ? [mine, ...others, ...demo] : [...others, ...demo];
-
+  const rest = mine ? ordered.slice(1) : ordered;
+  const myAvatar = mine?.avatar_url ?? myProfile?.avatar_url ?? null;
+  const myInitial = (mine?.display_name ?? myProfile?.display_name ?? "You").slice(0, 1).toUpperCase();
 
   return (
     <section className="mt-6">
@@ -94,20 +112,58 @@ export function StoryRail() {
       <div className="lux-scroll -mx-1 flex gap-3 overflow-x-auto px-1 pb-2">
         <button
           type="button"
-          onClick={() => setComposing(true)}
+          onClick={() => (mine ? setOpenIndex(0) : setComposing(true))}
           className="press-spring flex w-[74px] shrink-0 flex-col items-center gap-1.5"
         >
-          <span className="grid h-[68px] w-[68px] place-items-center rounded-full border-2 border-dashed border-primary/60 bg-card/60 text-primary">
-            <Plus className="h-6 w-6" />
+          <span className="relative grid h-[68px] w-[68px] place-items-center">
+            {mine ? <span aria-hidden className="ring-story-live-halo" /> : null}
+            <span
+              className={`relative grid h-full w-full place-items-center rounded-full p-[3px] ${
+                mine
+                  ? `bg-gradient-brand ring-story-live${mine.allSeen ? " opacity-90" : ""}`
+                  : "border-2 border-dashed border-primary/60 bg-card/60"
+              }`}
+            >
+              <span className="grid h-full w-full place-items-center overflow-hidden rounded-full bg-background p-[2px]">
+                {myAvatar ? (
+                  <img
+                    decoding="async"
+                    src={myAvatar}
+                    alt="Your story"
+                    className="h-full w-full rounded-full object-cover"
+                  />
+                ) : mine ? (
+                  <span className="grid h-full w-full place-items-center rounded-full bg-muted text-sm font-bold">
+                    {myInitial}
+                  </span>
+                ) : (
+                  <span className="grid h-full w-full place-items-center rounded-full text-primary">
+                    <Plus className="h-6 w-6" />
+                  </span>
+                )}
+              </span>
+            </span>
+            <span
+              onClick={(e) => {
+                e.stopPropagation();
+                setComposing(true);
+              }}
+              className="absolute -bottom-0.5 -right-0.5 grid h-6 w-6 place-items-center rounded-full border-2 border-background bg-primary text-primary-foreground"
+              aria-label="Add to your story"
+            >
+              <Plus className="h-3.5 w-3.5" />
+            </span>
           </span>
-          <span className="truncate text-[11px] font-semibold text-muted-foreground">Your story</span>
+          <span className="truncate text-[11px] font-semibold text-muted-foreground">
+            {mine ? "Your story" : "Add story"}
+          </span>
         </button>
 
-        {ordered.map((g, i) => (
+        {rest.map((g, i) => (
           <button
             key={g.author_id}
             type="button"
-            onClick={() => setOpenIndex(i)}
+            onClick={() => setOpenIndex(mine ? i + 1 : i)}
             className="press-spring flex w-[74px] shrink-0 flex-col items-center gap-1.5"
           >
             <span
@@ -131,11 +187,10 @@ export function StoryRail() {
                 )}
               </span>
             </span>
-            <span className="w-full truncate text-center text-[11px] font-semibold">
-              {g.author_id === user.id ? "You" : g.display_name}
-            </span>
+            <span className="w-full truncate text-center text-[11px] font-semibold">{g.display_name}</span>
           </button>
         ))}
+
       </div>
 
       {composing ? (

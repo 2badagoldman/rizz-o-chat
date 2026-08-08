@@ -455,6 +455,23 @@
   border-radius: 9999px;
 }
 
+/* Live story ring — soft breathing glow, Instagram-style "your story is live". */
+@utility ring-story-live {
+  position: relative;
+  animation: story-live-glow 2.6s ease-in-out infinite;
+}
+@utility ring-story-live-halo {
+  position: absolute;
+  inset: -5px;
+  border-radius: 9999px;
+  background: var(--gradient-story);
+  filter: blur(7px);
+  opacity: 0.55;
+  animation: story-live-halo 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+
 /* Shimmer chip for tags/badges */
 @utility chip-shimmer {
   background: linear-gradient(110deg, rgba(255,107,107,0.15) 0%, rgba(255,255,255,0.6) 40%, rgba(196,69,105,0.15) 80%);
@@ -556,6 +573,17 @@
   @keyframes story-spin {
     to { transform: rotate(360deg); }
   }
+
+  @keyframes story-live-glow {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 45%, transparent); }
+    50%      { box-shadow: 0 0 14px 3px color-mix(in oklab, var(--primary) 40%, transparent); }
+  }
+
+  @keyframes story-live-halo {
+    0%, 100% { opacity: 0.35; transform: scale(1); }
+    50%      { opacity: 0.7;  transform: scale(1.06); }
+  }
+
 
   @keyframes shimmer {
     0%   { background-position: 200% 0; }
