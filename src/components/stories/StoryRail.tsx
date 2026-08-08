@@ -51,6 +51,22 @@ export function StoryRail() {
     staleTime: 30_000,
   });
 
+  // Own avatar so "Your story" shows the real profile picture, not an initial.
+  const { data: myProfile } = useQuery({
+    queryKey: ["story-me", user?.id],
+    enabled: !!user,
+    staleTime: 5 * 60_000,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("display_name, avatar_url")
+        .eq("id", user!.id)
+        .maybeSingle();
+      return data as { display_name: string | null; avatar_url: string | null } | null;
+    },
+  });
+
+
   // Shuffle the AI co-host stories once per browser session so the rail feels
   // alive on every visit but stays stable while the user browses.
   useEffect(() => {
