@@ -8,6 +8,12 @@ Disallow: /profile
 Disallow: /chat/
 Disallow: /chats
 Disallow: /checkout
+Disallow: /verify
+Disallow: /claim
+Disallow: /reset-password
+Disallow: /soon/
+Disallow: /u/
+Disallow: /rooms/new
 Disallow: /host/onboarding
 Disallow: /host/rooms
 Disallow: /host/members
@@ -17,6 +23,29 @@ Disallow: /invite/
 Disallow: /subscriptions
 Disallow: /.well-known/
 Disallow: /.mcp/
+
+# AI answer engines — allowed on public pages so Crush can be cited
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 
 # Social preview crawlers — allow full access so link cards render
 User-agent: Twitterbot

@@ -5,13 +5,24 @@
 Crush pairs members with verified creators through private Friends Lists, DMs, group Rooms near you, coin gifting, and an AI copilot that helps members craft better conversations. Payments are handled by Stripe; creators are compensated partners.
 
 ## Pages
-- [Home](/): overview of Crush, online creators, and featured Friends Lists
+- [Home](/): overview of Crush, online creators, featured Friends Lists and FAQ
 - [Discover creators](/discover): browse and search verified creators by tier
 - [Rooms near you](/rooms): live group chat rooms in cities across the US
 - [Crush AI copilot](/copilot): AI wingman that helps members write better messages
-- [Upgrade](/upgrade): Crush Gold and Crush Diamond VIP membership plans
+- [Upgrade](/upgrade): Crush Gold ($9.99/week) and Crush Diamond VIP ($19.99/week) memberships
 - [Buy coins](/coins): coin packs used for gifting and tipping creators
-- [Sign in / Join free](/auth): create an account or sign in
+- [Creator pricing guide](/blog/creator-pricing-guide): how creators price their Friends Lists
+
+## Policies
+- [Legal center](/legal): index of every Crush policy
+- [Terms of Service](/legal/terms): the member and creator agreement
+- [Privacy Policy](/legal/privacy): what is collected and members' rights
+- [Refunds & cancellation](/legal/refunds): coins, memberships and renewals
+- [Pricing](/legal/pricing): full price list for coins, memberships and tips
+- [Acceptable use](/legal/acceptable-use): 18+ rules, prohibited content, moderation
+- [Creator & payout terms](/legal/creators): revenue split and payout schedule
+- [Contact](/legal/contact): legal entity, address and support escalation
 
 ## Optional
 - [Sitemap](/sitemap.xml)
+
