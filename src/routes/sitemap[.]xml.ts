@@ -10,6 +10,9 @@ interface SitemapEntry {
   priority?: string;
 }
 
+// Only publicly indexable routes belong here. Gated surfaces (/auth, /chats,
+// /dashboard, /profile, /subscriptions, /verify, /checkout) are noindex and are
+// intentionally excluded so the sitemap never contradicts robots.txt.
 const ENTRIES: SitemapEntry[] = [
   { path: "/", changefreq: "daily", priority: "1.0" },
   { path: "/discover", changefreq: "daily", priority: "0.9" },
@@ -18,12 +21,6 @@ const ENTRIES: SitemapEntry[] = [
   { path: "/blog/creator-pricing-guide", changefreq: "monthly", priority: "0.7" },
   { path: "/upgrade", changefreq: "weekly", priority: "0.7" },
   { path: "/coins", changefreq: "weekly", priority: "0.6" },
-  { path: "/auth", changefreq: "monthly", priority: "0.5" },
-  { path: "/chats", changefreq: "daily", priority: "0.6" },
-  { path: "/dashboard", changefreq: "weekly", priority: "0.5" },
-  { path: "/profile", changefreq: "weekly", priority: "0.5" },
-  { path: "/subscriptions", changefreq: "weekly", priority: "0.5" },
-  { path: "/mcp", changefreq: "monthly", priority: "0.4" },
   { path: "/legal", changefreq: "monthly", priority: "0.5" },
   { path: "/legal/terms", changefreq: "monthly", priority: "0.4" },
   { path: "/legal/privacy", changefreq: "monthly", priority: "0.4" },
@@ -35,9 +32,11 @@ const ENTRIES: SitemapEntry[] = [
   { path: "/legal/creators", changefreq: "monthly", priority: "0.4" },
   { path: "/legal/cookies", changefreq: "monthly", priority: "0.3" },
   { path: "/legal/dmca", changefreq: "monthly", priority: "0.3" },
+  { path: "/legal/delete-account", changefreq: "monthly", priority: "0.3" },
   { path: "/legal/trust", changefreq: "monthly", priority: "0.4" },
   { path: "/legal/contact", changefreq: "monthly", priority: "0.4" },
 ];
+
 
 const HOST_ENTRIES: SitemapEntry[] = DEMO_HOSTS.map((h) => ({
   path: `/host/${h.id}`,
