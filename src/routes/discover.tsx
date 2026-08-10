@@ -16,16 +16,33 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { listApprovedHosts, type DirectoryHost } from "@/lib/hosts-directory.functions";
 
-import { pageHead } from "@/lib/seo";
+import { pageHead, breadcrumbLd, jsonLd, SITE_URL } from "@/lib/seo";
 
 export const Route = createFileRoute("/discover")({
-  head: () => pageHead({
-    path: "/discover",
-    title: "Discover verified creators \u2014 Crush",
-    description: "Browse verified creators, filter by tier, and find your next favorite chat. Join Friends Lists on Crush.",
+  head: () => ({
+    ...pageHead({
+      path: "/discover",
+      title: "Discover verified creators \u2014 Crush",
+      description: "Browse verified creators, filter by tier, and find your next favorite chat. Join Friends Lists on Crush.",
+      keywords: "verified creators, browse creators, chat with creators, friends list, online now",
+    }),
+    scripts: [
+      breadcrumbLd([
+        { name: "Crush", path: "/" },
+        { name: "Discover creators", path: "/discover" },
+      ]),
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "Discover verified creators",
+        url: `${SITE_URL}/discover`,
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+      }),
+    ],
   }),
   component: Discover,
 });
+
 
 
 const FILTERS: Array<{ key: "all" | DemoHost["tier"] | "online"; label: string }> = [

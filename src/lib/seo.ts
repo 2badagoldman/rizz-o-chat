@@ -99,3 +99,42 @@ export function pageHead(input: PageHeadInput) {
 export function privateHead(title: string, description = "Crush") {
   return pageHead({ path: "/", title, description, noindex: true });
 }
+
+/** BreadcrumbList JSON-LD script entry. Pass [{ name, path }] from home → page. */
+export function breadcrumbLd(items: Array<{ name: string; path: string }>) {
+  return {
+    type: "application/ld+json",
+    children: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: items.map((it, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: it.name,
+        item: absoluteUrl(it.path),
+      })),
+    }),
+  };
+}
+
+/** FAQPage JSON-LD script entry. Only use with questions visible on the page. */
+export function faqLd(faqs: Array<{ q: string; a: string }>) {
+  return {
+    type: "application/ld+json",
+    children: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    }),
+  };
+}
+
+/** Generic JSON-LD script entry. */
+export function jsonLd(data: unknown) {
+  return { type: "application/ld+json", children: JSON.stringify(data) };
+}
+

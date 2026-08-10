@@ -7,17 +7,27 @@ import { AppShell } from "@/components/AppShell";
 import { Send, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
-import { pageHead } from "@/lib/seo";
+import { pageHead, breadcrumbLd } from "@/lib/seo";
 
 
 export const Route = createFileRoute("/copilot")({
-  head: () => pageHead({
-    path: "/copilot",
-    title: "Crush AI copilot \u2014 your chat wingman",
-    description: "The AI wingman inside Crush. Get help crafting messages, breaking the ice, and building real chats.",
+  head: () => ({
+    ...pageHead({
+      path: "/copilot",
+      title: "Crush AI copilot \u2014 your chat wingman",
+      description: "The AI wingman inside Crush. Get help crafting messages, breaking the ice, and building real chats.",
+      keywords: "ai wingman, chat opener ideas, flirting help, ai copilot",
+    }),
+    scripts: [
+      breadcrumbLd([
+        { name: "Crush", path: "/" },
+        { name: "AI copilot", path: "/copilot" },
+      ]),
+    ],
   }),
   component: Copilot,
 });
+
 
 
 function Copilot() {

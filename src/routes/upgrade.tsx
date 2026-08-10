@@ -3,7 +3,7 @@ import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { Check, Gem, Sparkles, Star, Zap } from 'lucide-react';
 import { DiamondGem, GoldMedallion } from '@/components/PreciousIcons';
-import { pageHead } from "@/lib/seo";
+import { pageHead, breadcrumbLd, jsonLd, SITE_URL } from "@/lib/seo";
 import { useIosBillingRestricted } from '@/hooks/useNative';
 import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 import { RevenueCatPurchase } from '@/components/RevenueCatPurchase';
@@ -13,13 +13,49 @@ import type { CrushPriceId } from '@/lib/revenuecat';
 
 
 export const Route = createFileRoute('/upgrade')({
-  head: () => pageHead({
-    path: "/upgrade",
-    title: "Upgrade to Crush Gold or Diamond VIP \u2014 Crush",
-    description: "Crush Gold $9.99/week unlocks any Friends List. Crush Diamond VIP $19.99/week adds a diamond badge and weekly coin drops.",
+  head: () => ({
+    ...pageHead({
+      path: "/upgrade",
+      title: "Upgrade to Crush Gold or Diamond VIP \u2014 Crush",
+      description: "Crush Gold $9.99/week unlocks any Friends List. Crush Diamond VIP $19.99/week adds a diamond badge and weekly coin drops.",
+      keywords: "crush gold, diamond vip, membership pricing, unlock friends list, weekly subscription",
+    }),
+    scripts: [
+      breadcrumbLd([
+        { name: "Crush", path: "/" },
+        { name: "Upgrade", path: "/upgrade" },
+      ]),
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: "Crush membership",
+        description: "Weekly memberships that unlock creator Friends Lists on Crush.",
+        brand: { "@type": "Brand", name: "Crush" },
+        url: `${SITE_URL}/upgrade`,
+        offers: [
+          {
+            "@type": "Offer",
+            name: "Crush Gold",
+            price: "9.99",
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+            url: `${SITE_URL}/upgrade`,
+          },
+          {
+            "@type": "Offer",
+            name: "Crush Diamond VIP",
+            price: "19.99",
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+            url: `${SITE_URL}/upgrade`,
+          },
+        ],
+      }),
+    ],
   }),
   component: UpgradePage,
 });
+
 
 type Perk = { label: string; detail: string };
 

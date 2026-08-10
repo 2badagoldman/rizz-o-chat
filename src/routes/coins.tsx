@@ -4,7 +4,7 @@ import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { CoinIcon } from '@/components/CoinIcon';
 import { Sparkles, Store } from 'lucide-react';
 import rizzAiLogo from '@/assets/rizz-ai-logo.webp.asset.json';
-import { pageHead } from "@/lib/seo";
+import { pageHead, breadcrumbLd } from "@/lib/seo";
 import { useIosBillingRestricted } from '@/hooks/useNative';
 import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 import { RevenueCatPurchase } from '@/components/RevenueCatPurchase';
@@ -13,13 +13,23 @@ import { useRevenueCat } from '@/hooks/useRevenueCat';
 import type { CrushPriceId } from '@/lib/revenuecat';
 
 export const Route = createFileRoute('/coins')({
-  head: () => pageHead({
-    path: "/coins",
-    title: "Buy coins \u2014 Crush",
-    description: "Top up your Crush wallet with coins to send gifts, tip creators, and unlock perks.",
+  head: () => ({
+    ...pageHead({
+      path: "/coins",
+      title: "Buy coins \u2014 Crush",
+      description: "Top up your Crush wallet with coins to send gifts, tip creators, and unlock perks.",
+      keywords: "buy coins, tip creators, send gifts, crush wallet",
+    }),
+    scripts: [
+      breadcrumbLd([
+        { name: "Crush", path: "/" },
+        { name: "Buy coins", path: "/coins" },
+      ]),
+    ],
   }),
   component: CoinsPage,
 });
+
 
 type Pack = {
   id: string;
