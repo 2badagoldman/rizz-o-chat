@@ -123,26 +123,68 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@graph": [
             {
               "@type": "Organization",
+              "@id": "https://rizzlachat.com/#organization",
               name: "Crush",
+              alternateName: "Rizzla Chat",
               url: "https://rizzlachat.com",
               logo: "https://rizzlachat.com/icon-512.png",
+              email: "rizzchatsupport@gmail.com",
               sameAs: ["https://rizz-o-chat.lovable.app"],
+              contactPoint: [
+                {
+                  "@type": "ContactPoint",
+                  contactType: "customer support",
+                  email: "rizzchatsupport@gmail.com",
+                  availableLanguage: ["English"],
+                },
+              ],
             },
             {
               "@type": "WebSite",
+              "@id": "https://rizzlachat.com/#website",
               name: "Crush",
               url: "https://rizzlachat.com",
+              inLanguage: "en-US",
+              publisher: { "@id": "https://rizzlachat.com/#organization" },
               potentialAction: {
                 "@type": "SearchAction",
                 target: "https://rizzlachat.com/discover?q={search_term_string}",
                 "query-input": "required name=search_term_string",
               },
             },
+            {
+              "@type": "WebApplication",
+              "@id": "https://rizzlachat.com/#app",
+              name: "Crush",
+              url: "https://rizzlachat.com",
+              applicationCategory: "SocialNetworkingApplication",
+              operatingSystem: "Web, iOS, Android",
+              browserRequirements: "Requires JavaScript.",
+              inLanguage: "en-US",
+              publisher: { "@id": "https://rizzlachat.com/#organization" },
+              offers: [
+                {
+                  "@type": "Offer",
+                  name: "Crush Gold",
+                  price: "9.99",
+                  priceCurrency: "USD",
+                  url: "https://rizzlachat.com/upgrade",
+                },
+                {
+                  "@type": "Offer",
+                  name: "Crush Diamond VIP",
+                  price: "19.99",
+                  priceCurrency: "USD",
+                  url: "https://rizzlachat.com/upgrade",
+                },
+              ],
+            },
           ],
         }),
       },
     ],
   }),
+
 
   shellComponent: RootShell,
   component: RootComponent,
