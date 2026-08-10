@@ -3,6 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { dmSendMessage, dmFetchThread } from "@/lib/dm.functions";
 import { X, Send, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { AvatarImg } from "@/components/Avatar";
 
 export type ContactTarget = {
   id: string;
@@ -98,7 +99,12 @@ export function AdminContactPanel({ target, onClose }: { target: ContactTarget |
       <button aria-label="Close" onClick={onClose} className="absolute inset-0 bg-background/70 backdrop-blur-sm" />
       <aside className="relative flex h-full w-full max-w-md flex-col border-l border-border bg-card shadow-2xl">
         <header className="flex items-center gap-3 border-b border-border p-4">
-          <img loading="lazy" decoding="async" src={target.avatar_url ?? "/favicon.ico"} alt="" className="h-9 w-9 rounded-full bg-muted object-cover" />
+          <AvatarImg
+            src={target.avatar_url ?? "/favicon.ico"}
+            name={target.name}
+            className="h-9 w-9 rounded-full bg-muted object-cover"
+            fallbackClassName="h-9 w-9 rounded-full"
+          />
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold">{target.name || "(no name)"}</p>
             <p className="truncate text-[11px] text-muted-foreground">{target.subtitle ?? "Direct message"}</p>

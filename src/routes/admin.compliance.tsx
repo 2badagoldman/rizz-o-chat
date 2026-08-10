@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { getComplianceReport, type ComplianceReport, type ComplianceRow } from "@/lib/compliance-report.functions";
 import { AdminContactPanel, type ContactTarget } from "@/components/admin/AdminContactPanel";
 import { AlertTriangle, Download, MessageSquare, RefreshCw, ShieldCheck, Clock, Users } from "lucide-react";
+import { AvatarImg } from "@/components/Avatar";
 
 export const Route = createFileRoute("/admin/compliance")({
   head: () => ({
@@ -210,10 +211,11 @@ function Stat({
 function Row({ row, onMessage }: { row: ComplianceRow; onMessage: () => void }) {
   return (
     <li className="flex flex-wrap items-center gap-3 p-3">
-      <img loading="lazy" decoding="async"
+      <AvatarImg
         src={row.avatar_url ?? "/favicon.ico"}
-        alt=""
+        name={row.display_name}
         className="h-9 w-9 rounded-full object-cover bg-muted"
+        fallbackClassName="h-9 w-9 rounded-full"
       />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold">{row.display_name || "(no name)"}</p>
