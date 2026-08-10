@@ -10,13 +10,13 @@ import { isNativeApp } from "@/lib/native";
 /**
  * "Jen is live now — come say hi" device notifications.
  *
- * Fires a real OS notification (with the host's photo) when a host comes
+ * Fires a real OS notification (with the creator's photo) when a creator comes
  * online, for subscribed and non-subscribed members alike.
  *
  * Frequency guardrails so it never feels spammy:
  *  - at most 3 per day
  *  - at least 25 minutes between alerts
- *  - the same host at most once every 24h
+ *  - the same creator at most once every 24h
  */
 const DAY = 86_400_000;
 const MIN_GAP = 25 * 60_000;
@@ -108,23 +108,23 @@ export function LiveHostAlerts() {
         if (!fresh.length) return;
 
         const creator = fresh[Math.floor(Math.random() * fresh.length)];
-        const name = host.display_name ?? "Someone";
+        const name = creator.display_name ?? "Someone";
 
         const n = new Notification(`${name} is live now`, {
           body: `${name} is online and waiting — come say hi 👋`,
-          icon: host.avatar_url ?? crushLogo.url,
+          icon: creator.avatar_url ?? crushLogo.url,
           badge: crushLogo.url,
-          tag: `crush-live-${host.id}`,
+          tag: `crush-live-${creator.id}`,
           // Big preview image on platforms that support it (Chrome/Android).
-          ...({ image: host.avatar_url ?? undefined } as Record<string, unknown>),
+          ...({ image: creator.avatar_url ?? undefined } as Record<string, unknown>),
         });
         n.onclick = () => {
           window.focus();
-          navigate({ to: "/chat/user/$userId", params: { userId: host.id } });
+          navigate({ to: "/chat/user/$userId", params: { userId: creator.id } });
           n.close();
         };
 
-        seen[host.id] = Date.now();
+        seen[creator.id] = Date.now();
         writeJson(HOST_KEY, seen);
         bumpQuota();
       } finally {

@@ -63,7 +63,7 @@ function Discover() {
   const [filter, setFilter] = useState<(typeof FILTERS)[number]["key"]>("all");
   const [sort, setSort] = useState<SortKey>("featured");
   // Bumped on every filter tap so the grid visibly reshuffles instead of
-  // looking frozen when a tier has few hosts.
+  // looking frozen when a tier has few creators.
   const [bump, setBump] = useState(0);
 
   const shuffled = useShuffled(DEMO_HOSTS, 10_000);
@@ -167,7 +167,7 @@ function Discover() {
           <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Creators</p>
           <h2 className="mt-0.5 truncate text-lg font-bold">Meet your next favorite</h2>
           <p className="mt-0.5 text-[11px] font-semibold text-muted-foreground" aria-live="polite">
-            {hosts.length} {hosts.length === 1 ? "host" : "hosts"}
+            {creators.length} {creators.length === 1 ? "host" : "hosts"}
             {isFiltered ? " match your search" : " available"}
           </p>
         </div>
@@ -189,7 +189,7 @@ function Discover() {
         </label>
       </div>
 
-      {hosts.length === 0 ? (
+      {creators.length === 0 ? (
         <PrismEmptyState
           className="mt-6"
           icon={<Sparkles className="h-6 w-6" />}
@@ -212,7 +212,7 @@ function Discover() {
       ) : (
         <section className="mt-3 grid grid-cols-2 gap-3">
           <RealHostCards term={term} />
-          {hosts.map((h) => (
+          {creators.map((h) => (
             <HostCard key={h.id} creator={h} />
           ))}
         </section>
@@ -234,10 +234,10 @@ function RealHostCards({ term }: { term: string }) {
   const creators = (data ?? []).filter(
     (h) => !term || h.display_name.toLowerCase().includes(term),
   );
-  if (hosts.length === 0) return null;
+  if (creators.length === 0) return null;
   return (
     <>
-      {hosts.map((h) => (
+      {creators.map((h) => (
         <Link
           key={h.id}
           to="/u/$userId"
@@ -277,28 +277,28 @@ function HostCard({ creator }: { creator: DemoHost }) {
   return (
     <Link
       to="/host/$hostId"
-      params={{ hostId: host.id }}
+      params={{ hostId: creator.id }}
       className="group overflow-hidden rounded-3xl border border-border bg-card transition active:scale-[0.98]"
     >
       <div
         className="relative aspect-[3/4] w-full overflow-hidden"
-        style={{ background: host.gradient }}
+        style={{ background: creator.gradient }}
       >
         <img
-          src={hostAvatarMed(host.id)}
+          src={hostAvatarMed(creator.id)}
           alt=""
           loading="lazy"
           decoding="async"
           className="absolute inset-0 h-full w-full object-cover mix-blend-luminosity opacity-95 transition group-hover:scale-[1.03] group-hover:mix-blend-normal"
         />
 
-        <div className="absolute inset-0" style={{ background: host.gradient, mixBlendMode: "soft-light", opacity: 0.55 }} />
+        <div className="absolute inset-0" style={{ background: creator.gradient, mixBlendMode: "soft-light", opacity: 0.55 }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
         <div className="absolute inset-x-2 top-2 flex items-center justify-between">
           <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
-            {tierLabel(host.tier)}
+            {tierLabel(creator.tier)}
           </span>
-          {host.online ? (
+          {creator.online ? (
             <span className="flex items-center gap-1 rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
               <Circle className="h-2 w-2 fill-success text-success" /> Online
             </span>
@@ -306,13 +306,13 @@ function HostCard({ creator }: { creator: DemoHost }) {
         </div>
         <div className="absolute inset-x-2 bottom-2 text-white">
           <p className="text-base font-bold leading-tight">
-            {host.name}, {host.age}
+            {creator.name}, {creator.age}
           </p>
-          <p className="text-[11px] opacity-90">{host.city}</p>
+          <p className="text-[11px] opacity-90">{creator.city}</p>
         </div>
         {/* photo count / video badge */}
         <div className="absolute bottom-2 right-2 flex flex-col items-end gap-1">
-          {host.hasVideo ? (
+          {creator.hasVideo ? (
             <span className="rounded-full bg-primary/90 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
               Video
             </span>
@@ -321,11 +321,11 @@ function HostCard({ creator }: { creator: DemoHost }) {
       </div>
       <div className="flex items-center justify-between px-3 py-2">
         <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
-          <Users className="h-3 w-3" /> {host.subscribers}
+          <Users className="h-3 w-3" /> {creator.subscribers}
         </div>
         <div className="flex items-center gap-1 text-xs font-semibold">
           <img loading="lazy" decoding="async" src={rizzLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" />
-          ${host.priceMonthly}/mo
+          ${creator.priceMonthly}/mo
         </div>
       </div>
     </Link>

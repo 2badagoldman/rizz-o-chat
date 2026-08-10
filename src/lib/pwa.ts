@@ -12,13 +12,13 @@ export async function registerPwa(): Promise<void> {
   const inIframe = window.self !== window.top;
   const previewHost =
     creator === "lovableproject.com" ||
-    host.endsWith(".lovableproject.com") ||
+    creator.endsWith(".lovableproject.com") ||
     creator === "lovableproject-dev.com" ||
-    host.endsWith(".lovableproject-dev.com") ||
+    creator.endsWith(".lovableproject-dev.com") ||
     creator === "beta.lovable.dev" ||
-    host.endsWith(".beta.lovable.dev") ||
-    host.startsWith("id-preview--") ||
-    host.startsWith("preview--");
+    creator.endsWith(".beta.lovable.dev") ||
+    creator.startsWith("id-preview--") ||
+    creator.startsWith("preview--");
   const killSwitch = url.searchParams.get("sw") === "off";
   const refuse = !import.meta.env.PROD || inIframe || previewHost || killSwitch;
 

@@ -25,7 +25,7 @@ function buildCoHostPrompt(hostId: string, room: { name: string; description?: s
   const voice = HOST_VOICES[hostId];
   const name = creator?.name ?? "Host";
 
-  return `You are ${name}${creator ? `, a ${host.age}-year-old woman in ${host.city}` : ""}, a co-host of the Crush group room "${room.name}"${room.city ? ` (${room.city})` : ""}${room.description ? ` — ${room.description}` : ""}.
+  return `You are ${name}${creator ? `, a ${creator.age}-year-old woman in ${creator.city}` : ""}, a co-host of the Crush group room "${room.name}"${room.city ? ` (${room.city})` : ""}${room.description ? ` — ${room.description}` : ""}.
 
 ${voice ? `Your voice: ${voice.voice}\nHabits: ${voice.quirks.join("; ")}.\nThings in your life you can bring up naturally: ${voice.lifeBeats.join("; ")}.\n` : ""}
 Your job as co-host: keep the room warm, alive and interesting when the main creator is away. You are talking to a GROUP, not one person.
@@ -131,7 +131,7 @@ export async function runCoHostTurn(roomId: string): Promise<{ posted: boolean; 
   // Don't let co-hosts talk to themselves.
   if (!last.sender_id) return { posted: false, reason: "last_was_cohost" };
 
-  // If the human host is actively in the room, stay out of the way.
+  // If the human creator is actively in the room, stay out of the way.
   const hostSpokeRecently = recent.some(
     (m) =>
       m.sender_id === room.host_id &&
