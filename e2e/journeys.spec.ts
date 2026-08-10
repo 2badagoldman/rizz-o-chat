@@ -24,9 +24,9 @@ test.describe("core journeys", () => {
   test("Home renders hero, stories and host rails", async ({ page }) => {
     const errors = collectErrors(page);
     await open(page, "/");
-    await expect(page.getByRole("heading", { level: 1 })).toContainText(/verified hosts/i);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/verified creators/i);
     await expect(page.getByRole("heading", { name: /online now/i })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /featured hosts/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /featured creators/i })).toBeVisible();
     await expectRendered(page);
     expect(errors.errors, "home runtime errors").toEqual([]);
   });
@@ -36,7 +36,7 @@ test.describe("core journeys", () => {
     await open(page, "/discover");
     await expect(page.getByRole("heading", { level: 1 })).toContainText(/ready to chat/i);
 
-    const search = page.getByLabel(/search hosts, cities and interests/i);
+    const search = page.getByLabel(/search creators, cities and interests/i);
     await expect(search).toBeVisible();
 
     const cardsBefore = await page.locator("a[href^='/host/']").count();
@@ -47,16 +47,16 @@ test.describe("core journeys", () => {
 
     await search.fill("");
     await page.waitForTimeout(500);
-    await expect(page.getByRole("group", { name: /filter hosts/i })).toBeVisible();
+    await expect(page.getByRole("group", { name: /filter creators/i })).toBeVisible();
     await expectRendered(page);
     expect(errors.errors, "discover runtime errors").toEqual([]);
   });
 
-  test("Chats lists AI hosts and supports search", async ({ page }) => {
+  test("Chats lists AI creators and supports search", async ({ page }) => {
     const errors = collectErrors(page);
     await open(page, "/chats");
     await expect(page.getByRole("heading", { name: "Chats", level: 1 })).toBeVisible();
-    const search = page.getByPlaceholder(/search ai hosts/i).first();
+    const search = page.getByPlaceholder(/search ai creators/i).first();
     await expect(search).toBeVisible();
     await search.fill("jen");
     await page.waitForTimeout(600);
