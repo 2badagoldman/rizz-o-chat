@@ -49,6 +49,50 @@ Boundaries (never break these):
 
 type RoomMessage = { sender_id: string | null; ai_host_id: string | null; body: string; created_at: string; name?: string };
 
+function starterMessages(room: { name: string; description?: string | null; category?: string | null; city?: string | null }) {
+  const topic = room.description?.trim() || room.category?.trim() || room.name;
+  const place = room.city ? ` in ${room.city}` : "";
+  return [
+    {
+      ai_host_id: DEFAULT_CO_HOSTS[0],
+      body: `Okay, let's get this room going${place} — what got everyone interested in ${topic}?`,
+    },
+    {
+      ai_host_id: DEFAULT_CO_HOSTS[1],
+      body: `My take: the best conversations about ${topic} start with a story, not a perfect answer. What's one experience that changed your view?`,
+    },
+    {
+      ai_host_id: DEFAULT_CO_HOSTS[2],
+      body: `I'm curious where the room lands on this: what's one underrated thing people should know about ${topic}?`,
+    },
+  ];
+}
+
+/** Seed a new public room once so visitors immediately understand its topic. */
+export async function ensureRoomStarterConversation(roomId: string): Promise<boolean> {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const [{ data: room }, { count }] = await Promise.all([
+    supabaseAdmin
+      .from("host_rooms")
+      .select("id, name, description, category, city, is_public")
+      .eq("id", roomId)
+      .maybeSingle(),
+    supabaseAdmin
+      .from("room_messages")
+      .select("id", { count: "exact", head: true })
+      .eq("room_id", roomId),
+  ]);
+  if (!room?.is_public || (count ?? 0) > 0) return false;
+
+  const rows = starterMessages(room).map((message) => ({
+    room_id: roomId,
+    sender_id: null,
+    ...message,
+  }));
+  const { error } = await supabaseAdmin.from("room_messages").insert(rows);
+  return !error;
+}
+
 /**
  * Decides whether a co-host should reply, and posts the message with the
  * service-role client (co-host rows have no auth user).
@@ -78,7 +122,10 @@ export async function runCoHostTurn(roomId: string): Promise<{ posted: boolean; 
     .limit(16);
 
   const recent = ((rows ?? []) as RoomMessage[]).slice().reverse();
-  if (recent.length === 0) return { posted: false, reason: "empty" };
+  if (recent.length === 0) {
+    const seeded = await ensureRoomStarterConversation(roomId);
+    return { posted: seeded, reason: seeded ? "starter_conversation" : "empty" };
+  }
 
   const last = recent[recent.length - 1];
   // Don't let co-hosts talk to themselves.

@@ -269,13 +269,27 @@ export const listRoomMessages = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => i as { roomId: string; limit?: number })
   .handler(async ({ data, context }) => {
-    const { data: rows, error } = await context.supabase
+    let { data: rows, error } = await context.supabase
       .from("room_messages")
       .select("id, sender_id, ai_host_id, body, created_at")
       .eq("room_id", data.roomId)
       .order("created_at", { ascending: true })
       .limit(Math.min(data.limit ?? 200, 500));
     if (error) throw error;
+    if (!rows?.length) {
+      const { ensureRoomStarterConversation } = await import("./room-cohost.server");
+      const seeded = await ensureRoomStarterConversation(data.roomId);
+      if (seeded) {
+        const retry = await context.supabase
+          .from("room_messages")
+          .select("id, sender_id, ai_host_id, body, created_at")
+          .eq("room_id", data.roomId)
+          .order("created_at", { ascending: true })
+          .limit(Math.min(data.limit ?? 200, 500));
+        if (retry.error) throw retry.error;
+        rows = retry.data;
+      }
+    }
     const ids = Array.from(new Set((rows ?? []).map((m: any) => m.sender_id).filter(Boolean)));
     let profiles: any[] = [];
     if (ids.length > 0) {
