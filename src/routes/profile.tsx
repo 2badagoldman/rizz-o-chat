@@ -302,7 +302,7 @@ function Profile() {
             </p>
             <p className="truncate text-xs text-muted-foreground">{user.email}</p>
             <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-primary">
-              {profile?.account_type ?? "member"}
+              {profile?.account_type === "host" ? "creator" : "member"}
               {profile?.account_type === "host"
                 ? ` · ${profile.verification_status}`
                 : ""}
