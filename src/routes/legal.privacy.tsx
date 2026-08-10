@@ -24,7 +24,7 @@ function Privacy() {
           items={[
             <>
               <b className="text-foreground">Account data</b> — email address, display name, password hash (managed by our
-              auth provider), age confirmation, gender if you choose to provide it, and role (member, host, admin).
+              auth provider), age confirmation, gender if you choose to provide it, and role (member, creator, admin).
             </>,
             <>
               <b className="text-foreground">Profile content</b> — bio, photos, videos and captions you upload, and the
@@ -69,7 +69,7 @@ function Privacy() {
           items={[
             "Stripe, Inc. — payment processing, subscription billing, fraud screening and tax calculation. Card data is collected directly by Stripe.",
             "Cloud hosting, database, authentication and file storage providers — to run the app and store your account, messages and media.",
-            "AI model providers — to generate assistant replies and AI host messages from the prompt you submit.",
+            "AI model providers — to generate assistant replies and AI creator messages from the prompt you submit.",
             "Email and analytics providers — transactional email delivery and aggregate product analytics.",
             "Other users — the profile information, media and messages you deliberately publish or send to them.",
             "Law enforcement or regulators — where legally required, or to investigate fraud, child safety or serious harm.",

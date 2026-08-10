@@ -18,7 +18,7 @@ export const Route = createFileRoute("/chats")({
   head: () => pageHead({
     path: "/chats",
     title: "Your chats \u2014 Crush",
-    description: "All your Crush conversations in one place. Chat with verified hosts and friends.",
+    description: "All your Crush conversations in one place. Chat with verified creators and friends.",
     noindex: true,
   }),
 
@@ -125,10 +125,10 @@ function Chats() {
     <section className="mt-4">
       <div className="flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-primary" />
-        <h2 className="text-sm font-semibold">Chat free with our AI hosts</h2>
+        <h2 className="text-sm font-semibold">Chat free with our AI creators</h2>
       </div>
       <p className="mt-0.5 text-xs text-muted-foreground">
-        {aiHosts.length} signature hosts — powered by Crush AI. Free to chat, no signup required.
+        {aiHosts.length} signature creators — powered by Crush AI. Free to chat, no signup required.
       </p>
       <div className="mt-3 space-y-2">
         {aiHosts.map((h) => (
@@ -145,7 +145,7 @@ function Chats() {
       <AppShell>
         <h1 className="pt-6 text-2xl font-bold">Chats</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Chat one of our signature hosts right now — no signup needed.
+          Chat one of our signature creators right now — no signup needed.
         </p>
 
         <div className="mt-4 flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2">
@@ -153,7 +153,7 @@ function Chats() {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search AI hosts by name, handle, or city…"
+            placeholder="Search AI creators by name, handle, or city…"
             className="w-full bg-transparent text-sm outline-none"
           />
         </div>
@@ -161,7 +161,7 @@ function Chats() {
         {q.trim() ? (
           <section className="mt-3">
             <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-              {aiMatches.length} AI host{aiMatches.length === 1 ? "" : "s"} match &ldquo;{q}&rdquo;
+              {aiMatches.length} AI creator{aiMatches.length === 1 ? "" : "s"} match &ldquo;{q}&rdquo;
             </p>
             <div className="mt-2 space-y-2">
               {aiMatches.map((h) => (
@@ -169,7 +169,7 @@ function Chats() {
               ))}
               {aiMatches.length === 0 ? (
                 <p className="rounded-2xl border border-dashed border-border p-4 text-center text-xs text-muted-foreground">
-                  No AI hosts match. Try a name like &ldquo;Jen&rdquo; or a city like &ldquo;Miami&rdquo;.
+                  No AI creators match. Try a name like &ldquo;Jen&rdquo; or a city like &ldquo;Miami&rdquo;.
                 </p>
               ) : null}
             </div>
@@ -179,7 +179,7 @@ function Chats() {
         )}
 
         <div className="mt-6 rounded-2xl border border-border bg-card p-5 text-center shadow-card">
-          <p className="text-sm">Ready for the full app — real hosts, Rooms, gifts, invites?</p>
+          <p className="text-sm">Ready for the full app — real creators, Rooms, gifts, invites?</p>
           <Link to="/auth" className="btn-brand mt-3 inline-flex">
             Create your free account
           </Link>
@@ -202,7 +202,7 @@ function Chats() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search AI hosts or members by name…"
+          placeholder="Search AI creators or members by name…"
           className="w-full bg-transparent text-sm outline-none"
         />
       </div>
@@ -212,7 +212,7 @@ function Chats() {
           {aiMatches.length > 0 ? (
             <section className="mt-3">
               <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                AI hosts · {aiMatches.length}
+                AI creators · {aiMatches.length}
               </p>
               <div className="mt-2 space-y-2">
                 {aiMatches.map((h) => (
@@ -306,7 +306,7 @@ function Chats() {
             to="/discover"
             className="mt-5 block rounded-2xl border border-dashed border-border bg-card p-6 text-center text-sm text-muted-foreground hover:bg-primary/5"
           >
-            Discover real hosts →
+            Discover real creators →
           </Link>
         </>
       )}

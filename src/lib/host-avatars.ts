@@ -1,10 +1,10 @@
-// Portrait pool for demo hosts — elite editorial-grade AI portraits only.
+// Portrait pool for demo creators — elite editorial-grade AI portraits only.
 // All images bundled locally in src/assets/elite/ (offline, CDN-free, Vite
 // fingerprints & long-caches).
 //
-// Uniqueness contract: every demo host id gets a distinct portrait, so no
+// Uniqueness contract: every demo creator id gets a distinct portrait, so no
 // two profiles across Home / Discover / rails ever share a face. When the
-// host count exceeds the pool size we fall back to a deterministic hash so
+// creator count exceeds the pool size we fall back to a deterministic hash so
 // behaviour stays stable.
 import { DEMO_HOSTS } from "./demo-hosts";
 import { getShowcaseAvatar } from "./showcase-avatar-store";
@@ -29,22 +29,22 @@ function hash(id: string): number {
   return Math.abs(h);
 }
 
-// Build a stable id -> portrait-index map so every known demo host is
+// Build a stable id -> portrait-index map so every known demo creator is
 // guaranteed a unique portrait when the pool is large enough.
 const ASSIGNMENT: Map<string, number> = (() => {
   const map = new Map<string, number>();
   const used = new Set<number>();
   const poolSize = POOL.length;
-  DEMO_HOSTS.forEach((host, i) => {
+  DEMO_HOSTS.forEach((creator, i) => {
     let idx: number;
     if (poolSize === 0) {
       idx = 0;
     } else if (i < poolSize) {
-      // First pass: assign by natural order so unique for up to POOL.length hosts.
+      // First pass: assign by natural order so unique for up to POOL.length creators.
       idx = i;
     } else {
       // Overflow: hash + linear probe so it stays deterministic but spreads.
-      idx = hash(host.id) % poolSize;
+      idx = hash(creator.id) % poolSize;
       let step = 0;
       while (used.has(idx) && step < poolSize) {
         idx = (idx + 1) % poolSize;
@@ -52,13 +52,13 @@ const ASSIGNMENT: Map<string, number> = (() => {
       }
     }
     used.add(idx);
-    map.set(host.id, idx);
+    map.set(creator.id, idx);
   });
   return map;
 })();
 
 function portraitFor(id: string): string {
-  // Showcase image override wins so AI hosts share faces with the reel.
+  // Showcase image override wins so AI creators share faces with the reel.
   const override = getShowcaseAvatar(id);
   if (override) return override;
   if (POOL.length === 0) return "";

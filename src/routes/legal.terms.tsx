@@ -45,15 +45,15 @@ function Terms() {
 
       <Section heading="3. What Crush is (and is not)">
         <p>
-          Crush is a social chat and creator-membership platform. Members can browse creator ("Host") profiles, join a
-          Host's Friends List, chat one-to-one, join group Rooms, send digital gifts and tips, and use our AI chat
+          Crush is a social chat and creator-membership platform. Members can browse creator profiles, join a
+          Creator's Friends List, chat one-to-one, join group Rooms, send digital gifts and tips, and use our AI chat
           assistant for conversation coaching.
         </p>
         <Bullets
           items={[
             "Crush is entertainment and social networking. We do not provide escort, dating-guarantee, matchmaking, financial, legal, medical or therapeutic services.",
-            "Some profiles are clearly labelled as AI hosts or demo content. AI conversations are machine-generated, may be inaccurate, and are not a real person's advice.",
-            "We do not employ Hosts. Hosts are independent creators responsible for their own content and conduct.",
+            "Some profiles are clearly labelled as AI creators or demo content. AI conversations are machine-generated, may be inaccurate, and are not a real person's advice.",
+            "We do not employ creators. Creators are independent creators responsible for their own content and conduct.",
             "Nothing on the Service is an offer of, or payment for, sexual services. Such use is prohibited and reported where required.",
           ]}
         />
@@ -75,7 +75,7 @@ function Terms() {
           items={[
             "Coins are a limited, revocable licence to access digital features inside Crush. Coins are not money, not a deposit, not stored value redeemable for cash, and carry no interest or ownership rights.",
             "Coins have no cash value, cannot be exchanged for cash, transferred between accounts, or sold outside the Service.",
-            "Memberships (including Crush Gold, Crush Diamond VIP and a Host's Friends List) are recurring subscriptions that renew automatically until cancelled.",
+            "Memberships (including Crush Gold, Crush Diamond VIP and a Creator's Friends List) are recurring subscriptions that renew automatically until cancelled.",
             "Gifts and tips are voluntary, immediately delivered digital items. Once sent, they are consumed and non-reversible.",
             "Prices are shown in " + LEGAL.currency + " before payment. Full pricing, tax and renewal detail is in our Billing & Payment Terms.",
           ]}
@@ -85,7 +85,7 @@ function Terms() {
       <Section heading="6. Your content and licence to us">
         <p>
           You keep ownership of the photos, videos, text and messages you upload ("Your Content"). You grant us a
-          worldwide, non-exclusive, royalty-free licence to host, store, reproduce, adapt (for formatting, thumbnails
+          worldwide, non-exclusive, royalty-free licence to creator, store, reproduce, adapt (for formatting, thumbnails
           and compression) and display Your Content solely to operate, secure, moderate and promote the Service.
         </p>
         <Bullets
@@ -98,12 +98,12 @@ function Terms() {
         />
       </Section>
 
-      <Section heading="7. Hosts and creator payouts">
+      <Section heading="7. Creators and creator payouts">
         <p>
-          Hosts are independent creators, not employees, partners or agents of {LEGAL.entity}. Hosts are solely
+          Creators are independent creators, not employees, partners or agents of {LEGAL.entity}. Creators are solely
           responsible for their own taxes, licences and legal compliance. Revenue split, payout timing, minimum
           thresholds and clawbacks are described in our Creator & Payout Terms, which form part of these Terms for
-          anyone who applies to be a Host.
+          anyone who applies to be a creator.
         </p>
       </Section>
 
@@ -122,7 +122,7 @@ function Terms() {
 
       <Section heading="9. AI features">
         <p>
-          Our AI assistant and AI hosts generate text automatically. Output may be wrong, outdated or unsuitable. You
+          Our AI assistant and AI creators generate text automatically. Output may be wrong, outdated or unsuitable. You
           are responsible for how you use it, must not rely on it for legal, medical, financial or safety decisions, and
           must not submit other people's private data or intimate images to it.
         </p>
@@ -150,7 +150,7 @@ function Terms() {
           The Service is provided "as is" and "as available". To the maximum extent permitted by law we disclaim all
           implied warranties, including merchantability, fitness for a particular purpose and non-infringement. We do
           not warrant uninterrupted or error-free operation, and we do not guarantee any level of engagement, earnings,
-          matches or responses from any Host or member.
+          matches or responses from any Creator or member.
         </p>
       </Section>
 

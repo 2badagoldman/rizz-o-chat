@@ -12,7 +12,7 @@ export const Route = createFileRoute("/api/public/demo-chat")({
         const hostId = body.hostId ?? "";
 
         if (!(AI_HOST_IDS as readonly string[]).includes(hostId)) {
-          return new Response("This host isn't open for free chat.", { status: 403 });
+          return new Response("This creator isn't open for free chat.", { status: 403 });
         }
         if (!Array.isArray(body.messages)) {
           return new Response("messages required", { status: 400 });

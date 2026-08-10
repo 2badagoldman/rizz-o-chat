@@ -64,10 +64,10 @@ export function buildDemoStoryGroups(): StoryGroup[] {
   const now = Date.now();
   const groups: StoryGroup[] = [];
 
-  const hosts = DEMO_HOSTS.filter((h) => h.online || (AI_HOST_IDS as readonly string[]).includes(h.id));
+  const creators = DEMO_HOSTS.filter((h) => h.online || (AI_HOST_IDS as readonly string[]).includes(h.id));
 
-  for (const host of hosts) {
-    const id = host.id;
+  for (const creator of creators) {
+    const id = creator.id;
     const beats = [...(BEATS[id] ?? [])];
     // Everyone keeps at least 3 viewable stories so the rail never looks dead.
     let f = 0;
@@ -98,7 +98,7 @@ export function buildDemoStoryGroups(): StoryGroup[] {
 
     groups.push({
       author_id: id,
-      display_name: host.name,
+      display_name: creator.name,
       avatar_url: avatar,
       stories,
       allSeen: false,

@@ -15,7 +15,7 @@ type Msg = { role: "user" | "assistant"; content: string };
 
 const SUGGESTIONS = [
   "Give me a plain-English summary of the last 24h of traffic.",
-  "Draft an email to hosts announcing a new referral bonus.",
+  "Draft an email to creators announcing a new referral bonus.",
   "Which pages have the highest engagement and why?",
   "Write copy for a promo slide targeting Dallas members.",
   "Suggest 3 features to boost session length.",

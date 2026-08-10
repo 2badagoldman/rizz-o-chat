@@ -31,10 +31,10 @@ export const listAllHosts = createServerFn({ method: "POST" })
       q = q.is("deleted_at", null);
       if (data.status !== "all") q = q.eq("verification_status", data.status as "pending" | "verified" | "rejected");
     }
-    const { data: hosts, error } = await q;
+    const { data: creators, error } = await q;
     if (error) throw error;
 
-    const ids = (hosts ?? []).map((h: any) => h.id);
+    const ids = (creators ?? []).map((h: any) => h.id);
     let lists: any[] = [];
     if (ids.length > 0) {
       const r = await context.supabase
@@ -44,7 +44,7 @@ export const listAllHosts = createServerFn({ method: "POST" })
       lists = r.data ?? [];
     }
     const byHost = new Map(lists.map((l) => [l.host_id, l]));
-    let rows = (hosts ?? []).map((h: any) => ({ ...h, list: byHost.get(h.id) ?? null }));
+    let rows = (creators ?? []).map((h: any) => ({ ...h, list: byHost.get(h.id) ?? null }));
     if (data.q) {
       rows = rows.filter((r: any) =>
         (r.display_name ?? "").toLowerCase().includes(data.q),
@@ -182,7 +182,7 @@ export const getHostDetail = createServerFn({ method: "POST" })
       .eq("id", data.hostId)
       .maybeSingle();
     if (pErr) throw pErr;
-    if (!profile) throw new Error("Host not found");
+    if (!profile) throw new Error("Creator not found");
 
     // Signed avatar
     let avatarSignedUrl: string | null = null;
@@ -279,7 +279,7 @@ export const signupsByBackground = createServerFn({ method: "POST" })
     );
     const demoById = new Map((demo ?? []).map((d) => [d.user_id, d.ethnicity as string | null]));
 
-    const counts = new Map<string, { members: number; hosts: number; last30: number }>();
+    const counts = new Map<string, { members: number; creators: number; last30: number }>();
     let answered = 0;
     const since = Date.now() - 30 * 24 * 60 * 60 * 1000;
 
@@ -287,8 +287,8 @@ export const signupsByBackground = createServerFn({ method: "POST" })
       const label = (demoById.get(p.id) || p.heritage || "").trim();
       if (!label) continue;
       answered += 1;
-      const bucket = counts.get(label) ?? { members: 0, hosts: 0, last30: 0 };
-      if (p.account_type === "host") bucket.hosts += 1;
+      const bucket = counts.get(label) ?? { members: 0, creators: 0, last30: 0 };
+      if (p.account_type === "host") bucket.creators += 1;
       else bucket.members += 1;
       if (+new Date(p.created_at) >= since) bucket.last30 += 1;
       counts.set(label, bucket);
@@ -298,11 +298,11 @@ export const signupsByBackground = createServerFn({ method: "POST" })
     const rows = Array.from(counts.entries())
       .map(([label, v]) => ({
         label,
-        count: v.members + v.hosts,
+        count: v.members + v.creators,
         members: v.members,
-        hosts: v.hosts,
+        creators: v.creators,
         last30: v.last30,
-        pct: answered ? Math.round(((v.members + v.hosts) / answered) * 100) : 0,
+        pct: answered ? Math.round(((v.members + v.creators) / answered) * 100) : 0,
       }))
       .sort((a, b) => b.count - a.count);
 

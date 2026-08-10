@@ -148,7 +148,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
             <button
               onClick={() => setSearchOpen(true)}
               className="press-spring shrink-0 rounded-full border border-border/70 bg-card/60 p-1.5 text-foreground backdrop-blur-xl hover:bg-primary/10"
-              aria-label="Search hosts"
+              aria-label="Search creators"
             >
               <Search className="h-4 w-4" />
             </button>

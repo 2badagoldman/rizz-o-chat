@@ -14,7 +14,7 @@ export const Route = createFileRoute("/auth")({
   head: () => pageHead({
     path: "/auth",
     title: "Sign in or join free \u2014 Crush",
-    description: "Join Crush free. Chat with verified hosts, join Friends Lists, and meet new friends.",
+    description: "Join Crush free. Chat with verified creators, join Friends Lists, and meet new friends.",
     noindex: true,
   }),
 
@@ -241,7 +241,7 @@ function AuthPage() {
                   }}
                 >
                   <p className="text-sm font-semibold">
-                    {r === "member" ? "Join as Member" : "Apply as Host"}
+                    {r === "member" ? "Join as Member" : "Apply as Creator"}
                   </p>
                   <p className="mt-1 text-[11px] text-muted-foreground">
                     {r === "member" ? "Subscribe & chat" : "Run a Friends List"}
@@ -386,7 +386,7 @@ function AuthPage() {
             />
             <span>
               I confirm I am <strong>18 or older</strong> and agree to the platform
-              guidelines. Hosts are openly disclosed as compensated partners.
+              guidelines. Creators are openly disclosed as compensated partners.
             </span>
           </label>
         )}

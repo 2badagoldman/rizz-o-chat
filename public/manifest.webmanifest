@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "Crush — Real conversations with verified hosts",
+  "name": "Crush — Real conversations with verified creators",
   "short_name": "Crush",
-  "description": "18+ social chat app where members join verified hosts Friends Lists for private chats, rooms and gifts.",
+  "description": "18+ social chat app where members join verified creators Friends Lists for private chats, rooms and gifts.",
   "lang": "en",
   "start_url": "/",
   "scope": "/",

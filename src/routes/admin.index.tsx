@@ -66,8 +66,8 @@ function AdminDashboard() {
           <section className="mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             <Metric icon={<DollarSign className="h-4 w-4" />} label="Gross" value={usd(gross)} accent />
             <Metric icon={<Crown className="h-4 w-4" />} label="Your take" value={usd(platform)} accent />
-            <Metric icon={<Wallet className="h-4 w-4" />} label="Host earnings" value={usd(hostShare)} />
-            <Metric icon={<Users className="h-4 w-4" />} label="Active hosts" value={String(m.active_hosts ?? 0)} />
+            <Metric icon={<Wallet className="h-4 w-4" />} label="Creator earnings" value={usd(hostShare)} />
+            <Metric icon={<Users className="h-4 w-4" />} label="Active creators" value={String(m.active_hosts ?? 0)} />
             <Metric icon={<Users className="h-4 w-4" />} label="Members" value={String(m.total_members ?? 0)} />
             <Metric icon={<TrendingUp className="h-4 w-4" />} label="Active subs" value={String(m.active_subs ?? 0)} />
           </section>
@@ -90,10 +90,10 @@ function AdminDashboard() {
             </section>
 
             <section className="rounded-2xl border border-border bg-card p-4">
-              <h2 className="text-sm font-semibold">Top hosts</h2>
+              <h2 className="text-sm font-semibold">Top creators</h2>
               <div className="mt-3 space-y-1.5">
                 {(data?.topHosts ?? []).length === 0 ? (
-                  <p className="text-xs text-muted-foreground">No host earnings yet.</p>
+                  <p className="text-xs text-muted-foreground">No creator earnings yet.</p>
                 ) : (
                   (data?.topHosts ?? []).slice(0, 10).map((h, i) => (
                     <div key={h.host_id} className="flex items-center justify-between border-b border-border/50 py-1.5 text-sm">
@@ -249,7 +249,7 @@ function Metric({ icon, label, value, accent }: { icon?: React.ReactNode; label:
   );
 }
 
-type BgRow = { label: string; count: number; members: number; hosts: number; last30: number; pct: number };
+type BgRow = { label: string; count: number; members: number; creators: number; last30: number; pct: number };
 
 function BackgroundPanel() {
   const load = useServerFn(signupsByBackground);
@@ -293,7 +293,7 @@ function BackgroundPanel() {
               </span>
               <span className="w-44 shrink-0 text-right text-[11px] text-muted-foreground">
                 <span className="font-mono text-foreground">{r.count}</span> · {r.pct}% ·{" "}
-                {r.members}M / {r.hosts}H
+                {r.members}M / {r.creators}H
                 {r.last30 > 0 ? <span className="text-emerald-600"> · +{r.last30} 30d</span> : null}
               </span>
             </div>

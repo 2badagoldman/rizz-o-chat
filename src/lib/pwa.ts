@@ -8,17 +8,17 @@ export async function registerPwa(): Promise<void> {
   if (!("serviceWorker" in navigator)) return;
 
   const url = new URL(window.location.href);
-  const host = window.location.hostname;
+  const creator = window.location.hostname;
   const inIframe = window.self !== window.top;
   const previewHost =
-    host === "lovableproject.com" ||
-    host.endsWith(".lovableproject.com") ||
-    host === "lovableproject-dev.com" ||
-    host.endsWith(".lovableproject-dev.com") ||
-    host === "beta.lovable.dev" ||
-    host.endsWith(".beta.lovable.dev") ||
-    host.startsWith("id-preview--") ||
-    host.startsWith("preview--");
+    creator === "lovableproject.com" ||
+    creator.endsWith(".lovableproject.com") ||
+    creator === "lovableproject-dev.com" ||
+    creator.endsWith(".lovableproject-dev.com") ||
+    creator === "beta.lovable.dev" ||
+    creator.endsWith(".beta.lovable.dev") ||
+    creator.startsWith("id-preview--") ||
+    creator.startsWith("preview--");
   const killSwitch = url.searchParams.get("sw") === "off";
   const refuse = !import.meta.env.PROD || inIframe || previewHost || killSwitch;
 

@@ -11,7 +11,7 @@ function makeCode(len = 8) {
 async function assertHost(ctx: { supabase: any; userId: string }) {
   const { data: profile } = await ctx.supabase
     .from("profiles").select("account_type").eq("id", ctx.userId).maybeSingle();
-  if (!profile || profile.account_type !== "host") throw new Error("Hosts only");
+  if (!profile || profile.account_type !== "host") throw new Error("Creators only");
 }
 
 export const hostCreateInvite = createServerFn({ method: "POST" })
@@ -111,12 +111,12 @@ export const previewInvite = createServerFn({ method: "POST" })
       .eq("code", data.code)
       .maybeSingle();
     if (!inv || !inv.active) return { ok: false as const, error: "invalid_code" };
-    const { data: host } = await supabaseAdmin
+    const { data: creator } = await supabaseAdmin
       .from("profiles")
       .select("display_name, avatar_url")
       .eq("id", inv.host_id)
       .maybeSingle();
-    return { ok: true as const, invite: inv, host };
+    return { ok: true as const, invite: inv, creator };
   });
 
 

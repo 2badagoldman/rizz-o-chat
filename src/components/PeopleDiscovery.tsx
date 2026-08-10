@@ -110,7 +110,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             </h2>
             <p className="text-[11.5px] text-muted-foreground">
               {debounced
-                ? "Searching every username — hosts and members"
+                ? "Searching every username — creators and members"
                 : "Join the rush as everyone finds their crush on Crush."}
             </p>
           </div>
@@ -129,7 +129,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search any username — hosts & members…"
+            placeholder="Search any username — creators & members…"
             aria-label="Search people"
             className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
@@ -160,14 +160,14 @@ export function PeopleDiscovery({ open, onClose }: Props) {
                 <Search className="h-5 w-5" />
               </div>
               <p className="mt-3 text-[15px] font-extrabold tracking-tight text-foreground">
-                {debounced ? "No one found" : isHost ? "No new members yet" : "No hosts yet"}
+                {debounced ? "No one found" : isHost ? "No new members yet" : "No creators yet"}
               </p>
               <p className="mx-auto mt-1 max-w-[16rem] text-xs font-semibold text-muted-foreground">
                 {debounced
                   ? `Nobody matches “${debounced}”. Try their exact username.`
                   : isHost
                     ? "Check back soon — new members join Crush every day."
-                    : "Check back soon — new hosts join Crush every day."}
+                    : "Check back soon — new creators join Crush every day."}
               </p>
               {debounced ? (
                 <button
@@ -176,7 +176,7 @@ export function PeopleDiscovery({ open, onClose }: Props) {
                   className="mt-4 rounded-full px-4 py-2 text-xs font-bold text-white shadow-glow transition active:scale-95"
                   style={{ background: "var(--gradient-brand)" }}
                 >
-                  {isHost ? "Show new members" : "Show all hosts"}
+                  {isHost ? "Show new members" : "Show all creators"}
                 </button>
               ) : null}
             </div>

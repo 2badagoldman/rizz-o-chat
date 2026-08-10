@@ -20,7 +20,7 @@ export type DemoHost = {
   photoCount: number;
   hasVideo: boolean;
   teaser: string;
-  /** If true, anyone (even signed-out visitors) can chat with an AI persona of this host for free. */
+  /** If true, anyone (even signed-out visitors) can chat with an AI persona of this creator for free. */
   aiEnabled?: boolean;
 };
 
@@ -73,7 +73,7 @@ export const DEMO_HOSTS: DemoHost[] = [
     age: 23,
     city: "Chicago, IL",
     tagline: "First Crush host. Come say hi 💌",
-    bio: "Founding host on Crush. I'm here to actually reply — tell me about your week and I'll cheer you on.",
+    bio: "Founding creator on Crush. I'm here to actually reply — tell me about your week and I'll cheer you on.",
     interests: ["Coffee", "Concerts", "Dogs", "Deep Talks", "Podcasts"],
     tier: "rising",
     priceMonthly: 12.99,

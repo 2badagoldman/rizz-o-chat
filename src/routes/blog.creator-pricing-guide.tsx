@@ -121,13 +121,13 @@ function CreatorPricingGuide() {
       <header className="mt-3 overflow-hidden rounded-3xl border border-border bg-card/80 p-5 shadow-card backdrop-blur">
         <div className="flex items-center gap-2 text-primary">
           <TrendingUp className="h-4 w-4" />
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em]">Host playbook</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em]">Creator playbook</p>
         </div>
         <h1 className="mt-2 font-display text-2xl font-bold leading-tight">
           How to price your creator subscription
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Maximising earnings through engagement — a tier-by-tier pricing guide for hosts running a
+          Maximising earnings through engagement — a tier-by-tier pricing guide for creators running a
           Friends List on Crush.
         </p>
       </header>
@@ -189,7 +189,7 @@ function CreatorPricingGuide() {
         <Section title="Where the money actually lands">
           <p>
             Your Friends List price is recurring and predictable; tips and coin gifts are spiky and driven by
-            moments. Healthy host accounts usually run roughly two-thirds subscription revenue and one-third
+            moments. Healthy creator accounts usually run roughly two-thirds subscription revenue and one-third
             gifts. If gifts dominate, your subscription is underpriced. If subscriptions dominate completely,
             you are probably under-engaging on the days people most want to spend.
           </p>

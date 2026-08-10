@@ -5,7 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
  * Runtime secrets this app reads. Values are NEVER returned — only presence.
  */
 const RUNTIME_SECRETS: ReadonlyArray<{ name: string; purpose: string; managed?: boolean }> = [
-  { name: "LOVABLE_API_KEY", purpose: "AI Gateway (Rizz Wizard, moderation, AI hosts) + connectors", managed: true },
+  { name: "LOVABLE_API_KEY", purpose: "AI Gateway (Rizz Wizard, moderation, AI creators) + connectors", managed: true },
   { name: "STRIPE_LIVE_API_KEY", purpose: "Live payments (coins, Gold, Diamond)", managed: true },
   { name: "STRIPE_SANDBOX_API_KEY", purpose: "Sandbox payments for testing", managed: true },
   { name: "PAYMENTS_LIVE_WEBHOOK_SECRET", purpose: "Verifies live payment webhooks", managed: true },

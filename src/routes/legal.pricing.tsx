@@ -7,7 +7,7 @@ export const Route = createFileRoute("/legal/pricing")({
   head: () => pageHead({
     path: "/legal/pricing",
     title: "Pricing for Products & Services \u2014 Crush Chat",
-    description: "Full price list for Crush Chat: coin packs from $4.99, Crush Gold and Crush Diamond VIP weekly memberships, host Friends List memberships, and tips \u2014 all in USD with taxes shown at checkout.",
+    description: "Full price list for Crush Chat: coin packs from $4.99, Crush Gold and Crush Diamond VIP weekly memberships, creator Friends List memberships, and tips \u2014 all in USD with taxes shown at checkout.",
     type: "article",
   }),
   component: Pricing,
@@ -84,12 +84,12 @@ function Pricing() {
         <Table head={["Plan", "Billing", "Price"]} rows={PLANS.map((p) => ({ a: p.name, b: p.billing, c: p.price }))} />
       </Section>
 
-      <Section heading="3. Host Friends List memberships (recurring)">
+      <Section heading="3. Creator Friends List memberships (recurring)">
         <Bullets
           items={[
-            "Each host sets their own monthly Friends List price between $0.99 and $99.99 USD.",
-            "The exact price is always displayed on that host's profile and on the checkout screen before payment.",
-            "Some hosts offer free access, and hosts may grant complimentary access to people they add or invite directly.",
+            "Each creator sets their own monthly Friends List price between $0.99 and $99.99 USD.",
+            "The exact price is always displayed on that creator's profile and on the checkout screen before payment.",
+            "Some creators offer free access, and creators may grant complimentary access to people they add or invite directly.",
             "Friends List memberships renew monthly until cancelled, and can be cancelled at any time from My subscriptions.",
           ]}
         />

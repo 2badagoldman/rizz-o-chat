@@ -124,7 +124,7 @@ function HostPricing() {
       <AppShell theme="host">
         <div className="mt-16 rounded-3xl border border-border bg-card p-6 text-center">
           <Crown className="mx-auto h-8 w-8 text-[color:var(--host-primary)]" />
-          <h1 className="mt-3 text-xl">Sign in as a Host</h1>
+          <h1 className="mt-3 text-xl">Sign in as a Creator</h1>
           <Link to="/auth" className="btn-host mt-5 inline-flex">Sign in</Link>
         </div>
       </AppShell>
@@ -151,7 +151,7 @@ function HostPricing() {
         <div className="mt-6 rounded-2xl border border-dashed border-border bg-card p-5 text-sm">
           You don&apos;t have a Friends List yet.{" "}
           <Link to="/host/onboarding" className="font-semibold text-[color:var(--host-primary)] underline">
-            Finish host onboarding
+            Finish creator onboarding
           </Link>{" "}
           to create one.
         </div>

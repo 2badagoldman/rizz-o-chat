@@ -93,7 +93,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
         name: t.profile?.display_name ?? "Member",
         subtitle: t.lastBody ? `${t.lastFromMe ? "You: " : ""}${t.lastBody}` : "Say hi",
         avatar: t.profile?.avatar_url ?? hostAvatarThumb(id),
-        badge: t.profile?.account_type === "host" ? "Host" : "Member",
+        badge: t.profile?.account_type === "host" ? "Creator" : "Member",
         to: "/chat/user/$userId",
         params: { userId: id },
       });
@@ -127,7 +127,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-label="Search hosts"
+      aria-label="Search creators"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -139,7 +139,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
             autoFocus
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search your chats, hosts, cities…"
+            placeholder="Search your chats, creators, cities…"
             className="w-full bg-transparent text-sm font-semibold text-foreground outline-none placeholder:font-medium placeholder:text-foreground/45"
           />
           <button onClick={onClose} aria-label="Close search" className="rounded-full p-1 text-foreground/70 hover:bg-primary/10 hover:text-primary">
@@ -187,7 +187,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
 
           {results.length > 0 ? (
             <p className="px-2 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-primary">
-              Discover hosts
+              Discover creators
             </p>
           ) : null}
           {results.length === 0 ? (
@@ -196,7 +196,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                 <Search className="h-5 w-5" />
               </div>
               <p className="mt-3 text-[15px] font-extrabold tracking-tight text-foreground">
-                {inboxResults.length > 0 ? "No other hosts match" : "Nothing matches yet"}
+                {inboxResults.length > 0 ? "No other creators match" : "Nothing matches yet"}
               </p>
               <p className="mx-auto mt-1 max-w-[16rem] text-xs font-semibold text-foreground/70">
                 {term

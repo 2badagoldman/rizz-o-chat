@@ -186,7 +186,7 @@ function AdminShowcase() {
         <input
           value={caption}
           onChange={(e) => setCaption(e.target.value.slice(0, 140))}
-          placeholder="e.g. Meet Jen — one of our top hosts"
+          placeholder="e.g. Meet Jen — one of our top creators"
           className="mt-1 w-full rounded-2xl border border-border bg-background px-3 py-2 text-sm"
         />
         <label className={`mt-3 flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-2xl border-2 border-dashed px-4 py-8 text-sm font-semibold transition-colors ${dragOver ? "border-primary bg-primary/10 text-primary" : "border-primary/50 bg-primary/5 text-primary hover:bg-primary/10"}`}>

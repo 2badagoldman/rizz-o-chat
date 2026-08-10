@@ -99,7 +99,7 @@ function AdminHosts() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Creator studio</p>
-          <h1 className="text-2xl font-bold">Host Applications</h1>
+          <h1 className="text-2xl font-bold">Creator Applications</h1>
         </div>
         <div className="flex gap-2 text-xs">
           {STATUSES.map((s) => (
@@ -132,17 +132,17 @@ function AdminHosts() {
       </div>
 
       {loading ? (
-        <p className="mt-8 text-center text-sm text-muted-foreground">Loading hosts…</p>
+        <p className="mt-8 text-center text-sm text-muted-foreground">Loading creators…</p>
       ) : err ? (
         <p className="mt-8 text-center text-sm text-destructive">{err}</p>
       ) : rows.length === 0 ? (
-        <PrismEmptyState className="mt-8" title="No hosts match" description="Adjust the filter to see other applications." />
+        <PrismEmptyState className="mt-8" title="No creators match" description="Adjust the filter to see other applications." />
       ) : (
         <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-card">
           <table className="w-full text-sm">
             <thead className="bg-muted/50 text-[11px] uppercase tracking-wider text-muted-foreground">
               <tr>
-                <th className="px-3 py-2 text-left">Host</th>
+                <th className="px-3 py-2 text-left">Creator</th>
                 <th className="px-3 py-2 text-left">Status</th>
                 <th className="px-3 py-2 text-left">Tier</th>
                 <th className="px-3 py-2 text-right">Price</th>
@@ -212,7 +212,7 @@ function AdminHosts() {
                         </>
                       ) : (
                         <>
-                          <button title="Approve as verified host" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600">
+                          <button title="Approve as verified creator" onClick={() => decide(r.id, "verified")} className="rounded-lg border border-border p-1.5 hover:bg-emerald-500/10 hover:text-emerald-600">
                             <Check className="h-3.5 w-3.5" />
                           </button>
                           <button title="Mark pending" onClick={() => decide(r.id, "pending")} className="rounded-lg border border-border p-1.5 hover:bg-yellow-500/10 hover:text-yellow-600">

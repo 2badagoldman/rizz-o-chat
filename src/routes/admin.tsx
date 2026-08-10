@@ -36,7 +36,7 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
   { to: "/admin/war-room", label: "War Room", icon: Radio },
 
   { to: "/admin/copilot", label: "Copilot", icon: Sparkles },
-  { to: "/admin/applications", label: "Host Applications", icon: Crown },
+  { to: "/admin/applications", label: "Creator Applications", icon: Crown },
   { to: "/admin/hosts", label: "Hosts", icon: Crown },
   { to: "/admin/users", label: "Users", icon: Users },
   { to: "/admin/kyc", label: "Age Verification", icon: ShieldAlert },

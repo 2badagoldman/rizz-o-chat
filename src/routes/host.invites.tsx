@@ -107,8 +107,8 @@ function HostInvites() {
   if (isHost === false) return (
     <AppShell>
       <div className="p-6">
-        <h1 className="text-2xl">Hosts only</h1>
-        <p className="mt-2 text-muted-foreground">Apply as a host to generate free invite links for your friends.</p>
+        <h1 className="text-2xl">Creators only</h1>
+        <p className="mt-2 text-muted-foreground">Apply as a creator to generate free invite links for your friends.</p>
       </div>
     </AppShell>
   );

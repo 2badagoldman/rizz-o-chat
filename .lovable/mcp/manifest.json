@@ -87,8 +87,8 @@
       },
       {
         "name": "list_hosts",
-        "title": "List hosts",
-        "description": "List Crush hosts (creators) with their display name, bio, interests, and verification status.",
+        "title": "List creators",
+        "description": "List Crush creators (creators) with their display name, bio, interests, and verification status.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
@@ -99,7 +99,7 @@
           "type": "object",
           "properties": {
             "limit": {
-              "description": "Max hosts to return. Default 20.",
+              "description": "Max creators to return. Default 20.",
               "type": "integer",
               "minimum": 1,
               "maximum": 50

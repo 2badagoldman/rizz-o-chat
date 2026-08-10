@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export type RestrictionState = {
-  /** I (a host) have put this peer on my restricted list. */
+  /** I (a creator) have put this peer on my restricted list. */
   iRestrictPeer: boolean;
   /** This peer has restricted me — I cannot send photos or video to them. */
   peerRestrictsMe: boolean;

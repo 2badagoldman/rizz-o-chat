@@ -146,7 +146,7 @@ function RoomChatPage() {
         <div className="mt-3 rounded-xl border border-border bg-card p-3">
           <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Members</p>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            <span className="inline-flex items-center gap-1 rounded-full bg-gradient-brand px-2.5 py-1 text-[11px] font-semibold text-white">Host</span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-gradient-brand px-2.5 py-1 text-[11px] font-semibold text-white">Creator</span>
             {members.map((m) => (
               <span key={m.id} className="inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[11px]">
                 <AvatarImg

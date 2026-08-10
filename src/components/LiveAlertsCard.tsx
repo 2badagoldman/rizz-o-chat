@@ -4,7 +4,7 @@ import { LIVE_ALERTS_PREF, liveAlertsEnabled } from "./LiveHostAlerts";
 import { useAuth } from "@/lib/auth";
 
 /**
- * Web opt-in for "a host is live now" device notifications.
+ * Web opt-in for "a creator is live now" device notifications.
  * Native shells use push instead, so this only shows in the browser.
  */
 export function LiveAlertsCard() {
@@ -29,7 +29,7 @@ export function LiveAlertsCard() {
       localStorage.setItem(LIVE_ALERTS_PREF, "1");
       setOn(true);
       new Notification("You're all set", {
-        body: "We'll ping you when a host is live and waiting to chat.",
+        body: "We'll ping you when a creator is live and waiting to chat.",
       });
     }
   };
@@ -52,10 +52,10 @@ export function LiveAlertsCard() {
           </h2>
           <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
             {permission === "denied"
-              ? "Alerts are blocked for Crush. Turn notifications back on in your browser settings to hear when a host is live."
+              ? "Alerts are blocked for Crush. Turn notifications back on in your browser settings to hear when a creator is live."
               : permission === "granted"
-                ? "You'll get a nudge with her photo when a host comes online — max 3 a day."
-                : "Get a nudge like “Jen is live now — come say hi”, with her photo, when a host comes online."}
+                ? "You'll get a nudge with her photo when a creator comes online — max 3 a day."
+                : "Get a nudge like “Jen is live now — come say hi”, with her photo, when a creator comes online."}
           </p>
           {permission === "granted" ? (
             <button type="button" onClick={toggle} className="btn-brand mt-3 inline-flex">

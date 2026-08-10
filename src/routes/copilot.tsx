@@ -45,14 +45,14 @@ function Copilot() {
 
   const suggested = user
     ? [
-        "Walk me through applying to be a Host",
+        "Walk me through applying to be a Creator",
         "How do I hit 100 Friends and unlock 65%?",
-        "Help me pick a Host to subscribe to",
+        "Help me pick a Creator to subscribe to",
         "What should my first message be?",
       ]
     : [
         "What is Crush Social?",
-        "How much can Hosts earn?",
+        "How much can Creators earn?",
         "Explain the Milestone Flip",
         "Is this a dating app?",
       ];
@@ -81,7 +81,7 @@ function Copilot() {
             <div className="rounded-2xl border border-border bg-card p-4">
               <p className="text-sm">
                 Hey — I&apos;m <span className="text-gradient-brand font-semibold">Crush AI</span>. I&apos;ll walk you through
-                anything in the app: applying as a Host, pricing your Friends List, picking who to chat with, or
+                anything in the app: applying as a Creator, pricing your Friends List, picking who to chat with, or
                 writing your first message. Ask me anything.
               </p>
               <div className="mt-4 grid gap-2">

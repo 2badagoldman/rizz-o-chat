@@ -29,7 +29,7 @@ import { SignedOutGate } from "@/components/SignedOutGate";
 
 
 
-// Jen is a demo id — coin economy only applies to real host UUIDs.
+// Jen is a demo id — coin economy only applies to real creator UUIDs.
 const JEN_UUID = "0dc3f76d-b710-4934-b1e5-4057ccdb082b";
 
 
@@ -58,29 +58,29 @@ function HostChat() {
   const [input, setInput] = useState("");
   const [pending, setPending] = useState<string[]>([]);
   const [giftOpen, setGiftOpen] = useState(false);
-  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`host:${hostId}`);
+  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`creator:${hostId}`);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
   // "send" delivers the emoji as a message; "react" only bursts + tags the latest message.
-  const { mode: emojiMode, setMode: setEmojiMode } = useEmojiMode(`host:${hostId}`);
+  const { mode: emojiMode, setMode: setEmojiMode } = useEmojiMode(`creator:${hostId}`);
 
   const { fire, layer } = useFloatingReactions();
   // Per-message reactions (Apple-style): messageId -> emojis.
   const [msgReactions, setMsgReactions] = useState<Record<string, string[]>>({});
 
 
-  const host = DEMO_HOSTS.find((h) => h.id === hostId);
+  const creator = DEMO_HOSTS.find((h) => h.id === hostId);
 
   const aiHost = isAiHost(hostId);
   const { locked, onTrial, daysLeft } = useChatAccess();
   const isJen = hostId === "demo-jen";
 
-  // WhatsApp-style persistence: every host chat is kept in localStorage,
+  // WhatsApp-style persistence: every creator chat is kept in localStorage,
   // scoped by user (or "anon"), so history stays on the profile across
   // reloads / device sessions. Real user-to-user DMs already persist to
   // the messages table via chat.user.$userId.
   const storageKey = useMemo(
-    () => `rizzla:chat:host:${hostId}:${user?.id ?? "anon"}`,
+    () => `rizzla:chat:creator:${hostId}:${user?.id ?? "anon"}`,
     [hostId, user?.id],
   );
   const initialMessages = useMemo(() => {
@@ -93,7 +93,7 @@ function HostChat() {
   }, [storageKey]);
 
   // Welcome-to-Friends-List animation when the user just joined (set by
-  // the host profile page in localStorage under `rizzla:welcome:<hostId>`).
+  // the creator profile page in localStorage under `rizzla:welcome:<hostId>`).
   const [welcome, setWelcome] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -111,7 +111,7 @@ function HostChat() {
     return () => clearTimeout(t);
   }, [welcome]);
 
-  // AI hosts stream from the public endpoint (no auth required); everyone else
+  // AI creators stream from the public endpoint (no auth required); everyone else
   // goes through the authenticated host-chat endpoint.
   const transport = useMemo(() => {
     if (aiHost) {
@@ -126,8 +126,8 @@ function HostChat() {
     transport,
   });
 
-  // Free AI replies: 10 per AI host, then Crush Gold is required.
-  const aiQuota = useAiQuota(`host:${hostId}`);
+  // Free AI replies: 10 per AI creator, then Crush Gold is required.
+  const aiQuota = useAiQuota(`creator:${hostId}`);
   const assistantCount = messages.filter((m) => m.role === "assistant").length;
   useEffect(() => {
     if (aiHost) aiQuota.track(assistantCount);
@@ -211,11 +211,11 @@ function HostChat() {
 
 
 
-  // Typing state: shown while the host is composing a reply.
+  // Typing state: shown while the creator is composing a reply.
   const typing = (status === "submitted" || status === "streaming") &&
     messages[messages.length - 1]?.role === "user";
 
-  // Seen-state: a member message is "seen" as soon as the host has replied
+  // Seen-state: a member message is "seen" as soon as the creator has replied
   // after it; the most recent unanswered one shows delivered/sending.
   const items = useMemo(() => {
     const lastAssistant = messages.map((m) => m.role).lastIndexOf("assistant");
@@ -242,39 +242,39 @@ function HostChat() {
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
 
-  if (!host) {
+  if (!creator) {
     return (
       <AppShell>
         <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-          <h1 className="text-xl">Host not found</h1>
+          <h1 className="text-xl">Creator not found</h1>
         </div>
       </AppShell>
     );
   }
 
-  // Unauthed users can chat AI hosts for free. Everyone else needs to sign in.
+  // Unauthed users can chat AI creators for free. Everyone else needs to sign in.
   if (!user && !aiHost) {
     return (
       <SignedOutGate
         title="Sign in to chat"
-        description="Sign in to message this host — or head to Chats and talk with our AI hosts free."
+        description="Sign in to message this creator — or head to Chats and talk with our AI creators free."
       />
     );
   }
 
-  // Signed-in members hitting a non-AI, non-Jen host still need to unlock.
+  // Signed-in members hitting a non-AI, non-Jen creator still need to unlock.
   if (user && !isJen && !aiHost) {
     return (
       <AppShell hideNav>
         <header className="flex items-center gap-3 pt-3 pb-2">
-          <button type="button" aria-label={`Back to ${host.name}'s profile`} onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="grid h-11 w-11 place-items-center rounded-full border border-border">
+          <button type="button" aria-label={`Back to ${creator.name}'s profile`} onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="grid h-11 w-11 place-items-center rounded-full border border-border">
             <ArrowLeft className="h-4 w-4" />
           </button>
-          <h1 className="text-base font-semibold">{host.name}</h1>
+          <h1 className="text-base font-semibold">{creator.name}</h1>
         </header>
         <div className="mt-10 rounded-2xl border border-border bg-card p-6 text-center">
           <p className="text-sm">
-            Unlock {host.name}&apos;s Friends List to start chatting.
+            Unlock {creator.name}&apos;s Friends List to start chatting.
           </p>
           <button
             onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })}
@@ -300,7 +300,7 @@ function HostChat() {
     setPending([]);
   };
 
-  // Tap a reaction: it bursts up the screen, is delivered to the host as a
+  // Tap a reaction: it bursts up the screen, is delivered to the creator as a
   // message, and is also appended to the draft so it can be reused in context.
   const sendReaction = (emoji: string, opts?: { draft?: boolean }) => {
     fire(emoji);
@@ -316,33 +316,33 @@ function HostChat() {
         <div onClick={() => setWelcome(false)} className="fixed inset-0 z-[120] flex cursor-pointer flex-col items-center justify-center bg-gradient-to-br from-primary/90 via-fuchsia-500/80 to-rose-500/90 text-white animate-in fade-in duration-300">
           <div className="relative">
             <img loading="lazy" decoding="async"
-              src={hostAvatar(host.id)}
-              alt={host.name}
+              src={hostAvatar(creator.id)}
+              alt={creator.name}
               className="h-32 w-32 rounded-full border-4 border-white/70 object-cover shadow-2xl animate-in zoom-in-50 duration-700"
             />
             <Heart className="absolute -right-2 -top-2 h-10 w-10 fill-white text-white drop-shadow animate-bounce" />
           </div>
           <p className="mt-6 text-xs font-semibold uppercase tracking-[0.3em] opacity-90">You're in</p>
-          <h2 className="mt-1 text-3xl font-bold">Welcome to {host.name}'s Friends List</h2>
+          <h2 className="mt-1 text-3xl font-bold">Welcome to {creator.name}'s Friends List</h2>
           <p className="mt-2 text-sm opacity-90">Say hi — she's online now 💌</p>
         </div>
       ) : null}
       <div data-chat-skin={skin} data-chat-contrast={contrastAttr} className="chat-wallpaper -mb-24 flex h-[calc(100dvh-9rem)] min-h-[420px] flex-col overflow-hidden">
         <header className="flex items-center gap-3 pt-3 pb-2">
-          <button type="button" aria-label={`Back to ${host.name}'s profile`} onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="grid h-11 w-11 place-items-center rounded-full border border-border">
+          <button type="button" aria-label={`Back to ${creator.name}'s profile`} onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })} className="grid h-11 w-11 place-items-center rounded-full border border-border">
             <ArrowLeft className="h-4 w-4" />
           </button>
           <button
             type="button"
             onClick={() => navigate({ to: "/host/$hostId", params: { hostId } })}
             className="flex items-center gap-2 rounded-full pr-2 text-left transition hover:opacity-80"
-            aria-label={`View ${host.name}'s profile`}
+            aria-label={`View ${creator.name}'s profile`}
           >
-            <div className="relative h-10 w-10 overflow-hidden rounded-full shadow-glow" style={{ background: host.gradient }}>
-              <img loading="lazy" decoding="async" src={hostAvatar(host.id)} alt={host.name} className="h-full w-full object-cover" />
+            <div className="relative h-10 w-10 overflow-hidden rounded-full shadow-glow" style={{ background: creator.gradient }}>
+              <img loading="lazy" decoding="async" src={hostAvatar(creator.id)} alt={creator.name} className="h-full w-full object-cover" />
             </div>
             <div>
-              <h1 className="text-base font-semibold leading-tight">{host.name}</h1>
+              <h1 className="text-base font-semibold leading-tight">{creator.name}</h1>
               <p className="flex items-center gap-1 text-[11px] text-emerald-500">
                 <Circle className="h-2 w-2 fill-emerald-500" /> Online
               </p>
@@ -351,7 +351,7 @@ function HostChat() {
 
           <div className="ml-auto flex items-center gap-2">
             <ChatSkinPicker skin={skin} onChange={setSkin} highContrast={highContrast} onHighContrastChange={setHighContrast} />
-            <SafetyMenu userId={null} name={host.name} context="host chat" />
+            <SafetyMenu userId={null} name={creator.name} context="creator chat" />
 
             {user && isJen ? (
               <button
@@ -374,7 +374,7 @@ function HostChat() {
           <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50" onClick={() => setGiftOpen(false)}>
             <div className="w-full max-w-[480px] rounded-t-3xl border-t border-border bg-card p-5" onClick={(e) => e.stopPropagation()}>
               <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Send a gift to</p>
-              <h3 className="mt-1 text-lg font-bold">{host.name}</h3>
+              <h3 className="mt-1 text-lg font-bold">{creator.name}</h3>
               <div className="mt-4 grid grid-cols-4 gap-2">
                 {GIFTS.map((g) => (
                   <button
@@ -406,7 +406,7 @@ function HostChat() {
                 ))}
               </div>
               <p className="mt-3 text-center text-[11px] text-muted-foreground">
-                Gifts debit your coin balance and credit 65% to the host.
+                Gifts debit your coin balance and credit 65% to the creator.
               </p>
 
             </div>
@@ -417,12 +417,12 @@ function HostChat() {
           items={items}
           reactions={msgReactions}
           onReact={reactToMessage}
-          typingName={typing ? host.name : null}
+          typingName={typing ? creator.name : null}
 
           header={
             aiHost && !user ? (
               <div className="rounded-2xl border border-primary/30 bg-primary/5 p-3 text-[11px] text-primary flex items-center gap-2">
-                <Sparkles className="h-3.5 w-3.5" /> Free preview chat with {host.name}. Sign up to unlock gifts, Rooms & photo/video shares.
+                <Sparkles className="h-3.5 w-3.5" /> Free preview chat with {creator.name}. Sign up to unlock gifts, Rooms & photo/video shares.
               </div>
             ) : null
           }
@@ -431,7 +431,7 @@ function HostChat() {
               {pickOpener(
                 hostId,
                 user?.id ?? "guest",
-                `hey — ${host.teaser.toLowerCase()} what's up with you?`,
+                `hey — ${creator.teaser.toLowerCase()} what's up with you?`,
               )}
             </div>
           }
@@ -446,7 +446,7 @@ function HostChat() {
           onPick={(e, m) =>
             m === "send" ? sendReaction(e, { draft: true }) : reactToLatest(e)
           }
-          peerName={host.name}
+          peerName={creator.name}
           disabled={chatLocked}
           emojis={REACTIONS}
         />
@@ -455,7 +455,7 @@ function HostChat() {
 
         {aiQuotaReached ? (
           <div className="px-3 pb-2">
-            <AiQuotaPrompt limit={aiQuota.limit} who={host.name} />
+            <AiQuotaPrompt limit={aiQuota.limit} who={creator.name} />
           </div>
         ) : (
           <ChatTrialBanner locked={chatLocked} onTrial={onTrial && !aiHost} daysLeft={daysLeft} />
@@ -486,7 +486,7 @@ function HostChat() {
               }
             }}
             disabled={chatLocked}
-            placeholder={chatLocked ? "Subscribe to keep chatting…" : `Message ${host.name}…`}
+            placeholder={chatLocked ? "Subscribe to keep chatting…" : `Message ${creator.name}…`}
             rows={1}
             className="chat-type min-h-[48px] max-h-32 flex-1 resize-none rounded-[22px] border border-border bg-card px-4 py-3 outline-none focus:border-primary"
           />

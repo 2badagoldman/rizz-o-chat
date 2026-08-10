@@ -7,7 +7,7 @@ export const Route = createFileRoute("/legal/creators")({
   head: () => pageHead({
     path: "/legal/creators",
     title: "Creator & Payout Terms \u2014 Crush Chat",
-    description: "Terms for Crush Chat Hosts: revenue split, Friends List pricing limits, payout schedule and thresholds, chargeback clawbacks, tax responsibility and content obligations.",
+    description: "Terms for Crush Chat Creators: revenue split, Friends List pricing limits, payout schedule and thresholds, chargeback clawbacks, tax responsibility and content obligations.",
     type: "article",
   }),
   component: Creators,
@@ -17,11 +17,11 @@ function Creators() {
   return (
     <LegalDoc
       title="Creator & Payout Terms"
-      subtitle={`These terms apply if you are approved as a Host on ${LEGAL.productName}. They form part of our Terms of Service.`}
+      subtitle={`These terms apply if you are approved as a Creator on ${LEGAL.productName}. They form part of our Terms of Service.`}
     >
       <Section heading="1. Independent creator status">
         <p>
-          Hosts are independent creators. Nothing here creates an employment, partnership, agency or joint-venture
+          Creators are independent creators. Nothing here creates an employment, partnership, agency or joint-venture
           relationship with {LEGAL.entity}. You control your own content, schedule and pricing within the limits below,
           and you are responsible for your own equipment, taxes and legal compliance.
         </p>
@@ -30,9 +30,9 @@ function Creators() {
       <Section heading="2. Approval and verification">
         <Bullets
           items={[
-            `Hosts must be ${LEGAL.minAge}+ and pass our review before their Friends List can be sold.`,
+            `Creators must be ${LEGAL.minAge}+ and pass our review before their Friends List can be sold.`,
             "We may require identity and age verification, and may re-verify at any time.",
-            "We may decline, pause or revoke Host status for policy violations, chargeback rates, fraud signals, or failed verification.",
+            "We may decline, pause or revoke Creator status for policy violations, chargeback rates, fraud signals, or failed verification.",
           ]}
         />
       </Section>
@@ -41,7 +41,7 @@ function Creators() {
         <Bullets
           items={[
             "You set your Friends List monthly price within the platform's allowed range, shown in your pricing screen with a live earnings preview.",
-            "The standard revenue split starts at 35% to the Host; Hosts who reach 100 paying Friends move to 65% for the lifetime of the account, as displayed in-app.",
+            "The standard revenue split starts at 35% to the Creator; Creators who reach 100 paying Friends move to 65% for the lifetime of the account, as displayed in-app.",
             "The split is applied to net revenue after refunds, chargebacks, and payment-processing and tax amounts collected by our provider.",
             "Complimentary members you add manually, and invite-link members, generate no subscription revenue.",
             "Tips and gifts are credited to your balance under the same split shown in your earnings screen at the time of the transaction.",
@@ -63,7 +63,7 @@ function Creators() {
 
       <Section heading="5. Refunds, chargebacks and clawbacks">
         <p>
-          If a member's payment is refunded or charged back, the corresponding Host earnings are reversed from your
+          If a member's payment is refunded or charged back, the corresponding Creator earnings are reversed from your
           balance. If your balance is insufficient, the amount offsets future earnings. Sustained high dispute rates may
           result in payout suspension or removal from the platform.
         </p>

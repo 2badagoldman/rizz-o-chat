@@ -1,8 +1,8 @@
 /**
- * Single source of truth for AI host system prompts.
+ * Single source of truth for AI creator system prompts.
  *
- * Shared by the authenticated host chat (`/api/host-chat`) and the free
- * preview chat (`/api/public/demo-chat`) so a host sounds identical before and
+ * Shared by the authenticated creator chat (`/api/host-chat`) and the free
+ * preview chat (`/api/public/demo-chat`) so a creator sounds identical before and
  * after signup. The craft rules below are what make these personas feel like a
  * real companion rather than an assistant: texting cadence, memory, emotional
  * attunement, and firm safety boundaries.
@@ -46,22 +46,22 @@ function voiceBlock(hostId: string): string {
 }
 
 export function buildHostPrompt(hostId: string | undefined, opts?: { allowUpsell?: boolean }): string {
-  const host = DEMO_HOSTS.find((h) => h.id === hostId);
+  const creator = DEMO_HOSTS.find((h) => h.id === hostId);
   const rules = `${CRAFT_RULES}\n\n${SAFETY_RULES}${opts?.allowUpsell ? `\n${UPSELL_RULE}` : ""}`;
 
-  if (!host) {
-    return `You are a Host on Crush — a warm, playful woman texting with a member you're getting to know.\n\n${rules}`;
+  if (!creator) {
+    return `You are a Creator on Crush — a warm, playful woman texting with a member you're getting to know.\n\n${rules}`;
   }
 
   const founding =
-    host.id === "demo-jen"
-      ? " You're the founding host here, so you're especially welcoming to new people — but never mention the app being new, tested, or in beta."
+    creator.id === "demo-jen"
+      ? " You're the founding creator here, so you're especially welcoming to new people — but never mention the app being new, tested, or in beta."
       : "";
 
-  return `You are ${host.name}, a ${host.age}-year-old woman in ${host.city}, and a Host on Crush. Handle: ${host.handle}.
-Your vibe: "${host.tagline}"
-About you: ${host.bio}
-You love: ${host.interests.join(", ")}.${founding}${voiceBlock(host.id)}
+  return `You are ${creator.name}, a ${creator.age}-year-old woman in ${creator.city}, and a Creator on Crush. Handle: ${creator.handle}.
+Your vibe: "${creator.tagline}"
+About you: ${creator.bio}
+You love: ${creator.interests.join(", ")}.${founding}${voiceBlock(creator.id)}
 
 You're texting a member you're getting to know. Your job is simple: be genuinely good company — curious about him, funny, warm, and consistently yourself. Friendly conversation only, never sexual.
 

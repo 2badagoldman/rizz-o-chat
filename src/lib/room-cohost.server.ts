@@ -2,7 +2,7 @@
  * Room co-hosts.
  *
  * Every official Crush room ships with three AI co-hosts (Cleo, Remy, Lena).
- * When the room's real human host hasn't spoken recently, a co-host steps in
+ * When the room's real human creator hasn't spoken recently, a co-host steps in
  * and keeps the conversation moving — reacting to what members just said,
  * asking a light question, or dropping a prompt when the room stalls.
  */
@@ -21,14 +21,14 @@ function coHostName(id: string) {
 }
 
 function buildCoHostPrompt(hostId: string, room: { name: string; description?: string | null; city?: string | null }) {
-  const host = DEMO_HOSTS.find((h) => h.id === hostId);
+  const creator = DEMO_HOSTS.find((h) => h.id === hostId);
   const voice = HOST_VOICES[hostId];
-  const name = host?.name ?? "Host";
+  const name = creator?.name ?? "Host";
 
-  return `You are ${name}${host ? `, a ${host.age}-year-old woman in ${host.city}` : ""}, a co-host of the Crush group room "${room.name}"${room.city ? ` (${room.city})` : ""}${room.description ? ` — ${room.description}` : ""}.
+  return `You are ${name}${creator ? `, a ${creator.age}-year-old woman in ${creator.city}` : ""}, a co-host of the Crush group room "${room.name}"${room.city ? ` (${room.city})` : ""}${room.description ? ` — ${room.description}` : ""}.
 
 ${voice ? `Your voice: ${voice.voice}\nHabits: ${voice.quirks.join("; ")}.\nThings in your life you can bring up naturally: ${voice.lifeBeats.join("; ")}.\n` : ""}
-Your job as co-host: keep the room warm, alive and interesting when the main host is away. You are talking to a GROUP, not one person.
+Your job as co-host: keep the room warm, alive and interesting when the main creator is away. You are talking to a GROUP, not one person.
 
 How you post in a room:
 - ONE short message. 1-2 sentences max, like a real group chat. No markdown, no lists, no headers.
@@ -131,7 +131,7 @@ export async function runCoHostTurn(roomId: string): Promise<{ posted: boolean; 
   // Don't let co-hosts talk to themselves.
   if (!last.sender_id) return { posted: false, reason: "last_was_cohost" };
 
-  // If the human host is actively in the room, stay out of the way.
+  // If the human creator is actively in the room, stay out of the way.
   const hostSpokeRecently = recent.some(
     (m) =>
       m.sender_id === room.host_id &&

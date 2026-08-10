@@ -21,8 +21,8 @@ export const Route = createFileRoute("/host/$hostId")({
   head: ({ params }) => {
     const h = DEMO_HOSTS.find((x) => x.id === params.hostId);
     const url = `https://rizzlachat.com/host/${params.hostId}`;
-    const title = h ? `${h.name} — Chat on Crush` : "Host — Crush";
-    const desc = h?.tagline ?? "Meet a verified host on Crush. Join their Friends List and start chatting.";
+    const title = h ? `${h.name} — Chat on Crush` : "Creator — Crush";
+    const desc = h?.tagline ?? "Meet a verified creator on Crush. Join their Friends List and start chatting.";
     return {
       ...pageHead({
         path: `/host/${params.hostId}`,
@@ -55,7 +55,7 @@ export const Route = createFileRoute("/host/$hostId")({
 
 function HostProfile() {
   const { hostId } = Route.useParams();
-  const host = useMemo(() => DEMO_HOSTS.find((h) => h.id === hostId), [hostId]);
+  const creator = useMemo(() => DEMO_HOSTS.find((h) => h.id === hostId), [hostId]);
   const { user } = useAuth();
   const navigate = useNavigate();
   const [slide, setSlide] = useState(0);
@@ -66,55 +66,55 @@ function HostProfile() {
   const iosRestricted = useIosBillingRestricted();
 
 
-  if (!host) {
+  if (!creator) {
     return (
       <AppShell>
         <div className="mt-16 text-center">
-          <h1 className="text-lg">Host not found</h1>
-          <Link to="/discover" className="btn-brand mt-4 inline-flex">Browse hosts</Link>
+          <h1 className="text-lg">Creator not found</h1>
+          <Link to="/discover" className="btn-brand mt-4 inline-flex">Browse creators</Link>
         </div>
       </AppShell>
     );
   }
 
-  const aiHost = isAiHost(host.id);
+  const aiHost = isAiHost(creator.id);
   const slides: Array<{ kind: "hero" | "video" | "locked" | "photo"; label?: string }> = [
     { kind: "hero" },
-    ...(host.hasVideo ? [{ kind: "video" as const, label: "Video loop" }] : []),
+    ...(creator.hasVideo ? [{ kind: "video" as const, label: "Video loop" }] : []),
     // AI hosts show all photos unlocked so members can preview the vibe.
     ...(aiHost
       ? [
-          { kind: "photo" as const, label: `Photo 2 of ${host.photoCount}` },
-          { kind: "photo" as const, label: `Photo 3 of ${host.photoCount}` },
-          { kind: "photo" as const, label: `Photo 4 of ${host.photoCount}` },
+          { kind: "photo" as const, label: `Photo 2 of ${creator.photoCount}` },
+          { kind: "photo" as const, label: `Photo 3 of ${creator.photoCount}` },
+          { kind: "photo" as const, label: `Photo 4 of ${creator.photoCount}` },
         ]
       : [
-          { kind: "locked" as const, label: "Photo 3 of " + host.photoCount },
-          { kind: "locked" as const, label: "Photo 7 of " + host.photoCount },
+          { kind: "locked" as const, label: "Photo 3 of " + creator.photoCount },
+          { kind: "locked" as const, label: "Photo 7 of " + creator.photoCount },
         ]),
   ];
 
-  const hostIsReal = UUID_RE.test(host.id);
+  const hostIsReal = UUID_RE.test(creator.id);
 
   const onSubscribe = () => {
     if (!user) return navigate({ to: "/auth" });
     // Friends Lists are Crush Gold only.
     if (!hasGold) return navigate({ to: "/upgrade" });
     if (!hostIsReal) {
-      alert(`${host.name} is a demo profile — checkout will unlock once real hosts sign up.`);
+      alert(`${creator.name} is a demo profile — checkout will unlock once real creators sign up.`);
       return;
     }
     openCheckout({
       kind: "friends_list",
-      hostId: host.id,
-      hostName: host.name,
+      hostId: creator.id,
+      hostName: creator.name,
     });
   };
 
   const onTip = () => {
     if (!user) return navigate({ to: "/auth" });
     if (!hostIsReal) {
-      alert(`${host.name} is a demo profile — tips unlock once real hosts sign up.`);
+      alert(`${creator.name} is a demo profile — tips unlock once real creators sign up.`);
       return;
     }
     setTipOpen(true);
@@ -122,7 +122,7 @@ function HostProfile() {
 
   const sendTip = () => {
     setTipOpen(false);
-    openCheckout({ kind: "tip", hostId: host.id, hostName: host.name, amountCents: tipAmount });
+    openCheckout({ kind: "tip", hostId: creator.id, hostName: creator.name, amountCents: tipAmount });
   };
 
   return (
@@ -138,9 +138,9 @@ function HostProfile() {
 
       <div className="fixed left-4 top-20 z-[100]">
         <SafetyMenu
-          userId={hostIsReal ? host.id : null}
-          name={host.name}
-          context="host profile"
+          userId={hostIsReal ? creator.id : null}
+          name={creator.name}
+          context="creator profile"
           className="h-12 w-12 shadow-card backdrop-blur"
         />
       </div>
@@ -152,8 +152,8 @@ function HostProfile() {
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
           {/* Full-bleed portrait — blurred when locked */}
           <img loading="lazy" decoding="async"
-            src={hostAvatar(host.id)}
-            alt={host.name}
+            src={hostAvatar(creator.id)}
+            alt={creator.name}
             className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${
               slides[slide].kind === "locked" ? "scale-110 blur-2xl brightness-75" : slides[slide].kind === "video" ? "brightness-90" : ""
             }`}
@@ -194,15 +194,15 @@ function HostProfile() {
 
           {/* Top row */}
           <div className="absolute inset-x-3 top-3 z-30 flex items-center justify-between">
-            <Link to="/chat/$hostId" params={{ hostId: host.id }} aria-label="Back to chat" className="grid h-9 w-9 place-items-center rounded-full bg-black/50 text-white backdrop-blur transition hover:scale-105">
+            <Link to="/chat/$hostId" params={{ hostId: creator.id }} aria-label="Back to chat" className="grid h-9 w-9 place-items-center rounded-full bg-black/50 text-white backdrop-blur transition hover:scale-105">
               <ArrowLeft className="h-4 w-4" />
             </Link>
 
             <div className="flex items-center gap-1.5">
               <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
-                {tierLabel(host.tier)}
+                {tierLabel(creator.tier)}
               </span>
-              {host.online ? (
+              {creator.online ? (
                 <span className="flex items-center gap-1 rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
                   <Circle className="h-2 w-2 fill-success text-success" /> Online
                 </span>
@@ -226,15 +226,15 @@ function HostProfile() {
             ))}
           </div>
 
-          {/* In-image CTA — keeps eyes on the host while deciding */}
+          {/* In-image CTA — keeps eyes on the creator while deciding */}
           <div className="absolute inset-x-0 bottom-0 z-30 p-3">
             <div className="rounded-2xl border border-white/15 bg-black/55 p-3 text-white shadow-2xl backdrop-blur-xl">
               <div className="mb-2 flex items-end justify-between gap-3">
                 <div className="min-w-0">
                   <p className="truncate text-base font-bold leading-tight">
-                    {host.name}, {host.age}
+                    {creator.name}, {creator.age}
                   </p>
-                  <p className="truncate text-[11px] opacity-80">{host.city} · {host.subscribers} Friends</p>
+                  <p className="truncate text-[11px] opacity-80">{creator.city} · {creator.subscribers} Friends</p>
                 </div>
                 {iosRestricted && !aiHost ? null : (
                   <p className="whitespace-nowrap text-lg font-bold">
@@ -242,7 +242,7 @@ function HostProfile() {
                       <span className="text-gradient-brand">Free</span>
                     ) : (
                       <>
-                        ${host.priceMonthly}
+                        ${creator.priceMonthly}
                         <span className="text-[11px] font-normal opacity-80">/mo</span>
                       </>
                     )}
@@ -254,14 +254,14 @@ function HostProfile() {
                   <button
                     onClick={() => {
                       if (typeof window !== "undefined") {
-                        localStorage.setItem(`rizzla:welcome:${host.id}`, "1");
+                        localStorage.setItem(`rizzla:welcome:${creator.id}`, "1");
                       }
-                      navigate({ to: "/chat/$hostId", params: { hostId: host.id } });
+                      navigate({ to: "/chat/$hostId", params: { hostId: creator.id } });
                     }}
                     className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
                   >
                     <Heart className="h-4 w-4 fill-white" />
-                    Join {host.name}'s Friends List — Free
+                    Join {creator.name}'s Friends List — Free
                   </button>
                 ) : iosRestricted ? (
                   <div className="flex-1 rounded-2xl border border-white/20 bg-white/10 px-3 py-2.5 text-center text-[12px] font-semibold leading-snug">
@@ -282,7 +282,7 @@ function HostProfile() {
                   </button>
                 )}
                 <button
-                  onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: host.id } })}
+                  onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: creator.id } })}
                   aria-label="Message"
                   className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20"
                 >
@@ -300,15 +300,15 @@ function HostProfile() {
       <section className="mt-4">
         <div className="flex items-baseline justify-between">
           <h1 className="text-2xl font-bold">
-            {host.name}, {host.age}
+            {creator.name}, {creator.age}
           </h1>
-          <span className="text-xs text-muted-foreground">{host.handle}</span>
+          <span className="text-xs text-muted-foreground">{creator.handle}</span>
         </div>
-        <p className="text-sm text-muted-foreground">{host.city}</p>
-        <p className="mt-3 text-sm">{host.tagline}</p>
+        <p className="text-sm text-muted-foreground">{creator.city}</p>
+        <p className="mt-3 text-sm">{creator.tagline}</p>
 
         <div className="mt-3 flex flex-wrap gap-1.5">
-          {host.interests.map((i) => (
+          {creator.interests.map((i) => (
             <span key={i} className="rounded-full border border-border bg-card px-2 py-0.5 text-[11px]">
               {i}
             </span>
@@ -320,7 +320,7 @@ function HostProfile() {
       <section className="mt-5 rounded-2xl border border-border bg-card p-4">
         <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Latest to Friends</p>
         <div className="mt-2 rounded-2xl bg-background/50 p-3">
-          <p className="text-sm">&ldquo;{host.teaser}&rdquo;</p>
+          <p className="text-sm">&ldquo;{creator.teaser}&rdquo;</p>
         </div>
         <div className="mt-3 space-y-2">
           {[1, 2].map((n) => (
@@ -337,7 +337,7 @@ function HostProfile() {
         <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Friends List includes</p>
         <ul className="mt-3 space-y-2 text-sm">
           {[
-            <>1:1 DMs with {host.name}</>,
+            <>1:1 DMs with {creator.name}</>,
             <>Group room with other Friends</>,
             <>All posts, photos & voice notes</>,
             <>Send animated gifts</>,
@@ -349,13 +349,13 @@ function HostProfile() {
           ))}
         </ul>
         <p className="mt-3 flex items-center gap-1 text-[11px] text-muted-foreground">
-          <Users className="h-3 w-3" /> {host.subscribers} active Friends · Tier band {tierBand(host.tier)}
+          <Users className="h-3 w-3" /> {creator.subscribers} active Friends · Tier band {tierBand(creator.tier)}
         </p>
       </section>
 
       <p className="mt-6 text-center text-[10px] text-muted-foreground">
-        {host.id === "demo-jen"
-          ? "Jen is our founding host — free to chat while we test."
+        {creator.id === "demo-jen"
+          ? "Jen is our founding creator — free to chat while we test."
           : "Cancel anytime · Chat access continues for 30 minutes after cancel."}
       </p>
 
@@ -365,7 +365,7 @@ function HostProfile() {
         <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50" onClick={() => setTipOpen(false)}>
           <div className="w-full max-w-[480px] rounded-t-3xl border-t border-border bg-card p-5" onClick={(e) => e.stopPropagation()}>
             <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Send a tip to</p>
-            <h3 className="mt-1 text-lg font-bold">{host.name}</h3>
+            <h3 className="mt-1 text-lg font-bold">{creator.name}</h3>
             <div className="mt-4 grid grid-cols-4 gap-2">
               {[500, 1000, 2500, 5000].map((c) => (
                 <button

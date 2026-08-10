@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/admin/applications")({
-  head: () => ({ meta: [{ name: "robots", content: "noindex, nofollow" }, { title: "Host applications — Crush admin" }] }),
+  head: () => ({ meta: [{ name: "robots", content: "noindex, nofollow" }, { title: "Creator applications — Crush admin" }] }),
   component: AdminApplications,
 });
 
@@ -59,15 +59,15 @@ function AdminApplications() {
       toast.error("Application not found");
       return;
     }
-    toast.success(approve ? "Approved — host tools unlocked" : "Application declined");
+    toast.success(approve ? "Approved — creator tools unlocked" : "Application declined");
     setRows((rs) => rs.map((r) => (r.id === id ? { ...r, status: approve ? "approved" : "rejected" } : r)));
   }
 
   return (
     <div className="pt-4">
-      <h1 className="text-xl font-black tracking-tight">Host applications</h1>
+      <h1 className="text-xl font-black tracking-tight">Creator applications</h1>
       <p className="mt-1 text-xs text-muted-foreground">
-        Members stay members until you approve. Approving flips their account to host and unlocks host tools.
+        Members stay members until you approve. Approving flips their account to creator and unlocks creator tools.
       </p>
 
       {loading ? (

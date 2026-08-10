@@ -32,7 +32,7 @@ test("core navigation buttons reach their destinations", async ({ page }) => {
   await waitForShell(page);
 
   // Header search opens the global search overlay and closes again.
-  await page.getByLabel("Search hosts").click({ force: true });
+  await page.getByLabel("Search creators").click({ force: true });
   await expect(page.getByPlaceholder(/search/i).first()).toBeVisible();
   await page.keyboard.press("Escape");
 

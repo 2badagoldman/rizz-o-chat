@@ -130,7 +130,7 @@ function ComplianceReportPage() {
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <Stat label="Outstanding" value={report?.totals.outstanding} icon={Users} />
-        <Stat label="Hosts" value={report?.totals.hosts} icon={ShieldCheck} />
+        <Stat label="Hosts" value={report?.totals.creators} icon={ShieldCheck} />
         <Stat label="Members" value={report?.totals.members} icon={Users} />
         <Stat label="Past deadline" value={report?.totals.overdue} icon={AlertTriangle} tone="warn" />
         <Stat label="Awaiting review" value={report?.totals.awaiting_review} icon={Clock} />

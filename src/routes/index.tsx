@@ -14,9 +14,9 @@ import { StoryRail } from "@/components/stories/StoryRail";
 export const Route = createFileRoute("/")({
   head: () => pageHead({
     path: "/",
-    title: "Crush \u2014 Real chats with verified hosts, dates, and friends",
-    description: "Chat, date, and make friends on Crush. Verified hosts, private Friends Lists, secure payments, and instant DMs. Join free.",
-    keywords: "chat app, dating app, friends app, meet women, verified hosts, paid chat, creator subscriptions, social chat",
+    title: "Crush \u2014 Real chats with verified creators, dates, and friends",
+    description: "Chat, date, and make friends on Crush. Verified creators, private Friends Lists, secure payments, and instant DMs. Join free.",
+    keywords: "chat app, dating app, friends app, meet women, verified creators, paid chat, creator subscriptions, social chat",
   }),
   component: Home,
 });
@@ -38,10 +38,10 @@ function Home() {
         </span>
         <h1 className="mt-3 text-[2.6rem] leading-[1.02] font-display font-extrabold">
           Real chats with{" "}
-          <span className="text-gradient-brand">verified hosts</span>.
+          <span className="text-gradient-brand">verified creators</span>.
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Every host runs a Friends List — a little chapter of our family tree. Subscribe, meet the host, find your Crush.
+          Every creator runs a Friends List — a little chapter of our family tree. Subscribe, meet the creator, find your Crush.
         </p>
       </header>
 
@@ -93,7 +93,7 @@ function Home() {
       {/* Featured grid */}
       <section className="mt-6 rise-in rise-in-2">
         <div className="mb-3 flex items-baseline justify-between">
-          <h2 className="text-sm font-display font-bold">Featured Hosts</h2>
+          <h2 className="text-sm font-display font-bold">Featured Creators</h2>
           <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             The family tree
           </span>
@@ -142,7 +142,7 @@ function Home() {
 
       <div className="mt-7 grid gap-3 rise-in rise-in-3">
         <Link to="/discover" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
-          Browse all hosts <ArrowRight className="h-4 w-4" />
+          Browse all creators <ArrowRight className="h-4 w-4" />
         </Link>
         {!authLoading && !user ? (
           <Link
@@ -154,7 +154,7 @@ function Home() {
         ) : null}
       </div>
 
-      {/* Become a host — warm creator studio invite */}
+      {/* Become a creator — warm creator studio invite */}
       <section
         className="mt-7 overflow-hidden rounded-3xl border p-5 shadow-card rise-in rise-in-4"
         style={{ background: "var(--host-soft)", borderColor: "var(--host-primary)" }}
@@ -173,7 +173,7 @@ function Home() {
           to="/host/onboarding"
           className="btn-host mt-4 inline-flex items-center gap-2"
         >
-          Apply as a Host <ArrowRight className="h-4 w-4" />
+          Apply as a Creator <ArrowRight className="h-4 w-4" />
         </Link>
       </section>
     </AppShell>

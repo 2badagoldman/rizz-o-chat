@@ -33,7 +33,7 @@ function Cookies() {
         <Bullets
           items={[
             "Theme choice (pink or blue mode).",
-            "Chat history for AI host conversations, kept on your own device so your threads persist like a messaging app.",
+            "Chat history for AI creator conversations, kept on your own device so your threads persist like a messaging app.",
             "Showcase frequency control, so the welcome reel does not repeat too often in a session.",
           ]}
         />

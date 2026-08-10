@@ -70,7 +70,7 @@ function HostMembers() {
     return (
       <AppShell>
         <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-          <h1 className="text-xl">Sign in as a host</h1>
+          <h1 className="text-xl">Sign in as a creator</h1>
           <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
         </div>
       </AppShell>
@@ -80,8 +80,8 @@ function HostMembers() {
     return (
       <AppShell>
         <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-          <h1 className="text-xl">Hosts only</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Only hosts can manage their Friends List members.</p>
+          <h1 className="text-xl">Creators only</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Only creators can manage their Friends List members.</p>
         </div>
       </AppShell>
     );
@@ -112,7 +112,7 @@ function HostMembers() {
   return (
     <AppShell>
       <div className="pt-6">
-        <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Host tools</p>
+        <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Creator tools</p>
         <h1 className="text-2xl font-bold">Manage Members</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Add your girls for free — they skip the paywall and join your chat instantly.

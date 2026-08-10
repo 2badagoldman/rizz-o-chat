@@ -8,7 +8,7 @@ async function assertHost(ctx: { supabase: any; userId: string }) {
     .eq("id", ctx.userId)
     .maybeSingle();
   if (error) throw error;
-  if (!profile || profile.account_type !== "host") throw new Error("Only hosts can manage members");
+  if (!profile || profile.account_type !== "host") throw new Error("Only creators can manage members");
 }
 
 async function getOrCreateList(ctx: { supabase: any; userId: string }) {

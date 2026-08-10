@@ -5,7 +5,7 @@ import { autoClaimGuestSubscription, claimGuestSubscription } from "@/lib/guest-
 import { getStripeEnvironment } from "@/lib/stripe";
 import { clearGuestCode } from "@/lib/guest-checkout";
 
-/** Inline redeem widget so any member or host can attach a guest subscription code. */
+/** Inline redeem widget so any member or creator can attach a guest subscription code. */
 export function RedeemCodeCard() {
   const claim = useServerFn(claimGuestSubscription);
   const autoClaim = useServerFn(autoClaimGuestSubscription);
