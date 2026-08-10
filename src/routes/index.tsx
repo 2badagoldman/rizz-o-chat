@@ -6,20 +6,59 @@ import { ArrowRight, Crown, Users, Circle } from "lucide-react";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
-import { pageHead } from "@/lib/seo";
+import { pageHead, faqLd, jsonLd, SITE_URL } from "@/lib/seo";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
 import { StoryRail } from "@/components/stories/StoryRail";
 
+const FAQS = [
+  {
+    q: "What is Crush?",
+    a: "Crush is an 18+ social chat app where verified creators run private Friends Lists. Members subscribe to DM their favourite creators, join city rooms, and send gifts.",
+  },
+  {
+    q: "How much does Crush cost?",
+    a: "Joining is free. Crush Gold is $9.99 per week and unlocks any creator's Friends List. Crush Diamond VIP is $19.99 per week and adds a diamond badge plus weekly coin drops. Coins for gifts are bought separately.",
+  },
+  {
+    q: "Are the creators on Crush real and verified?",
+    a: "Yes. Every creator passes 18+ identity verification before they can earn, and all uploads are moderated before they appear publicly.",
+  },
+  {
+    q: "Can I cancel my Crush membership any time?",
+    a: "Yes. Memberships are weekly and can be cancelled at any time from your subscriptions page; access continues to the end of the paid week.",
+  },
+  {
+    q: "Is Crush available on iPhone and Android?",
+    a: "Crush works in any mobile browser and installs to your home screen as an app, with native iOS and Android builds rolling out.",
+  },
+];
 
 export const Route = createFileRoute("/")({
-  head: () => pageHead({
-    path: "/",
-    title: "Crush \u2014 Real chats with verified creators, dates, and friends",
-    description: "Chat, date, and make friends on Crush. Verified creators, private Friends Lists, secure payments, and instant DMs. Join free.",
-    keywords: "chat app, dating app, friends app, meet women, verified creators, paid chat, creator subscriptions, social chat",
-  }),
+  head: () => {
+    const base = pageHead({
+      path: "/",
+      title: "Crush \u2014 Real chats with verified creators, dates, and friends",
+      description: "Chat, date, and make friends on Crush. Verified creators, private Friends Lists, secure payments, and instant DMs. Join free.",
+      keywords: "chat app, dating app, friends app, meet women, verified creators, paid chat, creator subscriptions, social chat",
+    });
+    return {
+      ...base,
+      scripts: [
+        faqLd(FAQS),
+        jsonLd({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: "Crush — verified creators",
+          url: SITE_URL,
+          isPartOf: { "@id": `${SITE_URL}/#website` },
+          about: "Paid chat and Friends Lists with verified 18+ creators",
+        }),
+      ],
+    };
+  },
   component: Home,
 });
+
 
 
 function Home() {
