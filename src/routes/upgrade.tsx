@@ -42,7 +42,7 @@ const PLANS: Plan[] = [
     tagline: 'The key that opens every Friends List',
     icon: Star,
     perks: [
-      { label: 'Unlock any Friends List', detail: 'No per-host unlock fees — every list opens with your membership.' },
+      { label: 'Unlock any Friends List', detail: 'No per-creator unlock fees — every list opens with your membership.' },
       { label: 'Unlimited discovery', detail: 'Scroll all 100+ creators with no daily cap.' },
       { label: 'AI copilot boosts', detail: 'Crush AI drafts openers and replies that actually land.' },
       { label: 'Priority chat placement', detail: 'Your messages sit at the top of a creator’s inbox.' },

@@ -93,7 +93,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
         name: t.profile?.display_name ?? "Member",
         subtitle: t.lastBody ? `${t.lastFromMe ? "You: " : ""}${t.lastBody}` : "Say hi",
         avatar: t.profile?.avatar_url ?? hostAvatarThumb(id),
-        badge: t.profile?.account_type === "host" ? "Host" : "Member",
+        badge: t.profile?.account_type === "host" ? "Creator" : "Member",
         to: "/chat/user/$userId",
         params: { userId: id },
       });
