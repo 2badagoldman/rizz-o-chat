@@ -8,19 +8,29 @@ import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { MapPin, Plus, Users, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { pageHead } from "@/lib/seo";
+import { pageHead, breadcrumbLd } from "@/lib/seo";
 import { SignedOutGate } from "@/components/SignedOutGate";
 import { PrismEmptyState } from "@/components/Prism";
 
 export const Route = createFileRoute("/rooms/")({
-  head: () => pageHead({
-    path: "/rooms",
-    title: "Rooms near you \u2014 Crush",
-    description: "Join live chat rooms near you. Meet creators and members in city rooms across the US on Crush.",
+  head: () => ({
+    ...pageHead({
+      path: "/rooms",
+      title: "Rooms near you \u2014 Crush",
+      description: "Join live chat rooms near you. Meet creators and members in city rooms across the US on Crush.",
+      keywords: "chat rooms, group chat, rooms near me, city chat rooms, live chat",
+    }),
+    scripts: [
+      breadcrumbLd([
+        { name: "Crush", path: "/" },
+        { name: "Rooms near you", path: "/rooms" },
+      ]),
+    ],
   }),
 
   component: RoomsBrowsePage,
 });
+
 
 function RoomsBrowsePage() {
   const { user } = useAuth();

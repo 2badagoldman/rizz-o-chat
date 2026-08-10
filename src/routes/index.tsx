@@ -215,6 +215,20 @@ function Home() {
           Apply as a Creator <ArrowRight className="h-4 w-4" />
         </Link>
       </section>
+
+      {/* FAQ — matches the FAQPage structured data in head() */}
+      <section className="mt-7 rise-in rise-in-4">
+        <h2 className="font-display text-lg font-bold">Crush FAQ</h2>
+        <div className="mt-3 grid gap-2">
+          {FAQS.map((f) => (
+            <details key={f.q} className="rounded-2xl border border-border bg-card/70 px-4 py-3 backdrop-blur">
+              <summary className="cursor-pointer list-none text-sm font-semibold">{f.q}</summary>
+              <p className="mt-2 text-sm text-muted-foreground">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </AppShell>
+
   );
 }
