@@ -16,6 +16,7 @@ import { SubscriptionStatusCard } from "@/components/SubscriptionStatusCard";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { reviewImageBeforeUpload, MODERATION_BLOCK_MESSAGE } from "@/lib/media-moderation";
 import { SignedOutGate } from "@/components/SignedOutGate";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 
@@ -50,6 +51,7 @@ function Profile() {
   const { user, loading, signOut } = useAuth();
   const { isAdmin } = useIsAdmin();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [profile, setProfile] = useState<ProfileRow | null>(null);
   const [bio, setBio] = useState("");
   const [savingBio, setSavingBio] = useState(false);
@@ -161,6 +163,11 @@ function Profile() {
         .eq("id", user.id);
       if (dbErr) throw dbErr;
       await loadProfile(user.id);
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["story-me", user.id] }),
+        queryClient.invalidateQueries({ queryKey: ["stories"] }),
+        queryClient.invalidateQueries({ queryKey: ["public-profile", user.id] }),
+      ]);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Avatar upload failed");
     } finally {

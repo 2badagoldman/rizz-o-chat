@@ -7,12 +7,22 @@ export function isDirectSrc(src?: string | null) {
   return !!src && /^(https?:|data:|blob:|\/)/i.test(src);
 }
 
-const cache = new Map<string, string>();
+const cache = new Map<string, { url: string; expiresAt: number }>();
 let queue = new Set<string>();
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
 const waiters = new Set<() => void>();
 type Signer = (opts: { data: { paths: string[] } }) => Promise<Record<string, string>>;
 let signer: Signer | null = null;
+
+function cachedUrl(path: string) {
+  const hit = cache.get(path);
+  if (!hit) return null;
+  if (hit.expiresAt <= Date.now()) {
+    cache.delete(path);
+    return null;
+  }
+  return hit.url;
+}
 
 async function flush() {
   flushTimer = null;
@@ -28,7 +38,9 @@ async function flush() {
   }
   signer({ data: { paths } })
     .then((map) => {
-      for (const [k, v] of Object.entries(map ?? {})) cache.set(k, v);
+      for (const [k, v] of Object.entries(map ?? {})) {
+        cache.set(k, { url: v, expiresAt: Date.now() + 55 * 60_000 });
+      }
     })
     .catch(() => {})
     .finally(() => {
@@ -40,20 +52,20 @@ async function flush() {
 export function useAvatarSrc(src?: string | null): string | null {
   const sign = useServerFn(signAvatars) as unknown as Signer;
   const [resolved, setResolved] = useState<string | null>(() =>
-    !src ? null : isDirectSrc(src) ? src : (cache.get(src) ?? null),
+    !src ? null : isDirectSrc(src) ? src : cachedUrl(src),
   );
 
   useEffect(() => {
     if (!src) return setResolved(null);
     if (isDirectSrc(src)) return setResolved(src);
-    const hit = cache.get(src);
+    const hit = cachedUrl(src);
     if (hit) return setResolved(hit);
 
     signer = sign;
     setResolved(null);
     let alive = true;
     const onDone = () => {
-      const url = cache.get(src);
+      const url = cachedUrl(src);
       if (alive && url) setResolved(url);
     };
     waiters.add(onDone);
