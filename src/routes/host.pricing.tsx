@@ -151,7 +151,7 @@ function HostPricing() {
         <div className="mt-6 rounded-2xl border border-dashed border-border bg-card p-5 text-sm">
           You don&apos;t have a Friends List yet.{" "}
           <Link to="/host/onboarding" className="font-semibold text-[color:var(--host-primary)] underline">
-            Finish host onboarding
+            Finish creator onboarding
           </Link>{" "}
           to create one.
         </div>

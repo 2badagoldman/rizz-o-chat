@@ -187,7 +187,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
 
           {results.length > 0 ? (
             <p className="px-2 py-1.5 text-[11px] font-extrabold uppercase tracking-widest text-primary">
-              Discover hosts
+              Discover creators
             </p>
           ) : null}
           {results.length === 0 ? (

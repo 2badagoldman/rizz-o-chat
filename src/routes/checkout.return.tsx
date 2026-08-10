@@ -341,7 +341,7 @@ function CheckoutReturn() {
                     style={{ transition: 'background-position 900ms ease, transform 320ms cubic-bezier(.2,1.3,.3,1)' }}
                   >
                     <span className="relative z-10 inline-flex items-center justify-center gap-2">
-                      <Gem className="h-4 w-4" /> Start meeting hosts
+                      <Gem className="h-4 w-4" /> Start meeting creators
                     </span>
                   </Link>
                   <div className="flex gap-2.5">

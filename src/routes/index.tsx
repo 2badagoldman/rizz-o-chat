@@ -41,7 +41,7 @@ function Home() {
           <span className="text-gradient-brand">verified creators</span>.
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Every host runs a Friends List — a little chapter of our family tree. Subscribe, meet the host, find your Crush.
+          Every creator runs a Friends List — a little chapter of our family tree. Subscribe, meet the creator, find your Crush.
         </p>
       </header>
 
@@ -142,7 +142,7 @@ function Home() {
 
       <div className="mt-7 grid gap-3 rise-in rise-in-3">
         <Link to="/discover" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
-          Browse all hosts <ArrowRight className="h-4 w-4" />
+          Browse all creators <ArrowRight className="h-4 w-4" />
         </Link>
         {!authLoading && !user ? (
           <Link
@@ -154,7 +154,7 @@ function Home() {
         ) : null}
       </div>
 
-      {/* Become a host — warm creator studio invite */}
+      {/* Become a creator — warm creator studio invite */}
       <section
         className="mt-7 overflow-hidden rounded-3xl border p-5 shadow-card rise-in rise-in-4"
         style={{ background: "var(--host-soft)", borderColor: "var(--host-primary)" }}
@@ -173,7 +173,7 @@ function Home() {
           to="/host/onboarding"
           className="btn-host mt-4 inline-flex items-center gap-2"
         >
-          Apply as a Host <ArrowRight className="h-4 w-4" />
+          Apply as a Creator <ArrowRight className="h-4 w-4" />
         </Link>
       </section>
     </AppShell>

@@ -8,14 +8,14 @@ export async function registerPwa(): Promise<void> {
   if (!("serviceWorker" in navigator)) return;
 
   const url = new URL(window.location.href);
-  const host = window.location.hostname;
+  const creator = window.location.hostname;
   const inIframe = window.self !== window.top;
   const previewHost =
-    host === "lovableproject.com" ||
+    creator === "lovableproject.com" ||
     host.endsWith(".lovableproject.com") ||
-    host === "lovableproject-dev.com" ||
+    creator === "lovableproject-dev.com" ||
     host.endsWith(".lovableproject-dev.com") ||
-    host === "beta.lovable.dev" ||
+    creator === "beta.lovable.dev" ||
     host.endsWith(".beta.lovable.dev") ||
     host.startsWith("id-preview--") ||
     host.startsWith("preview--");

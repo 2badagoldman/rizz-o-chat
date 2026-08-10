@@ -128,7 +128,7 @@ function Chats() {
         <h2 className="text-sm font-semibold">Chat free with our AI creators</h2>
       </div>
       <p className="mt-0.5 text-xs text-muted-foreground">
-        {aiHosts.length} signature hosts — powered by Crush AI. Free to chat, no signup required.
+        {aiHosts.length} signature creators — powered by Crush AI. Free to chat, no signup required.
       </p>
       <div className="mt-3 space-y-2">
         {aiHosts.map((h) => (
@@ -145,7 +145,7 @@ function Chats() {
       <AppShell>
         <h1 className="pt-6 text-2xl font-bold">Chats</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Chat one of our signature hosts right now — no signup needed.
+          Chat one of our signature creators right now — no signup needed.
         </p>
 
         <div className="mt-4 flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2">
@@ -161,7 +161,7 @@ function Chats() {
         {q.trim() ? (
           <section className="mt-3">
             <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-              {aiMatches.length} AI host{aiMatches.length === 1 ? "" : "s"} match &ldquo;{q}&rdquo;
+              {aiMatches.length} AI creator{aiMatches.length === 1 ? "" : "s"} match &ldquo;{q}&rdquo;
             </p>
             <div className="mt-2 space-y-2">
               {aiMatches.map((h) => (
@@ -169,7 +169,7 @@ function Chats() {
               ))}
               {aiMatches.length === 0 ? (
                 <p className="rounded-2xl border border-dashed border-border p-4 text-center text-xs text-muted-foreground">
-                  No AI hosts match. Try a name like &ldquo;Jen&rdquo; or a city like &ldquo;Miami&rdquo;.
+                  No AI creators match. Try a name like &ldquo;Jen&rdquo; or a city like &ldquo;Miami&rdquo;.
                 </p>
               ) : null}
             </div>
@@ -212,7 +212,7 @@ function Chats() {
           {aiMatches.length > 0 ? (
             <section className="mt-3">
               <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                AI hosts · {aiMatches.length}
+                AI creators · {aiMatches.length}
               </p>
               <div className="mt-2 space-y-2">
                 {aiMatches.map((h) => (
@@ -306,7 +306,7 @@ function Chats() {
             to="/discover"
             className="mt-5 block rounded-2xl border border-dashed border-border bg-card p-6 text-center text-sm text-muted-foreground hover:bg-primary/5"
           >
-            Discover real hosts →
+            Discover real creators →
           </Link>
         </>
       )}

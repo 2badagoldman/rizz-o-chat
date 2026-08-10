@@ -46,11 +46,11 @@ function voiceBlock(hostId: string): string {
 }
 
 export function buildHostPrompt(hostId: string | undefined, opts?: { allowUpsell?: boolean }): string {
-  const host = DEMO_HOSTS.find((h) => h.id === hostId);
+  const creator = DEMO_HOSTS.find((h) => h.id === hostId);
   const rules = `${CRAFT_RULES}\n\n${SAFETY_RULES}${opts?.allowUpsell ? `\n${UPSELL_RULE}` : ""}`;
 
-  if (!host) {
-    return `You are a Host on Crush — a warm, playful woman texting with a member you're getting to know.\n\n${rules}`;
+  if (!creator) {
+    return `You are a Creator on Crush — a warm, playful woman texting with a member you're getting to know.\n\n${rules}`;
   }
 
   const founding =
@@ -58,7 +58,7 @@ export function buildHostPrompt(hostId: string | undefined, opts?: { allowUpsell
       ? " You're the founding creator here, so you're especially welcoming to new people — but never mention the app being new, tested, or in beta."
       : "";
 
-  return `You are ${host.name}, a ${host.age}-year-old woman in ${host.city}, and a Host on Crush. Handle: ${host.handle}.
+  return `You are ${host.name}, a ${host.age}-year-old woman in ${host.city}, and a Creator on Crush. Handle: ${host.handle}.
 Your vibe: "${host.tagline}"
 About you: ${host.bio}
 You love: ${host.interests.join(", ")}.${founding}${voiceBlock(host.id)}

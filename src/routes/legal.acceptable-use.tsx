@@ -17,7 +17,7 @@ function AcceptableUse() {
   return (
     <LegalDoc
       title="Acceptable Use & Content Policy"
-      subtitle={`Crush is an adults-only (${LEGAL.minAge}+) social platform. These rules apply to every member, Host, room, message and upload — no exceptions.`}
+      subtitle={`Crush is an adults-only (${LEGAL.minAge}+) social platform. These rules apply to every member, Creator, room, message and upload — no exceptions.`}
     >
       <Section heading="1. Zero tolerance — instant permanent ban">
         <Bullets
@@ -69,7 +69,7 @@ function AcceptableUse() {
         </p>
         <p className="mt-3">
           Conversations on Crush are friendly, social and PG-13: getting to know someone, shared interests, everyday
-          life, encouragement and light-hearted banter. Our AI Hosts are instructed to refuse sexual requests, to state
+          life, encouragement and light-hearted banter. Our AI Creators are instructed to refuse sexual requests, to state
           that Crush is 18+ and non-sexual, and to redirect the conversation. Members who attempt to steer chats toward
           sexual content are warned, then restricted or banned. Nothing on Crush is an offer of, or payment for, sexual
           services or sexual content of any kind.

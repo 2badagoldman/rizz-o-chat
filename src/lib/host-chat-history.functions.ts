@@ -9,7 +9,7 @@ export type HostThread = {
 
 const MAX_MESSAGES = 400;
 
-/** Load the signed-in member's saved thread with a host (empty when none yet). */
+/** Load the signed-in member's saved thread with a creator (empty when none yet). */
 export const loadHostThread = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
@@ -33,7 +33,7 @@ export const loadHostThread = createServerFn({ method: "POST" })
     };
   });
 
-/** List every host the signed-in member already has a saved chat thread with. */
+/** List every creator the signed-in member already has a saved chat thread with. */
 export const listHostThreads = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {

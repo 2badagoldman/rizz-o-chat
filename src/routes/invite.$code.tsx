@@ -33,7 +33,7 @@ function InvitePage() {
   const [state, setState] = useState<
     | { kind: "loading" }
     | { kind: "invalid"; msg: string }
-    | { kind: "needs_auth"; host: any }
+    | { kind: "needs_auth"; creator: any }
     | { kind: "redeeming" }
     | { kind: "success"; hostId: string }
   >({ kind: "loading" });
@@ -51,7 +51,7 @@ function InvitePage() {
     (async () => {
       if (!user) {
         // Preview requires auth (RLS). Skip preview and prompt sign-in.
-        setState({ kind: "needs_auth", host: null });
+        setState({ kind: "needs_auth", creator: null });
         return;
       }
       const pv: any = await preview({ data: { code: normalized } });

@@ -55,7 +55,7 @@ export const Route = createFileRoute("/host/$hostId")({
 
 function HostProfile() {
   const { hostId } = Route.useParams();
-  const host = useMemo(() => DEMO_HOSTS.find((h) => h.id === hostId), [hostId]);
+  const creator = useMemo(() => DEMO_HOSTS.find((h) => h.id === hostId), [hostId]);
   const { user } = useAuth();
   const navigate = useNavigate();
   const [slide, setSlide] = useState(0);
@@ -66,7 +66,7 @@ function HostProfile() {
   const iosRestricted = useIosBillingRestricted();
 
 
-  if (!host) {
+  if (!creator) {
     return (
       <AppShell>
         <div className="mt-16 text-center">
@@ -101,7 +101,7 @@ function HostProfile() {
     // Friends Lists are Crush Gold only.
     if (!hasGold) return navigate({ to: "/upgrade" });
     if (!hostIsReal) {
-      alert(`${host.name} is a demo profile — checkout will unlock once real hosts sign up.`);
+      alert(`${host.name} is a demo profile — checkout will unlock once real creators sign up.`);
       return;
     }
     openCheckout({
@@ -114,7 +114,7 @@ function HostProfile() {
   const onTip = () => {
     if (!user) return navigate({ to: "/auth" });
     if (!hostIsReal) {
-      alert(`${host.name} is a demo profile — tips unlock once real hosts sign up.`);
+      alert(`${host.name} is a demo profile — tips unlock once real creators sign up.`);
       return;
     }
     setTipOpen(true);
@@ -226,7 +226,7 @@ function HostProfile() {
             ))}
           </div>
 
-          {/* In-image CTA — keeps eyes on the host while deciding */}
+          {/* In-image CTA — keeps eyes on the creator while deciding */}
           <div className="absolute inset-x-0 bottom-0 z-30 p-3">
             <div className="rounded-2xl border border-white/15 bg-black/55 p-3 text-white shadow-2xl backdrop-blur-xl">
               <div className="mb-2 flex items-end justify-between gap-3">

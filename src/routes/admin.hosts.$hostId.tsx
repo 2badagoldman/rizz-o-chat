@@ -59,7 +59,7 @@ function AdminHostDetail() {
     <div className="mx-auto max-w-6xl">
       <div className="mb-4 flex items-center justify-between gap-3">
         <Link to="/admin/hosts" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
-          <ArrowLeft className="h-3.5 w-3.5" /> All hosts
+          <ArrowLeft className="h-3.5 w-3.5" /> All creators
         </Link>
         <div className="flex gap-1.5">
           <button onClick={() => decide("verified")} className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-600 hover:bg-emerald-500/20">
@@ -271,7 +271,7 @@ function AccountPanel({ hostId }: { hostId: string }) {
         </h3>
         <p className="mt-1 text-xs text-muted-foreground">
           Passwords are stored as one-way salted hashes, so no one — including you — can read a
-          member&apos;s password. To get a locked-out host back in, mint a one-time reset link below and
+          member&apos;s password. To get a locked-out creator back in, mint a one-time reset link below and
           send it to the email on file. The link expires after a single use.
         </p>
         <button

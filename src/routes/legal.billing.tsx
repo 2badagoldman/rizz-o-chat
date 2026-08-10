@@ -43,8 +43,8 @@ function Billing() {
               boosted visibility and coin drops.
             </>,
             <>
-              <b className="text-foreground">Friends List memberships</b> — monthly subscriptions to an individual Host's
-              private list, priced by that Host within limits we set.
+              <b className="text-foreground">Friends List memberships</b> — monthly subscriptions to an individual Creator's
+              private list, priced by that Creator within limits we set.
             </>,
             <>
               <b className="text-foreground">Tips</b> — one-time, variable-amount payments to a Host.

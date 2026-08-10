@@ -249,7 +249,7 @@ function Metric({ icon, label, value, accent }: { icon?: React.ReactNode; label:
   );
 }
 
-type BgRow = { label: string; count: number; members: number; hosts: number; last30: number; pct: number };
+type BgRow = { label: string; count: number; members: number; creators: number; last30: number; pct: number };
 
 function BackgroundPanel() {
   const load = useServerFn(signupsByBackground);

@@ -46,7 +46,7 @@ function Terms() {
       <Section heading="3. What Crush is (and is not)">
         <p>
           Crush is a social chat and creator-membership platform. Members can browse creator ("Host") profiles, join a
-          Host's Friends List, chat one-to-one, join group Rooms, send digital gifts and tips, and use our AI chat
+          Creator's Friends List, chat one-to-one, join group Rooms, send digital gifts and tips, and use our AI chat
           assistant for conversation coaching.
         </p>
         <Bullets
@@ -85,7 +85,7 @@ function Terms() {
       <Section heading="6. Your content and licence to us">
         <p>
           You keep ownership of the photos, videos, text and messages you upload ("Your Content"). You grant us a
-          worldwide, non-exclusive, royalty-free licence to host, store, reproduce, adapt (for formatting, thumbnails
+          worldwide, non-exclusive, royalty-free licence to creator, store, reproduce, adapt (for formatting, thumbnails
           and compression) and display Your Content solely to operate, secure, moderate and promote the Service.
         </p>
         <Bullets
@@ -100,7 +100,7 @@ function Terms() {
 
       <Section heading="7. Creators and creator payouts">
         <p>
-          Hosts are independent creators, not employees, partners or agents of {LEGAL.entity}. Hosts are solely
+          Creators are independent creators, not employees, partners or agents of {LEGAL.entity}. Creators are solely
           responsible for their own taxes, licences and legal compliance. Revenue split, payout timing, minimum
           thresholds and clawbacks are described in our Creator & Payout Terms, which form part of these Terms for
           anyone who applies to be a Host.
@@ -122,7 +122,7 @@ function Terms() {
 
       <Section heading="9. AI features">
         <p>
-          Our AI assistant and AI hosts generate text automatically. Output may be wrong, outdated or unsuitable. You
+          Our AI assistant and AI creators generate text automatically. Output may be wrong, outdated or unsuitable. You
           are responsible for how you use it, must not rely on it for legal, medical, financial or safety decisions, and
           must not submit other people's private data or intimate images to it.
         </p>
@@ -150,7 +150,7 @@ function Terms() {
           The Service is provided "as is" and "as available". To the maximum extent permitted by law we disclaim all
           implied warranties, including merchantability, fitness for a particular purpose and non-infringement. We do
           not warrant uninterrupted or error-free operation, and we do not guarantee any level of engagement, earnings,
-          matches or responses from any Host or member.
+          matches or responses from any Creator or member.
         </p>
       </Section>
 

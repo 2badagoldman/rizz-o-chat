@@ -11,7 +11,7 @@ type Application = {
   created_at: string;
 };
 
-/** Members apply here. Host abilities stay locked until an admin approves. */
+/** Members apply here. Creator abilities stay locked until an admin approves. */
 export function HostApplicationCard() {
   const { user } = useAuth();
   const [app, setApp] = useState<Application | null>(null);
@@ -109,14 +109,14 @@ export function HostApplicationCard() {
   return (
     <Shell tone="cta" icon={<Sparkle className="h-4 w-4" />} title="Want to creator on Crush?">
       <p className="mt-1 text-xs text-muted-foreground">
-        Hosts earn from their Friends List, gifts and rooms. Apply below — a human reviews every application, and nothing
+        Creators earn from their Friends List, gifts and rooms. Apply below — a human reviews every application, and nothing
         changes on your account until you&apos;re approved.
       </p>
       {open ? (
         <Form {...{ stageName, setStageName, city, setCity, social, setSocial, pitch, setPitch, submit, busy, err }} />
       ) : (
         <button onClick={() => setOpen(true)} className="press-spring mt-3 rounded-xl bg-primary px-4 py-2 text-xs font-black text-primary-foreground">
-          Apply to become a host
+          Apply to become a creator
         </button>
       )}
     </Shell>

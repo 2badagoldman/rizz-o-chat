@@ -70,7 +70,7 @@ function Discover() {
   const term = q.trim().toLowerCase();
   const isFiltered = term.length > 0 || filter !== "all" || sort !== "featured";
 
-  const hosts = useMemo(() => {
+  const creators = useMemo(() => {
     // Reshuffling under an active search/sort would make results jump while the
     // user reads them, so only the untouched "Featured" view rotates.
     const base = sort === "featured" && !term ? shuffled : DEMO_HOSTS;
@@ -213,7 +213,7 @@ function Discover() {
         <section className="mt-3 grid grid-cols-2 gap-3">
           <RealHostCards term={term} />
           {hosts.map((h) => (
-            <HostCard key={h.id} host={h} />
+            <HostCard key={h.id} creator={h} />
           ))}
         </section>
       )}
@@ -223,7 +223,7 @@ function Discover() {
 }
 
 
-/** Approved real hosts, mixed into the main grid. Missing photos get a generated portrait. */
+/** Approved real creators, mixed into the main grid. Missing photos get a generated portrait. */
 function RealHostCards({ term }: { term: string }) {
   const fetchHosts = useServerFn(listApprovedHosts);
   const { data } = useQuery({
@@ -231,7 +231,7 @@ function RealHostCards({ term }: { term: string }) {
     queryFn: () => fetchHosts({} as never) as Promise<DirectoryHost[]>,
     staleTime: 60_000,
   });
-  const hosts = (data ?? []).filter(
+  const creators = (data ?? []).filter(
     (h) => !term || h.display_name.toLowerCase().includes(term),
   );
   if (hosts.length === 0) return null;
@@ -273,7 +273,7 @@ function RealHostCards({ term }: { term: string }) {
 }
 
 
-function HostCard({ host }: { host: DemoHost }) {
+function HostCard({ creator }: { creator: DemoHost }) {
   return (
     <Link
       to="/host/$hostId"

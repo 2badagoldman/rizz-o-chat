@@ -127,7 +127,7 @@ export function RizzBrainDock() {
                   Hey — I&apos;m <span className="text-gradient-brand font-semibold">Crush AI</span>, your <span className="font-semibold">Crush Wizard</span>.
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Stuck on what to say to a Host, a crush, or any girl? Paste the context — or drop a screenshot of the chat / her profile — and I&apos;ll give you 3 lines to send.
+                  Stuck on what to say to a Creator, a crush, or any girl? Paste the context — or drop a screenshot of the chat / her profile — and I&apos;ll give you 3 lines to send.
                 </p>
                 <div className="mt-3 grid gap-1.5">
                   {[

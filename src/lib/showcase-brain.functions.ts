@@ -204,7 +204,7 @@ export async function runBrainCore(trigger: "manual" | "cron") {
   if (key && targets.length > 0) {
     const system = [
       `You are the Crush Welcome Showcase Copywriter.`,
-      `Crush is a chat entertainment app where verified women (Hosts) run paid Friends Lists.`,
+      `Crush is a chat entertainment app where verified women (Creators) run paid Friends Lists.`,
       `Write ONE punchy welcome caption per slide. Tone: ${tone}.`,
       `Rules: max 60 chars, no hashtags, no @mentions, no quotes, one emoji max, invite the viewer to join the conversation / chat / say hi.`,
       `STRICTLY NON-SEXUAL and non-suggestive: no flirting, seduction, innuendo, "private", "secret", "behind closed doors", "heat", "spicy", "babe", "naughty", "tease", "DM me for more", and no suggestive emoji (💋😏🔥🌶️🍑🍆😈).`,

@@ -127,7 +127,7 @@ function CreatorPricingGuide() {
           How to price your creator subscription
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Maximising earnings through engagement — a tier-by-tier pricing guide for hosts running a
+          Maximising earnings through engagement — a tier-by-tier pricing guide for creators running a
           Friends List on Crush.
         </p>
       </header>
@@ -189,7 +189,7 @@ function CreatorPricingGuide() {
         <Section title="Where the money actually lands">
           <p>
             Your Friends List price is recurring and predictable; tips and coin gifts are spiky and driven by
-            moments. Healthy host accounts usually run roughly two-thirds subscription revenue and one-third
+            moments. Healthy creator accounts usually run roughly two-thirds subscription revenue and one-third
             gifts. If gifts dominate, your subscription is underpriced. If subscriptions dominate completely,
             you are probably under-engaging on the days people most want to spend.
           </p>

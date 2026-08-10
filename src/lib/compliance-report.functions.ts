@@ -20,7 +20,7 @@ export type ComplianceReport = {
   report_date: string;
   totals: {
     outstanding: number;
-    hosts: number;
+    creators: number;
     members: number;
     overdue: number;
     awaiting_review: number;
@@ -77,7 +77,7 @@ export const getComplianceReport = createServerFn({ method: "POST" })
       report_date: new Date().toISOString().slice(0, 10),
       totals: {
         outstanding: rows.length,
-        hosts: rows.filter((r) => r.account_type === "host").length,
+        creators: rows.filter((r) => r.account_type === "host").length,
         members: rows.filter((r) => r.account_type !== "host").length,
         overdue: rows.filter((r) => r.overdue).length,
         awaiting_review: rows.filter((r) => r.submitted).length,

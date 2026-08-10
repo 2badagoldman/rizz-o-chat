@@ -288,7 +288,7 @@ function UserChat() {
           </p>
         ) : restriction?.peerRestrictsMe ? (
           <p className="mb-2 rounded-xl border border-border bg-muted/60 px-3 py-2 text-[11px] text-muted-foreground">
-            This host has limited your chat to text and emoji only.
+            This creator has limited your chat to text and emoji only.
           </p>
         ) : null}
 

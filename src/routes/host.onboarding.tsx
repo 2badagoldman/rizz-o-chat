@@ -225,7 +225,7 @@ function HostOnboarding() {
                   className="mt-0.5 h-4 w-4 accent-[color:var(--host-primary)]"
                 />
                 <span>
-                  I&apos;m 18+. I agree to the Host Agreement, FTC #ad disclosure on
+                  I&apos;m 18+. I agree to the Creator Agreement, FTC #ad disclosure on
                   paid content, and no off-platform payments.
                 </span>
               </label>

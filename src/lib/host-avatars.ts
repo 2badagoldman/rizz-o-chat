@@ -35,7 +35,7 @@ const ASSIGNMENT: Map<string, number> = (() => {
   const map = new Map<string, number>();
   const used = new Set<number>();
   const poolSize = POOL.length;
-  DEMO_HOSTS.forEach((host, i) => {
+  DEMO_HOSTS.forEach((creator, i) => {
     let idx: number;
     if (poolSize === 0) {
       idx = 0;

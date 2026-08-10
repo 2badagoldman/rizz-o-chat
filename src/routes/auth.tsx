@@ -386,7 +386,7 @@ function AuthPage() {
             />
             <span>
               I confirm I am <strong>18 or older</strong> and agree to the platform
-              guidelines. Hosts are openly disclosed as compensated partners.
+              guidelines. Creators are openly disclosed as compensated partners.
             </span>
           </label>
         )}

@@ -24,7 +24,7 @@ function Privacy() {
           items={[
             <>
               <b className="text-foreground">Account data</b> — email address, display name, password hash (managed by our
-              auth provider), age confirmation, gender if you choose to provide it, and role (member, host, admin).
+              auth provider), age confirmation, gender if you choose to provide it, and role (member, creator, admin).
             </>,
             <>
               <b className="text-foreground">Profile content</b> — bio, photos, videos and captions you upload, and the

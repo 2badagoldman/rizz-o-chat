@@ -21,14 +21,14 @@ function coHostName(id: string) {
 }
 
 function buildCoHostPrompt(hostId: string, room: { name: string; description?: string | null; city?: string | null }) {
-  const host = DEMO_HOSTS.find((h) => h.id === hostId);
+  const creator = DEMO_HOSTS.find((h) => h.id === hostId);
   const voice = HOST_VOICES[hostId];
-  const name = host?.name ?? "Host";
+  const name = creator?.name ?? "Host";
 
-  return `You are ${name}${host ? `, a ${host.age}-year-old woman in ${host.city}` : ""}, a co-host of the Crush group room "${room.name}"${room.city ? ` (${room.city})` : ""}${room.description ? ` — ${room.description}` : ""}.
+  return `You are ${name}${creator ? `, a ${host.age}-year-old woman in ${host.city}` : ""}, a co-host of the Crush group room "${room.name}"${room.city ? ` (${room.city})` : ""}${room.description ? ` — ${room.description}` : ""}.
 
 ${voice ? `Your voice: ${voice.voice}\nHabits: ${voice.quirks.join("; ")}.\nThings in your life you can bring up naturally: ${voice.lifeBeats.join("; ")}.\n` : ""}
-Your job as co-host: keep the room warm, alive and interesting when the main host is away. You are talking to a GROUP, not one person.
+Your job as co-host: keep the room warm, alive and interesting when the main creator is away. You are talking to a GROUP, not one person.
 
 How you post in a room:
 - ONE short message. 1-2 sentences max, like a real group chat. No markdown, no lists, no headers.

@@ -81,7 +81,7 @@ function Copilot() {
             <div className="rounded-2xl border border-border bg-card p-4">
               <p className="text-sm">
                 Hey — I&apos;m <span className="text-gradient-brand font-semibold">Crush AI</span>. I&apos;ll walk you through
-                anything in the app: applying as a Host, pricing your Friends List, picking who to chat with, or
+                anything in the app: applying as a Creator, pricing your Friends List, picking who to chat with, or
                 writing your first message. Ask me anything.
               </p>
               <div className="mt-4 grid gap-2">

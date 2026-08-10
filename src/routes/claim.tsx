@@ -83,7 +83,7 @@ function ClaimPage() {
                 onClick={() => router.navigate({ to: '/discover' })}
                 className="press-spring mt-5 w-full rounded-2xl bg-primary py-3.5 text-sm font-black text-primary-foreground"
               >
-                Start meeting hosts
+                Start meeting creators
               </button>
             </>
           ) : !loading && !user ? (

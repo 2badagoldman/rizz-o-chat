@@ -17,11 +17,11 @@ function Creators() {
   return (
     <LegalDoc
       title="Creator & Payout Terms"
-      subtitle={`These terms apply if you are approved as a Host on ${LEGAL.productName}. They form part of our Terms of Service.`}
+      subtitle={`These terms apply if you are approved as a Creator on ${LEGAL.productName}. They form part of our Terms of Service.`}
     >
       <Section heading="1. Independent creator status">
         <p>
-          Hosts are independent creators. Nothing here creates an employment, partnership, agency or joint-venture
+          Creators are independent creators. Nothing here creates an employment, partnership, agency or joint-venture
           relationship with {LEGAL.entity}. You control your own content, schedule and pricing within the limits below,
           and you are responsible for your own equipment, taxes and legal compliance.
         </p>
@@ -30,7 +30,7 @@ function Creators() {
       <Section heading="2. Approval and verification">
         <Bullets
           items={[
-            `Hosts must be ${LEGAL.minAge}+ and pass our review before their Friends List can be sold.`,
+            `Creators must be ${LEGAL.minAge}+ and pass our review before their Friends List can be sold.`,
             "We may require identity and age verification, and may re-verify at any time.",
             "We may decline, pause or revoke Creator status for policy violations, chargeback rates, fraud signals, or failed verification.",
           ]}
@@ -63,7 +63,7 @@ function Creators() {
 
       <Section heading="5. Refunds, chargebacks and clawbacks">
         <p>
-          If a member's payment is refunded or charged back, the corresponding Host earnings are reversed from your
+          If a member's payment is refunded or charged back, the corresponding Creator earnings are reversed from your
           balance. If your balance is insufficient, the amount offsets future earnings. Sustained high dispute rates may
           result in payout suspension or removal from the platform.
         </p>

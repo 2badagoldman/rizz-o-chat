@@ -67,7 +67,7 @@ function AdminApplications() {
     <div className="pt-4">
       <h1 className="text-xl font-black tracking-tight">Creator applications</h1>
       <p className="mt-1 text-xs text-muted-foreground">
-        Members stay members until you approve. Approving flips their account to host and unlocks host tools.
+        Members stay members until you approve. Approving flips their account to creator and unlocks creator tools.
       </p>
 
       {loading ? (

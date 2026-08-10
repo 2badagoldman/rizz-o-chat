@@ -58,18 +58,18 @@ function HostChat() {
   const [input, setInput] = useState("");
   const [pending, setPending] = useState<string[]>([]);
   const [giftOpen, setGiftOpen] = useState(false);
-  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`host:${hostId}`);
+  const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`creator:${hostId}`);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
   // "send" delivers the emoji as a message; "react" only bursts + tags the latest message.
-  const { mode: emojiMode, setMode: setEmojiMode } = useEmojiMode(`host:${hostId}`);
+  const { mode: emojiMode, setMode: setEmojiMode } = useEmojiMode(`creator:${hostId}`);
 
   const { fire, layer } = useFloatingReactions();
   // Per-message reactions (Apple-style): messageId -> emojis.
   const [msgReactions, setMsgReactions] = useState<Record<string, string[]>>({});
 
 
-  const host = DEMO_HOSTS.find((h) => h.id === hostId);
+  const creator = DEMO_HOSTS.find((h) => h.id === hostId);
 
   const aiHost = isAiHost(hostId);
   const { locked, onTrial, daysLeft } = useChatAccess();
@@ -80,7 +80,7 @@ function HostChat() {
   // reloads / device sessions. Real user-to-user DMs already persist to
   // the messages table via chat.user.$userId.
   const storageKey = useMemo(
-    () => `rizzla:chat:host:${hostId}:${user?.id ?? "anon"}`,
+    () => `rizzla:chat:creator:${hostId}:${user?.id ?? "anon"}`,
     [hostId, user?.id],
   );
   const initialMessages = useMemo(() => {
@@ -127,7 +127,7 @@ function HostChat() {
   });
 
   // Free AI replies: 10 per AI host, then Crush Gold is required.
-  const aiQuota = useAiQuota(`host:${hostId}`);
+  const aiQuota = useAiQuota(`creator:${hostId}`);
   const assistantCount = messages.filter((m) => m.role === "assistant").length;
   useEffect(() => {
     if (aiHost) aiQuota.track(assistantCount);
@@ -242,7 +242,7 @@ function HostChat() {
 
   if (loading) return <AppShell><p className="pt-10 text-center text-sm text-muted-foreground">Loading…</p></AppShell>;
 
-  if (!host) {
+  if (!creator) {
     return (
       <AppShell>
         <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">

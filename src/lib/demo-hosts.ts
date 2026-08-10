@@ -20,7 +20,7 @@ export type DemoHost = {
   photoCount: number;
   hasVideo: boolean;
   teaser: string;
-  /** If true, anyone (even signed-out visitors) can chat with an AI persona of this host for free. */
+  /** If true, anyone (even signed-out visitors) can chat with an AI persona of this creator for free. */
   aiEnabled?: boolean;
 };
 

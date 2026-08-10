@@ -75,7 +75,7 @@ function NewRoomPage() {
         </Link>
         <h1 className="mt-2 text-2xl font-bold">Create a room</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Any member can host a public room — great for your city, vibe, or friend circle.
+          Any member can creator a public room — great for your city, vibe, or friend circle.
         </p>
       </div>
 

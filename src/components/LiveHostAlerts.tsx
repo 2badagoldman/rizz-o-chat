@@ -107,7 +107,7 @@ export function LiveHostAlerts() {
         );
         if (!fresh.length) return;
 
-        const host = fresh[Math.floor(Math.random() * fresh.length)];
+        const creator = fresh[Math.floor(Math.random() * fresh.length)];
         const name = host.display_name ?? "Someone";
 
         const n = new Notification(`${name} is live now`, {

@@ -8,7 +8,7 @@ export type DirectoryHost = {
   created_at: string;
 };
 
-/** Approved (verified) real hosts, shown alongside demo hosts in Discover. */
+/** Approved (verified) real creators, shown alongside demo creators in Discover. */
 export const listApprovedHosts = createServerFn({ method: "GET" }).handler(
   async (): Promise<DirectoryHost[]> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

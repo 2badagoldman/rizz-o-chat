@@ -220,7 +220,7 @@ export const HOST_VOICES: Record<string, HostVoice> = {
   },
 };
 
-/** Pick a stable-but-varied opener for a host + member pair. */
+/** Pick a stable-but-varied opener for a creator + member pair. */
 export function pickOpener(hostId: string, seed: string, fallback: string): string {
   const v = HOST_VOICES[hostId];
   if (!v || v.openers.length === 0) return fallback;
