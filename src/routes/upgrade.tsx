@@ -108,7 +108,7 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
       <div
         className={`press-spring group relative overflow-hidden rounded-[1.75rem] p-6 backdrop-blur-2xl ${
           diamond
-            ? 'border border-white/60 bg-white/50 shadow-pop'
+            ? 'border border-white/70 bg-white/90 shadow-pop'
             : 'border border-border/70 bg-card/70 shadow-card'
         }`}
       >
@@ -124,12 +124,12 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
           {/* refracted caustics */}
           <span
             aria-hidden
-            className="caustic pointer-events-none absolute inset-0 bg-[radial-gradient(50%_40%_at_20%_20%,rgba(56,189,248,.45),transparent_70%),radial-gradient(45%_40%_at_85%_30%,rgba(236,72,153,.4),transparent_70%),radial-gradient(60%_50%_at_50%_100%,rgba(168,85,247,.4),transparent_70%)] blur-2xl"
+            className="caustic pointer-events-none absolute inset-0 opacity-40 bg-[radial-gradient(50%_40%_at_20%_20%,rgba(56,189,248,.45),transparent_70%),radial-gradient(45%_40%_at_85%_30%,rgba(236,72,153,.4),transparent_70%),radial-gradient(60%_50%_at_50%_100%,rgba(168,85,247,.4),transparent_70%)] blur-2xl"
           />
           {/* holographic facet sheet */}
           <span
             aria-hidden
-            className="prism-shift pointer-events-none absolute inset-0 opacity-[.16] mix-blend-soft-light bg-[linear-gradient(115deg,transparent_20%,rgba(255,255,255,.9)_35%,transparent_48%,rgba(125,211,252,.7)_60%,transparent_72%,rgba(244,114,182,.7)_84%,transparent_95%)]"
+            className="prism-shift pointer-events-none absolute inset-0 opacity-[.07] mix-blend-soft-light bg-[linear-gradient(115deg,transparent_20%,rgba(255,255,255,.9)_35%,transparent_48%,rgba(125,211,252,.7)_60%,transparent_72%,rgba(244,114,182,.7)_84%,transparent_95%)]"
           />
           <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden rounded-[1.75rem]" />
           <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[1.75rem] ring-1 ring-inset ring-white/80" />
@@ -209,16 +209,16 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
           <div className="min-w-0">
             <h2
               className={`text-lg leading-tight font-black ${
-                diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : 'gold-text'
+                diamond ? 'bg-[linear-gradient(100deg,#0369a1,#7e22ce,#be185d)] bg-clip-text text-transparent' : 'gold-text'
               }`}
             >
               {plan.name}
             </h2>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">{plan.tagline}</p>
+            <p className={`mt-0.5 text-[11px] ${diamond ? 'text-slate-600' : 'text-muted-foreground'}`}>{plan.tagline}</p>
           </div>
         </div>
         {diamond ? (
-          <span className="chip-shimmer shrink-0 rounded-full border border-white/70 bg-white/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-sky-700">
+          <span className="chip-shimmer shrink-0 rounded-full border border-white/70 bg-white px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-sky-800">
             Diamond
           </span>
         ) : (
@@ -231,17 +231,17 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
       <div className="relative mt-5 flex items-end gap-1">
         <span
           className={`text-4xl font-black tracking-tight ${
-            diamond ? 'bg-[linear-gradient(100deg,#0284c7,#a855f7,#ec4899)] bg-clip-text text-transparent' : 'gold-text'
+            diamond ? 'bg-[linear-gradient(100deg,#0369a1,#7e22ce,#be185d)] bg-clip-text text-transparent' : 'gold-text'
           }`}
         >
           {plan.price}
         </span>
-        <span className="pb-1.5 text-xs font-semibold text-muted-foreground">/week</span>
+        <span className={`pb-1.5 text-xs font-semibold ${diamond ? 'text-slate-600' : 'text-muted-foreground'}`}>/week</span>
       </div>
 
 
       {plan.includesNote && (
-        <p className="relative mt-4 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/60 px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-sky-700">
+        <p className="relative mt-4 inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-white px-3 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-sky-800">
           <Check className="h-3 w-3" strokeWidth={3.5} /> {plan.includesNote}
         </p>
       )}
@@ -262,8 +262,8 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
               <Check className="h-3 w-3" strokeWidth={3.5} />
             </span>
             <span className="min-w-0">
-              <span className="block font-bold leading-snug text-foreground">{perk.label}</span>
-              <span className="block text-[11.5px] leading-snug text-muted-foreground">{perk.detail}</span>
+              <span className={`block font-bold leading-snug ${diamond ? 'text-slate-900' : 'text-foreground'}`}>{perk.label}</span>
+              <span className={`block text-[11.5px] leading-snug ${diamond ? 'text-slate-700' : 'text-muted-foreground'}`}>{perk.detail}</span>
             </span>
           </li>
         ))}
