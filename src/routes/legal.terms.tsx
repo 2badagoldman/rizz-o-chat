@@ -45,7 +45,7 @@ function Terms() {
 
       <Section heading="3. What Crush is (and is not)">
         <p>
-          Crush is a social chat and creator-membership platform. Members can browse creator ("Host") profiles, join a
+          Crush is a social chat and creator-membership platform. Members can browse creator profiles, join a
           Creator's Friends List, chat one-to-one, join group Rooms, send digital gifts and tips, and use our AI chat
           assistant for conversation coaching.
         </p>
@@ -53,7 +53,7 @@ function Terms() {
           items={[
             "Crush is entertainment and social networking. We do not provide escort, dating-guarantee, matchmaking, financial, legal, medical or therapeutic services.",
             "Some profiles are clearly labelled as AI creators or demo content. AI conversations are machine-generated, may be inaccurate, and are not a real person's advice.",
-            "We do not employ Hosts. Creators are independent creators responsible for their own content and conduct.",
+            "We do not employ creators. Creators are independent creators responsible for their own content and conduct.",
             "Nothing on the Service is an offer of, or payment for, sexual services. Such use is prohibited and reported where required.",
           ]}
         />
@@ -103,7 +103,7 @@ function Terms() {
           Creators are independent creators, not employees, partners or agents of {LEGAL.entity}. Creators are solely
           responsible for their own taxes, licences and legal compliance. Revenue split, payout timing, minimum
           thresholds and clawbacks are described in our Creator & Payout Terms, which form part of these Terms for
-          anyone who applies to be a Host.
+          anyone who applies to be a creator.
         </p>
       </Section>
 

@@ -94,7 +94,7 @@ function PublicProfilePage() {
           </div>
           <h2 className="mt-4 text-xl font-bold">{name}</h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            {profile.account_type === "host" ? "Host" : "Member"}
+            {profile.account_type === "host" ? "Creator" : "Member"}
             {online ? " · Online now" : ""}
           </p>
           {profile.bio ? (
