@@ -6,7 +6,7 @@ const cards = (page: import("@playwright/test").Page) =>
 
 // The rooms showcase reuses the same pill labels, so filters are always scoped.
 const filter = (page: import("@playwright/test").Page, name: string) =>
-  page.getByRole("group", { name: "Filter hosts" }).getByRole("button", { name, exact: true });
+  page.getByRole("group", { name: "Filter creators" }).getByRole("button", { name, exact: true });
 
 test.describe("discover search, filters and sorting", () => {
   test("search narrows results and clears cleanly", async ({ page }) => {
@@ -17,9 +17,9 @@ test.describe("discover search, filters and sorting", () => {
     const total = await cards(page).count();
     expect(total).toBeGreaterThan(5);
 
-    const search = page.getByLabel("Search hosts, cities and interests");
+    const search = page.getByLabel("Search creators, cities and interests");
     await search.fill("zzzz-no-such-host");
-    await expect(page.getByText("No hosts match")).toBeVisible();
+    await expect(page.getByText("No creators match")).toBeVisible();
     await expect(cards(page)).toHaveCount(0);
 
     // The empty state offers a real escape hatch.
@@ -56,7 +56,7 @@ test.describe("discover search, filters and sorting", () => {
       const count = await cards(page).count();
       expect(count).toBeLessThanOrEqual(total);
       // Either results or a well-formed empty state — never a blank screen.
-      if (count === 0) await expect(page.getByText("No hosts match")).toBeVisible();
+      if (count === 0) await expect(page.getByText("No creators match")).toBeVisible();
     }
 
     await filter(page, "All").click();
@@ -70,7 +70,7 @@ test.describe("discover search, filters and sorting", () => {
     await page.goto("/discover");
     await waitForShell(page);
 
-    const sort = page.getByLabel("Sort hosts");
+    const sort = page.getByLabel("Sort creators");
     // Price sorts are the deterministic check: ascending then descending must
     // be exact mirrors of each other.
     await sort.selectOption("price-asc");
@@ -95,15 +95,15 @@ test.describe("discover search, filters and sorting", () => {
     await page.goto("/discover");
     await waitForShell(page);
 
-    await page.getByLabel("Sort hosts").selectOption("price-desc");
-    await page.getByLabel("Search hosts, cities and interests").fill("a");
-    await expect(page.getByLabel("Sort hosts")).toHaveValue("price-desc");
+    await page.getByLabel("Sort creators").selectOption("price-desc");
+    await page.getByLabel("Search creators, cities and interests").fill("a");
+    await expect(page.getByLabel("Sort creators")).toHaveValue("price-desc");
 
     const count = await cards(page).count();
     await filter(page, "Online").click();
     expect(await cards(page).count()).toBeLessThanOrEqual(count);
-    await expect(page.getByLabel("Search hosts, cities and interests")).toHaveValue("a");
-    await expect(page.getByLabel("Sort hosts")).toHaveValue("price-desc");
+    await expect(page.getByLabel("Search creators, cities and interests")).toHaveValue("a");
+    await expect(page.getByLabel("Sort creators")).toHaveValue("price-desc");
   });
 });
 
@@ -116,9 +116,9 @@ for (const theme of THEMES) {
     await page.goto("/discover");
     await waitForShell(page);
 
-    await page.getByLabel("Search hosts, cities and interests").fill("zzzz-no-such-host");
+    await page.getByLabel("Search creators, cities and interests").fill("zzzz-no-such-host");
 
-    const empty = page.getByText("No hosts match");
+    const empty = page.getByText("No creators match");
     await expect(empty).toBeVisible();
 
     const cta = page.getByRole("button", { name: /Clear search & filters/i });
