@@ -293,7 +293,7 @@ function BackgroundPanel() {
               </span>
               <span className="w-44 shrink-0 text-right text-[11px] text-muted-foreground">
                 <span className="font-mono text-foreground">{r.count}</span> · {r.pct}% ·{" "}
-                {r.members}M / {r.hosts}H
+                {r.members}M / {r.creators}H
                 {r.last30 > 0 ? <span className="text-emerald-600"> · +{r.last30} 30d</span> : null}
               </span>
             </div>

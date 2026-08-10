@@ -288,7 +288,7 @@ export const signupsByBackground = createServerFn({ method: "POST" })
       if (!label) continue;
       answered += 1;
       const bucket = counts.get(label) ?? { members: 0, creators: 0, last30: 0 };
-      if (p.account_type === "host") bucket.hosts += 1;
+      if (p.account_type === "host") bucket.creators += 1;
       else bucket.members += 1;
       if (+new Date(p.created_at) >= since) bucket.last30 += 1;
       counts.set(label, bucket);
@@ -298,11 +298,11 @@ export const signupsByBackground = createServerFn({ method: "POST" })
     const rows = Array.from(counts.entries())
       .map(([label, v]) => ({
         label,
-        count: v.members + v.hosts,
+        count: v.members + v.creators,
         members: v.members,
-        creators: v.hosts,
+        creators: v.creators,
         last30: v.last30,
-        pct: answered ? Math.round(((v.members + v.hosts) / answered) * 100) : 0,
+        pct: answered ? Math.round(((v.members + v.creators) / answered) * 100) : 0,
       }))
       .sort((a, b) => b.count - a.count);
 
