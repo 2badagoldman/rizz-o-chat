@@ -35,7 +35,7 @@ function NewRoomPage() {
     return (
       <SignedOutGate
         title="Sign in to create a room"
-        description="You need a Crush account (member or host) to host a room."
+        description="You need a Crush account (member or creator) to creator a room."
       />
     );
 

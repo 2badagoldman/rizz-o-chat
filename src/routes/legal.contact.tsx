@@ -50,7 +50,7 @@ function Contact() {
             <><b className="text-foreground">PRIVACY</b> — data access, correction, deletion or export requests.</>,
             <><b className="text-foreground">URGENT REMOVAL</b> — non-consensual content or child-safety reports (actioned within 24 hours).</>,
             <><b className="text-foreground">SECURITY</b> — vulnerability reports.</>,
-            <><b className="text-foreground">CREATOR</b> — Host applications, payouts and pricing.</>,
+            <><b className="text-foreground">CREATOR</b> — Creator applications, payouts and pricing.</>,
           ]}
         />
       </Section>

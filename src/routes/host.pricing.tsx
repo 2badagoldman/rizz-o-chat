@@ -124,7 +124,7 @@ function HostPricing() {
       <AppShell theme="host">
         <div className="mt-16 rounded-3xl border border-border bg-card p-6 text-center">
           <Crown className="mx-auto h-8 w-8 text-[color:var(--host-primary)]" />
-          <h1 className="mt-3 text-xl">Sign in as a Host</h1>
+          <h1 className="mt-3 text-xl">Sign in as a Creator</h1>
           <Link to="/auth" className="btn-host mt-5 inline-flex">Sign in</Link>
         </div>
       </AppShell>

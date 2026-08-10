@@ -32,7 +32,7 @@ export const dmSendMessage = createServerFn({ method: "POST" })
         .eq("member_id", context.userId)
         .maybeSingle();
       if (restriction && restriction.media_blocked !== false) {
-        throw new Error("This host has limited you to text-only messages.");
+        throw new Error("This creator has limited you to text-only messages.");
       }
     }
 

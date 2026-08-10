@@ -18,7 +18,7 @@ export const Route = createFileRoute("/chats")({
   head: () => pageHead({
     path: "/chats",
     title: "Your chats \u2014 Crush",
-    description: "All your Crush conversations in one place. Chat with verified hosts and friends.",
+    description: "All your Crush conversations in one place. Chat with verified creators and friends.",
     noindex: true,
   }),
 
@@ -125,7 +125,7 @@ function Chats() {
     <section className="mt-4">
       <div className="flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-primary" />
-        <h2 className="text-sm font-semibold">Chat free with our AI hosts</h2>
+        <h2 className="text-sm font-semibold">Chat free with our AI creators</h2>
       </div>
       <p className="mt-0.5 text-xs text-muted-foreground">
         {aiHosts.length} signature hosts — powered by Crush AI. Free to chat, no signup required.
@@ -153,7 +153,7 @@ function Chats() {
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Search AI hosts by name, handle, or city…"
+            placeholder="Search AI creators by name, handle, or city…"
             className="w-full bg-transparent text-sm outline-none"
           />
         </div>
@@ -179,7 +179,7 @@ function Chats() {
         )}
 
         <div className="mt-6 rounded-2xl border border-border bg-card p-5 text-center shadow-card">
-          <p className="text-sm">Ready for the full app — real hosts, Rooms, gifts, invites?</p>
+          <p className="text-sm">Ready for the full app — real creators, Rooms, gifts, invites?</p>
           <Link to="/auth" className="btn-brand mt-3 inline-flex">
             Create your free account
           </Link>
@@ -202,7 +202,7 @@ function Chats() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search AI hosts or members by name…"
+          placeholder="Search AI creators or members by name…"
           className="w-full bg-transparent text-sm outline-none"
         />
       </div>

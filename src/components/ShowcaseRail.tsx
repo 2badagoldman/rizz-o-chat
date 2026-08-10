@@ -13,7 +13,7 @@ import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
  */
 export function ShowcaseRail({
   title = "Showcase",
-  subtitle = "Fresh looks from our hosts",
+  subtitle = "Fresh looks from our creators",
   limit = 25,
 }: {
   title?: string;

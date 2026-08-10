@@ -66,14 +66,14 @@ function HostRoomsPage() {
   if (loading) return <AppShell><PageSkeleton /></AppShell>;
   if (!user) return (
     <AppShell><div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-      <h1 className="text-xl">Sign in as a host</h1>
+      <h1 className="text-xl">Sign in as a creator</h1>
       <Link to="/auth" className="btn-brand mt-5 inline-flex">Sign in</Link>
     </div></AppShell>
   );
   if (!isHost) return (
     <AppShell><div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-      <h1 className="text-xl">Hosts only</h1>
-      <p className="mt-2 text-sm text-muted-foreground">Only hosts can create rooms.</p>
+      <h1 className="text-xl">Creators only</h1>
+      <p className="mt-2 text-sm text-muted-foreground">Only creators can create rooms.</p>
     </div></AppShell>
   );
 
@@ -82,7 +82,7 @@ function HostRoomsPage() {
   return (
     <AppShell>
       <div className="pt-6">
-        <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Host tools</p>
+        <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Creator tools</p>
         <h1 className="text-2xl font-bold">Rooms</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Group your Friends List into private rooms — like WhatsApp groups. 1-on-1 chats stay separate.

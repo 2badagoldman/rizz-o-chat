@@ -14,9 +14,9 @@ import { StoryRail } from "@/components/stories/StoryRail";
 export const Route = createFileRoute("/")({
   head: () => pageHead({
     path: "/",
-    title: "Crush \u2014 Real chats with verified hosts, dates, and friends",
-    description: "Chat, date, and make friends on Crush. Verified hosts, private Friends Lists, secure payments, and instant DMs. Join free.",
-    keywords: "chat app, dating app, friends app, meet women, verified hosts, paid chat, creator subscriptions, social chat",
+    title: "Crush \u2014 Real chats with verified creators, dates, and friends",
+    description: "Chat, date, and make friends on Crush. Verified creators, private Friends Lists, secure payments, and instant DMs. Join free.",
+    keywords: "chat app, dating app, friends app, meet women, verified creators, paid chat, creator subscriptions, social chat",
   }),
   component: Home,
 });
@@ -38,7 +38,7 @@ function Home() {
         </span>
         <h1 className="mt-3 text-[2.6rem] leading-[1.02] font-display font-extrabold">
           Real chats with{" "}
-          <span className="text-gradient-brand">verified hosts</span>.
+          <span className="text-gradient-brand">verified creators</span>.
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
           Every host runs a Friends List — a little chapter of our family tree. Subscribe, meet the host, find your Crush.
@@ -93,7 +93,7 @@ function Home() {
       {/* Featured grid */}
       <section className="mt-6 rise-in rise-in-2">
         <div className="mb-3 flex items-baseline justify-between">
-          <h2 className="text-sm font-display font-bold">Featured Hosts</h2>
+          <h2 className="text-sm font-display font-bold">Featured Creators</h2>
           <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             The family tree
           </span>

@@ -21,7 +21,7 @@ export const Route = createFileRoute("/host/onboarding")({
   head: () => ({
     meta: [
       { name: "robots", content: "noindex, nofollow" },
-      { title: "Become a Host — Crush" },
+      { title: "Become a Creator — Crush" },
       { name: "description", content: "Apply, verify, price your Friends List, and publish — the creator studio for Crush." },
     ],
   }),
@@ -68,8 +68,8 @@ function HostOnboarding() {
         theme="host"
         cta="Go to sign up"
         icon={<Crown className="h-6 w-6" />}
-        title="Sign up as a Host first"
-        description={"Create your account and choose \u201cApply as Host\u201d on the sign-up screen."}
+        title="Sign up as a Creator first"
+        description={"Create your account and choose \u201cApply as Creator\u201d on the sign-up screen."}
       />
     );
   }
@@ -120,7 +120,7 @@ function HostOnboarding() {
         const { error: aErr } = await supabase.from("host_applications").insert({
           user_id: user.id,
           stage_name: displayName || (user.email ?? "").split("@")[0],
-          pitch: description || bio || "Applied via host onboarding.",
+          pitch: description || bio || "Applied via creator onboarding.",
         });
         if (aErr && !aErr.message.includes("duplicate")) throw aErr;
       }
@@ -140,7 +140,7 @@ function HostOnboarding() {
         <p className="text-[11px] font-semibold uppercase tracking-widest text-[color:var(--host-primary)]">
           Creator Studio
         </p>
-        <h1 className="mt-1 text-2xl">Become a Host</h1>
+        <h1 className="mt-1 text-2xl">Become a Creator</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Get paid to be yourself. Start at 35% split — flip to <b>65% forever</b> at 100 Friends.
         </p>

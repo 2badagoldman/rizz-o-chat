@@ -74,7 +74,7 @@ export function HostApplicationCard() {
 
   if (app?.status === "pending") {
     return (
-      <Shell tone="pending" icon={<Clock className="h-4 w-4" />} title="Host application under review">
+      <Shell tone="pending" icon={<Clock className="h-4 w-4" />} title="Creator application under review">
         <p className="mt-1 text-xs text-muted-foreground">
           Submitted {new Date(app.created_at).toLocaleDateString()}. You stay a member — pricing, rooms, invites and payouts
           unlock the moment our team approves you.
@@ -85,7 +85,7 @@ export function HostApplicationCard() {
 
   if (app?.status === "rejected") {
     return (
-      <Shell tone="rejected" icon={<XCircle className="h-4 w-4" />} title="Host application declined">
+      <Shell tone="rejected" icon={<XCircle className="h-4 w-4" />} title="Creator application declined">
         <p className="mt-1 text-xs text-muted-foreground">{app.review_notes || "You can apply again any time."}</p>
         <button onClick={() => setOpen(true)} className="press-spring mt-3 rounded-xl border border-border px-3 py-1.5 text-xs font-semibold">
           Apply again
@@ -97,8 +97,8 @@ export function HostApplicationCard() {
 
   if (app?.status === "approved") {
     return (
-      <Shell tone="approved" icon={<BadgeCheck className="h-4 w-4" />} title="You're an approved host">
-        <p className="mt-1 text-xs text-muted-foreground">Host tools are unlocked in your dashboard.</p>
+      <Shell tone="approved" icon={<BadgeCheck className="h-4 w-4" />} title="You're an approved creator">
+        <p className="mt-1 text-xs text-muted-foreground">Creator tools are unlocked in your dashboard.</p>
         <Link to="/host/pricing" className="text-gradient-brand mt-2 inline-block text-xs font-semibold">
           Set your Friends List price →
         </Link>
@@ -107,7 +107,7 @@ export function HostApplicationCard() {
   }
 
   return (
-    <Shell tone="cta" icon={<Sparkle className="h-4 w-4" />} title="Want to host on Crush?">
+    <Shell tone="cta" icon={<Sparkle className="h-4 w-4" />} title="Want to creator on Crush?">
       <p className="mt-1 text-xs text-muted-foreground">
         Hosts earn from their Friends List, gifts and rooms. Apply below — a human reviews every application, and nothing
         changes on your account until you&apos;re approved.
@@ -173,7 +173,7 @@ function Form(p: {
         rows={3}
         value={p.pitch}
         onChange={(e) => p.setPitch(e.target.value)}
-        placeholder="Why would you be a great host?"
+        placeholder="Why would you be a great creator?"
         className={input}
       />
       {p.err && <p className="mt-2 text-xs font-semibold text-destructive">{p.err}</p>}

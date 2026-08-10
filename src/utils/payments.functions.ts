@@ -141,10 +141,10 @@ export const createFriendsListCheckout = createServerFn({ method: 'POST' })
         .eq('host_id', data.hostId)
         .maybeSingle();
       if (listErr) throw new Error(listErr.message);
-      if (!list) return { error: 'This host does not have a Friends List available.' };
+      if (!list) return { error: 'This creator does not have a Friends List available.' };
       const priceCents = list.price_cents;
       if (!Number.isInteger(priceCents) || priceCents < 99 || priceCents > 9999) {
-        return { error: 'Host price is out of range.' };
+        return { error: 'Creator price is out of range.' };
       }
 
       const { data: { user } } = await supabase.auth.getUser();
@@ -361,12 +361,12 @@ export const getCheckoutStatus = createServerFn({ method: 'POST' })
       if (m.kind === 'catalog' && m.priceLookupKey) {
         retry = { kind: 'catalog', priceId: m.priceLookupKey };
       } else if (m.kind === 'friends_list' && m.hostId) {
-        retry = { kind: 'friends_list', hostId: m.hostId, hostName: m.hostName || 'this host' };
+        retry = { kind: 'friends_list', hostId: m.hostId, hostName: m.hostName || 'this creator' };
       } else if (m.kind === 'tip' && m.hostId && m.amountCents) {
         retry = {
           kind: 'tip',
           hostId: m.hostId,
-          hostName: m.hostName || 'this host',
+          hostName: m.hostName || 'this creator',
           amountCents: Number(m.amountCents),
         };
       }

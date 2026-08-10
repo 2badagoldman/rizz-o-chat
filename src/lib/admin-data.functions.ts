@@ -182,7 +182,7 @@ export const getHostDetail = createServerFn({ method: "POST" })
       .eq("id", data.hostId)
       .maybeSingle();
     if (pErr) throw pErr;
-    if (!profile) throw new Error("Host not found");
+    if (!profile) throw new Error("Creator not found");
 
     // Signed avatar
     let avatarSignedUrl: string | null = null;

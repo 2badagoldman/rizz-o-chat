@@ -89,11 +89,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "application-name", content: "Crush" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "format-detection", content: "telephone=no" },
-      { title: "Crush — Chat with verified hosts" },
+      { title: "Crush — Chat with verified creators" },
       {
         name: "description",
         content:
-          "Crush is a paid chat app where verified hosts run Friends Lists and members subscribe to chat, meet, and connect.",
+          "Crush is a paid chat app where verified creators run Friends Lists and members subscribe to chat, meet, and connect.",
       },
       { property: "og:site_name", content: "Crush" },
       { property: "og:type", content: "website" },

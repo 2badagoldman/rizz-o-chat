@@ -56,7 +56,7 @@ function Dmca() {
           items={[
             "We acknowledge valid notices and remove or disable access to the reported material, usually within 2 business days.",
             "We notify the uploader and give them the opportunity to submit a counter-notice.",
-            "Repeat infringers lose Host status and have their accounts terminated under our repeat-infringer policy.",
+            "Repeat infringers lose Creator status and have their accounts terminated under our repeat-infringer policy.",
           ]}
         />
       </Section>

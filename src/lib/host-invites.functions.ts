@@ -11,7 +11,7 @@ function makeCode(len = 8) {
 async function assertHost(ctx: { supabase: any; userId: string }) {
   const { data: profile } = await ctx.supabase
     .from("profiles").select("account_type").eq("id", ctx.userId).maybeSingle();
-  if (!profile || profile.account_type !== "host") throw new Error("Hosts only");
+  if (!profile || profile.account_type !== "host") throw new Error("Creators only");
 }
 
 export const hostCreateInvite = createServerFn({ method: "POST" })

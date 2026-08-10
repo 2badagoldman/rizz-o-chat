@@ -121,7 +121,7 @@ function CreatorPricingGuide() {
       <header className="mt-3 overflow-hidden rounded-3xl border border-border bg-card/80 p-5 shadow-card backdrop-blur">
         <div className="flex items-center gap-2 text-primary">
           <TrendingUp className="h-4 w-4" />
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em]">Host playbook</p>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em]">Creator playbook</p>
         </div>
         <h1 className="mt-2 font-display text-2xl font-bold leading-tight">
           How to price your creator subscription

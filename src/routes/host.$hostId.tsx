@@ -21,8 +21,8 @@ export const Route = createFileRoute("/host/$hostId")({
   head: ({ params }) => {
     const h = DEMO_HOSTS.find((x) => x.id === params.hostId);
     const url = `https://rizzlachat.com/host/${params.hostId}`;
-    const title = h ? `${h.name} — Chat on Crush` : "Host — Crush";
-    const desc = h?.tagline ?? "Meet a verified host on Crush. Join their Friends List and start chatting.";
+    const title = h ? `${h.name} — Chat on Crush` : "Creator — Crush";
+    const desc = h?.tagline ?? "Meet a verified creator on Crush. Join their Friends List and start chatting.";
     return {
       ...pageHead({
         path: `/host/${params.hostId}`,
@@ -70,8 +70,8 @@ function HostProfile() {
     return (
       <AppShell>
         <div className="mt-16 text-center">
-          <h1 className="text-lg">Host not found</h1>
-          <Link to="/discover" className="btn-brand mt-4 inline-flex">Browse hosts</Link>
+          <h1 className="text-lg">Creator not found</h1>
+          <Link to="/discover" className="btn-brand mt-4 inline-flex">Browse creators</Link>
         </div>
       </AppShell>
     );
@@ -140,7 +140,7 @@ function HostProfile() {
         <SafetyMenu
           userId={hostIsReal ? host.id : null}
           name={host.name}
-          context="host profile"
+          context="creator profile"
           className="h-12 w-12 shadow-card backdrop-blur"
         />
       </div>
@@ -355,7 +355,7 @@ function HostProfile() {
 
       <p className="mt-6 text-center text-[10px] text-muted-foreground">
         {host.id === "demo-jen"
-          ? "Jen is our founding host — free to chat while we test."
+          ? "Jen is our founding creator — free to chat while we test."
           : "Cancel anytime · Chat access continues for 30 minutes after cancel."}
       </p>
 

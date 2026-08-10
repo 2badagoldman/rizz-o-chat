@@ -14,7 +14,7 @@ export const TWITTER_HANDLE = "@rizzlachat";
 /** 1200x630 branded share card — the size every social platform crops from. */
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
 export const DEFAULT_OG_IMAGE_ALT =
-  "Crush — real chats with verified hosts";
+  "Crush — real chats with verified creators";
 
 export type PageHeadInput = {
   /** Absolute path, e.g. "/discover". Used for canonical + og:url. */

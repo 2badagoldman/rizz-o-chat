@@ -25,7 +25,7 @@ const isSkin = (v: unknown): v is ChatSkin => CHAT_SKINS.some((s) => s.id === v)
 
 /**
  * Per-conversation chat theme.
- * Pass a stable `scopeKey` (e.g. `dm:<userId>`, `host:<hostId>`, `room:<roomId>`) so each
+ * Pass a stable `scopeKey` (e.g. `dm:<userId>`, `creator:<hostId>`, `room:<roomId>`) so each
  * chat remembers its own look. Falls back to the global default when the chat has none yet,
  * and syncs the choice to the account so it sticks across devices.
  */

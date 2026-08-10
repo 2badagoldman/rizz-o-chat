@@ -269,7 +269,7 @@ function Profile() {
   const avatarSrc = avatarSignedUrl ?? rizzAiLogo.url;
 
   return (
-    <AppShell footerNote={<>Hosts on Crush are compensated partners.</>}>
+    <AppShell footerNote={<>Creators on Crush are compensated partners.</>}>
       <h1 className="pt-6 text-2xl">Profile</h1>
 
       {/* Identity card */}

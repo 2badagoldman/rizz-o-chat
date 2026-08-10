@@ -16,7 +16,7 @@ export const Route = createFileRoute("/rooms/")({
   head: () => pageHead({
     path: "/rooms",
     title: "Rooms near you \u2014 Crush",
-    description: "Join live chat rooms near you. Meet hosts and members in city rooms across the US on Crush.",
+    description: "Join live chat rooms near you. Meet creators and members in city rooms across the US on Crush.",
   }),
 
   component: RoomsBrowsePage,

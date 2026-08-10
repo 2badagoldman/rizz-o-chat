@@ -29,7 +29,7 @@ export const Route = createFileRoute('/checkout/return')({
 });
 
 const NEXT_STEPS = [
-  { label: 'Friends Lists are open', detail: 'Unlock any host and jump straight into their chat.' },
+  { label: 'Friends Lists are open', detail: 'Unlock any creator and jump straight into their chat.' },
   { label: 'Perks are live', detail: 'Badges, coin drops and priority placement apply instantly.' },
   { label: 'Manage anytime', detail: 'Cancel or switch plans from My subscriptions — no lock-in.' },
 ];

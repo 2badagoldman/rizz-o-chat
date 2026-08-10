@@ -23,7 +23,7 @@ const MIN_GAP = 25 * 60_000;
 const MAX_PER_DAY = 3;
 const COUNT_KEY = "crush:liveAlerts:count";
 const LAST_KEY = "crush:liveAlerts:last";
-const HOST_KEY = "crush:liveAlerts:hosts";
+const HOST_KEY = "crush:liveAlerts:creators";
 export const LIVE_ALERTS_PREF = "crush:liveAlerts:enabled";
 
 type HostRow = { id: string; display_name: string | null; avatar_url: string | null };

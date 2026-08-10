@@ -50,7 +50,7 @@ function Refunds() {
         <Bullets
           items={[
             "Coin packs where the coins are still in your wallet and none from that pack have been spent.",
-            "A membership (Crush Gold, Crush Diamond VIP or a Host's Friends List) where you have not used the paid features — no gated media viewed, no member-only chat sent.",
+            "A membership (Crush Gold, Crush Diamond VIP or a Creator's Friends List) where you have not used the paid features — no gated media viewed, no member-only chat sent.",
             "Duplicate charges, failed deliveries, or coins that were paid for but not credited — refunded in full regardless of the window.",
             "Charges you did not authorise, once verified — refunded in full and the account secured.",
           ]}

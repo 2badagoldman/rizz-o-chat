@@ -37,7 +37,7 @@ const OFFERS = {
     cta: "Claim $19.99 deal",
     perks: [
       "Unlock every Friends List",
-      "Unlimited chat with hosts and members",
+      "Unlimited chat with creators and members",
       "AI copilot replies, no daily cap",
     ],
   },

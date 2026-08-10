@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/hosts/$hostId")({
   head: () => ({ meta: [
-      { name: "robots", content: "noindex, nofollow" },{ title: "Host review — Crush Admin" }] }),
+      { name: "robots", content: "noindex, nofollow" },{ title: "Creator review — Crush Admin" }] }),
   component: AdminHostDetail,
 });
 
@@ -46,7 +46,7 @@ function AdminHostDetail() {
   }
 
   if (err) return <p className="text-sm text-destructive">{err}</p>;
-  if (!detail) return <p className="text-sm text-muted-foreground">Loading host…</p>;
+  if (!detail) return <p className="text-sm text-muted-foreground">Loading creator…</p>;
 
   const p = detail.profile;
   const status = p.verification_status ?? "pending";
@@ -200,7 +200,7 @@ function MessagesList({
           <div className="flex items-center justify-between text-[11px] text-muted-foreground">
             <span className="inline-flex items-center gap-1">
               {r.icon === "room" ? <UsersIcon className="h-3 w-3" /> : <MessageSquare className="h-3 w-3" />}
-              {r.outbound ? "Host → " : "→ Host from "} <span className="font-semibold text-foreground">{r.counterpart}</span>
+              {r.outbound ? "Creator → " : "→ Creator from "} <span className="font-semibold text-foreground">{r.counterpart}</span>
             </span>
             <span>{new Date(r.created_at).toLocaleString()}</span>
           </div>

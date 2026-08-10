@@ -52,8 +52,8 @@ function Terms() {
         <Bullets
           items={[
             "Crush is entertainment and social networking. We do not provide escort, dating-guarantee, matchmaking, financial, legal, medical or therapeutic services.",
-            "Some profiles are clearly labelled as AI hosts or demo content. AI conversations are machine-generated, may be inaccurate, and are not a real person's advice.",
-            "We do not employ Hosts. Hosts are independent creators responsible for their own content and conduct.",
+            "Some profiles are clearly labelled as AI creators or demo content. AI conversations are machine-generated, may be inaccurate, and are not a real person's advice.",
+            "We do not employ Hosts. Creators are independent creators responsible for their own content and conduct.",
             "Nothing on the Service is an offer of, or payment for, sexual services. Such use is prohibited and reported where required.",
           ]}
         />
@@ -75,7 +75,7 @@ function Terms() {
           items={[
             "Coins are a limited, revocable licence to access digital features inside Crush. Coins are not money, not a deposit, not stored value redeemable for cash, and carry no interest or ownership rights.",
             "Coins have no cash value, cannot be exchanged for cash, transferred between accounts, or sold outside the Service.",
-            "Memberships (including Crush Gold, Crush Diamond VIP and a Host's Friends List) are recurring subscriptions that renew automatically until cancelled.",
+            "Memberships (including Crush Gold, Crush Diamond VIP and a Creator's Friends List) are recurring subscriptions that renew automatically until cancelled.",
             "Gifts and tips are voluntary, immediately delivered digital items. Once sent, they are consumed and non-reversible.",
             "Prices are shown in " + LEGAL.currency + " before payment. Full pricing, tax and renewal detail is in our Billing & Payment Terms.",
           ]}
@@ -98,7 +98,7 @@ function Terms() {
         />
       </Section>
 
-      <Section heading="7. Hosts and creator payouts">
+      <Section heading="7. Creators and creator payouts">
         <p>
           Hosts are independent creators, not employees, partners or agents of {LEGAL.entity}. Hosts are solely
           responsible for their own taxes, licences and legal compliance. Revenue split, payout timing, minimum

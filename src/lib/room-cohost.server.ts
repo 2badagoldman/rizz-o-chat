@@ -2,7 +2,7 @@
  * Room co-hosts.
  *
  * Every official Crush room ships with three AI co-hosts (Cleo, Remy, Lena).
- * When the room's real human host hasn't spoken recently, a co-host steps in
+ * When the room's real human creator hasn't spoken recently, a co-host steps in
  * and keeps the conversation moving — reacting to what members just said,
  * asking a light question, or dropping a prompt when the room stalls.
  */

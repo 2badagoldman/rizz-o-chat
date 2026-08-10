@@ -45,14 +45,14 @@ function Copilot() {
 
   const suggested = user
     ? [
-        "Walk me through applying to be a Host",
+        "Walk me through applying to be a Creator",
         "How do I hit 100 Friends and unlock 65%?",
-        "Help me pick a Host to subscribe to",
+        "Help me pick a Creator to subscribe to",
         "What should my first message be?",
       ]
     : [
         "What is Crush Social?",
-        "How much can Hosts earn?",
+        "How much can Creators earn?",
         "Explain the Milestone Flip",
         "Is this a dating app?",
       ];

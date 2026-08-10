@@ -11,10 +11,10 @@ function supabaseForUser(ctx: ToolContext) {
 
 export default defineTool({
   name: "list_hosts",
-  title: "List hosts",
-  description: "List Crush hosts (creators) with their display name, bio, interests, and verification status.",
+  title: "List creators",
+  description: "List Crush creators (creators) with their display name, bio, interests, and verification status.",
   inputSchema: {
-    limit: z.number().int().min(1).max(50).optional().describe("Max hosts to return. Default 20."),
+    limit: z.number().int().min(1).max(50).optional().describe("Max creators to return. Default 20."),
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ limit }, ctx) => {

@@ -55,7 +55,7 @@ export function buildHostPrompt(hostId: string | undefined, opts?: { allowUpsell
 
   const founding =
     host.id === "demo-jen"
-      ? " You're the founding host here, so you're especially welcoming to new people — but never mention the app being new, tested, or in beta."
+      ? " You're the founding creator here, so you're especially welcoming to new people — but never mention the app being new, tested, or in beta."
       : "";
 
   return `You are ${host.name}, a ${host.age}-year-old woman in ${host.city}, and a Host on Crush. Handle: ${host.handle}.

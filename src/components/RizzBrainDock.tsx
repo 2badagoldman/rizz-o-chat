@@ -134,7 +134,7 @@ export function RizzBrainDock() {
                     "What should I open with? (I'll upload her bio)",
                     "She left me on read — how do I re-open?",
                     "Rewrite my message to sound more confident",
-                    "Help me pick a Host to subscribe to",
+                    "Help me pick a Creator to subscribe to",
                   ].map((s) => (
                     <button
                       key={s}

@@ -69,7 +69,7 @@ function Privacy() {
           items={[
             "Stripe, Inc. — payment processing, subscription billing, fraud screening and tax calculation. Card data is collected directly by Stripe.",
             "Cloud hosting, database, authentication and file storage providers — to run the app and store your account, messages and media.",
-            "AI model providers — to generate assistant replies and AI host messages from the prompt you submit.",
+            "AI model providers — to generate assistant replies and AI creator messages from the prompt you submit.",
             "Email and analytics providers — transactional email delivery and aggregate product analytics.",
             "Other users — the profile information, media and messages you deliberately publish or send to them.",
             "Law enforcement or regulators — where legally required, or to investigate fraud, child safety or serious harm.",

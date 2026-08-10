@@ -246,7 +246,7 @@ function HostChat() {
     return (
       <AppShell>
         <div className="mt-16 rounded-2xl border border-border bg-card p-6 text-center">
-          <h1 className="text-xl">Host not found</h1>
+          <h1 className="text-xl">Creator not found</h1>
         </div>
       </AppShell>
     );
@@ -257,7 +257,7 @@ function HostChat() {
     return (
       <SignedOutGate
         title="Sign in to chat"
-        description="Sign in to message this host — or head to Chats and talk with our AI hosts free."
+        description="Sign in to message this creator — or head to Chats and talk with our AI creators free."
       />
     );
   }
@@ -351,7 +351,7 @@ function HostChat() {
 
           <div className="ml-auto flex items-center gap-2">
             <ChatSkinPicker skin={skin} onChange={setSkin} highContrast={highContrast} onHighContrastChange={setHighContrast} />
-            <SafetyMenu userId={null} name={host.name} context="host chat" />
+            <SafetyMenu userId={null} name={host.name} context="creator chat" />
 
             {user && isJen ? (
               <button

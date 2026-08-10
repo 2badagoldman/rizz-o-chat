@@ -16,7 +16,7 @@ export const Route = createFileRoute('/coins')({
   head: () => pageHead({
     path: "/coins",
     title: "Buy coins \u2014 Crush",
-    description: "Top up your Crush wallet with coins to send gifts, tip hosts, and unlock perks.",
+    description: "Top up your Crush wallet with coins to send gifts, tip creators, and unlock perks.",
   }),
   component: CoinsPage,
 });

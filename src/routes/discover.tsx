@@ -21,8 +21,8 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/discover")({
   head: () => pageHead({
     path: "/discover",
-    title: "Discover verified hosts \u2014 Crush",
-    description: "Browse verified hosts, filter by tier, and find your next favorite chat. Join Friends Lists on Crush.",
+    title: "Discover verified creators \u2014 Crush",
+    description: "Browse verified creators, filter by tier, and find your next favorite chat. Join Friends Lists on Crush.",
   }),
   component: Discover,
 });
@@ -104,10 +104,10 @@ function Discover() {
 
 
   return (
-    <AppShell footerNote={<>Hosts on Crush are compensated partners.</>}>
+    <AppShell footerNote={<>Creators on Crush are compensated partners.</>}>
       <header className="pt-4">
         <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Discover</p>
-        <h1 className="mt-1 text-2xl">Verified hosts, ready to chat.</h1>
+        <h1 className="mt-1 text-2xl">Verified creators, ready to chat.</h1>
       </header>
 
       <div className="mt-4 flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2">
@@ -115,8 +115,8 @@ function Discover() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Search hosts, cities, interests…"
-          aria-label="Search hosts, cities and interests"
+          placeholder="Search creators, cities, interests…"
+          aria-label="Search creators, cities and interests"
           className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
         />
         {q ? (
@@ -131,7 +131,7 @@ function Discover() {
         ) : null}
       </div>
 
-      <div role="group" aria-label="Filter hosts" className="mt-3 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+      <div role="group" aria-label="Filter creators" className="mt-3 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
         {FILTERS.map((f) => (
           <button
             key={f.key}
@@ -164,7 +164,7 @@ function Discover() {
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
         <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Hosts</p>
+          <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Creators</p>
           <h2 className="mt-0.5 truncate text-lg font-bold">Meet your next favorite</h2>
           <p className="mt-0.5 text-[11px] font-semibold text-muted-foreground" aria-live="polite">
             {hosts.length} {hosts.length === 1 ? "host" : "hosts"}
@@ -173,11 +173,11 @@ function Discover() {
         </div>
         <label className="flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-card px-2.5 py-1.5">
           <ArrowUpDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-          <span className="sr-only">Sort hosts</span>
+          <span className="sr-only">Sort creators</span>
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
-            aria-label="Sort hosts"
+            aria-label="Sort creators"
             className="max-w-[9.5rem] bg-transparent text-xs font-semibold text-foreground outline-none"
           >
             {SORTS.map((s) => (
@@ -193,7 +193,7 @@ function Discover() {
         <PrismEmptyState
           className="mt-6"
           icon={<Sparkles className="h-6 w-6" />}
-          title="No hosts match"
+          title="No creators match"
           description={
             term
               ? <>Nothing matched &ldquo;{q.trim()}&rdquo;. Try a different name, city, or interest.</>
@@ -263,7 +263,7 @@ function RealHostCards({ term }: { term: string }) {
             </div>
             <div className="absolute inset-x-2 bottom-2 text-white">
               <p className="truncate text-base font-bold leading-tight">{h.display_name}</p>
-              <p className="truncate text-[11px] opacity-90">{h.bio ?? "Verified host"}</p>
+              <p className="truncate text-[11px] opacity-90">{h.bio ?? "Verified creator"}</p>
             </div>
           </div>
         </Link>
