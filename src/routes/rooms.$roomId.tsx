@@ -13,6 +13,7 @@ import { hostAvatarThumb } from "@/lib/host-avatars";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SignedOutGate } from "@/components/SignedOutGate";
 import { PageSkeleton } from "@/components/AuthGate";
+import { AvatarImg } from "@/components/Avatar";
 
 
 export const Route = createFileRoute("/rooms/$roomId")({
@@ -148,6 +149,12 @@ function RoomChatPage() {
             <span className="inline-flex items-center gap-1 rounded-full bg-gradient-brand px-2.5 py-1 text-[11px] font-semibold text-white">Host</span>
             {members.map((m) => (
               <span key={m.id} className="inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[11px]">
+                <AvatarImg
+                  src={m.profile?.avatar_url}
+                  name={m.profile?.display_name}
+                  className="h-4 w-4 rounded-full"
+                  fallbackClassName="h-4 w-4 rounded-full text-[8px]"
+                />
                 {m.profile?.display_name ?? "Member"}
               </span>
             ))}
@@ -165,6 +172,13 @@ function RoomChatPage() {
             <div key={m.id} className={`flex items-end gap-2 ${mine ? "justify-end" : "justify-start"}`}>
               {ai ? (
                 <img loading="lazy" decoding="async" src={hostAvatarThumb(ai.id)} alt="" className="h-7 w-7 shrink-0 rounded-full object-cover ring-2 ring-primary/40" />
+              ) : !mine ? (
+                <AvatarImg
+                  src={m.sender?.avatar_url}
+                  name={m.sender?.display_name}
+                  className="h-7 w-7 shrink-0 rounded-full"
+                  fallbackClassName="h-7 w-7 shrink-0 rounded-full text-[10px]"
+                />
               ) : null}
               <div className={`max-w-[80%] rounded-[22px] px-4 py-2.5 ${mine ? "rounded-br-md chat-bubble-mine" : "rounded-bl-md chat-bubble-peer"}`}>
                 {!mine ? (

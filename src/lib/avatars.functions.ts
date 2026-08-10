@@ -2,8 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 /**
- * Profile avatars live in the private `profile-media` bucket, so `profiles.avatar_url`
- * holds a storage path (not a URL). This mints short-lived signed URLs for them.
+ * `profiles.avatar_url` contains a private storage path. Current profile uploads
+ * use `avatars`; older accounts can still point at `profile-media`, so resolve
+ * both during the migration window instead of showing a broken initial.
  */
 export const signAvatars = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -20,11 +21,12 @@ export const signAvatars = createServerFn({ method: "POST" })
   .handler(async ({ data }): Promise<Record<string, string>> => {
     if (!data.paths.length) return {};
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: signed } = await supabaseAdmin.storage
-      .from("profile-media")
-      .createSignedUrls(data.paths, 60 * 60);
+    const [{ data: avatarSigned }, { data: legacySigned }] = await Promise.all([
+      supabaseAdmin.storage.from("avatars").createSignedUrls(data.paths, 60 * 60),
+      supabaseAdmin.storage.from("profile-media").createSignedUrls(data.paths, 60 * 60),
+    ]);
     const out: Record<string, string> = {};
-    for (const s of signed ?? []) {
+    for (const s of [...(legacySigned ?? []), ...(avatarSigned ?? [])]) {
       if (s.path && s.signedUrl && !s.error) out[s.path] = s.signedUrl;
     }
     return out;

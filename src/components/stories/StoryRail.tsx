@@ -102,7 +102,9 @@ export function StoryRail() {
   const others = groups.filter((g) => g.author_id !== user.id);
   const ordered: StoryGroup[] = mine ? [mine, ...others, ...demo] : [...others, ...demo];
   const rest = mine ? ordered.slice(1) : ordered;
-  const myAvatar = mine?.avatar_url ?? myProfile?.avatar_url ?? null;
+  // Prefer the dedicated current-profile query so a newly uploaded avatar is
+  // visible immediately even while the broader story feed is refetching.
+  const myAvatar = myProfile?.avatar_url ?? mine?.avatar_url ?? null;
   const myInitial = (mine?.display_name ?? myProfile?.display_name ?? "You").slice(0, 1).toUpperCase();
 
   return (
