@@ -394,5 +394,8 @@ export const listRoomsPublic = createServerFn({ method: "POST" })
       });
       list.sort((a: any, b: any) => (a.distance_miles ?? 1e9) - (b.distance_miles ?? 1e9));
     }
-    return list;
+    // Signed-out visitors never receive precise coordinates: distance is
+    // computed server-side and the raw lat/lng are dropped from the payload.
+    return list.map(({ lat: _lat, lng: _lng, ...rest }: any) => rest);
   });
+
