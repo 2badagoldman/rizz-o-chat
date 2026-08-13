@@ -21,6 +21,7 @@ import {
   KeyRound,
   Bug,
   Rocket,
+  Link2,
 
 } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
@@ -36,6 +37,7 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
   { to: "/admin/ops", label: "Control Room", icon: Activity },
   { to: "/admin/war-room", label: "War Room", icon: Radio },
   { to: "/admin/growth-playbook", label: "250K MRR", icon: Rocket },
+  { to: "/admin/creator-codes", label: "Creator Codes", icon: Link2 },
 
   { to: "/admin/copilot", label: "Copilot", icon: Sparkles },
   { to: "/admin/applications", label: "Creator Applications", icon: Crown },
