@@ -1,6 +1,7 @@
 // Tracks app install funnel signals into analytics_events so the admin
 // dashboard can compare installs against paid conversions.
 import { track } from "@/lib/analytics";
+import { getRefCode } from "@/lib/ref-code";
 
 const ONCE_KEY = "rizzla:install_tracked";
 
@@ -27,7 +28,7 @@ export function startInstallTracking() {
     track("app_open_standalone", { metadata: { platform: platform() } });
     if (!localStorage.getItem(ONCE_KEY)) {
       localStorage.setItem(ONCE_KEY, String(Date.now()));
-      track("app_install", { metadata: { platform: platform(), source: "standalone_first_open" } });
+      track("app_install", { metadata: { platform: platform(), source: "standalone_first_open", ref: getRefCode() } });
     }
   }
 
@@ -37,6 +38,6 @@ export function startInstallTracking() {
 
   window.addEventListener("appinstalled", () => {
     localStorage.setItem(ONCE_KEY, String(Date.now()));
-    track("app_install", { metadata: { platform: platform(), source: "appinstalled" } });
+    track("app_install", { metadata: { platform: platform(), source: "appinstalled", ref: getRefCode() } });
   });
 }

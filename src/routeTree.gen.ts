@@ -32,6 +32,7 @@ import { Route as UUserIdRouteImport } from './routes/u.$userId'
 import { Route as SoonFeatureRouteImport } from './routes/soon.$feature'
 import { Route as RoomsNewRouteImport } from './routes/rooms.new'
 import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
+import { Route as RCodeRouteImport } from './routes/r.$code'
 import { Route as LegalTrustRouteImport } from './routes/legal.trust'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as LegalRefundsRouteImport } from './routes/legal.refunds'
@@ -72,6 +73,7 @@ import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
 import { Route as AdminGrowthPlaybookRouteImport } from './routes/admin.growth-playbook'
 import { Route as AdminErrorsRouteImport } from './routes/admin.errors'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
+import { Route as AdminCreatorCodesRouteImport } from './routes/admin.creator-codes'
 import { Route as AdminCopilotRouteImport } from './routes/admin.copilot'
 import { Route as AdminComplianceRouteImport } from './routes/admin.compliance'
 import { Route as AdminApplicationsRouteImport } from './routes/admin.applications'
@@ -204,6 +206,11 @@ const RoomsNewRoute = RoomsNewRouteImport.update({
 const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
   id: '/rooms/$roomId',
   path: '/rooms/$roomId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RCodeRoute = RCodeRouteImport.update({
+  id: '/r/$code',
+  path: '/r/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalTrustRoute = LegalTrustRouteImport.update({
@@ -406,6 +413,11 @@ const AdminEarlyAccessRoute = AdminEarlyAccessRouteImport.update({
   path: '/early-access',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCreatorCodesRoute = AdminCreatorCodesRouteImport.update({
+  id: '/creator-codes',
+  path: '/creator-codes',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCopilotRoute = AdminCopilotRouteImport.update({
   id: '/copilot',
   path: '/copilot',
@@ -526,6 +538,7 @@ export interface FileRoutesByFullPath {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
+  '/admin/creator-codes': typeof AdminCreatorCodesRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
@@ -566,6 +579,7 @@ export interface FileRoutesByFullPath {
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
   '/legal/trust': typeof LegalTrustRoute
+  '/r/$code': typeof RCodeRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
@@ -608,6 +622,7 @@ export interface FileRoutesByTo {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
+  '/admin/creator-codes': typeof AdminCreatorCodesRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
@@ -648,6 +663,7 @@ export interface FileRoutesByTo {
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
   '/legal/trust': typeof LegalTrustRoute
+  '/r/$code': typeof RCodeRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
@@ -692,6 +708,7 @@ export interface FileRoutesById {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
+  '/admin/creator-codes': typeof AdminCreatorCodesRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
@@ -732,6 +749,7 @@ export interface FileRoutesById {
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
   '/legal/trust': typeof LegalTrustRoute
+  '/r/$code': typeof RCodeRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
   '/soon/$feature': typeof SoonFeatureRoute
@@ -777,6 +795,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/compliance'
     | '/admin/copilot'
+    | '/admin/creator-codes'
     | '/admin/early-access'
     | '/admin/errors'
     | '/admin/growth-playbook'
@@ -817,6 +836,7 @@ export interface FileRouteTypes {
     | '/legal/refunds'
     | '/legal/terms'
     | '/legal/trust'
+    | '/r/$code'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
@@ -859,6 +879,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/compliance'
     | '/admin/copilot'
+    | '/admin/creator-codes'
     | '/admin/early-access'
     | '/admin/errors'
     | '/admin/growth-playbook'
@@ -899,6 +920,7 @@ export interface FileRouteTypes {
     | '/legal/refunds'
     | '/legal/terms'
     | '/legal/trust'
+    | '/r/$code'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
@@ -942,6 +964,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/compliance'
     | '/admin/copilot'
+    | '/admin/creator-codes'
     | '/admin/early-access'
     | '/admin/errors'
     | '/admin/growth-playbook'
@@ -982,6 +1005,7 @@ export interface FileRouteTypes {
     | '/legal/refunds'
     | '/legal/terms'
     | '/legal/trust'
+    | '/r/$code'
     | '/rooms/$roomId'
     | '/rooms/new'
     | '/soon/$feature'
@@ -1049,6 +1073,7 @@ export interface RootRouteChildren {
   LegalRefundsRoute: typeof LegalRefundsRoute
   LegalTermsRoute: typeof LegalTermsRoute
   LegalTrustRoute: typeof LegalTrustRoute
+  RCodeRoute: typeof RCodeRoute
   RoomsRoomIdRoute: typeof RoomsRoomIdRoute
   RoomsNewRoute: typeof RoomsNewRoute
   SoonFeatureRoute: typeof SoonFeatureRoute
@@ -1230,6 +1255,13 @@ declare module '@tanstack/react-router' {
       path: '/rooms/$roomId'
       fullPath: '/rooms/$roomId'
       preLoaderRoute: typeof RoomsRoomIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/r/$code': {
+      id: '/r/$code'
+      path: '/r/$code'
+      fullPath: '/r/$code'
+      preLoaderRoute: typeof RCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/trust': {
@@ -1512,6 +1544,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEarlyAccessRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/creator-codes': {
+      id: '/admin/creator-codes'
+      path: '/creator-codes'
+      fullPath: '/admin/creator-codes'
+      preLoaderRoute: typeof AdminCreatorCodesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/copilot': {
       id: '/admin/copilot'
       path: '/copilot'
@@ -1657,6 +1696,7 @@ interface AdminRouteChildren {
   AdminApplicationsRoute: typeof AdminApplicationsRoute
   AdminComplianceRoute: typeof AdminComplianceRoute
   AdminCopilotRoute: typeof AdminCopilotRoute
+  AdminCreatorCodesRoute: typeof AdminCreatorCodesRoute
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminErrorsRoute: typeof AdminErrorsRoute
   AdminGrowthPlaybookRoute: typeof AdminGrowthPlaybookRoute
@@ -1678,6 +1718,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminApplicationsRoute: AdminApplicationsRoute,
   AdminComplianceRoute: AdminComplianceRoute,
   AdminCopilotRoute: AdminCopilotRoute,
+  AdminCreatorCodesRoute: AdminCreatorCodesRoute,
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminErrorsRoute: AdminErrorsRoute,
   AdminGrowthPlaybookRoute: AdminGrowthPlaybookRoute,
@@ -1743,6 +1784,7 @@ const rootRouteChildren: RootRouteChildren = {
   LegalRefundsRoute: LegalRefundsRoute,
   LegalTermsRoute: LegalTermsRoute,
   LegalTrustRoute: LegalTrustRoute,
+  RCodeRoute: RCodeRoute,
   RoomsRoomIdRoute: RoomsRoomIdRoute,
   RoomsNewRoute: RoomsNewRoute,
   SoonFeatureRoute: SoonFeatureRoute,

@@ -122,6 +122,30 @@ export type Database = {
         }
         Relationships: []
       }
+      creator_attributions: {
+        Row: {
+          code: string
+          created_at: string
+          host_id: string
+          source: string | null
+          user_id: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          host_id: string
+          source?: string | null
+          user_id: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          host_id?: string
+          source?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       early_access_signups: {
         Row: {
           created_at: string
@@ -1534,6 +1558,26 @@ export type Database = {
           host_share_cents: number
           platform_cents: number
           transactions: number
+        }[]
+      }
+      attach_creator_attribution: {
+        Args: { _code: string; _source?: string }
+        Returns: Json
+      }
+      creator_code_stats: {
+        Args: { _host_id?: string }
+        Returns: {
+          active: boolean
+          code: string
+          created_at: string
+          display_name: string
+          friends: number
+          host_id: string
+          installs: number
+          label: string
+          signups: number
+          subscribers: number
+          visits: number
         }[]
       }
       credit_coins: {
