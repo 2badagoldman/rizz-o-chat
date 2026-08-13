@@ -13,6 +13,7 @@ import {
   hostToggleInvite,
   hostDeleteInvite,
 } from "@/lib/host-invites.functions";
+import { creatorCodeStats, type CreatorCodeStat } from "@/lib/attribution.functions";
 
 export const Route = createFileRoute("/host/invites")({
   head: () => ({ meta: [
@@ -37,6 +38,7 @@ function HostInvites() {
   const list = useServerFn(hostListInvites);
   const toggle = useServerFn(hostToggleInvite);
   const remove = useServerFn(hostDeleteInvite);
+  const loadStats = useServerFn(creatorCodeStats);
 
   const [isHost, setIsHost] = useState<boolean | null>(null);
   const [rows, setRows] = useState<Invite[]>([]);
@@ -44,6 +46,7 @@ function HostInvites() {
   const [maxUses, setMaxUses] = useState<string>("");
   const [expiresDays, setExpiresDays] = useState<string>("");
   const [busy, setBusy] = useState(false);
+  const [stats, setStats] = useState<Record<string, CreatorCodeStat>>({});
 
   useEffect(() => {
     if (loading || !user) return;
@@ -54,11 +57,21 @@ function HostInvites() {
       if (p?.account_type === "host") {
         const items = (await list()) as Invite[];
         setRows(items);
+        try {
+          const st = (await loadStats({ data: {} })) as CreatorCodeStat[];
+          setStats(Object.fromEntries(st.map((r) => [r.code, r])));
+        } catch {}
       }
     })();
-  }, [loading, user, list]);
+  }, [loading, user, list, loadStats]);
 
-  const refresh = async () => setRows((await list()) as Invite[]);
+  const refresh = async () => {
+    setRows((await list()) as Invite[]);
+    try {
+      const st = (await loadStats({ data: {} })) as CreatorCodeStat[];
+      setStats(Object.fromEntries(st.map((r) => [r.code, r])));
+    } catch {}
+  };
 
   const onCreate = async () => {
     setBusy(true);
@@ -77,6 +90,9 @@ function HostInvites() {
       toast.error(e?.message ?? "Failed to create invite");
     } finally { setBusy(false); }
   };
+
+  const trackUrl = (code: string) =>
+    typeof window !== "undefined" ? `${window.location.origin}/r/${code}` : `/r/${code}`;
 
   const inviteUrl = (code: string) =>
     typeof window !== "undefined" ? `${window.location.origin}/invite/${code}` : `/invite/${code}`;
@@ -181,9 +197,37 @@ function HostInvites() {
                         {!r.active ? " · paused" : ""}
                       </p>
                       <p className="mt-2 break-all rounded-lg bg-muted px-2 py-1 font-mono text-[11px]">{url}</p>
+                      <p className="mt-1 text-[11px] text-muted-foreground">
+                        Video / bio tracking link:{" "}
+                        <span className="break-all font-mono text-foreground">{trackUrl(r.code)}</span>
+                      </p>
+                      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                        {[
+                          ["Clicks", stats[r.code]?.visits ?? 0],
+                          ["Installs", stats[r.code]?.installs ?? 0],
+                          ["Signups", stats[r.code]?.signups ?? 0],
+                          ["Paying", stats[r.code]?.subscribers ?? 0],
+                        ].map(([lbl, val]) => (
+                          <div key={String(lbl)} className="rounded-xl border border-border bg-background px-2 py-1.5">
+                            <p className="text-[10px] uppercase tracking-wide text-muted-foreground">{lbl}</p>
+                            <p className="text-sm font-semibold">{Number(val).toLocaleString()}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                      onClick={async () => {
+                        try {
+                          await navigator.clipboard.writeText(trackUrl(r.code));
+                          toast.success("Tracking link copied");
+                        } catch { toast.error("Copy failed"); }
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-semibold"
+                    >
+                      <Copy className="h-3.5 w-3.5" /> Copy tracking link
+                    </button>
                     <button onClick={() => copy(r.code)} className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-semibold">
                       <Copy className="h-3.5 w-3.5" /> Copy
                     </button>
