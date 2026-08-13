@@ -20,6 +20,7 @@ import {
   Activity,
   KeyRound,
   Bug,
+  Rocket,
 
 } from "lucide-react";
 import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
