@@ -69,6 +69,7 @@ import { Route as AdminPaymentsRouteImport } from './routes/admin.payments'
 import { Route as AdminOpsRouteImport } from './routes/admin.ops'
 import { Route as AdminKycRouteImport } from './routes/admin.kyc'
 import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
+import { Route as AdminGrowthPlaybookRouteImport } from './routes/admin.growth-playbook'
 import { Route as AdminErrorsRouteImport } from './routes/admin.errors'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
 import { Route as AdminCopilotRouteImport } from './routes/admin.copilot'
@@ -390,6 +391,11 @@ const AdminHostsRoute = AdminHostsRouteImport.update({
   path: '/hosts',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminGrowthPlaybookRoute = AdminGrowthPlaybookRouteImport.update({
+  id: '/growth-playbook',
+  path: '/growth-playbook',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminErrorsRoute = AdminErrorsRouteImport.update({
   id: '/errors',
   path: '/errors',
@@ -522,6 +528,7 @@ export interface FileRoutesByFullPath {
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
+  '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
   '/admin/ops': typeof AdminOpsRoute
@@ -603,6 +610,7 @@ export interface FileRoutesByTo {
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
+  '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
   '/admin/ops': typeof AdminOpsRoute
@@ -686,6 +694,7 @@ export interface FileRoutesById {
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
+  '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
   '/admin/hosts': typeof AdminHostsRouteWithChildren
   '/admin/kyc': typeof AdminKycRoute
   '/admin/ops': typeof AdminOpsRoute
@@ -770,6 +779,7 @@ export interface FileRouteTypes {
     | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/errors'
+    | '/admin/growth-playbook'
     | '/admin/hosts'
     | '/admin/kyc'
     | '/admin/ops'
@@ -851,6 +861,7 @@ export interface FileRouteTypes {
     | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/errors'
+    | '/admin/growth-playbook'
     | '/admin/hosts'
     | '/admin/kyc'
     | '/admin/ops'
@@ -933,6 +944,7 @@ export interface FileRouteTypes {
     | '/admin/copilot'
     | '/admin/early-access'
     | '/admin/errors'
+    | '/admin/growth-playbook'
     | '/admin/hosts'
     | '/admin/kyc'
     | '/admin/ops'
@@ -1479,6 +1491,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminHostsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/growth-playbook': {
+      id: '/admin/growth-playbook'
+      path: '/growth-playbook'
+      fullPath: '/admin/growth-playbook'
+      preLoaderRoute: typeof AdminGrowthPlaybookRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/errors': {
       id: '/admin/errors'
       path: '/errors'
@@ -1640,6 +1659,7 @@ interface AdminRouteChildren {
   AdminCopilotRoute: typeof AdminCopilotRoute
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminErrorsRoute: typeof AdminErrorsRoute
+  AdminGrowthPlaybookRoute: typeof AdminGrowthPlaybookRoute
   AdminHostsRoute: typeof AdminHostsRouteWithChildren
   AdminKycRoute: typeof AdminKycRoute
   AdminOpsRoute: typeof AdminOpsRoute
@@ -1660,6 +1680,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCopilotRoute: AdminCopilotRoute,
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminErrorsRoute: AdminErrorsRoute,
+  AdminGrowthPlaybookRoute: AdminGrowthPlaybookRoute,
   AdminHostsRoute: AdminHostsRouteWithChildren,
   AdminKycRoute: AdminKycRoute,
   AdminOpsRoute: AdminOpsRoute,
