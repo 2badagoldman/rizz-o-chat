@@ -73,6 +73,7 @@ import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
 import { Route as AdminGrowthPlaybookRouteImport } from './routes/admin.growth-playbook'
 import { Route as AdminErrorsRouteImport } from './routes/admin.errors'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
+import { Route as AdminCreatorCodesRouteImport } from './routes/admin.creator-codes'
 import { Route as AdminCopilotRouteImport } from './routes/admin.copilot'
 import { Route as AdminComplianceRouteImport } from './routes/admin.compliance'
 import { Route as AdminApplicationsRouteImport } from './routes/admin.applications'
@@ -412,6 +413,11 @@ const AdminEarlyAccessRoute = AdminEarlyAccessRouteImport.update({
   path: '/early-access',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCreatorCodesRoute = AdminCreatorCodesRouteImport.update({
+  id: '/creator-codes',
+  path: '/creator-codes',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCopilotRoute = AdminCopilotRouteImport.update({
   id: '/copilot',
   path: '/copilot',
@@ -532,6 +538,7 @@ export interface FileRoutesByFullPath {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
+  '/admin/creator-codes': typeof AdminCreatorCodesRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
@@ -615,6 +622,7 @@ export interface FileRoutesByTo {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
+  '/admin/creator-codes': typeof AdminCreatorCodesRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
@@ -700,6 +708,7 @@ export interface FileRoutesById {
   '/admin/applications': typeof AdminApplicationsRoute
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
+  '/admin/creator-codes': typeof AdminCreatorCodesRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
@@ -786,6 +795,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/compliance'
     | '/admin/copilot'
+    | '/admin/creator-codes'
     | '/admin/early-access'
     | '/admin/errors'
     | '/admin/growth-playbook'
@@ -869,6 +879,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/compliance'
     | '/admin/copilot'
+    | '/admin/creator-codes'
     | '/admin/early-access'
     | '/admin/errors'
     | '/admin/growth-playbook'
@@ -953,6 +964,7 @@ export interface FileRouteTypes {
     | '/admin/applications'
     | '/admin/compliance'
     | '/admin/copilot'
+    | '/admin/creator-codes'
     | '/admin/early-access'
     | '/admin/errors'
     | '/admin/growth-playbook'
@@ -1532,6 +1544,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEarlyAccessRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/creator-codes': {
+      id: '/admin/creator-codes'
+      path: '/creator-codes'
+      fullPath: '/admin/creator-codes'
+      preLoaderRoute: typeof AdminCreatorCodesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/copilot': {
       id: '/admin/copilot'
       path: '/copilot'
@@ -1677,6 +1696,7 @@ interface AdminRouteChildren {
   AdminApplicationsRoute: typeof AdminApplicationsRoute
   AdminComplianceRoute: typeof AdminComplianceRoute
   AdminCopilotRoute: typeof AdminCopilotRoute
+  AdminCreatorCodesRoute: typeof AdminCreatorCodesRoute
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminErrorsRoute: typeof AdminErrorsRoute
   AdminGrowthPlaybookRoute: typeof AdminGrowthPlaybookRoute
@@ -1698,6 +1718,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminApplicationsRoute: AdminApplicationsRoute,
   AdminComplianceRoute: AdminComplianceRoute,
   AdminCopilotRoute: AdminCopilotRoute,
+  AdminCreatorCodesRoute: AdminCreatorCodesRoute,
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminErrorsRoute: AdminErrorsRoute,
   AdminGrowthPlaybookRoute: AdminGrowthPlaybookRoute,
