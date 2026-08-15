@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VoiceNotesRouteImport } from './routes/voice-notes'
 import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as UpgradeRouteImport } from './routes/upgrade'
 import { Route as SubscriptionsRouteImport } from './routes/subscriptions'
@@ -98,6 +99,11 @@ import { Route as ApiPublicPaymentsCcbillRouteImport } from './routes/api/public
 import { Route as ApiPublicHooksShowcaseBrainRouteImport } from './routes/api/public/hooks/showcase-brain'
 import { Route as ApiPublicHooksOpsManagersRouteImport } from './routes/api/public/hooks/ops-managers'
 
+const VoiceNotesRoute = VoiceNotesRouteImport.update({
+  id: '/voice-notes',
+  path: '/voice-notes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VerifyRoute = VerifyRouteImport.update({
   id: '/verify',
   path: '/verify',
@@ -565,6 +571,7 @@ export interface FileRoutesByFullPath {
   '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
   '/verify': typeof VerifyRoute
+  '/voice-notes': typeof VoiceNotesRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/applications': typeof AdminApplicationsRoute
@@ -654,6 +661,7 @@ export interface FileRoutesByTo {
   '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
   '/verify': typeof VerifyRoute
+  '/voice-notes': typeof VoiceNotesRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/applications': typeof AdminApplicationsRoute
@@ -745,6 +753,7 @@ export interface FileRoutesById {
   '/subscriptions': typeof SubscriptionsRoute
   '/upgrade': typeof UpgradeRoute
   '/verify': typeof VerifyRoute
+  '/voice-notes': typeof VoiceNotesRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/applications': typeof AdminApplicationsRoute
@@ -837,6 +846,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/upgrade'
     | '/verify'
+    | '/voice-notes'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/applications'
@@ -926,6 +936,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/upgrade'
     | '/verify'
+    | '/voice-notes'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/applications'
@@ -1016,6 +1027,7 @@ export interface FileRouteTypes {
     | '/subscriptions'
     | '/upgrade'
     | '/verify'
+    | '/voice-notes'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/applications'
@@ -1107,6 +1119,7 @@ export interface RootRouteChildren {
   SubscriptionsRoute: typeof SubscriptionsRoute
   UpgradeRoute: typeof UpgradeRoute
   VerifyRoute: typeof VerifyRoute
+  VoiceNotesRoute: typeof VoiceNotesRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -1160,6 +1173,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/voice-notes': {
+      id: '/voice-notes'
+      path: '/voice-notes'
+      fullPath: '/voice-notes'
+      preLoaderRoute: typeof VoiceNotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/verify': {
       id: '/verify'
       path: '/verify'
@@ -1859,6 +1879,7 @@ const rootRouteChildren: RootRouteChildren = {
   SubscriptionsRoute: SubscriptionsRoute,
   UpgradeRoute: UpgradeRoute,
   VerifyRoute: VerifyRoute,
+  VoiceNotesRoute: VoiceNotesRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
