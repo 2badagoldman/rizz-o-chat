@@ -12,8 +12,9 @@ import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNo
 const FREE_TURNS = 2;
 
 const OPENERS = [
-  "Hey — what are you up to tonight?",
-  "What's your ideal first date?",
+  "Hey — you actually reply?",
+  "Say my name in a voice note 👀",
+  "What are you doing tonight?",
   "Tell me something no one knows about you",
 ];
 
@@ -136,8 +137,8 @@ export function TasteChat() {
       <div className="max-h-[320px] min-h-[168px] space-y-2 overflow-y-auto px-4 py-3">
         {messages.length === 0 ? (
           <div className="max-w-[80%] rounded-2xl rounded-bl-md bg-muted px-3 py-2 text-sm">
-            Hey you 👋 I'm {creator.name}. So… what would you like to know about me — or about
-            yourself? 😏
+            Hey you 👋 I'm {creator.name}. I read everything here — no ghosting, no waiting three
+            days. Say one thing to me and I'll reply right now… what's on your mind? 😏
           </div>
         ) : null}
         {messages.map((m) => (
@@ -172,7 +173,7 @@ export function TasteChat() {
             <Lock className="h-4 w-4 text-primary" /> {creator.name} is still typing to you.
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            Join free to keep this conversation going — and message any verified creator.
+            She hasn't left you on read — join free and she picks up right where you stopped.
           </p>
           <Link
             to="/auth"
@@ -233,7 +234,7 @@ export function TasteChat() {
             </button>
           </form>
           <p className="mt-2 text-center text-[11px] text-muted-foreground">
-            {FREE_TURNS - sent} free {FREE_TURNS - sent === 1 ? "message" : "messages"} — no signup, no card.
+            {FREE_TURNS - sent} free {FREE_TURNS - sent === 1 ? "reply" : "replies"} from her — no signup, no card, no waiting.
           </p>
         </div>
       )}
