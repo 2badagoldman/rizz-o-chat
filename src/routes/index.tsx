@@ -246,7 +246,7 @@ function Home() {
         </div>
       </section>
 
-      <DemoChatProofs limit={6} />
+      <DemoChatProofs limit={12} />
     </AppShell>
 
   );

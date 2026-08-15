@@ -473,7 +473,7 @@ function AuthPage() {
       </div>
       <div className="mx-auto mt-8 max-w-3xl">
         <DemoChatProofs
-          limit={7}
+          limit={12}
           title="See what you're joining"
           subtitle="Real chats between members and Crush creators"
           showCta={false}
