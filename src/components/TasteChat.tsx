@@ -68,6 +68,8 @@ export function TasteChat() {
 
   const sent = messages.filter((m) => m.role === "user").length;
   const locked = sent >= FREE_TURNS;
+  // Voice in, voice back — hearing her is the whole pitch.
+  const [autoVoice, setAutoVoice] = useState(false);
   const busy = status === "submitted" || status === "streaming";
   /** She's typing whenever a reply is in flight — the urgency cue. */
   const lastMsg = messages[messages.length - 1];
@@ -147,6 +149,14 @@ export function TasteChat() {
             }
           >
             {text(m) || (busy ? "…" : "")}
+            {m.role !== "user" && text(m) ? (
+              <CreatorVoiceButton
+                text={text(m)}
+                hostId={creator.id}
+                autoPlay={autoVoice && m.id === lastMsg?.id && !busy}
+                label="Hear her say it"
+              />
+            ) : null}
           </div>
         ))}
         {creatorTyping ? <TypingBubble name={creator.name} avatar={hostAvatarThumb(creator.id)} /> : null}
@@ -202,6 +212,15 @@ export function TasteChat() {
               placeholder={`Message ${creator.name}…`}
               aria-label={`Message ${creator.name}`}
               className="min-w-0 flex-1 rounded-full border border-border bg-background/70 px-4 py-2.5 text-sm outline-none focus:border-primary/60"
+            />
+            <VoiceRecordButton
+              disabled={busy}
+              onRecorded={({ transcript }) => {
+                if (!transcript.trim()) return;
+                setAutoVoice(true);
+                send(transcript);
+              }}
+              className="!h-10 !w-10 !rounded-full"
             />
             <button
               type="submit"
