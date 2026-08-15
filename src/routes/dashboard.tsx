@@ -189,8 +189,9 @@ function Dashboard() {
   );
 }
 
-function MilestoneCard({ active, toFlip, unlocked, split }: { active: number; toFlip: number; unlocked: boolean; split: number }) {
-  const pct = Math.min(100, (active / 100) * 100);
+function MilestoneCard({ active, toFlip, unlocked, split, nextSplit, target }: { active: number; toFlip: number; unlocked: boolean; split: number; nextSplit: number | null; target: number | null }) {
+  const goal = target ?? 500;
+  const pct = Math.min(100, (active / goal) * 100);
   return (
     <section className="mt-5 rounded-2xl border border-primary/40 bg-gradient-brand-soft p-4 shadow-glow">
       <div className="flex items-center justify-between">
@@ -198,17 +199,18 @@ function MilestoneCard({ active, toFlip, unlocked, split }: { active: number; to
         <span className="text-gradient-brand text-sm font-semibold">{split}% split</span>
       </div>
       <h2 className="mt-1 text-lg font-semibold">
-        {unlocked ? "🎉 You unlocked 65% — your rate is flipped." : `${toFlip} Friends to flip to 65%`}
+        {unlocked ? "🎉 You unlocked 65% — your top rate is locked in." : `${toFlip} Friends to reach ${nextSplit ?? 65}%`}
       </h2>
       <div className="mt-3 h-2 w-full rounded-full bg-background/40 overflow-hidden">
         <div className="h-full bg-gradient-brand transition-all" style={{ width: pct + "%" }} />
       </div>
       <p className="mt-2 text-xs text-muted-foreground">
-        {active} / 100 active paying Friends {unlocked ? "· sustained ≥30 days locks the flip permanently." : "· hit 100 sustained 30 days and your income roughly doubles."}
+        {active} / {goal} active paying Friends · 35% under 100 · 50% at 100+ · 65% at 500+.
       </p>
     </section>
   );
 }
+
 
 function MetricCard({
   icon,
