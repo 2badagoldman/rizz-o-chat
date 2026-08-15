@@ -1,8 +1,8 @@
 # Crush
 
-> A paid social chat platform where verified creators run Friends Lists and members subscribe to chat, meet, and make real connections.
+> Meet your favorite exclusive creators on CRUSH. Members get 24/7 access to chat, connect, and enjoy one-on-one time with the creators they love.
 
-Crush pairs members with verified creators through private Friends Lists, DMs, group Rooms near you, coin gifting, and an AI copilot that helps members craft better conversations. Payments are handled by Stripe; creators are compensated partners.
+Crush pairs members with exclusive creators through private Friends Lists, DMs, group Rooms near you, coin gifting, and an AI copilot that helps members craft better conversations. Payments are handled by Stripe; creators are compensated partners.
 
 ## Pages
 - [Home](/): overview of Crush, online creators, featured Friends Lists and FAQ

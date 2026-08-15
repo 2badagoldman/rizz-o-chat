@@ -19,7 +19,7 @@ import { pageHead, faqLd, jsonLd, SITE_URL } from "@/lib/seo";
 const FAQS = [
   {
     q: "What is Crush?",
-    a: "Crush is an 18+ social chat app where verified creators run private Friends Lists. Members subscribe to DM their favourite creators, join live rooms, and send gifts.",
+    a: "Meet your favorite exclusive creators on CRUSH. Members get 24/7 access to chat, connect, and enjoy one-on-one time with the creators they love.",
   },
   {
     q: "How much does Crush cost?",
@@ -45,9 +45,9 @@ export const Route = createFileRoute("/crush-home")({
       path: "/crush-home",
       title: "Crush Home — Chat with your verified favourite creators",
       description:
-        "Crush is the 18+ chat app where verified creators run private Friends Lists. Gold $9.99/week unlocks any list, Diamond VIP $19.99/week adds badges and weekly coin drops.",
+        "Meet your favorite exclusive creators on CRUSH. Members get 24/7 access to chat, connect, and enjoy one-on-one time with the creators they love.",
       keywords:
-        "crush app, chat with creators, verified creators, creator friends list, crush gold, crush diamond vip",
+        "crush app, exclusive creators, meet creators, chat with creators, one on one chat, 24/7 access, crush gold, crush diamond vip",
     });
     return {
       ...base,
@@ -345,9 +345,9 @@ function CrushHome() {
             <span className="crush-home-gold-text">verified favourite creators</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[var(--ch-ink-dim)] sm:text-lg">
-            Crush is where creators run private Friends Lists — you unlock hers, she
-            actually replies. Direct messages, live rooms, gifts, stories and
-            galleries, all in one app.
+            Meet your favorite exclusive creators on CRUSH. Members get 24/7 access
+            to chat, connect, and enjoy one-on-one time with the creators they love —
+            direct messages, live rooms, gifts, stories and galleries, all in one app.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
