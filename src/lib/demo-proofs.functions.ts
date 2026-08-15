@@ -68,7 +68,7 @@ export const getDemoProofs = createServerFn({ method: "POST" })
         name: persona.name,
         age: persona.age,
         tagline: persona.tagline,
-        image: signed.signedUrl,
+        image: realFace.get(persona.name.toLowerCase()) ?? signed.signedUrl,
         lines: persona.lines,
       });
     }
