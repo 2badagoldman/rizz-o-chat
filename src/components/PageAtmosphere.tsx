@@ -105,7 +105,7 @@ const whorl = (count: number, scale: number, spin: number, fill: string, rim: st
 
 const ROSE_SVG = (petal: string, deep: string, leaf: string, gold = "#f3d08a") =>
   `url("data:image/svg+xml,${encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 150'>
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 130'>
       <defs>
         <radialGradient id='o' cx='50%' cy='78%' r='72%'>
           <stop offset='0%' stop-color='${petal}'/>
@@ -161,9 +161,9 @@ const ROMANCE_ROSES = [
 ];
 
 const DEPTH = [
-  { blur: "0px", opacity: 0.95 },
-  { blur: "1.4px", opacity: 0.72 },
-  { blur: "3px", opacity: 0.5 },
+  { blur: "0px", opacity: 0.6 },
+  { blur: "1.6px", opacity: 0.4 },
+  { blur: "3.4px", opacity: 0.26 },
 ];
 
 
@@ -207,7 +207,7 @@ function RomanceLayer({ level }: { level: string }) {
             style={{
               top: r.top,
               width: r.size,
-              height: Math.round(r.size * 1.25),
+              height: Math.round(r.size * 1.08),
               [r.side]: r.offset,
               backgroundImage: ROSE_ART[i % ROSE_ART.length],
               animationDelay: r.delay,
