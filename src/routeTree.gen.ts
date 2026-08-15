@@ -21,6 +21,7 @@ import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CrushHomeRouteImport } from './routes/crush-home'
 import { Route as CopilotRouteImport } from './routes/copilot'
+import { Route as ConfidenceRouteImport } from './routes/confidence'
 import { Route as CoinsRouteImport } from './routes/coins'
 import { Route as ClaimRouteImport } from './routes/claim'
 import { Route as ChatsRouteImport } from './routes/chats'
@@ -157,6 +158,11 @@ const CrushHomeRoute = CrushHomeRouteImport.update({
 const CopilotRoute = CopilotRouteImport.update({
   id: '/copilot',
   path: '/copilot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfidenceRoute = ConfidenceRouteImport.update({
+  id: '/confidence',
+  path: '/confidence',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoinsRoute = CoinsRouteImport.update({
@@ -560,6 +566,7 @@ export interface FileRoutesByFullPath {
   '/chats': typeof ChatsRoute
   '/claim': typeof ClaimRoute
   '/coins': typeof CoinsRoute
+  '/confidence': typeof ConfidenceRoute
   '/copilot': typeof CopilotRoute
   '/crush-home': typeof CrushHomeRoute
   '/dashboard': typeof DashboardRoute
@@ -650,6 +657,7 @@ export interface FileRoutesByTo {
   '/chats': typeof ChatsRoute
   '/claim': typeof ClaimRoute
   '/coins': typeof CoinsRoute
+  '/confidence': typeof ConfidenceRoute
   '/copilot': typeof CopilotRoute
   '/crush-home': typeof CrushHomeRoute
   '/dashboard': typeof DashboardRoute
@@ -742,6 +750,7 @@ export interface FileRoutesById {
   '/chats': typeof ChatsRoute
   '/claim': typeof ClaimRoute
   '/coins': typeof CoinsRoute
+  '/confidence': typeof ConfidenceRoute
   '/copilot': typeof CopilotRoute
   '/crush-home': typeof CrushHomeRoute
   '/dashboard': typeof DashboardRoute
@@ -835,6 +844,7 @@ export interface FileRouteTypes {
     | '/chats'
     | '/claim'
     | '/coins'
+    | '/confidence'
     | '/copilot'
     | '/crush-home'
     | '/dashboard'
@@ -925,6 +935,7 @@ export interface FileRouteTypes {
     | '/chats'
     | '/claim'
     | '/coins'
+    | '/confidence'
     | '/copilot'
     | '/crush-home'
     | '/dashboard'
@@ -1016,6 +1027,7 @@ export interface FileRouteTypes {
     | '/chats'
     | '/claim'
     | '/coins'
+    | '/confidence'
     | '/copilot'
     | '/crush-home'
     | '/dashboard'
@@ -1108,6 +1120,7 @@ export interface RootRouteChildren {
   ChatsRoute: typeof ChatsRoute
   ClaimRoute: typeof ClaimRoute
   CoinsRoute: typeof CoinsRoute
+  ConfidenceRoute: typeof ConfidenceRoute
   CopilotRoute: typeof CopilotRoute
   CrushHomeRoute: typeof CrushHomeRoute
   DashboardRoute: typeof DashboardRoute
@@ -1255,6 +1268,13 @@ declare module '@tanstack/react-router' {
       path: '/copilot'
       fullPath: '/copilot'
       preLoaderRoute: typeof CopilotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confidence': {
+      id: '/confidence'
+      path: '/confidence'
+      fullPath: '/confidence'
+      preLoaderRoute: typeof ConfidenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/coins': {
@@ -1868,6 +1888,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatsRoute: ChatsRoute,
   ClaimRoute: ClaimRoute,
   CoinsRoute: CoinsRoute,
+  ConfidenceRoute: ConfidenceRoute,
   CopilotRoute: CopilotRoute,
   CrushHomeRoute: CrushHomeRoute,
   DashboardRoute: DashboardRoute,

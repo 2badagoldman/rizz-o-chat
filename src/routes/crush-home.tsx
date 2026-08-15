@@ -87,6 +87,7 @@ const NAV = [
   { label: "Creators", href: "#creators" },
   { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
+  { label: "Confidence", href: "/confidence" },
 ];
 
 const FEATURES = [
@@ -589,7 +590,8 @@ function CrushHome() {
             <p className="text-sm font-black">Product</p>
             <div className="mt-3 flex flex-col gap-2 text-sm text-[var(--ch-ink-dim)]">
               <Link to="/discover">Discover creators</Link>
-              <Link to="/rooms">Live rooms</Link>
+              <Link to="/voice-notes">Voice notes</Link>
+              <Link to="/confidence">Boost your confidence</Link>
               <Link to="/upgrade">Gold & Diamond</Link>
               <Link to="/coins">Coins</Link>
             </div>
