@@ -1856,3 +1856,48 @@ body::after {
   from { opacity: 0; transform: translate3d(0, 6px, 0); }
   to { opacity: 1; transform: none; }
 }
+
+/* ---------- Crush (default): crimson moon + gold script, straight off the logo ---------- */
+.theme-crushgold {
+  --background: oklch(0.16 0.055 20);
+  --foreground: oklch(0.965 0.020 70);
+  --card: oklch(0.225 0.070 20);
+  --card-foreground: oklch(0.965 0.020 70);
+  --popover: oklch(0.205 0.065 20);
+  --popover-foreground: oklch(0.965 0.020 70);
+
+  --primary: oklch(0.585 0.225 22);
+  --primary-foreground: oklch(0.985 0.015 80);
+  --secondary: oklch(0.285 0.075 24);
+  --secondary-foreground: oklch(0.955 0.025 75);
+  --muted: oklch(0.265 0.060 22);
+  --muted-foreground: oklch(0.800 0.045 70);
+  --accent: oklch(0.815 0.145 82);
+  --accent-foreground: oklch(0.190 0.060 22);
+
+  --brand-pink: #e0113a;
+  --brand-purple: #6b0416;
+  --brand-coral: #ff3355;
+  --brand-violet: #f5cf72;
+
+  --border: oklch(0.86 0.09 78 / 18%);
+  --input: oklch(0.86 0.09 78 / 18%);
+  --ring: oklch(0.585 0.225 22 / 58%);
+
+  --gradient-brand: linear-gradient(135deg, #7a0417 0%, #c4102f 34%, #e8213f 60%, #f5cf72 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(196,16,47,0.34) 0%, rgba(232,33,63,0.24) 55%, rgba(245,207,114,0.20) 100%);
+  --gradient-sunset: linear-gradient(135deg, #2a0209 0%, #c4102f 52%, #f5cf72 100%);
+  --gradient-night: linear-gradient(135deg, #140206 0%, #7a0417 62%, #d4132f 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #7a0417, #d4132f, #f5cf72, #ff5f7a, #7a0417);
+
+  --shadow-glow: 0 26px 78px -20px rgba(212, 19, 47, 0.52), 0 0 0 1px rgba(245, 207, 114, 0.22);
+  --shadow-card: 0 20px 52px -22px rgba(20, 2, 6, 0.82), 0 2px 10px -3px rgba(245, 207, 114, 0.20);
+  --shadow-pop:  0 44px 108px -26px rgba(20, 2, 6, 0.88);
+
+  --aurora-1: rgba(212,19,47,0.34);
+  --aurora-2: rgba(122,4,23,0.42);
+  --aurora-3: rgba(245,207,114,0.22);
+  --aurora-4: rgba(20,2,6,0.62);
+}
+.theme-crushgold body::after { mix-blend-mode: screen; opacity: .05; }
+.theme-crushgold .crush-atmos { display: block; }
