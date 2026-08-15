@@ -8,6 +8,8 @@ import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 import { pageHead, faqLd, jsonLd, SITE_URL } from "@/lib/seo";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
+import { TasteChat } from "@/components/TasteChat";
+
 import { StoryRail } from "@/components/stories/StoryRail";
 
 const FAQS = [
@@ -76,19 +78,23 @@ function Home() {
           Friends Always · Crush
         </span>
         <h1 className="mt-3 text-[2.6rem] leading-[1.02] font-display font-extrabold">
-          Real chats with{" "}
-          <span className="text-gradient-brand">verified creators</span>.
+          Send a message.{" "}
+          <span className="text-gradient-brand">Get a real reply</span>.
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Every creator runs a Friends List — a little chapter of our family tree. Subscribe, meet the creator, find your Crush.
+          Try it right now — free, no signup. Then subscribe to the creator you actually clicked with.
         </p>
       </header>
+
+      {/* The aha moment: taste the conversation before any paywall */}
+      <TasteChat />
 
       {/* Stories */}
       <StoryRail />
 
       {/* Showcase reel */}
       <ShowcaseRail title="Showcase" subtitle="Today's best looks" limit={25} />
+
 
       {/* Online now rail */}
       <section className="mt-7 rise-in rise-in-1">
@@ -179,19 +185,29 @@ function Home() {
         </div>
       </section>
 
-      <div className="mt-7 grid gap-3 rise-in rise-in-3">
-        <Link to="/discover" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
-          Browse all creators <ArrowRight className="h-4 w-4" />
-        </Link>
+      <div className="mt-7 grid gap-2 rise-in rise-in-3">
         {!authLoading && !user ? (
-          <Link
-            to="/auth"
-            className="inline-flex items-center justify-center rounded-full border border-border bg-card/80 px-5 py-3 text-sm font-semibold backdrop-blur transition-transform hover:scale-[1.01]"
-          >
-            Sign in or create account
+          <>
+            <Link to="/auth" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
+              Join free & keep chatting <ArrowRight className="h-4 w-4" />
+            </Link>
+            <p className="text-center text-[11px] text-muted-foreground">
+              Free to join. Gold ($9.99/wk) unlocks any creator's Friends List — cancel anytime.
+            </p>
+          </>
+        ) : (
+          <Link to="/discover" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
+            Browse all creators <ArrowRight className="h-4 w-4" />
+          </Link>
+        )}
+        {!authLoading && !user ? (
+          <Link to="/discover" className="text-center text-xs font-medium text-muted-foreground hover:text-primary">
+            Or browse all creators
           </Link>
         ) : null}
+
       </div>
+
 
       {/* Become a creator — warm creator studio invite */}
       <section
