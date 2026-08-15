@@ -4,7 +4,14 @@ import { DemoChatProofs } from "@/components/DemoChatProofs";
 import { getDemoProofs } from "@/lib/demo-proofs.functions";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { ArrowRight, Crown, Users, Circle, Search, ChevronDown } from "lucide-react";
+import { ArrowRight, Crown, Users, Circle, Search, ChevronDown, Volume2 } from "lucide-react";
+
+/** Where every other app leaves you. */
+const IGNORED = [
+  { app: "Instagram DM", outcome: "Seen. No reply." },
+  { app: "Tinder", outcome: "No match." },
+  { app: "Hinge", outcome: "Silence." },
+];
 import { PeopleDiscovery } from "@/components/PeopleDiscovery";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
