@@ -165,13 +165,11 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
         </div>
 
         <div className="mt-3 flex-1 overflow-y-auto px-3 pb-5">
-          {!user ? (
-            <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find your crush on Crush.</p>
-          ) : isLoading ? (
+          {isLoading && total === 0 ? (
             <p className="p-6 text-center text-sm text-muted-foreground">Loading the newest faces…</p>
-          ) : error ? (
+          ) : error && total === 0 ? (
             <p className="p-6 text-center text-sm text-destructive">
-              Couldn’t load people right now. Pull down to retry in a moment.
+              Couldn’t load people right now. Try again in a moment.
             </p>
           ) : total === 0 ? (
             <div className="px-4 py-10 text-center">
