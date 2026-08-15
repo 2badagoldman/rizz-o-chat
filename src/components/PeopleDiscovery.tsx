@@ -104,7 +104,7 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
     <div
       className={
         inline
-          ? "relative mt-2"
+          ? "absolute left-0 right-0 top-full z-[60] mt-1"
           : "fixed inset-0 z-[95] bg-foreground/25 backdrop-blur-xl"
       }
       onClick={inline ? undefined : onClose}
@@ -116,7 +116,7 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
         onClick={(e) => e.stopPropagation()}
         className={
           inline
-            ? "flex max-h-[60vh] w-full flex-col overflow-hidden rounded-[26px] border border-border/60 bg-card/90 shadow-card backdrop-blur-2xl"
+            ? "flex max-h-[52vh] w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl"
             : "mx-auto mt-10 flex max-h-[85vh] w-[94%] max-w-[440px] flex-col overflow-hidden rounded-[30px] border border-border/60 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
         }
       >
