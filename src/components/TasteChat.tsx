@@ -38,15 +38,27 @@ function TypingBubble({ name, avatar }: { name: string; avatar: string }) {
  * a single dominant CTA appears.
  */
 export function TasteChat() {
-  // Featured agents that can take the home chat slot. Picked once per visit so
-  // the widget never swaps creators mid-conversation.
-  const creator = useMemo(() => {
-    const featured = ["demo-aria", "demo-rubi"].filter((id) =>
-      (AI_HOST_IDS as readonly string[]).includes(id),
-    );
-    const pick = featured[Math.floor(Math.random() * featured.length)] ?? AI_HOST_IDS[0];
-    return DEMO_HOSTS.find((h) => h.id === pick) ?? DEMO_HOSTS[0];
+  // Featured agents that can take the home chat slot. The server always renders
+  // the first one (so hydration matches), then we randomise once after mount.
+  const featured = useMemo(
+    () =>
+      ["demo-aria", "demo-rubi"].filter((id) =>
+        (AI_HOST_IDS as readonly string[]).includes(id),
+      ),
+    [],
+  );
+  const [creatorId, setCreatorId] = useState(() => featured[0] ?? AI_HOST_IDS[0]);
+  useEffect(() => {
+    if (featured.length > 1) {
+      setCreatorId(featured[Math.floor(Math.random() * featured.length)]!);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const creator = useMemo(
+    () => DEMO_HOSTS.find((h) => h.id === creatorId) ?? DEMO_HOSTS[0],
+    [creatorId],
+  );
+
   const [input, setInput] = useState("");
   const transport = useMemo(
     () => new DefaultChatTransport({ api: "/api/public/demo-chat", body: { hostId: creator.id } }),
