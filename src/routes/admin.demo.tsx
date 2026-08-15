@@ -204,7 +204,7 @@ function AdminDemo() {
           Our highest-performing creator photos paired with real 4-message exchanges — use these as
           ad creative, store screenshots and live sales demos. Also shown at the bottom of the marketing home page.
         </p>
-        <DemoChatProofs limit={9} title="" subtitle="" showCta={false} />
+        <DemoChatProofs limit={18} title="" subtitle="" showCta={false} />
       </div>
     </div>
   );

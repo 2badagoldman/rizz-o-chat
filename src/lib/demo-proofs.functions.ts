@@ -16,7 +16,7 @@ import type { DemoProof } from "./demo-proofs.data";
 export const getDemoProofs = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => {
     const i = (input ?? {}) as { limit?: number };
-    const n = typeof i.limit === "number" && i.limit > 0 && i.limit <= 12 ? i.limit : 6;
+    const n = typeof i.limit === "number" && i.limit > 0 && i.limit <= 24 ? i.limit : 6;
     return { limit: n };
   })
   .handler(async ({ data }): Promise<DemoProof[]> => {
