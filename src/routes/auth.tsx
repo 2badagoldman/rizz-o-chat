@@ -5,7 +5,7 @@ import { ETHNICITY_OPTIONS, stashEthnicity, syncPendingEthnicity } from "@/lib/e
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { useAuth } from "@/lib/auth";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 import { pageHead } from "@/lib/seo";
 import { readGuestCode, normalizePhone, phoneToLoginEmail } from "@/lib/guest-checkout";
 

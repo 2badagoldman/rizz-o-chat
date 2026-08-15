@@ -3,7 +3,7 @@ import { useRouterState, useNavigate } from "@tanstack/react-router";
 import { X, Volume2, VolumeX, MessageCircle, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { getShowcaseReel, logShowcaseEvent, type ReelItem } from "@/lib/showcase-brain.functions";
 import { track } from "@/lib/analytics";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 
 
 const FLAG_KEY = "rizzla:showWelcome";           // explicit trigger (e.g. right after sign-up)

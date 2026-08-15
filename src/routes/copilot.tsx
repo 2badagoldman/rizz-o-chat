@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { AppShell } from "@/components/AppShell";
 import { Send, ArrowLeft } from "lucide-react";
 import { useAuth } from "@/lib/auth";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 import { pageHead, breadcrumbLd } from "@/lib/seo";
 
 

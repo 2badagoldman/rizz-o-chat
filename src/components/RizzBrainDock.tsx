@@ -4,7 +4,7 @@ import { createAuthedChatTransport } from "@/lib/authed-chat-transport";
 import ReactMarkdown from "react-markdown";
 import { Send, X, ChevronDown, Image as ImageIcon } from "lucide-react";
 import { useRouterState } from "@tanstack/react-router";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 import { useAiQuota } from "@/hooks/useAiQuota";
 import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
 

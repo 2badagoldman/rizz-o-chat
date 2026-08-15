@@ -3,7 +3,7 @@ import { AppShell } from '@/components/AppShell';
 import { useStripeCheckout } from '@/hooks/useStripeCheckout';
 import { CoinIcon } from '@/components/CoinIcon';
 import { Sparkles, Store } from 'lucide-react';
-import rizzAiLogo from '@/assets/rizz-ai-logo.webp.asset.json';
+import rizzAiLogo from '@/assets/crush-logo.png.asset.json';
 import { pageHead, breadcrumbLd } from "@/lib/seo";
 import { useIosBillingRestricted } from '@/hooks/useNative';
 import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';

@@ -20,7 +20,7 @@ import {
   Coins,
   UserPlus,
 } from "lucide-react";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 import { useAuth } from "@/lib/auth";
 import { PeopleDiscovery } from "./PeopleDiscovery";
 import { useIosBillingRestricted } from "@/hooks/useNative";

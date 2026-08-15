@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { adminCopilotChat } from "@/lib/war-room.functions";
 import { Sparkles, Send, Loader2 } from "lucide-react";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 
 export const Route = createFileRoute("/admin/copilot")({
   head: () => ({ meta: [

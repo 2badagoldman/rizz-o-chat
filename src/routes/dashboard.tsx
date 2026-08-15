@@ -9,7 +9,7 @@ import { NotificationsCard } from "@/components/NotificationsCard";
 import { useAuth } from "@/lib/auth";
 import { getHostSelfStats } from "@/lib/host-stats.functions";
 import { TrendingUp, Users, Wallet, Trophy } from "lucide-react";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 
 
 import { PageSkeleton } from "@/components/AuthGate";

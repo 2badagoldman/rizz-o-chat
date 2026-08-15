@@ -6,7 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { previewInvite, redeemInvite } from "@/lib/host-invites.functions";
 import { toast } from "sonner";
 import { pageHead } from "@/lib/seo";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 
 export const Route = createFileRoute("/invite/$code")({
   head: ({ params }) =>

@@ -3,7 +3,7 @@ import { X, MessageCircle } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { getShowcaseReel, type ReelItem } from "@/lib/showcase-brain.functions";
 import { useShuffled } from "@/hooks/useShuffled";
-import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import crushLogo from "@/assets/crush-logo.png.asset.json";
 
 
 /**
