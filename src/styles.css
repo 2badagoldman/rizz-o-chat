@@ -1901,3 +1901,41 @@ body::after {
 }
 .theme-crushgold body::after { mix-blend-mode: screen; opacity: .05; }
 .theme-crushgold .crush-atmos { display: block; }
+
+/* ── CRUSH HOME (public marketing landing) ─────────────────────────────
+   Self-contained palette locked to the Crush logo: crimson field, gold
+   type, moonlight white. Independent of the in-app theme the user picked. */
+.crush-home {
+  --ch-bg: #14020a;
+  --ch-bg-2: #2a0410;
+  --ch-crimson: #b3122b;
+  --ch-crimson-lit: #e0243f;
+  --ch-gold: #e9b872;
+  --ch-gold-lit: #f7d9a0;
+  --ch-ink: #fff6ec;
+  --ch-ink-dim: rgba(255, 246, 236, 0.72);
+  --ch-line: rgba(233, 184, 114, 0.22);
+  --ch-panel: rgba(255, 246, 236, 0.045);
+  color: var(--ch-ink);
+  background:
+    radial-gradient(120% 70% at 50% -10%, rgba(179, 18, 43, 0.55), transparent 62%),
+    radial-gradient(90% 60% at 8% 100%, rgba(233, 184, 114, 0.14), transparent 68%),
+    radial-gradient(80% 55% at 96% 30%, rgba(224, 36, 63, 0.22), transparent 70%),
+    linear-gradient(180deg, var(--ch-bg-2) 0%, var(--ch-bg) 55%, #0c0106 100%);
+}
+.crush-home-panel {
+  background: var(--ch-panel);
+  border: 1px solid var(--ch-line);
+  backdrop-filter: blur(10px);
+}
+.crush-home-gold-text {
+  background: linear-gradient(120deg, var(--ch-gold-lit), var(--ch-gold) 40%, #c9924b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
