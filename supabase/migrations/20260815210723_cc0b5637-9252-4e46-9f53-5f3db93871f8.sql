@@ -1,0 +1,1 @@
+UPDATE public.showcase_media SET is_active = false WHERE id = 'c17c9709-10fd-4902-ab0d-38212245fb43';

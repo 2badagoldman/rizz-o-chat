@@ -14,7 +14,7 @@ import { captureNativePhoto } from "@/lib/native";
 import { Camera } from "lucide-react";
 import { SubscriptionStatusCard } from "@/components/SubscriptionStatusCard";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
-import { reviewImageBeforeUpload, MODERATION_BLOCK_MESSAGE } from "@/lib/media-moderation";
+import { reviewImageBeforeUpload, moderationMessage } from "@/lib/media-moderation";
 import { SignedOutGate } from "@/components/SignedOutGate";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -147,7 +147,7 @@ function Profile() {
     try {
       const verdict = await reviewImageBeforeUpload(file);
       if (!verdict.allow) {
-        setError(`${MODERATION_BLOCK_MESSAGE} (${verdict.reason})`);
+        setError(`${moderationMessage(verdict)} (${verdict.reason})`);
         return;
       }
       const ext = file.name.split(".").pop() || "jpg";
@@ -213,7 +213,7 @@ function Profile() {
         }
         const verdict = await reviewImageBeforeUpload(file);
         if (!verdict.allow) {
-          setError(`Skipped ${file.name}: ${MODERATION_BLOCK_MESSAGE}`);
+          setError(`Skipped ${file.name}: ${moderationMessage(verdict)}`);
           continue;
         }
         const ext = file.name.split(".").pop() || (isVideo ? "mp4" : "jpg");

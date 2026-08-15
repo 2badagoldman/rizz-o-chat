@@ -103,10 +103,10 @@ export function ChatAttachButton({
 
     setBusy(true);
     try {
-      const { reviewImageBeforeUpload, MODERATION_BLOCK_MESSAGE } = await import("@/lib/media-moderation");
+      const { reviewImageBeforeUpload, moderationMessage } = await import("@/lib/media-moderation");
       const verdict = await reviewImageBeforeUpload(file);
       if (!verdict.allow) {
-        toast.error(MODERATION_BLOCK_MESSAGE);
+        toast.error(moderationMessage(verdict));
         return;
       }
       const { data: auth } = await supabase.auth.getUser();
