@@ -94,7 +94,9 @@ export const getPublicProfile = createServerFn({ method: "POST" })
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(data.userId);
     if (!data.userId || !isUuid) return null;
 
+    const { data: row, error } = await context.supabase
       .from("profiles")
+
       .select("id, display_name, avatar_url, account_type, created_at, bio, gender")
       .eq("id", data.userId)
       .maybeSingle();
