@@ -234,7 +234,7 @@ export function TasteChat() {
             </button>
           </form>
           <p className="mt-2 text-center text-[11px] text-muted-foreground">
-            {FREE_TURNS - sent} free {FREE_TURNS - sent === 1 ? "message" : "messages"} — no signup, no card.
+            {FREE_TURNS - sent} free {FREE_TURNS - sent === 1 ? "reply" : "replies"} from her — no signup, no card, no waiting.
           </p>
         </div>
       )}
