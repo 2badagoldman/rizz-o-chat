@@ -149,15 +149,22 @@ const ROSE_SVG = (petal: string, deep: string, leaf: string, gold = "#f3d08a") =
 
 
 const ROMANCE_ROSES = [
-  { side: "left" as const, top: "5%", size: 96, offset: "-16px", tilt: "-8deg", delay: "0s" },
-  { side: "left" as const, top: "31%", size: 62, offset: "6px", tilt: "12deg", delay: "2.4s" },
-  { side: "left" as const, top: "58%", size: 108, offset: "-26px", tilt: "-4deg", delay: "4.8s" },
-  { side: "left" as const, top: "82%", size: 70, offset: "2px", tilt: "9deg", delay: "1.2s" },
-  { side: "right" as const, top: "9%", size: 74, offset: "0px", tilt: "7deg", delay: "3.1s" },
-  { side: "right" as const, top: "36%", size: 112, offset: "-24px", tilt: "-10deg", delay: "0.6s" },
-  { side: "right" as const, top: "63%", size: 66, offset: "8px", tilt: "5deg", delay: "5.4s" },
-  { side: "right" as const, top: "87%", size: 94, offset: "-14px", tilt: "-6deg", delay: "2.9s" },
+  { side: "left" as const, top: "5%", size: 96, offset: "-22px", tilt: "-8deg", delay: "0s", depth: 0 },
+  { side: "left" as const, top: "31%", size: 62, offset: "4px", tilt: "12deg", delay: "2.4s", depth: 2 },
+  { side: "left" as const, top: "58%", size: 118, offset: "-34px", tilt: "-4deg", delay: "4.8s", depth: 0 },
+  { side: "left" as const, top: "82%", size: 74, offset: "0px", tilt: "9deg", delay: "1.2s", depth: 1 },
+  { side: "right" as const, top: "9%", size: 78, offset: "-4px", tilt: "7deg", delay: "3.1s", depth: 1 },
+  { side: "right" as const, top: "36%", size: 122, offset: "-32px", tilt: "-10deg", delay: "0.6s", depth: 0 },
+  { side: "right" as const, top: "63%", size: 66, offset: "6px", tilt: "5deg", delay: "5.4s", depth: 2 },
+  { side: "right" as const, top: "87%", size: 98, offset: "-18px", tilt: "-6deg", delay: "2.9s", depth: 1 },
 ];
+
+const DEPTH = [
+  { blur: "0px", opacity: 0.95 },
+  { blur: "1.4px", opacity: 0.72 },
+  { blur: "3px", opacity: 0.5 },
+];
+
 
 /**
  * Romance: a deep valentine-red frame. Silk flows and roses live on the left
