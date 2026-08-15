@@ -389,7 +389,6 @@ function UpgradePage() {
           ))}
         </div>
 
-        <div
         <DemoChatProofs
           limit={7}
           title="What your membership unlocks"
@@ -397,6 +396,7 @@ function UpgradePage() {
           showCta={false}
         />
 
+        <div
           data-reveal
           className="relative mt-6 rounded-[1.5rem] border border-border/60 bg-card/60 p-4 text-[11px] leading-relaxed text-muted-foreground backdrop-blur-xl"
         >
