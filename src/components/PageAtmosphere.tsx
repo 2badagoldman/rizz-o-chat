@@ -179,8 +179,11 @@ function RomanceLayer({ level }: { level: string }) {
         ? ROMANCE_ROSES.filter((_, i) => i % 2 === 0)
         : ROMANCE_ROSES;
 
-  const deepRose = ROSE_SVG("#d81e3c", "#5c0a18", "#3f6b3a");
-  const softRose = ROSE_SVG("#f28a97", "#a30d26", "#4a7a44");
+  const ROSE_ART = [
+    ROSE_SVG("#e0233f", "#4d0714", "#2f5c31"),
+    ROSE_SVG("#f6919c", "#9c0a22", "#3f6b3a"),
+    ROSE_SVG("#c1122d", "#360510", "#26512c", "#ffe6a8"),
+  ];
 
   return (
     <div className="theme-atmos romance-atmos">
@@ -194,21 +197,27 @@ function RomanceLayer({ level }: { level: string }) {
       )}
       <span className="romance-glow" style={{ left: "-10%", top: "10%", width: 260, height: 260 }} />
       <span className="romance-glow" style={{ right: "-12%", bottom: "12%", width: 300, height: 300, animationDelay: "5s" }} />
-      {roses.map((r, i) => (
-        <span
-          key={`${r.side}-${r.top}`}
-          className="romance-rose"
-          style={{
-            top: r.top,
-            width: r.size,
-            height: r.size,
-            [r.side]: r.offset,
-            backgroundImage: i % 2 === 0 ? deepRose : softRose,
-            animationDelay: r.delay,
-            ["--tilt" as string]: r.tilt,
-          }}
-        />
-      ))}
+      {roses.map((r, i) => {
+        const d = DEPTH[r.depth] ?? DEPTH[0];
+        return (
+          <span
+            key={`${r.side}-${r.top}`}
+            className="romance-rose"
+            style={{
+              top: r.top,
+              width: r.size,
+              height: Math.round(r.size * 1.25),
+              [r.side]: r.offset,
+              backgroundImage: ROSE_ART[i % ROSE_ART.length],
+              animationDelay: r.delay,
+              ["--tilt" as string]: r.tilt,
+              ["--rose-blur" as string]: d.blur,
+              ["--rose-op" as string]: String(d.opacity),
+            }}
+          />
+        );
+      })}
+
     </div>
   );
 }
