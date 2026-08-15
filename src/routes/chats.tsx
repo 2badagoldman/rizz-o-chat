@@ -299,6 +299,7 @@ function Chats() {
         </>
       ) : (
         <>
+          {ContinueCard}
           {AiRoster}
 
           {threads.length > 0 ? (
