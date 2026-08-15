@@ -131,10 +131,11 @@ const ROSE_SVG = (petal: string, deep: string, leaf: string, gold = "#f3d08a") =
           <stop offset='100%' stop-color='#ffffff' stop-opacity='0'/>
         </linearGradient>
       </defs>
-      <path d='M60 150 C58 122 55 104 44 92' stroke='url(#lf)' stroke-width='4.5' fill='none' stroke-linecap='round'/>
-      <path d='M50 104 C32 100 20 88 20 72 C38 70 52 82 56 100 Z' fill='url(#lf)'/>
-      <path d='M28 76 C38 82 46 90 52 100' stroke='${deep}' stroke-opacity='.35' stroke-width='1.4' fill='none'/>
-      <path d='M70 118 C86 116 96 106 98 92 C82 88 70 98 68 114 Z' fill='url(#lf)' opacity='.85'/>
+      <path d='M60 128 C58 116 56 106 48 96' stroke='url(#lf)' stroke-width='4' fill='none' stroke-linecap='round'/>
+      <path d='M52 106 C36 102 26 92 26 78 C42 77 54 87 57 103 Z' fill='url(#lf)' opacity='.9'/>
+      <path d='M33 82 C41 87 48 93 53 102' stroke='${deep}' stroke-opacity='.3' stroke-width='1.2' fill='none'/>
+      <path d='M68 112 C82 110 91 101 93 89 C79 86 69 95 67 109 Z' fill='url(#lf)' opacity='.7'/>
+
       <g transform='translate(60 62)'>
         ${whorl(7, 1, 0, "url(#o)", deep, 0.98)}
         ${whorl(6, 0.72, 26, "url(#m)", deep, 0.96)}
