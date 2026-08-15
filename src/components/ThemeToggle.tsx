@@ -2,17 +2,19 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDown } from "lucide-react";
 
-export type Theme = "pink" | "blue" | "ocean" | "abyss" | "sico" | "romance" | "crush";
+export type Theme = "pink" | "blue" | "ocean" | "abyss" | "sico" | "romance" | "crush" | "crushgold";
 const KEY = "rizz.theme";
 
-const ALL: Theme[] = ["pink", "blue", "ocean", "abyss", "sico", "romance", "crush"];
+const ALL: Theme[] = ["pink", "blue", "ocean", "abyss", "sico", "romance", "crush", "crushgold"];
 const EXTRA: { id: Theme; label: string; swatch: string }[] = [
-  { id: "crush", label: "Crush", swatch: "linear-gradient(135deg,#ffe08a,#ff9a1f,#ff4d00,#7fdcff)" },
+  { id: "pink", label: "Pink", swatch: "linear-gradient(135deg,#ff9ecb,#ff5fa8)" },
+  { id: "crush", label: "Sunset", swatch: "linear-gradient(135deg,#ffe08a,#ff9a1f,#ff4d00,#7fdcff)" },
   { id: "sico", label: "Sico Mode", swatch: "linear-gradient(135deg,#ffd6b0,#ff9ecb,#ff5fa8,#a97bff)" },
   { id: "romance", label: "Romance", swatch: "linear-gradient(135deg,#0a0104,#d4132f,#e8b98a)" },
   { id: "blue", label: "Blue", swatch: "linear-gradient(135deg,#2563eb,#7dd3fc)" },
   { id: "ocean", label: "Ocean", swatch: "linear-gradient(135deg,#073b4c,#35c3b6)" },
 ];
+
 
 function apply(theme: Theme) {
   if (typeof document === "undefined") return;
