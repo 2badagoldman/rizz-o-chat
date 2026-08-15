@@ -52,7 +52,7 @@ export function ShowcaseRail({
     [allItems, broken],
   );
   // Reshuffle every 15s so returning visitors see a different set first.
-  const items = useShuffled(usable, 15_000);
+  const items = useShuffled(usable, 45_000);
   const markBroken = (id: string) =>
     setBroken((prev) => (prev.includes(id) ? prev : [...prev, id]));
 
