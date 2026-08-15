@@ -1,0 +1,1 @@
+DELETE FROM public.showcase_media WHERE id = 'e34d6ee1-fb43-4acd-93fe-8efa00a037f6';
