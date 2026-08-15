@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { ArrowRight, Circle, Lock, Send } from "lucide-react";
+import { ArrowRight, ChevronRight, Circle, Lock, Send } from "lucide-react";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { saveTasteTranscript } from "@/lib/taste-chat";
@@ -80,7 +80,12 @@ export function TasteChat() {
 
   return (
     <section className="mt-6 overflow-hidden rounded-3xl border border-border bg-card/70 shadow-card backdrop-blur-xl rise-in">
-      <div className="flex items-center gap-3 border-b border-border/60 px-4 py-3">
+      <Link
+        to="/host/$hostId"
+        params={{ hostId: creator.id }}
+        aria-label={`View ${creator.name}'s profile`}
+        className="flex items-center gap-3 border-b border-border/60 px-4 py-3 transition-colors hover:bg-muted/40 focus-visible:bg-muted/40 focus-visible:outline-none"
+      >
         <span className="ring-story block h-10 w-10 shrink-0">
           <img
             src={hostAvatarThumb(creator.id)}
@@ -91,18 +96,22 @@ export function TasteChat() {
           />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-sm font-bold">
+          <p className="flex items-center gap-1 truncate font-display text-sm font-bold">
             {creator.name}, {creator.age}
+            <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
           </p>
           <p className="flex items-center gap-1 text-[11px] text-success">
             <Circle className="h-2 w-2 fill-success text-success" />{" "}
             {creatorTyping ? `${creator.name} is typing…` : "Online now · replies in seconds"}
           </p>
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+            Tap to view profile
+          </p>
         </div>
         <span className="rounded-full bg-gradient-brand-soft px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-foreground/80">
           Free
         </span>
-      </div>
+      </Link>
 
       <div className="max-h-[320px] min-h-[168px] space-y-2 overflow-y-auto px-4 py-3">
         {messages.length === 0 ? (
