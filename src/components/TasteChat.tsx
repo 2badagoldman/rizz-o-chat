@@ -53,7 +53,11 @@ export function TasteChat() {
   const locked = sent >= FREE_TURNS;
   const busy = status === "submitted" || status === "streaming";
   /** She's typing whenever a reply is in flight — the urgency cue. */
-  const creatorTyping = busy && messages[messages.length - 1]?.role === "user";
+  const lastMsg = messages[messages.length - 1];
+  const lastText = lastMsg
+    ? lastMsg.parts.map((pt) => (pt.type === "text" ? pt.text : "")).join("").trim()
+    : "";
+  const creatorTyping = busy && (lastMsg?.role === "user" || !lastText);
 
   // Keep the transcript so it lands in their chat log the moment they join.
   useEffect(() => {
