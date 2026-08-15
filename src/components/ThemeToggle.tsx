@@ -25,7 +25,7 @@ const SHOW_KEY = "rizz.theme.autoShow";
 const SHOW_STEP_MS = 120_000; // 2 minutes
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>("crushgold");
+  const [theme, setTheme] = useState<Theme>("sico");
   const [autoShow, setAutoShow] = useState(true);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const manual = useRef(false);
@@ -37,13 +37,13 @@ export function useTheme() {
 
   useEffect(() => {
     const saved = localStorage.getItem(KEY) as Theme | null;
-    const next = saved && saved !== "crush" && ALL.includes(saved) ? saved : "crushgold";
+    const next = saved && saved !== "crush" && ALL.includes(saved) ? saved : "sico";
     setTheme(next);
     apply(next);
     setAutoShow(localStorage.getItem(SHOW_KEY) !== "off");
   }, []);
 
-  // Theme show: crush -> sea after 2 min -> crush after 2 more min, then stays.
+  // Theme show: sico -> crush after 2 min -> sea after 2 more min, then stays.
   // The showcase steps are deliberately NOT persisted: saving "pink" here made
   // returning visitors boot into pink and flash back to sea.
   useEffect(() => {
@@ -54,8 +54,8 @@ export function useTheme() {
       setTheme(t);
       apply(t);
     };
-    timers.current.push(setTimeout(() => step("abyss"), SHOW_STEP_MS));
-    timers.current.push(setTimeout(() => step("crushgold"), SHOW_STEP_MS * 2));
+    timers.current.push(setTimeout(() => step("crushgold"), SHOW_STEP_MS));
+    timers.current.push(setTimeout(() => step("abyss"), SHOW_STEP_MS * 2));
     return clearTimers;
   }, [autoShow]);
 
