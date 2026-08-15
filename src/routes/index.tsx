@@ -55,8 +55,8 @@ export const Route = createFileRoute("/")({
     const base = pageHead({
       path: "/",
       title: "Crush \u2014 She actually replies",
-      description: "Send a message and hear her say your name. Real voice notes, photos and conversation with verified creators — no bots, no algorithms. Start free.",
-      keywords: "chat app, voice notes, voice messages, hear her voice, dating app, friends app, meet women, verified creators, paid chat, creator subscriptions, social chat",
+      description: "Meet your favorite exclusive creators on CRUSH. Members get 24/7 access to chat, connect, and enjoy one-on-one time with the creators they love.",
+      keywords: "chat app, voice notes, voice messages, hear her voice, meet creators, exclusive creators, one on one chat, paid chat, creator subscriptions, social chat, 24/7 access",
     });
     return {
       ...base,
@@ -65,10 +65,10 @@ export const Route = createFileRoute("/")({
         jsonLd({
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "Crush — verified creators",
+          name: "Crush — exclusive creators",
           url: SITE_URL,
           isPartOf: { "@id": `${SITE_URL}/#website` },
-          about: "Paid chat and Friends Lists with verified 18+ creators",
+          about: "24/7 access to chat, connect, and enjoy one-on-one time with exclusive creators",
         }),
       ],
     };
