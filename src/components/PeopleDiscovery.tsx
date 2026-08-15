@@ -98,21 +98,29 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
   );
   const total = people.length + aiHosts.length;
 
-
   if (!open) return null;
 
   return (
     <div
-      className="fixed inset-0 z-[95] bg-foreground/25 backdrop-blur-xl"
-      onClick={onClose}
+      className={
+        inline
+          ? "relative mt-2"
+          : "fixed inset-0 z-[95] bg-foreground/25 backdrop-blur-xl"
+      }
+      onClick={inline ? undefined : onClose}
       role="dialog"
-      aria-modal="true"
+      aria-modal={inline ? undefined : true}
       aria-label="Find your crush"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="mx-auto mt-10 flex max-h-[85vh] w-[94%] max-w-[440px] flex-col overflow-hidden rounded-[30px] border border-border/60 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
+        className={
+          inline
+            ? "flex max-h-[60vh] w-full flex-col overflow-hidden rounded-[26px] border border-border/60 bg-card/90 shadow-card backdrop-blur-2xl"
+            : "mx-auto mt-10 flex max-h-[85vh] w-[94%] max-w-[440px] flex-col overflow-hidden rounded-[30px] border border-border/60 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
+        }
       >
+
         <div className="flex items-start justify-between px-5 pt-5">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">Crush</p>
