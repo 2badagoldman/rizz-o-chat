@@ -44,20 +44,36 @@ export function useTheme() {
   }, []);
 
   // Theme show: sico -> crush after 2 min -> sea after 2 more min, then stays.
-  // The showcase steps are deliberately NOT persisted: saving "pink" here made
-  // returning visitors boot into pink and flash back to sea.
+  // It only runs on the marketing landing screens and stops for good on the
+  // first real interaction — swapping the palette mid-chat felt like a reload.
   useEffect(() => {
     clearTimers();
     if (!autoShow || manual.current) return;
+    const path = window.location.pathname;
+    if (path !== "/" && path !== "/crush-home") return;
+
     const step = (t: Theme) => {
       if (manual.current) return;
+      if (window.location.pathname !== path) return;
       setTheme(t);
       apply(t);
     };
+    const stop = () => {
+      manual.current = true;
+      clearTimers();
+    };
+    window.addEventListener("pointerdown", stop, { once: true });
+    window.addEventListener("keydown", stop, { once: true });
+
     timers.current.push(setTimeout(() => step("crushgold"), SHOW_STEP_MS));
     timers.current.push(setTimeout(() => step("abyss"), SHOW_STEP_MS * 2));
-    return clearTimers;
+    return () => {
+      window.removeEventListener("pointerdown", stop);
+      window.removeEventListener("keydown", stop);
+      clearTimers();
+    };
   }, [autoShow]);
+
 
 
   const update = (t: Theme) => {
