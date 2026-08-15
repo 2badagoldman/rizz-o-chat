@@ -13,38 +13,46 @@ export type CreatorVoice = {
   instructions: string;
 };
 
-const FEMININE = "Distinctly feminine voice with a natural American accent — warm, higher register, never flat, never robotic, never masculine.";
+const FEMININE =
+  "Clearly feminine adult woman's voice — light, higher register, soft and airy on the consonants. Professional, composed and polished, never deep, never husky, never masculine, never robotic. Relaxed pace, gentle downward endings, low volume as if speaking close to the mic.";
+
+const AMERICAN = "Neutral American accent (well-spoken, west-coast neutral).";
+const BRITISH = "Soft southern-English British accent (refined RP-adjacent, never theatrical).";
 
 const DEFAULT_VOICE: CreatorVoice = {
   voice: "shimmer",
-  instructions: `${FEMININE} Speak like a playful woman sending a quick voice note to someone she likes: casual, unhurried, a little smiley. Land his name softly when it appears. Never announce yourself, never sound like an assistant or a narrator.`,
+  instructions: `${FEMININE} ${AMERICAN} Speak like a poised woman leaving a short, friendly voice note: unhurried, warm, quietly confident. Say his name gently when it appears. Never announce yourself, never sound like an assistant or a narrator.`,
 };
 
 const VOICES: Record<string, CreatorVoice> = {
   "demo-jen": {
     voice: "shimmer",
-    instructions: `${FEMININE} Warm Chicago-girl energy: quick, gently teasing, a soft laugh in the voice. Short and casual, like a voice note tapped out while walking the dog. Say his name like she's already smiling.`,
+    instructions: `${FEMININE} ${AMERICAN} Friendly and softly upbeat with a light smile in the voice. Short, easy phrasing, like a quick note between errands. Keep it gentle and understated rather than bubbly.`,
   },
   "demo-aria": {
     voice: "coral",
-    instructions: `${FEMININE} Sunny Miami warmth, a little dreamy and golden-hour slow. Soft smile in the voice, relaxed pacing, never breathy or performative. Lean into his name.`,
+    instructions: `${FEMININE} ${AMERICAN} Calm, sunlit warmth with slow, graceful pacing. Softly spoken, smooth and even, never breathy or performative.`,
   },
   "demo-rubi": {
     voice: "nova",
-    instructions: `${FEMININE} Feminine American girl-next-door with Austin warmth and dry wit — bright, easy, slightly amused, like she's half smiling at her own joke. Say his name low and close, like she's leaning into the mic.`,
+    instructions: `${FEMININE} ${AMERICAN} Bright girl-next-door softness with a light, dry humour underneath. Easy, conversational, gently amused — kept quiet and close to the mic.`,
   },
   "demo-wonderwoman": {
     voice: "sage",
-    instructions: `${FEMININE} Confident and playful, bright but grounded, unmistakably a woman. Speaks like she's genuinely curious about the person she's replying to, with a teasing lift at the end of her lines.`,
+    instructions: `${FEMININE} ${BRITISH} Elegant, softly spoken and self-assured, with a light lift at the end of her lines. Warm and genuinely curious, never commanding or booming.`,
+  },
+  "demo-lena": {
+    voice: "shimmer",
+    instructions: `${FEMININE} ${BRITISH} Understated, articulate and quietly graceful. Measured pacing, precise diction, softened edges — like a thoughtful woman speaking low in a quiet room.`,
   },
 };
 
 /**
  * Turns a plain text reply into something worth pressing play on.
  *
- * A flat read of the same words is boring — a voice note should open with his
- * name, feel spoken (not read), and end with a hook that makes replying the
- * obvious next move.
+ * A flat read of the same words is boring — a voice note should open warmly,
+ * feel spoken (not read), and end with an easy, pressure-free invitation to
+ * reply. Never guilt-trip or plead.
  */
 export function voiceNoteScript(
   text: string,
@@ -54,11 +62,11 @@ export function voiceNoteScript(
   if (!body) return body;
   const name = (opts?.name ?? "").trim().split(/\s+/)[0];
   const openers = name
-    ? [`Okay ${name}, listen…`, `Hey ${name} —`, `${name}. Real quick…`, `Mmm, ${name}…`]
-    : ["Okay, listen…", "Hey you —", "Real quick…", "Mmm, okay…"];
+    ? [`Hey ${name} —`, `Hi ${name},`, `${name}, quick one…`, `Okay ${name},`]
+    : ["Hey you —", "Hi there,", "Quick one…", "Okay, so…"];
   const closers = name
-    ? [`Say something back, ${name}.`, `Your turn, ${name}.`, `Don't leave me on read, ${name}.`]
-    : ["Say something back.", "Your turn.", "Don't leave me on read."];
+    ? [`Talk soon, ${name}.`, `Let me know, ${name}.`, `Whenever you're free, ${name}.`]
+    : ["Talk soon.", "Let me know.", "Whenever you're free."];
   // Deterministic per message so replaying the same note sounds the same.
   let h = 0;
   for (let i = 0; i < body.length; i++) h = (h * 31 + body.charCodeAt(i)) >>> 0;
