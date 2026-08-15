@@ -137,8 +137,8 @@ export function TasteChat() {
       <div className="max-h-[320px] min-h-[168px] space-y-2 overflow-y-auto px-4 py-3">
         {messages.length === 0 ? (
           <div className="max-w-[80%] rounded-2xl rounded-bl-md bg-muted px-3 py-2 text-sm">
-            Hey you 👋 I'm {creator.name}. So… what would you like to know about me — or about
-            yourself? 😏
+            Hey you 👋 I'm {creator.name}. I read everything here — no ghosting, no waiting three
+            days. Say one thing to me and I'll reply right now… what's on your mind? 😏
           </div>
         ) : null}
         {messages.map((m) => (
