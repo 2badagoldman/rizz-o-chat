@@ -70,7 +70,7 @@ function Dashboard() {
       ) : (
         <>
           {isHost ? (
-            <MilestoneCard active={data?.activeFriends ?? 0} toFlip={data?.friendsToFlip ?? 100} unlocked={data?.flipUnlocked ?? false} split={data?.currentSplitPct ?? 35} />
+            <MilestoneCard active={data?.activeFriends ?? 0} toFlip={data?.friendsToFlip ?? 100} unlocked={data?.flipUnlocked ?? false} split={data?.currentSplitPct ?? 35} nextSplit={data?.nextSplitPct ?? 50} target={data?.nextTierTarget ?? 100} />
           ) : (
             <>
               <div className="mt-5 rounded-2xl border border-border bg-gradient-brand-soft p-4">
