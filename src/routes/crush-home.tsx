@@ -146,8 +146,8 @@ const DEMO_CHATS: DemoChat[] = [
   },
   {
     id: "demo-aria",
-    name: "Aria",
-    handle: "@ariasunset",
+    name: "Wonder Woman",
+    handle: "@wonderwoman",
     tint: "linear-gradient(160deg,#e9b872,#a8590f)",
     messages: [
       { from: "her", text: "golden hour just hit, new photos in the gallery 🌅" },

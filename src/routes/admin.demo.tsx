@@ -12,14 +12,14 @@ type Line = { from: "them" | "you" | "system"; who?: string; text: string; delay
 
 const DISCOVER: Line[] = [
   { from: "system", text: "Sofia opens Crush and lands on Discover — 60+ verified creators, online right now.", delay: 900 },
-  { from: "system", text: "She taps Aria, 26 — online, verified, replies in seconds.", delay: 1200 },
+  { from: "system", text: "She taps Wonder Woman, 26 — online, verified, replies in seconds.", delay: 1200 },
 ];
 
 const DM: Line[] = [
-  { from: "you", text: "hey Aria — you actually reply? 😄", delay: 900 },
-  { from: "them", who: "Aria", text: "Always. I'm not a bot farm, I'm your problem now 😌", delay: 1400 },
+  { from: "you", text: "hey Wonder Woman — you actually reply? 😄", delay: 900 },
+  { from: "them", who: "Wonder Woman", text: "Always. I'm not a bot farm, I'm your problem now 😌", delay: 1400 },
   { from: "you", text: "bold. what are you up to tonight?", delay: 1300 },
-  { from: "them", who: "Aria", text: "Wine, playlist, and someone worth texting. You qualify so far.", delay: 1600 },
+  { from: "them", who: "Wonder Woman", text: "Wine, playlist, and someone worth texting. You qualify so far.", delay: 1600 },
   { from: "system", text: "Free preview ends → paywall: Rizz Gold $9.99/wk unlocks unlimited DMs + her Friends List.", delay: 1500 },
 ];
 
@@ -28,13 +28,13 @@ const ROOM: Line[] = [
   { from: "them", who: "Nova", text: "ok settle a debate: text first or call first? 📞", delay: 1300 },
   { from: "them", who: "Jen", text: "call. texting is for cowards 😂", delay: 1200 },
   { from: "you", text: "call first, but only after one good text 😏", delay: 1300 },
-  { from: "them", who: "Aria", text: "correct answer. someone give this one a crown 👑", delay: 1400 },
+  { from: "them", who: "Wonder Woman", text: "correct answer. someone give this one a crown 👑", delay: 1400 },
   { from: "system", text: "Gifts fly, DMs open from the room, and Sofia upgrades to keep the conversation going.", delay: 1500 },
 ];
 
 const STEPS = [
   { key: "discover", title: "1 · Discover", subtitle: "Find the women of their dreams", icon: Users, lines: DISCOVER, link: "/discover", params: {}, linkLabel: "Open Discover" },
-  { key: "chat", title: "2 · Chat 1:1", subtitle: "Send a message, get a real reply", icon: MessageSquare, lines: DM, link: "/chat/$hostId", params: { hostId: "demo-aria" }, linkLabel: "Open Aria's chat" },
+  { key: "chat", title: "2 · Chat 1:1", subtitle: "Send a message, get a real reply", icon: MessageSquare, lines: DM, link: "/chat/$hostId", params: { hostId: "demo-aria" }, linkLabel: "Open Wonder Woman's chat" },
   { key: "rooms", title: "3 · Join a group", subtitle: "Live rooms with creators + members", icon: Sparkles, lines: ROOM, link: "/rooms", params: {}, linkLabel: "Open Rooms" },
 ] as const;
 

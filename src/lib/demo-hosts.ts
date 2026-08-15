@@ -47,8 +47,8 @@ export function isAiHost(hostId: string | undefined): boolean {
 export const DEMO_HOSTS: DemoHost[] = [
   {
     id: "demo-aria",
-    name: "Aria",
-    handle: "@ariasunset",
+    name: "Wonder Woman",
+    handle: "@wonderwoman",
     age: 24,
     city: "Miami, FL",
     tagline: "Golden-hour girl. Bring your energy.",
