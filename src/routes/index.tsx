@@ -106,19 +106,22 @@ function Home() {
             </span>
           </span>
           <span className="flex -space-x-2">
-            {online.slice(0, 3).map((h) => (
-              <img
-                key={h.id}
-                src={hostAvatarThumb(h.id)}
-                alt=""
-                aria-hidden
-                width={24}
-                height={24}
-                loading="lazy"
-                className="h-6 w-6 rounded-full border-2 border-card object-cover"
-              />
-            ))}
+            {(proofAvatars.length ? proofAvatars : online.slice(0, 3).map((h) => hostAvatarThumb(h.id)))
+              .slice(0, 3)
+              .map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt=""
+                  aria-hidden
+                  width={24}
+                  height={24}
+                  loading="lazy"
+                  className="h-6 w-6 rounded-full border-2 border-card object-cover"
+                />
+              ))}
           </span>
+
           <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
         </button>
       </div>
