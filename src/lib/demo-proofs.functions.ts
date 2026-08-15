@@ -54,8 +54,7 @@ export const getDemoProofs = createServerFn({ method: "POST" })
       if (url) realFace.set(String(c.display_name).toLowerCase(), url);
     }
 
-    if (cErr) throw new Error("PROFILES_ERR " + cErr.message);
-    if (!realFace.size) throw new Error("NOFACE " + (creators??[]).length);
+    console.error("DEMOPROOF", cErr?.message ?? "ok", (creators??[]).length, [...realFace.keys()].join(","));
     const out: DemoProof[] = [];
     let idx = 0;
     for (const r of rows ?? []) {
