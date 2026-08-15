@@ -51,8 +51,7 @@ export const Route = createFileRoute("/crush-home")({
     return {
       ...base,
       scripts: [
-        ...(base.scripts ?? []),
-        jsonLd(faqLd(FAQS)),
+        faqLd(FAQS),
         jsonLd({
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
