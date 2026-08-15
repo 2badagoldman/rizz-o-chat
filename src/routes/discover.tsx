@@ -202,7 +202,7 @@ function Discover() {
                 key={s.key}
                 value={s.key}
                 className="bg-card text-foreground"
-                style={{ backgroundColor: "hsl(var(--card))", color: "hsl(var(--card-foreground))" }}
+                style={{ backgroundColor: "var(--card)", color: "var(--card-foreground)" }}
               >
                 {s.label}
               </option>
