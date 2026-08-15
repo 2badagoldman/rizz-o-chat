@@ -193,6 +193,26 @@ export const DEMO_HOSTS: DemoHost[] = [
     aiEnabled: true,
 
   },
+  {
+    id: "demo-rubi",
+    name: "Rubi",
+    handle: "@rubi",
+    age: 25,
+    city: "Austin, TX",
+    tagline: "Weekly regulars only · Austin",
+    bio: "Austin girl who actually answers. Work, families, bad dates, music — mostly real life. Start wherever you want.",
+    interests: ["Live Music", "Tacos", "Road Trips", "Real Talk"],
+    tier: "popular",
+    priceMonthly: 19.99,
+    subscribers: 604,
+    online: true,
+    gradient: "linear-gradient(135deg,#FF3D7F 0%,#E2483C 50%,#F0C674 100%)",
+    accent: "#E2483C",
+    photoCount: 11,
+    hasVideo: true,
+    teaser: "Most people just want someone who answers. Say hi 🙂",
+    aiEnabled: true,
+  },
   ...buildExtraHosts(),
 ];
 
