@@ -103,25 +103,104 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
   if (inline) {
     return (
       <>
-        <div
-          className="fixed inset-0 z-[55]"
-          onClick={onClose}
-          aria-hidden
-        />
+        <div className="fixed inset-0 z-[55]" onClick={onClose} aria-hidden />
         <div
           className="absolute left-0 right-0 top-full z-[60] mt-1"
           role="dialog"
           aria-label="Find your crush"
         >
-          <div
-            className="flex max-h-[52vh] w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl"
-          >
-        className={
-          inline
-            ? "flex max-h-[52vh] w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl"
-            : "mx-auto mt-10 flex max-h-[85vh] w-[94%] max-w-[440px] flex-col overflow-hidden rounded-[30px] border border-border/60 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
-        }
+          <div className="flex max-h-[52vh] w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl">
+            <div className="mx-3 mt-3 flex items-center gap-2 rounded-xl border border-border/60 bg-card/70 px-3 py-2">
+              <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
+              <input
+                autoFocus
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder="Search any username — creators & members…"
+                aria-label="Search people"
+                className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+              />
+              {q ? (
+                <button
+                  type="button"
+                  onClick={() => setQ("")}
+                  aria-label="Clear people search"
+                  className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-muted-foreground transition hover:bg-primary/10 hover:text-primary"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              ) : null}
+            </div>
+
+            <div className="mt-2 flex-1 overflow-y-auto px-2 pb-3">
+              {renderList()}
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-[95] bg-foreground/25 backdrop-blur-xl"
+      onClick={onClose}
+      role="dialog"
+      aria-modal={true}
+      aria-label="Find your crush"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="mx-auto mt-10 flex max-h-[85vh] w-[94%] max-w-[440px] flex-col overflow-hidden rounded-[30px] border border-border/60 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
       >
+        <div className="flex items-start justify-between px-5 pt-5">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">Crush</p>
+            <h2 className="bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[22px] font-black leading-tight text-transparent">
+              Find your crush
+            </h2>
+            <p className="text-[11.5px] text-muted-foreground">
+              {debounced
+                ? "Searching every username — creators and members"
+                : "Join the rush as everyone finds their crush on Crush."}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            aria-label="Close find your crush"
+            className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-card/70 text-foreground/70 transition-transform hover:scale-110 active:scale-90"
+          >
+            <X className="h-4 w-4" strokeWidth={2.5} />
+          </button>
+        </div>
+
+        <div className="mx-4 mt-3 flex items-center gap-2 rounded-2xl border border-border/60 bg-card/70 px-3 py-2">
+          <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <input
+            autoFocus
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Search any username — creators & members…"
+            aria-label="Search people"
+            className="w-full min-w-0 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+          />
+          {q ? (
+            <button
+              type="button"
+              onClick={() => setQ("")}
+              aria-label="Clear people search"
+              className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-muted-foreground transition hover:bg-primary/10 hover:text-primary"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          ) : null}
+        </div>
+
+        <div className="mt-3 flex-1 overflow-y-auto px-3 pb-5">{renderList()}</div>
+      </div>
+    </div>
+  );
+}
 
         {inline ? null : (
           <div className="flex items-start justify-between px-5 pt-5">
