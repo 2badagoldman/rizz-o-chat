@@ -195,10 +195,15 @@ function Discover() {
             value={sort}
             onChange={(e) => setSort(e.target.value as SortKey)}
             aria-label="Sort creators"
-            className="max-w-[9.5rem] bg-transparent text-xs font-semibold text-foreground outline-none"
+            className="max-w-[9.5rem] bg-transparent text-xs font-semibold text-foreground outline-none [color-scheme:dark]"
           >
             {SORTS.map((s) => (
-              <option key={s.key} value={s.key}>
+              <option
+                key={s.key}
+                value={s.key}
+                className="bg-card text-foreground"
+                style={{ backgroundColor: "hsl(var(--card))", color: "hsl(var(--card-foreground))" }}
+              >
                 {s.label}
               </option>
             ))}
