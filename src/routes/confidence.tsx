@@ -121,7 +121,7 @@ export const Route = createFileRoute("/confidence")({
 function ConfidencePage() {
   return (
     <AppShell>
-      <div className="min-h-screen bg-[#14020a] text-[var(--ch-ink)]">
+      <div className="crush-home min-h-screen text-[var(--ch-ink)]">
         {/* HERO */}
         <section id="top" className="relative overflow-hidden px-4 pt-16 pb-12 sm:pt-24">
           <div
