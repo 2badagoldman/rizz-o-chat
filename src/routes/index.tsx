@@ -16,6 +16,7 @@ import { PeopleDiscovery } from "@/components/PeopleDiscovery";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
+import { Waveform } from "@/components/chat/VoiceNote";
 import { pageHead, faqLd, jsonLd, SITE_URL } from "@/lib/seo";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
 import { TasteChat } from "@/components/TasteChat";
