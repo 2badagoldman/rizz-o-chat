@@ -6,6 +6,7 @@ import { ArrowRight, ChevronRight, Circle, Lock, Send } from "lucide-react";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { saveTasteTranscript } from "@/lib/taste-chat";
+import { readMemberMemory, rememberFromMessage, saveMemberName, memberNotes as readMemberNotes } from "@/lib/member-memory";
 import { readVisitorName, saveVisitorName } from "@/lib/visitor-name";
 import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNote";
 
@@ -78,13 +79,18 @@ export function TasteChat() {
   const [input, setInput] = useState("");
   // Her saying your name is the hook — grab it before the first reply.
   const [memberName, setMemberName] = useState("");
-  useEffect(() => setMemberName(readVisitorName()), []);
+  const [notes, setNotes] = useState("");
+  useEffect(() => {
+    const stored = readMemberMemory().name || readVisitorName();
+    setMemberName(stored);
+    setNotes(readMemberNotes());
+  }, []);
   const transport = useMemo(
     () => new DefaultChatTransport({
         api: "/api/public/demo-chat",
-        body: { hostId: creator.id, memberName },
+        body: { hostId: creator.id, memberName, memberNotes: notes },
       }),
-    [creator.id, memberName],
+    [creator.id, memberName, notes],
   );
   const { messages, sendMessage, status } = useChat({ transport });
 
@@ -110,6 +116,10 @@ export function TasteChat() {
     const t = text.trim();
     if (!t || locked || busy) return;
     setInput("");
+    // Remember his name and anything notable he shares, so she can bring it back.
+    const found = rememberFromMessage(t);
+    if (found.name) setMemberName(found.name);
+    setNotes(readMemberNotes());
     void sendMessage({ text: t });
   };
 
@@ -220,6 +230,7 @@ export function TasteChat() {
                 onChange={(e) => {
                   setMemberName(e.target.value.slice(0, 24));
                   saveVisitorName(e.target.value);
+                  saveMemberName(e.target.value);
                 }}
                 placeholder="Your first name"
                 aria-label="Your first name"

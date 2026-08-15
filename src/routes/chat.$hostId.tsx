@@ -9,6 +9,7 @@ import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Send, Circle, Gift, Sparkles, Heart, Smile } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { readTasteTranscript, clearTasteTranscript } from "@/lib/taste-chat";
+import { readMemberMemory, rememberFromMessage, memberNotes as readMemberNotes } from "@/lib/member-memory";
 import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { pickOpener } from "@/lib/host-personas";
@@ -129,12 +130,27 @@ function HostChat() {
 
   // AI creators stream from the public endpoint (no auth required); everyone else
   // goes through the authenticated host-chat endpoint.
+  // She should know his name and what he's already told her — that's the whole
+  // difference between "a chat" and feeling seen.
+  const [memory, setMemory] = useState({ name: "", notes: "" });
+  useEffect(() => {
+    setMemory({ name: readMemberMemory().name, notes: readMemberNotes() });
+  }, [hostId]);
+
   const transport = useMemo(() => {
+    const body = { hostId, memberName: memory.name, memberNotes: memory.notes };
     if (aiHost) {
-      return new DefaultChatTransport({ api: "/api/public/demo-chat", body: { hostId } });
+      return new DefaultChatTransport({ api: "/api/public/demo-chat", body });
     }
-    return createAuthedChatTransport({ api: "/api/host-chat", body: { hostId } });
-  }, [aiHost, hostId]);
+    return createAuthedChatTransport({ api: "/api/host-chat", body });
+  }, [aiHost, hostId, memory.name, memory.notes]);
+
+  /** Learn from what he just typed before it goes out, so she can use it. */
+  const remember = (text: string) => {
+    rememberFromMessage(text);
+    const m = readMemberMemory();
+    setMemory({ name: m.name, notes: readMemberNotes() });
+  };
 
   const { messages, setMessages, sendMessage, status } = useChat({
     id: storageKey,
@@ -312,6 +328,7 @@ function HostChat() {
     const text = [input.trim(), ...pending].filter(Boolean).join("\n");
     if (!text || busy || chatLocked) return;
     setAutoVoice(false);
+    remember(text);
     sendMessage({ text });
     setInput("");
     setPending([]);
@@ -324,6 +341,7 @@ function HostChat() {
     const text = [transcript.trim(), marker].filter(Boolean).join("\n");
     if (!text) return;
     setAutoVoice(true);
+    remember(text);
     sendMessage({ text });
   };
 

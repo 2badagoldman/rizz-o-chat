@@ -17,7 +17,7 @@ export const Route = createFileRoute("/api/host-chat")({
 
 
 
-        const body = (await request.json()) as { messages?: UIMessage[]; hostId?: string };
+        const body = (await request.json()) as { messages?: UIMessage[]; hostId?: string; memberName?: string; memberNotes?: string };
         if (!Array.isArray(body.messages)) {
           return new Response("messages required", { status: 400 });
         }
@@ -25,7 +25,11 @@ export const Route = createFileRoute("/api/host-chat")({
         const key = process.env.LOVABLE_API_KEY;
         if (!key) return new Response("Missing LOVABLE_API_KEY", { status: 500 });
 
-        const system = buildHostPrompt(body.hostId, { allowUpsell: true });
+        const system = buildHostPrompt(body.hostId, {
+          allowUpsell: true,
+          memberName: typeof body.memberName === "string" ? body.memberName.slice(0, 24) : undefined,
+          memberNotes: typeof body.memberNotes === "string" ? body.memberNotes.slice(0, 1200) : undefined,
+        });
 
         const gateway = createLovableAiGatewayProvider(key);
         const result = streamText({
