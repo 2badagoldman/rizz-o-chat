@@ -45,9 +45,9 @@ export const Route = createFileRoute("/crush-home")({
       path: "/crush-home",
       title: "Crush Home — Chat with your verified favourite creators",
       description:
-        "Crush is the 18+ chat app where verified creators run private Friends Lists. Gold $9.99/week unlocks any list, Diamond VIP $19.99/week adds badges and weekly coin drops.",
+        "Meet your favorite exclusive creators on CRUSH. Members get 24/7 access to chat, connect, and enjoy one-on-one time with the creators they love.",
       keywords:
-        "crush app, chat with creators, verified creators, creator friends list, crush gold, crush diamond vip",
+        "crush app, exclusive creators, meet creators, chat with creators, one on one chat, 24/7 access, crush gold, crush diamond vip",
     });
     return {
       ...base,
