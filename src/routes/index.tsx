@@ -203,6 +203,21 @@ function Home() {
             <ArrowRight className="h-4 w-4" />
           </span>
         </Link>
+        <Link
+          to="/confidence"
+          className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-primary/40 bg-background/60 px-3.5 py-2.5 transition hover:border-primary"
+        >
+          <span className="min-w-0">
+            <span className="block text-[13px] font-bold">Boost your confidence</span>
+            <span className="block truncate text-[11px] text-muted-foreground">
+              When she actually replies, you feel it — see why
+            </span>
+          </span>
+          <span className="flex shrink-0 items-center gap-2 text-primary">
+            <Sparkles className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        </Link>
       </section>
 
       {/* Stories */}
