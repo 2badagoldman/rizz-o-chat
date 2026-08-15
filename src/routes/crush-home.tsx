@@ -345,9 +345,9 @@ function CrushHome() {
             <span className="crush-home-gold-text">verified favourite creators</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[var(--ch-ink-dim)] sm:text-lg">
-            Crush is where creators run private Friends Lists — you unlock hers, she
-            actually replies. Direct messages, live rooms, gifts, stories and
-            galleries, all in one app.
+            Meet your favorite exclusive creators on CRUSH. Members get 24/7 access
+            to chat, connect, and enjoy one-on-one time with the creators they love —
+            direct messages, live rooms, gifts, stories and galleries, all in one app.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
