@@ -72,6 +72,20 @@ function Home() {
   const online = onlineShuffled.slice(0, 12);
   const featured = useShuffled(DEMO_HOSTS, 45_000);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [proofAvatars, setProofAvatars] = useState<string[]>([]);
+
+  useEffect(() => {
+    let alive = true;
+    getDemoProofs({ data: { limit: 3 } })
+      .then((rows) => {
+        if (alive) setProofAvatars((rows ?? []).map((r) => r.image).filter(Boolean));
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
 
   return (
     <AppShell>
