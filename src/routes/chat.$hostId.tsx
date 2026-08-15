@@ -14,6 +14,7 @@ import { hostAvatar } from "@/lib/host-avatars";
 import { pickOpener } from "@/lib/host-personas";
 import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 import { ChatAttachButton, PendingAttachments } from "@/components/chat/ChatMedia";
+import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNote";
 import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
 import { useChatAccess } from "@/hooks/useChatAccess";
 import { useFloatingReactions } from "@/components/chat/FloatingReactions";
@@ -59,6 +60,8 @@ function HostChat() {
   const [input, setInput] = useState("");
   const [pending, setPending] = useState<string[]>([]);
   const [giftOpen, setGiftOpen] = useState(false);
+  // When the member sends a voice note, her reply comes back as a voice note too.
+  const [autoVoice, setAutoVoice] = useState(false);
   const { skin, setSkin, highContrast, setHighContrast, contrastAttr } = useChatSkin(`creator:${hostId}`);
 
   const [emojiOpen, setEmojiOpen] = useState(false);
@@ -313,6 +316,16 @@ function HostChat() {
     setPending([]);
   };
 
+  // Voice note: uploaded (when signed in) + transcribed so she can reply to
+  // what was actually said, then her answer plays back in her own voice.
+  const sendVoiceNote = ({ marker, transcript }: { marker: string | null; transcript: string }) => {
+    if (busy || chatLocked) return;
+    const text = [transcript.trim(), marker].filter(Boolean).join("\n");
+    if (!text) return;
+    setAutoVoice(true);
+    sendMessage({ text });
+  };
+
   // Tap a reaction: it bursts up the screen, is delivered to the creator as a
   // message, and is also appended to the draft so it can be reused in context.
   const sendReaction = (emoji: string, opts?: { draft?: boolean }) => {
@@ -431,6 +444,15 @@ function HostChat() {
           reactions={msgReactions}
           onReact={reactToMessage}
           typingName={typing ? creator.name : null}
+          renderVoice={(item, isLatest) =>
+            item.mine || !item.text.trim() ? null : (
+              <CreatorVoiceButton
+                text={item.text}
+                hostId={hostId}
+                autoPlay={autoVoice && isLatest && !busy}
+              />
+            )
+          }
 
           header={
             aiHost && !user ? (
@@ -480,6 +502,11 @@ function HostChat() {
           {user ? (
             <ChatAttachButton disabled={chatLocked} onUploaded={(m) => setPending((p) => [...p, m])} />
           ) : null}
+          <VoiceRecordButton
+            disabled={chatLocked || busy}
+            canUpload={!!user}
+            onRecorded={sendVoiceNote}
+          />
           <button
             type="button"
             data-emoji-toggle
