@@ -99,7 +99,7 @@ export function TasteChat() {
       .trim();
 
   return (
-    <section className="mt-6 overflow-hidden rounded-3xl border border-border bg-card/70 shadow-card backdrop-blur-xl rise-in">
+    <section id="taste-chat" className="mt-6 overflow-hidden rounded-3xl border border-border bg-card/70 shadow-card backdrop-blur-xl rise-in">
       <Link
         to="/host/$hostId"
         params={{ hostId: creator.id }}

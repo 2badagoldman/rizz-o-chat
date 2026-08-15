@@ -281,14 +281,36 @@ function Home() {
         </div>
       </section>
 
-      <div className="mt-7 grid gap-2 rise-in rise-in-3">
+      {/* One CTA, one job: get them to say something to her. */}
+      <div className="mt-7 rise-in rise-in-3">
         {!authLoading && !user ? (
           <>
-            <Link to="/auth" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
-              Join free & keep chatting <ArrowRight className="h-4 w-4" />
-            </Link>
-            <p className="text-center text-[11px] text-muted-foreground">
-              Free to join. Gold ($9.99/wk) unlocks any creator's Friends List — cancel anytime.
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById("taste-chat");
+                el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                el?.querySelector("input")?.focus({ preventScroll: true });
+              }}
+              className="btn-brand flex w-full items-center justify-center gap-3 !py-4 pulse-cta hover:btn-brand-hover"
+            >
+              {(proofAvatars[0] ?? hostAvatarThumb(featured[0]?.id ?? "")) ? (
+                <img
+                  src={proofAvatars[0] ?? hostAvatarThumb(featured[0]!.id)}
+                  alt=""
+                  aria-hidden
+                  width={32}
+                  height={32}
+                  loading="lazy"
+                  className="h-8 w-8 rounded-full border-2 border-white/70 object-cover"
+                />
+              ) : null}
+              <span className="font-display text-base font-extrabold">Say Something</span>
+              <Waveform active className="h-5 text-white/80" />
+            </button>
+            <p className="mt-2 text-center text-[11px] text-muted-foreground">
+              She's online right now. Free to start — Gold ($9.99/wk) unlocks any creator's Friends
+              List.
             </p>
           </>
         ) : (
@@ -296,12 +318,6 @@ function Home() {
             Browse all creators <ArrowRight className="h-4 w-4" />
           </Link>
         )}
-        {!authLoading && !user ? (
-          <Link to="/discover" className="text-center text-xs font-medium text-muted-foreground hover:text-primary">
-            Or browse all creators
-          </Link>
-        ) : null}
-
       </div>
 
 
