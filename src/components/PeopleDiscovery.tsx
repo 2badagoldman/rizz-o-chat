@@ -14,6 +14,8 @@ import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 interface Props {
   open: boolean;
   onClose: () => void;
+  /** Render as an in-page dropdown panel instead of a full-screen overlay. */
+  inline?: boolean;
 }
 
 function joinedLabel(iso: string) {
@@ -27,7 +29,7 @@ function joinedLabel(iso: string) {
   return days < 30 ? `${days}d ago` : new Date(iso).toLocaleDateString();
 }
 
-export function PeopleDiscovery({ open, onClose }: Props) {
+export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchPeople = useServerFn(discoverPeople);
@@ -73,24 +75,22 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     [data],
   );
 
-  // Members also get the AI hosts in the pool so there's always someone to chat with.
+  // Creators are always in the pool (even signed out) so the dropdown never
+  // looks empty; hosts searching for members still see the member list below.
   const aiHosts = useMemo(() => {
-    if (isHost) return [];
     const term = debounced.trim().toLowerCase().replace(/^@/, "");
-    return DEMO_HOSTS.filter((h) => h.aiEnabled).filter(
+    return DEMO_HOSTS.filter(
       (h) =>
         !term ||
         h.name.toLowerCase().includes(term) ||
         h.handle.toLowerCase().includes(term),
-    );
-  }, [isHost, debounced]);
+    ).slice(0, term ? 40 : 30);
+  }, [debounced]);
 
-  // Keep the list looking alive: hide placeholder accounts (no real photo, so
-  // they render the Crush logo) and internal QA/test profiles.
+  // Hide internal QA/test profiles, but keep real members even without a photo.
   const people = useMemo(
     () =>
       all.filter((p) => {
-        if (!p.avatar_url) return false;
         const name = (p.display_name || "").trim().toLowerCase();
         return !/^(qa|test|demo)\b/.test(name) && !name.includes("qa member");
       }),
@@ -102,16 +102,25 @@ export function PeopleDiscovery({ open, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[95] bg-foreground/25 backdrop-blur-xl"
-      onClick={onClose}
+      className={
+        inline
+          ? "relative mt-2"
+          : "fixed inset-0 z-[95] bg-foreground/25 backdrop-blur-xl"
+      }
+      onClick={inline ? undefined : onClose}
       role="dialog"
-      aria-modal="true"
+      aria-modal={inline ? undefined : true}
       aria-label="Find your crush"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="mx-auto mt-10 flex max-h-[85vh] w-[94%] max-w-[440px] flex-col overflow-hidden rounded-[30px] border border-border/60 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
+        className={
+          inline
+            ? "flex max-h-[60vh] w-full flex-col overflow-hidden rounded-[26px] border border-border/60 bg-card/90 shadow-card backdrop-blur-2xl"
+            : "mx-auto mt-10 flex max-h-[85vh] w-[94%] max-w-[440px] flex-col overflow-hidden rounded-[30px] border border-border/60 bg-card/70 shadow-[0_40px_90px_-30px_rgba(80,20,60,0.55),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-2xl"
+        }
       >
+
         <div className="flex items-start justify-between px-5 pt-5">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">Crush</p>
@@ -156,13 +165,11 @@ export function PeopleDiscovery({ open, onClose }: Props) {
         </div>
 
         <div className="mt-3 flex-1 overflow-y-auto px-3 pb-5">
-          {!user ? (
-            <p className="p-6 text-center text-sm text-muted-foreground">Sign in to find your crush on Crush.</p>
-          ) : isLoading ? (
+          {isLoading && total === 0 ? (
             <p className="p-6 text-center text-sm text-muted-foreground">Loading the newest faces…</p>
-          ) : error ? (
+          ) : error && total === 0 ? (
             <p className="p-6 text-center text-sm text-destructive">
-              Couldn’t load people right now. Pull down to retry in a moment.
+              Couldn’t load people right now. Try again in a moment.
             </p>
           ) : total === 0 ? (
             <div className="px-4 py-10 text-center">

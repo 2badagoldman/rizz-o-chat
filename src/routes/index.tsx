@@ -108,7 +108,8 @@ function Home() {
       <div className="mt-4 rise-in">
         <button
           type="button"
-          onClick={() => setSearchOpen(true)}
+          onClick={() => setSearchOpen((v) => !v)}
+          aria-expanded={searchOpen}
           className="flex w-full items-center gap-3 rounded-2xl border border-border/70 bg-card/70 px-3.5 py-2.5 text-left shadow-card backdrop-blur transition hover:border-primary/50 active:scale-[0.99]"
         >
           <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-brand text-white shadow-glow">
@@ -137,11 +138,14 @@ function Home() {
               ))}
           </span>
 
-          <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <ChevronDown
+            className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${searchOpen ? "rotate-180" : ""}`}
+          />
         </button>
+
+        <PeopleDiscovery inline open={searchOpen} onClose={() => setSearchOpen(false)} />
       </div>
 
-      <PeopleDiscovery open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* The aha moment: taste the conversation before any paywall */}
       <TasteChat />
