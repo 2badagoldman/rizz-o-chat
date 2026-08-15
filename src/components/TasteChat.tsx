@@ -49,15 +49,17 @@ export function TasteChat() {
   );
   const { messages, sendMessage, status } = useChat({ transport });
 
-  // Keep the transcript so it lands in their chat log the moment they join.
-  useEffect(() => {
-    if (busyRef.current) return;
-    saveTasteTranscript(creator.id, messages);
-  }, [messages, creator.id]);
-
   const sent = messages.filter((m) => m.role === "user").length;
   const locked = sent >= FREE_TURNS;
   const busy = status === "submitted" || status === "streaming";
+  /** She's typing whenever a reply is in flight — the urgency cue. */
+  const creatorTyping = busy && messages[messages.length - 1]?.role === "user";
+
+  // Keep the transcript so it lands in their chat log the moment they join.
+  useEffect(() => {
+    if (busy) return;
+    saveTasteTranscript(creator.id, messages);
+  }, [messages, creator.id, busy]);
 
   const send = (text: string) => {
     const t = text.trim();
