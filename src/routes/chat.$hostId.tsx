@@ -419,7 +419,7 @@ function HostChat() {
                 ))}
               </div>
               <p className="mt-3 text-center text-[11px] text-muted-foreground">
-                Gifts debit your coin balance and credit 65% to the creator.
+                Gifts debit your coin balance and credit the creator at their current split (35–65%).
               </p>
 
             </div>

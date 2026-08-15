@@ -1580,6 +1580,7 @@ export type Database = {
           visits: number
         }[]
       }
+      creator_split_pct: { Args: { _host_id: string }; Returns: number }
       credit_coins: {
         Args: { _coins: number; _user_id: string }
         Returns: undefined
@@ -1629,6 +1630,10 @@ export type Database = {
         Returns: undefined
       }
       my_kyc_state: { Args: never; Returns: Json }
+      record_list_earning: {
+        Args: { _gross_cents: number; _host_id: string }
+        Returns: Json
+      }
       redeem_host_invite: { Args: { _code: string }; Returns: Json }
       send_coin_gift: {
         Args: { _coins: number; _host: string; _label: string; _sender: string }

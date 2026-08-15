@@ -283,7 +283,7 @@ function Home() {
         </div>
         <h3 className="mt-2 font-display text-lg font-bold">Run your own class of Friends.</h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          Every creator gets a Friends List — think a class you teach. Start at 35% split; hit 100 Friends and flip to <b>65% forever</b>.
+          Every creator gets a Friends List — think a class you teach. Start at 35% split; hit 100 Friends for <b>50%</b> and 500 for <b>65% forever</b>.
         </p>
         <Link
           to="/host/onboarding"

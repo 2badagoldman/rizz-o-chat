@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { splitPctFor, friendsToNextTier, nextTierPct, nextTierTarget } from "@/lib/earnings-tiers";
 
 export const getHostSelfStats = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -20,8 +21,8 @@ export const getHostSelfStats = createServerFn({ method: "POST" })
 
     const stats = (statsRes.data ?? {}) as Record<string, number>;
     const activeFriends = Number(stats.active_friends ?? 0);
-    const currentSplitPct = activeFriends >= 100 ? 65 : 35;
-    const toFlip = Math.max(0, 100 - activeFriends);
+    const currentSplitPct = Number(stats.split_pct ?? splitPctFor(activeFriends));
+    const toNext = friendsToNextTier(activeFriends);
 
     return {
       days: data.days,
@@ -29,8 +30,11 @@ export const getHostSelfStats = createServerFn({ method: "POST" })
       stats,
       activeFriends,
       currentSplitPct,
-      friendsToFlip: toFlip,
-      flipUnlocked: activeFriends >= 100,
+      friendsToFlip: toNext,
+      nextSplitPct: nextTierPct(activeFriends),
+      nextTierTarget: nextTierTarget(activeFriends),
+      flipUnlocked: activeFriends >= 500,
       recentPayouts: payoutsRes.data ?? [],
     };
   });
+

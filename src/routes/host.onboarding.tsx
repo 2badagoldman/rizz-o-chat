@@ -142,7 +142,7 @@ function HostOnboarding() {
         </p>
         <h1 className="mt-1 text-2xl">Become a Creator</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Get paid to be yourself. Start at 35% split — flip to <b>65% forever</b> at 100 Friends.
+          Get paid to be yourself. Start at 35% — <b>50% at 100 Friends</b>, <b>65% at 500</b>.
         </p>
       </header>
 
@@ -346,7 +346,7 @@ function HostOnboarding() {
                   You keep 35%
                 </p>
                 <p className="mt-1 text-sm">
-                  ${((priceCents * 0.35) / 100).toFixed(2)} per Friend / month. Hit <b>100 Friends</b> and it flips to <b>65%</b> — ${((priceCents * 0.65) / 100).toFixed(2)} per Friend forever.
+                  ${((priceCents * 0.35) / 100).toFixed(2)} per Friend / month. At <b>100 Friends</b> you move to <b>50%</b> (${((priceCents * 0.5) / 100).toFixed(2)}) and at <b>500 Friends</b> to <b>65%</b> (${((priceCents * 0.65) / 100).toFixed(2)}) per Friend.
                 </p>
               </div>
             </div>
@@ -375,7 +375,7 @@ function HostOnboarding() {
               <Row label="Interests" value={interests || "—"} />
               <Row label="List title" value={title || "—"} />
               <Row label="Price" value={`$${(priceCents / 100).toFixed(2)}/mo`} />
-              <Row label="Split (starting)" value="35% → 65% at 100 Friends" />
+              <Row label="Split (starting)" value="35% → 50% at 100 Friends → 65% at 500" />
             </div>
 
             {err ? <p className="mt-3 rounded-lg bg-destructive/15 px-3 py-2 text-sm text-destructive">{err}</p> : null}

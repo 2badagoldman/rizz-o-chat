@@ -31,25 +31,41 @@ async function alreadyProcessed(eventId: string, type: string): Promise<boolean>
 }
 
 async function handleInvoicePaid(invoice: any) {
-  // VIP coin drop — fires on first payment AND every renewal.
-  const line = invoice.lines?.data?.[0];
-  const lookupKey = line?.price?.lookup_key;
-  if (lookupKey !== 'rizz_diamond_weekly' && lookupKey !== 'rizz_vip_monthly') return;
   // API 2026-03-25 moved the subscription ref onto invoice.parent; keep the legacy fallback.
+  const line = invoice.lines?.data?.[0];
   const subId =
     invoice.parent?.subscription_details?.subscription ??
     line?.parent?.subscription_item_details?.subscription ??
     invoice.subscription;
   if (!subId) return console.error('invoice.paid: no subscription on invoice', invoice.id);
+
   const { data: subRow } = await sb()
     .from('subscriptions')
-    .select('user_id')
+    .select('user_id, host_id')
     .eq('stripe_subscription_id', subId)
     .maybeSingle();
+
+  // Friends List subscription revenue — record the creator's earning using the
+  // tiered split (35% < 100 friends, 50% at 100+, 65% at 500+).
+  if (subRow?.host_id) {
+    const gross = invoice.amount_paid ?? invoice.total ?? 0;
+    if (gross > 0) {
+      const { error } = await sb().rpc('record_list_earning', {
+        _host_id: subRow.host_id,
+        _gross_cents: gross,
+      });
+      if (error) console.error('record_list_earning failed', error);
+    }
+  }
+
+  // VIP coin drop — fires on first payment AND every renewal.
+  const lookupKey = line?.price?.lookup_key;
+  if (lookupKey !== 'rizz_diamond_weekly' && lookupKey !== 'rizz_vip_monthly') return;
   const userId = subRow?.user_id;
   if (!userId) return console.error('invoice.paid: no user for sub', subId);
   await sb().rpc('credit_coins', { _user_id: userId, _coins: VIP_MONTHLY_COINS });
 }
+
 
 
 async function handleGuestSubscription(subscription: any, env: StripeEnv) {
