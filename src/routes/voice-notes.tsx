@@ -149,29 +149,68 @@ function VoiceNotesPage() {
             if (!h) return null;
             const active = id === hostId;
             return (
-              <button
+              <div
                 key={id}
-                type="button"
-                onClick={() => setHostId(id)}
-                className={`flex shrink-0 items-center gap-2 rounded-full border px-2.5 py-1.5 text-xs font-semibold transition ${
+                className={`flex shrink-0 items-center gap-1 rounded-full border pr-1 transition ${
                   active
                     ? "border-primary bg-gradient-brand-soft text-foreground"
                     : "border-border bg-muted/40 text-muted-foreground hover:border-primary/50"
                 }`}
               >
-                <img
-                  src={hostAvatarMed(h.id)}
-                  alt={h.name}
-                  width={24}
-                  height={24}
-                  loading="lazy"
-                  className="h-6 w-6 rounded-full object-cover"
-                />
-                {h.name}
-              </button>
+                <button
+                  type="button"
+                  onClick={() => setHostId(id)}
+                  aria-pressed={active}
+                  className="flex items-center gap-2 rounded-full px-2.5 py-1.5 text-xs font-semibold"
+                >
+                  <img
+                    src={hostAvatarMed(h.id)}
+                    alt={h.name}
+                    width={24}
+                    height={24}
+                    loading="lazy"
+                    className="h-6 w-6 rounded-full object-cover"
+                  />
+                  {h.name}
+                </button>
+                <Link
+                  to="/host/$hostId"
+                  params={{ hostId: h.id }}
+                  aria-label={`View ${h.name}'s profile`}
+                  className="grid h-7 w-7 place-items-center rounded-full bg-background/70 text-foreground/70 transition hover:text-primary"
+                >
+                  <User className="h-3.5 w-3.5" />
+                </Link>
+                <Link
+                  to="/chat/$hostId"
+                  params={{ hostId: h.id }}
+                  aria-label={`Chat with ${h.name}`}
+                  className="grid h-7 w-7 place-items-center rounded-full bg-gradient-brand text-white shadow-glow"
+                >
+                  <MessageCircle className="h-3.5 w-3.5" />
+                </Link>
+              </div>
             );
           })}
         </div>
+
+        <div className="mt-2 flex flex-wrap gap-2">
+          <Link
+            to="/host/$hostId"
+            params={{ hostId: host.id }}
+            className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-[11px] font-semibold text-muted-foreground transition hover:border-primary/60 hover:text-foreground"
+          >
+            <User className="h-3.5 w-3.5" /> View {host.name}'s profile
+          </Link>
+          <Link
+            to="/chat/$hostId"
+            params={{ hostId: host.id }}
+            className="inline-flex items-center gap-1.5 rounded-full bg-gradient-brand-soft px-3 py-1.5 text-[11px] font-bold text-foreground transition hover:opacity-90"
+          >
+            <MessageCircle className="h-3.5 w-3.5" /> Chat {host.name} in your inbox
+          </Link>
+        </div>
+
 
         <div className="mt-3 flex flex-col gap-2 sm:flex-row">
           <input
