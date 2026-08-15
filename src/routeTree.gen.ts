@@ -89,6 +89,7 @@ import { Route as AdminHostsHostIdRouteImport } from './routes/admin.hosts.$host
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as ApiPublicVoiceTtsRouteImport } from './routes/api/public/voice/tts'
+import { Route as ApiPublicVoiceTranscribeRouteImport } from './routes/api/public/voice/transcribe'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicPaymentsSegpayRouteImport } from './routes/api/public/payments/segpay'
 import { Route as ApiPublicPaymentsRevenuecatRouteImport } from './routes/api/public/payments/revenuecat'
@@ -500,6 +501,12 @@ const ApiPublicVoiceTtsRoute = ApiPublicVoiceTtsRouteImport.update({
   path: '/api/public/voice/tts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicVoiceTranscribeRoute =
+  ApiPublicVoiceTranscribeRouteImport.update({
+    id: '/api/public/voice/transcribe',
+    path: '/api/public/voice/transcribe',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -627,6 +634,7 @@ export interface FileRoutesByFullPath {
   '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
   '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/voice/transcribe': typeof ApiPublicVoiceTranscribeRoute
   '/api/public/voice/tts': typeof ApiPublicVoiceTtsRoute
 }
 export interface FileRoutesByTo {
@@ -715,6 +723,7 @@ export interface FileRoutesByTo {
   '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
   '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/voice/transcribe': typeof ApiPublicVoiceTranscribeRoute
   '/api/public/voice/tts': typeof ApiPublicVoiceTtsRoute
 }
 export interface FileRoutesById {
@@ -805,6 +814,7 @@ export interface FileRoutesById {
   '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
   '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/voice/transcribe': typeof ApiPublicVoiceTranscribeRoute
   '/api/public/voice/tts': typeof ApiPublicVoiceTtsRoute
 }
 export interface FileRouteTypes {
@@ -896,6 +906,7 @@ export interface FileRouteTypes {
     | '/api/public/payments/revenuecat'
     | '/api/public/payments/segpay'
     | '/api/public/payments/webhook'
+    | '/api/public/voice/transcribe'
     | '/api/public/voice/tts'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -984,6 +995,7 @@ export interface FileRouteTypes {
     | '/api/public/payments/revenuecat'
     | '/api/public/payments/segpay'
     | '/api/public/payments/webhook'
+    | '/api/public/voice/transcribe'
     | '/api/public/voice/tts'
   id:
     | '__root__'
@@ -1073,6 +1085,7 @@ export interface FileRouteTypes {
     | '/api/public/payments/revenuecat'
     | '/api/public/payments/segpay'
     | '/api/public/payments/webhook'
+    | '/api/public/voice/transcribe'
     | '/api/public/voice/tts'
   fileRoutesById: FileRoutesById
 }
@@ -1141,6 +1154,7 @@ export interface RootRouteChildren {
   ApiPublicPaymentsRevenuecatRoute: typeof ApiPublicPaymentsRevenuecatRoute
   ApiPublicPaymentsSegpayRoute: typeof ApiPublicPaymentsSegpayRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
+  ApiPublicVoiceTranscribeRoute: typeof ApiPublicVoiceTranscribeRoute
   ApiPublicVoiceTtsRoute: typeof ApiPublicVoiceTtsRoute
 }
 
@@ -1706,6 +1720,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicVoiceTtsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/voice/transcribe': {
+      id: '/api/public/voice/transcribe'
+      path: '/api/public/voice/transcribe'
+      fullPath: '/api/public/voice/transcribe'
+      preLoaderRoute: typeof ApiPublicVoiceTranscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -1886,6 +1907,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPaymentsRevenuecatRoute: ApiPublicPaymentsRevenuecatRoute,
   ApiPublicPaymentsSegpayRoute: ApiPublicPaymentsSegpayRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
+  ApiPublicVoiceTranscribeRoute: ApiPublicVoiceTranscribeRoute,
   ApiPublicVoiceTtsRoute: ApiPublicVoiceTtsRoute,
 }
 export const routeTree = rootRouteImport
