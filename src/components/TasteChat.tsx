@@ -6,6 +6,7 @@ import { ArrowRight, ChevronRight, Circle, Lock, Send } from "lucide-react";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { saveTasteTranscript } from "@/lib/taste-chat";
+import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNote";
 
 /** How many messages a visitor can send before the paywall lands. */
 const FREE_TURNS = 2;
