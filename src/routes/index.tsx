@@ -76,19 +76,23 @@ function Home() {
           Friends Always · Crush
         </span>
         <h1 className="mt-3 text-[2.6rem] leading-[1.02] font-display font-extrabold">
-          Real chats with{" "}
-          <span className="text-gradient-brand">verified creators</span>.
+          Send a message.{" "}
+          <span className="text-gradient-brand">Get a real reply</span>.
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Every creator runs a Friends List — a little chapter of our family tree. Subscribe, meet the creator, find your Crush.
+          Try it right now — free, no signup. Then subscribe to the creator you actually clicked with.
         </p>
       </header>
+
+      {/* The aha moment: taste the conversation before any paywall */}
+      <TasteChat />
 
       {/* Stories */}
       <StoryRail />
 
       {/* Showcase reel */}
       <ShowcaseRail title="Showcase" subtitle="Today's best looks" limit={25} />
+
 
       {/* Online now rail */}
       <section className="mt-7 rise-in rise-in-1">
