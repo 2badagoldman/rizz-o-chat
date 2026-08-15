@@ -41,6 +41,7 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
   { to: "/admin/creator-codes", label: "Creator Codes", icon: Link2 },
 
   { to: "/admin/demo", label: "Demo Workflow", icon: PlayCircle },
+  { to: "/crush-home", label: "Marketing Home", icon: PlayCircle },
   { to: "/admin/copilot", label: "Copilot", icon: Sparkles },
   { to: "/admin/applications", label: "Creator Applications", icon: Crown },
   { to: "/admin/hosts", label: "Hosts", icon: Crown },
