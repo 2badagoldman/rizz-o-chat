@@ -3,6 +3,8 @@ import { Loader2, Mic, Pause, Play, Square, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { CHAT_MEDIA_BUCKET, encodeChatMedia } from "@/lib/chat-media";
+import { voiceNoteScript } from "@/lib/creator-voices";
+import { readVisitorName } from "@/lib/visitor-name";
 
 /** Static waveform bars — cheap, and reads instantly as "voice note". */
 const BARS = [8, 14, 20, 12, 24, 16, 28, 18, 10, 22, 14, 26, 12, 18, 9, 20, 15, 24, 11, 16];
@@ -56,11 +58,14 @@ export function CreatorVoiceButton({
   hostId,
   autoPlay,
   label,
+  memberName,
 }: {
   text: string;
   hostId: string;
   autoPlay?: boolean;
   label?: string;
+  /** Falls back to the locally stored visitor name so she says it out loud. */
+  memberName?: string | null;
 }) {
   const [busy, setBusy] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -88,7 +93,10 @@ export function CreatorVoiceButton({
       const res = await fetch("/api/public/voice/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, hostId }),
+        body: JSON.stringify({
+          text: voiceNoteScript(text, { name: memberName ?? readVisitorName() }),
+          hostId,
+        }),
       });
       if (!res.ok) throw new Error(res.status === 429 ? "Too many voice notes — try again in a moment." : "Voice note unavailable right now.");
       const blob = await res.blob();

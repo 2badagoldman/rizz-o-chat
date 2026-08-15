@@ -6,6 +6,7 @@ import { ArrowRight, ChevronRight, Circle, Lock, Send } from "lucide-react";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { saveTasteTranscript } from "@/lib/taste-chat";
+import { readVisitorName, saveVisitorName } from "@/lib/visitor-name";
 import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNote";
 
 /** How many messages a visitor can send before the paywall lands. */
@@ -17,6 +18,19 @@ const OPENERS = [
   "What are you doing tonight?",
   "Tell me something no one knows about you",
 ];
+
+/** Opening line per creator — a hook plus a reason to type back right now. */
+const GREETINGS: Record<string, (name: string) => string> = {
+  "demo-rubi": (n) =>
+    `${n ? n + ", " : ""}be honest — how many people have left you on read this week? 😅 I don't do that. Tell me one thing about your day and I'll send you a voice note back with your name in it.`,
+  "demo-aria": (n) =>
+    `Hey${n ? " " + n : " you"} 👋 Everyone else scrolls past. I actually read this. Say one line — anything — and I'll reply in seconds, out loud if you want.`,
+  "demo-wonderwoman": (n) =>
+    `${n ? n + "." : "Okay."} Most people never get a reply from someone like me. You just did. So don't waste it — tell me the one thing you'd never say in someone's DMs 😏`,
+};
+
+const DEFAULT_GREETING = (creatorName: string, n: string) =>
+  `Hey${n ? " " + n : " you"} 👋 I'm ${creatorName} — and I actually reply. Say one thing to me right now and I'll answer in seconds, in my own voice if you'd like 😏`;
 
 function TypingBubble({ name, avatar }: { name: string; avatar: string }) {
   return (
@@ -62,9 +76,15 @@ export function TasteChat() {
   );
 
   const [input, setInput] = useState("");
+  // Her saying your name is the hook — grab it before the first reply.
+  const [memberName, setMemberName] = useState("");
+  useEffect(() => setMemberName(readVisitorName()), []);
   const transport = useMemo(
-    () => new DefaultChatTransport({ api: "/api/public/demo-chat", body: { hostId: creator.id } }),
-    [creator.id],
+    () => new DefaultChatTransport({
+        api: "/api/public/demo-chat",
+        body: { hostId: creator.id, memberName },
+      }),
+    [creator.id, memberName],
   );
   const { messages, sendMessage, status } = useChat({ transport });
 
@@ -137,8 +157,9 @@ export function TasteChat() {
       <div className="max-h-[320px] min-h-[168px] space-y-2 overflow-y-auto px-4 py-3">
         {messages.length === 0 ? (
           <div className="max-w-[80%] rounded-2xl rounded-bl-md bg-muted px-3 py-2 text-sm">
-            Hey you 👋 I'm {creator.name}. I read everything here — no ghosting, no waiting three
-            days. Say one thing to me and I'll reply right now… what's on your mind? 😏
+            {(GREETINGS[creator.id] ?? ((n: string) => DEFAULT_GREETING(creator.name, n)))(
+              memberName,
+            )}
           </div>
         ) : null}
         {messages.map((m) => (
@@ -155,8 +176,9 @@ export function TasteChat() {
               <CreatorVoiceButton
                 text={text(m)}
                 hostId={creator.id}
+                memberName={memberName}
                 autoPlay={autoVoice && m.id === lastMsg?.id && !busy}
-                label="Hear her say it"
+                label={memberName ? `Hear her say "${memberName}"` : "Hear her say your name"}
               />
             ) : null}
           </div>
@@ -188,6 +210,23 @@ export function TasteChat() {
         </div>
       ) : (
         <div className="border-t border-border/60 px-4 py-3">
+          {messages.length === 0 ? (
+            <label className="mb-2 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5">
+              <span className="shrink-0 text-[11px] font-semibold text-primary">
+                So she can say your name:
+              </span>
+              <input
+                value={memberName}
+                onChange={(e) => {
+                  setMemberName(e.target.value.slice(0, 24));
+                  saveVisitorName(e.target.value);
+                }}
+                placeholder="Your first name"
+                aria-label="Your first name"
+                className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+              />
+            </label>
+          ) : null}
           {messages.length === 0 ? (
             <div className="mb-2 flex flex-wrap gap-1.5">
               {OPENERS.map((o) => (
