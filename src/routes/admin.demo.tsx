@@ -32,9 +32,9 @@ const ROOM: Line[] = [
 ];
 
 const STEPS = [
-  { key: "discover", title: "1 · Discover", subtitle: "Find the women of their dreams", icon: Users, lines: DISCOVER, link: "/discover", linkLabel: "Open Discover" },
-  { key: "chat", title: "2 · Chat 1:1", subtitle: "Send a message, get a real reply", icon: MessageSquare, lines: DM, link: "/chat/demo-aria", linkLabel: "Open Aria's chat" },
-  { key: "rooms", title: "3 · Join a group", subtitle: "Live rooms with creators + members", icon: Sparkles, lines: ROOM, link: "/rooms", linkLabel: "Open Rooms" },
+  { key: "discover", title: "1 · Discover", subtitle: "Find the women of their dreams", icon: Users, lines: DISCOVER, link: "/discover", params: {}, linkLabel: "Open Discover" },
+  { key: "chat", title: "2 · Chat 1:1", subtitle: "Send a message, get a real reply", icon: MessageSquare, lines: DM, link: "/chat/$hostId", params: { hostId: "demo-aria" }, linkLabel: "Open Aria's chat" },
+  { key: "rooms", title: "3 · Join a group", subtitle: "Live rooms with creators + members", icon: Sparkles, lines: ROOM, link: "/rooms", params: {}, linkLabel: "Open Rooms" },
 ] as const;
 
 function Bubble({ line }: { line: Line }) {
@@ -162,7 +162,8 @@ function AdminDemo() {
               <p className="text-[11px] text-muted-foreground">Scripted preview · no real messages are sent</p>
             </div>
             <Link
-              to={step.link}
+              to={step.link as string}
+              params={step.params as never}
               className="inline-flex items-center gap-1 rounded-lg border border-border px-2.5 py-1.5 text-xs font-semibold hover:bg-muted"
             >
               {step.linkLabel} <ChevronRight className="h-3.5 w-3.5" />
