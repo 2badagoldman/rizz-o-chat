@@ -29,7 +29,7 @@ function joinedLabel(iso: string) {
   return days < 30 ? `${days}d ago` : new Date(iso).toLocaleDateString();
 }
 
-export function PeopleDiscovery({ open, onClose }: Props) {
+export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const fetchPeople = useServerFn(discoverPeople);
@@ -77,28 +77,29 @@ export function PeopleDiscovery({ open, onClose }: Props) {
 
   // Members also get the AI hosts in the pool so there's always someone to chat with.
   const aiHosts = useMemo(() => {
-    if (isHost) return [];
+  // Creators are always in the pool (even signed out) so the dropdown never
+  // looks empty; hosts searching for members still see the member list below.
+  const aiHosts = useMemo(() => {
     const term = debounced.trim().toLowerCase().replace(/^@/, "");
-    return DEMO_HOSTS.filter((h) => h.aiEnabled).filter(
+    return DEMO_HOSTS.filter(
       (h) =>
         !term ||
         h.name.toLowerCase().includes(term) ||
         h.handle.toLowerCase().includes(term),
-    );
-  }, [isHost, debounced]);
+    ).slice(0, term ? 40 : 30);
+  }, [debounced]);
 
-  // Keep the list looking alive: hide placeholder accounts (no real photo, so
-  // they render the Crush logo) and internal QA/test profiles.
+  // Hide internal QA/test profiles, but keep real members even without a photo.
   const people = useMemo(
     () =>
       all.filter((p) => {
-        if (!p.avatar_url) return false;
         const name = (p.display_name || "").trim().toLowerCase();
         return !/^(qa|test|demo)\b/.test(name) && !name.includes("qa member");
       }),
     [all],
   );
   const total = people.length + aiHosts.length;
+
 
   if (!open) return null;
 
