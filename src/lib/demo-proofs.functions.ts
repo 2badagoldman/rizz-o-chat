@@ -31,6 +31,29 @@ export const getDemoProofs = createServerFn({ method: "POST" })
       .order("ai_score", { ascending: false })
       .limit(data.limit);
 
+    // Real creators on the app take priority over stock showcase photos:
+    // if a persona name matches a live creator with an avatar, show her face.
+    const { data: creators } = await supabaseAdmin
+      .from("profiles")
+      .select("display_name, avatar_url")
+      .eq("account_type", "host")
+      .not("avatar_url", "is", null);
+
+    const realFace = new Map<string, string>();
+    for (const c of creators ?? []) {
+      const path = String(c.avatar_url ?? "");
+      if (!path || /^(https?:|data:|blob:)/i.test(path)) {
+        if (path) realFace.set(String(c.display_name).toLowerCase(), path);
+        continue;
+      }
+      const [a, b] = await Promise.all([
+        supabaseAdmin.storage.from("avatars").createSignedUrl(path, 60 * 60),
+        supabaseAdmin.storage.from("profile-media").createSignedUrl(path, 60 * 60),
+      ]);
+      const url = a.data?.signedUrl ?? b.data?.signedUrl;
+      if (url) realFace.set(String(c.display_name).toLowerCase(), url);
+    }
+
     const out: DemoProof[] = [];
     let idx = 0;
     for (const r of rows ?? []) {
