@@ -150,6 +150,34 @@ function Home() {
       {/* The aha moment: taste the conversation before any paywall */}
       <TasteChat />
 
+      {/* The wound, then the fix: left on read everywhere else — not here. */}
+      <section className="mt-7 overflow-hidden rounded-3xl border border-border bg-card/60 p-4 shadow-card backdrop-blur rise-in">
+        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
+          You already know how this goes
+        </p>
+        <ul className="mt-3 space-y-2">
+          {IGNORED.map((row) => (
+            <li
+              key={row.app}
+              className="flex items-center justify-between gap-3 rounded-2xl bg-muted/50 px-3 py-2 text-sm"
+            >
+              <span className="font-semibold">{row.app}</span>
+              <span className="text-xs text-muted-foreground">{row.outcome}</span>
+            </li>
+          ))}
+          <li className="flex items-center justify-between gap-3 rounded-2xl bg-gradient-brand-soft px-3 py-2.5 text-sm">
+            <span className="font-display font-extrabold">Crush</span>
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+              <Volume2 className="h-3.5 w-3.5" /> Voice note back in seconds
+            </span>
+          </li>
+        </ul>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Real creators. Voice notes, photos, everything. No algorithms deciding if you're worth a
+          reply.
+        </p>
+      </section>
+
       {/* Stories */}
       <StoryRail />
 
