@@ -22,9 +22,18 @@ export function useShuffled<T>(items: readonly T[], intervalMs = 10_000): T[] {
   useEffect(() => {
     setList(shuffle(items));
     let id: ReturnType<typeof setInterval> | null = null;
+    // Never reshuffle under the user's fingers: a list that reorders while
+    // someone is scrolling or tapping reads as the page reloading itself.
+    let lastTouch = 0;
+    const touched = () => {
+      lastTouch = Date.now();
+    };
     const start = () => {
       if (id != null) return;
-      id = setInterval(() => setList(shuffle(items)), intervalMs);
+      id = setInterval(() => {
+        if (Date.now() - lastTouch < 20_000) return;
+        setList(shuffle(items));
+      }, intervalMs);
     };
     const stop = () => {
       if (id != null) {
@@ -35,11 +44,16 @@ export function useShuffled<T>(items: readonly T[], intervalMs = 10_000): T[] {
     const onVis = () => (document.hidden ? stop() : start());
     start();
     document.addEventListener("visibilitychange", onVis);
+    window.addEventListener("pointerdown", touched, { passive: true });
+    window.addEventListener("scroll", touched, { passive: true });
     return () => {
       stop();
       document.removeEventListener("visibilitychange", onVis);
+      window.removeEventListener("pointerdown", touched);
+      window.removeEventListener("scroll", touched);
     };
   }, [items, intervalMs]);
+
 
   return list;
 }

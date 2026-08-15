@@ -83,7 +83,7 @@ function Discover() {
   // looking frozen when a tier has few creators.
   const [bump, setBump] = useState(0);
 
-  const shuffled = useShuffled(DEMO_HOSTS, 10_000);
+  const shuffled = useShuffled(DEMO_HOSTS, 45_000);
   const term = q.trim().toLowerCase();
   const isFiltered = term.length > 0 || filter !== "all" || sort !== "featured";
 
