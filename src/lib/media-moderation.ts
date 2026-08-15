@@ -38,3 +38,12 @@ export async function reviewImageBeforeUpload(file: File): Promise<ModerationVer
 
 export const MODERATION_BLOCK_MESSAGE =
   "Crush is a non-sexual, PG-13 platform. This photo can't be published — no nudity, underwear/lingerie, swimwear or suggestive posing.";
+
+/** Every published photo must show a real person — this app is about people. */
+export const NO_PERSON_BLOCK_MESSAGE =
+  "Every photo on Crush has to show a real person. Product shots, screenshots, flatlays and scenery can't be published.";
+
+/** Message to show the uploader for a given rejection. */
+export function moderationMessage(verdict: { category?: string }): string {
+  return verdict.category === "no_person" ? NO_PERSON_BLOCK_MESSAGE : MODERATION_BLOCK_MESSAGE;
+}
