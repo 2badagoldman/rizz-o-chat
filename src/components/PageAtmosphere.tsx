@@ -89,30 +89,83 @@ function SicoLayer({ level }: { level: string }) {
 
 
 
-const ROSE_SVG = (petal: string, deep: string, leaf: string) =>
+/**
+ * Couture rose: a real layered bloom. Petals are generated as rotated
+ * teardrops in three descending whorls, each shaded with its own radial
+ * gradient plus a gilded rim light and a specular silk sheen, so it reads as
+ * velvet under studio light instead of stacked flat circles.
+ */
+const PETAL = "M0 0 C-27 -13 -31 -44 -12 -60 C-5 -66 5 -66 12 -60 C31 -44 27 -13 0 0 Z";
+
+const whorl = (count: number, scale: number, spin: number, fill: string, rim: string, opacity: number) =>
+  Array.from({ length: count }, (_, i) => {
+    const a = spin + (360 / count) * i;
+    return `<path d='${PETAL}' fill='${fill}' stroke='${rim}' stroke-width='.6' stroke-opacity='.5' opacity='${opacity}' transform='rotate(${a}) scale(${scale})'/>`;
+  }).join("");
+
+const ROSE_SVG = (petal: string, deep: string, leaf: string, gold = "#f3d08a") =>
   `url("data:image/svg+xml,${encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
-      <path d='M50 96 C48 78 40 66 26 58' stroke='${leaf}' stroke-width='4' fill='none' stroke-linecap='round'/>
-      <path d='M30 62 C18 56 12 46 14 36 C26 36 36 44 38 56 Z' fill='${leaf}'/>
-      <circle cx='50' cy='42' r='30' fill='${petal}'/>
-      <path d='M50 12 C68 18 78 32 76 48 C74 64 62 72 50 72 C38 72 26 64 24 48 C22 32 32 18 50 12 Z' fill='${deep}' opacity='.55'/>
-      <circle cx='50' cy='42' r='20' fill='${petal}'/>
-      <path d='M50 24 C62 28 68 36 66 46 C64 56 56 60 50 58 C44 56 38 50 38 42 C38 32 42 26 50 24 Z' fill='${deep}' opacity='.5'/>
-      <circle cx='50' cy='42' r='10' fill='${petal}'/>
-      <path d='M50 34 C56 36 58 42 55 46 C52 50 46 48 45 43 C44 38 46 35 50 34 Z' fill='${deep}' opacity='.6'/>
+    `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 130'>
+      <defs>
+        <radialGradient id='o' cx='50%' cy='78%' r='72%'>
+          <stop offset='0%' stop-color='${petal}'/>
+          <stop offset='58%' stop-color='${petal}'/>
+          <stop offset='100%' stop-color='${deep}'/>
+        </radialGradient>
+        <radialGradient id='m' cx='50%' cy='80%' r='70%'>
+          <stop offset='0%' stop-color='${deep}'/>
+          <stop offset='45%' stop-color='${petal}'/>
+          <stop offset='100%' stop-color='${deep}'/>
+        </radialGradient>
+        <radialGradient id='c' cx='50%' cy='60%' r='70%'>
+          <stop offset='0%' stop-color='${deep}'/>
+          <stop offset='100%' stop-color='${petal}'/>
+        </radialGradient>
+        <linearGradient id='lf' x1='0' y1='0' x2='1' y2='1'>
+          <stop offset='0%' stop-color='${leaf}'/>
+          <stop offset='100%' stop-color='${deep}' stop-opacity='.75'/>
+        </linearGradient>
+        <linearGradient id='sh' x1='.2' y1='0' x2='.8' y2='1'>
+          <stop offset='0%' stop-color='#ffffff' stop-opacity='.5'/>
+          <stop offset='45%' stop-color='#ffffff' stop-opacity='.06'/>
+          <stop offset='100%' stop-color='#ffffff' stop-opacity='0'/>
+        </linearGradient>
+      </defs>
+      <path d='M60 128 C58 116 56 106 48 96' stroke='url(#lf)' stroke-width='4' fill='none' stroke-linecap='round'/>
+      <path d='M52 106 C36 102 26 92 26 78 C42 77 54 87 57 103 Z' fill='url(#lf)' opacity='.9'/>
+      <path d='M33 82 C41 87 48 93 53 102' stroke='${deep}' stroke-opacity='.3' stroke-width='1.2' fill='none'/>
+      <path d='M68 112 C82 110 91 101 93 89 C79 86 69 95 67 109 Z' fill='url(#lf)' opacity='.7'/>
+
+      <g transform='translate(60 62)'>
+        ${whorl(7, 1, 0, "url(#o)", deep, 0.98)}
+        ${whorl(6, 0.72, 26, "url(#m)", deep, 0.96)}
+        ${whorl(5, 0.48, 52, "url(#m)", deep, 0.97)}
+        ${whorl(4, 0.3, 74, "url(#c)", deep, 1)}
+        <path d='M0 -6 C7 -12 14 -6 10 2 C6 9 -4 9 -8 2 C-12 -6 -6 -14 2 -12' fill='none' stroke='${deep}' stroke-width='2' stroke-linecap='round' opacity='.9'/>
+        <path d='${PETAL}' fill='url(#sh)' transform='rotate(-28) scale(1)'/>
+        <path d='${PETAL}' fill='${gold}' opacity='.16' transform='rotate(38) scale(.98)'/>
+      </g>
     </svg>`,
   )}")`;
 
+
 const ROMANCE_ROSES = [
-  { side: "left" as const, top: "5%", size: 96, offset: "-16px", tilt: "-8deg", delay: "0s" },
-  { side: "left" as const, top: "31%", size: 62, offset: "6px", tilt: "12deg", delay: "2.4s" },
-  { side: "left" as const, top: "58%", size: 108, offset: "-26px", tilt: "-4deg", delay: "4.8s" },
-  { side: "left" as const, top: "82%", size: 70, offset: "2px", tilt: "9deg", delay: "1.2s" },
-  { side: "right" as const, top: "9%", size: 74, offset: "0px", tilt: "7deg", delay: "3.1s" },
-  { side: "right" as const, top: "36%", size: 112, offset: "-24px", tilt: "-10deg", delay: "0.6s" },
-  { side: "right" as const, top: "63%", size: 66, offset: "8px", tilt: "5deg", delay: "5.4s" },
-  { side: "right" as const, top: "87%", size: 94, offset: "-14px", tilt: "-6deg", delay: "2.9s" },
+  { side: "left" as const, top: "5%", size: 96, offset: "-22px", tilt: "-8deg", delay: "0s", depth: 0 },
+  { side: "left" as const, top: "31%", size: 62, offset: "4px", tilt: "12deg", delay: "2.4s", depth: 2 },
+  { side: "left" as const, top: "58%", size: 118, offset: "-34px", tilt: "-4deg", delay: "4.8s", depth: 0 },
+  { side: "left" as const, top: "82%", size: 74, offset: "0px", tilt: "9deg", delay: "1.2s", depth: 1 },
+  { side: "right" as const, top: "9%", size: 78, offset: "-4px", tilt: "7deg", delay: "3.1s", depth: 1 },
+  { side: "right" as const, top: "36%", size: 122, offset: "-32px", tilt: "-10deg", delay: "0.6s", depth: 0 },
+  { side: "right" as const, top: "63%", size: 66, offset: "6px", tilt: "5deg", delay: "5.4s", depth: 2 },
+  { side: "right" as const, top: "87%", size: 98, offset: "-18px", tilt: "-6deg", delay: "2.9s", depth: 1 },
 ];
+
+const DEPTH = [
+  { blur: "0px", opacity: 0.6 },
+  { blur: "1.6px", opacity: 0.4 },
+  { blur: "3.4px", opacity: 0.26 },
+];
+
 
 /**
  * Romance: a deep valentine-red frame. Silk flows and roses live on the left
@@ -127,8 +180,11 @@ function RomanceLayer({ level }: { level: string }) {
         ? ROMANCE_ROSES.filter((_, i) => i % 2 === 0)
         : ROMANCE_ROSES;
 
-  const deepRose = ROSE_SVG("#d81e3c", "#5c0a18", "#3f6b3a");
-  const softRose = ROSE_SVG("#f28a97", "#a30d26", "#4a7a44");
+  const ROSE_ART = [
+    ROSE_SVG("#e0233f", "#4d0714", "#2f5c31"),
+    ROSE_SVG("#f6919c", "#9c0a22", "#3f6b3a"),
+    ROSE_SVG("#c1122d", "#360510", "#26512c", "#ffe6a8"),
+  ];
 
   return (
     <div className="theme-atmos romance-atmos">
@@ -142,21 +198,27 @@ function RomanceLayer({ level }: { level: string }) {
       )}
       <span className="romance-glow" style={{ left: "-10%", top: "10%", width: 260, height: 260 }} />
       <span className="romance-glow" style={{ right: "-12%", bottom: "12%", width: 300, height: 300, animationDelay: "5s" }} />
-      {roses.map((r, i) => (
-        <span
-          key={`${r.side}-${r.top}`}
-          className="romance-rose"
-          style={{
-            top: r.top,
-            width: r.size,
-            height: r.size,
-            [r.side]: r.offset,
-            backgroundImage: i % 2 === 0 ? deepRose : softRose,
-            animationDelay: r.delay,
-            ["--tilt" as string]: r.tilt,
-          }}
-        />
-      ))}
+      {roses.map((r, i) => {
+        const d = DEPTH[r.depth] ?? DEPTH[0];
+        return (
+          <span
+            key={`${r.side}-${r.top}`}
+            className="romance-rose"
+            style={{
+              top: r.top,
+              width: r.size,
+              height: Math.round(r.size * 1.08),
+              [r.side]: r.offset,
+              backgroundImage: ROSE_ART[i % ROSE_ART.length],
+              animationDelay: r.delay,
+              ["--tilt" as string]: r.tilt,
+              ["--rose-blur" as string]: d.blur,
+              ["--rose-op" as string]: String(d.opacity),
+            }}
+          />
+        );
+      })}
+
     </div>
   );
 }
