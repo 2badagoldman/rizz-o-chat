@@ -56,7 +56,7 @@ function Copilot() {
   const suggested = user
     ? [
         "Walk me through applying to be a Creator",
-        "How do I hit 100 Friends and unlock 65%?",
+        "How do I hit 100 Friends and unlock 50%?",
         "Help me pick a Creator to subscribe to",
         "What should my first message be?",
       ]

@@ -31,7 +31,7 @@ type ListRow = {
 const PRESETS = [299, 499, 999, 1499, 1999, 2999, 4999];
 const MIN_CENTS = 99;
 const MAX_CENTS = 99999;
-const HOST_SPLIT_DEFAULT = 0.35; // dashboard shows milestone flip to 0.65 later
+const HOST_SPLIT_DEFAULT = 0.35; // 35% under 100 Friends · 50% at 100+ · 65% at 500+
 
 function usd(cents: number) {
   return "$" + (cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -76,9 +76,10 @@ function HostPricing() {
   const preview = useMemo(() => {
     const monthly = priceCents;
     const hostShareStart = Math.floor(monthly * HOST_SPLIT_DEFAULT);
+    const hostShareMid = Math.floor(monthly * 0.5);
     const hostShareFlip = Math.floor(monthly * 0.65);
     const yearly = monthly * 12;
-    return { monthly, hostShareStart, hostShareFlip, yearly };
+    return { monthly, hostShareStart, hostShareMid, hostShareFlip, yearly };
   }, [priceCents]);
 
   function applyDollars(next: string) {
@@ -266,18 +267,18 @@ function HostPricing() {
           {/* Earnings breakdown */}
           <section className="mt-5 rounded-2xl border border-border bg-card p-4">
             <h2 className="text-sm font-semibold">You&apos;ll earn per member</h2>
-            <div className="mt-3 grid grid-cols-2 gap-3">
+            <div className="mt-3 grid grid-cols-3 gap-3">
               <div className="rounded-xl border border-border bg-background p-3">
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Now (35%)</p>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">0–99 (35%)</p>
                 <p className="mt-1 text-lg font-bold">{usd(preview.hostShareStart)}<span className="text-xs font-normal text-muted-foreground">/mo</span></p>
               </div>
               <div className="rounded-xl border border-[color:var(--host-primary)]/40 bg-gradient-brand-soft p-3">
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">After Flip (65%)</p>
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">500+ (65%)</p>
                 <p className="mt-1 text-lg font-bold text-gradient-brand">{usd(preview.hostShareFlip)}<span className="text-xs font-normal text-muted-foreground">/mo</span></p>
               </div>
             </div>
             <p className="mt-3 text-[11px] text-muted-foreground">
-              At {usd(preview.monthly)}/mo, 100 Friends = <strong className="text-foreground">{usd(preview.hostShareFlip * 100)}</strong>/mo after the flip.
+              At {usd(preview.monthly)}/mo: 100 Friends at 50% = <strong className="text-foreground">{usd(preview.hostShareMid * 100)}</strong>/mo · 500 Friends at 65% = <strong className="text-foreground">{usd(preview.hostShareFlip * 500)}</strong>/mo.
             </p>
           </section>
         </>

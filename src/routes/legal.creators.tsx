@@ -41,7 +41,7 @@ function Creators() {
         <Bullets
           items={[
             "You set your Friends List monthly price within the platform's allowed range, shown in your pricing screen with a live earnings preview.",
-            "The standard revenue split starts at 35% to the Creator; Creators who reach 100 paying Friends move to 65% for the lifetime of the account, as displayed in-app.",
+            "The standard revenue split starts at 35% to the Creator (0–99 paying subscribers); Creators with 100–499 paying subscribers receive 50%, and Creators with 500 or more receive 65%, as displayed in-app.",
             "The split is applied to net revenue after refunds, chargebacks, and payment-processing and tax amounts collected by our provider.",
             "Complimentary members you add manually, and invite-link members, generate no subscription revenue.",
             "Tips and gifts are credited to your balance under the same split shown in your earnings screen at the time of the transaction.",
