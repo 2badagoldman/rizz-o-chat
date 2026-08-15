@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { DemoChatProofs } from "@/components/DemoChatProofs";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
