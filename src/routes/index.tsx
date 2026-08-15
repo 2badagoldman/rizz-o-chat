@@ -33,6 +33,10 @@ const FAQS = [
     a: "Joining is free. Crush Gold is $9.99 per week and unlocks any creator's Friends List. Crush Diamond VIP is $19.99 per week and adds a diamond badge plus weekly coin drops. Coins for gifts are bought separately.",
   },
   {
+    q: "Do creators send voice notes on Crush?",
+    a: "Yes — voice notes are the signature Crush feature. Creators reply out loud, saying your name and answering what you actually asked, and you can hold the mic to send a voice note back.",
+  },
+  {
     q: "Are the creators on Crush real and verified?",
     a: "Yes. Every creator passes 18+ identity verification before they can earn, and all uploads are moderated before they appear publicly.",
   },
