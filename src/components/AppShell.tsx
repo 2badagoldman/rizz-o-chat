@@ -201,7 +201,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
       <SideDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
       <OfferOverlay />
       <LiveHostAlerts />
-      <DailyNudge />
+      
       <InAppNotification />
 
 
