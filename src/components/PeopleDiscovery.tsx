@@ -75,8 +75,6 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
     [data],
   );
 
-  // Members also get the AI hosts in the pool so there's always someone to chat with.
-  const aiHosts = useMemo(() => {
   // Creators are always in the pool (even signed out) so the dropdown never
   // looks empty; hosts searching for members still see the member list below.
   const aiHosts = useMemo(() => {
