@@ -76,7 +76,7 @@ const PHASES = [
 
 const CHECKLIST = [
   "Find 50–100 micro-creators in looksmaxxing, dating advice, and rizz niches on TikTok / Instagram / YouTube Shorts",
-  "Pay $100–$300 per test video — they use Rizzlachat on camera and show it working",
+  "Pay $100–$300 per test video — they use Crush on camera and show it working",
   "Add minimum view clauses: if it underperforms, they owe another video free",
   "Track which creators convert actual subscribers (UTM links or promo codes per creator)",
   "Double down on the top 10% of creators with recurring deals",
@@ -131,7 +131,7 @@ function GrowthPlaybook() {
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <Card icon={<Target className="h-4 w-4" />} title="What this means for Rizzlachat" accent>
+        <Card icon={<Target className="h-4 w-4" />} title="What this means for Crush" accent>
           <p>
             <strong className="text-foreground">Forget ads as the primary revenue driver.</strong> Kelechi hit $250k+
             without showing a single ad — 100% subscriptions and in-app purchases. Ads cheapen the experience and
@@ -154,7 +154,7 @@ function GrowthPlaybook() {
             message&rdquo; creates instant perceived value and drives subscription conversion.
           </p>
           <p className="rounded-xl border border-primary/30 bg-background/60 p-3 text-foreground">
-            If Rizzlachat doesn&rsquo;t have a similar &ldquo;aha moment&rdquo; in the first 60 seconds, that&rsquo;s the
+            If Crush doesn&rsquo;t have a similar &ldquo;aha moment&rdquo; in the first 60 seconds, that&rsquo;s the
             biggest thing to fix.
           </p>
         </Card>

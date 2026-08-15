@@ -10,7 +10,7 @@ export const LEGAL = {
   supportEmail: "rizzchatsupport@gmail.com",
   site: "https://rizzlachat.com",
   siteLabel: "rizzlachat.com",
-  statementDescriptor: "RIZZLA CHAT",
+  statementDescriptor: "CRUSH",
   minAge: 18,
   refundWindowDays: 14,
   supportResponseHours: 48,

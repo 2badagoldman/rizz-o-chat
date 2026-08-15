@@ -7,7 +7,7 @@ import listHosts from "./tools/list-hosts";
 const projectRef = import.meta.env.VITE_SUPABASE_PROJECT_ID ?? "project-ref-unset";
 
 export default defineMcp({
-  name: "rizzla-mcp",
+  name: "crush-mcp",
   title: "Crush",
   version: "0.1.0",
   instructions:

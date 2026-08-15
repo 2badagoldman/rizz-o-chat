@@ -126,7 +126,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "@type": "Organization",
               "@id": "https://rizzlachat.com/#organization",
               name: "Crush",
-              alternateName: "Rizzla Chat",
+              alternateName: "Crush",
               url: "https://rizzlachat.com",
               logo: "https://rizzlachat.com/icon-512.png",
               email: "rizzchatsupport@gmail.com",
