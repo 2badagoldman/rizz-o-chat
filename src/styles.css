@@ -1579,25 +1579,32 @@ body::after {
   to   { transform: translate3d(14px, -18px, 0) scaleY(1.08); }
 }
 
-/* Static roses pinned along both sides, breathing gently in place */
+/* Roses pinned along both sides: depth-graded, breathing gently in place */
 .romance-rose {
   position: absolute;
   background-repeat: no-repeat;
   background-size: contain;
-  transform-origin: center;
-  animation: romance-bloom 11s ease-in-out infinite;
-  filter: drop-shadow(0 12px 26px rgba(92,10,24,.32));
+  background-position: center;
+  transform-origin: 50% 62%;
+  will-change: transform, opacity;
+  animation: romance-bloom 14s cubic-bezier(.37, 0, .18, 1) infinite;
+  opacity: var(--rose-op, .92);
+  filter:
+    blur(var(--rose-blur, 0px))
+    drop-shadow(0 18px 34px rgba(48, 4, 12, .45))
+    drop-shadow(0 2px 6px rgba(255, 214, 150, .18));
 }
 @keyframes romance-bloom {
-  0%, 100% { transform: scale(1) rotate(var(--tilt, 0deg)); opacity: .82; }
-  50%      { transform: scale(1.045) rotate(calc(var(--tilt, 0deg) + 2deg)); opacity: 1; }
+  0%, 100% { transform: scale(1) rotate(var(--tilt, 0deg)) translate3d(0, 0, 0); }
+  50%      { transform: scale(1.035) rotate(calc(var(--tilt, 0deg) + 2.5deg)) translate3d(0, -6px, 0); }
 }
 
 .romance-glow {
-  position: absolute; border-radius: 999px; filter: blur(48px);
-  background: radial-gradient(circle, rgba(193,18,45,.42), transparent 70%);
-  animation: glow-breathe 12s ease-in-out infinite;
+  position: absolute; border-radius: 999px; filter: blur(52px);
+  background: radial-gradient(circle, rgba(214,26,58,.44), rgba(120,8,26,.18) 55%, transparent 72%);
+  animation: glow-breathe 14s ease-in-out infinite;
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   .sea-wave, .sea-shaft, .sico-grid, .sico-bloom, .sico-spire,
