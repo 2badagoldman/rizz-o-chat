@@ -14,6 +14,8 @@ import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 interface Props {
   open: boolean;
   onClose: () => void;
+  /** Render as an in-page dropdown panel instead of a full-screen overlay. */
+  inline?: boolean;
 }
 
 function joinedLabel(iso: string) {
