@@ -33,6 +33,10 @@ const FAQS = [
     a: "Joining is free. Crush Gold is $9.99 per week and unlocks any creator's Friends List. Crush Diamond VIP is $19.99 per week and adds a diamond badge plus weekly coin drops. Coins for gifts are bought separately.",
   },
   {
+    q: "Do creators send voice notes on Crush?",
+    a: "Yes — voice notes are the signature Crush feature. Creators reply out loud, saying your name and answering what you actually asked, and you can hold the mic to send a voice note back.",
+  },
+  {
     q: "Are the creators on Crush real and verified?",
     a: "Yes. Every creator passes 18+ identity verification before they can earn, and all uploads are moderated before they appear publicly.",
   },
@@ -51,8 +55,8 @@ export const Route = createFileRoute("/")({
     const base = pageHead({
       path: "/",
       title: "Crush \u2014 She actually replies",
-      description: "Send a message and get a real reply — voice notes, photos and real conversation with verified creators. No bots, no algorithms. Start free.",
-      keywords: "chat app, dating app, friends app, meet women, verified creators, paid chat, creator subscriptions, social chat",
+      description: "Send a message and hear her say your name. Real voice notes, photos and conversation with verified creators — no bots, no algorithms. Start free.",
+      keywords: "chat app, voice notes, voice messages, hear her voice, dating app, friends app, meet women, verified creators, paid chat, creator subscriptions, social chat",
     });
     return {
       ...base,
@@ -184,6 +188,21 @@ function Home() {
           Real creators. Voice notes, photos, everything. No algorithms deciding if you're worth a
           reply.
         </p>
+        <Link
+          to="/voice-notes"
+          className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-primary/40 bg-background/60 px-3.5 py-2.5 transition hover:border-primary"
+        >
+          <span className="min-w-0">
+            <span className="block text-[13px] font-bold">Hear her say your name</span>
+            <span className="block truncate text-[11px] text-muted-foreground">
+              Play a real voice note — no signup
+            </span>
+          </span>
+          <span className="flex shrink-0 items-center gap-2 text-primary">
+            <Waveform className="w-12" />
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        </Link>
       </section>
 
       {/* Stories */}
