@@ -121,28 +121,30 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
         }
       >
 
-        <div className="flex items-start justify-between px-5 pt-5">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">Crush</p>
-            <h2 className="bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[22px] font-black leading-tight text-transparent">
-              Find your crush
-            </h2>
-            <p className="text-[11.5px] text-muted-foreground">
-              {debounced
-                ? "Searching every username — creators and members"
-                : "Join the rush as everyone finds their crush on Crush."}
-            </p>
+        {inline ? null : (
+          <div className="flex items-start justify-between px-5 pt-5">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary/70">Crush</p>
+              <h2 className="bg-[linear-gradient(100deg,#ff2d75,#c34fff,#6c5ce7)] bg-clip-text text-[22px] font-black leading-tight text-transparent">
+                Find your crush
+              </h2>
+              <p className="text-[11.5px] text-muted-foreground">
+                {debounced
+                  ? "Searching every username — creators and members"
+                  : "Join the rush as everyone finds their crush on Crush."}
+              </p>
+            </div>
+            <button
+              onClick={onClose}
+              aria-label="Close find your crush"
+              className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-card/70 text-foreground/70 transition-transform hover:scale-110 active:scale-90"
+            >
+              <X className="h-4 w-4" strokeWidth={2.5} />
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            aria-label="Close find your crush"
-            className="grid h-9 w-9 place-items-center rounded-full border border-border/60 bg-card/70 text-foreground/70 transition-transform hover:scale-110 active:scale-90"
-          >
-            <X className="h-4 w-4" strokeWidth={2.5} />
-          </button>
-        </div>
+        )}
 
-        <div className="mx-4 mt-3 flex items-center gap-2 rounded-2xl border border-border/60 bg-card/70 px-3 py-2">
+        <div className="mx-3 mt-3 flex items-center gap-2 rounded-xl border border-border/60 bg-card/70 px-3 py-2">
           <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
           <input
             autoFocus
