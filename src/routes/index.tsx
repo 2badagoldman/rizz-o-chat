@@ -96,11 +96,11 @@ function Home() {
           Friends Always · Crush
         </span>
         <h1 className="mt-3 text-[2.6rem] leading-[1.02] font-display font-extrabold">
-          Send a message.{" "}
-          <span className="text-gradient-brand">Get a real reply</span>.
+          She actually{" "}
+          <span className="text-gradient-brand">replies</span>.
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Try it right now — free, no signup. Then subscribe to the creator you actually clicked with.
+          Voice notes, photos, real conversation. Say something right now — free, no signup.
         </p>
       </header>
 
