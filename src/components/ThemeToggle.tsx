@@ -8,7 +8,6 @@ const KEY = "rizz.theme";
 const ALL: Theme[] = ["pink", "blue", "ocean", "abyss", "sico", "romance", "crush", "crushgold"];
 const EXTRA: { id: Theme; label: string; swatch: string }[] = [
   { id: "pink", label: "Pink", swatch: "linear-gradient(135deg,#ff9ecb,#ff5fa8)" },
-  { id: "crush", label: "Sunset", swatch: "linear-gradient(135deg,#ffe08a,#ff9a1f,#ff4d00,#7fdcff)" },
   { id: "sico", label: "Sico Mode", swatch: "linear-gradient(135deg,#ffd6b0,#ff9ecb,#ff5fa8,#a97bff)" },
   { id: "romance", label: "Romance", swatch: "linear-gradient(135deg,#0a0104,#d4132f,#e8b98a)" },
   { id: "blue", label: "Blue", swatch: "linear-gradient(135deg,#2563eb,#7dd3fc)" },
@@ -38,7 +37,7 @@ export function useTheme() {
 
   useEffect(() => {
     const saved = localStorage.getItem(KEY) as Theme | null;
-    const next = saved && ALL.includes(saved) ? saved : "crushgold";
+    const next = saved && saved !== "crush" && ALL.includes(saved) ? saved : "crushgold";
     setTheme(next);
     apply(next);
     setAutoShow(localStorage.getItem(SHOW_KEY) !== "off");
