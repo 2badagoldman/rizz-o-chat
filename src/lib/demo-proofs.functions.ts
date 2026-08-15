@@ -33,7 +33,7 @@ export const getDemoProofs = createServerFn({ method: "POST" })
 
     // Real creators on the app take priority over stock showcase photos:
     // if a persona name matches a live creator with an avatar, show her face.
-    const { data: creators, error: cErr } = await supabaseAdmin
+    const { data: creators } = await supabaseAdmin
       .from("profiles")
       .select("display_name, avatar_url")
       .eq("account_type", "host")
@@ -54,7 +54,6 @@ export const getDemoProofs = createServerFn({ method: "POST" })
       if (url) realFace.set(String(c.display_name).toLowerCase(), url);
     }
 
-    console.error("DEMOPROOF", cErr?.message ?? "ok", (creators??[]).length, [...realFace.keys()].join(","));
     const out: DemoProof[] = [];
     let idx = 0;
     for (const r of rows ?? []) {
