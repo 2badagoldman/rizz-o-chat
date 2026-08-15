@@ -10,6 +10,7 @@ import { pageHead } from "@/lib/seo";
 import { readGuestCode, normalizePhone, phoneToLoginEmail } from "@/lib/guest-checkout";
 
 import { PageSkeleton } from "@/components/AuthGate";
+import { DemoChatProofs } from "@/components/DemoChatProofs";
 export const Route = createFileRoute("/auth")({
   head: () => pageHead({
     path: "/auth",
@@ -470,6 +471,15 @@ function AuthPage() {
           </button>
         </form>
       </div>
+      <div className="mx-auto mt-8 max-w-3xl">
+        <DemoChatProofs
+          limit={7}
+          title="See what you're joining"
+          subtitle="Real chats between members and Crush creators"
+          showCta={false}
+        />
+      </div>
+
 
       <p className="mx-auto mt-6 max-w-md rounded-xl border border-border bg-card p-3 text-center text-[11px] font-semibold text-muted-foreground">
         Crush is a non-sexual, PG-13 conversation platform for adults 18+. Nudity, sexual or suggestive content, sexual
