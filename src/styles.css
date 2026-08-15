@@ -1897,8 +1897,8 @@ body::after {
 
 /* One CTA that breathes — "Say Something" on the home page. */
 @keyframes pulse-cta {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 hsl(var(--primary) / 0.45); }
-  50% { transform: scale(1.015); box-shadow: 0 0 0 12px hsl(var(--primary) / 0); }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 45%, transparent); }
+  50% { transform: scale(1.015); box-shadow: 0 0 0 12px transparent; }
 }
 .pulse-cta { animation: pulse-cta 2.4s cubic-bezier(.4, 0, .6, 1) infinite; }
 @media (prefers-reduced-motion: reduce) { .pulse-cta { animation: none; } }
