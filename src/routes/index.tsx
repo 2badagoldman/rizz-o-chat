@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DemoChatProofs } from "@/components/DemoChatProofs";
+import { getDemoProofs } from "@/lib/demo-proofs.functions";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { ArrowRight, Crown, Users, Circle, Search, ChevronDown } from "lucide-react";
