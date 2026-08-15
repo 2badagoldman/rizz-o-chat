@@ -100,20 +100,22 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
 
   if (!open) return null;
 
-  return (
-    <div
-      className={
-        inline
-          ? "absolute left-0 right-0 top-full z-[60] mt-1"
-          : "fixed inset-0 z-[95] bg-foreground/25 backdrop-blur-xl"
-      }
-      onClick={inline ? undefined : onClose}
-      role="dialog"
-      aria-modal={inline ? undefined : true}
-      aria-label="Find your crush"
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
+  if (inline) {
+    return (
+      <>
+        <div
+          className="fixed inset-0 z-[55]"
+          onClick={onClose}
+          aria-hidden
+        />
+        <div
+          className="absolute left-0 right-0 top-full z-[60] mt-1"
+          role="dialog"
+          aria-label="Find your crush"
+        >
+          <div
+            className="flex max-h-[52vh] w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl"
+          >
         className={
           inline
             ? "flex max-h-[52vh] w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl"
