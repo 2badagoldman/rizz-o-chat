@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Crush is a paid chat app where verified creators run Friends Lists and members subscribe to chat, meet, and connect.",
+          "Meet your favorite exclusive creators on CRUSH. Members get 24/7 access to chat, connect, and enjoy one-on-one time with the creators they love.",
       },
       { property: "og:site_name", content: "Crush" },
       { property: "og:type", content: "website" },
