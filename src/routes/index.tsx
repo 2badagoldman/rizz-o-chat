@@ -8,6 +8,8 @@ import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 import { pageHead, faqLd, jsonLd, SITE_URL } from "@/lib/seo";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
+import { TasteChat } from "@/components/TasteChat";
+
 import { StoryRail } from "@/components/stories/StoryRail";
 
 const FAQS = [
