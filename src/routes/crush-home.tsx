@@ -88,6 +88,7 @@ const NAV = [
   { label: "Pricing", href: "#pricing" },
   { label: "FAQ", href: "#faq" },
   { label: "Confidence", href: "/confidence" },
+  { label: "Why Crush", href: "/why-crush" },
 ];
 
 const FEATURES = [
@@ -592,6 +593,7 @@ function CrushHome() {
               <Link to="/discover">Discover creators</Link>
               <Link to="/voice-notes">Voice notes</Link>
               <Link to="/confidence">Boost your confidence</Link>
+              <Link to="/why-crush">Why Crush works</Link>
               <Link to="/upgrade">Gold & Diamond</Link>
               <Link to="/coins">Coins</Link>
             </div>

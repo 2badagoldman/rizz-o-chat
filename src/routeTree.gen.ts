@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WhyCrushRouteImport } from './routes/why-crush'
 import { Route as VoiceNotesRouteImport } from './routes/voice-notes'
 import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as UpgradeRouteImport } from './routes/upgrade'
@@ -100,6 +101,11 @@ import { Route as ApiPublicPaymentsCcbillRouteImport } from './routes/api/public
 import { Route as ApiPublicHooksShowcaseBrainRouteImport } from './routes/api/public/hooks/showcase-brain'
 import { Route as ApiPublicHooksOpsManagersRouteImport } from './routes/api/public/hooks/ops-managers'
 
+const WhyCrushRoute = WhyCrushRouteImport.update({
+  id: '/why-crush',
+  path: '/why-crush',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VoiceNotesRoute = VoiceNotesRouteImport.update({
   id: '/voice-notes',
   path: '/voice-notes',
@@ -579,6 +585,7 @@ export interface FileRoutesByFullPath {
   '/upgrade': typeof UpgradeRoute
   '/verify': typeof VerifyRoute
   '/voice-notes': typeof VoiceNotesRoute
+  '/why-crush': typeof WhyCrushRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/applications': typeof AdminApplicationsRoute
@@ -670,6 +677,7 @@ export interface FileRoutesByTo {
   '/upgrade': typeof UpgradeRoute
   '/verify': typeof VerifyRoute
   '/voice-notes': typeof VoiceNotesRoute
+  '/why-crush': typeof WhyCrushRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/applications': typeof AdminApplicationsRoute
@@ -763,6 +771,7 @@ export interface FileRoutesById {
   '/upgrade': typeof UpgradeRoute
   '/verify': typeof VerifyRoute
   '/voice-notes': typeof VoiceNotesRoute
+  '/why-crush': typeof WhyCrushRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/applications': typeof AdminApplicationsRoute
@@ -857,6 +866,7 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/verify'
     | '/voice-notes'
+    | '/why-crush'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/applications'
@@ -948,6 +958,7 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/verify'
     | '/voice-notes'
+    | '/why-crush'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/applications'
@@ -1040,6 +1051,7 @@ export interface FileRouteTypes {
     | '/upgrade'
     | '/verify'
     | '/voice-notes'
+    | '/why-crush'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/applications'
@@ -1133,6 +1145,7 @@ export interface RootRouteChildren {
   UpgradeRoute: typeof UpgradeRoute
   VerifyRoute: typeof VerifyRoute
   VoiceNotesRoute: typeof VoiceNotesRoute
+  WhyCrushRoute: typeof WhyCrushRoute
   Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -1186,6 +1199,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/why-crush': {
+      id: '/why-crush'
+      path: '/why-crush'
+      fullPath: '/why-crush'
+      preLoaderRoute: typeof WhyCrushRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/voice-notes': {
       id: '/voice-notes'
       path: '/voice-notes'
@@ -1901,6 +1921,7 @@ const rootRouteChildren: RootRouteChildren = {
   UpgradeRoute: UpgradeRoute,
   VerifyRoute: VerifyRoute,
   VoiceNotesRoute: VoiceNotesRoute,
+  WhyCrushRoute: WhyCrushRoute,
   Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
