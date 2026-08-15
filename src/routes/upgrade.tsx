@@ -10,6 +10,7 @@ import { RevenueCatPurchase } from '@/components/RevenueCatPurchase';
 import { AltPaymentOptions } from '@/components/AltPaymentOptions';
 import { useRevenueCat } from '@/hooks/useRevenueCat';
 import type { CrushPriceId } from '@/lib/revenuecat';
+import { DemoChatProofs } from '@/components/DemoChatProofs';
 
 
 export const Route = createFileRoute('/upgrade')({
@@ -389,6 +390,13 @@ function UpgradePage() {
         </div>
 
         <div
+        <DemoChatProofs
+          limit={7}
+          title="What your membership unlocks"
+          subtitle="Real chats between members and Crush creators"
+          showCta={false}
+        />
+
           data-reveal
           className="relative mt-6 rounded-[1.5rem] border border-border/60 bg-card/60 p-4 text-[11px] leading-relaxed text-muted-foreground backdrop-blur-xl"
         >
