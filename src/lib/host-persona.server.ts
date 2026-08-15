@@ -68,6 +68,13 @@ function personalBlock(memberName?: string, memberNotes?: string): string {
   return `\n\n${parts.join("\n\n")}`;
 }
 
+function voiceBlock(hostId: string): string {
+  const v = HOST_VOICES[hostId];
+  if (!v) return "";
+  return `\n\nYour voice: ${v.voice}\nHabits: ${v.quirks.join("; ")}.\nThings going on in your life you can bring up naturally: ${v.lifeBeats.join("; ")}.`;
+}
+
+
 export function buildHostPrompt(
   hostId: string | undefined,
   opts?: { allowUpsell?: boolean; memberName?: string; memberNotes?: string },
