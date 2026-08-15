@@ -1,10 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { ArrowRight, Circle, Lock, Send } from "lucide-react";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
+import { saveTasteTranscript } from "@/lib/taste-chat";
 
 /** How many messages a visitor can send before the paywall lands. */
 const FREE_TURNS = 2;
@@ -14,6 +15,22 @@ const OPENERS = [
   "What's your ideal first date?",
   "Tell me something no one knows about you",
 ];
+
+function TypingBubble({ name, avatar }: { name: string; avatar: string }) {
+  return (
+    <div className="flex items-end gap-2">
+      <img src={avatar} alt="" aria-hidden width={24} height={24} className="h-6 w-6 rounded-full object-cover" />
+      <div className="flex items-center gap-2 rounded-2xl rounded-bl-md bg-muted px-3 py-2.5">
+        <span className="flex items-center gap-1" aria-hidden>
+          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:0ms]" />
+          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:140ms]" />
+          <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-primary [animation-delay:280ms]" />
+        </span>
+        <span className="text-xs text-muted-foreground">{name} is typing…</span>
+      </div>
+    </div>
+  );
+}
 
 /**
  * Landing-page "taste it" chat. A visitor sends a couple of real messages to a
@@ -35,6 +52,18 @@ export function TasteChat() {
   const sent = messages.filter((m) => m.role === "user").length;
   const locked = sent >= FREE_TURNS;
   const busy = status === "submitted" || status === "streaming";
+  /** She's typing whenever a reply is in flight — the urgency cue. */
+  const lastMsg = messages[messages.length - 1];
+  const lastText = lastMsg
+    ? lastMsg.parts.map((pt) => (pt.type === "text" ? pt.text : "")).join("").trim()
+    : "";
+  const creatorTyping = busy && (lastMsg?.role === "user" || !lastText);
+
+  // Keep the transcript so it lands in their chat log the moment they join.
+  useEffect(() => {
+    if (busy) return;
+    saveTasteTranscript(creator.id, messages);
+  }, [messages, creator.id, busy]);
 
   const send = (text: string) => {
     const t = text.trim();
@@ -66,7 +95,8 @@ export function TasteChat() {
             {creator.name}, {creator.age}
           </p>
           <p className="flex items-center gap-1 text-[11px] text-success">
-            <Circle className="h-2 w-2 fill-success text-success" /> Online now · replies in seconds
+            <Circle className="h-2 w-2 fill-success text-success" />{" "}
+            {creatorTyping ? `${creator.name} is typing…` : "Online now · replies in seconds"}
           </p>
         </div>
         <span className="rounded-full bg-gradient-brand-soft px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.16em] text-foreground/80">
@@ -92,29 +122,29 @@ export function TasteChat() {
             {text(m) || (busy ? "…" : "")}
           </div>
         ))}
-        {busy && messages[messages.length - 1]?.role === "user" ? (
-          <div className="max-w-[80%] rounded-2xl rounded-bl-md bg-muted px-3 py-2 text-sm text-muted-foreground">
-            {creator.name} is typing…
-          </div>
-        ) : null}
+        {creatorTyping ? <TypingBubble name={creator.name} avatar={hostAvatarThumb(creator.id)} /> : null}
       </div>
 
       {locked ? (
         <div className="border-t border-border/60 bg-gradient-brand-soft px-4 py-4 text-center">
-          <p className="flex items-center justify-center gap-2 text-sm font-semibold">
-            <Lock className="h-4 w-4 text-primary" /> She's still typing to you.
+          <div className="flex justify-center">
+            <TypingBubble name={creator.name} avatar={hostAvatarThumb(creator.id)} />
+          </div>
+          <p className="mt-2 flex items-center justify-center gap-2 text-sm font-semibold">
+            <Lock className="h-4 w-4 text-primary" /> {creator.name} is still typing to you.
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
             Join free to keep this conversation going — and message any verified creator.
           </p>
           <Link
             to="/auth"
+            search={{ next: `/chat/${creator.id}` }}
             className="btn-brand mt-3 inline-flex w-full items-center justify-center gap-2 hover:btn-brand-hover"
           >
             Keep chatting — it's free to join <ArrowRight className="h-4 w-4" />
           </Link>
           <p className="mt-2 text-[11px] text-muted-foreground">
-            No card needed. Upgrade only when you want her Friends List.
+            No card needed — this conversation is saved and waiting in your chats.
           </p>
         </div>
       ) : (

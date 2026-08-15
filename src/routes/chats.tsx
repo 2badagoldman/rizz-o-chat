@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS, AI_HOST_IDS, type DemoHost } from "@/lib/demo-hosts";
+import { readTasteTranscript } from "@/lib/taste-chat";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { Circle, Search, MessageCircle, Sparkles } from "lucide-react";
 import { dmListThreads } from "@/lib/dm.functions";
@@ -113,6 +114,21 @@ function Chats() {
     );
   }, [q, aiHosts]);
 
+  // A conversation the visitor started on the landing page before joining —
+  // surfaced here so they can pick it right back up.
+  const [continueChat, setContinueChat] = useState<{ host: DemoHost; preview: string } | null>(null);
+  useEffect(() => {
+    const t = readTasteTranscript();
+    if (!t) return;
+    const host = DEMO_HOSTS.find((h) => h.id === t.hostId);
+    if (!host) return;
+    const last = t.messages[t.messages.length - 1] as any;
+    const preview = Array.isArray(last?.parts)
+      ? last.parts.map((pt: any) => (pt?.type === "text" ? pt.text : "")).join("").trim()
+      : "";
+    setContinueChat({ host, preview });
+  }, []);
+
   if (loading) {
     return (
       <AppShell>
@@ -120,6 +136,33 @@ function Chats() {
       </AppShell>
     );
   }
+
+  const ContinueCard = continueChat ? (
+    <Link
+      to="/chat/$hostId"
+      params={{ hostId: continueChat.host.id }}
+      className="mt-4 flex items-center gap-3 rounded-2xl border border-primary/40 bg-gradient-brand-soft px-3 py-3"
+    >
+      <img
+        src={hostAvatarThumb(continueChat.host.id)}
+        alt={continueChat.host.name}
+        width={44}
+        height={44}
+        className="h-11 w-11 rounded-full object-cover"
+      />
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-semibold">
+          Continue with {continueChat.host.name}
+        </span>
+        <span className="block truncate text-xs text-muted-foreground">
+          {continueChat.preview || "She's still typing to you…"}
+        </span>
+      </span>
+      <span className="rounded-full bg-primary px-3 py-1.5 text-[11px] font-bold text-primary-foreground">
+        Open
+      </span>
+    </Link>
+  ) : null;
 
   const AiRoster = (
     <section className="mt-4">
@@ -256,6 +299,7 @@ function Chats() {
         </>
       ) : (
         <>
+          {ContinueCard}
           {AiRoster}
 
           {threads.length > 0 ? (

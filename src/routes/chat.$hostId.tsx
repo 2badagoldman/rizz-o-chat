@@ -8,6 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Send, Circle, Gift, Sparkles, Heart, Smile } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { readTasteTranscript, clearTasteTranscript } from "@/lib/taste-chat";
 import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { pickOpener } from "@/lib/host-personas";
@@ -85,12 +86,24 @@ function HostChat() {
   );
   const initialMessages = useMemo(() => {
     if (typeof window === "undefined") return [];
+    let local: any[] = [];
     try {
       const raw = localStorage.getItem(storageKey);
       const parsed = raw ? JSON.parse(raw) : null;
-      return Array.isArray(parsed) ? parsed : [];
-    } catch { return []; }
-  }, [storageKey]);
+      local = Array.isArray(parsed) ? parsed : [];
+    } catch { local = []; }
+    // Carry over the conversation they started on the landing page so the chat
+    // they already tasted is right here, ready to continue.
+    if (!local.length) {
+      const taste = readTasteTranscript();
+      if (taste && taste.hostId === hostId) {
+        clearTasteTranscript();
+        try { localStorage.setItem(storageKey, JSON.stringify(taste.messages)); } catch { /* ignore */ }
+        return taste.messages as any[];
+      }
+    }
+    return local;
+  }, [storageKey, hostId]);
 
   // Welcome-to-Friends-List animation when the user just joined (set by
   // the creator profile page in localStorage under `rizzla:welcome:<hostId>`).
