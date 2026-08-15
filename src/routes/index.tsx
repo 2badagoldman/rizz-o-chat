@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo } from "react";
+import { DemoChatProofs } from "@/components/DemoChatProofs";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { ArrowRight, Crown, Users, Circle } from "lucide-react";
@@ -244,6 +245,8 @@ function Home() {
           ))}
         </div>
       </section>
+
+      <DemoChatProofs limit={6} />
     </AppShell>
 
   );

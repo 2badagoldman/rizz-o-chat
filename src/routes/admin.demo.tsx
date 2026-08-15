@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { DemoChatProofs } from "@/components/DemoChatProofs";
 import { Play, Pause, RotateCcw, ChevronRight, Users, MessageSquare, Sparkles, Heart } from "lucide-react";
 
 export const Route = createFileRoute("/admin/demo")({
@@ -194,6 +195,16 @@ function AdminDemo() {
             </div>
           ) : null}
         </section>
+      </div>
+
+      <div className="mt-10 rounded-2xl border border-border bg-card p-5 shadow-sm">
+        <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Proof of concept</p>
+        <h2 className="text-lg font-bold">Creator chat demos</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Our highest-performing creator photos paired with real 4-message exchanges — use these as
+          ad creative, store screenshots and live sales demos. Also shown at the bottom of the marketing home page.
+        </p>
+        <DemoChatProofs limit={9} title="" subtitle="" showCta={false} />
       </div>
     </div>
   );
