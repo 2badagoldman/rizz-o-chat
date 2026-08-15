@@ -67,9 +67,9 @@ export const Route = createFileRoute("/")({
 function Home() {
   const { user, loading: authLoading } = useAuth();
   const onlinePool = useMemo(() => DEMO_HOSTS.filter((h) => h.online), []);
-  const onlineShuffled = useShuffled(onlinePool, 10_000);
+  const onlineShuffled = useShuffled(onlinePool, 45_000);
   const online = onlineShuffled.slice(0, 12);
-  const featured = useShuffled(DEMO_HOSTS, 10_000);
+  const featured = useShuffled(DEMO_HOSTS, 45_000);
 
   return (
     <AppShell>
