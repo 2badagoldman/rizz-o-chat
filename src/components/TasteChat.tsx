@@ -6,7 +6,7 @@ import { ArrowRight, ChevronRight, Circle, Lock, Send } from "lucide-react";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { saveTasteTranscript } from "@/lib/taste-chat";
-import { readMemberMemory, rememberFromMessage, memberNotes as readMemberNotes } from "@/lib/member-memory";
+import { readMemberMemory, rememberFromMessage, saveMemberName, memberNotes as readMemberNotes } from "@/lib/member-memory";
 import { readVisitorName, saveVisitorName } from "@/lib/visitor-name";
 import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNote";
 
@@ -230,6 +230,7 @@ export function TasteChat() {
                 onChange={(e) => {
                   setMemberName(e.target.value.slice(0, 24));
                   saveVisitorName(e.target.value);
+                  saveMemberName(e.target.value);
                 }}
                 placeholder="Your first name"
                 aria-label="Your first name"
