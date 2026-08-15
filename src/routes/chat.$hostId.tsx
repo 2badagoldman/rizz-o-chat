@@ -311,6 +311,7 @@ function HostChat() {
     e.preventDefault();
     const text = [input.trim(), ...pending].filter(Boolean).join("\n");
     if (!text || busy || chatLocked) return;
+    setAutoVoice(false);
     sendMessage({ text });
     setInput("");
     setPending([]);
