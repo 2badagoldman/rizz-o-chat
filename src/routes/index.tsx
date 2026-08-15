@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { DemoChatProofs } from "@/components/DemoChatProofs";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { ArrowRight, Crown, Users, Circle } from "lucide-react";
+import { ArrowRight, Crown, Users, Circle, Search, ChevronDown } from "lucide-react";
+import { PeopleDiscovery } from "@/components/PeopleDiscovery";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
@@ -70,6 +71,7 @@ function Home() {
   const onlineShuffled = useShuffled(onlinePool, 45_000);
   const online = onlineShuffled.slice(0, 12);
   const featured = useShuffled(DEMO_HOSTS, 45_000);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <AppShell>
@@ -86,6 +88,42 @@ function Home() {
           Try it right now — free, no signup. Then subscribe to the creator you actually clicked with.
         </p>
       </header>
+
+      {/* Search creators right from the hero — username, email or phone */}
+      <div className="mt-4 rise-in">
+        <button
+          type="button"
+          onClick={() => setSearchOpen(true)}
+          className="flex w-full items-center gap-3 rounded-2xl border border-border/70 bg-card/70 px-3.5 py-2.5 text-left shadow-card backdrop-blur transition hover:border-primary/50 active:scale-[0.99]"
+        >
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-brand text-white shadow-glow">
+            <Search className="h-4 w-4" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[13px] font-bold">Search creators</span>
+            <span className="block truncate text-[11px] text-muted-foreground">
+              Username, email or phone — or just watch who's joining
+            </span>
+          </span>
+          <span className="flex -space-x-2">
+            {online.slice(0, 3).map((h) => (
+              <img
+                key={h.id}
+                src={hostAvatarThumb(h.id)}
+                alt=""
+                aria-hidden
+                width={24}
+                height={24}
+                loading="lazy"
+                className="h-6 w-6 rounded-full border-2 border-card object-cover"
+              />
+            ))}
+          </span>
+          <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
+        </button>
+      </div>
+
+      <PeopleDiscovery open={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* The aha moment: taste the conversation before any paywall */}
       <TasteChat />

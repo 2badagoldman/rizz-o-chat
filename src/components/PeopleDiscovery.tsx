@@ -85,7 +85,17 @@ export function PeopleDiscovery({ open, onClose }: Props) {
     );
   }, [isHost, debounced]);
 
-  const people = all;
+  // Keep the list looking alive: hide placeholder accounts (no real photo, so
+  // they render the Crush logo) and internal QA/test profiles.
+  const people = useMemo(
+    () =>
+      all.filter((p) => {
+        if (!p.avatar_url) return false;
+        const name = (p.display_name || "").trim().toLowerCase();
+        return !/^(qa|test|demo)\b/.test(name) && !name.includes("qa member");
+      }),
+    [all],
+  );
   const total = people.length + aiHosts.length;
 
   if (!open) return null;
