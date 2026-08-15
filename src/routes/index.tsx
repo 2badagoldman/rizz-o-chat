@@ -200,9 +200,12 @@ function Home() {
             Browse all creators <ArrowRight className="h-4 w-4" />
           </Link>
         )}
-        <Link to="/discover" className="text-center text-xs font-medium text-muted-foreground hover:text-primary">
-          Or browse all creators
-        </Link>
+        {!authLoading && !user ? (
+          <Link to="/discover" className="text-center text-xs font-medium text-muted-foreground hover:text-primary">
+            Or browse all creators
+          </Link>
+        ) : null}
+
       </div>
 
 
