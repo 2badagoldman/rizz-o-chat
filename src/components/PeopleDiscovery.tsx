@@ -287,14 +287,24 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
           role="dialog"
           aria-label="Find your crush"
         >
-          <div className="flex max-h-[52vh] w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl">
+          <div className="flex w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl">
             {searchInput}
-            <div className="mt-2 flex-1 overflow-y-auto px-2 pb-3">{list}</div>
+            {/* Roughly three rows tall, then scroll inside */}
+            <div className="mt-2 max-h-[13.5rem] overflow-y-auto px-2">{list}</div>
+            <Link
+              to="/discover"
+              onClick={onClose}
+              className="flex items-center justify-between border-t border-border/60 px-4 py-2.5 text-[12px] font-bold text-primary"
+            >
+              Find people
+              <span aria-hidden>→</span>
+            </Link>
           </div>
         </div>
       </>
     );
   }
+
 
   // Full-screen modal version (used elsewhere).
   return (
