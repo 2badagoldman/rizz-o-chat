@@ -185,19 +185,26 @@ function Home() {
         </div>
       </section>
 
-      <div className="mt-7 grid gap-3 rise-in rise-in-3">
-        <Link to="/discover" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
-          Browse all creators <ArrowRight className="h-4 w-4" />
-        </Link>
+      <div className="mt-7 grid gap-2 rise-in rise-in-3">
         {!authLoading && !user ? (
-          <Link
-            to="/auth"
-            className="inline-flex items-center justify-center rounded-full border border-border bg-card/80 px-5 py-3 text-sm font-semibold backdrop-blur transition-transform hover:scale-[1.01]"
-          >
-            Sign in or create account
+          <>
+            <Link to="/auth" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
+              Join free & keep chatting <ArrowRight className="h-4 w-4" />
+            </Link>
+            <p className="text-center text-[11px] text-muted-foreground">
+              Free to join. Gold ($9.99/wk) unlocks any creator's Friends List — cancel anytime.
+            </p>
+          </>
+        ) : (
+          <Link to="/discover" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
+            Browse all creators <ArrowRight className="h-4 w-4" />
           </Link>
-        ) : null}
+        )}
+        <Link to="/discover" className="text-center text-xs font-medium text-muted-foreground hover:text-primary">
+          Or browse all creators
+        </Link>
       </div>
+
 
       {/* Become a creator — warm creator studio invite */}
       <section
