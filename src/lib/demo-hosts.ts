@@ -37,6 +37,7 @@ export const AI_HOST_IDS = [
   "demo-harper",
   "demo-cleo",
   "demo-yuna",
+  "demo-rubi",
 ] as const;
 
 export function isAiHost(hostId: string | undefined): boolean {
