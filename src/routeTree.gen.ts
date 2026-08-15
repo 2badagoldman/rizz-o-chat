@@ -74,6 +74,7 @@ import { Route as AdminHostsRouteImport } from './routes/admin.hosts'
 import { Route as AdminGrowthPlaybookRouteImport } from './routes/admin.growth-playbook'
 import { Route as AdminErrorsRouteImport } from './routes/admin.errors'
 import { Route as AdminEarlyAccessRouteImport } from './routes/admin.early-access'
+import { Route as AdminDemoRouteImport } from './routes/admin.demo'
 import { Route as AdminCreatorCodesRouteImport } from './routes/admin.creator-codes'
 import { Route as AdminCopilotRouteImport } from './routes/admin.copilot'
 import { Route as AdminComplianceRouteImport } from './routes/admin.compliance'
@@ -419,6 +420,11 @@ const AdminEarlyAccessRoute = AdminEarlyAccessRouteImport.update({
   path: '/early-access',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminDemoRoute = AdminDemoRouteImport.update({
+  id: '/demo',
+  path: '/demo',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCreatorCodesRoute = AdminCreatorCodesRouteImport.update({
   id: '/creator-codes',
   path: '/creator-codes',
@@ -546,6 +552,7 @@ export interface FileRoutesByFullPath {
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/creator-codes': typeof AdminCreatorCodesRoute
+  '/admin/demo': typeof AdminDemoRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
@@ -631,6 +638,7 @@ export interface FileRoutesByTo {
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/creator-codes': typeof AdminCreatorCodesRoute
+  '/admin/demo': typeof AdminDemoRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
@@ -718,6 +726,7 @@ export interface FileRoutesById {
   '/admin/compliance': typeof AdminComplianceRoute
   '/admin/copilot': typeof AdminCopilotRoute
   '/admin/creator-codes': typeof AdminCreatorCodesRoute
+  '/admin/demo': typeof AdminDemoRoute
   '/admin/early-access': typeof AdminEarlyAccessRoute
   '/admin/errors': typeof AdminErrorsRoute
   '/admin/growth-playbook': typeof AdminGrowthPlaybookRoute
@@ -806,6 +815,7 @@ export interface FileRouteTypes {
     | '/admin/compliance'
     | '/admin/copilot'
     | '/admin/creator-codes'
+    | '/admin/demo'
     | '/admin/early-access'
     | '/admin/errors'
     | '/admin/growth-playbook'
@@ -891,6 +901,7 @@ export interface FileRouteTypes {
     | '/admin/compliance'
     | '/admin/copilot'
     | '/admin/creator-codes'
+    | '/admin/demo'
     | '/admin/early-access'
     | '/admin/errors'
     | '/admin/growth-playbook'
@@ -977,6 +988,7 @@ export interface FileRouteTypes {
     | '/admin/compliance'
     | '/admin/copilot'
     | '/admin/creator-codes'
+    | '/admin/demo'
     | '/admin/early-access'
     | '/admin/errors'
     | '/admin/growth-playbook'
@@ -1564,6 +1576,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEarlyAccessRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/demo': {
+      id: '/admin/demo'
+      path: '/demo'
+      fullPath: '/admin/demo'
+      preLoaderRoute: typeof AdminDemoRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/creator-codes': {
       id: '/admin/creator-codes'
       path: '/creator-codes'
@@ -1717,6 +1736,7 @@ interface AdminRouteChildren {
   AdminComplianceRoute: typeof AdminComplianceRoute
   AdminCopilotRoute: typeof AdminCopilotRoute
   AdminCreatorCodesRoute: typeof AdminCreatorCodesRoute
+  AdminDemoRoute: typeof AdminDemoRoute
   AdminEarlyAccessRoute: typeof AdminEarlyAccessRoute
   AdminErrorsRoute: typeof AdminErrorsRoute
   AdminGrowthPlaybookRoute: typeof AdminGrowthPlaybookRoute
@@ -1739,6 +1759,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminComplianceRoute: AdminComplianceRoute,
   AdminCopilotRoute: AdminCopilotRoute,
   AdminCreatorCodesRoute: AdminCreatorCodesRoute,
+  AdminDemoRoute: AdminDemoRoute,
   AdminEarlyAccessRoute: AdminEarlyAccessRoute,
   AdminErrorsRoute: AdminErrorsRoute,
   AdminGrowthPlaybookRoute: AdminGrowthPlaybookRoute,

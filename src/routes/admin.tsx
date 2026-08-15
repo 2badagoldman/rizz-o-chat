@@ -22,6 +22,7 @@ import {
   Bug,
   Rocket,
   Link2,
+  PlayCircle,
 
 } from "lucide-react";
 import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
@@ -39,6 +40,7 @@ const NAV: ReadonlyArray<{ to: string; label: string; icon: typeof LayoutDashboa
   { to: "/admin/growth-playbook", label: "250K MRR", icon: Rocket },
   { to: "/admin/creator-codes", label: "Creator Codes", icon: Link2 },
 
+  { to: "/admin/demo", label: "Demo Workflow", icon: PlayCircle },
   { to: "/admin/copilot", label: "Copilot", icon: Sparkles },
   { to: "/admin/applications", label: "Creator Applications", icon: Crown },
   { to: "/admin/hosts", label: "Hosts", icon: Crown },
