@@ -8,7 +8,7 @@ export const Route = createFileRoute("/api/public/demo-chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const body = (await request.json()) as { messages?: UIMessage[]; hostId?: string };
+        const body = (await request.json()) as { messages?: UIMessage[]; hostId?: string; memberName?: string };
         const hostId = body.hostId ?? "";
 
         if (!(AI_HOST_IDS as readonly string[]).includes(hostId)) {
@@ -24,7 +24,11 @@ export const Route = createFileRoute("/api/public/demo-chat")({
         const gateway = createLovableAiGatewayProvider(key);
         const result = streamText({
           model: gateway("google/gemini-3-flash-preview"),
-          system: buildHostPrompt(hostId, { allowUpsell: true }),
+          system:
+            buildHostPrompt(hostId, { allowUpsell: true }) +
+            (typeof body.memberName === "string" && body.memberName.trim()
+              ? `\n\nHis name is ${body.memberName.trim().slice(0, 24)}. Use it naturally — early, and again when it lands warmly. Never overuse it.`
+              : ""),
           messages: await convertToModelMessages(body.messages),
         });
 
