@@ -12,8 +12,9 @@ import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNo
 const FREE_TURNS = 2;
 
 const OPENERS = [
-  "Hey — what are you up to tonight?",
-  "What's your ideal first date?",
+  "Hey — you actually reply?",
+  "Say my name in a voice note 👀",
+  "What are you doing tonight?",
   "Tell me something no one knows about you",
 ];
 
