@@ -105,7 +105,7 @@ function Home() {
       </header>
 
       {/* Search creators right from the hero — username, email or phone */}
-      <div className="relative mt-4 rise-in">
+      <div className={`relative mt-4 rise-in ${searchOpen ? "z-[60]" : ""}`}>
         <button
           type="button"
           onClick={() => setSearchOpen((v) => !v)}
