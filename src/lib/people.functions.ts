@@ -89,9 +89,14 @@ export const getPublicProfile = createServerFn({ method: "POST" })
     return { userId: String(x.userId ?? "") };
   })
   .handler(async ({ data, context }): Promise<PublicProfile | null> => {
-    if (!data.userId) return null;
+    // Demo/AI creators use slug ids (e.g. "demo-rubi"), not uuids — Postgres
+    // rejects those with 22P02, so short-circuit instead of throwing a 500.
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(data.userId);
+    if (!data.userId || !isUuid) return null;
+
     const { data: row, error } = await context.supabase
       .from("profiles")
+
       .select("id, display_name, avatar_url, account_type, created_at, bio, gender")
       .eq("id", data.userId)
       .maybeSingle();

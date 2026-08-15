@@ -4,11 +4,19 @@ import { DemoChatProofs } from "@/components/DemoChatProofs";
 import { getDemoProofs } from "@/lib/demo-proofs.functions";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { ArrowRight, Crown, Users, Circle, Search, ChevronDown } from "lucide-react";
+import { ArrowRight, Crown, Users, Circle, Search, ChevronDown, Volume2 } from "lucide-react";
+
+/** Where every other app leaves you. */
+const IGNORED = [
+  { app: "Instagram DM", outcome: "Seen. No reply." },
+  { app: "Tinder", outcome: "No match." },
+  { app: "Hinge", outcome: "Silence." },
+];
 import { PeopleDiscovery } from "@/components/PeopleDiscovery";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
+import { Waveform } from "@/components/chat/VoiceNote";
 import { pageHead, faqLd, jsonLd, SITE_URL } from "@/lib/seo";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
 import { TasteChat } from "@/components/TasteChat";
@@ -42,8 +50,8 @@ export const Route = createFileRoute("/")({
   head: () => {
     const base = pageHead({
       path: "/",
-      title: "Crush \u2014 Real chats with your verified favourite creators",
-      description: "Chat, date, and make friends on Crush with your verified favourite creators. Private Friends Lists, secure payments, and instant DMs. Join free.",
+      title: "Crush \u2014 She actually replies",
+      description: "Send a message and get a real reply — voice notes, photos and real conversation with verified creators. No bots, no algorithms. Start free.",
       keywords: "chat app, dating app, friends app, meet women, verified creators, paid chat, creator subscriptions, social chat",
     });
     return {
@@ -96,11 +104,11 @@ function Home() {
           Friends Always · Crush
         </span>
         <h1 className="mt-3 text-[2.6rem] leading-[1.02] font-display font-extrabold">
-          Send a message.{" "}
-          <span className="text-gradient-brand">Get a real reply</span>.
+          She actually{" "}
+          <span className="text-gradient-brand">replies</span>.
         </h1>
         <p className="mt-3 text-sm text-muted-foreground">
-          Try it right now — free, no signup. Then subscribe to the creator you actually clicked with.
+          Voice notes, photos, real conversation. Say something right now — free, no signup.
         </p>
       </header>
 
@@ -149,6 +157,34 @@ function Home() {
 
       {/* The aha moment: taste the conversation before any paywall */}
       <TasteChat />
+
+      {/* The wound, then the fix: left on read everywhere else — not here. */}
+      <section className="mt-7 overflow-hidden rounded-3xl border border-border bg-card/60 p-4 shadow-card backdrop-blur rise-in">
+        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
+          You already know how this goes
+        </p>
+        <ul className="mt-3 space-y-2">
+          {IGNORED.map((row) => (
+            <li
+              key={row.app}
+              className="flex items-center justify-between gap-3 rounded-2xl bg-muted/50 px-3 py-2 text-sm"
+            >
+              <span className="font-semibold">{row.app}</span>
+              <span className="text-xs text-muted-foreground">{row.outcome}</span>
+            </li>
+          ))}
+          <li className="flex items-center justify-between gap-3 rounded-2xl bg-gradient-brand-soft px-3 py-2.5 text-sm">
+            <span className="font-display font-extrabold">Crush</span>
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-primary">
+              <Volume2 className="h-3.5 w-3.5" /> Voice note back in seconds
+            </span>
+          </li>
+        </ul>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Real creators. Voice notes, photos, everything. No algorithms deciding if you're worth a
+          reply.
+        </p>
+      </section>
 
       {/* Stories */}
       <StoryRail />
@@ -246,14 +282,36 @@ function Home() {
         </div>
       </section>
 
-      <div className="mt-7 grid gap-2 rise-in rise-in-3">
+      {/* One CTA, one job: get them to say something to her. */}
+      <div className="mt-7 rise-in rise-in-3">
         {!authLoading && !user ? (
           <>
-            <Link to="/auth" className="btn-brand flex items-center justify-center gap-2 hover:btn-brand-hover">
-              Join free & keep chatting <ArrowRight className="h-4 w-4" />
-            </Link>
-            <p className="text-center text-[11px] text-muted-foreground">
-              Free to join. Gold ($9.99/wk) unlocks any creator's Friends List — cancel anytime.
+            <button
+              type="button"
+              onClick={() => {
+                const el = document.getElementById("taste-chat");
+                el?.scrollIntoView({ behavior: "smooth", block: "center" });
+                el?.querySelector("input")?.focus({ preventScroll: true });
+              }}
+              className="btn-brand flex w-full items-center justify-center gap-3 !py-4 pulse-cta hover:btn-brand-hover"
+            >
+              {(proofAvatars[0] ?? hostAvatarThumb(featured[0]?.id ?? "")) ? (
+                <img
+                  src={proofAvatars[0] ?? hostAvatarThumb(featured[0]!.id)}
+                  alt=""
+                  aria-hidden
+                  width={32}
+                  height={32}
+                  loading="lazy"
+                  className="h-8 w-8 rounded-full border-2 border-white/70 object-cover"
+                />
+              ) : null}
+              <span className="font-display text-base font-extrabold">Say Something</span>
+              <Waveform active className="h-5 text-white/80" />
+            </button>
+            <p className="mt-2 text-center text-[11px] text-muted-foreground">
+              She's online right now. Free to start — Gold ($9.99/wk) unlocks any creator's Friends
+              List.
             </p>
           </>
         ) : (
@@ -261,12 +319,6 @@ function Home() {
             Browse all creators <ArrowRight className="h-4 w-4" />
           </Link>
         )}
-        {!authLoading && !user ? (
-          <Link to="/discover" className="text-center text-xs font-medium text-muted-foreground hover:text-primary">
-            Or browse all creators
-          </Link>
-        ) : null}
-
       </div>
 
 

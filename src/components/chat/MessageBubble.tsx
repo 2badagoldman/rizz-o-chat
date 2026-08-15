@@ -14,6 +14,7 @@ export function MessageBubble({
   state,
   reactions,
   onReact,
+  voiceSlot,
 }: {
   mine: boolean;
   text: string;
@@ -23,6 +24,8 @@ export function MessageBubble({
   reactions?: string[];
   /** Fired with the chosen emoji + the viewport point the burst should rise from. */
   onReact?: (emoji: string, origin: { x: number; y: number }) => void;
+  /** Rendered under a creator bubble — e.g. "hear her voice". */
+  voiceSlot?: React.ReactNode;
 }) {
   const [pickerOpen, setPickerOpen] = useState(false);
   const bubbleRef = useRef<HTMLDivElement | null>(null);
@@ -139,6 +142,8 @@ export function MessageBubble({
             </div>
           ) : null}
         </div>
+
+        {!mine && voiceSlot ? <div className="flex justify-start">{voiceSlot}</div> : null}
 
         {reactions && reactions.length ? (
           <div className={`mt-1 flex flex-wrap gap-1 ${mine ? "justify-end" : "justify-start"}`}>

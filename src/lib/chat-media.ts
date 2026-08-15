@@ -9,11 +9,11 @@
  *   "look at this\n[[media:uuid/168…-beach.jpg|image]]"
  */
 
-export type ChatMediaKind = "image" | "video";
+export type ChatMediaKind = "image" | "video" | "audio";
 
 export type ChatAttachment = { path: string; kind: ChatMediaKind };
 
-const MARKER = /\[\[media:([^|\]]+)\|(image|video)\]\]/g;
+const MARKER = /\[\[media:([^|\]]+)\|(image|video|audio)\]\]/g;
 
 export const CHAT_MEDIA_BUCKET = "chat-media";
 export const MAX_CHAT_MEDIA_BYTES = 50 * 1024 * 1024; // 50 MB
@@ -44,12 +44,14 @@ export function previewChatBody(body: string) {
   const { text, media } = parseChatBody(body);
   if (text) return text;
   if (!media.length) return "";
+  if (media[0].kind === "audio") return "🎤 Voice note";
   return media[0].kind === "video" ? "📹 Video" : "📷 Photo";
 }
 
 export function kindForFile(file: File): ChatMediaKind | null {
   if (file.type.startsWith("image/")) return "image";
   if (file.type.startsWith("video/")) return "video";
+  if (file.type.startsWith("audio/")) return "audio";
   return null;
 }
 

@@ -22,6 +22,7 @@ export function VirtualMessageList({
   empty,
   reactions,
   onReact,
+  renderVoice,
 }: {
   items: ChatItem[];
   typingName?: string | null;
@@ -30,6 +31,8 @@ export function VirtualMessageList({
   /** messageId -> emojis attached to it */
   reactions?: Record<string, string[]>;
   onReact?: (messageId: string, emoji: string, origin: { x: number; y: number }) => void;
+  /** Optional voice-note control rendered under each creator message. */
+  renderVoice?: (item: ChatItem, isLatest: boolean) => ReactNode;
 }) {
 
   const parentRef = useRef<HTMLDivElement | null>(null);
@@ -107,6 +110,7 @@ export function VirtualMessageList({
                   state={item.state}
                   reactions={reactions?.[item.id]}
                   onReact={onReact ? (emoji, origin) => onReact(item.id, emoji, origin) : undefined}
+                  voiceSlot={renderVoice ? renderVoice(item, row.index === items.length - 1) : undefined}
                 />
 
               ) : (
