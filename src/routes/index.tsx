@@ -71,6 +71,7 @@ function Home() {
   const onlineShuffled = useShuffled(onlinePool, 45_000);
   const online = onlineShuffled.slice(0, 12);
   const featured = useShuffled(DEMO_HOSTS, 45_000);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <AppShell>
