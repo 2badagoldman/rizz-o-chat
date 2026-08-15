@@ -4,7 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { Sparkles, ArrowLeft, CheckCircle2 } from "lucide-react";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 import { FEATURES } from "@/lib/soon-features";
 import { pageHead } from "@/lib/seo";
 

@@ -98,7 +98,7 @@ function ComplianceReportPage() {
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
     const a = document.createElement("a");
     a.href = url;
-    a.download = `rizzla-verification-report-${report.report_date}.csv`;
+    a.download = `crush-verification-report-${report.report_date}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };

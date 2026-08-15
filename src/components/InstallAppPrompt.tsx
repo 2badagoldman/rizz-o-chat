@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { toast } from "sonner";
-import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import crushLogo from "@/assets/crush-logo.png.asset.json";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;

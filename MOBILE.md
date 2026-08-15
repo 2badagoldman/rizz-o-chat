@@ -144,7 +144,7 @@ Users can also install directly from Edge/Chrome via "Install app".
 ## 4. Store listing copy
 
 - **Name:** Crush
-- **Subtitle:** Real conversations with verified hosts
+- **Subtitle:** Real conversations with your verified favourite creators
 - **Description:** Crush is an 18+ social chat app where members join a host's
   Friends List for private chats, group rooms and gifts. Every account passes ID
   verification, hosts set their own price, and payments are handled securely.

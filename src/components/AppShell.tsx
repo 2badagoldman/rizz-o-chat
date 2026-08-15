@@ -20,7 +20,7 @@ import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 
 
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 import { initScrollReveal, initAnimScopes } from "@/lib/scroll-reveal";
 
 interface AppShellProps {

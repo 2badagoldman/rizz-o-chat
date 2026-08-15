@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { liveAlertsEnabled } from "./LiveHostAlerts";
-import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import crushLogo from "@/assets/crush-logo.png.asset.json";
 
 /**
  * One "Come online to chat" device notification per day, with the Crush

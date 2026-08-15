@@ -37,7 +37,7 @@ test("core navigation buttons reach their destinations", async ({ page }) => {
   await page.keyboard.press("Escape");
 
   // Logo reloads to home.
-  await page.getByLabel(/Rizzla home/i).first().click({ force: true });
+  await page.getByLabel(/Crush home/i).first().click({ force: true });
   await page.waitForLoadState("domcontentloaded");
   expect(new URL(page.url()).pathname).toBe("/");
 

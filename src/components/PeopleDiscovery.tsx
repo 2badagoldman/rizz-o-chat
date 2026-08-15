@@ -9,7 +9,7 @@ import { OnlineDot, useOnlineUsers } from "@/lib/presence";
 import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 
 interface Props {
   open: boolean;

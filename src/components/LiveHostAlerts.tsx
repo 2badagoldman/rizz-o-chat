@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useOnlineUsers } from "@/lib/presence";
 import { syncPendingEthnicity } from "@/lib/ethnicity";
-import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import crushLogo from "@/assets/crush-logo.png.asset.json";
 import { isNativeApp } from "@/lib/native";
 
 /**

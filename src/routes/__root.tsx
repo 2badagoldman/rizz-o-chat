@@ -126,7 +126,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "@type": "Organization",
               "@id": "https://rizzlachat.com/#organization",
               name: "Crush",
-              alternateName: "Rizzla Chat",
+              alternateName: "Crush",
               url: "https://rizzlachat.com",
               logo: "https://rizzlachat.com/icon-512.png",
               email: "rizzchatsupport@gmail.com",
@@ -194,15 +194,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 /**
- * Sea ("abyss") is the default theme, so it ships on the server-rendered <html>
+ * Crush ("crushgold") is the default theme, so it ships on the server-rendered <html>
  * and a tiny blocking script swaps in the visitor's saved theme before first
  * paint. Without this the page painted unthemed (pink-ish) until React hydrated.
  */
-const THEME_BOOT = `(function(){try{var a=["pink","blue","ocean","abyss","sico","romance","crush"];var s=localStorage.getItem("rizz.theme");var t=a.indexOf(s)>-1?s:"abyss";var r=document.documentElement;a.forEach(function(x){r.classList.toggle("theme-"+x,x===t)});}catch(e){}})();`;
+const THEME_BOOT = `(function(){try{var a=["pink","blue","ocean","abyss","sico","romance","crush","crushgold"];var s=localStorage.getItem("rizz.theme");var t=a.indexOf(s)>-1?s:"crushgold";var r=document.documentElement;a.forEach(function(x){r.classList.toggle("theme-"+x,x===t)});}catch(e){}})();`;
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className="theme-abyss">
+    <html lang="en" className="theme-crushgold">
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
         <HeadContent />

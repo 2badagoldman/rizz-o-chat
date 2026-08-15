@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { createPortal } from "react-dom";
 import { X, Check } from "lucide-react";
-import crushLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import crushLogo from "@/assets/crush-logo.png.asset.json";
 import { useAuth } from "@/lib/auth";
 import { useGoldAccess } from "@/hooks/useGoldAccess";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";

@@ -7,7 +7,7 @@ import { DEMO_HOSTS, tierLabel, type DemoHost } from "@/lib/demo-hosts";
 import { hostAvatar, hostAvatarMed } from "@/lib/host-avatars";
 import { Search, Users, Circle, Sparkles, X, ArrowUpDown } from "lucide-react";
 import { useShuffled } from "@/hooks/useShuffled";
-import rizzLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzLogo from "@/assets/crush-logo.png.asset.json";
 import { RoomsShowcase } from "@/components/RoomsShowcase";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
 import { StoryRail } from "@/components/stories/StoryRail";

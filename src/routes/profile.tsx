@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 import { deleteMyAccount } from "@/lib/account.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { BlockedAccounts } from "@/components/BlockedAccounts";

@@ -9,7 +9,7 @@ import { useGoldAccess } from "@/hooks/useGoldAccess";
 import { useIosBillingRestricted } from "@/hooks/useNative";
 import { SafetyMenu } from "@/components/SafetyMenu";
 
-import rizzAiLogo from "@/assets/rizz-ai-logo.webp.asset.json";
+import rizzAiLogo from "@/assets/crush-logo.png.asset.json";
 import { pageHead } from "@/lib/seo";
 
 
