@@ -276,34 +276,29 @@ export function PeopleDiscovery({ open, onClose, inline = false }: Props) {
     </>
   );
 
-  // Compact inline dropdown — just rolls out under the trigger button, no
-  // full-screen section. Clicking outside (the transparent backdrop) closes it.
+  // Compact inline dropdown — renders in normal document flow so the content
+  // below (the chat, rails, etc.) is pushed down instead of being covered,
+  // and springs back up when closed. Nothing ever overlaps.
   if (inline) {
     return (
-      <>
-        <div className="fixed inset-0 z-[55]" onClick={onClose} aria-hidden />
-        <div
-          className="absolute left-0 right-0 top-full z-[60] mt-1"
-          role="dialog"
-          aria-label="Find your crush"
-        >
-          <div className="flex w-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl">
-            {searchInput}
-            {/* Roughly three rows tall, then scroll inside */}
-            <div className="mt-2 max-h-[13.5rem] overflow-y-auto px-2">{list}</div>
-            <Link
-              to="/discover"
-              onClick={onClose}
-              className="flex items-center justify-between border-t border-border/60 px-4 py-2.5 text-[12px] font-bold text-primary"
-            >
-              Find people
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
+      <div className="mt-2 w-full" role="region" aria-label="Find your crush">
+        <div className="flex w-full min-w-0 flex-col overflow-hidden rounded-2xl border border-border/70 bg-card/95 shadow-card backdrop-blur-2xl rise-in">
+          {searchInput}
+          {/* Roughly three rows tall, then scroll inside */}
+          <div className="mt-2 max-h-[13.5rem] overflow-y-auto overscroll-contain px-2">{list}</div>
+          <Link
+            to="/discover"
+            onClick={onClose}
+            className="flex items-center justify-between gap-2 border-t border-border/60 px-4 py-2.5 text-[12px] font-bold text-primary"
+          >
+            <span className="min-w-0 truncate">Find people</span>
+            <span aria-hidden className="shrink-0">→</span>
+          </Link>
         </div>
-      </>
+      </div>
     );
   }
+
 
 
   // Full-screen modal version (used elsewhere).
