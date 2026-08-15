@@ -88,7 +88,7 @@ const TIERS = [
     tier: "Popular",
     range: "100–499 Friends",
     price: "$9.99 – $14.99 / week",
-    note: "The Milestone Flip lands at 100 Friends. Recurring revenue now outweighs new joins, so protect renewals above all else.",
+    note: "Your split steps up to 50% at 100 Friends. Recurring revenue now outweighs new joins, so protect renewals above all else.",
   },
   {
     tier: "Elite",
@@ -163,14 +163,14 @@ function CreatorPricingGuide() {
           </div>
         </Section>
 
-        <Section title="The Milestone Flip at 100 Friends">
+        <Section title="The split steps: 35% → 50% at 100 → 65% at 500">
           <p>
             Below 100 Friends, almost all of your income is new joins. Above 100, the maths flips: renewals
             become the larger half of every week's total, and small retention gains beat large marketing
             pushes. A 5% improvement in weekly renewals at 200 Friends is worth more than ten new sign-ups.
           </p>
           <p>
-            Practically, that means the week you cross 100 is the week to stop discounting and start
+            Practically, that means the week you cross 100 your split moves to 50%, so stop discounting and start
             protecting. Cut the promo codes, tighten your reply window, and only raise price in single
             dollar steps so existing Friends never feel repriced overnight.
           </p>
