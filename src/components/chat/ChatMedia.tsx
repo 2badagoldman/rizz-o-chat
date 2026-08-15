@@ -4,6 +4,7 @@ import { ImagePlus, Loader2, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { signChatMedia } from "@/lib/chat-media.functions";
+import { VoiceNotePlayer } from "./VoiceNote";
 import {
   CHAT_MEDIA_BUCKET,
   MAX_CHAT_MEDIA_BYTES,
@@ -45,6 +46,9 @@ function ChatMediaItem({ item }: { item: ChatAttachment }) {
   }
   if (!url) {
     return <div className="h-40 w-56 max-w-full animate-pulse rounded-2xl bg-foreground/10" />;
+  }
+  if (item.kind === "audio") {
+    return <VoiceNotePlayer url={url} />;
   }
   if (item.kind === "video") {
     return (
@@ -94,7 +98,7 @@ export function ChatAttachButton({
   const pick = async (file: File | undefined) => {
     if (!file) return;
     const kind = kindForFile(file);
-    if (!kind) return toast.error("Only photos and videos can be shared.");
+    if (!kind || kind === "audio") return toast.error("Only photos and videos can be shared here — use the mic for voice notes.");
     if (file.size > MAX_CHAT_MEDIA_BYTES) return toast.error("File is too large (50 MB max).");
 
     setBusy(true);
@@ -169,7 +173,7 @@ export function PendingAttachments({
             key={m}
             className="flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-semibold text-primary"
           >
-            {kind === "video" ? "📹 Video ready" : "📷 Photo ready"}
+            {kind === "audio" ? "🎤 Voice note ready" : kind === "video" ? "📹 Video ready" : "📷 Photo ready"}
             <button type="button" aria-label="Remove attachment" onClick={() => onRemove(m)}>
               <X className="h-3.5 w-3.5" />
             </button>
