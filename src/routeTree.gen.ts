@@ -88,6 +88,7 @@ import { Route as ApiPublicClientErrorRouteImport } from './routes/api/public/cl
 import { Route as AdminHostsHostIdRouteImport } from './routes/admin.hosts.$hostId'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
+import { Route as ApiPublicVoiceTtsRouteImport } from './routes/api/public/voice/tts'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as ApiPublicPaymentsSegpayRouteImport } from './routes/api/public/payments/segpay'
 import { Route as ApiPublicPaymentsRevenuecatRouteImport } from './routes/api/public/payments/revenuecat'
@@ -494,6 +495,11 @@ const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   path: '/.lovable/oauth/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicVoiceTtsRoute = ApiPublicVoiceTtsRouteImport.update({
+  id: '/api/public/voice/tts',
+  path: '/api/public/voice/tts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -621,6 +627,7 @@ export interface FileRoutesByFullPath {
   '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
   '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/voice/tts': typeof ApiPublicVoiceTtsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -708,6 +715,7 @@ export interface FileRoutesByTo {
   '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
   '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/voice/tts': typeof ApiPublicVoiceTtsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -797,6 +805,7 @@ export interface FileRoutesById {
   '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
   '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
+  '/api/public/voice/tts': typeof ApiPublicVoiceTtsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -887,6 +896,7 @@ export interface FileRouteTypes {
     | '/api/public/payments/revenuecat'
     | '/api/public/payments/segpay'
     | '/api/public/payments/webhook'
+    | '/api/public/voice/tts'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -974,6 +984,7 @@ export interface FileRouteTypes {
     | '/api/public/payments/revenuecat'
     | '/api/public/payments/segpay'
     | '/api/public/payments/webhook'
+    | '/api/public/voice/tts'
   id:
     | '__root__'
     | '/'
@@ -1062,6 +1073,7 @@ export interface FileRouteTypes {
     | '/api/public/payments/revenuecat'
     | '/api/public/payments/segpay'
     | '/api/public/payments/webhook'
+    | '/api/public/voice/tts'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1129,6 +1141,7 @@ export interface RootRouteChildren {
   ApiPublicPaymentsRevenuecatRoute: typeof ApiPublicPaymentsRevenuecatRoute
   ApiPublicPaymentsSegpayRoute: typeof ApiPublicPaymentsSegpayRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
+  ApiPublicVoiceTtsRoute: typeof ApiPublicVoiceTtsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1686,6 +1699,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DotlovableOauthConsentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/voice/tts': {
+      id: '/api/public/voice/tts'
+      path: '/api/public/voice/tts'
+      fullPath: '/api/public/voice/tts'
+      preLoaderRoute: typeof ApiPublicVoiceTtsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -1866,6 +1886,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPaymentsRevenuecatRoute: ApiPublicPaymentsRevenuecatRoute,
   ApiPublicPaymentsSegpayRoute: ApiPublicPaymentsSegpayRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
+  ApiPublicVoiceTtsRoute: ApiPublicVoiceTtsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
