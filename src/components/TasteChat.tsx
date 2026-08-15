@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { ArrowRight, Circle, Lock, Send } from "lucide-react";
+import { ArrowRight, ChevronRight, Circle, Lock, Send } from "lucide-react";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { saveTasteTranscript } from "@/lib/taste-chat";
