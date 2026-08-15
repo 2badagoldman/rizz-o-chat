@@ -4,7 +4,7 @@ import { DemoChatProofs } from "@/components/DemoChatProofs";
 import { getDemoProofs } from "@/lib/demo-proofs.functions";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { ArrowRight, Crown, Users, Circle, Search, ChevronDown, Volume2 } from "lucide-react";
+import { ArrowRight, Crown, Users, Circle, Search, ChevronDown, Volume2, Sparkles } from "lucide-react";
 
 /** Where every other app leaves you. */
 const IGNORED = [
