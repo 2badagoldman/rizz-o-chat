@@ -6,7 +6,7 @@ import { Waveform } from "@/components/chat/VoiceNote";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { hostAvatarMed } from "@/lib/host-avatars";
 import { pageHead, faqLd, jsonLd, breadcrumbLd, SITE_URL } from "@/lib/seo";
-import { Mic, Volume2, Play, Loader2, ArrowRight, Heart, Image as ImageIcon } from "lucide-react";
+import { Mic, Volume2, Play, Loader2, ArrowRight, Heart, Image as ImageIcon, User, MessageCircle } from "lucide-react";
 
 const FAQS = [
   {
