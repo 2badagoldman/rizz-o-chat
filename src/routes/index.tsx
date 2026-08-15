@@ -37,8 +37,8 @@ export const Route = createFileRoute("/")({
   head: () => {
     const base = pageHead({
       path: "/",
-      title: "Crush \u2014 Real chats with verified creators, dates, and friends",
-      description: "Chat, date, and make friends on Crush. Verified creators, private Friends Lists, secure payments, and instant DMs. Join free.",
+      title: "Crush \u2014 Real chats with your verified favourite creators",
+      description: "Chat, date, and make friends on Crush with your verified favourite creators. Private Friends Lists, secure payments, and instant DMs. Join free.",
       keywords: "chat app, dating app, friends app, meet women, verified creators, paid chat, creator subscriptions, social chat",
     });
     return {
