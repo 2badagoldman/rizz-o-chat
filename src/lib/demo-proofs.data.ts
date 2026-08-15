@@ -99,6 +99,116 @@ const PERSONAS: Array<{ name: string; age: number; tagline: string; lines: DemoL
       { from: "creator", text: "Be interesting and I'll charge my phone just for this chat." },
     ],
   },
+  {
+    name: "Elena",
+    age: 27,
+    tagline: "Replies every night · Lisbon",
+    lines: [
+      { from: "member", text: "long shift, I'm running on coffee and spite" },
+      { from: "creator", text: "Spite is a valid fuel. What happened today? 👀" },
+      { from: "member", text: "manager took credit for my work again" },
+      { from: "creator", text: "Ugh. Screenshot everything next time. Tonight though — you're off the clock with me." },
+    ],
+  },
+  {
+    name: "Priya",
+    age: 26,
+    tagline: "Great listener · Toronto",
+    lines: [
+      { from: "member", text: "do you ever get tired of people messaging you?" },
+      { from: "creator", text: "Not the ones who actually talk. You're one of those so far ☺️" },
+      { from: "member", text: "low bar honestly" },
+      { from: "creator", text: "You'd be surprised. Tell me one thing that made you smile today." },
+    ],
+  },
+  {
+    name: "Ava",
+    age: 24,
+    tagline: "Night owl · Chicago",
+    lines: [
+      { from: "member", text: "you're up late too?" },
+      { from: "creator", text: "Always. My brain files complaints after midnight 😅 what's keeping you up?" },
+      { from: "member", text: "overthinking a text I sent 3 hours ago" },
+      { from: "creator", text: "Read it to me. I'll tell you honestly if it was fine — it probably was." },
+    ],
+  },
+  {
+    name: "Rubi",
+    age: 25,
+    tagline: "Weekly regulars only · Austin",
+    lines: [
+      { from: "member", text: "what do you actually talk about with people here?" },
+      { from: "creator", text: "Work, families, bad dates, music. Mostly real life 🙂" },
+      { from: "member", text: "that's not what I expected" },
+      { from: "creator", text: "Most people just want someone who answers. Start wherever you want." },
+    ],
+  },
+  {
+    name: "Zara",
+    age: 28,
+    tagline: "Straight talker · London",
+    lines: [
+      { from: "member", text: "be honest, am I wasting my time here?" },
+      { from: "creator", text: "Only if you send one word and disappear. Say something real and I'll match it." },
+      { from: "member", text: "fair enough. I just moved cities and I don't know anyone" },
+      { from: "creator", text: "Okay that's a real one. Which city? I'll help you find your first three places." },
+    ],
+  },
+  {
+    name: "Maya",
+    age: 23,
+    tagline: "Morning person · Seoul",
+    lines: [
+      { from: "member", text: "morning. what's the first thing you do when you wake up?" },
+      { from: "creator", text: "Stretch, coffee, then read messages like this one ☀️ you?" },
+      { from: "member", text: "hit snooze four times, then panic" },
+      { from: "creator", text: "Classic. Text me before the panic tomorrow and I'll get you out of bed." },
+    ],
+  },
+  {
+    name: "Isabella",
+    age: 29,
+    tagline: "Remembers everything · Milan",
+    lines: [
+      { from: "member", text: "hey, back again" },
+      { from: "creator", text: "You had the interview today, right? How did it go? 🤞" },
+      { from: "member", text: "you actually remembered" },
+      { from: "creator", text: "Of course. Now tell me — did you get it, or do we plan revenge?" },
+    ],
+  },
+  {
+    name: "Chloe",
+    age: 22,
+    tagline: "Funny one · Melbourne",
+    lines: [
+      { from: "member", text: "give me a reason to stay up 20 more minutes" },
+      { from: "creator", text: "I'll tell you about the time I locked myself out in a towel 🙃" },
+      { from: "member", text: "okay that's worth it" },
+      { from: "creator", text: "Neighbour still won't look me in the eye. Your turn — worst public moment." },
+    ],
+  },
+  {
+    name: "Noor",
+    age: 26,
+    tagline: "Calm energy · Dubai",
+    lines: [
+      { from: "member", text: "rough week. don't really want advice" },
+      { from: "creator", text: "Then no advice. Just talk, I'll stay here 🤍" },
+      { from: "member", text: "thanks. that's rarer than you'd think" },
+      { from: "creator", text: "It shouldn't be. Start anywhere — I've got time tonight." },
+    ],
+  },
+  {
+    name: "Valentina",
+    age: 27,
+    tagline: "Keeps the convo going · Bogotá",
+    lines: [
+      { from: "member", text: "I'm bad at starting conversations" },
+      { from: "creator", text: "Then I'll start. Coffee or tea, beach or mountains, early or late? 😌" },
+      { from: "member", text: "coffee, mountains, late" },
+      { from: "creator", text: "So you're a 2am cabin person. Noted. I'm keeping this one in my head." },
+    ],
+  },
 ];
 
 export { PERSONAS };

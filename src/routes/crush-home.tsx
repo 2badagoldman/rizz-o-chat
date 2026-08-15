@@ -567,7 +567,7 @@ function CrushHome() {
 
       {/* FOOTER */}
       <section className="mx-auto w-full max-w-6xl px-5 pb-4">
-        <DemoChatProofs limit={6} />
+        <DemoChatProofs limit={12} />
       </section>
 
       <footer className="border-t border-[var(--ch-line)] px-4 py-12">
