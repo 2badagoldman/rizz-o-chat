@@ -26,7 +26,7 @@ const SHOW_KEY = "rizz.theme.autoShow";
 const SHOW_STEP_MS = 120_000; // 2 minutes
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>("abyss");
+  const [theme, setTheme] = useState<Theme>("crushgold");
   const [autoShow, setAutoShow] = useState(true);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const manual = useRef(false);
@@ -38,13 +38,13 @@ export function useTheme() {
 
   useEffect(() => {
     const saved = localStorage.getItem(KEY) as Theme | null;
-    const next = saved && ALL.includes(saved) ? saved : "abyss";
+    const next = saved && ALL.includes(saved) ? saved : "crushgold";
     setTheme(next);
     apply(next);
     setAutoShow(localStorage.getItem(SHOW_KEY) !== "off");
   }, []);
 
-  // Theme show: sea -> pink after 2 min -> sea after 2 more min, then stays.
+  // Theme show: crush -> sea after 2 min -> crush after 2 more min, then stays.
   // The showcase steps are deliberately NOT persisted: saving "pink" here made
   // returning visitors boot into pink and flash back to sea.
   useEffect(() => {
@@ -55,8 +55,8 @@ export function useTheme() {
       setTheme(t);
       apply(t);
     };
-    timers.current.push(setTimeout(() => step("pink"), SHOW_STEP_MS));
-    timers.current.push(setTimeout(() => step("abyss"), SHOW_STEP_MS * 2));
+    timers.current.push(setTimeout(() => step("abyss"), SHOW_STEP_MS));
+    timers.current.push(setTimeout(() => step("crushgold"), SHOW_STEP_MS * 2));
     return clearTimers;
   }, [autoShow]);
 
@@ -136,13 +136,13 @@ export function ThemeToggle() {
         </button>
         <button
           type="button"
-          onClick={() => { setTheme("pink"); setOpen(false); }}
-          aria-pressed={theme === "pink"}
+          onClick={() => { setTheme("crushgold"); setOpen(false); }}
+          aria-pressed={theme === "crushgold"}
           className={`rounded-full px-2.5 py-1 transition-colors ${
-            theme === "pink" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
+            theme === "crushgold" ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
           } hidden sm:block`}
         >
-          Pink
+          Crush
         </button>
 
         <button
@@ -202,7 +202,7 @@ export function ThemeToggle() {
                 <span className="leading-tight">
                   Theme show
                   <span className="block text-[10px] font-medium text-muted-foreground">
-                    Sea → Pink (2 min) → Sea
+                    Crush → Sea (2 min) → Crush
                   </span>
                 </span>
               </button>
