@@ -26,7 +26,7 @@ import { StoryRail } from "@/components/stories/StoryRail";
 const FAQS = [
   {
     q: "What is Crush?",
-    a: "Crush is an 18+ social chat app where verified creators run private Friends Lists. Members subscribe to DM their favourite creators, join city rooms, and send gifts.",
+    a: "Meet your favorite exclusive creators on CRUSH. Members get 24/7 access to chat, connect, and enjoy one-on-one time with the creators they love.",
   },
   {
     q: "How much does Crush cost?",
