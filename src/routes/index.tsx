@@ -172,78 +172,50 @@ function Home() {
       {/* The aha moment: taste the conversation before any paywall */}
       <TasteChat />
 
-      {/* The wound, then the fix: left on read everywhere else — not here. */}
-      <section className="mt-7 overflow-hidden rounded-3xl border border-border bg-card/60 p-4 shadow-card backdrop-blur rise-in">
-        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-muted-foreground">
-          You already know how this goes
-        </p>
-        <ul className="mt-3 space-y-2">
-          {IGNORED.map((row) => (
-            <li
-              key={row.app}
-              className="flex items-center justify-between gap-3 rounded-2xl bg-muted/50 px-3 py-2 text-sm"
-            >
-              <span className="font-semibold">{row.app}</span>
-              <span className="text-xs text-muted-foreground">{row.outcome}</span>
-            </li>
-          ))}
-          <li className="flex items-center justify-between gap-3 rounded-2xl bg-gradient-brand-soft px-3 py-2.5 text-sm">
-            <span className="font-display font-extrabold">Crush</span>
-            <span className="flex items-center gap-1.5 text-xs font-semibold text-primary">
-              <Volume2 className="h-3.5 w-3.5" /> Voice note back in seconds
-            </span>
-          </li>
-        </ul>
-        <p className="mt-3 text-xs text-muted-foreground">
-          Real creators. Voice notes, photos, everything. No algorithms deciding if you're worth a
-          reply.
-        </p>
+      {/* The wound, in one line. */}
+      <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-2xl border border-border bg-card/60 px-3.5 py-2.5 text-[12px] shadow-card backdrop-blur rise-in">
+        <span className="text-muted-foreground">
+          Instagram: seen, no reply. Tinder: no match. Hinge: silence.
+        </span>
+        <span className="flex items-center gap-1.5 font-semibold text-primary">
+          <Volume2 className="h-3.5 w-3.5" /> Crush: voice note back in seconds.
+        </span>
+      </div>
+
+      {/* One-line entry points to the sales pages */}
+      <div className="mt-2 flex flex-wrap gap-2 rise-in">
         <Link
           to="/voice-notes"
-          className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-primary/40 bg-background/60 px-3.5 py-2.5 transition hover:border-primary"
+          className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-background/60 px-3 py-1.5 text-[11px] font-semibold transition hover:border-primary"
         >
-          <span className="min-w-0">
-            <span className="block text-[13px] font-bold">Hear her say your name</span>
-            <span className="block truncate text-[11px] text-muted-foreground">
-              Play a real voice note — no signup
-            </span>
-          </span>
-          <span className="flex shrink-0 items-center gap-2 text-primary">
-            <Waveform className="w-12" />
-            <ArrowRight className="h-4 w-4" />
-          </span>
+          <Volume2 className="h-3.5 w-3.5 text-primary" /> Hear her say your name
+          <ArrowRight className="h-3 w-3 text-primary" />
         </Link>
         <Link
           to="/confidence"
-          className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-primary/40 bg-background/60 px-3.5 py-2.5 transition hover:border-primary"
+          className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-background/60 px-3 py-1.5 text-[11px] font-semibold transition hover:border-primary"
         >
-          <span className="min-w-0">
-            <span className="block text-[13px] font-bold">Boost your confidence</span>
-            <span className="block truncate text-[11px] text-muted-foreground">
-              When she actually replies, you feel it — see why
-            </span>
-          </span>
-          <span className="flex shrink-0 items-center gap-2 text-primary">
-            <Sparkles className="h-4 w-4" />
-            <ArrowRight className="h-4 w-4" />
-          </span>
+          <Sparkles className="h-3.5 w-3.5 text-primary" /> Boost your confidence
+          <ArrowRight className="h-3 w-3 text-primary" />
         </Link>
         <Link
           to="/why-crush"
-          className="mt-3 flex items-center justify-between gap-3 rounded-2xl border border-primary/40 bg-background/60 px-3.5 py-2.5 transition hover:border-primary"
+          className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-background/60 px-3 py-1.5 text-[11px] font-semibold transition hover:border-primary"
         >
-          <span className="min-w-0">
-            <span className="block text-[13px] font-bold">Tired of being ignored?</span>
-            <span className="block truncate text-[11px] text-muted-foreground">
-              No silence, no waiting, no fear of rejection — see how
-            </span>
-          </span>
-          <span className="flex shrink-0 items-center gap-2 text-primary">
-            <Heart className="h-4 w-4" />
-            <ArrowRight className="h-4 w-4" />
-          </span>
+          <Heart className="h-3.5 w-3.5 text-primary" /> Tired of being ignored?
+          <ArrowRight className="h-3 w-3 text-primary" />
         </Link>
-      </section>
+      </div>
+
+      {/* Full proof grid: real creators, real chats */}
+      <div className="mt-6 rise-in">
+        <DemoChatProofs
+          limit={12}
+          title="Real conversations, real replies"
+          subtitle="Actual chats between members and Crush creators"
+        />
+      </div>
+
 
       {/* Stories */}
       <StoryRail />
