@@ -40,8 +40,10 @@ export type RcPackage = {
 
 function apiKey(): string | null {
   const platform = nativePlatform();
-  if (platform === "ios") return import.meta.env.VITE_REVENUECAT_IOS_KEY ?? null;
-  if (platform === "android") return import.meta.env.VITE_REVENUECAT_ANDROID_KEY ?? null;
+  if (platform === "ios")
+    return import.meta.env.VITE_REVENUECAT_IOS_KEY || REVENUECAT_IOS_PUBLIC_KEY || null;
+  if (platform === "android")
+    return import.meta.env.VITE_REVENUECAT_ANDROID_KEY || REVENUECAT_ANDROID_PUBLIC_KEY || null;
   return null;
 }
 
