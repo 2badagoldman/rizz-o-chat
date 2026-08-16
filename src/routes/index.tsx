@@ -102,12 +102,12 @@ function Home() {
 
   return (
     <AppShell>
-      <header className="pt-4 rise-in">
+      <header className="pt-2 rise-in">
         <span className="inline-flex items-center gap-2 rounded-full bg-gradient-brand-soft px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-foreground/80 chip-shimmer">
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
           Friends Always · Crush
         </span>
-        <h1 className="mt-2 text-[1.7rem] leading-[1.05] font-display font-extrabold">
+        <h1 className="mt-2 text-[1.5rem] leading-[1.05] font-display font-extrabold">
           She actually{" "}
           <span className="text-gradient-brand">replies</span>.
         </h1>

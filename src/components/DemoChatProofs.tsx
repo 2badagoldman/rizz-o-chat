@@ -55,7 +55,7 @@ export function DemoChatProofs({
               key={p.id}
               className="w-[200px] shrink-0 snap-start overflow-hidden rounded-2xl border border-border bg-card shadow-card"
             >
-              <div className="relative h-20 w-full overflow-hidden">
+              <div className="relative h-16 w-full overflow-hidden">
                 <img
                   src={p.image}
                   alt={`${p.name}, Crush creator`}
