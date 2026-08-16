@@ -14,12 +14,35 @@ let overrides: Overrides = {};
 const listeners = new Set<() => void>();
 
 export function getShowcaseAvatar(id: string): string | undefined {
+  if (typeof window !== "undefined") {
+    const selected = sessionStorage.getItem(`crush:runway-avatar:${id}`);
+    if (selected) return selected;
+  }
   return overrides[id];
 }
 
 function setOverrides(next: Overrides) {
   overrides = next;
   for (const l of listeners) l();
+}
+
+/** Keep a runway card and its destination profile on the exact same face. */
+export function registerShowcaseAvatars(items: Array<{ hostId: string; image: string }>) {
+  const next = { ...overrides };
+  let changed = false;
+  for (const item of items) {
+    if (!item.hostId || !item.image || next[item.hostId] === item.image) continue;
+    next[item.hostId] = item.image;
+    changed = true;
+  }
+  if (changed) setOverrides(next);
+}
+
+export function pinShowcaseAvatar(hostId: string, image: string) {
+  if (typeof window !== "undefined") {
+    sessionStorage.setItem(`crush:runway-avatar:${hostId}`, image);
+  }
+  registerShowcaseAvatars([{ hostId, image }]);
 }
 
 function subscribe(l: () => void) {
@@ -42,7 +65,8 @@ async function fetchAndAssign() {
     for (let i = 0; i < count; i++) {
       next[AI_HOST_IDS[i]] = images[i].url;
     }
-    setOverrides(next);
+    // A runway proof is a stronger identity binding than the generic reel order.
+    setOverrides({ ...next, ...overrides });
   } catch {
     // silent — falls back to local elite portraits
   }

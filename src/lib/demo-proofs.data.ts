@@ -3,6 +3,7 @@ export type DemoLine = { from: "member" | "creator"; text: string };
 
 export interface DemoProof {
   id: string;
+  hostId: string;
   name: string;
   age: number;
   tagline: string;
