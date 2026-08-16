@@ -60,8 +60,6 @@ type SortKey = "featured" | "online" | "price-asc" | "price-desc" | "subscribers
 const SORTS: Array<{ key: SortKey; label: string }> = [
   { key: "featured", label: "Featured" },
   { key: "online", label: "Online first" },
-  { key: "price-asc", label: "Price: low to high" },
-  { key: "price-desc", label: "Price: high to low" },
   { key: "subscribers", label: "Most subscribers" },
 ];
 
@@ -372,7 +370,7 @@ function HostCard({ creator }: { creator: DemoHost }) {
         </div>
         <div className="flex items-center gap-1 text-xs font-semibold">
           <img loading="lazy" decoding="async" src={rizzLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" />
-          ${creator.priceMonthly}/mo
+          View profile
         </div>
       </div>
     </Link>

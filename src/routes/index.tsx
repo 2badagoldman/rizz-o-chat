@@ -294,7 +294,7 @@ function Home() {
                 <span className="flex items-center gap-1 text-muted-foreground">
                   <Users className="h-3 w-3" /> {h.subscribers}
                 </span>
-                <span className="font-bold text-gradient-brand">${h.priceMonthly}/mo</span>
+                <span className="font-bold text-gradient-brand">View profile</span>
               </div>
             </Link>
           ))}
