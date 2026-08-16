@@ -45,26 +45,17 @@ export function DemoChatProofs({
   variant?: "grid" | "rail";
   lineLimit?: number;
 }) {
-  const [proofs, setProofs] = useState<DemoProof[]>([]);
-
-  useEffect(() => {
-    let alive = true;
-    getDemoProofs({ data: { limit } })
-      .then((rows) => {
-        if (alive) setProofs(rows ?? []);
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, [limit]);
-
-  if (proofs.length === 0) return null;
+  // Primed in the root loader, so this resolves synchronously on first paint.
+  const { data, isPending } = useQuery(demoProofsQueryOptions(limit));
+  const proofs = data ?? [];
 
   if (variant === "rail") {
     // Jen's card uses the brand silhouette, not a person — keep the runway all faces.
     const rail = proofs.filter((p) => p.name.toLowerCase() !== "jen");
-    if (rail.length === 0) return null;
+    if (rail.length === 0) {
+      // Reserve the runway's space while data is in flight so nothing jumps.
+      return isPending ? <RunwaySkeleton title={title} /> : null;
+    }
     return (
       <ProofRunway
         proofs={rail}
@@ -74,6 +65,8 @@ export function DemoChatProofs({
       />
     );
   }
+
+  if (proofs.length === 0) return null;
 
 
 
