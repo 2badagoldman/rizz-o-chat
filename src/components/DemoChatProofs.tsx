@@ -6,6 +6,7 @@ import type { DemoProof } from "@/lib/demo-proofs.functions";
 import { demoProofsQueryOptions } from "@/lib/demo-proofs.query";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { getRouteApi } from "@tanstack/react-router";
+import { registerShowcaseAvatars } from "@/lib/showcase-avatar-store";
 
 const rootApi = getRouteApi("__root__");
 
@@ -49,12 +50,9 @@ const SECONDS_PER_CARD = 4;
  * AI-powered creator so the visitor still gets their free chats.
  */
 function hostIdForProof(proof: DemoProof, index: number): string {
-  const match = DEMO_HOSTS.find(
-    (h) => h.name.toLowerCase() === proof.name.toLowerCase(),
-  );
-  // Only AI-powered creators can hold the free 3-message preview chat.
-  if (match && (AI_HOST_IDS as readonly string[]).includes(match.id)) return match.id;
-  return AI_HOST_IDS[index % AI_HOST_IDS.length]!;
+  if (DEMO_HOSTS.some((host) => host.id === proof.hostId)) return proof.hostId;
+  const match = DEMO_HOSTS.find((host) => host.name.toLowerCase() === proof.name.toLowerCase());
+  return match?.id ?? AI_HOST_IDS[index % AI_HOST_IDS.length]!;
 }
 
 
@@ -86,6 +84,10 @@ export function DemoChatProofs({
   const query = useQuery({ ...demoProofsQueryOptions(limit), enabled: variant !== "rail" });
   const proofs = variant === "rail" ? rootProofs : (query.data ?? []);
   const isPending = variant === "rail" ? false : query.isPending;
+
+  useEffect(() => {
+    registerShowcaseAvatars(proofs);
+  }, [proofs]);
 
   if (variant === "rail") {
     // Jen's card uses the brand silhouette, not a person — keep the runway all faces.
@@ -162,6 +164,7 @@ export function DemoChatProofs({
                 <Link
                   to="/chat/$hostId"
                   params={{ hostId: hostIdForProof(p, pIdx) }}
+                  onClick={() => registerShowcaseAvatars([{ hostId: hostIdForProof(p, pIdx), image: p.image }])}
                   className="mt-3 block rounded-xl bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground"
                 >
                   Message {p.name} free
@@ -258,6 +261,7 @@ function ProofRunway({
             key={`${p.id}-${idx}`}
             to="/host/$hostId"
             params={{ hostId: hostIdForProof(p, idx % proofs.length) }}
+            onClick={() => registerShowcaseAvatars([{ hostId: hostIdForProof(p, idx % proofs.length), image: p.image }])}
             aria-label={`Open ${p.name}'s profile and chat`}
             className="block w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
