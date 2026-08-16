@@ -102,19 +102,29 @@ function Home() {
 
   return (
     <AppShell>
-      <header className="pt-6 rise-in">
+      <header className="pt-4 rise-in">
         <span className="inline-flex items-center gap-2 rounded-full bg-gradient-brand-soft px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-foreground/80 chip-shimmer">
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
           Friends Always · Crush
         </span>
-        <h1 className="mt-3 text-[2.6rem] leading-[1.02] font-display font-extrabold">
+        <h1 className="mt-2 text-[2rem] leading-[1.05] font-display font-extrabold">
           She actually{" "}
           <span className="text-gradient-brand">replies</span>.
         </h1>
-        <p className="mt-3 text-sm text-muted-foreground">
+        <p className="mt-1.5 text-[13px] text-muted-foreground">
           Voice notes, photos, real conversation. Say something right now — free, no signup.
         </p>
       </header>
+
+      {/* Proof first: real creators + real chats, visible before any scroll */}
+      <DemoChatProofs
+        variant="rail"
+        limit={8}
+        title="Real chats with real creators"
+        showCta={false}
+        lineLimit={2}
+      />
+
 
       {/* Search creators right from the hero — username, email or phone */}
       <div className="mt-4 w-full min-w-0 rise-in">
