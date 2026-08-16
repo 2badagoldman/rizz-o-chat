@@ -31,6 +31,7 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
   const [likes, setLikes] = useState<string[]>([]);
   const [dx, setDx] = useState(0);
   const [flying, setFlying] = useState<"left" | "right" | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
   const dragging = useRef(false);
   const startX = useRef(0);
 
@@ -99,7 +100,7 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
 
   if (!current) return null;
 
-  const offset = flying ? (flying === "right" ? 520 : -520) : dx;
+  const offset = flying ? (flying === "right" ? 720 : -720) : dx;
   const rotate = offset / 22;
   const likeOpacity = Math.min(1, Math.max(0, offset / 90));
   const nopeOpacity = Math.min(1, Math.max(0, -offset / 90));
@@ -228,8 +229,19 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
       </div>
 
       <p className="mt-3 text-center text-[11px] text-muted-foreground">
-        Swipe right to like, left to pass · {likes.length} liked
+        Swipe right to like, left to pass ·{" "}
+        <Link to="/chats" className="font-semibold text-primary underline-offset-2 hover:underline">
+          {likes.length} in Prospects you like
+        </Link>
       </p>
+
+      {toast ? (
+        <div className="pointer-events-none fixed inset-x-0 bottom-24 z-50 flex justify-center px-4">
+          <span className="rounded-full bg-gradient-brand px-4 py-2 text-xs font-semibold text-white shadow-glow">
+            {toast}
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 }
