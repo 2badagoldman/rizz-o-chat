@@ -36,6 +36,22 @@ export async function evaluateChatAccess(userId: string): Promise<ChatAccess> {
   if (tier === "plus" || tier === "vip") {
     return { allowed: true, reason: "subscription", tier, trialEndsAt: trialEnd.toISOString(), daysLeft };
   }
+
+  // Billing webhooks can lag behind the profile tier column — an active
+  // subscription row is enough to keep chat open.
+  const { data: subs } = await supabaseAdmin
+    .from("subscriptions")
+    .select("status, current_period_end")
+    .eq("user_id", userId)
+    .in("status", ["active", "trialing", "past_due"])
+    .limit(5);
+  const liveSub = (subs ?? []).some(
+    (s) => !s.current_period_end || new Date(s.current_period_end).getTime() > Date.now(),
+  );
+  if (liveSub) {
+    return { allowed: true, reason: "subscription", tier, trialEndsAt: trialEnd.toISOString(), daysLeft };
+  }
+
   if (msLeft > 0) {
     return { allowed: true, reason: "trial", tier, trialEndsAt: trialEnd.toISOString(), daysLeft };
   }
