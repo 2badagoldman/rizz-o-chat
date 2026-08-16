@@ -2,10 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { BadgeCheck } from "lucide-react";
 import { getDemoProofs, type DemoProof } from "@/lib/demo-proofs.functions";
+import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 
 const CARD_W = 190; // px
 const GAP = 12; // px (gap-3)
 const SECONDS_PER_CARD = 4;
+
+/**
+ * Every proof card must open a real, chattable creator. Match the marketing
+ * persona to a live demo creator by name; anything unmatched falls back to an
+ * AI-powered creator so the visitor still gets their free chats.
+ */
+function hostIdForProof(proof: DemoProof, index: number): string {
+  const match = DEMO_HOSTS.find(
+    (h) => h.name.toLowerCase() === proof.name.toLowerCase(),
+  );
+  if (match) return match.id;
+  return AI_HOST_IDS[index % AI_HOST_IDS.length]!;
+}
+
 
 /**
  * Proof-of-concept screenshots: a large creator photo with her name and a real
