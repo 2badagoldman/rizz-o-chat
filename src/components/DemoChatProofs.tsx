@@ -58,10 +58,7 @@ export function DemoChatProofs({
     );
   }
 
-        </div>
-      </section>
-    );
-  }
+
 
   return (
     <section className="mt-10">
