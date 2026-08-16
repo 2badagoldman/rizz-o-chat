@@ -205,7 +205,7 @@ export function TasteChat() {
             <Lock className="h-4 w-4 text-primary" /> {creator.name} is still typing to you.
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            She hasn't left you on read — join free and she picks up right where you stopped.
+            She's waiting on your reply — join free and she picks up right where you stopped.
           </p>
           <Link
             to="/auth"
