@@ -1,8 +1,34 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { BadgeCheck } from "lucide-react";
-import { getDemoProofs, type DemoProof } from "@/lib/demo-proofs.functions";
+import type { DemoProof } from "@/lib/demo-proofs.functions";
+import { demoProofsQueryOptions } from "@/lib/demo-proofs.query";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
+
+/** Placeholder that occupies the runway's exact footprint before data lands. */
+function RunwaySkeleton({ title }: { title: string }) {
+  return (
+    <section className="mt-4" aria-hidden>
+      <div className="flex items-baseline justify-between">
+        <h2 className="text-sm font-display font-bold">{title}</h2>
+      </div>
+      <div className="-mx-4 mt-2 flex gap-3 overflow-hidden px-4 pb-2">
+        {[0, 1, 2, 3].map((i) => (
+          <div
+            key={i}
+            className="w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card"
+          >
+            <div className="aspect-[3/4] w-full animate-pulse bg-muted" />
+            <div className="space-y-1.5 p-2">
+              <div className="h-4 w-4/5 animate-pulse rounded-full bg-muted" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
 
 const CARD_W = 190; // px
 const GAP = 12; // px (gap-3)
