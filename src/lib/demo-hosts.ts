@@ -45,7 +45,7 @@ export function isAiHost(hostId: string | undefined): boolean {
 }
 
 
-export const DEMO_HOSTS: DemoHost[] = [
+const CORE_HOSTS: DemoHost[] = [
   {
     id: "demo-aria",
     name: "Wonder Woman",
