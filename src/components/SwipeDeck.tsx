@@ -26,7 +26,12 @@ export type SwipeDeckProps = {
 
 export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
   const navigate = useNavigate();
-  const [seed] = useState(() => Math.floor(Math.random() * 1e9) + 1);
+  // Seed stays deterministic for SSR + hydration, then randomises on the client.
+  const [seed, setSeed] = useState(1);
+  useEffect(() => {
+    setSeed(Math.floor(Math.random() * 1e9) + 1);
+  }, []);
+
   const [index, setIndex] = useState(0);
   const [likes, setLikes] = useState<string[]>([]);
   const [dx, setDx] = useState(0);
