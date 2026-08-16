@@ -217,6 +217,9 @@ const CORE_HOSTS: DemoHost[] = [
   ...buildExtraHosts(),
 ];
 
+/** Every creator, including the auto-generated one-per-state coverage set. */
+export const DEMO_HOSTS: DemoHost[] = [...CORE_HOSTS, ...buildStateHosts(CORE_HOSTS)];
+
 function buildExtraHosts(): DemoHost[] {
   const seeds: Array<Partial<DemoHost> & { name: string; city: string; tagline: string; interests: string[]; gradient: string; accent: string }> = [
     { name: "Sasha", city: "Denver, CO", tagline: "Ski bum with a poetry habit.", interests: ["Skiing", "Poetry", "Whiskey", "Dogs"], gradient: "linear-gradient(135deg,#4FACFE 0%,#00F2FE 100%)", accent: "#4FACFE" },
