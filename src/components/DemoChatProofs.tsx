@@ -2,10 +2,27 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { BadgeCheck } from "lucide-react";
 import { getDemoProofs, type DemoProof } from "@/lib/demo-proofs.functions";
+import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 
 const CARD_W = 190; // px
 const GAP = 12; // px (gap-3)
 const SECONDS_PER_CARD = 4;
+
+/**
+ * Every proof card must open a real, chattable creator. Match the marketing
+ * persona to a live demo creator by name; anything unmatched falls back to an
+ * AI-powered creator so the visitor still gets their free chats.
+ */
+function hostIdForProof(proof: DemoProof, index: number): string {
+  const match = DEMO_HOSTS.find(
+    (h) => h.name.toLowerCase() === proof.name.toLowerCase(),
+  );
+  // Only AI-powered creators can hold the free 3-message preview chat.
+  if (match && (AI_HOST_IDS as readonly string[]).includes(match.id)) return match.id;
+  return AI_HOST_IDS[index % AI_HOST_IDS.length]!;
+}
+
+
 
 /**
  * Proof-of-concept screenshots: a large creator photo with her name and a real
@@ -69,7 +86,7 @@ export function DemoChatProofs({
 
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {proofs.map((p) => (
+        {proofs.map((p, pIdx) => (
           <article
             key={p.id}
             className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl"
@@ -112,11 +129,13 @@ export function DemoChatProofs({
               ))}
               {showCta ? (
                 <Link
-                  to="/auth"
+                  to="/chat/$hostId"
+                  params={{ hostId: hostIdForProof(p, pIdx) }}
                   className="mt-3 block rounded-xl bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground"
                 >
                   Message {p.name} free
                 </Link>
+
               ) : null}
             </div>
           </article>
@@ -206,10 +225,12 @@ function ProofRunway({
         {loop.map((p, idx) => (
           <Link
             key={`${p.id}-${idx}`}
-            to="/auth"
-            aria-label={`Chat with ${p.name}`}
+            to="/host/$hostId"
+            params={{ hostId: hostIdForProof(p, idx % proofs.length) }}
+            aria-label={`Open ${p.name}'s profile and chat`}
             className="block w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
+
             <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
               <img
                 src={p.image}
