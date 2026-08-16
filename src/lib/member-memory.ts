@@ -8,6 +8,11 @@
  */
 export type MemberMemory = {
   name: string;
+  /**
+   * True only when the member explicitly gave the name (typed it in the name
+   * field, or said "my name is …"). We never speak a name we merely guessed.
+   */
+  nameConfirmed: boolean;
   /** Short free-text facts, newest last. Capped so prompts stay small. */
   facts: string[];
   at: number;
@@ -18,7 +23,7 @@ const MAX_FACTS = 14;
 const MAX_FACT_LEN = 140;
 
 function empty(): MemberMemory {
-  return { name: "", facts: [], at: Date.now() };
+  return { name: "", nameConfirmed: false, facts: [], at: Date.now() };
 }
 
 export function readMemberMemory(): MemberMemory {
@@ -29,6 +34,7 @@ export function readMemberMemory(): MemberMemory {
     const m = JSON.parse(raw) as MemberMemory;
     return {
       name: typeof m?.name === "string" ? m.name : "",
+      nameConfirmed: m?.nameConfirmed === true,
       facts: Array.isArray(m?.facts) ? m.facts.filter((f) => typeof f === "string").slice(-MAX_FACTS) : [],
       at: Number(m?.at ?? Date.now()),
     };
@@ -46,11 +52,19 @@ function write(m: MemberMemory) {
   }
 }
 
+/** Only call this with a name the member actually gave us. */
 export function saveMemberName(name: string) {
   const clean = name.replace(/[^\p{L}\p{N}' -]/gu, "").trim().slice(0, 24);
   const m = readMemberMemory();
-  write({ ...m, name: clean });
+  write({ ...m, name: clean, nameConfirmed: clean.length > 0 });
 }
+
+/** The name we're allowed to say out loud — empty unless he confirmed it. */
+export function confirmedMemberName(): string {
+  const m = readMemberMemory();
+  return m.nameConfirmed ? m.name : "";
+}
+
 
 export function addMemberFact(fact: string) {
   const clean = fact.replace(/\s+/g, " ").trim().slice(0, MAX_FACT_LEN);
@@ -71,15 +85,33 @@ const FACT_CUES: RegExp[] = [
   /\b(?:tomorrow|tonight|this weekend|next week)\b[^.!?]{0,60}/i,
 ];
 
+/**
+ * Only unambiguous self-introductions count. Loose patterns like "i'm bored"
+ * used to be read as a name, which meant creators called people the wrong
+ * thing — so anything less explicit than this is never treated as a name.
+ */
 const NAME_CUES: RegExp[] = [
   /\bmy name(?:'s| is)\s+([\p{L}][\p{L}'-]{1,23})/iu,
-  /\b(?:i'm|i am|it's|its|call me|this is)\s+([\p{L}][\p{L}'-]{1,23})\s*$/iu,
+  /\b(?:call me|you can call me|name's)\s+([\p{L}][\p{L}'-]{1,23})\b/iu,
+  /\bi(?:'m| am)\s+([\p{L}][\p{L}'-]{1,23})\s*(?:,?\s*(?:by the way|btw))?[.!]?\s*$/iu,
 ];
 
 const NAME_STOPWORDS = new Set([
   "good", "fine", "ok", "okay", "here", "back", "tired", "bored", "sorry", "not",
   "just", "still", "down", "up", "great", "cool", "single", "new", "hi", "hey",
+  "busy", "home", "working", "chilling", "lonely", "bad", "sad", "happy", "hungry",
+  "sleepy", "broke", "free", "curious", "interested", "in", "out", "away", "sick",
+  "drunk", "awake", "late", "early", "old", "young", "married", "divorced", "shy",
+  "nervous", "excited", "stressed", "listening", "watching", "waiting", "ready",
+  "yes", "no", "sure", "maybe", "always", "never", "so", "very", "too", "the",
 ]);
+
+/** Guard the "i'm X" shape: only when the whole message is that short intro. */
+function looksLikeIntro(text: string, cue: RegExp): boolean {
+  if (cue.source.includes("my name") || cue.source.includes("call me")) return true;
+  return text.split(/\s+/).length <= 4;
+}
+
 
 /** Pull a name + notable facts out of what he just typed. Returns the new name if found. */
 export function rememberFromMessage(text: string): { name?: string } {
@@ -90,12 +122,17 @@ export function rememberFromMessage(text: string): { name?: string } {
   for (const re of NAME_CUES) {
     const m = t.match(re);
     const candidate = m?.[1]?.trim();
-    if (candidate && !NAME_STOPWORDS.has(candidate.toLowerCase())) {
+    if (
+      candidate &&
+      !NAME_STOPWORDS.has(candidate.toLowerCase()) &&
+      looksLikeIntro(t, re)
+    ) {
       found = candidate.slice(0, 24);
       saveMemberName(found);
       break;
     }
   }
+
 
   for (const re of FACT_CUES) {
     const m = t.match(re);
