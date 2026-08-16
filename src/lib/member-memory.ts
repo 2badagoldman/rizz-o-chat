@@ -122,12 +122,17 @@ export function rememberFromMessage(text: string): { name?: string } {
   for (const re of NAME_CUES) {
     const m = t.match(re);
     const candidate = m?.[1]?.trim();
-    if (candidate && !NAME_STOPWORDS.has(candidate.toLowerCase())) {
+    if (
+      candidate &&
+      !NAME_STOPWORDS.has(candidate.toLowerCase()) &&
+      looksLikeIntro(t, re)
+    ) {
       found = candidate.slice(0, 24);
       saveMemberName(found);
       break;
     }
   }
+
 
   for (const re of FACT_CUES) {
     const m = t.match(re);
