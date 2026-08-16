@@ -6,13 +6,14 @@ import { useAuth } from "@/lib/auth";
 import { DEMO_HOSTS, AI_HOST_IDS, type DemoHost } from "@/lib/demo-hosts";
 import { readTasteTranscript } from "@/lib/taste-chat";
 import { hostAvatarThumb } from "@/lib/host-avatars";
-import { Circle, Search, MessageCircle, Sparkles } from "lucide-react";
+import { Circle, Search, MessageCircle, Sparkles, X } from "lucide-react";
 import { dmListThreads } from "@/lib/dm.functions";
 import { searchUsers } from "@/lib/admin-data.functions";
 import { pageHead } from "@/lib/seo";
 import { OnlineDot, useOnlineUsers } from "@/lib/presence";
 import { KycInboxNotice } from "@/components/KycInboxNotice";
 import { useUnreadMessages } from "@/hooks/useUnreadMessages";
+import { readLikes, removeLike, subscribeLikes } from "@/lib/swipe-likes";
 
 import { PageSkeleton } from "@/components/AuthGate";
 export const Route = createFileRoute("/chats")({
@@ -58,6 +59,78 @@ function AiHostRow({ h }: { h: DemoHost }) {
       </div>
       <MessageCircle className="h-4 w-4 shrink-0 text-primary" />
     </Link>
+  );
+}
+
+function ProspectsYouLike() {
+  const [ids, setIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const sync = () => setIds(readLikes());
+    sync();
+    return subscribeLikes(sync);
+  }, []);
+
+  const hosts = useMemo<DemoHost[]>(
+    () =>
+      ids
+        .map((id) => DEMO_HOSTS.find((h) => h.id === id))
+        .filter((h): h is DemoHost => !!h)
+        .reverse(),
+    [ids],
+  );
+
+  if (hosts.length === 0) return null;
+
+  return (
+    <section className="mt-5">
+      <div className="flex items-center justify-between">
+        <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+          Prospects you like · {hosts.length}
+        </p>
+        <Link to="/swipe" className="text-[11px] font-semibold text-primary">
+          Swipe more →
+        </Link>
+      </div>
+      <div className="mt-2 space-y-2">
+        {hosts.map((h) => (
+          <div
+            key={h.id}
+            className="flex items-center gap-3 rounded-2xl border border-primary/30 bg-primary/5 p-3"
+          >
+            <Link to="/host/$hostId" params={{ hostId: h.id }} className="shrink-0">
+              <img
+                src={hostAvatarThumb(h.id)}
+                alt={h.name}
+                loading="lazy"
+                className="h-12 w-12 rounded-full object-cover"
+              />
+            </Link>
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-semibold">
+                {h.name}, {h.age}
+              </p>
+              <p className="truncate text-xs text-muted-foreground">{h.city} · You swiped right</p>
+            </div>
+            <Link
+              to="/chat/$hostId"
+              params={{ hostId: h.id }}
+              className="shrink-0 rounded-full bg-gradient-brand px-3 py-1.5 text-[11px] font-bold text-white"
+            >
+              Chat
+            </Link>
+            <button
+              type="button"
+              onClick={() => removeLike(h.id)}
+              aria-label={`Remove ${h.name} from prospects`}
+              className="shrink-0 rounded-full p-1.5 text-muted-foreground hover:text-destructive"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -201,6 +274,8 @@ function Chats() {
           />
         </div>
 
+        <ProspectsYouLike />
+
         {q.trim() ? (
           <section className="mt-3">
             <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
@@ -300,6 +375,7 @@ function Chats() {
       ) : (
         <>
           {ContinueCard}
+          <ProspectsYouLike />
           {AiRoster}
 
           {threads.length > 0 ? (

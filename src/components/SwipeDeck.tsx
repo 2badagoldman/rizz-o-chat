@@ -4,27 +4,7 @@ import { Heart, X, RotateCcw, Circle, MessageCircle } from "lucide-react";
 import { DEMO_HOSTS, tierLabel, isFreeHost, type DemoHost } from "@/lib/demo-hosts";
 import { hostAvatarMed } from "@/lib/host-avatars";
 
-const LIKES_KEY = "crush.swipe.likes";
-const PASS_KEY = "crush.swipe.passes";
-
-function readIds(key: string): string[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(key);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === "string") : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeIds(key: string, ids: string[]) {
-  try {
-    window.localStorage.setItem(key, JSON.stringify(ids.slice(-500)));
-  } catch {
-    /* storage unavailable — swiping still works for the session */
-  }
-}
+import { LIKES_KEY, PASS_KEY, readIds, writeIds } from "@/lib/swipe-likes";
 
 function shuffle<T>(arr: readonly T[], seed: number): T[] {
   const a = arr.slice();
@@ -51,6 +31,7 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
   const [likes, setLikes] = useState<string[]>([]);
   const [dx, setDx] = useState(0);
   const [flying, setFlying] = useState<"left" | "right" | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
   const dragging = useRef(false);
   const startX = useRef(0);
 
@@ -73,15 +54,22 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
         const updated = [...stored, current.id];
         writeIds(key, updated);
         if (dir === "right") setLikes(updated);
+      } else if (dir === "right") {
+        setLikes(stored);
+      }
+      if (dir === "right") {
+        setToast(`${current.name} saved to Prospects you like`);
+        window.setTimeout(() => setToast(null), 1800);
       }
       window.setTimeout(() => {
         setFlying(null);
         setDx(0);
         setIndex((i) => i + 1);
-      }, 240);
+      }, 300);
     },
     [current, flying],
   );
+
 
   const onPointerDown = (e: React.PointerEvent) => {
     if (flying) return;
@@ -112,7 +100,7 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
 
   if (!current) return null;
 
-  const offset = flying ? (flying === "right" ? 520 : -520) : dx;
+  const offset = flying ? (flying === "right" ? 720 : -720) : dx;
   const rotate = offset / 22;
   const likeOpacity = Math.min(1, Math.max(0, offset / 90));
   const nopeOpacity = Math.min(1, Math.max(0, -offset / 90));
@@ -136,18 +124,20 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
         </article>
 
         <article
+          key={current.id}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
           style={{
             transform: `translateX(${offset}px) rotate(${rotate}deg)`,
-            transition: dragging.current ? "none" : "transform 240ms ease-out, opacity 240ms ease-out",
+            transition: dragging.current ? "none" : "transform 280ms cubic-bezier(.22,.61,.36,1), opacity 280ms ease-out",
             opacity: flying ? 0 : 1,
             touchAction: "pan-y",
           }}
           className="absolute inset-0 cursor-grab overflow-hidden rounded-[2rem] border border-border bg-card shadow-xl active:cursor-grabbing"
         >
+
           <img
             src={hostAvatarMed(current.id)}
             alt={`${current.name}, ${current.age} — ${current.city}`}
@@ -239,8 +229,19 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
       </div>
 
       <p className="mt-3 text-center text-[11px] text-muted-foreground">
-        Swipe right to like, left to pass · {likes.length} liked
+        Swipe right to like, left to pass ·{" "}
+        <Link to="/chats" className="font-semibold text-primary underline-offset-2 hover:underline">
+          {likes.length} in Prospects you like
+        </Link>
       </p>
+
+      {toast ? (
+        <div className="pointer-events-none fixed inset-x-0 bottom-24 z-50 flex justify-center px-4">
+          <span className="rounded-full bg-gradient-brand px-4 py-2 text-xs font-semibold text-white shadow-glow">
+            {toast}
+          </span>
+        </div>
+      ) : null}
     </div>
   );
 }
