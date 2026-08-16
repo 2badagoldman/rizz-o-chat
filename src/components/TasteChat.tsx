@@ -164,7 +164,7 @@ export function TasteChat() {
         </span>
       </Link>
 
-      <div className="max-h-[320px] min-h-[168px] space-y-2 overflow-y-auto px-4 py-3">
+      <div className="max-h-[320px] min-h-[104px] space-y-2 overflow-y-auto px-4 py-3">
         {messages.length === 0 ? (
           <div className="max-w-[80%] rounded-2xl rounded-bl-md bg-muted px-3 py-2 text-sm">
             {(GREETINGS[creator.id] ?? ((n: string) => DEFAULT_GREETING(creator.name, n)))(
