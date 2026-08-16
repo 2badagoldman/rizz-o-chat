@@ -97,9 +97,12 @@ function HostProfile() {
   const hostIsReal = UUID_RE.test(creator.id);
 
   const onSubscribe = () => {
-    if (!user) return navigate({ to: "/auth" });
+    // Anyone can pay before signing up — guest checkout collects their email
+    // and issues a claim code, so send them to the plans page, not sign-in.
+    if (!user) return navigate({ to: "/upgrade" });
     // Friends Lists are Crush Gold only.
     if (!hasGold) return navigate({ to: "/upgrade" });
+
     if (!hostIsReal) {
       alert(`${creator.name} is a demo profile — checkout will unlock once real creators sign up.`);
       return;
