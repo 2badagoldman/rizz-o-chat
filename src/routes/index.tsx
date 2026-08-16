@@ -107,7 +107,7 @@ function Home() {
           <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
           Friends Always · Crush
         </span>
-        <h1 className="mt-2 text-[2rem] leading-[1.05] font-display font-extrabold">
+        <h1 className="mt-2 text-[1.7rem] leading-[1.05] font-display font-extrabold">
           She actually{" "}
           <span className="text-gradient-brand">replies</span>.
         </h1>
@@ -122,7 +122,7 @@ function Home() {
         limit={8}
         title="Real chats with real creators"
         showCta={false}
-        lineLimit={2}
+        lineLimit={1}
       />
 
 
