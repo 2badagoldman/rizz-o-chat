@@ -6,7 +6,8 @@ import { useAuth } from "@/lib/auth";
 import { listPublicRooms, listRoomsPublic, joinPublicRoom, getRoomAccess } from "@/lib/rooms.functions";
 import { DEMO_HOSTS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
-import { MapPin, Plus, Users, Loader2 } from "lucide-react";
+import { MapPin, Plus, Users, Loader2, Search, X } from "lucide-react";
+import { STATE_ROOMS, searchRooms, type DemoRoom } from "@/lib/demo-rooms";
 import { toast } from "sonner";
 import { pageHead, breadcrumbLd } from "@/lib/seo";
 import { SignedOutGate } from "@/components/SignedOutGate";
@@ -45,6 +46,7 @@ function RoomsBrowsePage() {
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [exhausted, setExhausted] = useState(false);
+  const [q, setQ] = useState("");
 
   const PAGE = 30;
 
@@ -109,6 +111,29 @@ function RoomsBrowsePage() {
   }
 
 
+  // Live rooms first; the official state rooms fill in any state that has no
+  // member-made room yet, so a search for any of the 50 states always lands.
+  const liveMatches = searchRooms(q, rooms as any[]);
+  const liveKeys = new Set(
+    (rooms as any[]).map((r) => `${(r.city ?? "").toLowerCase()}|${(r.state ?? "").toLowerCase()}`),
+  );
+  const stateMatches: any[] = q
+    ? searchRooms(q, STATE_ROOMS as DemoRoom[])
+        .filter((r) => !liveKeys.has(`${(r.city ?? "").toLowerCase()}|${(r.state ?? "").toLowerCase()}`))
+        .map((r) => ({
+          id: r.slug,
+          preview: true,
+          name: r.name,
+          emoji: r.emoji,
+          description: r.tagline,
+          category: r.category,
+          city: r.city,
+          state: r.state,
+          member_count: r.members,
+        }))
+    : [];
+  const visibleRooms = [...liveMatches, ...stateMatches];
+
   if (!user)
     return (
       <SignedOutGate
@@ -139,13 +164,35 @@ function RoomsBrowsePage() {
         </div>
       ) : null}
 
+      {/* State / city search — every US state has an official room. */}
+      <div className="relative mt-4">
+        <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Search a state or city — Texas, MT, Nashville…"
+          className="w-full rounded-2xl border border-border bg-card py-2.5 pl-9 pr-9 text-sm outline-none focus:border-primary/60"
+          aria-label="Search rooms by state or city"
+        />
+        {q ? (
+          <button
+            type="button"
+            onClick={() => setQ("")}
+            aria-label="Clear search"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        ) : null}
+      </div>
+
       <button onClick={askLocation} className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/40 bg-gradient-brand-soft px-3 py-1.5 text-xs font-semibold text-primary">
         <MapPin className="h-3 w-3" /> {coords ? "Sorted by distance" : "Sort by rooms near me"}
       </button>
 
       {loading ? (
         <p className="mt-8 flex items-center justify-center gap-2 text-sm text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" /> Loading rooms…</p>
-      ) : rooms.length === 0 ? (
+      ) : visibleRooms.length === 0 ? (
         <PrismEmptyState
           className="mt-8"
           icon={<Users className="h-6 w-6" />}
@@ -159,9 +206,9 @@ function RoomsBrowsePage() {
         />
       ) : (
         <ul className="mt-4 space-y-2">
-          {rooms.map((r) => (
+          {visibleRooms.map((r) => (
             <li key={r.id}>
-              <button onClick={() => join(r.id)} className="w-full rounded-2xl border border-border bg-card p-3 text-left transition hover:border-primary/60">
+              <button onClick={() => (r.preview ? navigate({ to: "/rooms/new" }) : join(r.id))} className="w-full rounded-2xl border border-border bg-card p-3 text-left transition hover:border-primary/60">
                 <div className="flex items-center justify-between gap-2">
                   <p className="font-semibold">{r.emoji ? `${r.emoji} ` : ""}{r.name}</p>
                   {typeof r.distance_miles === "number" ? (
@@ -190,7 +237,7 @@ function RoomsBrowsePage() {
               </button>
             </li>
           ))}
-          {!exhausted && rooms.length > 0 ? (
+          {!exhausted && rooms.length > 0 && !q ? (
             <li className="pt-2 text-center">
               <button
                 type="button"
