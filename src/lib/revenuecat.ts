@@ -11,7 +11,11 @@
  * never affected.
  */
 import { isNativeApp, nativePlatform } from "@/lib/native";
-import { REVENUECAT_ANDROID_PUBLIC_KEY, REVENUECAT_IOS_PUBLIC_KEY } from "@/lib/revenuecat.keys";
+import {
+  REVENUECAT_ANDROID_PUBLIC_KEY,
+  REVENUECAT_IOS_PUBLIC_KEY,
+  REVENUECAT_TEST_STORE_KEY,
+} from "@/lib/revenuecat.keys";
 
 /** Store product identifiers — must match the products created in App Store
  *  Connect / Google Play and attached to the RevenueCat offering. */
@@ -41,11 +45,19 @@ export type RcPackage = {
 
 function apiKey(): string | null {
   const platform = nativePlatform();
+  // Test Store key is a sandbox-only fallback used until the real store apps
+  // are configured in RevenueCat.
+  const fallback = REVENUECAT_TEST_STORE_KEY || null;
   if (platform === "ios")
-    return import.meta.env.VITE_REVENUECAT_IOS_KEY || REVENUECAT_IOS_PUBLIC_KEY || null;
+    return import.meta.env.VITE_REVENUECAT_IOS_KEY || REVENUECAT_IOS_PUBLIC_KEY || fallback;
   if (platform === "android")
-    return import.meta.env.VITE_REVENUECAT_ANDROID_KEY || REVENUECAT_ANDROID_PUBLIC_KEY || null;
+    return import.meta.env.VITE_REVENUECAT_ANDROID_KEY || REVENUECAT_ANDROID_PUBLIC_KEY || fallback;
   return null;
+}
+
+/** True when only the sandbox Test Store key is configured (no real billing). */
+export function isRevenueCatTestStore(): boolean {
+  return apiKey() === REVENUECAT_TEST_STORE_KEY;
 }
 
 /** True when a RevenueCat purchase can actually be started on this device. */
