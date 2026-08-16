@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
-import { DEMO_HOSTS, tierBand, tierLabel, isAiHost } from "@/lib/demo-hosts";
+import { DEMO_HOSTS, tierBand, tierLabel, isAiHost, isFreeHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { useAuth } from "@/lib/auth";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
@@ -77,7 +77,7 @@ function HostProfile() {
     );
   }
 
-  const aiHost = isAiHost(creator.id);
+  const aiHost = isAiHost(creator.id) || isFreeHost(creator.id);
   const slides: Array<{ kind: "hero" | "video" | "locked" | "photo"; label?: string }> = [
     { kind: "hero" },
     ...(creator.hasVideo ? [{ kind: "video" as const, label: "Video loop" }] : []),

@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { ArrowRight, Crown, Users, Circle, Search, ChevronDown, Volume2, Sparkles, Heart } from "lucide-react";
 
 import { PeopleDiscovery } from "@/components/PeopleDiscovery";
-import { DEMO_HOSTS } from "@/lib/demo-hosts";
+import { DEMO_HOSTS, isFreeHost } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 import { Waveform } from "@/components/chat/VoiceNote";
@@ -294,7 +294,7 @@ function Home() {
                 <span className="flex items-center gap-1 text-muted-foreground">
                   <Users className="h-3 w-3" /> {h.subscribers}
                 </span>
-                <span className="font-bold text-gradient-brand">View profile</span>
+                <span className="font-bold text-gradient-brand">{isFreeHost(h.id) ? "Free" : "View profile"}</span>
               </div>
             </Link>
           ))}
