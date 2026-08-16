@@ -13,6 +13,7 @@ import { Route as WhyCrushRouteImport } from './routes/why-crush'
 import { Route as VoiceNotesRouteImport } from './routes/voice-notes'
 import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as UpgradeRouteImport } from './routes/upgrade'
+import { Route as SwipeRouteImport } from './routes/swipe'
 import { Route as SubscriptionsRouteImport } from './routes/subscriptions'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -119,6 +120,11 @@ const VerifyRoute = VerifyRouteImport.update({
 const UpgradeRoute = UpgradeRouteImport.update({
   id: '/upgrade',
   path: '/upgrade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SwipeRoute = SwipeRouteImport.update({
+  id: '/swipe',
+  path: '/swipe',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SubscriptionsRoute = SubscriptionsRouteImport.update({
@@ -582,6 +588,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subscriptions': typeof SubscriptionsRoute
+  '/swipe': typeof SwipeRoute
   '/upgrade': typeof UpgradeRoute
   '/verify': typeof VerifyRoute
   '/voice-notes': typeof VoiceNotesRoute
@@ -674,6 +681,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subscriptions': typeof SubscriptionsRoute
+  '/swipe': typeof SwipeRoute
   '/upgrade': typeof UpgradeRoute
   '/verify': typeof VerifyRoute
   '/voice-notes': typeof VoiceNotesRoute
@@ -768,6 +776,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/subscriptions': typeof SubscriptionsRoute
+  '/swipe': typeof SwipeRoute
   '/upgrade': typeof UpgradeRoute
   '/verify': typeof VerifyRoute
   '/voice-notes': typeof VoiceNotesRoute
@@ -863,6 +872,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/subscriptions'
+    | '/swipe'
     | '/upgrade'
     | '/verify'
     | '/voice-notes'
@@ -955,6 +965,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/subscriptions'
+    | '/swipe'
     | '/upgrade'
     | '/verify'
     | '/voice-notes'
@@ -1048,6 +1059,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/subscriptions'
+    | '/swipe'
     | '/upgrade'
     | '/verify'
     | '/voice-notes'
@@ -1142,6 +1154,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SubscriptionsRoute: typeof SubscriptionsRoute
+  SwipeRoute: typeof SwipeRoute
   UpgradeRoute: typeof UpgradeRoute
   VerifyRoute: typeof VerifyRoute
   VoiceNotesRoute: typeof VoiceNotesRoute
@@ -1225,6 +1238,13 @@ declare module '@tanstack/react-router' {
       path: '/upgrade'
       fullPath: '/upgrade'
       preLoaderRoute: typeof UpgradeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/swipe': {
+      id: '/swipe'
+      path: '/swipe'
+      fullPath: '/swipe'
+      preLoaderRoute: typeof SwipeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/subscriptions': {
@@ -1918,6 +1938,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SubscriptionsRoute: SubscriptionsRoute,
+  SwipeRoute: SwipeRoute,
   UpgradeRoute: UpgradeRoute,
   VerifyRoute: VerifyRoute,
   VoiceNotesRoute: VoiceNotesRoute,
