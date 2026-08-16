@@ -8,6 +8,11 @@
  */
 export type MemberMemory = {
   name: string;
+  /**
+   * True only when the member explicitly gave the name (typed it in the name
+   * field, or said "my name is …"). We never speak a name we merely guessed.
+   */
+  nameConfirmed: boolean;
   /** Short free-text facts, newest last. Capped so prompts stay small. */
   facts: string[];
   at: number;
@@ -18,7 +23,7 @@ const MAX_FACTS = 14;
 const MAX_FACT_LEN = 140;
 
 function empty(): MemberMemory {
-  return { name: "", facts: [], at: Date.now() };
+  return { name: "", nameConfirmed: false, facts: [], at: Date.now() };
 }
 
 export function readMemberMemory(): MemberMemory {
@@ -29,6 +34,7 @@ export function readMemberMemory(): MemberMemory {
     const m = JSON.parse(raw) as MemberMemory;
     return {
       name: typeof m?.name === "string" ? m.name : "",
+      nameConfirmed: m?.nameConfirmed === true,
       facts: Array.isArray(m?.facts) ? m.facts.filter((f) => typeof f === "string").slice(-MAX_FACTS) : [],
       at: Number(m?.at ?? Date.now()),
     };
@@ -46,11 +52,19 @@ function write(m: MemberMemory) {
   }
 }
 
+/** Only call this with a name the member actually gave us. */
 export function saveMemberName(name: string) {
   const clean = name.replace(/[^\p{L}\p{N}' -]/gu, "").trim().slice(0, 24);
   const m = readMemberMemory();
-  write({ ...m, name: clean });
+  write({ ...m, name: clean, nameConfirmed: clean.length > 0 });
 }
+
+/** The name we're allowed to say out loud — empty unless he confirmed it. */
+export function confirmedMemberName(): string {
+  const m = readMemberMemory();
+  return m.nameConfirmed ? m.name : "";
+}
+
 
 export function addMemberFact(fact: string) {
   const clean = fact.replace(/\s+/g, " ").trim().slice(0, MAX_FACT_LEN);
