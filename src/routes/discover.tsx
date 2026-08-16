@@ -91,17 +91,27 @@ function Discover() {
     // Reshuffling under an active search/sort would make results jump while the
     // user reads them, so only the untouched "Featured" view rotates.
     const base = sort === "featured" && !term ? shuffled : DEMO_HOSTS;
+    // Every word typed must land somewhere in the creator's profile, so
+    // "dallas pr" and "austin tattoo" both work.
+    const tokens = term.split(/\s+/).filter(Boolean);
 
     const matched = base.filter((h) => {
       if (filter === "online" && !h.online) return false;
       if (filter !== "all" && filter !== "online" && h.tier !== filter) return false;
-      if (!term) return true;
-      return (
-        h.name.toLowerCase().includes(term) ||
-        h.handle.toLowerCase().includes(term) ||
-        h.city.toLowerCase().includes(term) ||
-        h.interests.some((i) => i.toLowerCase().includes(term))
-      );
+      if (tokens.length === 0) return true;
+      const haystack = [
+        h.name,
+        h.handle,
+        h.city,
+        h.bio,
+        h.teaser ?? "",
+        tierLabel(h.tier),
+        h.online ? "online" : "offline",
+        ...h.interests,
+      ]
+        .join(" ")
+        .toLowerCase();
+      return tokens.every((t) => haystack.includes(t));
     });
 
     const sorted = sort === "featured" && !term ? seededShuffle(matched, bump * 7919 + 13) : matched.slice();
@@ -169,22 +179,29 @@ function Discover() {
           </button>
         ))}
       </div>
+      {/* While searching, the browse rails are hidden so results appear right
+          under the search box instead of far below the fold. */}
+      {term ? null : (
+        <>
+          <StoryRail />
 
-      
+          <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={25} />
 
-      <StoryRail />
-
-      <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={25} />
-
-      <RoomsShowcase />
+          <RoomsShowcase />
+        </>
+      )}
 
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
         <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Creators</p>
-          <h2 className="mt-0.5 truncate text-lg font-bold">Meet your next favorite</h2>
+          <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+            {term ? "Results" : "Creators"}
+          </p>
+          <h2 className="mt-0.5 truncate text-lg font-bold">
+            {term ? <>Matches for &ldquo;{q.trim()}&rdquo;</> : "Meet your next favorite"}
+          </h2>
           <p className="mt-0.5 text-[11px] font-semibold text-muted-foreground" aria-live="polite">
-            {creators.length} {creators.length === 1 ? "host" : "hosts"}
+            {creators.length} {creators.length === 1 ? "creator" : "creators"}
             {isFiltered ? " match your search" : " available"}
           </p>
         </div>

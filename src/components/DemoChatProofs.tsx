@@ -5,6 +5,15 @@ import { BadgeCheck } from "lucide-react";
 import type { DemoProof } from "@/lib/demo-proofs.functions";
 import { demoProofsQueryOptions } from "@/lib/demo-proofs.query";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
+import { getRouteApi } from "@tanstack/react-router";
+
+const rootApi = getRouteApi("__root__");
+
+/** Runway data comes from the root loader so SSR and hydration always agree. */
+function useRootProofs(): DemoProof[] {
+  const data = rootApi.useLoaderData() as DemoProof[] | undefined;
+  return Array.isArray(data) ? data : [];
+}
 
 /** Placeholder that occupies the runway's exact footprint before data lands. */
 function RunwaySkeleton({ title }: { title: string }) {
@@ -71,9 +80,12 @@ export function DemoChatProofs({
   variant?: "grid" | "rail";
   lineLimit?: number;
 }) {
-  // Primed in the root loader, so this resolves synchronously on first paint.
-  const { data, isPending } = useQuery(demoProofsQueryOptions(limit));
-  const proofs = data ?? [];
+  // The rail uses the root loader payload (serialized with the SSR HTML) so it
+  // hydrates with the page; other variants fetch through Query.
+  const rootProofs = useRootProofs();
+  const query = useQuery({ ...demoProofsQueryOptions(limit), enabled: variant !== "rail" });
+  const proofs = variant === "rail" ? rootProofs : (query.data ?? []);
+  const isPending = variant === "rail" ? false : query.isPending;
 
   if (variant === "rail") {
     // Jen's card uses the brand silhouette, not a person — keep the runway all faces.
