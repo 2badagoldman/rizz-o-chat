@@ -195,8 +195,28 @@ function Home() {
         </Link>
       </div>
 
+      {/* Swipe deck — like her or keep looking */}
+      <section className="mt-6 rounded-3xl border border-border bg-card/60 p-4 rise-in">
+        <div className="flex items-end justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Swipe</p>
+            <h2 className="mt-0.5 truncate text-lg font-bold">Like her or keep looking</h2>
+          </div>
+          <Link
+            to="/swipe"
+            className="shrink-0 rounded-full bg-gradient-brand px-3 py-1.5 text-xs font-bold text-white shadow-glow transition active:scale-95"
+          >
+            Full screen
+          </Link>
+        </div>
+        <div className="mx-auto mt-3 max-w-xs">
+          <SwipeDeck />
+        </div>
+      </section>
+
       {/* Full proof grid: real creators, real chats */}
       <div className="mt-6 rise-in">
+
         <DemoChatProofs
           limit={12}
           title="Real conversations, real replies"
