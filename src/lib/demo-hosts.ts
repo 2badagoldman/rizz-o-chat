@@ -1,3 +1,5 @@
+import { US_STATES } from "./us-states";
+
 // Demo host data for Discover / locked profile UI while the real
 // directory fills up. Once real hosts publish Friends Lists, they'll
 // appear alongside these seeded showcase profiles.
@@ -322,4 +324,80 @@ export function tierBand(t: DemoHost["tier"]) {
     popular: "$19.99 – $49.99/mo",
     elite: "$49.99 – $99.99/mo",
   }[t];
+}
+
+/**
+ * Guarantees that every US state (plus DC) has demo creators, so searching
+ * "Montana", "MT" or "Billings" in Discover always returns someone.
+ * Two creators per state, deterministic so ids/photos stay stable.
+ */
+function buildStateHosts(existing: DemoHost[]): DemoHost[] {
+  const taken = new Set(existing.map((h) => h.name.toLowerCase()));
+  const firstNames = [
+    "Amelia", "Brielle", "Cora", "Daniela", "Eliza", "Faith", "Gemma", "Hazel", "Imani", "Jolene",
+    "Kendra", "Lacey", "Margot", "Noelle", "Odette", "Paloma", "Rosalie", "Sloane", "Thea", "Verity",
+    "Wanda", "Ximena", "Yvette", "Zuri", "Adeline", "Bianca", "Colette", "Delia", "Esme", "Frankie",
+    "Georgia", "Hattie", "Isadora", "Juniper", "Kaia", "Liana", "Maren", "Nadine", "Opal", "Priya",
+    "Rowan", "Saoirse", "Tatum", "Ursula", "Violet", "Wilder", "Xiomara", "Yasmin", "Zelda", "Anya",
+    "Blythe", "Carys", "Dahlia", "Elodie", "Fern", "Greta", "Halima", "Ines", "Jovie", "Keira",
+    "Lark", "Mabel", "Nia", "Oona", "Pearl", "Quincy", "Rhiannon", "Sable", "Tamsin", "Ulla",
+    "Vada", "Wren", "Xena", "Yara", "Zora", "Annika", "Brynn", "Cassia", "Dove", "Emberly",
+    "Flora", "Giselle", "Honor", "Iris", "Jules", "Kalani", "Leona", "Mira", "Nova", "Olive",
+    "Phoebe", "Romy", "Sylvie", "Tessa", "Una", "Vivi", "Winnie", "Xiu", "Yolanda", "Zadie",
+    "Alba", "Bexley", "Coraline", "Danika",
+  ];
+  const gradients = [
+    ["linear-gradient(135deg,#FF6B9D 0%,#FF3D7F 100%)", "#FF3D7F"],
+    ["linear-gradient(135deg,#F6D365 0%,#FDA085 100%)", "#FDA085"],
+    ["linear-gradient(135deg,#A18CD1 0%,#FBC2EB 100%)", "#A18CD1"],
+    ["linear-gradient(135deg,#43E97B 0%,#38F9D7 100%)", "#43E97B"],
+    ["linear-gradient(135deg,#4FACFE 0%,#00F2FE 100%)", "#4FACFE"],
+    ["linear-gradient(135deg,#FA709A 0%,#FEE140 100%)", "#FA709A"],
+    ["linear-gradient(135deg,#667EEA 0%,#764BA2 100%)", "#667EEA"],
+    ["linear-gradient(135deg,#FF9A9E 0%,#FAD0C4 100%)", "#FF9A9E"],
+  ];
+  const vibes = [
+    { tagline: "Local girl who always texts back.", interests: ["Coffee", "Road trips", "Music", "Dogs"] },
+    { tagline: "Weekend explorer, weeknight over-thinker.", interests: ["Hiking", "Cooking", "Reading", "Movies"] },
+    { tagline: "Small-town heart, big playlist.", interests: ["Country", "Bonfires", "Baking", "Trucks"] },
+    { tagline: "Gym in the morning, deep talks at night.", interests: ["Fitness", "Smoothies", "Podcasts", "Sunsets"] },
+    { tagline: "Art school brain, diner-food soul.", interests: ["Art", "Vintage", "Diners", "Vinyl"] },
+    { tagline: "Nurse by day, meme historian by night.", interests: ["Nursing", "Memes", "Coffee", "Cats"] },
+  ];
+  const tiers: DemoHost["tier"][] = ["new", "rising", "popular", "elite"];
+
+  const out: DemoHost[] = [];
+  let n = 0;
+  US_STATES.forEach((st, si) => {
+    for (let k = 0; k < 2; k++) {
+      let name = firstNames[n % firstNames.length];
+      if (taken.has(name.toLowerCase())) name = `${name} ${st.abbr}`;
+      taken.add(name.toLowerCase());
+      const vibe = vibes[(si + k) % vibes.length];
+      const [gradient, accent] = gradients[(si + k) % gradients.length];
+      const tier = tiers[(si + k) % tiers.length];
+      const price = tier === "new" ? 4.99 : tier === "rising" ? 14.99 : tier === "popular" ? 29.99 : 59.99;
+      out.push({
+        id: `demo-${st.abbr.toLowerCase()}-${name.toLowerCase().replace(/\s+/g, "-")}`,
+        name,
+        handle: `@${name.toLowerCase().replace(/\s+/g, "")}${st.abbr.toLowerCase()}`,
+        age: 21 + ((si * 3 + k * 5) % 21),
+        city: `${st.city}, ${st.abbr}`,
+        tagline: vibe.tagline,
+        bio: `${st.city}, ${st.name}. ${vibe.tagline} Come hang — I actually reply.`,
+        interests: [...vibe.interests, st.name],
+        tier,
+        priceMonthly: price,
+        subscribers: 15 + ((si * 29 + k * 61) % 780),
+        online: (si + k) % 3 !== 0,
+        gradient,
+        accent,
+        photoCount: 6 + ((si + k) % 10),
+        hasVideo: (si + k) % 2 === 0,
+        teaser: `${st.city} girl — tell me what your day looked like.`,
+      });
+      n++;
+    }
+  });
+  return out;
 }
