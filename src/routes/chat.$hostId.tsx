@@ -9,7 +9,7 @@ import { AppShell } from "@/components/AppShell";
 import { ArrowLeft, Send, Circle, Gift, Sparkles, Heart, Smile } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { readTasteTranscript, clearTasteTranscript } from "@/lib/taste-chat";
-import { readMemberMemory, rememberFromMessage, memberNotes as readMemberNotes } from "@/lib/member-memory";
+import { readMemberMemory, confirmedMemberName, rememberFromMessage, memberNotes as readMemberNotes } from "@/lib/member-memory";
 import { DEMO_HOSTS, isAiHost } from "@/lib/demo-hosts";
 import { hostAvatar } from "@/lib/host-avatars";
 import { pickOpener } from "@/lib/host-personas";
@@ -134,7 +134,7 @@ function HostChat() {
   // difference between "a chat" and feeling seen.
   const [memory, setMemory] = useState({ name: "", notes: "" });
   useEffect(() => {
-    setMemory({ name: readMemberMemory().name, notes: readMemberNotes() });
+    setMemory({ name: confirmedMemberName(), notes: readMemberNotes() });
   }, [hostId]);
 
   const transport = useMemo(() => {
@@ -149,7 +149,7 @@ function HostChat() {
   const remember = (text: string) => {
     rememberFromMessage(text);
     const m = readMemberMemory();
-    setMemory({ name: m.name, notes: readMemberNotes() });
+    setMemory({ name: m.nameConfirmed ? m.name : "", notes: readMemberNotes() });
   };
 
   const { messages, setMessages, sendMessage, status } = useChat({
