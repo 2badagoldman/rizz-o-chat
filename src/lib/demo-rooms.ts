@@ -78,17 +78,6 @@ export const CITY_ROOMS: DemoRoom[] = [
   { slug: "detroit",     name: "Detroit Motor Room",  emoji: "🚗", tagline: "Motor City moods",                    category: "Local", members: 501,  online: 96,  gradient: "linear-gradient(135deg,#6c5ce7,#ff6b35)", city: "Detroit",      state: "MI", lat: 42.3314, lng: -83.0458 },
 ];
 
-export const DEMO_ROOMS: DemoRoom[] = [
-  { slug: "trending-tonight", name: "Trending Tonight",      emoji: "✨", tagline: "The room everyone's talking about", category: "Trending",     members: 1284, online: 312, gradient: "linear-gradient(135deg,#ff2d75,#ff6b9d)", hot: true },
-  { slug: "coffee-chat",      name: "Coffee Chat",           emoji: "☕", tagline: "Slow conversations, good company",  category: "Conversation", members: 942,  online: 187, gradient: "linear-gradient(135deg,#ff5c8a,#c34fff)", hot: true },
-  { slug: "icebreakers",      name: "Icebreakers",           emoji: "🎲", tagline: "Games, questions, easy hellos",     category: "Conversation", members: 811,  online: 156, gradient: "linear-gradient(135deg,#ff3d9a,#7b2cff)" },
-  { slug: "evening-unwind",   name: "Evening Unwind",        emoji: "🌙", tagline: "Wind down and talk about your day", category: "Evening",      members: 706,  online: 244, gradient: "linear-gradient(135deg,#5a1fbf,#1f0a54)", hot: true },
-  { slug: "party-line",       name: "Party Line",            emoji: "🎉", tagline: "Music, memes, mayhem",              category: "Party",        members: 1103, online: 289, gradient: "linear-gradient(135deg,#ff9a3d,#ff3d9a)" },
-  { slug: "music-room",       name: "Music Room",            emoji: "🎧", tagline: "Share what you're listening to",    category: "Conversation", members: 615,  online: 132, gradient: "linear-gradient(135deg,#b93dff,#ff3d7a)" },
-  ...CITY_ROOMS,
-  ...STATE_ROOMS,
-];
-
 /**
  * One official room per US state (plus DC) so every state is joinable
  * and searchable, even the ones without a metro room above.
@@ -116,6 +105,17 @@ export const STATE_ROOMS: DemoRoom[] = US_STATES.map((st, i) => {
     tags: `${st.city.toLowerCase().replace(/\s+/g, "")},skyline,city,night`,
   };
 });
+
+export const DEMO_ROOMS: DemoRoom[] = [
+  { slug: "trending-tonight", name: "Trending Tonight",      emoji: "✨", tagline: "The room everyone's talking about", category: "Trending",     members: 1284, online: 312, gradient: "linear-gradient(135deg,#ff2d75,#ff6b9d)", hot: true },
+  { slug: "coffee-chat",      name: "Coffee Chat",           emoji: "☕", tagline: "Slow conversations, good company",  category: "Conversation", members: 942,  online: 187, gradient: "linear-gradient(135deg,#ff5c8a,#c34fff)", hot: true },
+  { slug: "icebreakers",      name: "Icebreakers",           emoji: "🎲", tagline: "Games, questions, easy hellos",     category: "Conversation", members: 811,  online: 156, gradient: "linear-gradient(135deg,#ff3d9a,#7b2cff)" },
+  { slug: "evening-unwind",   name: "Evening Unwind",        emoji: "🌙", tagline: "Wind down and talk about your day", category: "Evening",      members: 706,  online: 244, gradient: "linear-gradient(135deg,#5a1fbf,#1f0a54)", hot: true },
+  { slug: "party-line",       name: "Party Line",            emoji: "🎉", tagline: "Music, memes, mayhem",              category: "Party",        members: 1103, online: 289, gradient: "linear-gradient(135deg,#ff9a3d,#ff3d9a)" },
+  { slug: "music-room",       name: "Music Room",            emoji: "🎧", tagline: "Share what you're listening to",    category: "Conversation", members: 615,  online: 132, gradient: "linear-gradient(135deg,#b93dff,#ff3d7a)" },
+  ...CITY_ROOMS,
+  ...STATE_ROOMS,
+];
 
 /**
  * Fuzzy room search — matches name, tagline, city, state abbreviation,
