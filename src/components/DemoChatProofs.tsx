@@ -84,7 +84,7 @@ export function DemoChatProofs({
 
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {proofs.map((p) => (
+        {proofs.map((p, pIdx) => (
           <article
             key={p.id}
             className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl"
