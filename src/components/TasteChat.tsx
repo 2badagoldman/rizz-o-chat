@@ -23,7 +23,7 @@ const OPENERS = [
 /** Opening line per creator — a hook plus a reason to type back right now. */
 const GREETINGS: Record<string, (name: string) => string> = {
   "demo-rubi": (n) =>
-    `${n ? n + ", " : ""}be honest — how many people have left you on read this week? 😅 I don't do that. Tell me one thing about your day and I'll send you a voice note back with your name in it.`,
+    `Hey${n ? " " + n : " you"} 🙂 I'm glad you stopped here. Tell me one good thing about your day and I'll send you a voice note back with your name in it — I've been told I say it nicely 😊`,
   "demo-aria": (n) =>
     `Hey${n ? " " + n : " you"} 👋 Everyone else scrolls past. I actually read this. Say one line — anything — and I'll reply in seconds, out loud if you want.`,
   "demo-wonderwoman": (n) =>
@@ -205,7 +205,7 @@ export function TasteChat() {
             <Lock className="h-4 w-4 text-primary" /> {creator.name} is still typing to you.
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            She hasn't left you on read — join free and she picks up right where you stopped.
+            She's waiting on your reply — join free and she picks up right where you stopped.
           </p>
           <Link
             to="/auth"
