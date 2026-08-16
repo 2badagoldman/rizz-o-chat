@@ -247,7 +247,7 @@ function RootComponent() {
         <PresenceProvider>
           <Outlet />
           <AttributionCapture />
-          <WelcomeShowcase />
+          {/* Welcome showcase pop-up retired — the creator runway sells on every page */}
           <InstallAppPrompt />
 
         </PresenceProvider>

@@ -10,6 +10,7 @@ import { GlobalSearch } from "./GlobalSearch";
 import { LegalFooter } from "./LegalFooter";
 import { OfferOverlay } from "./OfferOverlay";
 import { LiveHostAlerts } from "./LiveHostAlerts";
+import { DemoChatProofs } from "./DemoChatProofs";
 import { InAppNotification } from "./InAppNotification";
 
 
@@ -42,6 +43,13 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
     pathname.startsWith("/chat/") || /^\/rooms\/[^/]+$/.test(pathname) || pathname === "/copilot";
   const suppressDock = hideNav || hideDock || isConversation || pathname === "/auth";
   const suppressFooter = hideFooter || isConversation;
+  // Selling runway sits at the top of every public surface.
+  const showRunway =
+    !isConversation &&
+    !pathname.startsWith("/admin") &&
+    !pathname.startsWith("/legal") &&
+    !pathname.startsWith("/host/") &&
+    pathname !== "/dashboard";
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const router = useRouter();
