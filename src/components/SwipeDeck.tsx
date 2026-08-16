@@ -4,27 +4,7 @@ import { Heart, X, RotateCcw, Circle, MessageCircle } from "lucide-react";
 import { DEMO_HOSTS, tierLabel, isFreeHost, type DemoHost } from "@/lib/demo-hosts";
 import { hostAvatarMed } from "@/lib/host-avatars";
 
-const LIKES_KEY = "crush.swipe.likes";
-const PASS_KEY = "crush.swipe.passes";
-
-function readIds(key: string): string[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(key);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed.filter((x) => typeof x === "string") : [];
-  } catch {
-    return [];
-  }
-}
-
-function writeIds(key: string, ids: string[]) {
-  try {
-    window.localStorage.setItem(key, JSON.stringify(ids.slice(-500)));
-  } catch {
-    /* storage unavailable — swiping still works for the session */
-  }
-}
+import { LIKES_KEY, PASS_KEY, readIds, writeIds } from "@/lib/swipe-likes";
 
 function shuffle<T>(arr: readonly T[], seed: number): T[] {
   const a = arr.slice();
@@ -73,15 +53,22 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
         const updated = [...stored, current.id];
         writeIds(key, updated);
         if (dir === "right") setLikes(updated);
+      } else if (dir === "right") {
+        setLikes(stored);
+      }
+      if (dir === "right") {
+        setToast(`${current.name} saved to Prospects you like`);
+        window.setTimeout(() => setToast(null), 1800);
       }
       window.setTimeout(() => {
         setFlying(null);
         setDx(0);
         setIndex((i) => i + 1);
-      }, 240);
+      }, 300);
     },
     [current, flying],
   );
+
 
   const onPointerDown = (e: React.PointerEvent) => {
     if (flying) return;
@@ -136,18 +123,20 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
         </article>
 
         <article
+          key={current.id}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
           onPointerCancel={onPointerUp}
           style={{
             transform: `translateX(${offset}px) rotate(${rotate}deg)`,
-            transition: dragging.current ? "none" : "transform 240ms ease-out, opacity 240ms ease-out",
+            transition: dragging.current ? "none" : "transform 280ms cubic-bezier(.22,.61,.36,1), opacity 280ms ease-out",
             opacity: flying ? 0 : 1,
             touchAction: "pan-y",
           }}
           className="absolute inset-0 cursor-grab overflow-hidden rounded-[2rem] border border-border bg-card shadow-xl active:cursor-grabbing"
         >
+
           <img
             src={hostAvatarMed(current.id)}
             alt={`${current.name}, ${current.age} — ${current.city}`}
