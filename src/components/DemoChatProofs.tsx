@@ -17,9 +17,11 @@ function hostIdForProof(proof: DemoProof, index: number): string {
   const match = DEMO_HOSTS.find(
     (h) => h.name.toLowerCase() === proof.name.toLowerCase(),
   );
-  if (match) return match.id;
+  // Only AI-powered creators can hold the free 3-message preview chat.
+  if (match && (AI_HOST_IDS as readonly string[]).includes(match.id)) return match.id;
   return AI_HOST_IDS[index % AI_HOST_IDS.length]!;
 }
+
 
 
 /**
