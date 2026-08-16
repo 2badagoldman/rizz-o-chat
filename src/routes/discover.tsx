@@ -60,8 +60,6 @@ type SortKey = "featured" | "online" | "price-asc" | "price-desc" | "subscribers
 const SORTS: Array<{ key: SortKey; label: string }> = [
   { key: "featured", label: "Featured" },
   { key: "online", label: "Online first" },
-  { key: "price-asc", label: "Price: low to high" },
-  { key: "price-desc", label: "Price: high to low" },
   { key: "subscribers", label: "Most subscribers" },
 ];
 
