@@ -179,22 +179,29 @@ function Discover() {
           </button>
         ))}
       </div>
+      {/* While searching, the browse rails are hidden so results appear right
+          under the search box instead of far below the fold. */}
+      {term ? null : (
+        <>
+          <StoryRail />
 
-      
+          <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={25} />
 
-      <StoryRail />
-
-      <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={25} />
-
-      <RoomsShowcase />
+          <RoomsShowcase />
+        </>
+      )}
 
 
       <div className="mt-6 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
         <div className="min-w-0">
-          <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Creators</p>
-          <h2 className="mt-0.5 truncate text-lg font-bold">Meet your next favorite</h2>
+          <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+            {term ? "Results" : "Creators"}
+          </p>
+          <h2 className="mt-0.5 truncate text-lg font-bold">
+            {term ? <>Matches for &ldquo;{q.trim()}&rdquo;</> : "Meet your next favorite"}
+          </h2>
           <p className="mt-0.5 text-[11px] font-semibold text-muted-foreground" aria-live="polite">
-            {creators.length} {creators.length === 1 ? "host" : "hosts"}
+            {creators.length} {creators.length === 1 ? "creator" : "creators"}
             {isFiltered ? " match your search" : " available"}
           </p>
         </div>
