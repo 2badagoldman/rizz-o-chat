@@ -127,7 +127,7 @@ function Home() {
 
 
       {/* Search creators right from the hero — username, email or phone */}
-      <div className="mt-4 w-full min-w-0 rise-in">
+      <div className="mt-3 w-full min-w-0 rise-in">
         <button
           type="button"
           onClick={() => setSearchOpen((v) => !v)}
