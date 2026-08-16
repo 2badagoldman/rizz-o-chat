@@ -12,6 +12,7 @@ import rizzLogo from "@/assets/crush-logo.png.asset.json";
 import { RoomsShowcase } from "@/components/RoomsShowcase";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
 import { StoryRail } from "@/components/stories/StoryRail";
+import { SwipeDeck } from "@/components/SwipeDeck";
 
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -190,6 +191,24 @@ function Discover() {
       {term ? null : (
         <>
           <StoryRail />
+
+          <section className="mt-6 rounded-3xl border border-border bg-card/60 p-4">
+            <div className="flex items-end justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Swipe</p>
+                <h2 className="mt-0.5 truncate text-lg font-bold">Like her or keep looking</h2>
+              </div>
+              <Link
+                to="/swipe"
+                className="shrink-0 rounded-full bg-gradient-brand px-3 py-1.5 text-xs font-bold text-white shadow-glow transition active:scale-95"
+              >
+                Full screen
+              </Link>
+            </div>
+            <div className="mx-auto mt-3 max-w-xs">
+              <SwipeDeck />
+            </div>
+          </section>
 
           <ShowcaseRail title="Showcase" subtitle="Best looks right now" limit={25} />
 
