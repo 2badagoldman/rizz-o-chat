@@ -85,15 +85,33 @@ const FACT_CUES: RegExp[] = [
   /\b(?:tomorrow|tonight|this weekend|next week)\b[^.!?]{0,60}/i,
 ];
 
+/**
+ * Only unambiguous self-introductions count. Loose patterns like "i'm bored"
+ * used to be read as a name, which meant creators called people the wrong
+ * thing — so anything less explicit than this is never treated as a name.
+ */
 const NAME_CUES: RegExp[] = [
   /\bmy name(?:'s| is)\s+([\p{L}][\p{L}'-]{1,23})/iu,
-  /\b(?:i'm|i am|it's|its|call me|this is)\s+([\p{L}][\p{L}'-]{1,23})\s*$/iu,
+  /\b(?:call me|you can call me|name's)\s+([\p{L}][\p{L}'-]{1,23})\b/iu,
+  /\bi(?:'m| am)\s+([\p{L}][\p{L}'-]{1,23})\s*(?:,?\s*(?:by the way|btw))?[.!]?\s*$/iu,
 ];
 
 const NAME_STOPWORDS = new Set([
   "good", "fine", "ok", "okay", "here", "back", "tired", "bored", "sorry", "not",
   "just", "still", "down", "up", "great", "cool", "single", "new", "hi", "hey",
+  "busy", "home", "working", "chilling", "lonely", "bad", "sad", "happy", "hungry",
+  "sleepy", "broke", "free", "curious", "interested", "in", "out", "away", "sick",
+  "drunk", "awake", "late", "early", "old", "young", "married", "divorced", "shy",
+  "nervous", "excited", "stressed", "listening", "watching", "waiting", "ready",
+  "yes", "no", "sure", "maybe", "always", "never", "so", "very", "too", "the",
 ]);
+
+/** Guard the "i'm X" shape: only when the whole message is that short intro. */
+function looksLikeIntro(text: string, cue: RegExp): boolean {
+  if (cue.source.includes("my name") || cue.source.includes("call me")) return true;
+  return text.split(/\s+/).length <= 4;
+}
+
 
 /** Pull a name + notable facts out of what he just typed. Returns the new name if found. */
 export function rememberFromMessage(text: string): { name?: string } {
