@@ -5,6 +5,15 @@ import { BadgeCheck } from "lucide-react";
 import type { DemoProof } from "@/lib/demo-proofs.functions";
 import { demoProofsQueryOptions } from "@/lib/demo-proofs.query";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
+import { getRouteApi } from "@tanstack/react-router";
+
+const rootApi = getRouteApi("__root__");
+
+/** Runway data comes from the root loader so SSR and hydration always agree. */
+function useRootProofs(): DemoProof[] {
+  const data = rootApi.useLoaderData() as DemoProof[] | undefined;
+  return Array.isArray(data) ? data : [];
+}
 
 /** Placeholder that occupies the runway's exact footprint before data lands. */
 function RunwaySkeleton({ title }: { title: string }) {
