@@ -48,6 +48,23 @@ export function isAiHost(hostId: string | undefined): boolean {
   return !!hostId && (AI_HOST_IDS as readonly string[]).includes(hostId);
 }
 
+/**
+ * Up to 5 creators whose Friends List is free to join — members see "Free"
+ * and can chat right away without a Friends List purchase.
+ */
+export const FREE_HOST_IDS = [
+  "demo-jen",
+  "demo-rubi",
+  "demo-nova",
+  "demo-harper",
+  "demo-cleo",
+] as const;
+
+export function isFreeHost(hostId: string | undefined): boolean {
+  return !!hostId && (FREE_HOST_IDS as readonly string[]).includes(hostId);
+}
+
+
 
 const CORE_HOSTS: DemoHost[] = [
   {
