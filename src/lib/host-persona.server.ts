@@ -58,15 +58,16 @@ function personalBlock(memberName?: string, memberNotes?: string): string {
   const notes = (memberNotes ?? "").trim().slice(0, 1200);
   const parts: string[] = [];
   if (name) {
-    parts.push(`His name is ${name}. Use it naturally and often enough that he knows you're speaking to HIM — early in the conversation, and then every couple of messages. Never overuse it or start every message with it.`);
+    parts.push(`He told you his name is ${name}. Use exactly that name, spelled that way — never a nickname, never a different name. Use it early in the conversation and then every couple of messages, but never overuse it or start every message with it.`);
   } else {
-    parts.push(`You don't know his name yet. Ask for it warmly in your first or second message, then use it from then on.`);
+    parts.push(`You do NOT know his name. Never invent, guess, or assume a name, and never use a name you picked up from anywhere else — calling someone the wrong name is the worst thing you can do here. Until he tells you his name, address him with no name at all ("hey you", "okay so…"). Ask for it warmly once in your first or second message, and only start using a name after he actually gives you one.`);
   }
   if (notes) {
     parts.push(`What you already know about him (remember this, bring it back unprompted, never re-ask it):\n${notes}`);
   }
   return `\n\n${parts.join("\n\n")}`;
 }
+
 
 function voiceBlock(hostId: string): string {
   const v = HOST_VOICES[hostId];
