@@ -69,7 +69,7 @@ export function RoomsShowcase() {
   // rooms rail always shows real rooms instead of preview placeholders.
   useEffect(() => {
     const load = user ? fetchPublic : fetchAnon;
-    load({ data: { lat: coords?.lat ?? undefined, lng: coords?.lng ?? undefined } as any })
+    load({ data: (coords ? { lat: coords.lat, lng: coords.lng } : {}) as any })
       .then(setRealRooms).catch(() => setRealRooms([]));
   }, [user, coords, fetchPublic, fetchAnon]);
 
