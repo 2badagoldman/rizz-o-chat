@@ -32,13 +32,17 @@ export function registerShowcaseAvatars(items: Array<{ hostId: string; image: st
   let changed = false;
   for (const item of items) {
     if (!item.hostId || !item.image || next[item.hostId] === item.image) continue;
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem(`crush:runway-avatar:${item.hostId}`, item.image);
-    }
     next[item.hostId] = item.image;
     changed = true;
   }
   if (changed) setOverrides(next);
+}
+
+export function pinShowcaseAvatar(hostId: string, image: string) {
+  if (typeof window !== "undefined") {
+    sessionStorage.setItem(`crush:runway-avatar:${hostId}`, image);
+  }
+  registerShowcaseAvatars([{ hostId, image }]);
 }
 
 function subscribe(l: () => void) {

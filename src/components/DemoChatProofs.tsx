@@ -6,7 +6,7 @@ import type { DemoProof } from "@/lib/demo-proofs.functions";
 import { demoProofsQueryOptions } from "@/lib/demo-proofs.query";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { getRouteApi } from "@tanstack/react-router";
-import { registerShowcaseAvatars } from "@/lib/showcase-avatar-store";
+import { pinShowcaseAvatar, registerShowcaseAvatars } from "@/lib/showcase-avatar-store";
 
 const rootApi = getRouteApi("__root__");
 
@@ -164,7 +164,7 @@ export function DemoChatProofs({
                 <Link
                   to="/chat/$hostId"
                   params={{ hostId: hostIdForProof(p, pIdx) }}
-                  onClick={() => registerShowcaseAvatars([{ hostId: hostIdForProof(p, pIdx), image: p.image }])}
+                  onClick={() => pinShowcaseAvatar(hostIdForProof(p, pIdx), p.image)}
                   className="mt-3 block rounded-xl bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground"
                 >
                   Message {p.name} free
@@ -261,7 +261,7 @@ function ProofRunway({
             key={`${p.id}-${idx}`}
             to="/host/$hostId"
             params={{ hostId: hostIdForProof(p, idx % proofs.length) }}
-            onClick={() => registerShowcaseAvatars([{ hostId: hostIdForProof(p, idx % proofs.length), image: p.image }])}
+            onClick={() => pinShowcaseAvatar(hostIdForProof(p, idx % proofs.length), p.image)}
             aria-label={`Open ${p.name}'s profile and chat`}
             className="block w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
