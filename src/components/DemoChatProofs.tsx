@@ -221,10 +221,12 @@ function ProofRunway({
         {loop.map((p, idx) => (
           <Link
             key={`${p.id}-${idx}`}
-            to="/auth"
-            aria-label={`Chat with ${p.name}`}
+            to="/host/$hostId"
+            params={{ hostId: hostIdForProof(p, idx % proofs.length) }}
+            aria-label={`Open ${p.name}'s profile and chat`}
             className="block w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
+
             <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
               <img
                 src={p.image}
