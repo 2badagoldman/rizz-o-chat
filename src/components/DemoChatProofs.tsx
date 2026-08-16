@@ -204,9 +204,11 @@ function ProofRunway({
         className="-mx-4 mt-2 flex gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {loop.map((p, idx) => (
-          <article
+          <Link
             key={`${p.id}-${idx}`}
-            className="w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card"
+            to="/auth"
+            aria-label={`Chat with ${p.name}`}
+            className="block w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
               <img
@@ -241,15 +243,12 @@ function ProofRunway({
                 </div>
               ))}
               {showCta ? (
-                <Link
-                  to="/auth"
-                  className="mt-1.5 block rounded-xl bg-primary px-3 py-1.5 text-center text-[11px] font-bold text-primary-foreground"
-                >
+                <span className="mt-1.5 block rounded-xl bg-primary px-3 py-1.5 text-center text-[11px] font-bold text-primary-foreground">
                   Message {p.name} free
-                </Link>
+                </span>
               ) : null}
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>
