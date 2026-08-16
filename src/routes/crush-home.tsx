@@ -334,8 +334,14 @@ function CrushHome() {
         </div>
       </header>
 
+      {/* PROOF — real chats first, this is what sells */}
+      <section className="mx-auto w-full max-w-6xl px-5 pt-8 pb-2">
+        <DemoChatProofs limit={12} />
+      </section>
+
       {/* HERO */}
-      <section className="relative overflow-hidden px-4 py-20 sm:py-28">
+      <section className="relative overflow-hidden px-4 py-16 sm:py-24">
+
         <div className="mx-auto max-w-3xl text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-[var(--ch-line)] px-4 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-[var(--ch-gold)]">
             <Sparkles className="h-3.5 w-3.5" /> 18+ verified creator chat
@@ -568,9 +574,7 @@ function CrushHome() {
       </section>
 
       {/* FOOTER */}
-      <section className="mx-auto w-full max-w-6xl px-5 pb-4">
-        <DemoChatProofs limit={12} />
-      </section>
+
 
       <footer className="border-t border-[var(--ch-line)] px-4 py-12">
         <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
