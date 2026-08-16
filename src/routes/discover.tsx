@@ -370,8 +370,9 @@ function HostCard({ creator }: { creator: DemoHost }) {
         </div>
         <div className="flex items-center gap-1 text-xs font-semibold">
           <img loading="lazy" decoding="async" src={rizzLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" />
-          View profile
+          {isFreeHost(creator.id) ? "Free" : "View profile"}
         </div>
+
       </div>
     </Link>
   );
