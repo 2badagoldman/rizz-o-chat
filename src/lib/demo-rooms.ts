@@ -1,3 +1,5 @@
+import { US_STATES, matchState, stateSearchTerms, stateByAbbr } from "./us-states";
+
 export type DemoRoom = {
   slug: string;
   name: string;
@@ -76,6 +78,34 @@ export const CITY_ROOMS: DemoRoom[] = [
   { slug: "detroit",     name: "Detroit Motor Room",  emoji: "🚗", tagline: "Motor City moods",                    category: "Local", members: 501,  online: 96,  gradient: "linear-gradient(135deg,#6c5ce7,#ff6b35)", city: "Detroit",      state: "MI", lat: 42.3314, lng: -83.0458 },
 ];
 
+/**
+ * One official room per US state (plus DC) so every state is joinable
+ * and searchable, even the ones without a metro room above.
+ */
+export const STATE_ROOMS: DemoRoom[] = US_STATES.map((st, i) => {
+  const gradients = [
+    "linear-gradient(135deg,#ff6b35,#e84393)",
+    "linear-gradient(135deg,#e84393,#6c5ce7)",
+    "linear-gradient(135deg,#f7931e,#e84393)",
+    "linear-gradient(135deg,#6c5ce7,#ff6b35)",
+  ];
+  return {
+    slug: `state-${st.abbr.toLowerCase()}`,
+    name: `${st.name} Room`,
+    emoji: "\u{1F4CD}",
+    tagline: `${st.name} members and creators — say hi from ${st.city}.`,
+    category: "Local" as const,
+    members: 240 + ((i * 137) % 1800),
+    online: 30 + ((i * 53) % 320),
+    gradient: gradients[i % gradients.length],
+    city: st.city,
+    state: st.abbr,
+    lat: st.lat,
+    lng: st.lng,
+    tags: `${st.city.toLowerCase().replace(/\s+/g, "")},skyline,city,night`,
+  };
+});
+
 export const DEMO_ROOMS: DemoRoom[] = [
   { slug: "trending-tonight", name: "Trending Tonight",      emoji: "✨", tagline: "The room everyone's talking about", category: "Trending",     members: 1284, online: 312, gradient: "linear-gradient(135deg,#ff2d75,#ff6b9d)", hot: true },
   { slug: "coffee-chat",      name: "Coffee Chat",           emoji: "☕", tagline: "Slow conversations, good company",  category: "Conversation", members: 942,  online: 187, gradient: "linear-gradient(135deg,#ff5c8a,#c34fff)", hot: true },
@@ -84,7 +114,39 @@ export const DEMO_ROOMS: DemoRoom[] = [
   { slug: "party-line",       name: "Party Line",            emoji: "🎉", tagline: "Music, memes, mayhem",              category: "Party",        members: 1103, online: 289, gradient: "linear-gradient(135deg,#ff9a3d,#ff3d9a)" },
   { slug: "music-room",       name: "Music Room",            emoji: "🎧", tagline: "Share what you're listening to",    category: "Conversation", members: 615,  online: 132, gradient: "linear-gradient(135deg,#b93dff,#ff3d7a)" },
   ...CITY_ROOMS,
+  ...STATE_ROOMS,
 ];
+
+/**
+ * Fuzzy room search — matches name, tagline, city, state abbreviation,
+ * state nicknames and close misspellings ("tenn", "cali", "new yrok").
+ */
+export function searchRooms<T extends { name?: string; tagline?: string; description?: string; city?: string | null; state?: string | null; category?: string }>(
+  query: string,
+  rooms: T[],
+): T[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return rooms;
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const fuzzy = matchState(q);
+
+  return rooms.filter((r) => {
+    const st = stateByAbbr(r.state ?? undefined);
+    const haystack = [
+      r.name ?? "",
+      r.tagline ?? "",
+      r.description ?? "",
+      r.city ?? "",
+      r.state ?? "",
+      r.category ?? "",
+      ...(st ? stateSearchTerms(st) : []),
+    ]
+      .join(" ")
+      .toLowerCase();
+    if (tokens.every((t) => haystack.includes(t))) return true;
+    return !!fuzzy && (st?.abbr === fuzzy.abbr || (r.city ?? "").toLowerCase() === fuzzy.city.toLowerCase());
+  });
+}
 
 export function haversineMiles(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
   const toRad = (d: number) => (d * Math.PI) / 180;

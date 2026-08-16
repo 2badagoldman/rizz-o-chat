@@ -4,6 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierLabel, type DemoHost } from "@/lib/demo-hosts";
+import { matchState, stateFromCity, stateSearchTerms } from "@/lib/us-states";
 import { hostAvatar, hostAvatarMed } from "@/lib/host-avatars";
 import { Search, Users, Circle, Sparkles, X, ArrowUpDown } from "lucide-react";
 import { useShuffled } from "@/hooks/useShuffled";
@@ -94,11 +95,15 @@ function Discover() {
     // Every word typed must land somewhere in the creator's profile, so
     // "dallas pr" and "austin tattoo" both work.
     const tokens = term.split(/\s+/).filter(Boolean);
+    // "montana", "MT", "tennesee" (typo) all resolve to a state so state
+    // searches always return the creators based there.
+    const fuzzyState = term ? matchState(term) : undefined;
 
     const matched = base.filter((h) => {
       if (filter === "online" && !h.online) return false;
       if (filter !== "all" && filter !== "online" && h.tier !== filter) return false;
       if (tokens.length === 0) return true;
+      const st = stateFromCity(h.city);
       const haystack = [
         h.name,
         h.handle,
@@ -107,12 +112,15 @@ function Discover() {
         h.teaser ?? "",
         tierLabel(h.tier),
         h.online ? "online" : "offline",
+        ...(st ? stateSearchTerms(st) : []),
         ...h.interests,
       ]
         .join(" ")
         .toLowerCase();
-      return tokens.every((t) => haystack.includes(t));
+      if (tokens.every((t) => haystack.includes(t))) return true;
+      return !!fuzzyState && st?.abbr === fuzzyState.abbr;
     });
+
 
     const sorted = sort === "featured" && !term ? seededShuffle(matched, bump * 7919 + 13) : matched.slice();
     if (sort === "online") sorted.sort((a, b) => Number(b.online) - Number(a.online));
