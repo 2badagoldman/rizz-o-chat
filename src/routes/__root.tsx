@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
+import { demoProofsQueryOptions, RUNWAY_LIMIT } from "@/lib/demo-proofs.query";
   createRootRouteWithContext,
   useRouter,
   HeadContent,
