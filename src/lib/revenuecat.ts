@@ -11,6 +11,7 @@
  * never affected.
  */
 import { isNativeApp, nativePlatform } from "@/lib/native";
+import { REVENUECAT_ANDROID_PUBLIC_KEY, REVENUECAT_IOS_PUBLIC_KEY } from "@/lib/revenuecat.keys";
 
 /** Store product identifiers — must match the products created in App Store
  *  Connect / Google Play and attached to the RevenueCat offering. */
