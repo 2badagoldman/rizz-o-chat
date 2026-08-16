@@ -56,7 +56,7 @@ function RoomsBrowsePage() {
     // Signed-out visitors read the anon room directory so every live room is
     // browsable before sign-in; joining still requires an account.
     const fetcher = user ? fetchPublic : fetchAnon;
-    fetcher({ data: { lat: c?.lat ?? undefined, lng: c?.lng ?? undefined, limit: PAGE } as any })
+    fetcher({ data: { ...(c ? { lat: c.lat, lng: c.lng } : {}), limit: PAGE } as any })
       .then((r: any[]) => { setRooms(r); setExhausted(r.length < PAGE || !user); })
       .catch((e) => toast.error(e.message))
       .finally(() => setLoading(false));
@@ -72,7 +72,7 @@ function RoomsBrowsePage() {
     );
     setLoadingMore(true);
     fetchPublic({
-      data: { lat: coords?.lat ?? undefined, lng: coords?.lng ?? undefined, limit: PAGE, cursor: oldest } as any,
+      data: { ...(coords ? { lat: coords.lat, lng: coords.lng } : {}), limit: PAGE, cursor: oldest } as any,
     })
       .then((next: any[]) => {
         setExhausted(next.length < PAGE);
