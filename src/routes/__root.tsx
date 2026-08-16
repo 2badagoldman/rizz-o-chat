@@ -13,7 +13,6 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "../lib/auth";
 import { AttributionCapture } from "@/components/AttributionCapture";
-import { WelcomeShowcase } from "../components/WelcomeShowcase";
 import { InstallAppPrompt } from "../components/InstallAppPrompt";
 import { PresenceProvider } from "../lib/presence";
 
@@ -247,7 +246,7 @@ function RootComponent() {
         <PresenceProvider>
           <Outlet />
           <AttributionCapture />
-          <WelcomeShowcase />
+          {/* Welcome showcase pop-up retired — the creator runway sells on every page */}
           <InstallAppPrompt />
 
         </PresenceProvider>

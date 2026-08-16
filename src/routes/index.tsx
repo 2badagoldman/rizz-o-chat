@@ -110,14 +110,8 @@ function Home() {
         </p>
       </header>
 
-      {/* Proof first: real creators + real chats, visible before any scroll */}
-      <DemoChatProofs
-        variant="rail"
-        limit={8}
-        title="Real chats with real creators"
-        showCta={false}
-        lineLimit={1}
-      />
+      {/* Runway of real creators + real chats is rendered globally by AppShell */}
+
 
 
       {/* Search creators right from the hero — username, email or phone */}
