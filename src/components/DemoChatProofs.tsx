@@ -254,7 +254,7 @@ function ProofRunway({
               <img
                 src={p.image}
                 alt={`${p.name}, Crush creator`}
-                loading="lazy"
+                loading={idx < 5 ? "eager" : "lazy"}
                 decoding="async"
                 className="h-full w-full object-cover object-top"
               />
