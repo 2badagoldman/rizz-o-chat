@@ -184,7 +184,15 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
             : "calc(env(safe-area-inset-bottom) + 11rem)",
         }}
       >
-
+        {showRunway ? (
+          <DemoChatProofs
+            variant="rail"
+            limit={20}
+            title="Real chats with real creators"
+            showCta={false}
+            lineLimit={1}
+          />
+        ) : null}
         {children}
         {footerNote ? (
           <p className="mt-8 text-center text-[11px] leading-relaxed text-muted-foreground">
