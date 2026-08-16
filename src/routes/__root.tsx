@@ -1,3 +1,4 @@
+import { demoProofsQueryOptions, RUNWAY_LIMIT } from "@/lib/demo-proofs.query";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -78,6 +79,11 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  // Prime the creator runway so it renders with the first paint on every page.
+  loader: ({ context }) =>
+    context.queryClient
+      .ensureQueryData(demoProofsQueryOptions(RUNWAY_LIMIT))
+      .catch(() => []),
   head: () => ({
     meta: [
       { charSet: "utf-8" },
