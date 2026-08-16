@@ -127,11 +127,13 @@ export function DemoChatProofs({
               ))}
               {showCta ? (
                 <Link
-                  to="/auth"
+                  to="/chat/$hostId"
+                  params={{ hostId: hostIdForProof(p, pIdx) }}
                   className="mt-3 block rounded-xl bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground"
                 >
                   Message {p.name} free
                 </Link>
+
               ) : null}
             </div>
           </article>
