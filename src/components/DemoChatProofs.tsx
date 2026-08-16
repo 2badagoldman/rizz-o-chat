@@ -73,7 +73,7 @@ export function DemoChatProofs({
                   Online
                 </span>
               </div>
-              <div className="space-y-1.5 p-2.5">
+              <div className="space-y-1.5 p-2">
                 {p.lines.slice(0, lineLimit ?? 2).map((l, i) => (
                   <div key={i} className={`flex ${l.from === "member" ? "justify-end" : "justify-start"}`}>
                     <p
