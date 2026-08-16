@@ -244,7 +244,7 @@ export function GlobalSearch({ open, onClose }: GlobalSearchProps) {
                       <p className="truncate text-xs font-semibold text-foreground/70">{h.city} · {h.interests.slice(0, 3).join(" · ")}</p>
                     </div>
                     <span className="whitespace-nowrap text-[11px] font-extrabold text-gradient-brand">
-                      {h.id === "demo-jen" ? "Free" : `$${h.priceMonthly}/mo`}
+                      {h.id === "demo-jen" ? "Free" : "View"}
                     </span>
                   </Link>
                 </li>
