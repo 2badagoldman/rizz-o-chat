@@ -91,17 +91,27 @@ function Discover() {
     // Reshuffling under an active search/sort would make results jump while the
     // user reads them, so only the untouched "Featured" view rotates.
     const base = sort === "featured" && !term ? shuffled : DEMO_HOSTS;
+    // Every word typed must land somewhere in the creator's profile, so
+    // "dallas pr" and "austin tattoo" both work.
+    const tokens = term.split(/\s+/).filter(Boolean);
 
     const matched = base.filter((h) => {
       if (filter === "online" && !h.online) return false;
       if (filter !== "all" && filter !== "online" && h.tier !== filter) return false;
-      if (!term) return true;
-      return (
-        h.name.toLowerCase().includes(term) ||
-        h.handle.toLowerCase().includes(term) ||
-        h.city.toLowerCase().includes(term) ||
-        h.interests.some((i) => i.toLowerCase().includes(term))
-      );
+      if (tokens.length === 0) return true;
+      const haystack = [
+        h.name,
+        h.handle,
+        h.city,
+        h.bio,
+        h.teaser ?? "",
+        tierLabel(h.tier),
+        h.online ? "online" : "offline",
+        ...h.interests,
+      ]
+        .join(" ")
+        .toLowerCase();
+      return tokens.every((t) => haystack.includes(t));
     });
 
     const sorted = sort === "featured" && !term ? seededShuffle(matched, bump * 7919 + 13) : matched.slice();
