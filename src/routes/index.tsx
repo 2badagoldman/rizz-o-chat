@@ -16,6 +16,8 @@ import { ShowcaseRail } from "@/components/ShowcaseRail";
 import { TasteChat } from "@/components/TasteChat";
 
 import { StoryRail } from "@/components/stories/StoryRail";
+import { SwipeDeck } from "@/components/SwipeDeck";
+
 
 const FAQS = [
   {
