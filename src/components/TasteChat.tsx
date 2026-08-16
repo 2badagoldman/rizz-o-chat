@@ -6,7 +6,7 @@ import { ArrowRight, ChevronRight, Circle, Lock, Send } from "lucide-react";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { hostAvatarThumb } from "@/lib/host-avatars";
 import { saveTasteTranscript } from "@/lib/taste-chat";
-import { readMemberMemory, rememberFromMessage, saveMemberName, memberNotes as readMemberNotes } from "@/lib/member-memory";
+import { confirmedMemberName, rememberFromMessage, saveMemberName, memberNotes as readMemberNotes } from "@/lib/member-memory";
 import { readVisitorName, saveVisitorName } from "@/lib/visitor-name";
 import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNote";
 
@@ -81,7 +81,7 @@ export function TasteChat() {
   const [memberName, setMemberName] = useState("");
   const [notes, setNotes] = useState("");
   useEffect(() => {
-    const stored = readMemberMemory().name || readVisitorName();
+    const stored = confirmedMemberName() || readVisitorName();
     setMemberName(stored);
     setNotes(readMemberNotes());
   }, []);
@@ -188,7 +188,7 @@ export function TasteChat() {
                 hostId={creator.id}
                 memberName={memberName}
                 autoPlay={autoVoice && m.id === lastMsg?.id && !busy}
-                label={memberName ? `Hear her say "${memberName}"` : "Hear her say your name"}
+                label={memberName ? `Hear her say "${memberName}"` : "Hear her voice"}
               />
             ) : null}
           </div>
