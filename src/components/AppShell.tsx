@@ -185,7 +185,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
 
       <main
         key={pathname}
-        className="page-anim lux-scroll relative z-10 mx-auto w-full max-w-[480px] px-4 pt-4 md:max-w-[680px] md:px-6 lg:max-w-[820px]"
+        className="page-anim lux-scroll relative z-10 mx-auto w-full max-w-none px-3 pt-4 md:px-6 lg:max-w-[1280px] lg:px-8"
         style={{
           paddingBottom: hideNav
             ? "calc(env(safe-area-inset-bottom) + 2rem)"
