@@ -254,6 +254,7 @@ function RootComponent() {
           <AttributionCapture />
           {/* Welcome showcase pop-up retired — the creator runway sells on every page */}
           <InstallAppPrompt />
+          <OverflowInspector />
 
         </PresenceProvider>
       </AuthProvider>
