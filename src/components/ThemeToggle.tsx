@@ -172,7 +172,11 @@ export function ThemeToggle() {
             extraActive ? "bg-gradient-brand text-white shadow-glow" : "text-muted-foreground"
           }`}
         >
-          {extraActive ? EXTRA.find((t) => t.id === theme)!.label : ""}
+          {extraActive ? (
+            <span className="hidden max-w-[84px] truncate sm:inline">
+              {EXTRA.find((t) => t.id === theme)!.label}
+            </span>
+          ) : null}
           <ChevronDown className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`} />
         </button>
       </div>

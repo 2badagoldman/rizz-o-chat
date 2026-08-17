@@ -23,7 +23,7 @@ function RunwaySkeleton({ title }: { title: string }) {
       <div className="flex items-baseline justify-between">
         <h2 className="text-sm font-display font-bold">{title}</h2>
       </div>
-      <div className="-mx-4 mt-2 flex gap-3 overflow-hidden px-4 pb-2">
+      <div className="-mx-3 md:-mx-6 mt-2 flex gap-3 overflow-hidden px-3 md:px-6 pb-2">
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
@@ -236,9 +236,9 @@ function ProofRunway({
 
   return (
     <section className="mt-4">
-      <div className="flex items-baseline justify-between">
-        <h2 className="text-sm font-display font-bold">{title}</h2>
-        <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 className="min-w-0 truncate text-sm font-display font-bold">{title}</h2>
+        <span className="hidden shrink-0 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground sm:inline">
           Swipe to go back
         </span>
       </div>
@@ -254,7 +254,7 @@ function ProofRunway({
           holdPause();
           scheduleResume();
         }}
-        className="-mx-4 mt-2 flex gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="-mx-3 md:-mx-6 mt-2 flex gap-3 overflow-x-auto px-3 md:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {loop.map((p, idx) => (
           <Link

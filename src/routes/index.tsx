@@ -241,7 +241,7 @@ function Home() {
           <h2 className="text-sm font-display font-bold">Online now</h2>
           <Link to="/discover" className="text-[11px] text-muted-foreground hover:text-primary">See all</Link>
         </div>
-        <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-3">
+        <div className="-mx-3 md:-mx-6 flex gap-3 overflow-x-auto px-3 md:px-6 pb-3">
           {online.map((h, i) => (
             <Link
               key={h.id}

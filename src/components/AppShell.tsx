@@ -73,7 +73,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
 
 
   return (
-    <div className={`relative min-h-screen text-foreground ${theme === "host" ? "host-theme" : ""}`}>
+    <div className={`relative min-h-screen overflow-x-clip text-foreground ${theme === "host" ? "host-theme" : ""}`}>
       <PageAtmosphere />
       <header className="prism-surface sticky top-0 z-30 overflow-hidden border-b border-border/50 bg-background/55 backdrop-blur-2xl">
         <PrismLayer ring={false} sparkles caustics sheen={false} className="opacity-60" />
@@ -86,7 +86,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
           className="prism-shift h-[3px] w-full bg-gradient-brand"
           style={{ backgroundSize: "260% 100%" }}
         />
-        <div className="mx-auto grid w-full max-w-none grid-cols-[minmax(0,1fr)_auto] items-center gap-2 px-3 py-2.5 md:px-6 lg:max-w-[1280px] lg:px-8">
+        <div className="mx-auto grid w-full max-w-none grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 py-2.5 md:px-6 lg:max-w-[1280px] lg:px-8">
 
           <div className="flex min-w-0 items-center gap-1">
             <button
@@ -108,7 +108,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
                 router.history.forward();
               }}
               disabled={!canForward}
-              className="press-spring shrink-0 rounded-lg p-1.5 text-foreground transition-colors hover:bg-muted disabled:opacity-30"
+              className="press-spring hidden shrink-0 rounded-lg p-1.5 text-foreground transition-colors hover:bg-muted disabled:opacity-30 sm:block"
               aria-label="Go forward"
               data-testid="nav-forward"
             >
@@ -142,7 +142,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
               </span>
             </a>
           </div>
-          <div className="flex shrink-0 items-center gap-1.5">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-1.5">
             {isAdmin ? (
               <Link
                 to="/admin"

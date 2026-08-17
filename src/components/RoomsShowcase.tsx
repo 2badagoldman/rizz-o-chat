@@ -143,7 +143,7 @@ export function RoomsShowcase() {
 
       </div>
 
-      <div className="mt-3 -mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
+      <div className="mt-3 -mx-3 md:-mx-6 flex gap-2 overflow-x-auto px-3 md:px-6 pb-1">
         {ROOM_CATEGORIES.map((c) => (
           <button
             key={c}
@@ -191,7 +191,7 @@ export function RoomsShowcase() {
         </div>
       ) : null}
 
-      <div className="mt-3 -mx-4 flex gap-3 overflow-x-auto px-4 pb-2 snap-x snap-mandatory">
+      <div className="mt-3 -mx-3 md:-mx-6 flex gap-3 overflow-x-auto px-3 md:px-6 pb-2 snap-x snap-mandatory">
         {rooms.map((r: any) => (
           <RoomCard key={r.id ?? r.slug} room={r} coords={coords} showDistance={cat === "Near Me" && !!coords} onClick={handleClick} />
         ))}

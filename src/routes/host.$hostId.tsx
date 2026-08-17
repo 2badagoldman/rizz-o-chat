@@ -150,7 +150,7 @@ function HostProfile() {
 
 
 
-      <div className="-mx-4">
+      <div className="-mx-3 md:-mx-6">
         {/* Carousel */}
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
           {/* Full-bleed portrait — blurred when locked */}
