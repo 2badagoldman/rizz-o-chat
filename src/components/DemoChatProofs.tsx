@@ -236,9 +236,9 @@ function ProofRunway({
 
   return (
     <section className="mt-4">
-      <div className="flex items-baseline justify-between">
-        <h2 className="text-sm font-display font-bold">{title}</h2>
-        <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 className="min-w-0 truncate text-sm font-display font-bold">{title}</h2>
+        <span className="hidden shrink-0 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground sm:inline">
           Swipe to go back
         </span>
       </div>
