@@ -211,7 +211,7 @@ function Home() {
             Full screen
           </Link>
         </div>
-        <div className="mx-auto mt-3 max-w-xs">
+        <div className="mx-auto mt-3 w-full max-w-[520px]">
           <SwipeDeck />
         </div>
       </section>
