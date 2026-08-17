@@ -31,7 +31,8 @@ const ROUTES = [
   "/auth",
 ];
 
-const WIDTHS = [320, 375, 430, 768, 1024];
+// portrait widths + landscape widths (iPhone SE/13/15 Pro Max rotated) + tablet
+const WIDTHS = [320, 375, 430, 667, 768, 932, 1024];
 
 type Result = {
   route: string;
