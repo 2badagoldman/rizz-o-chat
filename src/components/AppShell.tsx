@@ -108,7 +108,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
                 router.history.forward();
               }}
               disabled={!canForward}
-              className="press-spring shrink-0 rounded-lg p-1.5 text-foreground transition-colors hover:bg-muted disabled:opacity-30"
+              className="press-spring hidden shrink-0 rounded-lg p-1.5 text-foreground transition-colors hover:bg-muted disabled:opacity-30 sm:block"
               aria-label="Go forward"
               data-testid="nav-forward"
             >
