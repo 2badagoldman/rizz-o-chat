@@ -73,7 +73,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
 
 
   return (
-    <div className={`relative min-h-screen text-foreground ${theme === "host" ? "host-theme" : ""}`}>
+    <div className={`relative min-h-screen overflow-x-clip text-foreground ${theme === "host" ? "host-theme" : ""}`}>
       <PageAtmosphere />
       <header className="prism-surface sticky top-0 z-30 overflow-hidden border-b border-border/50 bg-background/55 backdrop-blur-2xl">
         <PrismLayer ring={false} sparkles caustics sheen={false} className="opacity-60" />
