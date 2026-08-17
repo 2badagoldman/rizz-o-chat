@@ -38,6 +38,7 @@ import { Route as SoonFeatureRouteImport } from './routes/soon.$feature'
 import { Route as RoomsNewRouteImport } from './routes/rooms.new'
 import { Route as RoomsRoomIdRouteImport } from './routes/rooms.$roomId'
 import { Route as RCodeRouteImport } from './routes/r.$code'
+import { Route as QaOverflowRouteImport } from './routes/qa.overflow'
 import { Route as LegalTrustRouteImport } from './routes/legal.trust'
 import { Route as LegalTermsRouteImport } from './routes/legal.terms'
 import { Route as LegalRefundsRouteImport } from './routes/legal.refunds'
@@ -245,6 +246,11 @@ const RoomsRoomIdRoute = RoomsRoomIdRouteImport.update({
 const RCodeRoute = RCodeRouteImport.update({
   id: '/r/$code',
   path: '/r/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QaOverflowRoute = QaOverflowRouteImport.update({
+  id: '/qa/overflow',
+  path: '/qa/overflow',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalTrustRoute = LegalTrustRouteImport.update({
@@ -641,6 +647,7 @@ export interface FileRoutesByFullPath {
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
   '/legal/trust': typeof LegalTrustRoute
+  '/qa/overflow': typeof QaOverflowRoute
   '/r/$code': typeof RCodeRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
@@ -734,6 +741,7 @@ export interface FileRoutesByTo {
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
   '/legal/trust': typeof LegalTrustRoute
+  '/qa/overflow': typeof QaOverflowRoute
   '/r/$code': typeof RCodeRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
@@ -829,6 +837,7 @@ export interface FileRoutesById {
   '/legal/refunds': typeof LegalRefundsRoute
   '/legal/terms': typeof LegalTermsRoute
   '/legal/trust': typeof LegalTrustRoute
+  '/qa/overflow': typeof QaOverflowRoute
   '/r/$code': typeof RCodeRoute
   '/rooms/$roomId': typeof RoomsRoomIdRoute
   '/rooms/new': typeof RoomsNewRoute
@@ -925,6 +934,7 @@ export interface FileRouteTypes {
     | '/legal/refunds'
     | '/legal/terms'
     | '/legal/trust'
+    | '/qa/overflow'
     | '/r/$code'
     | '/rooms/$roomId'
     | '/rooms/new'
@@ -1018,6 +1028,7 @@ export interface FileRouteTypes {
     | '/legal/refunds'
     | '/legal/terms'
     | '/legal/trust'
+    | '/qa/overflow'
     | '/r/$code'
     | '/rooms/$roomId'
     | '/rooms/new'
@@ -1112,6 +1123,7 @@ export interface FileRouteTypes {
     | '/legal/refunds'
     | '/legal/terms'
     | '/legal/trust'
+    | '/qa/overflow'
     | '/r/$code'
     | '/rooms/$roomId'
     | '/rooms/new'
@@ -1187,6 +1199,7 @@ export interface RootRouteChildren {
   LegalRefundsRoute: typeof LegalRefundsRoute
   LegalTermsRoute: typeof LegalTermsRoute
   LegalTrustRoute: typeof LegalTrustRoute
+  QaOverflowRoute: typeof QaOverflowRoute
   RCodeRoute: typeof RCodeRoute
   RoomsRoomIdRoute: typeof RoomsRoomIdRoute
   RoomsNewRoute: typeof RoomsNewRoute
@@ -1413,6 +1426,13 @@ declare module '@tanstack/react-router' {
       path: '/r/$code'
       fullPath: '/r/$code'
       preLoaderRoute: typeof RCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/qa/overflow': {
+      id: '/qa/overflow'
+      path: '/qa/overflow'
+      fullPath: '/qa/overflow'
+      preLoaderRoute: typeof QaOverflowRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/trust': {
@@ -1972,6 +1992,7 @@ const rootRouteChildren: RootRouteChildren = {
   LegalRefundsRoute: LegalRefundsRoute,
   LegalTermsRoute: LegalTermsRoute,
   LegalTrustRoute: LegalTrustRoute,
+  QaOverflowRoute: QaOverflowRoute,
   RCodeRoute: RCodeRoute,
   RoomsRoomIdRoute: RoomsRoomIdRoute,
   RoomsNewRoute: RoomsNewRoute,
