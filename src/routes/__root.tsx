@@ -256,6 +256,8 @@ function RootComponent() {
           {/* Welcome showcase pop-up retired — the creator runway sells on every page */}
           <InstallAppPrompt />
           <OverflowInspector />
+          <ImageGuard />
+
 
         </PresenceProvider>
       </AuthProvider>
