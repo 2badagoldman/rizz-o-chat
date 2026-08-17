@@ -17,6 +17,17 @@ export type OverflowHit = {
   width: number;
 };
 
+/** True when some ancestor clips this element horizontally (carousel, marquee, hero glow, etc.). */
+function isClipped(el: HTMLElement, doc: Document): boolean {
+  let p = el.parentElement;
+  while (p && p !== doc.documentElement) {
+    const s = doc.defaultView?.getComputedStyle(p);
+    if (s && s.overflowX !== "visible") return true;
+    p = p.parentElement;
+  }
+  return false;
+}
+
 export function scanOverflow(doc: Document = document): OverflowHit[] {
   const limit = doc.documentElement.clientWidth;
   const hits: OverflowHit[] = [];
@@ -25,9 +36,12 @@ export function scanOverflow(doc: Document = document): OverflowHit[] {
     el.removeAttribute(MARK);
     const style = doc.defaultView?.getComputedStyle(el);
     if (!style || style.position === "fixed" || style.display === "none" || style.visibility === "hidden") return;
+    // Decorative layers can't create scroll and aren't interactive — skip them.
+    if (style.pointerEvents === "none" || el.getAttribute("aria-hidden") === "true") return;
     const r = el.getBoundingClientRect();
     if (r.width === 0 || r.height === 0) return;
     if (r.right <= limit + 1 && r.left >= -1) return;
+    if (isClipped(el, doc)) return;
     // Ignore children of an already-flagged ancestor to keep the list readable.
     if (el.parentElement?.closest(`[${MARK}]`)) return;
     el.setAttribute(MARK, "true");
