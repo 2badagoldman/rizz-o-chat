@@ -16,6 +16,7 @@ import { AuthProvider } from "../lib/auth";
 import { AttributionCapture } from "@/components/AttributionCapture";
 import { InstallAppPrompt } from "../components/InstallAppPrompt";
 import { OverflowInspector } from "../components/OverflowInspector";
+import { ImageGuard } from "../components/ImageGuard";
 import { PresenceProvider } from "../lib/presence";
 
 import { useShowcaseAvatarSync } from "../lib/showcase-avatar-store";
@@ -256,6 +257,8 @@ function RootComponent() {
           {/* Welcome showcase pop-up retired — the creator runway sells on every page */}
           <InstallAppPrompt />
           <OverflowInspector />
+          <ImageGuard />
+
 
         </PresenceProvider>
       </AuthProvider>
