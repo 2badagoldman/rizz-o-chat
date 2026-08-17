@@ -86,7 +86,10 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
           className="prism-shift h-[3px] w-full bg-gradient-brand"
           style={{ backgroundSize: "260% 100%" }}
         />
-        <div className="mx-auto grid w-full max-w-none grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 py-2.5 md:px-6 lg:max-w-[1280px] lg:px-8">
+        <div
+          className="mx-auto grid w-full max-w-none grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 py-2.5 md:px-6 lg:max-w-[1280px] lg:px-8"
+          style={{ paddingTop: "max(0.625rem, env(safe-area-inset-top))" }}
+        >
 
           <div className="flex min-w-0 items-center gap-1">
             <button

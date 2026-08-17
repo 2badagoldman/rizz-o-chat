@@ -1046,8 +1046,9 @@ html[data-perf="lite"] .blur-2xl {
 
 /* ---------- Native app shell (Capacitor iOS/Android) ---------- */
 html.is-native body {
-  /* Respect notches / home indicator inside the native webview */
-  padding-top: env(safe-area-inset-top);
+  /* Home indicator handled per-element via env(safe-area-inset-bottom);
+     top inset is applied on the sticky header so it works in the webview,
+     standalone PWA, and mobile browsers alike. */
   padding-bottom: env(safe-area-inset-bottom);
   /* No rubber-band text selection or callouts in a native shell */
   -webkit-touch-callout: none;
