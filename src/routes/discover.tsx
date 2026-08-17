@@ -274,7 +274,7 @@ function Discover() {
           }
         />
       ) : (
-        <section className="mt-3 grid grid-cols-2 gap-3">
+        <section className="cine-stagger mt-3 grid grid-cols-2 gap-3">
           <RealHostCards term={term} />
           {creators.map((h) => (
             <HostCard key={h.id} creator={h} />
