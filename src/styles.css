@@ -67,61 +67,62 @@
 }
 
 :root {
-  /* Bubbly by design — big rounded corners everywhere */
-  --radius: 1.5rem;
+  /* Cinematic Glass — sharper corners than before, closer to a native app */
+  --radius: 1.25rem;
 
-  /* OCEAN ROSE — deep ocean teal, soft blush pink, couture red.
-     Light, luminous, expensive. */
-  --background: oklch(0.987 0.012 350);
-  --foreground: oklch(0.24 0.05 340);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.24 0.05 340);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.24 0.05 340);
+  /* CINEMATIC GLASS — near-black lacquer canvas, crimson-rose primary,
+     sea-teal and violet as the two supporting lights. */
+  --background: oklch(0.145 0.012 285);
+  --foreground: oklch(0.985 0.004 285);
+  --card: oklch(0.205 0.014 285);
+  --card-foreground: oklch(0.985 0.004 285);
+  --popover: oklch(0.185 0.014 285);
+  --popover-foreground: oklch(0.985 0.004 285);
 
-  --primary: oklch(0.60 0.235 18);           /* couture red */
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.965 0.028 350);        /* blush */
-  --secondary-foreground: oklch(0.34 0.10 350);
-  --muted: oklch(0.972 0.014 340);
-  --muted-foreground: oklch(0.52 0.04 330);
-  --accent: oklch(0.56 0.115 225);            /* ocean */
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.60 0.24 25);
-  --destructive-foreground: oklch(1 0 0);
-  --success: oklch(0.70 0.15 175);
-  --success-foreground: oklch(1 0 0);
+  --primary: oklch(0.62 0.235 18);            /* crimson rose */
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.26 0.020 285);
+  --secondary-foreground: oklch(0.96 0.006 285);
+  --muted: oklch(0.245 0.016 285);
+  --muted-foreground: oklch(0.715 0.020 285);
+  --accent: oklch(0.68 0.115 205);            /* sea blue */
+  --accent-foreground: oklch(0.16 0.02 240);
+  --destructive: oklch(0.62 0.235 22);
+  --destructive-foreground: oklch(0.99 0 0);
+  --success: oklch(0.74 0.145 175);
+  --success-foreground: oklch(0.16 0.02 200);
 
-  --brand-pink: #ff8fb3;
-  --brand-purple: #14657f;
-  --brand-coral: #e8384f;
-  --brand-violet: #1c7f9b;
+  --brand-pink: #fb3b64;
+  --brand-purple: #8b5cf6;
+  --brand-coral: #e11d48;
+  --brand-violet: #22d3ee;
 
-  --border: oklch(0.40 0.05 340 / 10%);
-  --input: oklch(0.40 0.05 340 / 10%);
-  --ring: oklch(0.60 0.235 18 / 50%);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.62 0.235 18 / 55%);
 
-  --gradient-brand: linear-gradient(135deg, #0f5b74 0%, #1c8fa8 22%, #ff8fb3 58%, #e8384f 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(28,143,168,0.16) 0%, rgba(255,143,179,0.16) 55%, rgba(232,56,79,0.14) 100%);
-  --gradient-sunset: linear-gradient(135deg, #ffd6e2 0%, #ff8fb3 45%, #e8384f 100%);
-  --gradient-night: linear-gradient(135deg, #0f5b74 0%, #ff8fb3 100%);
-  --gradient-story: conic-gradient(from 200deg at 50% 50%, #0f5b74, #1c8fa8, #ff8fb3, #e8384f, #0f5b74);
+  --gradient-brand: linear-gradient(135deg, #e11d48 0%, #fb3b64 30%, #8b5cf6 68%, #22d3ee 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(225,29,72,0.22) 0%, rgba(139,92,246,0.18) 58%, rgba(34,211,238,0.16) 100%);
+  --gradient-sunset: linear-gradient(135deg, #fb3b64 0%, #e11d48 48%, #8b5cf6 100%);
+  --gradient-night: linear-gradient(135deg, #0b1220 0%, #1e1b4b 45%, #e11d48 100%);
+  --gradient-story: conic-gradient(from 200deg at 50% 50%, #e11d48, #fb3b64, #8b5cf6, #22d3ee, #e11d48);
 
-  --shadow-glow: 0 24px 70px -20px rgba(232, 56, 79, 0.42);
-  --shadow-card: 0 18px 48px -22px rgba(15, 91, 116, 0.30), 0 2px 8px -3px rgba(255, 143, 179, 0.22);
-  --shadow-pop:  0 40px 100px -26px rgba(28, 143, 168, 0.38);
+  --shadow-glow: 0 26px 80px -22px rgba(225, 29, 72, 0.55);
+  --shadow-card: 0 22px 60px -26px rgba(0, 0, 0, 0.85), 0 2px 10px -4px rgba(139, 92, 246, 0.25);
+  --shadow-pop:  0 44px 110px -30px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255,255,255,0.05);
 
-  --aurora-1: rgba(255,143,179,0.50);
-  --aurora-2: rgba(28,143,168,0.34);
-  --aurora-3: rgba(232,56,79,0.30);
-  --aurora-4: rgba(15,91,116,0.26);
+  --aurora-1: rgba(225,29,72,0.30);
+  --aurora-2: rgba(34,211,238,0.16);
+  --aurora-3: rgba(139,92,246,0.22);
+  --aurora-4: rgba(11,18,32,0.55);
 
   --host-primary: #E9B872;
   --host-primary-fg: #1A140A;
-  --host-soft: rgba(233, 184, 114, 0.12);
+  --host-soft: rgba(233, 184, 114, 0.14);
   --host-gradient: linear-gradient(135deg, #F4CE8F 0%, #E9B872 45%, #C97B63 100%);
   --host-shadow-glow: 0 10px 40px -10px rgba(233, 184, 114, 0.45);
 }
+
 
 /* PINK MODE — hot pink → magenta → rose, unmistakably pink */
 .theme-pink {
