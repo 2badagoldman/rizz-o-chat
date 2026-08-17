@@ -124,14 +124,16 @@ export function DemoChatProofs({
             key={p.id}
             className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl"
           >
-            <div className="relative aspect-[4/5] w-full overflow-hidden">
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted">
               <img
                 src={p.image}
-                alt={`${p.name}, Crush creator`}
+                alt=""
                 loading="lazy"
                 decoding="async"
-                className="h-full w-full object-cover"
+                onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
+                className="h-full w-full object-cover opacity-0 transition-opacity duration-500"
               />
+
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-4">
                 <p className="flex items-center gap-1.5 text-lg font-display font-bold text-white">
                   {p.name}, {p.age}
@@ -269,11 +271,13 @@ function ProofRunway({
             <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
               <img
                 src={p.image}
-                alt={`${p.name}, Crush creator`}
+                alt=""
                 loading={idx < 5 ? "eager" : "lazy"}
                 decoding="async"
-                className="h-full w-full object-cover object-top"
+                onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
+                className="h-full w-full object-cover object-top opacity-0 transition-opacity duration-500"
               />
+
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent p-2.5">
                 <p className="flex items-center gap-1 text-[13px] font-display font-bold text-white">
                   {p.name}, {p.age}
