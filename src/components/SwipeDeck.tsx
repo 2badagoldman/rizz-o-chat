@@ -145,10 +145,11 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
 
           <img
             src={hostAvatarMed(current.id)}
-            alt={`${current.name}, ${current.age} — ${current.city}`}
+            alt=""
             draggable={false}
             className="h-full w-full object-cover"
           />
+
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
 
           <div className="absolute inset-x-3 top-3 flex items-center justify-between">
