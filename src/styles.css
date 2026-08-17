@@ -572,6 +572,19 @@
   }
   h1 { letter-spacing: -0.045em; font-weight: 800; }
 
+  /* Never let long words, handles, or URLs blow out narrow screens */
+  h1, h2, h3, h4, p, li, a, span, button, label, td, th {
+    overflow-wrap: break-word;
+  }
+  h1, h2, h3, h4 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+
+  /* Slightly looser tracking on phones so tight display type stays legible */
+  @media (max-width: 480px) {
+    h1, h2, h3, .font-display { letter-spacing: -0.02em; }
+    h1 { letter-spacing: -0.028em; }
+  }
+
   button { cursor: pointer; }
   button.btn-brand:active { transform: scale(0.98); opacity: 0.95; }
 
