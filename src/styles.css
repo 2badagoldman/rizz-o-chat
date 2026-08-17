@@ -77,8 +77,9 @@
 /* Bubbly, clear chat typography */
 @utility chat-type {
   font-family: var(--font-chat);
-  font-size: 1.0625rem;
+  font-size: clamp(0.9688rem, 0.92rem + 0.24vw, 1.0625rem);
   line-height: 1.5;
+  overflow-wrap: anywhere;
   font-weight: 600;
   letter-spacing: -0.005em;
   font-variant-ligatures: common-ligatures;
