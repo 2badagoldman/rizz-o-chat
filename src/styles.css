@@ -42,10 +42,10 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-display: "Syne", ui-rounded, -apple-system, "SF Pro Rounded", system-ui, sans-serif;
-  --font-sans: "Plus Jakarta Sans", ui-rounded, -apple-system, "SF Pro Rounded", "Segoe UI", system-ui, sans-serif;
-  /* Chat: rounded, high-legibility face for message bubbles */
-  --font-chat: "Nunito", ui-rounded, -apple-system, "SF Pro Rounded", system-ui, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", system-ui, sans-serif;
+  /* Chat: same Apple-standard face, slightly softer weight in bubbles */
+  --font-chat: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
 }
 
 /* Bubbly, clear chat typography */
