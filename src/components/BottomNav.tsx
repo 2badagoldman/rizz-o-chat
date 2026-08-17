@@ -44,9 +44,12 @@ export function BottomNav() {
                 style={{ color: active ? "var(--color-primary)" : "var(--color-muted-foreground)" }}
               >
                 <span
-                  className={`relative grid h-8 w-8 place-items-center rounded-2xl transition-all duration-300 ${
-                    active ? "bg-gradient-brand-soft ring-1 ring-primary/25 scale-105" : "scale-100"
+                  className={`relative grid h-9 w-9 place-items-center rounded-2xl transition-all duration-500 ${
+                    active
+                      ? "bg-gradient-brand-soft ring-1 ring-primary/40 scale-110 shadow-glow"
+                      : "scale-100 opacity-80"
                   }`}
+                  style={{ transitionTimingFunction: "cubic-bezier(.16,1,.3,1)" }}
                 >
                   <Icon className="h-[18px] w-[18px]" strokeWidth={active ? 2.5 : 2} />
                   {t.to === "/chats" && unread > 0 ? (
