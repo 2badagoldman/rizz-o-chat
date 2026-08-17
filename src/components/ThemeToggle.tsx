@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChevronDown } from "lucide-react";
 
-export type Theme = "pink" | "blue" | "ocean" | "abyss" | "sico" | "romance" | "crush" | "crushgold";
+export type Theme = "cinematic" | "pink" | "blue" | "ocean" | "abyss" | "sico" | "romance" | "crush" | "crushgold";
 const KEY = "rizz.theme";
 
-const ALL: Theme[] = ["pink", "blue", "ocean", "abyss", "sico", "romance", "crush", "crushgold"];
+const ALL: Theme[] = ["cinematic", "pink", "blue", "ocean", "abyss", "sico", "romance", "crush", "crushgold"];
 const EXTRA: { id: Theme; label: string; swatch: string }[] = [
+  { id: "cinematic", label: "Cinematic", swatch: "linear-gradient(135deg,#e11d48,#8b5cf6,#22d3ee)" },
   { id: "pink", label: "Pink", swatch: "linear-gradient(135deg,#ff9ecb,#ff5fa8)" },
   { id: "sico", label: "Sico Mode", swatch: "linear-gradient(135deg,#ffd6b0,#ff9ecb,#ff5fa8,#a97bff)" },
   { id: "romance", label: "Romance", swatch: "linear-gradient(135deg,#0a0104,#d4132f,#e8b98a)" },
@@ -25,7 +26,7 @@ const SHOW_KEY = "rizz.theme.autoShow";
 const SHOW_STEP_MS = 120_000; // 2 minutes
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>("sico");
+  const [theme, setTheme] = useState<Theme>("cinematic");
   const [autoShow, setAutoShow] = useState(true);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const manual = useRef(false);
@@ -37,7 +38,7 @@ export function useTheme() {
 
   useEffect(() => {
     const saved = localStorage.getItem(KEY) as Theme | null;
-    const next = saved && saved !== "crush" && ALL.includes(saved) ? saved : "sico";
+    const next = saved && saved !== "crush" && ALL.includes(saved) ? saved : "cinematic";
     setTheme(next);
     apply(next);
     setAutoShow(localStorage.getItem(SHOW_KEY) !== "off");
