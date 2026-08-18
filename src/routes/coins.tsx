@@ -197,6 +197,9 @@ function CoinsPage() {
           <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="h-3.5 w-3.5 rounded-full" /> Coins are added to your wallet instantly after payment.
         </p>
         <div className="mt-3 rounded-2xl border border-border/70 bg-card/60 p-4 text-[11px] leading-relaxed text-muted-foreground backdrop-blur-xl">
+          <b className="text-foreground">Coins buy virtual gifts and tips only.</b> They never buy messages, minutes,
+          media or any content — messaging is included with your membership, and coins are never required to chat.
+          <br />
           One-time purchase in USD, tax shown at checkout. Card statements read <b className="text-foreground">CRUSH</b>.
           Coins are a licence to use in-app features, not cash, and cannot be transferred or withdrawn. Unused coins are
           refundable within 14 days — see our{' '}

@@ -177,8 +177,9 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
           </span>
 
           <div className="absolute inset-x-4 bottom-4 text-white">
-            <p className="text-xl font-bold leading-tight">
+            <p className="flex items-center gap-1.5 text-xl font-bold leading-tight">
               {current.name}, {current.age}
+              {isAiHost(current.id) ? <AiBadge tone="glass" /> : null}
             </p>
             <p className="text-xs opacity-90">
               {current.city}

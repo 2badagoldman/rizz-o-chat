@@ -2,6 +2,7 @@ import { AvatarImg } from "@/components/Avatar";
 import { PrismEmptyState } from "@/components/Prism";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { AiBadge } from "@/components/AiBadge";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierLabel, isFreeHost, type DemoHost } from "@/lib/demo-hosts";
 import { matchState, stateFromCity, stateSearchTerms } from "@/lib/us-states";
@@ -359,9 +360,13 @@ function HostCard({ creator }: { creator: DemoHost }) {
         <div className="absolute inset-0" style={{ background: creator.gradient, mixBlendMode: "soft-light", opacity: 0.55 }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
         <div className="absolute inset-x-2 top-2 flex items-center justify-between">
-          <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
-            {tierLabel(creator.tier)}
-          </span>
+          {isAiHost(creator.id) ? (
+            <AiBadge tone="glass" label="AI" />
+          ) : (
+            <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
+              {tierLabel(creator.tier)}
+            </span>
+          )}
           {creator.online ? (
             <span className="flex items-center gap-1 rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
               <Circle className="h-2 w-2 fill-success text-success" /> Online

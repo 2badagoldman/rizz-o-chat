@@ -17,6 +17,7 @@ import { VirtualMessageList } from "@/components/chat/VirtualMessageList";
 import { ChatAttachButton, PendingAttachments } from "@/components/chat/ChatMedia";
 import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNote";
 import { ChatTrialBanner } from "@/components/chat/ChatTrialBanner";
+import { AiBadge, AiDisclosure } from "@/components/AiBadge";
 import { useChatAccess } from "@/hooks/useChatAccess";
 import { useFloatingReactions } from "@/components/chat/FloatingReactions";
 import { sendChatGift } from "@/lib/subscriptions.functions";
@@ -387,11 +388,21 @@ function HostChat() {
               <img loading="lazy" decoding="async" src={hostAvatar(creator.id)} alt={creator.name} className="h-full w-full object-cover" />
             </div>
             <div>
-              <h1 className="text-base font-semibold leading-tight">{creator.name}</h1>
+              <h1 className="flex items-center gap-1.5 text-base font-semibold leading-tight">
+                {creator.name}
+                {aiHost ? <AiBadge /> : null}
+              </h1>
               <p className="flex items-center gap-1 text-[11px] text-emerald-500">
-                <Circle className="h-2 w-2 fill-emerald-500" /> Online
+                {aiHost ? (
+                  <span className="text-muted-foreground">AI-generated character · not a real person</span>
+                ) : (
+                  <>
+                    <Circle className="h-2 w-2 fill-emerald-500" /> Online
+                  </>
+                )}
               </p>
             </div>
+
           </button>
 
           <div className="ml-auto flex items-center gap-2">
@@ -458,7 +469,10 @@ function HostChat() {
           </div>
         ) : null}
 
+        {aiHost ? <AiDisclosure name={creator.name} /> : null}
+
         <VirtualMessageList
+
           items={items}
           reactions={msgReactions}
           onReact={reactToMessage}

@@ -25,6 +25,9 @@ export const LEGAL_PAGES = [
   { to: "/legal/billing", title: "Billing & Payment Terms", blurb: "Pricing, taxes, currency, renewals and card statements." },
   { to: "/legal/pricing", title: "Pricing for Products & Services", blurb: "Full price list: coin packs, memberships, Friends Lists and tips." },
   { to: "/legal/acceptable-use", title: "Acceptable Use & Content Policy", blurb: "18+ rules, prohibited content, moderation and enforcement." },
+  { to: "/legal/ai-companions", title: "AI Companion Disclosure", blurb: "How AI characters are labelled and what they can and cannot do." },
+  { to: "/legal/app-access", title: "How to Access the App", blurb: "Web app, home-screen install, and native store build status." },
+
   { to: "/legal/creators", title: "Creator & Payout Terms", blurb: "Revenue split, payout schedule, and creator obligations." },
   { to: "/legal/cookies", title: "Cookie Policy", blurb: "Cookies, local storage, and analytics we use." },
   { to: "/legal/dmca", title: "DMCA & Content Removal", blurb: "Report copyright infringement or non-consensual content." },
