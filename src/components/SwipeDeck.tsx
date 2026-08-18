@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Heart, X, RotateCcw, Circle, MessageCircle } from "lucide-react";
-import { DEMO_HOSTS, tierLabel, isFreeHost, type DemoHost } from "@/lib/demo-hosts";
+import { DEMO_HOSTS, tierLabel, isFreeHost, isAiHost, type DemoHost } from "@/lib/demo-hosts";
+import { AiBadge } from "@/components/AiBadge";
 import { hostAvatarMed } from "@/lib/host-avatars";
 
 import { LIKES_KEY, PASS_KEY, readIds, writeIds } from "@/lib/swipe-likes";
@@ -177,8 +178,9 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
           </span>
 
           <div className="absolute inset-x-4 bottom-4 text-white">
-            <p className="text-xl font-bold leading-tight">
+            <p className="flex items-center gap-1.5 text-xl font-bold leading-tight">
               {current.name}, {current.age}
+              {isAiHost(current.id) ? <AiBadge tone="glass" /> : null}
             </p>
             <p className="text-xs opacity-90">
               {current.city}

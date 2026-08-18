@@ -64,8 +64,11 @@ function Pricing() {
     >
       <Section heading="1. Coin packs (one-time purchase)">
         <p>
-          Coins are a prepaid in-app credit used to send gifts, unlock premium chats and tip hosts. They are a licence to
-          use in-app features — not cash, not a stored-value account, and not transferable or withdrawable.
+          Coins are a prepaid in-app credit used for one purpose: sending virtual gifts (flowers, chocolates, emoji
+          gifts) and tips to creators. <b className="text-foreground">Coins are not chat credits.</b> They do not buy
+          messages, message bundles, minutes, calls, media or any content, and no feature of the app requires coins in
+          order to chat. Messaging is included with a Crush Gold or Crush Diamond membership. Coins are a licence to use
+          in-app gift features — not cash, not a stored-value account, and not transferable or withdrawable.
         </p>
         <Table
           head={["Pack", "You receive", "Price"]}

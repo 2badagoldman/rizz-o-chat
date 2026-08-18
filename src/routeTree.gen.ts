@@ -51,6 +51,8 @@ import { Route as LegalCreatorsRouteImport } from './routes/legal.creators'
 import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
 import { Route as LegalContactRouteImport } from './routes/legal.contact'
 import { Route as LegalBillingRouteImport } from './routes/legal.billing'
+import { Route as LegalAppAccessRouteImport } from './routes/legal.app-access'
+import { Route as LegalAiCompanionsRouteImport } from './routes/legal.ai-companions'
 import { Route as LegalAcceptableUseRouteImport } from './routes/legal.acceptable-use'
 import { Route as InviteCodeRouteImport } from './routes/invite.$code'
 import { Route as HostRoomsRouteImport } from './routes/host.rooms'
@@ -311,6 +313,16 @@ const LegalContactRoute = LegalContactRouteImport.update({
 const LegalBillingRoute = LegalBillingRouteImport.update({
   id: '/legal/billing',
   path: '/legal/billing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalAppAccessRoute = LegalAppAccessRouteImport.update({
+  id: '/legal/app-access',
+  path: '/legal/app-access',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalAiCompanionsRoute = LegalAiCompanionsRouteImport.update({
+  id: '/legal/ai-companions',
+  path: '/legal/ai-companions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegalAcceptableUseRoute = LegalAcceptableUseRouteImport.update({
@@ -635,6 +647,8 @@ export interface FileRoutesByFullPath {
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
   '/legal/acceptable-use': typeof LegalAcceptableUseRoute
+  '/legal/ai-companions': typeof LegalAiCompanionsRoute
+  '/legal/app-access': typeof LegalAppAccessRoute
   '/legal/billing': typeof LegalBillingRoute
   '/legal/contact': typeof LegalContactRoute
   '/legal/cookies': typeof LegalCookiesRoute
@@ -729,6 +743,8 @@ export interface FileRoutesByTo {
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
   '/legal/acceptable-use': typeof LegalAcceptableUseRoute
+  '/legal/ai-companions': typeof LegalAiCompanionsRoute
+  '/legal/app-access': typeof LegalAppAccessRoute
   '/legal/billing': typeof LegalBillingRoute
   '/legal/contact': typeof LegalContactRoute
   '/legal/cookies': typeof LegalCookiesRoute
@@ -825,6 +841,8 @@ export interface FileRoutesById {
   '/host/rooms': typeof HostRoomsRoute
   '/invite/$code': typeof InviteCodeRoute
   '/legal/acceptable-use': typeof LegalAcceptableUseRoute
+  '/legal/ai-companions': typeof LegalAiCompanionsRoute
+  '/legal/app-access': typeof LegalAppAccessRoute
   '/legal/billing': typeof LegalBillingRoute
   '/legal/contact': typeof LegalContactRoute
   '/legal/cookies': typeof LegalCookiesRoute
@@ -922,6 +940,8 @@ export interface FileRouteTypes {
     | '/host/rooms'
     | '/invite/$code'
     | '/legal/acceptable-use'
+    | '/legal/ai-companions'
+    | '/legal/app-access'
     | '/legal/billing'
     | '/legal/contact'
     | '/legal/cookies'
@@ -1016,6 +1036,8 @@ export interface FileRouteTypes {
     | '/host/rooms'
     | '/invite/$code'
     | '/legal/acceptable-use'
+    | '/legal/ai-companions'
+    | '/legal/app-access'
     | '/legal/billing'
     | '/legal/contact'
     | '/legal/cookies'
@@ -1111,6 +1133,8 @@ export interface FileRouteTypes {
     | '/host/rooms'
     | '/invite/$code'
     | '/legal/acceptable-use'
+    | '/legal/ai-companions'
+    | '/legal/app-access'
     | '/legal/billing'
     | '/legal/contact'
     | '/legal/cookies'
@@ -1187,6 +1211,8 @@ export interface RootRouteChildren {
   HostRoomsRoute: typeof HostRoomsRoute
   InviteCodeRoute: typeof InviteCodeRoute
   LegalAcceptableUseRoute: typeof LegalAcceptableUseRoute
+  LegalAiCompanionsRoute: typeof LegalAiCompanionsRoute
+  LegalAppAccessRoute: typeof LegalAppAccessRoute
   LegalBillingRoute: typeof LegalBillingRoute
   LegalContactRoute: typeof LegalContactRoute
   LegalCookiesRoute: typeof LegalCookiesRoute
@@ -1517,6 +1543,20 @@ declare module '@tanstack/react-router' {
       path: '/legal/billing'
       fullPath: '/legal/billing'
       preLoaderRoute: typeof LegalBillingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/app-access': {
+      id: '/legal/app-access'
+      path: '/legal/app-access'
+      fullPath: '/legal/app-access'
+      preLoaderRoute: typeof LegalAppAccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/ai-companions': {
+      id: '/legal/ai-companions'
+      path: '/legal/ai-companions'
+      fullPath: '/legal/ai-companions'
+      preLoaderRoute: typeof LegalAiCompanionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legal/acceptable-use': {
@@ -1980,6 +2020,8 @@ const rootRouteChildren: RootRouteChildren = {
   HostRoomsRoute: HostRoomsRoute,
   InviteCodeRoute: InviteCodeRoute,
   LegalAcceptableUseRoute: LegalAcceptableUseRoute,
+  LegalAiCompanionsRoute: LegalAiCompanionsRoute,
+  LegalAppAccessRoute: LegalAppAccessRoute,
   LegalBillingRoute: LegalBillingRoute,
   LegalContactRoute: LegalContactRoute,
   LegalCookiesRoute: LegalCookiesRoute,

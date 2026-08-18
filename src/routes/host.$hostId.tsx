@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { DEMO_HOSTS, tierBand, tierLabel, isAiHost, isFreeHost } from "@/lib/demo-hosts";
+import { AiBadge } from "@/components/AiBadge";
 import { hostAvatar } from "@/lib/host-avatars";
 import { useAuth } from "@/lib/auth";
 import { useStripeCheckout } from "@/hooks/useStripeCheckout";
@@ -202,6 +203,7 @@ function HostProfile() {
             </Link>
 
             <div className="flex items-center gap-1.5">
+              {isAiHost(creator.id) ? <AiBadge tone="glass" /> : null}
               <span className="rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
                 {tierLabel(creator.tier)}
               </span>
