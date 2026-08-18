@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Heart, X, RotateCcw, Circle, MessageCircle } from "lucide-react";
-import { DEMO_HOSTS, tierLabel, isFreeHost, type DemoHost } from "@/lib/demo-hosts";
+import { DEMO_HOSTS, tierLabel, isFreeHost, isAiHost, type DemoHost } from "@/lib/demo-hosts";
+import { AiBadge } from "@/components/AiBadge";
 import { hostAvatarMed } from "@/lib/host-avatars";
 
 import { LIKES_KEY, PASS_KEY, readIds, writeIds } from "@/lib/swipe-likes";
