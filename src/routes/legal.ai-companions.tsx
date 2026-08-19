@@ -68,7 +68,23 @@ function AiCompanions() {
         />
       </Section>
 
-      <Section heading="5. Data and your control">
+      <Section heading="5. AI characters are placeholders for human creators">
+        <p>
+          {LEGAL.productName} is built as a platform for human creators. While the creator community is still growing,
+          a portion of the characters you see are AI companions that hold those slots so the experience is not empty.
+          They are a temporary seed layer, not the end state of the product.
+        </p>
+        <Bullets
+          items={[
+            "As real creators join and complete identity and 18+ verification, they take the place of AI characters, which are retired from discovery.",
+            "An AI character is never converted into a human profile and a human profile is never converted into an AI character. Replacement means the AI listing is removed and a separate, verified human account appears.",
+            "Whatever the mix at any moment, the labelling rules in section 1 always apply: if it is AI, it is badged as AI everywhere it appears, in real time.",
+            "Members can create their own profiles with a display name, bio and uploaded photos or videos at any time; all uploads pass automated review before they are visible.",
+          ]}
+        />
+      </Section>
+
+      <Section heading="6. Data and your control">
         <Bullets
           items={[
             "AI conversation text is processed by our model provider solely to generate a reply, and is not used to train third-party public models.",
