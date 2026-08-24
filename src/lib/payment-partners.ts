@@ -94,4 +94,28 @@ export const CATALOG: Record<string, CatalogItem> = {
   coins_15000_onetime: { priceId: 'coins_15000_onetime', name: '15,000 coins', amountCents: 4999, currency: 'usd', kind: 'onetime', coins: 16500 },
 };
 
-export type PartnerStatus = { id: PartnerId; enabled: boolean };
+export type PartnerStatus = { id: PartnerId; enabled: boolean; primary: boolean };
+
+/** Which rail is the live card processor right now. `stripe` is the legacy rail. */
+export type PrimaryRail = PartnerId | 'stripe';
+
+/**
+ * Order we promote hosted high-risk processors in. Stripe closed the account
+ * for "online dating and matchmaking" (no new payments after 2026-09-03), so
+ * the first configured processor below takes over as the single card rail.
+ */
+export const HOSTED_RAIL_PRIORITY: PartnerId[] = ['ccbill', 'segpay', 'epoch'];
+
+/** Last day Stripe accepts new payments on this account. */
+export const STRIPE_SUNSET_ISO = '2026-09-03';
+
+export function stripeStillAccepting(now: Date = new Date()): boolean {
+  return now < new Date(`${STRIPE_SUNSET_ISO}T23:59:59Z`);
+}
+
+export type PaymentRails = {
+  partners: PartnerStatus[];
+  /** The one rail shown at checkout. Backups stay hidden until promoted. */
+  primary: PrimaryRail;
+  stripeAccepting: boolean;
+};
