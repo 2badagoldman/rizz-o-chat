@@ -152,7 +152,7 @@ async function handleEvent(event: any) {
 
     const tier = tierFor(priceId);
     if (tier) await sb().from('profiles').update({ platform_tier: tier }).eq('id', userId);
-    // Diamond includes the weekly coin drop on every renewal, same as Stripe.
+    // Diamond includes the monthly coin drop on every renewal, same as Stripe.
     if (priceId === 'rizz_diamond_weekly') {
       await sb().rpc('credit_coins', { _user_id: userId, _coins: VIP_COINS });
     }

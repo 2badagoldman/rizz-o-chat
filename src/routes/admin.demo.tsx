@@ -20,7 +20,7 @@ const DM: Line[] = [
   { from: "them", who: "Wonder Woman", text: "Always. I'm not a bot farm, I'm your problem now 😌", delay: 1400 },
   { from: "you", text: "bold. what are you up to tonight?", delay: 1300 },
   { from: "them", who: "Wonder Woman", text: "Wine, playlist, and someone worth texting. You qualify so far.", delay: 1600 },
-  { from: "system", text: "Free preview ends → paywall: Rizz Gold $9.99/wk unlocks unlimited DMs + her Friends List.", delay: 1500 },
+  { from: "system", text: "Free preview ends → paywall: Crush Gold $9.99/mo unlocks unlimited DMs + her Friends List.", delay: 1500 },
 ];
 
 const ROOM: Line[] = [
@@ -186,7 +186,7 @@ function AdminDemo() {
             <div className="mt-4 rounded-xl border border-primary/40 bg-primary/10 p-4">
               <p className="flex items-center gap-2 text-sm font-bold"><Heart className="h-4 w-4 text-primary" /> That's the close</p>
               <p className="mt-1 text-xs text-muted-foreground">
-                Taste the conversation → hit the limit → upgrade to Rizz Gold ($9.99/wk) for unlimited DMs, Friends Lists and every live room.
+                Taste the conversation → hit the limit → upgrade to Crush Gold ($9.99/mo) for unlimited DMs, Friends Lists and every live room.
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link to="/upgrade" className="rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground">See plans</Link>

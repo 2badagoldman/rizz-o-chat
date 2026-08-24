@@ -119,7 +119,7 @@ export async function grantPurchase(args: {
   if (item.tier) {
     await sbAdmin().from('profiles').update({ platform_tier: item.tier }).eq('id', args.userId);
   }
-  // Diamond includes the weekly coin drop on every rebill, same as Stripe.
+  // Diamond includes the monthly coin drop on every rebill, same as Stripe.
   if (item.tier === 'vip' && item.coins) {
     await sbAdmin().rpc('credit_coins', { _user_id: args.userId, _coins: item.coins });
   }

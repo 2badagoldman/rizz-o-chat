@@ -39,7 +39,7 @@ function Billing() {
               unlocks. Coins are credited to your wallet immediately after payment.
             </>,
             <>
-              <b className="text-foreground">Crush Gold and Crush Diamond VIP</b> — weekly platform memberships with perks such as
+              <b className="text-foreground">Crush Gold and Crush Diamond VIP</b> — monthly platform memberships with perks such as
               boosted visibility and coin drops.
             </>,
             <>
