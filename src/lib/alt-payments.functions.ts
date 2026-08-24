@@ -7,8 +7,8 @@
  */
 import { createServerFn } from '@tanstack/react-start';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
-import type { PartnerId, PartnerStatus } from '@/lib/payment-partners';
-import { CATALOG } from '@/lib/payment-partners';
+import type { PartnerId, PartnerStatus, PaymentRails, PrimaryRail } from '@/lib/payment-partners';
+import { CATALOG, HOSTED_RAIL_PRIORITY, stripeStillAccepting } from '@/lib/payment-partners';
 
 function jsonMap(raw: string | undefined): Record<string, string> {
   if (!raw) return {};
