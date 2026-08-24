@@ -9,6 +9,7 @@ import { useIosBillingRestricted } from '@/hooks/useNative';
 import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 import { RevenueCatPurchase } from '@/components/RevenueCatPurchase';
 import { AltPaymentOptions } from '@/components/AltPaymentOptions';
+import { usePaymentRails } from '@/hooks/usePaymentRails';
 import { useRevenueCat } from '@/hooks/useRevenueCat';
 import type { CrushPriceId } from '@/lib/revenuecat';
 
