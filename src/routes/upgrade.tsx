@@ -126,7 +126,7 @@ function Bubbles() {
   );
 }
 
-function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; index: number; onSubscribe: () => void; hideCard?: boolean }) {
+function PlanCard({ plan, index, onSubscribe, hideCard = false, showPartners = false }: { plan: Plan; index: number; onSubscribe: () => void; hideCard?: boolean; showPartners?: boolean }) {
   const Icon = plan.icon;
   const diamond = !!plan.diamond;
   return (
