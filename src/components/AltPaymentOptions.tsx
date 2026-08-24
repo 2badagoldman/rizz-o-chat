@@ -75,6 +75,9 @@ export function AltPaymentOptions({
         const meta = PAYMENT_PARTNERS.find((p) => p.id === row.id);
         if (!meta) return null;
         const working = busy === row.id;
+        // When a hosted processor is the primary rail it IS the checkout
+        // button, so it gets full-width prominence instead of a small pill.
+        const lead = row.primary && meta.kind === 'hosted';
         return (
           <button
             key={row.id}
@@ -82,7 +85,11 @@ export function AltPaymentOptions({
             onClick={() => pay(row.id)}
             disabled={working}
             title={meta.blurb}
-            className="press-spring inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-card/70 px-3 py-1.5 text-[11px] font-bold text-foreground backdrop-blur-xl disabled:opacity-60"
+            className={
+              lead
+                ? 'press-spring inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-3.5 text-sm font-black text-primary-foreground disabled:opacity-60'
+                : 'press-spring inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-card/70 px-3 py-1.5 text-[11px] font-bold text-foreground backdrop-blur-xl disabled:opacity-60'
+            }
           >
             {working ? (
               <Loader2 className="h-3 w-3 animate-spin" />
