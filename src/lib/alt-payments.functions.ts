@@ -37,10 +37,27 @@ function partnerConfigured(id: PartnerId): boolean {
   }
 }
 
-export const getPartnerStatus = createServerFn({ method: 'GET' }).handler(async (): Promise<PartnerStatus[]> => {
+function resolveRails(): PaymentRails {
   const ids: PartnerId[] = ['cashapp', 'ccbill', 'segpay', 'epoch'];
-  return ids.map((id) => ({ id, enabled: partnerConfigured(id) }));
-});
+  const configured = new Set(ids.filter(partnerConfigured));
+  // First approved high-risk processor wins; Stripe only stays primary until
+  // one of them is live (and until its own cut-off date).
+  const promoted = HOSTED_RAIL_PRIORITY.find((id) => configured.has(id));
+  const primary: PrimaryRail = promoted ?? 'stripe';
+  return {
+    partners: ids.map((id) => ({ id, enabled: configured.has(id), primary: id === primary })),
+    primary,
+    stripeAccepting: stripeStillAccepting(),
+  };
+}
+
+export const getPartnerStatus = createServerFn({ method: 'GET' }).handler(
+  async (): Promise<PartnerStatus[]> => resolveRails().partners,
+);
+
+export const getPaymentRails = createServerFn({ method: 'GET' }).handler(
+  async (): Promise<PaymentRails> => resolveRails(),
+);
 
 type CheckoutInput = { partner: PartnerId; priceId: string; returnUrl?: string };
 type CheckoutResult = { url: string } | { error: string };
