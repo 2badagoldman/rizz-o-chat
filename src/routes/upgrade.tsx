@@ -331,7 +331,7 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
           is unavailable. */}
       <div className={hideCard ? 'mt-6' : 'mt-3'}>
         <RevenueCatPurchase priceId={plan.id as CrushPriceId} label={`Get ${plan.name} with store billing`} />
-        {!hideCard && <AltPaymentOptions priceId={plan.id} onCashApp={onSubscribe} />}
+        {showPartners && <AltPaymentOptions priceId={plan.id} onCashApp={onSubscribe} />}
       </div>
 
       </div>
