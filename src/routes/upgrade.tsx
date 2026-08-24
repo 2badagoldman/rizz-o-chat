@@ -380,6 +380,7 @@ function UpgradePage() {
               plan={p}
               index={i}
               hideCard={hideCard}
+              showPartners={!iosRestricted}
               onSubscribe={() =>
                 iosRestricted ? undefined : openCheckout(
                   { kind: 'catalog', priceId: p.id },
