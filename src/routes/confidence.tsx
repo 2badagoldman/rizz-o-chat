@@ -33,7 +33,7 @@ const FAQS = [
   },
   {
     q: "How much does it cost?",
-    a: "Joining is free and includes free replies. Crush Gold is $9.99 per week and unlocks any creator's Friends List. Crush Diamond VIP is $19.99 per week and adds a badge, priority visibility and weekly coin drops. Cancel any time.",
+    a: "Joining is free and includes free replies. Crush Gold is $9.99 per month and unlocks any creator's Friends List. Crush Diamond VIP is $24.99 per month and adds a badge, priority visibility and monthly coin drops. Cancel any time.",
   },
   {
     q: "Are the creators real?",

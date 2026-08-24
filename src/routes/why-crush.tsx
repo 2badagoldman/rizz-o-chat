@@ -29,7 +29,7 @@ const FAQS = [
   },
   {
     q: "Do I have to pay to be replied to?",
-    a: "No. Joining is free and includes free replies so you can feel it first. Crush Gold ($9.99/week) unlocks any creator's Friends List and Crush Diamond VIP ($19.99/week) adds a badge, priority visibility and weekly coin drops. Cancel any time.",
+    a: "No. Joining is free and includes free replies so you can feel it first. Crush Gold ($9.99/month) unlocks any creator's Friends List and Crush Diamond VIP ($24.99/month) adds a badge, priority visibility and monthly coin drops. Cancel any time.",
   },
   {
     q: "Are the creators verified?",

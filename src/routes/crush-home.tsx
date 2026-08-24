@@ -23,7 +23,7 @@ const FAQS = [
   },
   {
     q: "How much does Crush cost?",
-    a: "Joining is free. Crush Gold is $9.99 per week and unlocks any creator's Friends List. Crush Diamond VIP is $19.99 per week and adds a diamond badge plus weekly coin drops.",
+    a: "Joining is free. Crush Gold is $9.99 per month and unlocks any creator's Friends List. Crush Diamond VIP is $24.99 per month and adds a diamond badge plus monthly coin drops.",
   },
   {
     q: "Are the creators real and verified?",
@@ -70,7 +70,7 @@ export const Route = createFileRoute("/crush-home")({
             {
               "@type": "Offer",
               name: "Crush Diamond VIP",
-              price: "19.99",
+              price: "24.99",
               priceCurrency: "USD",
             },
           ],
@@ -274,7 +274,7 @@ const PLANS = [
   },
   {
     name: "Crush Diamond VIP",
-    price: "$19.99",
+    price: "$24.99",
     per: "per week",
     blurb: "Everything in Gold, plus the treatment that gets you noticed.",
     perks: [

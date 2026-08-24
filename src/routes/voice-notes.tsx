@@ -23,7 +23,7 @@ const FAQS = [
   },
   {
     q: "Do voice notes cost extra?",
-    a: "No. Voice notes are included in chat. Joining is free, Crush Gold is $9.99 per week for Friends List access, and coins are only used for gifts.",
+    a: "No. Voice notes are included in chat. Joining is free, Crush Gold is $9.99 per month for Friends List access, and coins are only used for gifts.",
   },
   {
     q: "Why voice instead of just text?",

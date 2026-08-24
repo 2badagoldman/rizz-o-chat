@@ -32,8 +32,8 @@ const OFFERS = {
     badge: "One-time welcome deal",
     price: "$19.99",
     per: "for your first month",
-    compare: "Normally $9.99/week — that's ~$43/month",
-    title: "Stay and save 54%",
+    compare: "Diamond VIP is normally $24.99/month",
+    title: "Stay and save 20%",
     cta: "Claim $19.99 deal",
     perks: [
       "Unlock every Friends List",
@@ -44,11 +44,11 @@ const OFFERS = {
   final: {
     priceId: "crush_last_chance_monthly",
     badge: "Final offer — expires when you close",
-    price: "$9.99",
+    price: "$4.99",
     per: "for your first month",
-    compare: "That's one week's price for a whole month",
+    compare: "Half off Crush Gold's $9.99/month",
     title: "Last chance before you go",
-    cta: "Claim $9.99 deal",
+    cta: "Claim $4.99 deal",
     perks: [
       "Everything in Crush Gold",
       "Cancel anytime in one tap",

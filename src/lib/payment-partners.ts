@@ -61,7 +61,7 @@ export type CatalogItem = {
   amountCents: number;
   currency: 'usd';
   kind: 'subscription' | 'onetime';
-  /** weekly recurring plans only */
+  /** recurring plans only (billing period length in days) */
   intervalDays?: number;
   coins?: number;
   tier?: 'plus' | 'vip';
@@ -75,16 +75,16 @@ export const CATALOG: Record<string, CatalogItem> = {
     amountCents: 999,
     currency: 'usd',
     kind: 'subscription',
-    intervalDays: 7,
+    intervalDays: 30,
     tier: 'plus',
   },
   rizz_diamond_weekly: {
     priceId: 'rizz_diamond_weekly',
     name: 'Crush Diamond VIP',
-    amountCents: 1999,
+    amountCents: 2499,
     currency: 'usd',
     kind: 'subscription',
-    intervalDays: 7,
+    intervalDays: 30,
     tier: 'vip',
     coins: 2000,
   },
