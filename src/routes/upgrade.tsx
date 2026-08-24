@@ -345,9 +345,10 @@ function UpgradePage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
   const iosRestricted = useIosBillingRestricted();
   const { available: storeBilling } = useRevenueCat();
-  // Card checkout is hidden inside the iOS build (Apple guideline 3.1.1); the
-  // store rail below stays available so members can still subscribe there.
-  const hideCard = iosRestricted;
+  const { stripeCard } = usePaymentRails();
+  // Card checkout is hidden inside the iOS build (Apple guideline 3.1.1) and
+  // once a high-risk processor replaces Stripe as the primary rail.
+  const hideCard = iosRestricted || !stripeCard;
   return (
     <AppShell>
       <div className="page-anim relative">
