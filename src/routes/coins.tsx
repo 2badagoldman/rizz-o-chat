@@ -162,14 +162,21 @@ function CoinsPage() {
           </p>
         </header>
 
-        {hideCard && !storeBilling ? (
+        {iosRestricted && !storeBilling ? (
           <AppStoreBillingNotice what="Coin packs" />
         ) : (
           <div className="relative space-y-4">
             {PACKS.map((p, i) => (
               <div key={p.id} className="space-y-1">
-                {!hideCard && (
-                  <PackRow pack={p} index={i} onBuy={() => openCheckout({ kind: 'catalog', priceId: p.id })} />
+                {!iosRestricted && (
+                  <PackRow
+                    pack={p}
+                    index={i}
+                    onBuy={() => {
+                      if (hideCard) return;
+                      openCheckout({ kind: 'catalog', priceId: p.id });
+                    }}
+                  />
                 )}
                 {/* Alternative rail: App Store / Google Play billing (RevenueCat) */}
                 <RevenueCatPurchase
@@ -177,7 +184,7 @@ function CoinsPage() {
                   label={`Buy ${p.coins.toLocaleString()} coins with store billing`}
                   webNote={false}
                 />
-                {!hideCard && (
+                {!iosRestricted && (
                   <AltPaymentOptions
                     priceId={p.id}
                     onCashApp={() => openCheckout({ kind: 'catalog', priceId: p.id })}
