@@ -31,7 +31,7 @@ const FAQS = [
   },
   {
     q: "Can I cancel any time?",
-    a: "Yes. Memberships are weekly and can be cancelled at any time from your subscriptions page; access runs to the end of the paid week.",
+    a: "Yes. Memberships are monthly and can be cancelled at any time from your subscriptions page; access runs to the end of the paid month.",
   },
   {
     q: "Is Crush on iPhone and Android?",
@@ -120,7 +120,7 @@ const FEATURES = [
   {
     icon: Crown,
     title: "Gold & Diamond perks",
-    body: "Gold opens every Friends List. Diamond VIP adds a prism badge, priority visibility and weekly coin drops.",
+    body: "Gold opens every Friends List. Diamond VIP adds a prism badge, priority visibility and monthly coin drops.",
   },
 ];
 
@@ -259,7 +259,7 @@ const PLANS = [
   {
     name: "Crush Gold",
     price: "$9.99",
-    per: "per week",
+    per: "per month",
     blurb: "Unlock any creator's Friends List and DM her directly.",
     perks: [
       "Unlock any Friends List",
@@ -275,7 +275,7 @@ const PLANS = [
   {
     name: "Crush Diamond VIP",
     price: "$24.99",
-    per: "per week",
+    per: "per month",
     blurb: "Everything in Gold, plus the treatment that gets you noticed.",
     perks: [
       "Everything in Crush Gold",
