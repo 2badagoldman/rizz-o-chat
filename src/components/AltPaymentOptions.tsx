@@ -40,7 +40,10 @@ export function AltPaymentOptions({
 
   // Only the primary rail is offered. Backup processors stay configured but
   // hidden so checkout never presents a wall of choices.
-  const enabled = partners.filter((p) => p.enabled && (p.primary || p.id === 'cashapp'));
+  const stripePrimary = !partners.some((p) => p.enabled && p.primary && p.id !== 'cashapp');
+  const enabled = partners.filter(
+    (p) => p.enabled && (p.primary || (p.id === 'cashapp' && stripePrimary)),
+  );
   if (enabled.length === 0) return null;
 
   async function pay(id: PartnerId) {
