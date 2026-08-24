@@ -53,9 +53,9 @@ const MOVES = [
   },
   {
     icon: <DollarSign className="h-4 w-4" />,
-    title: "3 · Weekly subscription pricing ($9.99/week)",
+    title: "3 · Monthly subscription pricing ($9.99/month)",
     body: [
-      "Weekly, not monthly. Per-user payback period is very fast.",
+      "Low monthly entry price keeps signup friction near zero and underwrites cleanly.",
       "Every creator video pays for itself within days, not months.",
     ],
   },
@@ -138,7 +138,7 @@ function GrowthPlaybook() {
             distract from the subscription push.
           </p>
           <p>
-            <strong className="text-foreground">Pricing is already right.</strong> $9.99/week for Crush Gold is the same
+            <strong className="text-foreground">Pricing is already right.</strong> $9.99/month for Crush Gold is the same
             price point he validated. Keep it.
           </p>
           <p>
