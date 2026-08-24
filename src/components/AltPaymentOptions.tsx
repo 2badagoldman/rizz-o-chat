@@ -38,7 +38,12 @@ export function AltPaymentOptions({
     };
   }, [status]);
 
-  const enabled = partners.filter((p) => p.enabled);
+  // Only the primary rail is offered. Backup processors stay configured but
+  // hidden so checkout never presents a wall of choices.
+  const stripePrimary = !partners.some((p) => p.enabled && p.primary && p.id !== 'cashapp');
+  const enabled = partners.filter(
+    (p) => p.enabled && (p.primary || (p.id === 'cashapp' && stripePrimary)),
+  );
   if (enabled.length === 0) return null;
 
   async function pay(id: PartnerId) {
@@ -70,6 +75,9 @@ export function AltPaymentOptions({
         const meta = PAYMENT_PARTNERS.find((p) => p.id === row.id);
         if (!meta) return null;
         const working = busy === row.id;
+        // When a hosted processor is the primary rail it IS the checkout
+        // button, so it gets full-width prominence instead of a small pill.
+        const lead = row.primary && meta.kind === 'hosted';
         return (
           <button
             key={row.id}
@@ -77,7 +85,11 @@ export function AltPaymentOptions({
             onClick={() => pay(row.id)}
             disabled={working}
             title={meta.blurb}
-            className="press-spring inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-card/70 px-3 py-1.5 text-[11px] font-bold text-foreground backdrop-blur-xl disabled:opacity-60"
+            className={
+              lead
+                ? 'press-spring inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-3.5 text-sm font-black text-primary-foreground disabled:opacity-60'
+                : 'press-spring inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-card/70 px-3 py-1.5 text-[11px] font-bold text-foreground backdrop-blur-xl disabled:opacity-60'
+            }
           >
             {working ? (
               <Loader2 className="h-3 w-3 animate-spin" />
@@ -86,7 +98,7 @@ export function AltPaymentOptions({
             ) : (
               <ExternalLink className="h-3 w-3" />
             )}
-            {meta.label}
+            {lead ? `Pay securely with ${meta.label}` : meta.label}
           </button>
         );
       })}

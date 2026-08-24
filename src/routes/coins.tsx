@@ -9,6 +9,7 @@ import { useIosBillingRestricted } from '@/hooks/useNative';
 import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 import { RevenueCatPurchase } from '@/components/RevenueCatPurchase';
 import { AltPaymentOptions } from '@/components/AltPaymentOptions';
+import { usePaymentRails } from '@/hooks/usePaymentRails';
 import { useRevenueCat } from '@/hooks/useRevenueCat';
 import type { CrushPriceId } from '@/lib/revenuecat';
 
@@ -138,9 +139,10 @@ function CoinsPage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
   const iosRestricted = useIosBillingRestricted();
   const { available: storeBilling } = useRevenueCat();
-  // Card checkout is hidden inside the iOS build; store billing stays on so
-  // members always have a working way to buy coins.
-  const hideCard = iosRestricted;
+  const { stripeCard } = usePaymentRails();
+  // Card checkout is hidden inside the iOS build, and once a high-risk
+  // processor replaces Stripe as the primary rail.
+  const hideCard = iosRestricted || !stripeCard;
   return (
     <AppShell>
       <div className="page-anim relative">
@@ -160,14 +162,21 @@ function CoinsPage() {
           </p>
         </header>
 
-        {hideCard && !storeBilling ? (
+        {iosRestricted && !storeBilling ? (
           <AppStoreBillingNotice what="Coin packs" />
         ) : (
           <div className="relative space-y-4">
             {PACKS.map((p, i) => (
               <div key={p.id} className="space-y-1">
-                {!hideCard && (
-                  <PackRow pack={p} index={i} onBuy={() => openCheckout({ kind: 'catalog', priceId: p.id })} />
+                {!iosRestricted && (
+                  <PackRow
+                    pack={p}
+                    index={i}
+                    onBuy={() => {
+                      if (hideCard) return;
+                      openCheckout({ kind: 'catalog', priceId: p.id });
+                    }}
+                  />
                 )}
                 {/* Alternative rail: App Store / Google Play billing (RevenueCat) */}
                 <RevenueCatPurchase
@@ -175,7 +184,7 @@ function CoinsPage() {
                   label={`Buy ${p.coins.toLocaleString()} coins with store billing`}
                   webNote={false}
                 />
-                {!hideCard && (
+                {!iosRestricted && (
                   <AltPaymentOptions
                     priceId={p.id}
                     onCashApp={() => openCheckout({ kind: 'catalog', priceId: p.id })}

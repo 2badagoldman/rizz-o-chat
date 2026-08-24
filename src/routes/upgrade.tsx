@@ -8,6 +8,7 @@ import { useIosBillingRestricted } from '@/hooks/useNative';
 import { AppStoreBillingNotice } from '@/components/AppStoreBillingNotice';
 import { RevenueCatPurchase } from '@/components/RevenueCatPurchase';
 import { AltPaymentOptions } from '@/components/AltPaymentOptions';
+import { usePaymentRails } from '@/hooks/usePaymentRails';
 import { useRevenueCat } from '@/hooks/useRevenueCat';
 import type { CrushPriceId } from '@/lib/revenuecat';
 import { DemoChatProofs } from '@/components/DemoChatProofs';
@@ -126,7 +127,7 @@ function Bubbles() {
   );
 }
 
-function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; index: number; onSubscribe: () => void; hideCard?: boolean }) {
+function PlanCard({ plan, index, onSubscribe, hideCard = false, showPartners = false }: { plan: Plan; index: number; onSubscribe: () => void; hideCard?: boolean; showPartners?: boolean }) {
   const Icon = plan.icon;
   const diamond = !!plan.diamond;
   return (
@@ -331,7 +332,7 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false }: { plan: Plan; 
           is unavailable. */}
       <div className={hideCard ? 'mt-6' : 'mt-3'}>
         <RevenueCatPurchase priceId={plan.id as CrushPriceId} label={`Get ${plan.name} with store billing`} />
-        {!hideCard && <AltPaymentOptions priceId={plan.id} onCashApp={onSubscribe} />}
+        {showPartners && <AltPaymentOptions priceId={plan.id} onCashApp={onSubscribe} />}
       </div>
 
       </div>
@@ -345,9 +346,10 @@ function UpgradePage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
   const iosRestricted = useIosBillingRestricted();
   const { available: storeBilling } = useRevenueCat();
-  // Card checkout is hidden inside the iOS build (Apple guideline 3.1.1); the
-  // store rail below stays available so members can still subscribe there.
-  const hideCard = iosRestricted;
+  const { stripeCard } = usePaymentRails();
+  // Card checkout is hidden inside the iOS build (Apple guideline 3.1.1) and
+  // once a high-risk processor replaces Stripe as the primary rail.
+  const hideCard = iosRestricted || !stripeCard;
   return (
     <AppShell>
       <div className="page-anim relative">
@@ -378,6 +380,7 @@ function UpgradePage() {
               plan={p}
               index={i}
               hideCard={hideCard}
+              showPartners={!iosRestricted}
               onSubscribe={() =>
                 iosRestricted ? undefined : openCheckout(
                   { kind: 'catalog', priceId: p.id },
