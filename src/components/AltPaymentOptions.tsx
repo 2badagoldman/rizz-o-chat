@@ -38,7 +38,9 @@ export function AltPaymentOptions({
     };
   }, [status]);
 
-  const enabled = partners.filter((p) => p.enabled);
+  // Only the primary rail is offered. Backup processors stay configured but
+  // hidden so checkout never presents a wall of choices.
+  const enabled = partners.filter((p) => p.enabled && (p.primary || p.id === 'cashapp'));
   if (enabled.length === 0) return null;
 
   async function pay(id: PartnerId) {
