@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     q: "Can I cancel my Crush membership any time?",
-    a: "Yes. Memberships are weekly and can be cancelled at any time from your subscriptions page; access continues to the end of the paid week.",
+    a: "Yes. Memberships are monthly and can be cancelled at any time from your subscriptions page; access continues to the end of the paid month.",
   },
   {
     q: "Is Crush available on iPhone and Android?",
