@@ -98,7 +98,7 @@ export function AltPaymentOptions({
             ) : (
               <ExternalLink className="h-3 w-3" />
             )}
-            {meta.label}
+            {lead ? `Pay securely with ${meta.label}` : meta.label}
           </button>
         );
       })}
