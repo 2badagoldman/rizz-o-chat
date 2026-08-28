@@ -161,7 +161,28 @@ function Home() {
 
       {/* Runway of real creators + real chats is rendered globally by AppShell */}
 
-
+      {/* Swipe deck — the centerpiece, framed in the sunset gradient */}
+      <section className="mt-5 rise-in">
+        <div className="flex items-end justify-between gap-3 px-1">
+          <div className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Swipe</p>
+            <h2 className="mt-0.5 truncate font-display text-xl font-extrabold">Like her or keep looking</h2>
+          </div>
+          <Link
+            to="/swipe"
+            className="shrink-0 rounded-full bg-gradient-brand px-3.5 py-1.5 text-xs font-bold text-white shadow-glow transition active:scale-95"
+          >
+            Full screen
+          </Link>
+        </div>
+        <div className="relative mt-3 rounded-[2rem] bg-gradient-sunset p-[3px] shadow-glow">
+          <div className="rounded-[1.85rem] bg-background p-3">
+            <div className="mx-auto w-full max-w-[520px]">
+              <SwipeDeck />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Search creators right from the hero — username, email or phone */}
       <div className="mt-3 w-full min-w-0 rise-in">
@@ -207,7 +228,18 @@ function Home() {
 
 
       {/* The aha moment: taste the conversation before any paywall */}
-      <TasteChat />
+      <section className="mt-5 rounded-[2rem] border border-border bg-card/60 p-4 shadow-card backdrop-blur-xl rise-in">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Live chat demo</p>
+            <h2 className="mt-0.5 truncate font-display text-xl font-extrabold">She actually replies</h2>
+          </div>
+          <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-bold text-primary">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primary" /> LIVE
+          </span>
+        </div>
+        <TasteChat />
+      </section>
 
       {/* The wound, in one line. */}
       <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-2xl border border-border bg-card/60 px-3.5 py-2.5 text-[12px] shadow-card backdrop-blur rise-in">
