@@ -48,9 +48,9 @@ export const PAYMENT_PARTNERS: PartnerMeta[] = [
   },
   {
     id: 'revenuecat',
-    label: 'App Store / Google Play',
-    blurb: 'Store billing inside the Crush mobile app.',
-    kind: 'native',
+    label: 'Secure Checkout',
+    blurb: 'RevenueCat-hosted checkout — cards and wallets, on web and in the app.',
+    kind: 'hosted',
     supports: ['subscription', 'onetime'],
   },
 ];
@@ -104,7 +104,7 @@ export type PrimaryRail = PartnerId | 'stripe';
  * for "online dating and matchmaking" (no new payments after 2026-09-03), so
  * the first configured processor below takes over as the single card rail.
  */
-export const HOSTED_RAIL_PRIORITY: PartnerId[] = ['ccbill', 'segpay', 'epoch'];
+export const HOSTED_RAIL_PRIORITY: PartnerId[] = ['revenuecat', 'ccbill', 'segpay', 'epoch'];
 
 /** Last day Stripe accepts new payments on this account. */
 export const STRIPE_SUNSET_ISO = '2026-09-03';

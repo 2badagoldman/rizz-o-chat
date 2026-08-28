@@ -22,6 +22,10 @@ function jsonMap(raw: string | undefined): Record<string, string> {
 
 function partnerConfigured(id: PartnerId): boolean {
   switch (id) {
+    case 'revenuecat':
+      // RevenueCat Web Billing: either a per-product purchase link map or a
+      // single paywall link we append the product + member to.
+      return Boolean(process.env.REVENUECAT_WEB_LINK_MAP || process.env.REVENUECAT_WEB_PAYWALL_URL);
     case 'ccbill':
       return Boolean(process.env.CCBILL_ACCOUNT && process.env.CCBILL_FLEXFORM_MAP);
     case 'segpay':
@@ -38,7 +42,7 @@ function partnerConfigured(id: PartnerId): boolean {
 }
 
 function resolveRails(): PaymentRails {
-  const ids: PartnerId[] = ['cashapp', 'ccbill', 'segpay', 'epoch'];
+  const ids: PartnerId[] = ['revenuecat', 'cashapp', 'ccbill', 'segpay', 'epoch'];
   const configured = new Set(ids.filter(partnerConfigured));
   // First approved high-risk processor wins; Stripe only stays primary until
   // one of them is live (and until its own cut-off date).
@@ -77,6 +81,20 @@ export const createPartnerCheckout = createServerFn({ method: 'POST' })
 
 
     const amount = (item.amountCents / 100).toFixed(2);
+
+    if (data.partner === 'revenuecat') {
+      // Direct link for this exact product wins; otherwise the shared paywall.
+      const direct = jsonMap(process.env.REVENUECAT_WEB_LINK_MAP)[data.priceId];
+      const base = direct || process.env.REVENUECAT_WEB_PAYWALL_URL;
+      if (!base) return { error: 'No RevenueCat checkout link configured for this product' };
+      const url = new URL(base);
+      // app_user_id must match the id the mobile SDK logs in with, so the
+      // webhook credits the same account no matter where they paid.
+      url.searchParams.set('app_user_id', userId);
+      if (!direct) url.searchParams.set('product_id', data.priceId);
+      if (data.returnUrl) url.searchParams.set('redirect_url', data.returnUrl);
+      return { url: url.toString() };
+    }
 
     if (data.partner === 'ccbill') {
       const formId = jsonMap(process.env.CCBILL_FLEXFORM_MAP)[data.priceId];

@@ -8,6 +8,7 @@ import { hostAvatarThumb } from "@/lib/host-avatars";
 import { saveTasteTranscript } from "@/lib/taste-chat";
 import { confirmedMemberName, rememberFromMessage, saveMemberName, memberNotes as readMemberNotes } from "@/lib/member-memory";
 import { readVisitorName, saveVisitorName } from "@/lib/visitor-name";
+import { useSignupFirstName } from "@/lib/signup-name";
 import { CreatorVoiceButton, VoiceRecordButton } from "@/components/chat/VoiceNote";
 
 /** How many messages a visitor can send before the paywall lands. */
@@ -80,11 +81,16 @@ export function TasteChat() {
   // Her saying your name is the hook — grab it before the first reply.
   const [memberName, setMemberName] = useState("");
   const [notes, setNotes] = useState("");
+  // Signed in? Her name for you is the one on your account — never a leftover.
+  const signupName = useSignupFirstName();
   useEffect(() => {
     const stored = confirmedMemberName() || readVisitorName();
     setMemberName(stored);
     setNotes(readMemberNotes());
   }, []);
+  useEffect(() => {
+    if (signupName) setMemberName(signupName);
+  }, [signupName]);
   const transport = useMemo(
     () => new DefaultChatTransport({
         api: "/api/public/demo-chat",
@@ -220,7 +226,7 @@ export function TasteChat() {
         </div>
       ) : (
         <div className="border-t border-border/60 px-4 py-3">
-          {messages.length === 0 ? (
+          {messages.length === 0 && !signupName ? (
             <label className="mb-2 flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5">
               <span className="shrink-0 text-[11px] font-semibold text-primary">
                 So she can say your name:
