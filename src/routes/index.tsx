@@ -4,7 +4,7 @@ import { DemoChatProofs } from "@/components/DemoChatProofs";
 import { getDemoProofs } from "@/lib/demo-proofs.functions";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { ArrowRight, Crown, Users, Circle, Search, ChevronDown, Volume2, Sparkles, Heart } from "lucide-react";
+import { ArrowRight, Crown, Users, Search, ChevronDown, Volume2, Sparkles, Heart } from "lucide-react";
 
 import { PeopleDiscovery } from "@/components/PeopleDiscovery";
 import { DEMO_HOSTS, isFreeHost } from "@/lib/demo-hosts";
@@ -276,25 +276,6 @@ function Home() {
         </Link>
       </div>
 
-      {/* Swipe deck — like her or keep looking */}
-      <section className="mt-6 rounded-3xl border border-border bg-card/60 p-4 rise-in">
-        <div className="flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Swipe</p>
-            <h2 className="mt-0.5 truncate text-lg font-bold">Like her or keep looking</h2>
-          </div>
-          <Link
-            to="/swipe"
-            className="shrink-0 rounded-full bg-gradient-brand px-3 py-1.5 text-xs font-bold text-white shadow-glow transition active:scale-95"
-          >
-            Full screen
-          </Link>
-        </div>
-        <div className="mx-auto mt-3 w-full max-w-[720px]">
-          <SwipeDeck />
-        </div>
-      </section>
-
       {/* Full proof grid: real creators, real chats */}
       <div className="mt-6 rise-in">
 
@@ -312,45 +293,6 @@ function Home() {
       {/* Showcase reel */}
       <ShowcaseRail title="Showcase" subtitle="Today's best looks" limit={25} />
 
-
-      {/* Online now rail */}
-      <section className="mt-7 rise-in rise-in-1">
-
-        <div className="mb-2 flex items-baseline justify-between">
-          <h2 className="text-sm font-display font-bold">Online now</h2>
-          <Link to="/discover" className="text-[11px] text-muted-foreground hover:text-primary">See all</Link>
-        </div>
-        <div className="-mx-3 md:-mx-6 flex gap-3 overflow-x-auto px-3 md:px-6 pb-3">
-          {online.map((h, i) => (
-            <Link
-              key={h.id}
-              to="/host/$hostId"
-              params={{ hostId: h.id }}
-              className="w-16 shrink-0 text-center transition-transform hover:-translate-y-0.5"
-              style={{ animation: `rise-in 600ms ${i * 40}ms cubic-bezier(.2,.8,.2,1) both` }}
-            >
-              <div className="relative">
-                <span className="ring-story mx-auto block h-16 w-16">
-                  <img
-                    src={hostAvatarThumb(h.id)}
-                    alt={h.name}
-                    width={64}
-                    height={64}
-                    loading={i < 6 ? "eager" : "lazy"}
-                    decoding="async"
-                    fetchPriority={i < 4 ? "high" : "auto"}
-                    className="block h-full w-full rounded-full object-cover"
-                  />
-                </span>
-                <span className="absolute bottom-0 right-1 grid h-4 w-4 place-items-center rounded-full bg-card">
-                  <Circle className="h-2 w-2 fill-success text-success" />
-                </span>
-              </div>
-              <p className="mt-1 truncate text-[10px] font-medium">{h.name}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
 
       {/* Featured grid */}
       <section className="mt-6 rise-in rise-in-2">
