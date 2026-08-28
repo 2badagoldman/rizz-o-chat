@@ -4,7 +4,7 @@ import { DemoChatProofs } from "@/components/DemoChatProofs";
 import { getDemoProofs } from "@/lib/demo-proofs.functions";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/lib/auth";
-import { ArrowRight, Crown, Users, Circle, Search, ChevronDown, Volume2, Sparkles, Heart } from "lucide-react";
+import { ArrowRight, Crown, Users, Search, ChevronDown, Volume2, Sparkles, Heart } from "lucide-react";
 
 import { PeopleDiscovery } from "@/components/PeopleDiscovery";
 import { DEMO_HOSTS, isFreeHost } from "@/lib/demo-hosts";
@@ -99,22 +99,90 @@ function Home() {
   return (
     <AppShell>
       <header className="pt-2 rise-in">
-        <span className="inline-flex items-center gap-2 rounded-full bg-gradient-brand-soft px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-foreground/80 chip-shimmer">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-          Friends Always · Crush
-        </span>
-        <h1 className="mt-2 text-[1.5rem] leading-[1.05] font-display font-extrabold">
+        <div className="flex items-center justify-between gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full bg-gradient-brand-soft px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-foreground/80 chip-shimmer">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+            Friends Always · Crush
+          </span>
+          {!authLoading && !user && (
+            <div className="flex items-center gap-2">
+              <Link to="/auth" className="text-xs font-semibold text-muted-foreground transition hover:text-foreground">
+                Log in
+              </Link>
+              <Link
+                to="/auth"
+                className="rounded-full bg-white px-4 py-1.5 text-xs font-extrabold text-black shadow-[0_10px_30px_-10px_rgba(255,255,255,0.5)] transition hover:scale-105 active:scale-95"
+              >
+                Join Free
+              </Link>
+            </div>
+          )}
+        </div>
+        <h1 className="mt-3 font-display text-4xl leading-[1.02] font-extrabold tracking-tight">
           She actually{" "}
-          <span className="text-gradient-brand">replies</span>.
+          <span className="text-gradient-brand italic">replies</span>.
         </h1>
-        <p className="mt-1.5 text-[13px] text-muted-foreground">
+        <p className="mt-2 text-sm text-muted-foreground">
           Voice notes, photos, real conversation. Say something right now — free, no signup.
         </p>
       </header>
 
+      {/* Creator rail — sunset rings, glowing online dots */}
+      <section className="mt-4 rise-in">
+        <div className="-mx-3 flex gap-4 overflow-x-auto px-3 pb-2 md:-mx-6 md:px-6">
+          {online.map((h, i) => (
+            <Link
+              key={h.id}
+              to="/host/$hostId"
+              params={{ hostId: h.id }}
+              className="shrink-0 text-center transition-transform hover:-translate-y-1"
+              style={{ animation: `rise-in 600ms ${i * 45}ms cubic-bezier(.2,.8,.2,1) both` }}
+            >
+              <div className="relative">
+                <span className={i === 0 ? "ring-sunset block" : "block rounded-[1.1rem] ring-1 ring-white/15"}>
+                  <img
+                    src={hostAvatarThumb(h.id)}
+                    alt={h.name}
+                    width={56}
+                    height={56}
+                    loading={i < 8 ? "eager" : "lazy"}
+                    decoding="async"
+                    fetchPriority={i < 4 ? "high" : "auto"}
+                    className="block h-14 w-14 rounded-[0.9rem] object-cover"
+                  />
+                </span>
+                <span className="dot-online absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-green-400" />
+              </div>
+              <p className="mt-1.5 w-14 truncate text-[10px] font-medium">{h.name}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Runway of real creators + real chats is rendered globally by AppShell */}
 
-
+      {/* Swipe deck — the centerpiece, framed in the sunset gradient */}
+      <section className="mt-5 rise-in">
+        <div className="flex items-end justify-between gap-3 px-1">
+          <div className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Swipe</p>
+            <h2 className="mt-0.5 truncate font-display text-xl font-extrabold">Like her or keep looking</h2>
+          </div>
+          <Link
+            to="/swipe"
+            className="shrink-0 rounded-full bg-gradient-brand px-3.5 py-1.5 text-xs font-bold text-white shadow-glow transition active:scale-95"
+          >
+            Full screen
+          </Link>
+        </div>
+        <div className="relative mt-3 rounded-[2rem] bg-gradient-sunset p-[3px] shadow-glow">
+          <div className="rounded-[1.85rem] bg-background p-3">
+            <div className="mx-auto w-full max-w-[520px]">
+              <SwipeDeck />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Search creators right from the hero — username, email or phone */}
       <div className="mt-3 w-full min-w-0 rise-in">
@@ -160,7 +228,18 @@ function Home() {
 
 
       {/* The aha moment: taste the conversation before any paywall */}
-      <TasteChat />
+      <section className="mt-5 rounded-[2rem] border border-border bg-card/60 p-4 shadow-card backdrop-blur-xl rise-in">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Live chat demo</p>
+            <h2 className="mt-0.5 truncate font-display text-xl font-extrabold">She actually replies</h2>
+          </div>
+          <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[11px] font-bold text-primary">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-primary" /> LIVE
+          </span>
+        </div>
+        <TasteChat />
+      </section>
 
       {/* The wound, in one line. */}
       <div className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-2xl border border-border bg-card/60 px-3.5 py-2.5 text-[12px] shadow-card backdrop-blur rise-in">
@@ -197,25 +276,6 @@ function Home() {
         </Link>
       </div>
 
-      {/* Swipe deck — like her or keep looking */}
-      <section className="mt-6 rounded-3xl border border-border bg-card/60 p-4 rise-in">
-        <div className="flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Swipe</p>
-            <h2 className="mt-0.5 truncate text-lg font-bold">Like her or keep looking</h2>
-          </div>
-          <Link
-            to="/swipe"
-            className="shrink-0 rounded-full bg-gradient-brand px-3 py-1.5 text-xs font-bold text-white shadow-glow transition active:scale-95"
-          >
-            Full screen
-          </Link>
-        </div>
-        <div className="mx-auto mt-3 w-full max-w-[720px]">
-          <SwipeDeck />
-        </div>
-      </section>
-
       {/* Full proof grid: real creators, real chats */}
       <div className="mt-6 rise-in">
 
@@ -233,45 +293,6 @@ function Home() {
       {/* Showcase reel */}
       <ShowcaseRail title="Showcase" subtitle="Today's best looks" limit={25} />
 
-
-      {/* Online now rail */}
-      <section className="mt-7 rise-in rise-in-1">
-
-        <div className="mb-2 flex items-baseline justify-between">
-          <h2 className="text-sm font-display font-bold">Online now</h2>
-          <Link to="/discover" className="text-[11px] text-muted-foreground hover:text-primary">See all</Link>
-        </div>
-        <div className="-mx-3 md:-mx-6 flex gap-3 overflow-x-auto px-3 md:px-6 pb-3">
-          {online.map((h, i) => (
-            <Link
-              key={h.id}
-              to="/host/$hostId"
-              params={{ hostId: h.id }}
-              className="w-16 shrink-0 text-center transition-transform hover:-translate-y-0.5"
-              style={{ animation: `rise-in 600ms ${i * 40}ms cubic-bezier(.2,.8,.2,1) both` }}
-            >
-              <div className="relative">
-                <span className="ring-story mx-auto block h-16 w-16">
-                  <img
-                    src={hostAvatarThumb(h.id)}
-                    alt={h.name}
-                    width={64}
-                    height={64}
-                    loading={i < 6 ? "eager" : "lazy"}
-                    decoding="async"
-                    fetchPriority={i < 4 ? "high" : "auto"}
-                    className="block h-full w-full rounded-full object-cover"
-                  />
-                </span>
-                <span className="absolute bottom-0 right-1 grid h-4 w-4 place-items-center rounded-full bg-card">
-                  <Circle className="h-2 w-2 fill-success text-success" />
-                </span>
-              </div>
-              <p className="mt-1 truncate text-[10px] font-medium">{h.name}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
 
       {/* Featured grid */}
       <section className="mt-6 rise-in rise-in-2">
