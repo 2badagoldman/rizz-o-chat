@@ -99,18 +99,65 @@ function Home() {
   return (
     <AppShell>
       <header className="pt-2 rise-in">
-        <span className="inline-flex items-center gap-2 rounded-full bg-gradient-brand-soft px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-foreground/80 chip-shimmer">
-          <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-          Friends Always · Crush
-        </span>
-        <h1 className="mt-2 text-[1.5rem] leading-[1.05] font-display font-extrabold">
+        <div className="flex items-center justify-between gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full bg-gradient-brand-soft px-3 py-1 text-[10px] font-bold uppercase tracking-[0.22em] text-foreground/80 chip-shimmer">
+            <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+            Friends Always · Crush
+          </span>
+          {!authLoading && !user && (
+            <div className="flex items-center gap-2">
+              <Link to="/auth" className="text-xs font-semibold text-muted-foreground transition hover:text-foreground">
+                Log in
+              </Link>
+              <Link
+                to="/auth"
+                className="rounded-full bg-white px-4 py-1.5 text-xs font-extrabold text-black shadow-[0_10px_30px_-10px_rgba(255,255,255,0.5)] transition hover:scale-105 active:scale-95"
+              >
+                Join Free
+              </Link>
+            </div>
+          )}
+        </div>
+        <h1 className="mt-3 font-display text-4xl leading-[1.02] font-extrabold tracking-tight">
           She actually{" "}
-          <span className="text-gradient-brand">replies</span>.
+          <span className="text-gradient-brand italic">replies</span>.
         </h1>
-        <p className="mt-1.5 text-[13px] text-muted-foreground">
+        <p className="mt-2 text-sm text-muted-foreground">
           Voice notes, photos, real conversation. Say something right now — free, no signup.
         </p>
       </header>
+
+      {/* Creator rail — sunset rings, glowing online dots */}
+      <section className="mt-4 rise-in">
+        <div className="-mx-3 flex gap-4 overflow-x-auto px-3 pb-2 md:-mx-6 md:px-6">
+          {online.map((h, i) => (
+            <Link
+              key={h.id}
+              to="/host/$hostId"
+              params={{ hostId: h.id }}
+              className="shrink-0 text-center transition-transform hover:-translate-y-1"
+              style={{ animation: `rise-in 600ms ${i * 45}ms cubic-bezier(.2,.8,.2,1) both` }}
+            >
+              <div className="relative">
+                <span className={i === 0 ? "ring-sunset block" : "block rounded-[1.1rem] ring-1 ring-white/15"}>
+                  <img
+                    src={hostAvatarThumb(h.id)}
+                    alt={h.name}
+                    width={56}
+                    height={56}
+                    loading={i < 8 ? "eager" : "lazy"}
+                    decoding="async"
+                    fetchPriority={i < 4 ? "high" : "auto"}
+                    className="block h-14 w-14 rounded-[0.9rem] object-cover"
+                  />
+                </span>
+                <span className="dot-online absolute -bottom-1 -right-1 h-3.5 w-3.5 rounded-full bg-green-400" />
+              </div>
+              <p className="mt-1.5 w-14 truncate text-[10px] font-medium">{h.name}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* Runway of real creators + real chats is rendered globally by AppShell */}
 
