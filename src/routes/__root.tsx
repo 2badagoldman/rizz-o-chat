@@ -16,6 +16,7 @@ import { AuthProvider } from "../lib/auth";
 import { AttributionCapture } from "@/components/AttributionCapture";
 import { InstallAppPrompt } from "../components/InstallAppPrompt";
 import { OverflowInspector } from "../components/OverflowInspector";
+import { scheduleOfflineImageWarmup } from "@/lib/offline-images";
 import { ImageGuard } from "../components/ImageGuard";
 import { PresenceProvider } from "../lib/presence";
 
@@ -208,6 +209,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 const THEME_BOOT = `(function(){try{var a=["pink","blue","ocean","abyss","sico","romance","crush","crushgold"];var s=localStorage.getItem("rizz.theme");var t=a.indexOf(s)>-1?s:"sico";var r=document.documentElement;a.forEach(function(x){r.classList.toggle("theme-"+x,x===t)});}catch(e){}})();`;
 
 function RootShell({ children }: { children: ReactNode }) {
+  // Pull every bundled creator image into the browser cache so the app keeps
+  // rendering portraits with no network.
+  useEffect(() => {
+    scheduleOfflineImageWarmup();
+  }, []);
+
   return (
     <html lang="en" className="theme-sico">
       <head>

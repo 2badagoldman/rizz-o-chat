@@ -6,7 +6,7 @@ import type { DemoProof } from "@/lib/demo-proofs.functions";
 import { demoProofsQueryOptions } from "@/lib/demo-proofs.query";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { getRouteApi } from "@tanstack/react-router";
-import { pinShowcaseAvatar, registerShowcaseAvatars } from "@/lib/showcase-avatar-store";
+import { pinShowcaseAvatar } from "@/lib/showcase-avatar-store";
 import { localHostPortrait } from "@/lib/host-avatars";
 
 const rootApi = getRouteApi("__root__");
@@ -93,9 +93,8 @@ export function DemoChatProofs({
   const proofs = variant === "rail" ? rootProofs : (query.data ?? []);
   const isPending = variant === "rail" ? false : query.isPending;
 
-  useEffect(() => {
-    registerShowcaseAvatars(proofs);
-  }, [proofs]);
+  // Runway faces now come from bundled portraits, so there is nothing remote
+  // to register — every surface resolves the same offline image by host id.
 
   if (variant === "rail") {
     // Jen's card uses the brand silhouette, not a person — keep the runway all faces.
