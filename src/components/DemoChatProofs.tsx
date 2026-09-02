@@ -124,15 +124,14 @@ export function DemoChatProofs({
             key={p.id}
             className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl"
           >
-            <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted">
-              <img
-                src={p.image}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
-                className="h-full w-full object-cover opacity-0 transition-opacity duration-500"
-              />
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted">
+                <img
+                  src={p.image}
+                  alt={`${p.name} creator preview`}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover transition-opacity duration-500"
+                />
 
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-4">
                 <p className="flex items-center gap-1.5 text-lg font-display font-bold text-white">
@@ -268,15 +267,14 @@ function ProofRunway({
             className="block w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
 
-            <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
-              <img
-                src={p.image}
-                alt=""
-                loading={idx < 5 ? "eager" : "lazy"}
-                decoding="async"
-                onLoad={(e) => e.currentTarget.classList.remove("opacity-0")}
-                className="h-full w-full object-cover object-top opacity-0 transition-opacity duration-500"
-              />
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
+                <img
+                  src={p.image}
+                  alt={`${p.name} creator preview`}
+                  loading={idx < 5 ? "eager" : "lazy"}
+                  decoding="async"
+                  className="h-full w-full object-cover object-top transition-opacity duration-500"
+                />
 
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent p-2.5">
                 <p className="flex items-center gap-1 text-[13px] font-display font-bold text-white">
