@@ -17,5 +17,6 @@
 - [ ] Reviewer credentials: review.apple@rizzlachat.com (Diamond, KYC approved)
 
 ## Google Play
+- [ ] Create/verify a dedicated reviewer login and enter its email + password under Play Console → App content → App access → Test account
 - [ ] Store listing, Data safety, 18+ content rating, privacy + deletion URLs
 - [ ] Upload AAB → internal testing → production
