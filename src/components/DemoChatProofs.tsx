@@ -55,8 +55,6 @@ function hostIdForProof(proof: DemoProof, index: number): string {
   return match?.id ?? AI_HOST_IDS[index % AI_HOST_IDS.length]!;
 }
 
-
-
 /**
  * Proof-of-concept screenshots: a large creator photo with her name and a real
  * 4-message exchange with a member. Used on the marketing home page and in the
@@ -96,19 +94,10 @@ export function DemoChatProofs({
       // Reserve the runway's space while data is in flight so nothing jumps.
       return isPending ? <RunwaySkeleton title={title} /> : null;
     }
-    return (
-      <ProofRunway
-        proofs={rail}
-        title={title}
-        showCta={showCta}
-        lineLimit={lineLimit ?? 2}
-      />
-    );
+    return <ProofRunway proofs={rail} title={title} showCta={showCta} lineLimit={lineLimit ?? 2} />;
   }
 
   if (proofs.length === 0) return null;
-
-
 
   return (
     <section className="mt-10">
@@ -117,21 +106,20 @@ export function DemoChatProofs({
         <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
       </div>
 
-
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {proofs.map((p, pIdx) => (
           <article
             key={p.id}
             className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl"
           >
-              <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted">
-                <img
-                  src={p.image}
-                  alt={`${p.name} creator preview`}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-opacity duration-500"
-                />
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted">
+              <img
+                src={p.image}
+                alt={`${p.name} creator preview`}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover transition-opacity duration-500"
+              />
 
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-4">
                 <p className="flex items-center gap-1.5 text-lg font-display font-bold text-white">
@@ -149,7 +137,10 @@ export function DemoChatProofs({
 
             <div className="space-y-2 p-4">
               {p.lines.map((l, i) => (
-                <div key={i} className={`flex ${l.from === "member" ? "justify-end" : "justify-start"}`}>
+                <div
+                  key={i}
+                  className={`flex ${l.from === "member" ? "justify-end" : "justify-start"}`}
+                >
                   <p
                     className={`max-w-[85%] rounded-2xl px-3.5 py-2 text-[13px] leading-snug shadow-sm ${
                       l.from === "member"
@@ -170,7 +161,6 @@ export function DemoChatProofs({
                 >
                   Message {p.name} free
                 </Link>
-
               ) : null}
             </div>
           </article>
@@ -231,9 +221,12 @@ function ProofRunway({
     if (resumeTimer.current) clearTimeout(resumeTimer.current);
     resumeTimer.current = setTimeout(() => setPaused(false), 2500);
   };
-  useEffect(() => () => {
-    if (resumeTimer.current) clearTimeout(resumeTimer.current);
-  }, []);
+  useEffect(
+    () => () => {
+      if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    },
+    [],
+  );
 
   return (
     <section className="mt-4">
@@ -266,15 +259,14 @@ function ProofRunway({
             aria-label={`Open ${p.name}'s profile and chat`}
             className="block w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
-                <img
-                  src={p.image}
-                  alt={`${p.name} creator preview`}
-                  loading={idx < 5 ? "eager" : "lazy"}
-                  decoding="async"
-                  className="h-full w-full object-cover object-top transition-opacity duration-500"
-                />
+            <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
+              <img
+                src={p.image}
+                alt={`${p.name} creator preview`}
+                loading={idx < 5 ? "eager" : "lazy"}
+                decoding="async"
+                className="h-full w-full object-cover object-top transition-opacity duration-500"
+              />
 
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent p-2.5">
                 <p className="flex items-center gap-1 text-[13px] font-display font-bold text-white">
@@ -288,7 +280,10 @@ function ProofRunway({
             </div>
             <div className="space-y-1.5 p-2">
               {p.lines.slice(0, lineLimit).map((l, i) => (
-                <div key={i} className={`flex ${l.from === "member" ? "justify-end" : "justify-start"}`}>
+                <div
+                  key={i}
+                  className={`flex ${l.from === "member" ? "justify-end" : "justify-start"}`}
+                >
                   <p
                     className={`max-w-[88%] rounded-2xl px-2.5 py-1.5 text-[11px] leading-snug ${
                       l.from === "member"
