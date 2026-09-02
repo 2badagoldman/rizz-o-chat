@@ -6,7 +6,8 @@ import type { DemoProof } from "@/lib/demo-proofs.functions";
 import { demoProofsQueryOptions } from "@/lib/demo-proofs.query";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { getRouteApi } from "@tanstack/react-router";
-import { pinShowcaseAvatar, registerShowcaseAvatars } from "@/lib/showcase-avatar-store";
+import { pinShowcaseAvatar } from "@/lib/showcase-avatar-store";
+import { localHostPortrait } from "@/lib/host-avatars";
 
 const rootApi = getRouteApi("__root__");
 
@@ -27,7 +28,7 @@ function RunwaySkeleton({ title }: { title: string }) {
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
-            className="w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card"
+            className="w-[260px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card"
           >
             <div className="aspect-[3/4] w-full animate-pulse bg-muted" />
             <div className="space-y-1.5 p-2">
@@ -40,7 +41,7 @@ function RunwaySkeleton({ title }: { title: string }) {
   );
 }
 
-const CARD_W = 190; // px
+const CARD_W = 260; // px
 const GAP = 12; // px (gap-3)
 const SECONDS_PER_CARD = 4;
 
@@ -53,6 +54,15 @@ function hostIdForProof(proof: DemoProof, index: number): string {
   if (DEMO_HOSTS.some((host) => host.id === proof.hostId)) return proof.hostId;
   const match = DEMO_HOSTS.find((host) => host.name.toLowerCase() === proof.name.toLowerCase());
   return match?.id ?? AI_HOST_IDS[index % AI_HOST_IDS.length]!;
+}
+
+/**
+ * Always render the locally bundled portrait. Remote showcase URLs are signed
+ * and expire after an hour, which is what made the runway go black; the
+ * bundled portrait works offline and never expires.
+ */
+function proofImage(proof: DemoProof, hostId: string): string {
+  return localHostPortrait(hostId) || proof.image;
 }
 
 /**
@@ -83,9 +93,8 @@ export function DemoChatProofs({
   const proofs = variant === "rail" ? rootProofs : (query.data ?? []);
   const isPending = variant === "rail" ? false : query.isPending;
 
-  useEffect(() => {
-    registerShowcaseAvatars(proofs);
-  }, [proofs]);
+  // Runway faces now come from bundled portraits, so there is nothing remote
+  // to register — every surface resolves the same offline image by host id.
 
   if (variant === "rail") {
     // Jen's card uses the brand silhouette, not a person — keep the runway all faces.
@@ -107,14 +116,17 @@ export function DemoChatProofs({
       </div>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {proofs.map((p, pIdx) => (
+        {proofs.map((p, pIdx) => {
+          const hostId = hostIdForProof(p, pIdx);
+          const image = proofImage(p, hostId);
+          return (
           <article
             key={p.id}
             className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl"
           >
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted">
               <img
-                src={p.image}
+                src={image}
                 alt={`${p.name} creator preview`}
                 loading="lazy"
                 decoding="async"
@@ -155,8 +167,8 @@ export function DemoChatProofs({
               {showCta ? (
                 <Link
                   to="/chat/$hostId"
-                  params={{ hostId: hostIdForProof(p, pIdx) }}
-                  onClick={() => pinShowcaseAvatar(hostIdForProof(p, pIdx), p.image)}
+                  params={{ hostId }}
+                  onClick={() => pinShowcaseAvatar(hostId, image)}
                   className="mt-3 block rounded-xl bg-primary px-4 py-2.5 text-center text-sm font-bold text-primary-foreground"
                 >
                   Message {p.name} free
@@ -164,7 +176,8 @@ export function DemoChatProofs({
               ) : null}
             </div>
           </article>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
@@ -250,18 +263,21 @@ function ProofRunway({
         }}
         className="-mx-3 md:-mx-6 mt-2 flex gap-3 overflow-x-auto px-3 md:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {loop.map((p, idx) => (
+        {loop.map((p, idx) => {
+          const hostId = hostIdForProof(p, idx % proofs.length);
+          const image = proofImage(p, hostId);
+          return (
           <Link
             key={`${p.id}-${idx}`}
             to="/host/$hostId"
-            params={{ hostId: hostIdForProof(p, idx % proofs.length) }}
-            onClick={() => pinShowcaseAvatar(hostIdForProof(p, idx % proofs.length), p.image)}
+            params={{ hostId }}
+            onClick={() => pinShowcaseAvatar(hostId, image)}
             aria-label={`Open ${p.name}'s profile and chat`}
-            className="block w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="block w-[260px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
               <img
-                src={p.image}
+                src={image}
                 alt={`${p.name} creator preview`}
                 loading={idx < 5 ? "eager" : "lazy"}
                 decoding="async"
@@ -302,7 +318,8 @@ function ProofRunway({
               ) : null}
             </div>
           </Link>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
