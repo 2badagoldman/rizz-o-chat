@@ -7,6 +7,7 @@ import { demoProofsQueryOptions } from "@/lib/demo-proofs.query";
 import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { getRouteApi } from "@tanstack/react-router";
 import { pinShowcaseAvatar, registerShowcaseAvatars } from "@/lib/showcase-avatar-store";
+import { localHostPortrait } from "@/lib/host-avatars";
 
 const rootApi = getRouteApi("__root__");
 
@@ -27,7 +28,7 @@ function RunwaySkeleton({ title }: { title: string }) {
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
-            className="w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card"
+            className="w-[260px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card"
           >
             <div className="aspect-[3/4] w-full animate-pulse bg-muted" />
             <div className="space-y-1.5 p-2">
@@ -40,7 +41,7 @@ function RunwaySkeleton({ title }: { title: string }) {
   );
 }
 
-const CARD_W = 190; // px
+const CARD_W = 260; // px
 const GAP = 12; // px (gap-3)
 const SECONDS_PER_CARD = 4;
 
@@ -53,6 +54,15 @@ function hostIdForProof(proof: DemoProof, index: number): string {
   if (DEMO_HOSTS.some((host) => host.id === proof.hostId)) return proof.hostId;
   const match = DEMO_HOSTS.find((host) => host.name.toLowerCase() === proof.name.toLowerCase());
   return match?.id ?? AI_HOST_IDS[index % AI_HOST_IDS.length]!;
+}
+
+/**
+ * Always render the locally bundled portrait. Remote showcase URLs are signed
+ * and expire after an hour, which is what made the runway go black; the
+ * bundled portrait works offline and never expires.
+ */
+function proofImage(proof: DemoProof, hostId: string): string {
+  return localHostPortrait(hostId) || proof.image;
 }
 
 /**
@@ -257,7 +267,7 @@ function ProofRunway({
             params={{ hostId: hostIdForProof(p, idx % proofs.length) }}
             onClick={() => pinShowcaseAvatar(hostIdForProof(p, idx % proofs.length), p.image)}
             aria-label={`Open ${p.name}'s profile and chat`}
-            className="block w-[190px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            className="block w-[260px] shrink-0 overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:-translate-y-1 hover:border-primary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
               <img

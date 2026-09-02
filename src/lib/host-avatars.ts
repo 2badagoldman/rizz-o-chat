@@ -67,6 +67,17 @@ function portraitFor(id: string): string {
   return POOL[hash(id) % POOL.length];
 }
 
+/**
+ * Portrait guaranteed to be bundled with the app (no signed/remote URL), so it
+ * renders offline and never expires.
+ */
+export function localHostPortrait(id: string): string {
+  if (POOL.length === 0) return "";
+  const idx = ASSIGNMENT.get(id);
+  if (idx !== undefined) return POOL[idx];
+  return POOL[hash(id) % POOL.length];
+}
+
 /** Full-size portrait — use for hero / profile / large cards. */
 export function hostAvatar(id: string): string {
   return portraitFor(id);
