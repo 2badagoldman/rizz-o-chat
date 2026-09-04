@@ -226,7 +226,7 @@ function HostProfile() {
           </div>
 
           {/* Slide dots */}
-          <div className="absolute inset-x-0 bottom-[128px] z-30 flex justify-center gap-1.5">
+          <div className="absolute inset-x-0 bottom-[186px] z-30 flex justify-center gap-1.5">
             {slides.map((_, i) => (
               <button
                 key={i}
