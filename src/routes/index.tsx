@@ -175,11 +175,9 @@ function Home() {
             Full screen
           </Link>
         </div>
-        <div className="relative mt-3 rounded-[2rem] bg-gradient-sunset p-[3px] shadow-glow">
-          <div className="rounded-[1.85rem] bg-background p-3">
-            <div className="mx-auto w-full max-w-[520px]">
-              <SwipeDeck />
-            </div>
+        <div className="relative mt-3">
+          <div className="mx-auto w-full max-w-[620px]">
+            <SwipeDeck />
           </div>
         </div>
       </section>

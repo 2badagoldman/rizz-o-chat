@@ -116,8 +116,8 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
       <div
         className={`relative mx-auto w-full ${
           full
-            ? "h-[min(72svh,760px)] min-h-[420px] max-w-[560px]"
-            : "h-[min(62svh,640px)] min-h-[380px] max-w-[520px]"
+            ? "h-[min(78svh,820px)] min-h-[440px] max-w-[620px]"
+            : "h-[min(70svh,720px)] min-h-[420px] max-w-[600px]"
         }`}
       >
         {/* card underneath so the deck reads as a stack */}
