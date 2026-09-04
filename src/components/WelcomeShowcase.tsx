@@ -308,7 +308,9 @@ export function WelcomeShowcase() {
             onClick={() => {
               track("showcase_chat_now_click", { metadata: { slide_id: current.id, index } });
               close("complete");
-              navigate({ to: "/upgrade" });
+              // Open the profile of the creator who owns this exact photo.
+              if (current.hostId) navigate({ to: "/host/$hostId", params: { hostId: current.hostId } });
+              else navigate({ to: "/upgrade" });
             }}
             className="btn-brand inline-flex flex-1 items-center justify-center gap-2 hover-scale"
           >

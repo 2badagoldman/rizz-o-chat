@@ -1,4 +1,7 @@
 import { demoProofsQueryOptions, RUNWAY_LIMIT } from "@/lib/demo-proofs.query";
+import { showcaseReelQueryOptions } from "@/lib/showcase-reel.query";
+import type { DemoProof } from "@/lib/demo-proofs.data";
+import type { ReelItem } from "@/lib/showcase-brain.functions";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -20,7 +23,7 @@ import { scheduleOfflineImageWarmup } from "@/lib/offline-images";
 import { ImageGuard } from "../components/ImageGuard";
 import { PresenceProvider } from "../lib/presence";
 
-import { useShowcaseAvatarSync } from "../lib/showcase-avatar-store";
+import { useShowcaseAvatarSync, registerCreatorIdentities } from "../lib/showcase-avatar-store";
 import { useInitPerfTier } from "../hooks/usePerfTier";
 
 function NotFoundComponent() {
@@ -82,11 +85,16 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  // Prime the creator runway so it renders with the first paint on every page.
-  loader: ({ context }) =>
-    context.queryClient
-      .ensureQueryData(demoProofsQueryOptions(RUNWAY_LIMIT))
-      .catch(() => []),
+  // Prime the creator runway + showcase reel so they render with the first
+  // paint on every page, and so creator identities are seeded before any
+  // avatar renders (server and client agree).
+  loader: async ({ context }) => {
+    const [proofs, reel] = await Promise.all([
+      context.queryClient.ensureQueryData(demoProofsQueryOptions(RUNWAY_LIMIT)).catch(() => [] as DemoProof[]),
+      context.queryClient.ensureQueryData(showcaseReelQueryOptions()).catch(() => [] as ReelItem[]),
+    ]);
+    return { proofs, reel };
+  },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -229,6 +237,18 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  const seed = Route.useLoaderData();
+  // Seed the Creator Identity registry before any child renders an avatar.
+  // Not a hook; idempotent; `notify: false` because children haven't rendered yet.
+  registerCreatorIdentities(
+    [
+      ...(seed?.proofs ?? []).map((p) => ({ hostId: p.hostId, image: p.image })),
+      ...(seed?.reel ?? [])
+        .filter((r) => r.hostId && r.media_type === "image")
+        .map((r) => ({ hostId: r.hostId as string, image: r.url })),
+    ],
+    { notify: false },
+  );
   useShowcaseAvatarSync();
   useInitPerfTier();
   useEffect(() => {

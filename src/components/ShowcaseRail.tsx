@@ -1,15 +1,22 @@
-import { useEffect, useMemo, useState } from "react";
-import { X, MessageCircle } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import { getShowcaseReel, type ReelItem } from "@/lib/showcase-brain.functions";
+import { useMemo, useState } from "react";
+import { Link, getRouteApi } from "@tanstack/react-router";
+import { BadgeCheck } from "lucide-react";
+import type { ReelItem } from "@/lib/showcase-brain.functions";
+import { creatorById } from "@/lib/creator-identity";
+import { localHostPortrait } from "@/lib/host-avatars";
 import { useShuffled } from "@/hooks/useShuffled";
 import crushLogo from "@/assets/crush-logo.png.asset.json";
 
+const rootApi = getRouteApi("__root__");
 
 /**
  * Showcase grid — the best-performing showcase photos, reshuffled on a timer
- * so the section feels fresh (same rotation as the host cards elsewhere).
- * Rendered on Home and Discover. Tap any tile to open it full-screen.
+ * so the section feels fresh. Every tile is owned by exactly one creator (the
+ * Creator Identity Manager decides on the server) and tapping it opens HER
+ * profile, which renders this same photo as her hero.
+ *
+ * Reads the root loader payload (the same one that seeds creator identities)
+ * so the tile URL and the profile hero URL are byte-identical — no refetch.
  */
 export function ShowcaseRail({
   title = "Showcase",
@@ -20,156 +27,91 @@ export function ShowcaseRail({
   subtitle?: string;
   limit?: number;
 }) {
-  const [allItems, setAllItems] = useState<ReelItem[]>([]);
+  const seed = rootApi.useLoaderData() as { reel?: ReelItem[] } | undefined;
+  const data = seed?.reel;
   const [broken, setBroken] = useState<string[]>([]);
-  const [openId, setOpenId] = useState<string | null>(null);
-
-  useEffect(() => {
-    let alive = true;
-    getShowcaseReel({ data: { limit } })
-      .then((reel) => {
-        if (alive && reel) setAllItems(reel.filter((r) => r.url));
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, [limit]);
-
-  useEffect(() => {
-    if (!openId) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpenId(null);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [openId]);
 
   // Media whose signed URL failed is dropped entirely — otherwise the tile
   // collapses to raw alt text, which is what made the rail look broken.
   const usable = useMemo(
-    () => allItems.filter((i) => !broken.includes(i.id)),
-    [allItems, broken],
+    () => (data ?? []).filter((i) => i.url && i.hostId && !broken.includes(i.id)).slice(0, limit),
+    [data, broken, limit],
   );
-  // Reshuffle every 15s so returning visitors see a different set first.
+  // Reshuffle so returning visitors see a different set first. Ownership is
+  // fixed per photo, so the order never changes who a tile opens.
   const items = useShuffled(usable, 45_000);
   const markBroken = (id: string) =>
     setBroken((prev) => (prev.includes(id) ? prev : [...prev, id]));
 
   if (items.length === 0) return null;
 
-  // Keyed by id, not index, so a reshuffle never swaps the open photo.
-  const active = openId ? items.find((i) => i.id === openId) ?? null : null;
-
-
   return (
-    <section className="mt-7 rise-in">
-      <div className="mb-2 flex items-baseline justify-between">
-        <h2 className="flex items-center gap-1.5 text-sm font-display font-bold">
+    <section className="mt-8">
+      <div className="mb-3 flex items-baseline justify-between gap-3">
+        <div className="min-w-0">
+          <h2 className="truncate text-sm font-display font-bold">{title}</h2>
+          <p className="truncate text-[11px] text-muted-foreground">{subtitle}</p>
+        </div>
+        <span className="inline-flex shrink-0 items-center gap-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
           <img loading="lazy" decoding="async" src={crushLogo.url} alt="" className="h-4 w-4 rounded-full" />
-          {title}
-        </h2>
-        <span className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-          {subtitle}
+          Tap to open her profile
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {items.map((it, i) => (
-          <button
-            key={it.id}
-            type="button"
-            onClick={() => setOpenId(it.id)}
-            aria-label={it.caption ? `Open showcase photo: ${it.caption}` : "Open showcase photo"}
-            className="group relative aspect-[3/4] w-full overflow-hidden rounded-3xl border border-border/60 shadow-card transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            style={{ animation: `rise-in 600ms ${Math.min(i, 10) * 45}ms cubic-bezier(.2,.8,.2,1) both` }}
-          >
-            {it.media_type === "video" ? (
-              <video
-                src={it.url}
-                muted
-                loop
-                playsInline
-                autoPlay
-                onError={() => markBroken(it.id)}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ) : (
-              <img
-                src={it.url}
-                alt=""
-                loading={i < 6 ? "eager" : "lazy"}
-                decoding="async"
-                onError={() => markBroken(it.id)}
-                className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent" />
-            {it.caption ? (
-              <p className="absolute inset-x-2 bottom-2 line-clamp-2 text-left text-[11px] font-semibold leading-snug text-white">
-                {it.caption}
-              </p>
-            ) : null}
-          </button>
-        ))}
-      </div>
-
-
-      {active ? (
-        <div
-          className="fixed inset-0 z-[120] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setOpenId(null)}
-        >
-          <button
-            type="button"
-            onClick={() => setOpenId(null)}
-            aria-label="Close photo"
-            className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/25"
-          >
-            <X className="h-5 w-5" />
-          </button>
-          <figure
-            className="flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col overflow-hidden rounded-3xl bg-neutral-950 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="min-h-0 flex-1 bg-black">
-              {active.media_type === "video" ? (
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+        {items.map((it, i) => {
+          const creator = creatorById(it.hostId);
+          const hostId = it.hostId as string;
+          return (
+            <Link
+              key={it.id}
+              to="/host/$hostId"
+              params={{ hostId }}
+              aria-label={creator ? `Open ${creator.name}'s profile` : "Open creator profile"}
+              className="group relative block aspect-[3/4] w-full overflow-hidden rounded-3xl border border-border/60 shadow-card transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              style={{ animation: `rise-in 600ms ${Math.min(i, 10) * 45}ms cubic-bezier(.2,.8,.2,1) both` }}
+            >
+              {it.media_type === "video" ? (
                 <video
-                  src={active.url}
-                  controls
-                  autoPlay
+                  src={it.url}
+                  muted
+                  loop
                   playsInline
-                  className="h-full max-h-full w-full object-contain"
+                  autoPlay
+                  onError={() => markBroken(it.id)}
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
               ) : (
-                <img loading="lazy" decoding="async"
-                  src={active.url}
-                  alt={active.caption ?? "Showcase"}
-                  className="h-full max-h-full w-full object-contain"
+                <img
+                  src={it.url}
+                  alt=""
+                  loading={i < 6 ? "eager" : "lazy"}
+                  decoding="async"
+                  onError={(e) => {
+                    // Expired signed link → keep the tile on the same creator's bundled portrait.
+                    const local = localHostPortrait(hostId);
+                    if (local && !e.currentTarget.src.endsWith(local)) e.currentTarget.src = local;
+                    else markBroken(it.id);
+                  }}
+                  className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
               )}
-            </div>
-            <figcaption className="shrink-0 space-y-2.5 bg-neutral-950 px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3 text-center">
-              {active.caption ? (
-                <p className="line-clamp-2 text-sm font-semibold text-white">{active.caption}</p>
-              ) : null}
-              <Link
-                to="/upgrade"
-                onClick={() => setOpenId(null)}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-brand px-5 py-2.5 text-sm font-bold text-white shadow-glow transition active:scale-95"
-              >
-                <MessageCircle className="h-4 w-4" />
-                Subscribe to chat with her
-              </Link>
-              <p className="text-[11px] text-white/70">
-                Crush Gold unlocks Friends Lists and direct chat with showcase hosts.
-              </p>
-            </figcaption>
-          </figure>
-        </div>
-      ) : null}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              <div className="absolute inset-x-2 bottom-2 text-left text-white">
+                {creator ? (
+                  <p className="flex items-center gap-1 text-[13px] font-display font-bold leading-tight">
+                    {creator.name}, {creator.age}
+                    <BadgeCheck className="h-3.5 w-3.5 text-primary" />
+                  </p>
+                ) : null}
+                {it.caption ? (
+                  <p className="line-clamp-2 text-[11px] font-medium leading-snug text-white/85">{it.caption}</p>
+                ) : null}
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </section>
   );
 }
