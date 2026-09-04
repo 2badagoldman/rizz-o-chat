@@ -193,7 +193,7 @@ function Discover() {
         <>
           <StoryRail />
 
-          <section className="mt-6 rounded-3xl border border-border bg-card/60 p-4">
+          <section className="mt-6">
             <div className="flex items-end justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Swipe</p>
@@ -206,7 +206,7 @@ function Discover() {
                 Full screen
               </Link>
             </div>
-            <div className="mx-auto mt-3 w-full max-w-[620px]">
+            <div className="mx-auto mt-3 w-full">
               <SwipeDeck />
             </div>
           </section>
