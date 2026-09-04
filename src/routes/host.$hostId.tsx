@@ -286,21 +286,21 @@ function HostProfile() {
                 ) : (
                   <button
                     onClick={onSubscribe}
-                    className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
+                    className="btn-brand press-spring sheen-sweep relative flex flex-1 items-center justify-center gap-2 overflow-hidden py-3 text-sm shadow-glow"
                   >
                     <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
                     {hasGold ? "Unlock Friends List" : "Get Crush Gold to Unlock"}
                   </button>
                 )}
                 {iosRestricted ? null : (
-                  <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20">
+                  <button onClick={onTip} aria-label="Send tip" className="press-spring grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur transition hover:border-primary/60 hover:bg-white/20">
                     <Gift className="h-4 w-4" />
                   </button>
                 )}
                 <button
                   onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: creator.id } })}
                   aria-label="Message"
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20"
+                  className="press-spring grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur transition hover:border-primary/60 hover:bg-white/20"
                 >
                   <MessageCircle className="h-4 w-4" />
                 </button>
