@@ -106,5 +106,9 @@ function subscribe(l: () => void) {
 
 /** Subscribe the root so any identity change re-renders every avatar consumer. */
 export function useShowcaseAvatarSync() {
-  useSyncExternalStore(subscribe, () => version, () => version);
+  useSyncExternalStore(
+    subscribe,
+    () => version,
+    () => version,
+  );
 }

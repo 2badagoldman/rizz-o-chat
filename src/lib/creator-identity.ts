@@ -88,8 +88,10 @@ export function auditIdentityMap(): { ok: boolean; issues: string[] } {
   const issues: string[] = [];
   const ids = RUNWAY_SLOTS.map((s) => s.host.id);
   if (new Set(ids).size !== ids.length) issues.push("runway assigns one creator to two photos");
-  if (ids.some((id) => EXCLUDED_HOST_IDS.has(id))) issues.push("runway uses an excluded creator seat");
-  if (REEL_HOST_POOL.some((h) => RUNWAY_HOST_IDS.has(h.id))) issues.push("reel pool overlaps the runway");
+  if (ids.some((id) => EXCLUDED_HOST_IDS.has(id)))
+    issues.push("runway uses an excluded creator seat");
+  if (REEL_HOST_POOL.some((h) => RUNWAY_HOST_IDS.has(h.id)))
+    issues.push("reel pool overlaps the runway");
   if (REEL_HOST_POOL.length === 0) issues.push("reel pool is empty");
   return { ok: issues.length === 0, issues };
 }

@@ -53,7 +53,13 @@ export function ShowcaseRail({
           <p className="truncate text-[11px] text-muted-foreground">{subtitle}</p>
         </div>
         <span className="inline-flex shrink-0 items-center gap-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
-          <img loading="lazy" decoding="async" src={crushLogo.url} alt="" className="h-4 w-4 rounded-full" />
+          <img
+            loading="lazy"
+            decoding="async"
+            src={crushLogo.url}
+            alt=""
+            className="h-4 w-4 rounded-full"
+          />
           Tap to open her profile
         </span>
       </div>
@@ -69,7 +75,9 @@ export function ShowcaseRail({
               params={{ hostId }}
               aria-label={creator ? `Open ${creator.name}'s profile` : "Open creator profile"}
               className="group relative block aspect-[3/4] w-full overflow-hidden rounded-3xl border border-border/60 shadow-card transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-              style={{ animation: `rise-in 600ms ${Math.min(i, 10) * 45}ms cubic-bezier(.2,.8,.2,1) both` }}
+              style={{
+                animation: `rise-in 600ms ${Math.min(i, 10) * 45}ms cubic-bezier(.2,.8,.2,1) both`,
+              }}
             >
               {it.media_type === "video" ? (
                 <video
@@ -105,7 +113,9 @@ export function ShowcaseRail({
                   </p>
                 ) : null}
                 {it.caption ? (
-                  <p className="line-clamp-2 text-[11px] font-medium leading-snug text-white/85">{it.caption}</p>
+                  <p className="line-clamp-2 text-[11px] font-medium leading-snug text-white/85">
+                    {it.caption}
+                  </p>
                 ) : null}
               </div>
             </Link>
