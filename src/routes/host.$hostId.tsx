@@ -214,8 +214,12 @@ function HostProfile() {
                 {tierLabel(creator.tier)}
               </span>
               {creator.online ? (
-                <span className="flex items-center gap-1 rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
-                  <Circle className="h-2 w-2 fill-success text-success" /> Online
+                <span className="flex items-center gap-1.5 rounded-full border border-success/40 bg-black/45 px-2.5 py-1 text-[10px] font-semibold text-white shadow-glow backdrop-blur">
+                  <span className="relative grid h-2 w-2 place-items-center">
+                    <span className="absolute inset-0 animate-ping rounded-full bg-success/70" />
+                    <Circle className="relative h-2 w-2 fill-success text-success" />
+                  </span>
+                  Online now
                 </span>
               ) : null}
             </div>
