@@ -14,6 +14,9 @@ jobs:
   android:
     name: Android App Bundle (.aab)
     runs-on: ubuntu-latest
+    env:
+      # Must match the app created in Google Play Console (com.crushchat.app).
+      CAP_APP_ID: com.crushchat.app
     steps:
       - uses: actions/checkout@v4
 
@@ -30,24 +33,59 @@ jobs:
           bunx cap add android || true
           bunx cap sync android
 
-      - name: Decode release keystore
+      - name: Align applicationId with Play Console
+        run: |
+          sed -i "s/applicationId \".*\"/applicationId \"$CAP_APP_ID\"/" android/app/build.gradle
+          grep applicationId android/app/build.gradle
+
+      - name: Prepare upload keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-        run: echo "$KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > android/app/release.keystore
+            echo "STORE_PASSWORD=$KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
+            echo "KEY_ALIAS=$KEY_ALIAS" >> "$GITHUB_ENV"
+            echo "KEY_PASSWORD=$KEY_PASSWORD" >> "$GITHUB_ENV"
+          else
+            # First run: generate an upload key. Google Play App Signing holds the
+            # real signing key, so this upload key just needs to stay consistent.
+            # Save the 'crush-upload-keystore' artifact into the repo secrets
+            # (ANDROID_KEYSTORE_BASE64 etc.) after this run so future releases
+            # reuse the same key.
+            keytool -genkeypair -v -keystore android/app/release.keystore \
+              -alias crush-upload -keyalg RSA -keysize 2048 -validity 10950 \
+              -storepass crush-upload-2026 -keypass crush-upload-2026 \
+              -dname "CN=KOLO TECHNOLOGY LLC, OU=Mobile, O=KOLO TECHNOLOGY LLC, L=Garland, ST=TX, C=US"
+            echo "STORE_PASSWORD=crush-upload-2026" >> "$GITHUB_ENV"
+            echo "KEY_ALIAS=crush-upload" >> "$GITHUB_ENV"
+            echo "KEY_PASSWORD=crush-upload-2026" >> "$GITHUB_ENV"
+          fi
 
       - name: Build signed bundle
         working-directory: android
         env:
           ORG_GRADLE_PROJECT_CRUSH_STORE_FILE: release.keystore
-          ORG_GRADLE_PROJECT_CRUSH_STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ORG_GRADLE_PROJECT_CRUSH_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ORG_GRADLE_PROJECT_CRUSH_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ORG_GRADLE_PROJECT_CRUSH_STORE_PASSWORD: ${{ env.STORE_PASSWORD }}
+          ORG_GRADLE_PROJECT_CRUSH_KEY_ALIAS: ${{ env.KEY_ALIAS }}
+          ORG_GRADLE_PROJECT_CRUSH_KEY_PASSWORD: ${{ env.KEY_PASSWORD }}
         run: ./gradlew bundleRelease
 
       - uses: actions/upload-artifact@v4
         with:
           name: crush-android-aab
           path: android/app/build/outputs/bundle/release/*.aab
+
+      - name: Save upload keystore (first run only — store as secrets, then delete artifact)
+        if: ${{ vars.ANDROID_KEYSTORE_BASE64 == '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: crush-upload-keystore
+          path: android/app/release.keystore
+          retention-days: 7
 
   ios:
     name: iOS App Store package (.ipa)
