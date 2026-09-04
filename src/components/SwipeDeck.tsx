@@ -113,7 +113,13 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
 
   return (
     <div className="select-none">
-      <div className={`relative w-full ${full ? "aspect-[3/4] max-h-[68svh]" : "aspect-[3/4] max-h-[56svh]"}`}>
+      <div
+        className={`relative mx-auto w-full ${
+          full
+            ? "h-[min(72svh,760px)] min-h-[420px] max-w-[560px]"
+            : "h-[min(62svh,640px)] min-h-[380px] max-w-[520px]"
+        }`}
+      >
         {/* card underneath so the deck reads as a stack */}
         <article
           key={`under-${next.id}`}
