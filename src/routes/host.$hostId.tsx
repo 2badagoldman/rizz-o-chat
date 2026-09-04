@@ -153,16 +153,22 @@ function HostProfile() {
 
       <div className="-mx-3 md:-mx-6">
         {/* Carousel */}
-        <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
-          {/* Full-bleed portrait — blurred when locked */}
+        <div className="group relative aspect-[3/4] w-full overflow-hidden bg-black">
+          {/* Full-bleed portrait — slow cinematic drift, blurred when locked */}
           <img loading="lazy" decoding="async"
+            key={slide}
             src={hostAvatar(creator.id)}
             alt={creator.name}
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${
+            className={`absolute inset-0 h-full w-full origin-center object-cover animate-[kenburns_22s_ease-out_infinite_alternate] transition-all duration-700 ${
               slides[slide].kind === "locked" ? "scale-110 blur-2xl brightness-75" : slides[slide].kind === "video" ? "brightness-90" : ""
             }`}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
+          {/* Cinematic grade: warm rim light + deep base so text always reads */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/45" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_0%,transparent_35%,rgba(0,0,0,.55)_100%)]" />
+          <div className="glow-breathe pointer-events-none absolute -left-16 top-1/4 h-56 w-56 rounded-full bg-primary/30 blur-3xl" />
+          <div className="glow-breathe pointer-events-none absolute -right-16 bottom-1/3 h-56 w-56 rounded-full bg-accent/25 blur-3xl" />
+          <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden" />
 
           {/* Slide overlay content */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
