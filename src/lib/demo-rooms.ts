@@ -31,11 +31,7 @@ export function roomImage(room: DemoRoom): string {
   return localHostPortrait(`room:${room.slug}`);
 }
 
-function hash(s: string): number {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h << 5) - h + s.charCodeAt(i);
-  return h;
-}
+
 
 export const ROOM_CATEGORIES = ["All", "Near Me", "Trending", "Conversation", "Evening", "Party", "Local"] as const;
 
