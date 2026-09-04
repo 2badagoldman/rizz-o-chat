@@ -27,3 +27,9 @@
 - [ ] Create/verify a dedicated reviewer login and enter its email + password under Play Console → App content → App access → Test account
 - [ ] Store listing, Data safety, 18+ content rating, privacy + deletion URLs
 - [ ] Upload AAB → internal testing → production
+
+## Creator identity (done)
+- [x] Creator Identity Manager: one creator per photo, deterministic (runway + showcase reel), seeded from the root loader so SSR/hydration agree.
+- [x] Every creator image is a link to the matching profile (runway rail + grid, showcase tiles, swipe card tap, crush-home phone mock).
+- [x] ImageGuard swaps an expired creator photo for her bundled portrait (never the logo / never black).
+- [x] Ops: "Identity Manager" added to /admin/ops (audits map + storage signing).

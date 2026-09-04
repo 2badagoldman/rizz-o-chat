@@ -1,74 +1,114 @@
-// Runtime store that maps demo AI host ids → portrait URLs.
+// Creator identity registry — maps a creator id → the ONE image the app shows
+// for her everywhere (runway, reel, Discover tiles, profile hero, chat header).
 //
-// Offline contract: creator faces must never depend on the network. Every
-// portrait ships inside the app bundle (see host-avatars.ts), so this store
-// only ever holds *bundled* image URLs — a runway card pins the exact face it
-// showed so the destination profile / chat renders the same portrait.
+// Seeded from the root loader on every page (server and client alike) so SSR
+// and hydration agree, and so the photo a visitor taps is the exact photo her
+// profile opens with.
 //
-// Remote (http/https) URLs are rejected on purpose: the old behaviour pulled
-// one-hour signed storage links for AI hosts, which expired and turned cards
-// black across Home / Discover / Chats.
+// Bundled asset URLs never expire. Remote (signed storage) URLs are trusted
+// for a bounded window and then drop back to the bundled portrait, and the
+// ImageGuard invalidates them the moment one fails to load — a creator card
+// can therefore never render black.
 
 import { useSyncExternalStore } from "react";
 
-type Overrides = Record<string, string>;
+type Identity = { image: string; expiresAt: number };
 
-let overrides: Overrides = {};
+/** Signed storage URLs live 60 min; stop trusting them a little before that. */
+const REMOTE_TTL_MS = 50 * 60 * 1000;
+
+let identities: Record<string, Identity> = {};
+let version = 0;
 const listeners = new Set<() => void>();
 
+const isRemote = (url: string) => /^https?:\/\//i.test(url);
+
 /** Only bundled asset URLs are allowed to override a portrait. */
-function isBundled(url: string): boolean {
-  return !!url && !/^https?:\/\//i.test(url) && !url.startsWith("blob:") && !url.startsWith("data:");
+export function isBundledImage(url: string): boolean {
+  return !!url && !isRemote(url) && !url.startsWith("blob:") && !url.startsWith("data:");
 }
 
-export function getShowcaseAvatar(id: string): string | undefined {
-  if (typeof window !== "undefined") {
-    const key = `crush:runway-avatar:${id}`;
-    const selected = sessionStorage.getItem(key);
-    if (selected) {
-      if (isBundled(selected)) return selected;
-      // Stale remote pin from a previous build — drop it.
-      sessionStorage.removeItem(key);
-    }
-  }
-  const o = overrides[id];
-  return o && isBundled(o) ? o : undefined;
+function usable(url: string | null | undefined): url is string {
+  return !!url && !url.startsWith("blob:") && !url.startsWith("data:");
 }
 
-function setOverrides(next: Overrides) {
-  overrides = next;
+function emit() {
   for (const l of listeners) l();
 }
 
-/** Keep a runway card and its destination profile on the exact same face. */
-export function registerShowcaseAvatars(items: Array<{ hostId: string; image: string }>) {
-  const next = { ...overrides };
-  let changed = false;
-  for (const item of items) {
-    if (!item.hostId || !isBundled(item.image) || next[item.hostId] === item.image) continue;
-    next[item.hostId] = item.image;
-    changed = true;
-  }
-  if (changed) setOverrides(next);
+/** The canonical image for a creator, or undefined to use her bundled portrait. */
+export function getShowcaseAvatar(id: string): string | undefined {
+  const ident = identities[id];
+  if (!ident) return undefined;
+  if (ident.expiresAt <= Date.now()) return undefined;
+  return ident.image;
 }
 
-export function pinShowcaseAvatar(hostId: string, image: string) {
-  if (!isBundled(image)) return;
-  if (typeof window !== "undefined") {
-    sessionStorage.setItem(`crush:runway-avatar:${hostId}`, image);
+/**
+ * Register canonical images. Safe to call during render with `notify: false`
+ * (the root does this so children render with the seeded map immediately).
+ */
+export function registerCreatorIdentities(
+  items: Array<{ hostId: string; image: string }>,
+  opts: { notify?: boolean } = {},
+) {
+  const now = Date.now();
+  let next: Record<string, Identity> | null = null;
+  for (const item of items) {
+    if (!item.hostId || !usable(item.image)) continue;
+    const cur = identities[item.hostId];
+    if (cur && cur.image === item.image && cur.expiresAt > now) continue;
+    next ??= { ...identities };
+    next[item.hostId] = {
+      image: item.image,
+      expiresAt: isRemote(item.image) ? now + REMOTE_TTL_MS : Number.POSITIVE_INFINITY,
+    };
   }
-  registerShowcaseAvatars([{ hostId, image }]);
+  if (!next) return;
+  identities = next;
+  version++;
+  if (opts.notify !== false) emit();
+}
+
+/** Back-compat alias. */
+export function registerShowcaseAvatars(items: Array<{ hostId: string; image: string }>) {
+  registerCreatorIdentities(items);
+}
+
+/** Keep a card and its destination profile on the exact same face. */
+export function pinShowcaseAvatar(hostId: string, image: string) {
+  registerCreatorIdentities([{ hostId, image }]);
+}
+
+/**
+ * A registered image failed to load (expired / offline). Forget it so every
+ * surface falls back to the bundled portrait, and tell the caller whose it was.
+ */
+export function invalidateIdentityImage(src: string): string | undefined {
+  if (!src) return undefined;
+  const hit = Object.entries(identities).find(([, v]) => v.image === src);
+  if (!hit) return undefined;
+  const [hostId] = hit;
+  const next = { ...identities };
+  delete next[hostId];
+  identities = next;
+  version++;
+  emit();
+  return hostId;
 }
 
 function subscribe(l: () => void) {
   listeners.add(l);
-  return () => listeners.delete(l);
+  return () => {
+    listeners.delete(l);
+  };
 }
 
-/**
- * Subscribe the root to the store so a pin re-renders every avatar consumer.
- * No network fetch happens here anymore — portraits are always local.
- */
+/** Subscribe the root so any identity change re-renders every avatar consumer. */
 export function useShowcaseAvatarSync() {
-  useSyncExternalStore(subscribe, () => overrides, () => overrides);
+  useSyncExternalStore(
+    subscribe,
+    () => version,
+    () => version,
+  );
 }

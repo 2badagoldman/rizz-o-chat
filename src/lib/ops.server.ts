@@ -167,12 +167,61 @@ async function runEngagement(db: Admin): Promise<Omit<ManagerResult, "manager" |
   };
 }
 
+/**
+ * Identity Manager — proves the photo → profile contract still holds:
+ * static map is duplicate-free, enough held-back photos exist for the runway,
+ * the reel has a creator seat per photo, and a sample of storage objects still
+ * signs (so cards render the real shoot instead of falling back).
+ */
+async function runIdentity(db: Admin): Promise<Omit<ManagerResult, "manager" | "duration_ms">> {
+  const { RUNWAY_SLOTS, REEL_HOST_POOL, auditIdentityMap } = await import("@/lib/creator-identity");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const any = (t: string) => db.from(t) as any;
+
+  const audit = auditIdentityMap();
+  const [{ count: runwayPhotos }, { count: reelPhotos }, { data: sample }] = await Promise.all([
+    any("showcase_media").select("*", { count: "exact", head: true }).eq("is_active", false).eq("media_type", "image"),
+    any("showcase_media").select("*", { count: "exact", head: true }).eq("is_active", true).eq("media_type", "image"),
+    any("showcase_media").select("storage_path").eq("media_type", "image").order("ai_score", { ascending: false }).limit(6),
+  ]);
+
+  let unsignable = 0;
+  for (const row of (sample ?? []) as Array<{ storage_path: string }>) {
+    const { data } = await db.storage.from("showcase").createSignedUrl(row.storage_path, 60);
+    if (!data?.signedUrl) unsignable++;
+  }
+
+  const issues = [...audit.issues];
+  if ((runwayPhotos ?? 0) < RUNWAY_SLOTS.length)
+    issues.push(`${RUNWAY_SLOTS.length - (runwayPhotos ?? 0)} runway slots have no held-back photo (bundled portrait shown)`);
+  if ((reelPhotos ?? 0) > REEL_HOST_POOL.length) issues.push("more reel photos than creator seats — a creator would own two photos");
+  if (unsignable > 0) issues.push(`${unsignable} storage objects could not be signed`);
+
+  return {
+    status: issues.length === 0 ? "ok" : "warning",
+    summary:
+      issues.length === 0
+        ? `${RUNWAY_SLOTS.length} runway + ${reelPhotos ?? 0} reel photos each map to one unique creator`
+        : issues.join("; ").slice(0, 300),
+    items: RUNWAY_SLOTS.length + (reelPhotos ?? 0),
+    details: {
+      runway_slots: RUNWAY_SLOTS.length,
+      runway_photos: runwayPhotos ?? 0,
+      reel_photos: reelPhotos ?? 0,
+      reel_seats: REEL_HOST_POOL.length,
+      unsignable_sample: unsignable,
+      map_ok: audit.ok,
+    },
+  };
+}
+
 const RUNNERS: Record<ManagerId, (db: Admin) => Promise<Omit<ManagerResult, "manager" | "duration_ms">>> = {
   health: runHealth,
   payments: runPayments,
   compliance: runCompliance,
   content: runContent,
   engagement: runEngagement,
+  identity: runIdentity,
 };
 
 /** Run one or more managers and record each outcome in ops_runs. */

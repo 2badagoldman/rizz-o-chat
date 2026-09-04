@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { BadgeCheck } from "lucide-react";
 import type { DemoProof } from "@/lib/demo-proofs.functions";
-import { demoProofsQueryOptions } from "@/lib/demo-proofs.query";
-import { DEMO_HOSTS, AI_HOST_IDS } from "@/lib/demo-hosts";
 import { getRouteApi } from "@tanstack/react-router";
 import { pinShowcaseAvatar } from "@/lib/showcase-avatar-store";
 import { localHostPortrait } from "@/lib/host-avatars";
 
 const rootApi = getRouteApi("__root__");
 
-/** Runway data comes from the root loader so SSR and hydration always agree. */
+/**
+ * Runway data comes from the root loader so SSR and hydration always agree,
+ * and every surface (rail, grid, profile) shares one identity per creator.
+ */
 function useRootProofs(): DemoProof[] {
-  const data = rootApi.useLoaderData() as DemoProof[] | undefined;
-  return Array.isArray(data) ? data : [];
+  const data = rootApi.useLoaderData() as { proofs?: DemoProof[] } | undefined;
+  return Array.isArray(data?.proofs) ? data.proofs : [];
 }
 
 /** Placeholder that occupies the runway's exact footprint before data lands. */
@@ -46,28 +46,10 @@ const GAP = 12; // px (gap-3)
 const SECONDS_PER_CARD = 4;
 
 /**
- * Every proof card must open a real, chattable creator. Match the marketing
- * persona to a live demo creator by name; anything unmatched falls back to an
- * AI-powered creator so the visitor still gets their free chats.
+ * Identity is decided once, on the server, by the Creator Identity Manager:
+ * `proof.hostId` is the one creator who owns `proof.image`. Nothing here
+ * recomputes it from an index, so a card can never point at someone else.
  */
-function hostIdForProof(proof: DemoProof, index: number): string {
-  if (DEMO_HOSTS.some((host) => host.id === proof.hostId)) return proof.hostId;
-  const match = DEMO_HOSTS.find((host) => host.name.toLowerCase() === proof.name.toLowerCase());
-  return match?.id ?? AI_HOST_IDS[index % AI_HOST_IDS.length]!;
-}
-
-/**
- * Mix the two photo pools on the scroll: the original showcase shoot (signed
- * URLs from the server loader) alternates with the bundled AI portraits. The
- * bundled portrait is the fallback whenever a showcase URL is missing or
- * fails, so a card can never render black again.
- */
-function proofImage(proof: DemoProof, hostId: string, index: number): string {
-  const local = localHostPortrait(hostId);
-  const showcase = /^https?:\/\//i.test(proof.image) ? proof.image : "";
-  if (showcase && index % 2 === 0) return showcase;
-  return local || showcase;
-}
 
 /** If a signed showcase URL expired mid-session, swap in the bundled portrait. */
 function fallbackToLocal(e: React.SyntheticEvent<HTMLImageElement>, hostId: string) {
@@ -96,24 +78,14 @@ export function DemoChatProofs({
   variant?: "grid" | "rail";
   lineLimit?: number;
 }) {
-  // The rail uses the root loader payload (serialized with the SSR HTML) so it
-  // hydrates with the page; other variants fetch through Query.
+  // Every variant reads the one root payload (serialized with the SSR HTML), so
+  // the rail, the grid and the profile pages all share the same identities.
   const rootProofs = useRootProofs();
-  const query = useQuery({ ...demoProofsQueryOptions(limit), enabled: variant !== "rail" });
-  const proofs = variant === "rail" ? rootProofs : (query.data ?? []);
-  const isPending = variant === "rail" ? false : query.isPending;
-
-  // Runway faces now come from bundled portraits, so there is nothing remote
-  // to register — every surface resolves the same offline image by host id.
+  const proofs = variant === "rail" ? rootProofs : rootProofs.slice(0, limit);
 
   if (variant === "rail") {
-    // Jen's card uses the brand silhouette, not a person — keep the runway all faces.
-    const rail = proofs.filter((p) => p.name.toLowerCase() !== "jen");
-    if (rail.length === 0) {
-      // Reserve the runway's space while data is in flight so nothing jumps.
-      return isPending ? <RunwaySkeleton title={title} /> : null;
-    }
-    return <ProofRunway proofs={rail} title={title} showCta={showCta} lineLimit={lineLimit ?? 2} />;
+    if (proofs.length === 0) return <RunwaySkeleton title={title} />;
+    return <ProofRunway proofs={proofs} title={title} showCta={showCta} lineLimit={lineLimit ?? 2} />;
   }
 
   if (proofs.length === 0) return null;
@@ -126,15 +98,21 @@ export function DemoChatProofs({
       </div>
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {proofs.map((p, pIdx) => {
-          const hostId = hostIdForProof(p, pIdx);
-          const image = proofImage(p, hostId, pIdx);
+        {proofs.map((p) => {
+          const hostId = p.hostId;
+          const image = p.image;
           return (
           <article
             key={p.id}
             className="overflow-hidden rounded-3xl border border-border bg-card shadow-xl"
           >
-            <div className="relative aspect-[4/5] w-full overflow-hidden bg-muted">
+            <Link
+              to="/host/$hostId"
+              params={{ hostId }}
+              onClick={() => pinShowcaseAvatar(hostId, image)}
+              aria-label={`Open ${p.name}'s profile`}
+              className="relative block aspect-[4/5] w-full overflow-hidden bg-muted"
+            >
               <img
                 src={image}
                 alt={`${p.name} creator preview`}
@@ -143,6 +121,7 @@ export function DemoChatProofs({
                 onError={(e) => fallbackToLocal(e, hostId)}
                 className="h-full w-full object-cover transition-opacity duration-500"
               />
+
 
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-4">
                 <p className="flex items-center gap-1.5 text-lg font-display font-bold text-white">
@@ -156,7 +135,7 @@ export function DemoChatProofs({
               <span className="absolute right-3 top-3 rounded-full bg-emerald-500 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white shadow">
                 Online
               </span>
-            </div>
+            </Link>
 
             <div className="space-y-2 p-4">
               {p.lines.map((l, i) => (
@@ -275,8 +254,8 @@ function ProofRunway({
         className="-mx-3 md:-mx-6 mt-2 flex gap-3 overflow-x-auto px-3 md:px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {loop.map((p, idx) => {
-          const hostId = hostIdForProof(p, idx % proofs.length);
-          const image = proofImage(p, hostId, idx % proofs.length);
+          const hostId = p.hostId;
+          const image = p.image;
           return (
           <Link
             key={`${p.id}-${idx}`}

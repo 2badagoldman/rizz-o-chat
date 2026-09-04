@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { sanitizeShowcaseCaption, isCaptionCompliant } from "@/lib/showcase-copy";
+import { assignReelHosts } from "@/lib/creator-identity";
 
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -15,6 +16,8 @@ export interface ReelItem {
   storage_path: string;
   url: string;
   score: number;
+  /** The one creator who owns this photo — tap opens her profile. */
+  hostId: string | null;
 }
 
 export const getShowcaseReel = createServerFn({ method: "POST" })
@@ -31,25 +34,35 @@ export const getShowcaseReel = createServerFn({ method: "POST" })
     const { data: rows, error } = await supabaseAdmin.rpc("get_showcase_reel", { _limit: data.limit });
     if (error || !rows) return [];
 
+    type Row = { id: string; caption: string | null; media_type: string; storage_path: string; score: number };
+    const list = rows as Row[];
+    // Deterministic photo → creator ownership (independent of row order).
+    const owners = assignReelHosts(list.map((r) => r.id));
+
+    const signed = await Promise.all(
+      list.map((r) =>
+        supabaseAdmin.storage
+          .from("showcase")
+          .createSignedUrl(r.storage_path, 60 * 60)
+          .then(({ data: s }) => s?.signedUrl ?? "")
+          .catch(() => ""),
+      ),
+    );
+
     const items: ReelItem[] = [];
-    for (const r of rows as Array<{
-      id: string;
-      caption: string | null;
-      media_type: string;
-      storage_path: string;
-      score: number;
-    }>) {
-      const { data: signed } = await supabaseAdmin.storage.from("showcase").createSignedUrl(r.storage_path, 60 * 60);
-      if (!signed?.signedUrl) continue;
+    list.forEach((r, i) => {
+      const url = signed[i];
+      if (!url) return;
       items.push({
         id: r.id,
         caption: sanitizeShowcaseCaption(r.caption, r.id),
         media_type: (r.media_type === "video" ? "video" : "image") as "image" | "video",
         storage_path: r.storage_path,
-        url: signed.signedUrl,
+        url,
         score: r.score,
+        hostId: owners.get(r.id)?.id ?? null,
       });
-    }
+    });
     return items;
   });
 

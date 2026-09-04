@@ -202,7 +202,12 @@ function PhoneChat({ chat, delay }: { chat: DemoChat; delay: number }) {
           <span>Crush</span>
         </div>
         {/* header */}
-        <div className="flex items-center gap-2 px-3 py-3">
+        <Link
+          to="/host/$hostId"
+          params={{ hostId: chat.id }}
+          aria-label={`Open ${chat.name}'s profile`}
+          className="flex items-center gap-2 px-3 py-3"
+        >
           <img
             src={hostAvatarMed(chat.id)}
             alt={`${chat.name}, verified Crush creator`}
@@ -214,7 +219,7 @@ function PhoneChat({ chat, delay }: { chat: DemoChat; delay: number }) {
             <p className="truncate text-[10px] text-white/70">{chat.handle} · online</p>
           </div>
           <ShieldCheck className="ml-auto h-4 w-4 text-white/80" />
-        </div>
+        </Link>
         {/* messages */}
         <div className="flex min-h-[300px] flex-col justify-end gap-2 bg-black/25 px-3 py-3">
           {chat.messages.slice(0, shown).map((m, i) => (

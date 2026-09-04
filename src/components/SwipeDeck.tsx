@@ -77,22 +77,38 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
   );
 
 
+  const moved = useRef(false);
+
   const onPointerDown = (e: React.PointerEvent) => {
     if (flying) return;
     dragging.current = true;
+    moved.current = false;
     startX.current = e.clientX;
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
   };
   const onPointerMove = (e: React.PointerEvent) => {
     if (!dragging.current) return;
-    setDx(e.clientX - startX.current);
+    const d = e.clientX - startX.current;
+    if (Math.abs(d) > 6) moved.current = true;
+    setDx(d);
   };
   const onPointerUp = () => {
     if (!dragging.current) return;
     dragging.current = false;
     if (dx > 90) commit("right");
     else if (dx < -90) commit("left");
-    else setDx(0);
+    else {
+      setDx(0);
+      // A plain tap on the photo (no drag) opens exactly this creator's profile.
+      if (!moved.current && current) {
+        navigate({ to: "/host/$hostId", params: { hostId: current.id } });
+      }
+    }
+  };
+  const onPointerCancel = () => {
+    if (!dragging.current) return;
+    dragging.current = false;
+    setDx(0);
   };
 
   useEffect(() => {
@@ -140,7 +156,7 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
-          onPointerCancel={onPointerUp}
+          onPointerCancel={onPointerCancel}
           style={{
             transform: `translateX(${offset}px) rotate(${rotate}deg)`,
             transition: dragging.current ? "none" : "transform 280ms cubic-bezier(.22,.61,.36,1), opacity 280ms ease-out",
