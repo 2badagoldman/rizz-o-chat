@@ -358,7 +358,7 @@ function HostProfile() {
 
       {/* What's included */}
       <section className="rise-in rise-in-3 relative mt-5 overflow-hidden rounded-3xl border border-border bg-card/80 p-4 shadow-card backdrop-blur-xl">
-        <span aria-hidden className="glow-breathe pointer-events-none absolute -left-14 bottom--10 h-36 w-36 rounded-full bg-accent/20 blur-3xl" />
+        <span aria-hidden className="glow-breathe pointer-events-none absolute -bottom-10 -left-14 h-36 w-36 rounded-full bg-accent/20 blur-3xl" />
         <p className="eyebrow relative">Friends List includes</p>
         <ul className="relative mt-3 space-y-2.5 text-sm">
           {[
