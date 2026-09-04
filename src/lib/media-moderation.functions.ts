@@ -34,6 +34,63 @@ export type ModerationVerdict = {
   reason: string;
 };
 
+type GatewayResponse = { choices?: Array<{ message?: { content?: string } }> };
+
+/**
+ * Server-side vision review of a small JPEG data URL. Shared by the client
+ * pre-check (moderateImage) and the upload gate (requestModeratedUpload), so
+ * moderation always runs on the server regardless of what the browser did.
+ */
+async function moderateDataUrl(dataUrl: string): Promise<ModerationVerdict> {
+  const key = process.env["LOVABLE_API_KEY"];
+  // Fail-open only when the reviewer is unavailable, so uploads never hard-break.
+  if (!key) return { allow: true, category: "ok", reason: "Reviewer unavailable" };
+
+  try {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          { role: "system", content: SYSTEM },
+          {
+            role: "user",
+            content: [
+              { type: "text", text: "Review this upload." },
+              { type: "image_url", image_url: { url: dataUrl } },
+            ],
+          },
+        ],
+        temperature: 0,
+      }),
+    });
+
+    if (!res.ok) {
+      console.error("moderateImage gateway error", res.status, await res.text());
+      return { allow: true, category: "ok", reason: "Reviewer unavailable" };
+    }
+
+    const json = (await res.json()) as GatewayResponse;
+    const raw = json.choices?.[0]?.message?.content ?? "";
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (!match) return { allow: true, category: "ok", reason: "Reviewer unavailable" };
+    const parsed = JSON.parse(match[0]) as Partial<ModerationVerdict>;
+    return {
+      allow: parsed.allow !== false,
+      category: String(parsed.category ?? "other"),
+      reason: String(parsed.reason ?? "This image does not meet our content standards."),
+    };
+  } catch (e) {
+    console.error("moderateImage failed", e);
+    return { allow: true, category: "ok", reason: "Reviewer unavailable" };
+  }
+}
+
+/** Lightweight client-side pre-check (the authoritative gate is requestModeratedUpload). */
 export const moderateImage = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((i: unknown) => {
@@ -43,51 +100,53 @@ export const moderateImage = createServerFn({ method: "POST" })
     if (dataUrl.length > 4_000_000) throw new Error("Image too large to review");
     return { dataUrl };
   })
-  .handler(async ({ data }): Promise<ModerationVerdict> => {
-    const key = process.env["LOVABLE_API_KEY"];
-    // Fail-open only when the reviewer is unavailable, so uploads never hard-break.
-    if (!key) return { allow: true, category: "ok", reason: "Reviewer unavailable" };
+  .handler(async ({ data }): Promise<ModerationVerdict> => moderateDataUrl(data.dataUrl));
 
-    try {
-      const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${key}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages: [
-            { role: "system", content: SYSTEM },
-            {
-              role: "user",
-              content: [
-                { type: "text", text: "Review this upload." },
-                { type: "image_url", image_url: { url: data.dataUrl } },
-              ],
-            },
-          ],
-          temperature: 0,
-        }),
-      });
+/** Buckets members are allowed to upload into through the moderated gate. */
+const UPLOAD_BUCKETS = new Set(["avatars", "profile-media", "chat-media", "stories"]);
 
-      if (!res.ok) {
-        console.error("moderateImage gateway error", res.status, await res.text());
-        return { allow: true, category: "ok", reason: "Reviewer unavailable" };
-      }
-
-      const json = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
-      const raw = json.choices?.[0]?.message?.content ?? "";
-      const match = raw.match(/\{[\s\S]*\}/);
-      if (!match) return { allow: true, category: "ok", reason: "Reviewer unavailable" };
-      const parsed = JSON.parse(match[0]) as Partial<ModerationVerdict>;
-      return {
-        allow: parsed.allow !== false,
-        category: String(parsed.category ?? "other"),
-        reason: String(parsed.reason ?? "This image does not meet our content standards."),
-      };
-    } catch (e) {
-      console.error("moderateImage failed", e);
-      return { allow: true, category: "ok", reason: "Reviewer unavailable" };
+/**
+ * Authoritative upload gate: the SERVER re-reviews the image (the browser
+ * check is only a UX courtesy) and, only if it passes, mints a one-time
+ * signed upload URL for the exact path. Nothing is written to storage until
+ * moderation approves it, so skipping the client check no longer bypasses
+ * moderation through the app.
+ */
+export const requestModeratedUpload = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((i: unknown) => {
+    const x = (i ?? {}) as { bucket?: string; path?: string; dataUrl?: string | null };
+    const bucket = String(x.bucket ?? "");
+    const path = String(x.path ?? "").trim();
+    const dataUrl = x.dataUrl ? String(x.dataUrl) : null;
+    if (!path || path.includes("..") || /^(https?:|data:|blob:|\/)/i.test(path)) {
+      throw new Error("Invalid upload path");
     }
+    if (dataUrl) {
+      if (!dataUrl.startsWith("data:image/")) throw new Error("Expected an image");
+      if (dataUrl.length > 4_000_000) throw new Error("Image too large to review");
+    }
+    return { bucket, path, dataUrl };
+  })
+  .handler(async ({ data, context }) => {
+    if (!UPLOAD_BUCKETS.has(data.bucket)) throw new Error("Unknown upload target");
+    if (!data.path.startsWith(`${context.userId}/`)) {
+      throw new Error("You can only upload to your own folder");
+    }
+
+    if (data.dataUrl) {
+      const verdict = await moderateDataUrl(data.dataUrl);
+      if (!verdict.allow) {
+        throw new Error(
+          verdict.reason || "This image does not meet our content standards.",
+        );
+      }
+    }
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: signed, error } = await supabaseAdmin.storage
+      .from(data.bucket)
+      .createSignedUploadUrl(data.path);
+    if (error || !signed) throw error ?? new Error("Could not prepare the upload");
+    return { path: signed.path, token: signed.token };
   });

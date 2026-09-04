@@ -254,10 +254,9 @@ function StoryComposer({ onClose, onPosted }: { onClose: () => void; onPosted: (
         if (!uid) throw new Error("Sign in to post a story.");
         mediaPath = storyMediaPath(uid, file);
         mediaType = mk;
-        const { error } = await supabase.storage
-          .from(STORY_MEDIA_BUCKET)
-          .upload(mediaPath, file, { contentType: file.type, upsert: false });
-        if (error) throw error;
+        // The server re-reviews images before minting the upload URL.
+        const { uploadWithServerModeration } = await import("@/lib/media-moderation");
+        await uploadWithServerModeration(file, STORY_MEDIA_BUCKET, mediaPath);
       }
       await post({
         data: {

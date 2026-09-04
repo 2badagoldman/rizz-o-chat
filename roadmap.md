@@ -1,5 +1,12 @@
 # Crush — Launch Roadmap
 
+## Security (done 2026-09-04)
+- [x] Server-side moderation gate (`requestModeratedUpload`) — avatars, profile media, chat media, stories
+- [x] signAvatars profile-media gated by owner / has_chat_access
+- [x] Runway mixes showcase shoot + bundled portraits with local fallback
+
+
+
 ## RevenueCat (brother's business project)
 - [ ] BLOCKED: need a RevenueCat **v2 secret API key** (`sk_` created under API keys → v2). Stored key is legacy → API v2 returns 403.
 - [ ] Create products: crush_gold_weekly, crush_diamond_weekly, crush_coins_500, crush_coins_1500, crush_coins_5000, crush_coins_15000
