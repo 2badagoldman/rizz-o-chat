@@ -21,29 +21,13 @@ export type DemoRoom = {
 };
 
 /**
- * Deterministic themed photo for a room. Uses LoremFlickr (Flickr-backed) with
- * tag-based lookups, so the same room slug always returns the same photo.
- * City rooms → skyline / cityscape; themed rooms → romantic mood shots.
+ * Deterministic cover photo for a room. Resolves to a portrait bundled with
+ * the app (never a third-party CDN), so room tiles render offline and never
+ * hang on a slow network — the same room slug always returns the same cover.
  */
 export function roomImage(room: DemoRoom): string {
   if (room.image) return room.image;
-  const seed = Math.abs(hash(room.slug)) % 10000;
-  const tags = room.tags
-    ?? (room.city ? `${room.city.toLowerCase().replace(/\s+/g, "")},skyline,city,night` : categoryTags(room.category));
-  return `https://loremflickr.com/640/420/${encodeURIComponent(tags)}?lock=${seed}`;
-}
-
-function categoryTags(cat: DemoRoom["category"]): string {
-  switch (cat) {
-    case "Trending":     return "confetti,lights,celebration";
-    case "Conversation": return "cafe,friends,coffee,talk";
-    case "Evening":      return "moon,night,city,lights";
-    case "Party":        return "party,confetti,disco,lights";
-    case "Chill":        return "sunset,beach,pastel";
-    case "Fitness":      return "yoga,pink,studio";
-    case "Coffee":       return "latte,cafe,cozy";
-    default:             return "city,skyline,night";
-  }
+  return localHostPortrait(`room:${room.slug}`);
 }
 
 function hash(s: string): number {
