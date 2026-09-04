@@ -15,8 +15,8 @@ jobs:
     name: Android App Bundle (.aab)
     runs-on: ubuntu-latest
     env:
-      # Must match the app created in Google Play Console (com.crushchat.app).
-      CAP_APP_ID: com.crushchat.app
+      # Must match the app created in Google Play Console.
+      CAP_APP_ID: com.kolo.crush
     steps:
       - uses: actions/checkout@v4
 
@@ -93,7 +93,7 @@ jobs:
     runs-on: macos-14
     env:
       # Must match the bundle ID of the app in App Store Connect.
-      CAP_IOS_BUNDLE_ID: com.crushchat.app
+      CAP_IOS_BUNDLE_ID: com.kolo.crush
     steps:
       - uses: actions/checkout@v4
 
