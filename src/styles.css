@@ -638,8 +638,14 @@
   }
 
   @keyframes kenburns {
-    from { transform: scale(1) translate(0, 0); }
-    to   { transform: scale(1.12) translate(-2%, -2%); }
+    0%   { transform: scale(1.02) translate(0, 0); }
+    50%  { transform: scale(1.08) translate(1.5%, -1.5%); }
+    100% { transform: scale(1.02) translate(0, 0); }
+  }
+
+  @keyframes shine-pulse {
+    0%, 100% { filter: brightness(1) saturate(1.05); }
+    50%      { filter: brightness(1.08) saturate(1.12); }
   }
 
   @keyframes float-soft {

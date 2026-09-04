@@ -153,19 +153,19 @@ function HostProfile() {
 
       <div className="-mx-3 md:-mx-6">
         {/* Carousel */}
-        <div className="group relative aspect-[3/4] w-full overflow-hidden bg-black">
-          {/* Full-bleed portrait — slow cinematic drift, blurred when locked */}
+        <div className="group relative aspect-[3/4] w-full overflow-hidden bg-muted">
+          {/* Full-bleed portrait — bright breathing float, blurred when locked */}
           <img loading="lazy" decoding="async"
             key={slide}
             src={hostAvatar(creator.id)}
             alt={creator.name}
-            className={`absolute inset-0 h-full w-full origin-center object-cover animate-[kenburns_22s_ease-out_infinite_alternate] transition-all duration-700 ${
-              slides[slide].kind === "locked" ? "scale-110 blur-2xl brightness-75" : slides[slide].kind === "video" ? "brightness-90" : ""
+            className={`absolute inset-0 h-full w-full origin-center object-cover animate-[kenburns_16s_ease-in-out_infinite,shine-pulse_7s_ease-in-out_infinite] transition-all duration-700 ${
+              slides[slide].kind === "locked" ? "scale-110 blur-2xl" : ""
             }`}
           />
-          {/* Cinematic grade: warm rim light + deep base so text always reads */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/45" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_0%,transparent_35%,rgba(0,0,0,.55)_100%)]" />
+          {/* Light grade: just enough at the edges for text to read — image stays bright */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-black/10" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(130%_90%_at_50%_0%,transparent_55%,rgba(0,0,0,.22)_100%)]" />
           <div className="glow-breathe pointer-events-none absolute -left-16 top-1/4 h-56 w-56 rounded-full bg-primary/30 blur-3xl" />
           <div className="glow-breathe pointer-events-none absolute -right-16 bottom-1/3 h-56 w-56 rounded-full bg-accent/25 blur-3xl" />
           <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden" />
@@ -243,7 +243,7 @@ function HostProfile() {
 
           {/* In-image CTA — keeps eyes on the creator while deciding */}
           <div className="absolute inset-x-0 bottom-0 z-30 p-3">
-            <div className="rise-in relative overflow-hidden rounded-3xl border border-white/20 bg-black/55 p-3.5 text-white shadow-2xl backdrop-blur-2xl">
+            <div className="rise-in relative overflow-hidden rounded-3xl border border-white/20 bg-black/35 p-3.5 text-white shadow-2xl backdrop-blur-2xl">
               <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
               <div className="mb-2.5 flex items-end justify-between gap-3">
                 <div className="min-w-0">
