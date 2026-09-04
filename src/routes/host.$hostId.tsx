@@ -159,8 +159,8 @@ function HostProfile() {
             key={slide}
             src={hostAvatar(creator.id)}
             alt={creator.name}
-            className={`absolute inset-0 h-full w-full origin-center object-cover animate-[kenburns_16s_ease-in-out_infinite,shine-pulse_7s_ease-in-out_infinite] transition-all duration-700 ${
-              slides[slide].kind === "locked" ? "scale-110 blur-2xl" : ""
+            className={`crush-pan absolute inset-0 h-full w-full origin-center object-cover ${
+              slides[slide].kind === "locked" ? "blur-2xl" : ""
             }`}
           />
           {/* Light grade: just enough at the edges for text to read — image stays bright */}
