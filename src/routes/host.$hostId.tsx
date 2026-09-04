@@ -274,9 +274,9 @@ function HostProfile() {
                       }
                       navigate({ to: "/chat/$hostId", params: { hostId: creator.id } });
                     }}
-                    className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
+                    className="btn-brand press-spring sheen-sweep relative flex flex-1 items-center justify-center gap-2 overflow-hidden py-3 text-sm shadow-glow"
                   >
-                    <Heart className="h-4 w-4 fill-white" />
+                    <Heart className="h-4 w-4 animate-pulse fill-white" />
                     Join {creator.name}'s Friends List — Free
                   </button>
                 ) : iosRestricted ? (
