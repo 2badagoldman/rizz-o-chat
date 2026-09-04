@@ -648,6 +648,17 @@
     50%      { filter: brightness(1.08) saturate(1.12); }
   }
 
+  /* Slow side-to-side drift with a heartbeat "crush" squeeze mid-cycle.
+     The scale(1.12) base keeps edges covered while the image pans. */
+  @keyframes crush-pan {
+    0%   { transform: scale(1.12) translateX(-2.6%); filter: brightness(1.02) saturate(1.06); }
+    38%  { transform: scale(1.12) translateX(2.6%);  filter: brightness(1.05) saturate(1.12); }
+    46%  { transform: scale(1.10) translateX(2.3%);  filter: brightness(1.09) saturate(1.18); }
+    54%  { transform: scale(1.12) translateX(2.6%);  filter: brightness(1.05) saturate(1.12); }
+    100% { transform: scale(1.12) translateX(-2.6%); filter: brightness(1.02) saturate(1.06); }
+  }
+  .crush-pan { animation: crush-pan 12s ease-in-out infinite; will-change: transform, filter; }
+
   @keyframes float-soft {
     0%, 100% { transform: translateY(0); }
     50%      { transform: translateY(-6px); }
