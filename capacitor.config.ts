@@ -13,38 +13,38 @@ import type { CapacitorConfig } from "@capacitor/cli";
 const serverUrl = process.env.CAP_SERVER_URL ?? "https://rizzlachat.com";
 
 const config: CapacitorConfig = {
-  appId: "com.kolotechnology.crush",
-  appName: "Crush",
-  // Only used as a fallback shell; the app loads `server.url`.
-  webDir: "public",
-  server: {
-    url: serverUrl,
-    cleartext: false,
-    androidScheme: "https",
-    // Keep OAuth / Stripe redirects inside the app webview.
-    allowNavigation: [
-      "rizzlachat.com",
-      "*.rizzlachat.com",
-      "*.lovable.app",
-      "*.supabase.co",
-      "checkout.stripe.com",
-      "js.stripe.com",
-      "accounts.google.com",
-    ],
-  },
-  ios: {
-    contentInset: "always",
-    backgroundColor: "#0B0B12",
-  },
-  android: {
-    backgroundColor: "#0B0B12",
-    allowMixedContent: false,
-  },
-  plugins: {
-    Keyboard: { resize: "native" },
-    StatusBar: { style: "DARK", backgroundColor: "#0B0B12" },
-    PushNotifications: { presentationOptions: ["badge", "sound", "alert"] },
-  },
+    appId: "com.kolo.crush",
+    appName: "Crush",
+    // Only used as a fallback shell; the app loads `server.url`.
+    webDir: "public",
+    server: {
+          url: serverUrl,
+          cleartext: false,
+          androidScheme: "https",
+          // Keep OAuth / Stripe redirects inside the app webview.
+          allowNavigation: [
+                  "rizzlachat.com",
+                  "*.rizzlachat.com",
+                  "*.lovable.app",
+                  "*.supabase.co",
+                  "checkout.stripe.com",
+                  "js.stripe.com",
+                  "accounts.google.com",
+                ],
+    },
+    ios: {
+          contentInset: "always",
+          backgroundColor: "#0B0B12",
+    },
+    android: {
+          backgroundColor: "#0B0B12",
+          allowMixedContent: false,
+    },
+    plugins: {
+          Keyboard: { resize: "native" },
+          StatusBar: { style: "DARK", backgroundColor: "#0B0B12" },
+          PushNotifications: { presentationOptions: ["badge", "sound", "alert"] },
+    },
 
 };
 
