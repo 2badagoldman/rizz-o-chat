@@ -103,21 +103,14 @@ export function ChatAttachButton({
 
     setBusy(true);
     try {
-      const { reviewImageBeforeUpload, moderationMessage } = await import("@/lib/media-moderation");
-      const verdict = await reviewImageBeforeUpload(file);
-      if (!verdict.allow) {
-        toast.error(moderationMessage(verdict));
-        return;
-      }
+      const { uploadWithServerModeration } = await import("@/lib/media-moderation");
       const { data: auth } = await supabase.auth.getUser();
       const uid = auth.user?.id;
       if (!uid) throw new Error("Sign in to share media.");
       const path = chatMediaPath(uid, file);
 
-      const { error } = await supabase.storage
-        .from(CHAT_MEDIA_BUCKET)
-        .upload(path, file, { contentType: file.type, upsert: false });
-      if (error) throw error;
+      // The server re-reviews images before minting the upload URL.
+      await uploadWithServerModeration(file, CHAT_MEDIA_BUCKET, path);
       const { encodeChatMedia } = await import("@/lib/chat-media");
       onUploaded(encodeChatMedia(path, kind));
       toast.success(kind === "video" ? "Video attached" : "Photo attached");

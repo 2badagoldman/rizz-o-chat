@@ -1,7 +1,12 @@
-import { moderateImage, type ModerationVerdict } from "./media-moderation.functions";
+import {
+  moderateImage,
+  requestModeratedUpload,
+  type ModerationVerdict,
+} from "./media-moderation.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 /** Downscale an image file to a small JPEG data URL for the safety reviewer. */
-async function toReviewDataUrl(file: File, max = 640): Promise<string | null> {
+export async function toReviewDataUrl(file: File, max = 640): Promise<string | null> {
   try {
     const bitmap = await createImageBitmap(file);
     const scale = Math.min(1, max / Math.max(bitmap.width, bitmap.height));
@@ -34,6 +39,25 @@ export async function reviewImageBeforeUpload(file: File): Promise<ModerationVer
   } catch {
     return { allow: true, category: "ok", reason: "" };
   }
+}
+
+/**
+ * Upload a file through the server-side moderation gate. The server re-reviews
+ * the image (videos skip vision review and rely on reporting + admin review)
+ * and only then mints a one-time signed upload URL, so bypassing the browser
+ * check no longer bypasses moderation.
+ */
+export async function uploadWithServerModeration(
+  file: File,
+  bucket: "avatars" | "profile-media" | "chat-media" | "stories",
+  path: string,
+): Promise<void> {
+  const dataUrl = file.type.startsWith("image/") ? await toReviewDataUrl(file) : null;
+  const { token } = await requestModeratedUpload({ data: { bucket, path, dataUrl } });
+  const { error } = await supabase.storage
+    .from(bucket)
+    .uploadToSignedUrl(path, token, file, { contentType: file.type });
+  if (error) throw error;
 }
 
 export const MODERATION_BLOCK_MESSAGE =

@@ -14,7 +14,7 @@ import { captureNativePhoto } from "@/lib/native";
 import { Camera } from "lucide-react";
 import { SubscriptionStatusCard } from "@/components/SubscriptionStatusCard";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
-import { reviewImageBeforeUpload, moderationMessage } from "@/lib/media-moderation";
+import { uploadWithServerModeration } from "@/lib/media-moderation";
 import { SignedOutGate } from "@/components/SignedOutGate";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -145,17 +145,10 @@ function Profile() {
     }
     setUploadingAvatar(true);
     try {
-      const verdict = await reviewImageBeforeUpload(file);
-      if (!verdict.allow) {
-        setError(`${moderationMessage(verdict)} (${verdict.reason})`);
-        return;
-      }
       const ext = file.name.split(".").pop() || "jpg";
       const path = `${user.id}/avatar-${Date.now()}.${ext}`;
-      const { error: upErr } = await supabase.storage
-        .from("avatars")
-        .upload(path, file, { upsert: true, contentType: file.type });
-      if (upErr) throw upErr;
+      // The server re-reviews the image and only then mints the upload URL.
+      await uploadWithServerModeration(file, "avatars", path);
 
       const { error: dbErr } = await supabase
         .from("profiles")
@@ -211,18 +204,16 @@ function Profile() {
           setError(`Skipped ${file.name}: too large.`);
           continue;
         }
-        const verdict = await reviewImageBeforeUpload(file);
-        if (!verdict.allow) {
-          setError(`Skipped ${file.name}: ${moderationMessage(verdict)}`);
-          continue;
-        }
         const ext = file.name.split(".").pop() || (isVideo ? "mp4" : "jpg");
 
         const path = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        const { error: upErr } = await supabase.storage
-          .from("profile-media")
-          .upload(path, file, { contentType: file.type });
-        if (upErr) throw upErr;
+        try {
+          // The server re-reviews images before allowing the upload.
+          await uploadWithServerModeration(file, "profile-media", path);
+        } catch (modErr) {
+          setError(`Skipped ${file.name}: ${modErr instanceof Error ? modErr.message : "rejected"}`);
+          continue;
+        }
         const { error: dbErr } = await supabase.from("profile_media").insert({
           user_id: user.id,
           storage_path: path,

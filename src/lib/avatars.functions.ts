@@ -18,12 +18,33 @@ export const signAvatars = createServerFn({ method: "POST" })
       : [];
     return { paths };
   })
-  .handler(async ({ data }): Promise<Record<string, string>> => {
+  .handler(async ({ data, context }): Promise<Record<string, string>> => {
     if (!data.paths.length) return {};
+    const me = context.userId;
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    // `profile-media` is paid/private content: mirror the storage RLS policy
+    // ("readable by owner or friends") instead of signing any path blindly.
+    // `avatars` holds public display photos, so those stay signable.
+    const owners = [...new Set(data.paths.map((p) => p.split("/")[0]).filter(Boolean))];
+    const allowed = new Map<string, boolean>();
+    await Promise.all(
+      owners.map(async (owner) => {
+        if (owner === me) return void allowed.set(owner, true);
+        const { data: ok } = await context.supabase.rpc("has_chat_access", {
+          _member_id: me,
+          _host_id: owner,
+        });
+        allowed.set(owner, !!ok);
+      }),
+    );
+    const legacyAllowed = data.paths.filter((p) => allowed.get(p.split("/")[0] ?? ""));
+
     const [{ data: avatarSigned }, { data: legacySigned }] = await Promise.all([
       supabaseAdmin.storage.from("avatars").createSignedUrls(data.paths, 60 * 60),
-      supabaseAdmin.storage.from("profile-media").createSignedUrls(data.paths, 60 * 60),
+      legacyAllowed.length
+        ? supabaseAdmin.storage.from("profile-media").createSignedUrls(legacyAllowed, 60 * 60)
+        : Promise.resolve({ data: [] as Array<{ path: string | null; signedUrl: string | null; error: unknown }> }),
     ]);
     const out: Record<string, string> = {};
     for (const s of [...(legacySigned ?? []), ...(avatarSigned ?? [])]) {

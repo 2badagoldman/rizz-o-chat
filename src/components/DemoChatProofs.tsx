@@ -57,12 +57,22 @@ function hostIdForProof(proof: DemoProof, index: number): string {
 }
 
 /**
- * Always render the locally bundled portrait. Remote showcase URLs are signed
- * and expire after an hour, which is what made the runway go black; the
- * bundled portrait works offline and never expires.
+ * Mix the two photo pools on the scroll: the original showcase shoot (signed
+ * URLs from the server loader) alternates with the bundled AI portraits. The
+ * bundled portrait is the fallback whenever a showcase URL is missing or
+ * fails, so a card can never render black again.
  */
-function proofImage(proof: DemoProof, hostId: string): string {
-  return localHostPortrait(hostId) || proof.image;
+function proofImage(proof: DemoProof, hostId: string, index: number): string {
+  const local = localHostPortrait(hostId);
+  const showcase = /^https?:\/\//i.test(proof.image) ? proof.image : "";
+  if (showcase && index % 2 === 0) return showcase;
+  return local || showcase;
+}
+
+/** If a signed showcase URL expired mid-session, swap in the bundled portrait. */
+function fallbackToLocal(e: React.SyntheticEvent<HTMLImageElement>, hostId: string) {
+  const local = localHostPortrait(hostId);
+  if (local && !e.currentTarget.src.endsWith(local)) e.currentTarget.src = local;
 }
 
 /**
