@@ -3,7 +3,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Heart, X, RotateCcw, Circle, MessageCircle } from "lucide-react";
 import { DEMO_HOSTS, tierLabel, isFreeHost, isAiHost, type DemoHost } from "@/lib/demo-hosts";
 import { AiBadge } from "@/components/AiBadge";
-import { hostAvatarMed } from "@/lib/host-avatars";
+import { hostAvatarMed, localHostPortrait } from "@/lib/host-avatars";
 
 import { LIKES_KEY, PASS_KEY, readIds, writeIds } from "@/lib/swipe-likes";
 
@@ -113,7 +113,13 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
 
   return (
     <div className="select-none">
-      <div className={`relative w-full ${full ? "aspect-[3/4] max-h-[68svh]" : "aspect-[3/4] max-h-[56svh]"}`}>
+      <div
+        className={`relative mx-auto w-full ${
+          full
+            ? "h-[min(72svh,760px)] min-h-[420px] max-w-[560px]"
+            : "h-[min(62svh,640px)] min-h-[380px] max-w-[520px]"
+        }`}
+      >
         {/* card underneath so the deck reads as a stack */}
         <article
           key={`under-${next.id}`}
@@ -125,7 +131,7 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
             alt=""
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
         </article>
 
@@ -148,7 +154,10 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
             src={hostAvatarMed(current.id)}
             alt=""
             draggable={false}
-            className="h-full w-full object-cover"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = localHostPortrait(current.id);
+            }}
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
