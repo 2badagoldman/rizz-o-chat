@@ -63,6 +63,7 @@ jobs:
             echo "STORE_PASSWORD=crush-upload-2026" >> "$GITHUB_ENV"
             echo "KEY_ALIAS=crush-upload" >> "$GITHUB_ENV"
             echo "KEY_PASSWORD=crush-upload-2026" >> "$GITHUB_ENV"
+            echo "GENERATED_KEYSTORE=true" >> "$GITHUB_ENV"
           fi
 
       - name: Build signed bundle
@@ -80,7 +81,7 @@ jobs:
           path: android/app/build/outputs/bundle/release/*.aab
 
       - name: Save upload keystore (first run only — store as secrets, then delete artifact)
-        if: ${{ vars.ANDROID_KEYSTORE_BASE64 == '' }}
+        if: ${{ env.GENERATED_KEYSTORE == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: crush-upload-keystore
