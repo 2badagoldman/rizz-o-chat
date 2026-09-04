@@ -147,7 +147,7 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
             alt=""
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-center"
+            className="crush-pan absolute inset-0 h-full w-full object-cover object-center"
           />
         </article>
 
