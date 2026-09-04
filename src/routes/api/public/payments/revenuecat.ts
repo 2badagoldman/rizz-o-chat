@@ -125,7 +125,11 @@ async function handleEvent(event: any) {
   const userId: string | null = event?.app_user_id ?? null;
   const productId: string = event?.product_id ?? '';
   // Google Play appends the base plan id, e.g. "crush_gold_weekly:weekly".
-  const priceId = PRODUCT_TO_PRICE[productId] ?? PRODUCT_TO_PRICE[productId.split(':')[0]] ?? null;
+  const priceId =
+    PRODUCT_TO_PRICE[productId] ??
+    PRODUCT_TO_PRICE[productId.split(':')[0]] ??
+    priceFromEntitlements(event) ??
+    null;
 
   if (!userId || !/^[0-9a-f-]{36}$/i.test(userId)) {
     await audit(null, 'unattributed', env, { type, productId, app_user_id: userId });
