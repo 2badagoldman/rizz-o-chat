@@ -173,7 +173,7 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src = localHostPortrait(current.id);
             }}
-            className="absolute inset-0 h-full w-full object-cover object-center"
+            className="crush-pan absolute inset-0 h-full w-full object-cover object-center"
           />
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent" />
