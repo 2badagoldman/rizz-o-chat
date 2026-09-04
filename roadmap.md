@@ -33,3 +33,6 @@
 - [x] Every creator image is a link to the matching profile (runway rail + grid, showcase tiles, swipe card tap, crush-home phone mock).
 - [x] ImageGuard swaps an expired creator photo for her bundled portrait (never the logo / never black).
 - [x] Ops: "Identity Manager" added to /admin/ops (audits map + storage signing).
+
+## Creator profile polish
+- [ ] Make creator profile hero + cards feel premium/animated/inviting (not basic)

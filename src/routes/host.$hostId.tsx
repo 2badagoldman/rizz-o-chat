@@ -153,16 +153,22 @@ function HostProfile() {
 
       <div className="-mx-3 md:-mx-6">
         {/* Carousel */}
-        <div className="relative aspect-[3/4] w-full overflow-hidden bg-black">
-          {/* Full-bleed portrait — blurred when locked */}
+        <div className="group relative aspect-[3/4] w-full overflow-hidden bg-black">
+          {/* Full-bleed portrait — slow cinematic drift, blurred when locked */}
           <img loading="lazy" decoding="async"
+            key={slide}
             src={hostAvatar(creator.id)}
             alt={creator.name}
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 ${
+            className={`absolute inset-0 h-full w-full origin-center object-cover animate-[kenburns_22s_ease-out_infinite_alternate] transition-all duration-700 ${
               slides[slide].kind === "locked" ? "scale-110 blur-2xl brightness-75" : slides[slide].kind === "video" ? "brightness-90" : ""
             }`}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
+          {/* Cinematic grade: warm rim light + deep base so text always reads */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/45" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_0%,transparent_35%,rgba(0,0,0,.55)_100%)]" />
+          <div className="glow-breathe pointer-events-none absolute -left-16 top-1/4 h-56 w-56 rounded-full bg-primary/30 blur-3xl" />
+          <div className="glow-breathe pointer-events-none absolute -right-16 bottom-1/3 h-56 w-56 rounded-full bg-accent/25 blur-3xl" />
+          <span aria-hidden className="sheen-sweep pointer-events-none absolute inset-0 overflow-hidden" />
 
           {/* Slide overlay content */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
@@ -208,15 +214,19 @@ function HostProfile() {
                 {tierLabel(creator.tier)}
               </span>
               {creator.online ? (
-                <span className="flex items-center gap-1 rounded-full bg-black/40 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur">
-                  <Circle className="h-2 w-2 fill-success text-success" /> Online
+                <span className="flex items-center gap-1.5 rounded-full border border-success/40 bg-black/45 px-2.5 py-1 text-[10px] font-semibold text-white shadow-glow backdrop-blur">
+                  <span className="relative grid h-2 w-2 place-items-center">
+                    <span className="absolute inset-0 animate-ping rounded-full bg-success/70" />
+                    <Circle className="relative h-2 w-2 fill-success text-success" />
+                  </span>
+                  Online now
                 </span>
               ) : null}
             </div>
           </div>
 
           {/* Slide dots */}
-          <div className="absolute inset-x-0 bottom-[128px] z-30 flex justify-center gap-1.5">
+          <div className="absolute inset-x-0 bottom-[186px] z-30 flex justify-center gap-1.5">
             {slides.map((_, i) => (
               <button
                 key={i}
@@ -233,10 +243,11 @@ function HostProfile() {
 
           {/* In-image CTA — keeps eyes on the creator while deciding */}
           <div className="absolute inset-x-0 bottom-0 z-30 p-3">
-            <div className="rounded-2xl border border-white/15 bg-black/55 p-3 text-white shadow-2xl backdrop-blur-xl">
-              <div className="mb-2 flex items-end justify-between gap-3">
+            <div className="rise-in relative overflow-hidden rounded-3xl border border-white/20 bg-black/55 p-3.5 text-white shadow-2xl backdrop-blur-2xl">
+              <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+              <div className="mb-2.5 flex items-end justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="truncate text-base font-bold leading-tight">
+                  <p className="truncate text-lg font-bold leading-tight tracking-tight">
                     {creator.name}, {creator.age}
                   </p>
                   <p className="truncate text-[11px] opacity-80">{creator.city} · {creator.subscribers} Friends</p>
@@ -263,9 +274,9 @@ function HostProfile() {
                       }
                       navigate({ to: "/chat/$hostId", params: { hostId: creator.id } });
                     }}
-                    className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
+                    className="btn-brand press-spring sheen-sweep relative flex flex-1 items-center justify-center gap-2 overflow-hidden py-3 text-sm shadow-glow"
                   >
-                    <Heart className="h-4 w-4 fill-white" />
+                    <Heart className="h-4 w-4 animate-pulse fill-white" />
                     Join {creator.name}'s Friends List — Free
                   </button>
                 ) : iosRestricted ? (
@@ -275,21 +286,21 @@ function HostProfile() {
                 ) : (
                   <button
                     onClick={onSubscribe}
-                    className="btn-brand flex flex-1 items-center justify-center gap-2 py-2.5 text-sm"
+                    className="btn-brand press-spring sheen-sweep relative flex flex-1 items-center justify-center gap-2 overflow-hidden py-3 text-sm shadow-glow"
                   >
                     <img loading="lazy" decoding="async" src={rizzAiLogo.url} alt="" className="h-4 w-4 rounded-full" />
                     {hasGold ? "Unlock Friends List" : "Get Crush Gold to Unlock"}
                   </button>
                 )}
                 {iosRestricted ? null : (
-                  <button onClick={onTip} aria-label="Send tip" className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20">
+                  <button onClick={onTip} aria-label="Send tip" className="press-spring grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur transition hover:border-primary/60 hover:bg-white/20">
                     <Gift className="h-4 w-4" />
                   </button>
                 )}
                 <button
                   onClick={() => navigate({ to: "/chat/$hostId", params: { hostId: creator.id } })}
                   aria-label="Message"
-                  className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 hover:bg-white/20"
+                  className="press-spring grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur transition hover:border-primary/60 hover:bg-white/20"
                 >
                   <MessageCircle className="h-4 w-4" />
                 </button>
@@ -302,19 +313,22 @@ function HostProfile() {
 
 
       {/* Meta */}
-      <section className="mt-4">
-        <div className="flex items-baseline justify-between">
-          <h1 className="text-2xl font-bold">
+      <section className="rise-in rise-in-1 mt-5">
+        <div className="flex items-baseline justify-between gap-3">
+          <h1 className="text-gradient-brand text-3xl font-bold tracking-tight">
             {creator.name}, {creator.age}
           </h1>
-          <span className="text-xs text-muted-foreground">{creator.handle}</span>
+          <span className="shrink-0 text-xs text-muted-foreground">{creator.handle}</span>
         </div>
-        <p className="text-sm text-muted-foreground">{creator.city}</p>
-        <p className="mt-3 text-sm">{creator.tagline}</p>
+        <p className="mt-0.5 text-sm text-muted-foreground">{creator.city}</p>
+        <p className="mt-3 text-[15px] leading-relaxed">{creator.tagline}</p>
 
-        <div className="mt-3 flex flex-wrap gap-1.5">
+        <div className="mt-3.5 flex flex-wrap gap-2">
           {creator.interests.map((i) => (
-            <span key={i} className="rounded-full border border-border bg-card px-2 py-0.5 text-[11px]">
+            <span
+              key={i}
+              className="rounded-full border border-primary/25 bg-gradient-brand-soft px-3 py-1 text-[11px] font-semibold text-foreground/85 shadow-card transition hover:-translate-y-0.5 hover:border-primary/60"
+            >
               {i}
             </span>
           ))}
@@ -322,39 +336,47 @@ function HostProfile() {
       </section>
 
       {/* Sample locked message tease */}
-      <section className="mt-5 rounded-2xl border border-border bg-card p-4">
-        <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Latest to Friends</p>
-        <div className="mt-2 rounded-2xl bg-background/50 p-3">
-          <p className="text-sm">&ldquo;{creator.teaser}&rdquo;</p>
+      <section className="rise-in rise-in-2 relative mt-6 overflow-hidden rounded-3xl border border-border bg-card/80 p-4 shadow-card backdrop-blur-xl">
+        <span aria-hidden className="glow-breathe pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-primary/20 blur-3xl" />
+        <p className="eyebrow relative">Latest to Friends</p>
+        <div className="relative mt-2.5 rounded-2xl border border-primary/15 bg-background/70 p-3.5">
+          <p className="text-[15px] leading-relaxed">&ldquo;{creator.teaser}&rdquo;</p>
         </div>
-        <div className="mt-3 space-y-2">
+        <div className="relative mt-3 space-y-2">
           {[1, 2].map((n) => (
-            <div key={n} className="flex items-center gap-2 rounded-2xl bg-background/50 p-3">
-              <Lock className="h-4 w-4 text-muted-foreground" />
-              <div className="h-2 flex-1 rounded bg-muted" />
+            <div key={n} className="flex items-center gap-2.5 rounded-2xl border border-border/60 bg-background/50 p-3">
+              <Lock className="h-4 w-4 shrink-0 text-primary/70" />
+              <div
+                className="h-2.5 flex-1 rounded-full bg-[linear-gradient(90deg,var(--muted)_25%,color-mix(in_oklab,var(--primary)_22%,transparent)_50%,var(--muted)_75%)] bg-[length:200%_100%] animate-[shimmer_2.4s_linear_infinite]"
+                style={{ animationDelay: `${n * 0.35}s` }}
+              />
             </div>
           ))}
         </div>
+        <p className="relative mt-3 text-[11px] text-muted-foreground">Join to read every message she sends.</p>
       </section>
 
       {/* What's included */}
-      <section className="mt-5 rounded-2xl border border-border bg-card p-4">
-        <p className="text-[11px] uppercase tracking-widest text-muted-foreground">Friends List includes</p>
-        <ul className="mt-3 space-y-2 text-sm">
+      <section className="rise-in rise-in-3 relative mt-5 overflow-hidden rounded-3xl border border-border bg-card/80 p-4 shadow-card backdrop-blur-xl">
+        <span aria-hidden className="glow-breathe pointer-events-none absolute -bottom-10 -left-14 h-36 w-36 rounded-full bg-accent/20 blur-3xl" />
+        <p className="eyebrow relative">Friends List includes</p>
+        <ul className="relative mt-3 space-y-2.5 text-sm">
           {[
             <>1:1 DMs with {creator.name}</>,
             <>Group room with other Friends</>,
-            <>All posts, photos & voice notes</>,
+            <>All posts, photos &amp; voice notes</>,
             <>Send animated gifts</>,
           ].map((line, i) => (
-            <li key={i} className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-success" />
+            <li key={i} className="flex items-center gap-2.5">
+              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-success/15">
+                <Check className="h-3.5 w-3.5 text-success" />
+              </span>
               <span>{line}</span>
             </li>
           ))}
         </ul>
-        <p className="mt-3 flex items-center gap-1 text-[11px] text-muted-foreground">
-          <Users className="h-3 w-3" /> {creator.subscribers} active Friends · Tier band {tierBand(creator.tier)}
+        <p className="relative mt-3.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+          <Users className="h-3.5 w-3.5" /> {creator.subscribers} active Friends · Tier band {tierBand(creator.tier)}
         </p>
       </section>
 
