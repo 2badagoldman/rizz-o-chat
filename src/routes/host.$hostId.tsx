@@ -243,10 +243,11 @@ function HostProfile() {
 
           {/* In-image CTA — keeps eyes on the creator while deciding */}
           <div className="absolute inset-x-0 bottom-0 z-30 p-3">
-            <div className="rounded-2xl border border-white/15 bg-black/55 p-3 text-white shadow-2xl backdrop-blur-xl">
-              <div className="mb-2 flex items-end justify-between gap-3">
+            <div className="rise-in relative overflow-hidden rounded-3xl border border-white/20 bg-black/55 p-3.5 text-white shadow-2xl backdrop-blur-2xl">
+              <span aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+              <div className="mb-2.5 flex items-end justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="truncate text-base font-bold leading-tight">
+                  <p className="truncate text-lg font-bold leading-tight tracking-tight">
                     {creator.name}, {creator.age}
                   </p>
                   <p className="truncate text-[11px] opacity-80">{creator.city} · {creator.subscribers} Friends</p>
