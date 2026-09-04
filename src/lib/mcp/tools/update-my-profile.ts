@@ -36,7 +36,7 @@ export default defineTool({
       .from("profiles")
       .update(patch)
       .eq("id", ctx.getUserId())
-      .select()
+      .select("id, display_name, bio, interests, avatar_url")
       .maybeSingle();
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
