@@ -91,6 +91,9 @@ jobs:
   ios:
     name: iOS App Store package (.ipa)
     runs-on: macos-14
+    env:
+      # Must match the bundle ID of the app in App Store Connect.
+      CAP_IOS_BUNDLE_ID: com.crushchat.app
     steps:
       - uses: actions/checkout@v4
 
@@ -101,6 +104,11 @@ jobs:
         run: |
           bunx cap add ios || true
           bunx cap sync ios
+
+      - name: Align bundle ID with App Store Connect
+        run: |
+          sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = [^;]*;/PRODUCT_BUNDLE_IDENTIFIER = $CAP_IOS_BUNDLE_ID;/g" ios/App/App.xcodeproj/project.pbxproj
+          grep -m1 PRODUCT_BUNDLE_IDENTIFIER ios/App/App.xcodeproj/project.pbxproj
 
       - name: Install signing assets
         env:
