@@ -206,7 +206,7 @@ function Discover() {
                 Full screen
               </Link>
             </div>
-            <div className="mx-auto mt-3 w-full max-w-[720px]">
+            <div className="mx-auto mt-3 w-full max-w-[620px]">
               <SwipeDeck />
             </div>
           </section>
