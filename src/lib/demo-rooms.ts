@@ -1,4 +1,5 @@
 import { US_STATES, matchState, stateSearchTerms, stateByAbbr } from "./us-states";
+import { localHostPortrait } from "./host-avatars";
 
 export type DemoRoom = {
   slug: string;
