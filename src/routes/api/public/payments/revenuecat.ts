@@ -22,15 +22,35 @@ function sb(): SupabaseClient<Database> {
   return _sb;
 }
 
-/** Store product identifier -> internal Crush price id. */
+/** Store product identifier -> internal Crush price id.
+ *  Both the legacy `_weekly` identifiers and the monthly-named variants are
+ *  accepted, because the App Store / Play catalogs use 1-month durations. */
 const PRODUCT_TO_PRICE: Record<string, string> = {
   crush_gold_weekly: 'rizz_gold_weekly',
+  crush_gold_monthly: 'rizz_gold_weekly',
+  crush_gold: 'rizz_gold_weekly',
   crush_diamond_weekly: 'rizz_diamond_weekly',
+  crush_diamond_monthly: 'rizz_diamond_weekly',
+  crush_diamond: 'rizz_diamond_weekly',
   crush_coins_500: 'coins_500_onetime',
   crush_coins_1500: 'coins_1500_onetime',
   crush_coins_5000: 'coins_5000_onetime',
   crush_coins_15000: 'coins_15000_onetime',
 };
+
+/** Fallback when the product id is unrecognised: RevenueCat always sends the
+ *  entitlement(s) the purchase unlocked, so tiers still grant correctly. */
+function priceFromEntitlements(event: any): string | null {
+  const ids: string[] = Array.isArray(event?.entitlement_ids)
+    ? event.entitlement_ids
+    : event?.entitlement_id
+      ? [event.entitlement_id]
+      : [];
+  const lower = ids.map((i) => String(i).toLowerCase());
+  if (lower.includes('diamond')) return 'rizz_diamond_weekly';
+  if (lower.includes('gold') || lower.includes('plus')) return 'rizz_gold_weekly';
+  return null;
+}
 
 const COIN_PACKS: Record<string, number> = {
   coins_500_onetime: 500,
