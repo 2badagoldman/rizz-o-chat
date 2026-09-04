@@ -153,7 +153,7 @@ function HostProfile() {
 
       <div className="-mx-3 md:-mx-6">
         {/* Carousel */}
-        <div className="group relative aspect-[3/4] w-full overflow-hidden bg-black">
+        <div className="group relative aspect-[3/4] w-full overflow-hidden bg-muted">
           {/* Full-bleed portrait — slow cinematic drift, blurred when locked */}
           <img loading="lazy" decoding="async"
             key={slide}
