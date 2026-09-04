@@ -123,7 +123,7 @@ export function DemoChatProofs({
               />
 
 
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-4">
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 via-black/15 to-transparent p-4">
                 <p className="flex items-center gap-1.5 text-lg font-display font-bold text-white">
                   {p.name}, {p.age}
                   <BadgeCheck className="h-4 w-4 text-primary" />
@@ -275,7 +275,7 @@ function ProofRunway({
                 className="h-full w-full object-cover object-top transition-opacity duration-500"
               />
 
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent p-2.5">
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent p-2.5">
                 <p className="flex items-center gap-1 text-[13px] font-display font-bold text-white">
                   {p.name}, {p.age}
                   <BadgeCheck className="h-3.5 w-3.5 text-primary" />
