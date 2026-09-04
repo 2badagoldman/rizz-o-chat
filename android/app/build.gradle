@@ -4,7 +4,8 @@ android {
     namespace = "com.kolotechnology.crush"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.kolotechnology.crush"
+        // Must match the app created in Google Play Console.
+        applicationId "com.crushchat.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
