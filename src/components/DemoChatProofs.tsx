@@ -128,7 +128,7 @@ export function DemoChatProofs({
       <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {proofs.map((p, pIdx) => {
           const hostId = hostIdForProof(p, pIdx);
-          const image = proofImage(p, hostId);
+          const image = proofImage(p, hostId, pIdx);
           return (
           <article
             key={p.id}
@@ -140,6 +140,7 @@ export function DemoChatProofs({
                 alt={`${p.name} creator preview`}
                 loading="lazy"
                 decoding="async"
+                onError={(e) => fallbackToLocal(e, hostId)}
                 className="h-full w-full object-cover transition-opacity duration-500"
               />
 
@@ -275,7 +276,7 @@ function ProofRunway({
       >
         {loop.map((p, idx) => {
           const hostId = hostIdForProof(p, idx % proofs.length);
-          const image = proofImage(p, hostId);
+          const image = proofImage(p, hostId, idx % proofs.length);
           return (
           <Link
             key={`${p.id}-${idx}`}
@@ -291,6 +292,7 @@ function ProofRunway({
                 alt={`${p.name} creator preview`}
                 loading={idx < 5 ? "eager" : "lazy"}
                 decoding="async"
+                onError={(e) => fallbackToLocal(e, hostId)}
                 className="h-full w-full object-cover object-top transition-opacity duration-500"
               />
 
