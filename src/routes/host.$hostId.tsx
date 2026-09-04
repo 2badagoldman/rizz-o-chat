@@ -312,22 +312,33 @@ function HostProfile() {
       </div>
 
 
-      {/* Meta */}
-      <section className="rise-in rise-in-1 mt-5">
-        <div className="flex items-baseline justify-between gap-3">
-          <h1 className="text-gradient-brand text-3xl font-bold tracking-tight">
-            {creator.name}, {creator.age}
-          </h1>
-          <span className="shrink-0 text-xs text-muted-foreground">{creator.handle}</span>
+      {/* Meta — editorial header */}
+      <section className="rise-in rise-in-1 mt-6">
+        <div className="flex items-end justify-between gap-3">
+          <div>
+            <h1
+              className="text-[2.4rem] leading-none tracking-tight text-foreground"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              {creator.name},{" "}
+              <em className="text-primary">{creator.age}</em>
+            </h1>
+            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary/80">
+              {creator.city}
+            </p>
+          </div>
+          <span className="shrink-0 pb-1 text-sm font-medium text-primary/60">{creator.handle}</span>
         </div>
-        <p className="mt-0.5 text-sm text-muted-foreground">{creator.city}</p>
-        <p className="mt-3 text-[15px] leading-relaxed">{creator.tagline}</p>
 
-        <div className="mt-3.5 flex flex-wrap gap-2">
+        <p className="mt-4 max-w-md text-lg font-light leading-relaxed text-foreground/75">
+          {creator.tagline}
+        </p>
+
+        <div className="mt-4 flex flex-wrap gap-2">
           {creator.interests.map((i) => (
             <span
               key={i}
-              className="rounded-full border border-primary/25 bg-gradient-brand-soft px-3 py-1 text-[11px] font-semibold text-foreground/85 shadow-card transition hover:-translate-y-0.5 hover:border-primary/60"
+              className="rounded-full border border-primary/15 bg-card/60 px-4 py-1.5 text-sm text-primary shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:border-primary/40"
             >
               {i}
             </span>
@@ -335,49 +346,70 @@ function HostProfile() {
         </div>
       </section>
 
-      {/* Sample locked message tease */}
-      <section className="rise-in rise-in-2 relative mt-6 overflow-hidden rounded-3xl border border-border bg-card/80 p-4 shadow-card backdrop-blur-xl">
-        <span aria-hidden className="glow-breathe pointer-events-none absolute -right-12 -top-12 h-36 w-36 rounded-full bg-primary/20 blur-3xl" />
-        <p className="eyebrow relative">Latest to Friends</p>
-        <div className="relative mt-2.5 rounded-2xl border border-primary/15 bg-background/70 p-3.5">
-          <p className="text-[15px] leading-relaxed">&ldquo;{creator.teaser}&rdquo;</p>
+      {/* Latest to Friends — frosted teaser */}
+      <section className="rise-in rise-in-2 relative mt-7 overflow-hidden rounded-[2rem] border border-primary/10 bg-card p-6 shadow-[0_24px_50px_-20px_color-mix(in_oklab,var(--primary)_25%,transparent)] backdrop-blur-xl">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary/70">
+          Latest to Friends
+        </p>
+
+        <div className="mt-4 rounded-2xl border border-primary/10 bg-primary/5 p-5">
+          <p className="text-[17px] italic leading-relaxed text-foreground/85">
+            &ldquo;{creator.teaser}&rdquo;
+          </p>
         </div>
-        <div className="relative mt-3 space-y-2">
-          {[1, 2].map((n) => (
-            <div key={n} className="flex items-center gap-2.5 rounded-2xl border border-border/60 bg-background/50 p-3">
-              <Lock className="h-4 w-4 shrink-0 text-primary/70" />
-              <div
-                className="h-2.5 flex-1 rounded-full bg-[linear-gradient(90deg,var(--muted)_25%,color-mix(in_oklab,var(--primary)_22%,transparent)_50%,var(--muted)_75%)] bg-[length:200%_100%] animate-[shimmer_2.4s_linear_infinite]"
-                style={{ animationDelay: `${n * 0.35}s` }}
-              />
+
+        <div className="mt-4 space-y-3">
+          {[48, 32].map((w, n) => (
+            <div key={n} className={`relative ${n === 1 ? "opacity-60" : ""}`}>
+              <div className="flex h-12 items-center rounded-full border border-primary/10 bg-primary/5 px-6 blur-[2px]">
+                <div className="h-2 rounded-full bg-primary/20" style={{ width: `${w}%` }} />
+              </div>
+              <div className="absolute inset-0 flex items-center px-6 text-primary/50">
+                <Lock className="h-4 w-4" />
+              </div>
             </div>
           ))}
         </div>
-        <p className="relative mt-3 text-[11px] text-muted-foreground">Join to read every message she sends.</p>
+
+        <p className="mt-5 text-center text-xs font-medium text-primary/60">
+          Join to read every message she sends.
+        </p>
       </section>
 
-      {/* What's included */}
-      <section className="rise-in rise-in-3 relative mt-5 overflow-hidden rounded-3xl border border-border bg-card/80 p-4 shadow-card backdrop-blur-xl">
-        <span aria-hidden className="glow-breathe pointer-events-none absolute -bottom-10 -left-14 h-36 w-36 rounded-full bg-accent/20 blur-3xl" />
-        <p className="eyebrow relative">Friends List includes</p>
-        <ul className="relative mt-3 space-y-2.5 text-sm">
+      {/* Friends List includes — dark invitation card */}
+      <section className="rise-in rise-in-3 relative mt-6 overflow-hidden rounded-[2rem] bg-[color-mix(in_oklab,var(--primary)_22%,black)] p-7 text-white shadow-[0_30px_60px_-20px_color-mix(in_oklab,var(--primary)_50%,transparent)]">
+        <span aria-hidden className="glow-breathe pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full bg-primary/25 blur-3xl" />
+        <p className="relative text-[11px] font-bold uppercase tracking-[0.2em] text-white/50">
+          Friends List Includes
+        </p>
+
+        <ul className="relative mt-6 space-y-4 text-[15px]">
           {[
             <>1:1 DMs with {creator.name}</>,
             <>Group room with other Friends</>,
             <>All posts, photos &amp; voice notes</>,
             <>Send animated gifts</>,
           ].map((line, i) => (
-            <li key={i} className="flex items-center gap-2.5">
-              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-success/15">
-                <Check className="h-3.5 w-3.5 text-success" />
+            <li key={i} className="flex items-center gap-3.5">
+              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-primary/40 bg-primary/20">
+                <Check className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={3} />
               </span>
-              <span>{line}</span>
+              <span className="font-medium text-white/90">{line}</span>
             </li>
           ))}
         </ul>
-        <p className="relative mt-3.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-          <Users className="h-3.5 w-3.5" /> {creator.subscribers} active Friends · Tier band {tierBand(creator.tier)}
-        </p>
+
+        <div className="relative mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5">
+          <div className="flex items-center gap-2">
+            <Users className="h-4 w-4 text-white/60" />
+            <span className="text-xs font-semibold uppercase tracking-tight text-white/70">
+              {creator.subscribers} active Friends
+            </span>
+          </div>
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-white/50">
+            Tier band {tierBand(creator.tier)}
+          </span>
+        </div>
       </section>
 
       <p className="mt-6 text-center text-[10px] text-muted-foreground">
