@@ -41,7 +41,11 @@ export function BottomNav() {
                   }
                 }}
                 className="press-spring relative flex flex-col items-center gap-1 py-2.5 text-[10.5px] font-semibold"
-                style={{ color: active ? "var(--color-primary)" : "var(--color-muted-foreground)" }}
+                style={{
+                  color: active
+                    ? "var(--color-primary)"
+                    : "color-mix(in oklab, var(--color-foreground) 72%, transparent)",
+                }}
               >
                 <span
                   className={`relative grid h-9 w-9 place-items-center rounded-2xl transition-all duration-500 ${
