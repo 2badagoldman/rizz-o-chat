@@ -3,7 +3,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Heart, X, RotateCcw, Circle, MessageCircle } from "lucide-react";
 import { DEMO_HOSTS, tierLabel, isFreeHost, isAiHost, type DemoHost } from "@/lib/demo-hosts";
 import { AiBadge } from "@/components/AiBadge";
-import { hostAvatarMed } from "@/lib/host-avatars";
+import { hostAvatarMed, localHostPortrait } from "@/lib/host-avatars";
 
 import { LIKES_KEY, PASS_KEY, readIds, writeIds } from "@/lib/swipe-likes";
 
@@ -131,7 +131,7 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
             alt=""
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
         </article>
 
@@ -154,7 +154,10 @@ export function SwipeDeck({ full = false, pool }: SwipeDeckProps) {
             src={hostAvatarMed(current.id)}
             alt=""
             draggable={false}
-            className="h-full w-full object-cover"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = localHostPortrait(current.id);
+            }}
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
