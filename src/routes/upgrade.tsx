@@ -90,13 +90,13 @@ const PLANS: Plan[] = [
   {
     id: 'rizz_diamond_weekly',
     name: 'Crush Diamond VIP',
-    price: '$24.99',
+    price: '$19.99',
     tagline: 'Gold + Diamond, unlocked together',
     icon: Gem,
     diamond: true,
     includesNote: 'Everything in Crush Gold, plus:',
     perks: [
-      { label: '2,000 coins every month', detail: 'Worth ~$20 — gifts, unlocks and boosts on the house.' },
+      { label: '2,000 coins every week', detail: 'Worth ~$20 — gifts, unlocks and boosts on the house.' },
       { label: 'Diamond badge', detail: 'A prism badge on your profile and in every room.' },
       { label: 'Top-of-list visibility', detail: 'Creators see you first in DMs, rooms and invites.' },
       { label: 'Early access to new creators', detail: '24-hour head start before anyone else can chat.' },
@@ -274,7 +274,7 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false, showPartners = f
         >
           {plan.price}
         </span>
-        <span className={`pb-1.5 text-xs font-semibold ${diamond ? 'text-slate-600' : 'text-muted-foreground'}`}>/month</span>
+        <span className={`pb-1.5 text-xs font-semibold ${diamond ? 'text-slate-600' : 'text-muted-foreground'}`}>/week</span>
       </div>
 
 
@@ -368,7 +368,7 @@ function UpgradePage() {
             Upgrade your <span className="text-gradient-brand">Crush</span>
           </h1>
           <p className="mt-2 max-w-[34ch] text-sm text-muted-foreground">
-            Monthly, cancel anytime. Gold opens the doors — Diamond makes rooms turn around.
+            Weekly, cancel anytime. Gold opens the doors — Diamond makes rooms turn around.
           </p>
         </header>
 
@@ -384,7 +384,7 @@ function UpgradePage() {
               onSubscribe={() =>
                 iosRestricted ? undefined : openCheckout(
                   { kind: 'catalog', priceId: p.id },
-                  { title: p.name, subtitle: `${p.price} per month · cancel anytime`, diamond: p.diamond },
+                  { title: p.name, subtitle: `${p.price} per week · cancel anytime`, diamond: p.diamond },
                 )
               }
             />
