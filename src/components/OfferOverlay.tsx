@@ -31,8 +31,8 @@ const OFFERS = {
     priceId: "crush_intro_monthly",
     badge: "One-time welcome deal",
     price: "$19.99",
-    per: "for your first month",
-    compare: "Diamond VIP is normally $24.99/month",
+    per: "for your first week",
+    compare: "Diamond VIP is normally $19.99/week after your first week",
     title: "Stay and save 20%",
     cta: "Claim $19.99 deal",
     perks: [
