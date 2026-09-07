@@ -223,7 +223,7 @@ export function OfferOverlay() {
           onClick={() =>
             openCheckout(
               { kind: "catalog", priceId: offer.priceId },
-              { title: "Crush Gold", subtitle: `${offer.price} first month, then monthly` },
+              { title: "Crush Gold", subtitle: `${offer.price} first week, then weekly` },
             )
           }
           style={{ background: "var(--gradient-brand)" }}
@@ -239,7 +239,7 @@ export function OfferOverlay() {
           {stage === "intro" ? "No thanks, maybe later" : "Close"}
         </button>
         <p className="relative mt-2 text-center text-[10px] leading-relaxed text-muted-foreground">
-          Renews monthly after the first month. Cancel anytime from My subscriptions.
+          Renews weekly after the first week. Cancel anytime from My subscriptions.
         </p>
       </div>
     </div>
