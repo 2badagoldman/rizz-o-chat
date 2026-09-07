@@ -45,8 +45,8 @@ const OFFERS = {
     priceId: "crush_last_chance_monthly",
     badge: "Final offer — expires when you close",
     price: "$4.99",
-    per: "for your first month",
-    compare: "Half off Crush Gold's $9.99/month",
+    per: "for your first week",
+    compare: "Half off Crush Gold's $9.99/week",
     title: "Last chance before you go",
     cta: "Claim $4.99 deal",
     perks: [
