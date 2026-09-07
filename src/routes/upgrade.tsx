@@ -31,7 +31,7 @@ export const Route = createFileRoute('/upgrade')({
         "@context": "https://schema.org",
         "@type": "Product",
         name: "Crush membership",
-        description: "Monthly memberships that unlock creator Friends Lists on Crush.",
+        description: "Weekly memberships that unlock creator Friends Lists on Crush.",
         brand: { "@type": "Brand", name: "Crush" },
         url: `${SITE_URL}/upgrade`,
         offers: [
@@ -46,7 +46,7 @@ export const Route = createFileRoute('/upgrade')({
           {
             "@type": "Offer",
             name: "Crush Diamond VIP",
-            price: "24.99",
+            price: "19.99",
             priceCurrency: "USD",
             availability: "https://schema.org/InStock",
             url: `${SITE_URL}/upgrade`,
