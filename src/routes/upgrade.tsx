@@ -19,8 +19,8 @@ export const Route = createFileRoute('/upgrade')({
     ...pageHead({
       path: "/upgrade",
       title: "Upgrade to Crush Gold or Diamond VIP \u2014 Crush",
-      description: "Crush Gold $9.99/month unlocks any Friends List — real replies, voice notes and photos from verified creators. Diamond VIP $24.99/month adds a badge and monthly coin drops.",
-      keywords: "crush gold, diamond vip, membership pricing, unlock friends list, monthly subscription",
+      description: "Crush Gold $9.99/week unlocks any Friends List — real replies, voice notes and photos from verified creators. Diamond VIP $19.99/week adds a badge and weekly coin drops.",
+      keywords: "crush gold, diamond vip, membership pricing, unlock friends list, weekly subscription",
     }),
     scripts: [
       breadcrumbLd([
