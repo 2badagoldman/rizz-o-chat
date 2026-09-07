@@ -23,9 +23,12 @@ function sb(): SupabaseClient<Database> {
 }
 
 /** Store product identifier -> internal Crush price id.
- *  Both the legacy `_weekly` identifiers and the monthly-named variants are
- *  accepted, because the App Store / Play catalogs use 1-month durations. */
+ *  The live RevenueCat "default" offering uses `rizzla_*` identifiers
+ *  (`rizzla_weekly` = Gold, `rizzla_monthly` = Diamond); the legacy
+ *  `crush_*` aliases are kept so older store builds still map correctly. */
 const PRODUCT_TO_PRICE: Record<string, string> = {
+  rizzla_weekly: 'rizz_gold_weekly',
+  rizzla_monthly: 'rizz_diamond_weekly',
   crush_gold_weekly: 'rizz_gold_weekly',
   crush_gold_monthly: 'rizz_gold_weekly',
   crush_gold: 'rizz_gold_weekly',

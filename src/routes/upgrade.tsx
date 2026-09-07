@@ -19,8 +19,8 @@ export const Route = createFileRoute('/upgrade')({
     ...pageHead({
       path: "/upgrade",
       title: "Upgrade to Crush Gold or Diamond VIP \u2014 Crush",
-      description: "Crush Gold $9.99/month unlocks any Friends List — real replies, voice notes and photos from verified creators. Diamond VIP $24.99/month adds a badge and monthly coin drops.",
-      keywords: "crush gold, diamond vip, membership pricing, unlock friends list, monthly subscription",
+      description: "Crush Gold $9.99/week unlocks any Friends List — real replies, voice notes and photos from verified creators. Diamond VIP $19.99/week adds a badge and weekly coin drops.",
+      keywords: "crush gold, diamond vip, membership pricing, unlock friends list, weekly subscription",
     }),
     scripts: [
       breadcrumbLd([
@@ -31,7 +31,7 @@ export const Route = createFileRoute('/upgrade')({
         "@context": "https://schema.org",
         "@type": "Product",
         name: "Crush membership",
-        description: "Monthly memberships that unlock creator Friends Lists on Crush.",
+        description: "Weekly memberships that unlock creator Friends Lists on Crush.",
         brand: { "@type": "Brand", name: "Crush" },
         url: `${SITE_URL}/upgrade`,
         offers: [
@@ -46,7 +46,7 @@ export const Route = createFileRoute('/upgrade')({
           {
             "@type": "Offer",
             name: "Crush Diamond VIP",
-            price: "24.99",
+            price: "19.99",
             priceCurrency: "USD",
             availability: "https://schema.org/InStock",
             url: `${SITE_URL}/upgrade`,
@@ -90,13 +90,13 @@ const PLANS: Plan[] = [
   {
     id: 'rizz_diamond_weekly',
     name: 'Crush Diamond VIP',
-    price: '$24.99',
+    price: '$19.99',
     tagline: 'Gold + Diamond, unlocked together',
     icon: Gem,
     diamond: true,
     includesNote: 'Everything in Crush Gold, plus:',
     perks: [
-      { label: '2,000 coins every month', detail: 'Worth ~$20 — gifts, unlocks and boosts on the house.' },
+      { label: '2,000 coins every week', detail: 'Worth ~$20 — gifts, unlocks and boosts on the house.' },
       { label: 'Diamond badge', detail: 'A prism badge on your profile and in every room.' },
       { label: 'Top-of-list visibility', detail: 'Creators see you first in DMs, rooms and invites.' },
       { label: 'Early access to new creators', detail: '24-hour head start before anyone else can chat.' },
@@ -274,7 +274,7 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false, showPartners = f
         >
           {plan.price}
         </span>
-        <span className={`pb-1.5 text-xs font-semibold ${diamond ? 'text-slate-600' : 'text-muted-foreground'}`}>/month</span>
+        <span className={`pb-1.5 text-xs font-semibold ${diamond ? 'text-slate-600' : 'text-muted-foreground'}`}>/week</span>
       </div>
 
 
@@ -368,7 +368,7 @@ function UpgradePage() {
             Upgrade your <span className="text-gradient-brand">Crush</span>
           </h1>
           <p className="mt-2 max-w-[34ch] text-sm text-muted-foreground">
-            Monthly, cancel anytime. Gold opens the doors — Diamond makes rooms turn around.
+            Weekly, cancel anytime. Gold opens the doors — Diamond makes rooms turn around.
           </p>
         </header>
 
@@ -384,7 +384,7 @@ function UpgradePage() {
               onSubscribe={() =>
                 iosRestricted ? undefined : openCheckout(
                   { kind: 'catalog', priceId: p.id },
-                  { title: p.name, subtitle: `${p.price} per month · cancel anytime`, diamond: p.diamond },
+                  { title: p.name, subtitle: `${p.price} per week · cancel anytime`, diamond: p.diamond },
                 )
               }
             />

@@ -31,8 +31,8 @@ const OFFERS = {
     priceId: "crush_intro_monthly",
     badge: "One-time welcome deal",
     price: "$19.99",
-    per: "for your first month",
-    compare: "Diamond VIP is normally $24.99/month",
+    per: "for your first week",
+    compare: "Diamond VIP is normally $19.99/week after your first week",
     title: "Stay and save 20%",
     cta: "Claim $19.99 deal",
     perks: [
@@ -45,8 +45,8 @@ const OFFERS = {
     priceId: "crush_last_chance_monthly",
     badge: "Final offer — expires when you close",
     price: "$4.99",
-    per: "for your first month",
-    compare: "Half off Crush Gold's $9.99/month",
+    per: "for your first week",
+    compare: "Half off Crush Gold's $9.99/week",
     title: "Last chance before you go",
     cta: "Claim $4.99 deal",
     perks: [
@@ -223,7 +223,7 @@ export function OfferOverlay() {
           onClick={() =>
             openCheckout(
               { kind: "catalog", priceId: offer.priceId },
-              { title: "Crush Gold", subtitle: `${offer.price} first month, then monthly` },
+              { title: "Crush Gold", subtitle: `${offer.price} first week, then weekly` },
             )
           }
           style={{ background: "var(--gradient-brand)" }}
@@ -239,7 +239,7 @@ export function OfferOverlay() {
           {stage === "intro" ? "No thanks, maybe later" : "Close"}
         </button>
         <p className="relative mt-2 text-center text-[10px] leading-relaxed text-muted-foreground">
-          Renews monthly after the first month. Cancel anytime from My subscriptions.
+          Renews weekly after the first week. Cancel anytime from My subscriptions.
         </p>
       </div>
     </div>
