@@ -18,10 +18,14 @@ import {
 } from "@/lib/revenuecat.keys";
 
 /** Store product identifiers — must match the products created in App Store
- *  Connect / Google Play and attached to the RevenueCat offering. */
+ *  Connect / Google Play and attached to the RevenueCat offering.
+ *  The live RevenueCat "default" offering uses the `rizzla_*` identifiers;
+ *  `rizzla_monthly` is the higher-priced tier, so it maps to Diamond.
+ *  Coin packs still use `crush_coins_*` and must be created in the
+ *  RevenueCat dashboard before store coin purchases go live. */
 export const RC_PRODUCTS = {
-  rizz_gold_weekly: "crush_gold_weekly",
-  rizz_diamond_weekly: "crush_diamond_weekly",
+  rizz_gold_weekly: "rizzla_weekly",
+  rizz_diamond_weekly: "rizzla_monthly",
   coins_500_onetime: "crush_coins_500",
   coins_1500_onetime: "crush_coins_1500",
   coins_5000_onetime: "crush_coins_5000",
