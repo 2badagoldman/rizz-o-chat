@@ -38,5 +38,6 @@
 - [ ] Make creator profile hero + cards feel premium/animated/inviting (not basic)
 
 ## Stories (done 2026-09-11)
-- [x] Full-width Instagram-style story rail with 60 creator profiles, touch scrolling, snap points, and desktop navigation.
+- [x] Full-width Instagram-style story rail with every available creator profile, touch scrolling, snap points, and desktop navigation.
 - [x] Reliable story navigation through touch swipes, mouse dragging, wheel scrolling, and always-visible arrow controls.
+- [x] Real active stories lead the rail; full creator directory follows without duplicate profiles.
