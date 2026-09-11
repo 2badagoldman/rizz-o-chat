@@ -47,6 +47,7 @@ export function StoryRail() {
   const [composing, setComposing] = useState(false);
   const [demo, setDemo] = useState<StoryGroup[]>([]);
   const railRef = useRef<HTMLDivElement | null>(null);
+  const dragRef = useRef({ startX: 0, startScrollLeft: 0, moved: false });
   const [railPosition, setRailPosition] = useState({ atStart: true, atEnd: false });
 
   const { data: groups = [] } = useQuery({
@@ -123,6 +124,45 @@ export function StoryRail() {
     rail.scrollBy({ left: direction * Math.max(280, rail.clientWidth * 0.72), behavior: "smooth" });
   };
 
+  const startRailDrag = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rail = railRef.current;
+    if (!rail || event.button !== 0) return;
+    event.preventDefault();
+    dragRef.current = {
+      startX: event.clientX,
+      startScrollLeft: rail.scrollLeft,
+      moved: false,
+    };
+    const onMove = (moveEvent: MouseEvent) => {
+      const distance = moveEvent.clientX - dragRef.current.startX;
+      if (Math.abs(distance) > 5) dragRef.current.moved = true;
+      if (dragRef.current.moved) rail.scrollLeft = dragRef.current.startScrollLeft - distance;
+    };
+    const onUp = () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+      updateRailPosition();
+    };
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onUp);
+  };
+
+  const startTouchScroll = (event: React.TouchEvent<HTMLDivElement>) => {
+    const rail = railRef.current;
+    const touch = event.touches[0];
+    if (!rail || !touch) return;
+    dragRef.current = { startX: touch.clientX, startScrollLeft: rail.scrollLeft, moved: false };
+  };
+
+  const moveTouchScroll = (event: React.TouchEvent<HTMLDivElement>) => {
+    const rail = railRef.current;
+    const touch = event.touches[0];
+    if (!rail || !touch) return;
+    const distance = touch.clientX - dragRef.current.startX;
+    if (Math.abs(distance) > 5) dragRef.current.moved = true;
+    if (dragRef.current.moved) rail.scrollLeft = dragRef.current.startScrollLeft - distance;
+  };
+
   if (!user) return null;
 
   const mine = groups.find((g) => g.author_id === user.id);
@@ -143,9 +183,9 @@ export function StoryRail() {
       <div className="mb-2 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
         <div className="min-w-0">
           <h2 className="truncate font-display text-lg font-bold">Stories</h2>
-          <p className="truncate text-[11px] text-muted-foreground">Tap a creator to watch · live for 24h</p>
+          <p className="truncate text-[11px] text-muted-foreground">Swipe or drag to explore · tap to watch</p>
         </div>
-        <div className="hidden shrink-0 items-center gap-1 sm:flex">
+        <div className="flex shrink-0 items-center gap-1">
           <Button
             type="button"
             variant="outline"
@@ -173,12 +213,25 @@ export function StoryRail() {
       <div
         ref={railRef}
         onScroll={updateRailPosition}
+        onMouseDown={startRailDrag}
+        onTouchStart={startTouchScroll}
+        onTouchMove={moveTouchScroll}
+        onTouchEnd={updateRailPosition}
+        onDragStart={(event) => event.preventDefault()}
+        onClickCapture={(event) => {
+          if (dragRef.current.moved) {
+            event.preventDefault();
+            event.stopPropagation();
+            dragRef.current.moved = false;
+          }
+        }}
         onWheel={(event) => {
           const rail = railRef.current;
-          if (!rail || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-          rail.scrollLeft += event.deltaY;
+          if (!rail) return;
+          const movement = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+          rail.scrollLeft += movement;
         }}
-        className="story-profile-rail -mx-3 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-3 pb-3 pt-1 md:-mx-6 md:px-6"
+        className="story-profile-rail -mx-3 flex cursor-grab snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-3 pb-3 pt-1 active:cursor-grabbing md:-mx-6 md:px-6"
       >
         <button
           type="button"
