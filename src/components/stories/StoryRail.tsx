@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Coins, Eye, Gift, ImagePlus, Loader2, Plus, Send, Trash2, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Coins, Eye, Gift, ImagePlus, Loader2, Plus, Send, Trash2, X } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -33,6 +33,7 @@ import { buildDemoStoryGroups, isDemoStoryId, shuffleGroups } from "@/lib/demo-s
 import { useAiQuota } from "@/hooks/useAiQuota";
 import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
 import { AvatarImg } from "@/components/Avatar";
+import { Button } from "@/components/ui/button";
 
 
 
@@ -45,6 +46,8 @@ export function StoryRail() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [composing, setComposing] = useState(false);
   const [demo, setDemo] = useState<StoryGroup[]>([]);
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const [railPosition, setRailPosition] = useState({ atStart: true, atEnd: false });
 
   const { data: groups = [] } = useQuery({
     queryKey: ["stories"],
@@ -96,11 +99,39 @@ export function StoryRail() {
     setDemo(arranged);
   }, []);
 
+  const updateRailPosition = useCallback(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    setRailPosition({
+      atStart: rail.scrollLeft <= 4,
+      atEnd: rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 4,
+    });
+  }, []);
+
+  useEffect(() => {
+    const rail = railRef.current;
+    if (!rail) return;
+    updateRailPosition();
+    const observer = new ResizeObserver(updateRailPosition);
+    observer.observe(rail);
+    return () => observer.disconnect();
+  }, [demo, groups, updateRailPosition]);
+
+  const moveRail = (direction: -1 | 1) => {
+    const rail = railRef.current;
+    if (!rail) return;
+    rail.scrollBy({ left: direction * Math.max(280, rail.clientWidth * 0.72), behavior: "smooth" });
+  };
+
   if (!user) return null;
 
   const mine = groups.find((g) => g.author_id === user.id);
   const others = groups.filter((g) => g.author_id !== user.id);
-  const ordered: StoryGroup[] = mine ? [mine, ...others, ...demo] : [...others, ...demo];
+  const combined = [...others, ...demo];
+  const uniqueOthers = combined.filter(
+    (group, index) => combined.findIndex((candidate) => candidate.author_id === group.author_id) === index,
+  );
+  const ordered: StoryGroup[] = mine ? [mine, ...uniqueOthers] : uniqueOthers;
   const rest = mine ? ordered.slice(1) : ordered;
   // Prefer the dedicated current-profile query so a newly uploaded avatar is
   // visible immediately even while the broader story feed is refetching.
@@ -108,16 +139,51 @@ export function StoryRail() {
   const myInitial = (mine?.display_name ?? myProfile?.display_name ?? "You").slice(0, 1).toUpperCase();
 
   return (
-    <section className="mt-6">
-      <div className="mb-2 flex items-baseline justify-between">
-        <h2 className="font-display text-lg font-bold">Stories</h2>
-        <span className="text-[11px] text-muted-foreground">Disappears in 24h</span>
+    <section className="mt-6 min-w-0" aria-label="Stories">
+      <div className="mb-2 grid grid-cols-[minmax(0,1fr)_auto] items-end gap-3">
+        <div className="min-w-0">
+          <h2 className="truncate font-display text-lg font-bold">Stories</h2>
+          <p className="truncate text-[11px] text-muted-foreground">Tap a creator to watch · live for 24h</p>
+        </div>
+        <div className="hidden shrink-0 items-center gap-1 sm:flex">
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            disabled={railPosition.atStart}
+            onClick={() => moveRail(-1)}
+            aria-label="Scroll stories left"
+            className="h-8 w-8 rounded-full bg-card/80"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
+            size="icon"
+            disabled={railPosition.atEnd}
+            onClick={() => moveRail(1)}
+            aria-label="Scroll stories right"
+            className="h-8 w-8 rounded-full bg-card/80"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
-      <div className="lux-scroll -mx-1 flex gap-3 overflow-x-auto px-1 pb-2">
+      <div
+        ref={railRef}
+        onScroll={updateRailPosition}
+        onWheel={(event) => {
+          const rail = railRef.current;
+          if (!rail || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+          rail.scrollLeft += event.deltaY;
+        }}
+        className="story-profile-rail -mx-3 flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-3 pb-3 pt-1 md:-mx-6 md:px-6"
+      >
         <button
           type="button"
           onClick={() => (mine ? setOpenIndex(0) : setComposing(true))}
-          className="press-spring flex w-[74px] shrink-0 flex-col items-center gap-1.5"
+          className="press-spring flex w-[76px] shrink-0 snap-start flex-col items-center gap-1.5"
         >
           <span className="relative grid h-[68px] w-[68px] place-items-center">
             {mine ? <span aria-hidden className="ring-story-live-halo" /> : null}
@@ -171,7 +237,7 @@ export function StoryRail() {
             key={g.author_id}
             type="button"
             onClick={() => setOpenIndex(mine ? i + 1 : i)}
-            className="press-spring flex w-[74px] shrink-0 flex-col items-center gap-1.5"
+            className="press-spring flex w-[76px] shrink-0 snap-start flex-col items-center gap-1.5"
           >
             <span
               className={`grid h-[68px] w-[68px] place-items-center rounded-full p-[3px] ${

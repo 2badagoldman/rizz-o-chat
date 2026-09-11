@@ -59,12 +59,15 @@ const FILLER: Beat[] = [
 
 const MIN_STORIES = 3;
 
-/** Build story groups for every online/available demo profile. */
+/** Build a deep story rail from the full creator directory, prioritizing online creators. */
 export function buildDemoStoryGroups(): StoryGroup[] {
   const now = Date.now();
   const groups: StoryGroup[] = [];
 
-  const creators = DEMO_HOSTS.filter((h) => h.online || (AI_HOST_IDS as readonly string[]).includes(h.id));
+  const creators = [
+    ...DEMO_HOSTS.filter((h) => h.online || (AI_HOST_IDS as readonly string[]).includes(h.id)),
+    ...DEMO_HOSTS.filter((h) => !h.online && !(AI_HOST_IDS as readonly string[]).includes(h.id)),
+  ].slice(0, 60);
 
   for (const creator of creators) {
     const id = creator.id;
