@@ -167,10 +167,15 @@ export function StoryRail() {
 
   const mine = groups.find((g) => g.author_id === user.id);
   const others = groups.filter((g) => g.author_id !== user.id);
+  // Real, currently active stories always lead the rail. The full curated
+  // directory follows, with one entry per creator even when sources overlap.
   const combined = [...others, ...demo];
-  const uniqueOthers = combined.filter(
-    (group, index) => combined.findIndex((candidate) => candidate.author_id === group.author_id) === index,
-  );
+  const seenCreatorIds = new Set<string>();
+  const uniqueOthers = combined.filter((group) => {
+    if (seenCreatorIds.has(group.author_id)) return false;
+    seenCreatorIds.add(group.author_id);
+    return true;
+  });
   const ordered: StoryGroup[] = mine ? [mine, ...uniqueOthers] : uniqueOthers;
   const rest = mine ? ordered.slice(1) : ordered;
   // Prefer the dedicated current-profile query so a newly uploaded avatar is
