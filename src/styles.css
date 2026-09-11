@@ -1405,7 +1405,7 @@ html.is-native ::-webkit-scrollbar {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   scroll-padding-inline: 0.75rem;
-  touch-action: pan-y pinch-zoom;
+  touch-action: none;
   user-select: none;
 }
 .story-profile-rail::-webkit-scrollbar {
