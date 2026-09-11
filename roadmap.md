@@ -39,3 +39,4 @@
 
 ## Stories (done 2026-09-11)
 - [x] Full-width Instagram-style story rail with 60 creator profiles, touch scrolling, snap points, and desktop navigation.
+- [x] Reliable story navigation through touch swipes, mouse dragging, wheel scrolling, and always-visible arrow controls.
