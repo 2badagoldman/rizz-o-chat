@@ -16,6 +16,7 @@
   "dependencies": {
     "@ai-sdk/openai-compatible": "^3.0.12",
     "@ai-sdk/react": "^4.0.34",
+    "@capacitor-community/in-app-review": "8.0.0",
     "@capacitor/app": "^8.1.1",
     "@capacitor/camera": "^8.2.1",
     "@capacitor/core": "^8.4.2",
