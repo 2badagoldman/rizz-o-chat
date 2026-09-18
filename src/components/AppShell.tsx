@@ -12,6 +12,7 @@ import { OfferOverlay } from "./OfferOverlay";
 import { LiveHostAlerts } from "./LiveHostAlerts";
 import { DemoChatProofs } from "./DemoChatProofs";
 import { InAppNotification } from "./InAppNotification";
+import { AppReviewPrompt } from "./AppReviewPrompt";
 
 
 import { PageAtmosphere } from "./PageAtmosphere";
@@ -221,6 +222,7 @@ export function AppShell({ children, hideNav, hideDock, hideFooter, theme = "mem
       <LiveHostAlerts />
       
       <InAppNotification />
+      {!isConversation ? <AppReviewPrompt pathname={pathname} /> : null}
 
 
       <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} />
