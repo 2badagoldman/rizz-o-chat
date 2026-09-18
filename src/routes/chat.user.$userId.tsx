@@ -21,6 +21,7 @@ import { useFloatingReactions } from "@/components/chat/FloatingReactions";
 import { EmojiTray, useEmojiMode, type EmojiMode } from "@/components/chat/EmojiTray";
 import { getRestrictionState, setRestriction } from "@/lib/restrictions.functions";
 import { supabase as sb } from "@/integrations/supabase/client";
+import { recordSuccessfulChatSend } from "@/lib/app-review";
 
 
 import { PageSkeleton } from "@/components/AuthGate";
@@ -185,6 +186,7 @@ function UserChat() {
             : x,
         ),
       );
+      recordSuccessfulChatSend();
     } catch (err) {
       setMessages((m) => m.filter((x) => x.id !== tempId));
       toast.error((err as Error).message);

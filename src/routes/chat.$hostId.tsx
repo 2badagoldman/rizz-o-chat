@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { ChatSkinPicker, useChatSkin } from "@/lib/chat-theme";
 import { SafetyMenu } from "@/components/SafetyMenu";
 import { useAiQuota } from "@/hooks/useAiQuota";
+import { recordSuccessfulChatSend } from "@/lib/app-review";
 import { AiQuotaPrompt } from "@/components/chat/AiQuotaPrompt";
 import { EmojiTray, useEmojiMode } from "@/components/chat/EmojiTray";
 import { SignedOutGate } from "@/components/SignedOutGate";
@@ -330,7 +331,7 @@ function HostChat() {
     if (!text || busy || chatLocked) return;
     setAutoVoice(false);
     remember(text);
-    sendMessage({ text });
+    void sendMessage({ text }).then(recordSuccessfulChatSend);
     setInput("");
     setPending([]);
   };

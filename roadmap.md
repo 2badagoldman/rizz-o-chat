@@ -28,6 +28,10 @@
 - [ ] Store listing, Data safety, 18+ content rating, privacy + deletion URLs
 - [ ] Upload AAB → internal testing → production
 
+## Store reviews (done 2026-09-18)
+- [x] Native App Store and Google Play review request after five successful chat sends.
+- [x] Branded pre-prompt, 30-day dismissal cooldown, one-time completion guard, and no web/conversation interruption.
+
 ## Creator identity (done)
 - [x] Creator Identity Manager: one creator per photo, deterministic (runway + showcase reel), seeded from the root loader so SSR/hydration agree.
 - [x] Every creator image is a link to the matching profile (runway rail + grid, showcase tiles, swipe card tap, crush-home phone mock).
