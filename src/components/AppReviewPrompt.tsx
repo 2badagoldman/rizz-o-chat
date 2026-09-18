@@ -48,7 +48,13 @@ export function AppReviewPrompt({ pathname }: { pathname: string }) {
     try {
       // Store review sheets are controlled by Apple and Google, which may
       // suppress them after their own frequency limits have been reached.
-      await requestNativeReview();
+      const opened = await requestNativeReview();
+      if (!opened) dismissReviewPrompt();
+      setOpen(false);
+    } catch {
+      // A store sheet can be unavailable in development or when the store
+      // enforces its own quota. Quietly cool down instead of nagging again.
+      dismissReviewPrompt();
       setOpen(false);
     } finally {
       setRequesting(false);
