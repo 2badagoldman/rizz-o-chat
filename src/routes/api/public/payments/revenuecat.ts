@@ -22,19 +22,20 @@ function sb(): SupabaseClient<Database> {
   return _sb;
 }
 
-/** Store product identifier -> internal Crush price id.
- *  The live RevenueCat "default" offering uses `rizzla_*` identifiers
- *  (`rizzla_weekly` = Gold, `rizzla_monthly` = Diamond); the legacy
- *  `crush_*` aliases are kept so older store builds still map correctly. */
+/** Store product identifier -> internal price id.
+ *  The live RevenueCat "Crush" project's Default offering uses `crush_*`
+ *  identifiers (`crush_gold_weekly` = Gold, `crush_diamond_weekly` = Diamond
+ *  VIP); the legacy `rizzla_*` identifiers are kept as aliases so older
+ *  store builds still map correctly. */
 const PRODUCT_TO_PRICE: Record<string, string> = {
-  rizzla_weekly: 'rizz_gold_weekly',
-  rizzla_monthly: 'rizz_diamond_weekly',
   crush_gold_weekly: 'rizz_gold_weekly',
   crush_gold_monthly: 'rizz_gold_weekly',
   crush_gold: 'rizz_gold_weekly',
   crush_diamond_weekly: 'rizz_diamond_weekly',
   crush_diamond_monthly: 'rizz_diamond_weekly',
   crush_diamond: 'rizz_diamond_weekly',
+  rizzla_weekly: 'rizz_gold_weekly',
+  rizzla_monthly: 'rizz_diamond_weekly',
   crush_coins_500: 'coins_500_onetime',
   crush_coins_1500: 'coins_1500_onetime',
   crush_coins_5000: 'coins_5000_onetime',
