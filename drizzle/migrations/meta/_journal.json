@@ -8,6 +8,13 @@
       "when": 1788323125910,
       "tag": "0000_grant_app_reviewer_full_access",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789839428455,
+      "tag": "0001_fix_media_access_and_demographics_delete",
+      "breakpoints": true
     }
   ]
 }

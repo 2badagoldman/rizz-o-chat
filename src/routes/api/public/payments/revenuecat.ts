@@ -204,11 +204,24 @@ async function handleEvent(event: any) {
       await audit(userId, 'coin_refund', env, { type, productId });
       return;
     }
+    const rcSubId = `rc_${event?.original_transaction_id ?? event?.transaction_id}`;
+    // Read the row first so we can also close any creator-list access the
+    // subscription was paying for — otherwise list_memberships.status stays
+    // 'active' after the money stopped.
+    const { data: subRow } = await sb()
+      .from('subscriptions')
+      .select('host_id')
+      .eq('stripe_subscription_id', rcSubId)
+      .eq('environment', env)
+      .maybeSingle();
     await sb()
       .from('subscriptions')
       .update({ status: 'canceled', updated_at: new Date().toISOString() })
-      .eq('stripe_subscription_id', `rc_${event?.original_transaction_id ?? event?.transaction_id}`)
+      .eq('stripe_subscription_id', rcSubId)
       .eq('environment', env);
+    if (subRow?.host_id) {
+      await sb().rpc('friends_list_grace_end', { _member_id: userId, _host_id: subRow.host_id });
+    }
     await sb().from('profiles').update({ platform_tier: 'free' }).eq('id', userId);
     await audit(userId, 'subscription_revoked', env, { type, productId });
     return;
