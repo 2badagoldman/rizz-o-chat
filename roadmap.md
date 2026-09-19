@@ -8,13 +8,13 @@
 
 
 ## RevenueCat (brother's business project)
-- [ ] BLOCKED: need a RevenueCat **v2 secret API key** (`sk_` created under API keys → v2). Stored key is legacy → API v2 returns 403.
-- [ ] Create products: crush_gold_weekly, crush_diamond_weekly, crush_coins_500, crush_coins_1500, crush_coins_5000, crush_coins_15000
-- [ ] Create consumable coin packs in App Store Connect and Google Play, import them into RevenueCat, and attach them to the Current Default offering.
-- [ ] Create entitlements: `gold`, `diamond`; attach subscription products
-- [ ] Create/verify "Default" offering marked **Current**, with packages for all products
-- [ ] Connect App Store app (bundle com.kolotechnology.crush) + Play app
-- [ ] Configure webhook: https://rizzlachat.com/api/public/payments/revenuecat (handler verified 200/401)
+- [x] Default offering has rizzla_weekly (Gold) + rizzla_monthly (Diamond) attached for iOS + Android + Web. Confirmed via dashboard 2026-09-19.
+- [x] Webhook configured: REVENUECAT_WEBHOOK_SECRET in secrets store; handler at https://rizzlachat.com/api/public/payments/revenuecat verified 200/401.
+- [x] Code maps store product IDs → internal price IDs (rizzla_weekly→rizz_gold_weekly, rizzla_monthly→rizz_diamond_weekly) and handles Android base-plan suffix (`rizzla_weekly:weekly`).
+- [ ] NOTE: stored REVENUECAT_SECRET_API_KEY is legacy v1 — v2 API calls return 403. Not blocking: UI confirms products attached. Only needed for programmatic coin-pack creation.
+- [ ] Create consumable coin packs (crush_coins_500/1500/5000/15000) in App Store Connect + Google Play, import into RevenueCat, attach to Default offering.
+- [ ] Verify entitlements `gold`, `diamond` exist and are attached to the subscription products.
+- [ ] Connect App Store app (bundle com.kolotechnology.crush) + Play app to RevenueCat.
 
 ## App Store Connect
 - [ ] App Review contact phone (required, currently red)
