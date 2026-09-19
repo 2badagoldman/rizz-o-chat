@@ -1,5 +1,5 @@
 /**
- * RevenueCat public SDK keys.
+ * RevenueCat public SDK keys for the Crush project.
  *
  * These are *publishable* keys (safe in client code) — the same kind you paste
  * into a mobile app bundle. Find them in RevenueCat → Project Settings → API
@@ -11,8 +11,8 @@
  *             native builds can exercise the purchase flow before the real
  *             store apps are configured. Never charges real money.
  */
-export const REVENUECAT_IOS_PUBLIC_KEY = 'appl_WBGvRhAGSCvipJThMvtYbUXhpAG';
-export const REVENUECAT_ANDROID_PUBLIC_KEY = 'goog_fCJdnxJVcIKhYxfLErdeWDTunYE';
+export const REVENUECAT_IOS_PUBLIC_KEY = 'appl_KSlzSVItgkcgBbKSACBQBFAqUKe';
+export const REVENUECAT_ANDROID_PUBLIC_KEY = 'goog_KQIDovLGLGecihCAnJGFIZXRfqS';
 
 /** Test Store key — sandbox fallback for both platforms. */
 export const REVENUECAT_TEST_STORE_KEY = 'test_gzpUigdEmLplrzGBEOtJMHXLXGt';
