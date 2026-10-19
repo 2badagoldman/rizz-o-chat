@@ -2,10 +2,10 @@
 
 ## October 19 RevenueCat and mobile updates
 - [ ] Configure coin products/packages in RevenueCat project 0582993e — saved key rejected: it belongs to another project.
-- [ ] Use native store prices and verify native-only restore controls on Coins and Upgrade.
-- [ ] Lazy-load below-fold creator cards on Home and Discover.
-- [ ] Update PWA fields, add ignored Firebase placeholder, and correct default title/social description.
-- [ ] Run focused tests and verify changed pages.
+- [x] Use native store prices and native-only restore controls on Coins and Upgrade; signed-device verification remains below.
+- [x] Lazy-load below-fold creator cards on Home; Discover already lazy-loads both demo and real creator images.
+- [x] Update PWA fields, add exact Firebase placeholder ignored via android/app/.gitignore (root ignore file is protected), and correct default title/social description.
+- [x] Run 23 focused tests; verify signed-in web prices, hidden web restore controls, home metadata, mobile overflow, and error-free page rendering.
 
 ## Mobile RevenueCat readiness
 - [x] Standardize native identifiers and Android permissions.
@@ -26,7 +26,7 @@
 - [x] Default offering has rizzla_weekly (Gold) + rizzla_monthly (Diamond) attached for iOS + Android + Web. Confirmed via dashboard 2026-09-19.
 - [x] Webhook configured: REVENUECAT_WEBHOOK_SECRET in secrets store; handler at https://rizzlachat.com/api/public/payments/revenuecat verified 200/401.
 - [x] Code maps store product IDs → internal price IDs (rizzla_weekly→rizz_gold_weekly, rizzla_monthly→rizz_diamond_weekly) and handles Android base-plan suffix (`rizzla_weekly:weekly`).
-- [ ] NOTE: stored REVENUECAT_SECRET_API_KEY is legacy v1 — v2 API calls return 403. Not blocking: UI confirms products attached. Only needed for programmatic coin-pack creation.
+- [ ] Update REVENUECAT_SECRET_API_KEY for project 0582993e — October 19 v2 products/offerings reads return 403: key belongs to another project; current offering contents unverified.
 - [ ] Create consumable coin packs (crush_coins_500/1500/5000/15000) in App Store Connect + Google Play, import into RevenueCat, attach to Default offering.
 - [ ] Verify entitlements `gold`, `diamond` exist and are attached to the subscription products.
 - [ ] Connect App Store app (bundle com.kolotechnology.crush) + Play app to RevenueCat.
