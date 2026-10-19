@@ -12,6 +12,11 @@ import { AltPaymentOptions } from '@/components/AltPaymentOptions';
 import { usePaymentRails } from '@/hooks/usePaymentRails';
 import { useRevenueCat } from '@/hooks/useRevenueCat';
 import type { CrushPriceId } from '@/lib/revenuecat';
+import { useNativePlatform } from '@/hooks/useNative';
+import { RestorePurchases } from '@/components/RestorePurchases';
+import { purchaseDisplayPrice } from '@/lib/purchase-price';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 export const Route = createFileRoute('/coins')({
   head: () => ({
@@ -76,14 +81,16 @@ function CoinRain() {
   );
 }
 
-function PackRow({ pack, index, onBuy }: { pack: Pack; index: number; onBuy: () => void }) {
+function PackRow({ pack, index, onBuy, disabled = false }: { pack: Pack; index: number; onBuy: () => void; disabled?: boolean }) {
   const diamond = pack.variant === 'diamond';
   return (
-    <button
+    <Button
+      variant="ghost"
+      disabled={disabled}
       data-reveal
       style={{ transitionDelay: `${index * 80}ms` }}
       onClick={onBuy}
-      className={`press-spring group relative flex w-full items-center justify-between overflow-hidden rounded-[1.5rem] border p-4 text-left backdrop-blur-2xl ${
+      className={`press-spring group relative flex h-auto w-full items-center justify-between overflow-hidden rounded-[1.5rem] border p-4 text-left backdrop-blur-2xl ${
         pack.highlight
           ? 'border-amber-300/70 bg-amber-50/50 shadow-glow'
           : diamond
@@ -131,18 +138,20 @@ function PackRow({ pack, index, onBuy }: { pack: Pack; index: number; onBuy: () 
           </p>
         ) : null}
       </div>
-    </button>
+    </Button>
   );
 }
 
 function CoinsPage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
   const iosRestricted = useIosBillingRestricted();
-  const { available: storeBilling } = useRevenueCat();
+  const billing = useRevenueCat();
+  const { available: storeBilling, packageFor } = billing;
+  const native = useNativePlatform() !== 'web';
   const { stripeCard } = usePaymentRails();
   // Card checkout is hidden inside the iOS build, and once a high-risk
   // processor replaces Stripe as the primary rail.
-  const hideCard = iosRestricted || !stripeCard;
+  const hideCard = native || iosRestricted || !stripeCard;
   return (
     <AppShell>
       <div className="page-anim relative">
@@ -168,11 +177,19 @@ function CoinsPage() {
           <div className="relative space-y-4">
             {PACKS.map((p, i) => (
               <div key={p.id} className="space-y-1">
-                {!iosRestricted && (
+                {(
                   <PackRow
-                    pack={p}
+                    pack={{ ...p, price: purchaseDisplayPrice(native, p.price, packageFor(p.id as CrushPriceId)?.priceString) }}
                     index={i}
+                    disabled={native && (!billing.ready || !packageFor(p.id as CrushPriceId) || billing.busy !== null)}
                     onBuy={() => {
+                      if (native) {
+                        void billing.purchase(p.id as CrushPriceId).then((result) => {
+                          if (result.status === 'success') toast.success('Purchase complete — your account is updating now.');
+                          else if (result.status === 'error') toast.error(result.message);
+                        });
+                        return;
+                      }
                       if (hideCard) return;
                       openCheckout({ kind: 'catalog', priceId: p.id });
                     }}
@@ -183,8 +200,9 @@ function CoinsPage() {
                   priceId={p.id as CrushPriceId}
                   label={`Buy ${p.coins.toLocaleString()} coins with store billing`}
                   webNote={false}
+                  showRestore={false}
                 />
-                {!iosRestricted && (
+                {!native && !iosRestricted && (
                   <AltPaymentOptions
                     priceId={p.id}
                     onCashApp={() => openCheckout({ kind: 'catalog', priceId: p.id })}
@@ -194,6 +212,8 @@ function CoinsPage() {
             ))}
           </div>
         )}
+
+        {native && <RestorePurchases billing={billing} />}
 
         {!storeBilling ? (
           <p className="mt-5 flex items-center justify-center gap-1.5 text-center text-[11px] text-muted-foreground">
