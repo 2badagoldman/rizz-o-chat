@@ -1,5 +1,12 @@
 # Crush — Launch Roadmap
 
+## October 19 RevenueCat and mobile updates
+- [ ] Configure coin products/packages in RevenueCat project 0582993e — saved key rejected: it belongs to another project.
+- [ ] Use native store prices and verify native-only restore controls on Coins and Upgrade.
+- [ ] Lazy-load below-fold creator cards on Home and Discover.
+- [ ] Update PWA fields, add ignored Firebase placeholder, and correct default title/social description.
+- [ ] Run focused tests and verify changed pages.
+
 ## Mobile RevenueCat readiness
 - [x] Standardize native identifiers and Android permissions.
 - [x] Add authenticated, server-verified purchase sync and product metadata.

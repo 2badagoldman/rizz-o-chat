@@ -11,7 +11,7 @@ import { DEMO_HOSTS, isFreeHost } from "@/lib/demo-hosts";
 import { useShuffled } from "@/hooks/useShuffled";
 import { hostAvatarMed, hostAvatarThumb } from "@/lib/host-avatars";
 import { Waveform } from "@/components/chat/VoiceNote";
-import { pageHead, faqLd, jsonLd, SITE_URL } from "@/lib/seo";
+import { pageHead, faqLd, jsonLd, SITE_URL, DEFAULT_APP_TITLE, DEFAULT_APP_DESCRIPTION } from "@/lib/seo";
 import { ShowcaseRail } from "@/components/ShowcaseRail";
 import { TasteChat } from "@/components/TasteChat";
 
@@ -50,8 +50,8 @@ export const Route = createFileRoute("/")({
   head: () => {
     const base = pageHead({
       path: "/",
-      title: "Crush \u2014 She actually replies",
-      description: "Meet your favorite exclusive creators on CRUSH. Members get 24/7 access to chat, connect, and enjoy one-on-one time with the creators they love.",
+      title: DEFAULT_APP_TITLE,
+      description: DEFAULT_APP_DESCRIPTION,
       keywords: "chat app, voice notes, voice messages, hear her voice, meet creators, exclusive creators, one on one chat, paid chat, creator subscriptions, social chat, 24/7 access",
     });
     return {
@@ -315,9 +315,9 @@ function Home() {
                   alt={h.name}
                   width={400}
                   height={500}
-                  loading={i < 4 ? "eager" : "lazy"}
+                  loading="lazy"
                   decoding="async"
-                  fetchPriority={i < 2 ? "high" : "auto"}
+                  fetchPriority="auto"
                   className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
                 />
 
