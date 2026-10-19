@@ -8,8 +8,18 @@ import { uniqueChannel, safeRemoveChannel } from "@/lib/realtime";
 import { DollarSign, Users, TrendingUp, Wallet, Crown, Inbox, Radio, MessageSquare } from "lucide-react";
 import { InstallConversionPanel } from "@/components/admin/InstallConversionPanel";
 import { signupsByBackground } from "@/lib/admin-data.functions";
+import { RevenueCatStatus } from "@/components/admin/RevenueCatStatus";
 
 export const Route = createFileRoute("/admin/")({
+  head: () => ({ meta: [
+    { title: "Revenue and mobile billing — Crush Admin" },
+    { name: "description", content: "Crush administrator revenue metrics and RevenueCat mobile billing status." },
+    { property: "og:title", content: "Revenue and mobile billing — Crush Admin" },
+    { property: "og:description", content: "Crush administrator revenue metrics and RevenueCat mobile billing status." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+    { name: "robots", content: "noindex, nofollow" },
+  ] }),
   component: AdminDashboard,
 });
 
@@ -57,6 +67,7 @@ function AdminDashboard() {
         </select>
       </div>
 
+      <RevenueCatStatus />
       {loading ? (
         <p className="mt-8 text-center text-sm text-muted-foreground">Loading metrics…</p>
       ) : err ? (

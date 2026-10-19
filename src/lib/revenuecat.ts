@@ -24,13 +24,22 @@ import {
  *  `crush_diamond_weekly` = Diamond VIP tier (named "weekly" in RevenueCat,
  *  but it is the premium tier). Coin packs use `crush_coins_*`. */
 export const RC_PRODUCTS = {
+  /** crush_gold_weekly: Gold subscription, weekly billing. */
   rizz_gold_weekly: "crush_gold_weekly",
+  /** crush_diamond_weekly: Diamond VIP, monthly billing despite the RC name. */
   rizz_diamond_weekly: "crush_diamond_weekly",
+  /** crush_coins_500: one-time consumable, 500 coins. */
   coins_500_onetime: "crush_coins_500",
+  /** crush_coins_1500: one-time consumable, 1,500 coins. */
   coins_1500_onetime: "crush_coins_1500",
+  /** crush_coins_5000: one-time consumable, 5,000 coins. */
   coins_5000_onetime: "crush_coins_5000",
+  /** crush_coins_15000: one-time consumable, 15,000 coins. */
   coins_15000_onetime: "crush_coins_15000",
 } as const;
+
+export const RC_COIN_PRODUCTS = [RC_PRODUCTS.coins_500_onetime, RC_PRODUCTS.coins_1500_onetime, RC_PRODUCTS.coins_5000_onetime, RC_PRODUCTS.coins_15000_onetime] as const;
+export const RC_SUBSCRIPTION_PRODUCTS = [RC_PRODUCTS.rizz_gold_weekly, RC_PRODUCTS.rizz_diamond_weekly] as const;
 
 export type CrushPriceId = keyof typeof RC_PRODUCTS;
 
@@ -72,6 +81,7 @@ export function isRevenueCatAvailable(): boolean {
 let configured = false;
 
 async function plugin() {
+  // Intentional lazy loading/tree-shaking: the native SDK stays out of the initial web bundle.
   const mod = await import("@revenuecat/purchases-capacitor");
   return mod.Purchases;
 }
@@ -80,10 +90,12 @@ async function plugin() {
  *  attribute the purchase to the right account. */
 export async function initRevenueCat(userId: string | null): Promise<boolean> {
   if (!isRevenueCatAvailable()) return false;
+  const key = apiKey();
+  if (!key) return false;
   try {
     const Purchases = await plugin();
     if (!configured) {
-      await Purchases.configure({ apiKey: apiKey()!, appUserID: userId ?? undefined });
+      await Purchases.configure({ apiKey: key, appUserID: userId ?? undefined });
       configured = true;
     } else if (userId) {
       await Purchases.logIn({ appUserID: userId });
@@ -125,14 +137,29 @@ export type RcPurchaseResult =
   | { status: "cancelled" }
   | { status: "error"; message: string };
 
+/** Best-effort authenticated sync; client entitlements are hints, never proof of payment. */
+async function notifyBackend(activeEntitlements: string[]): Promise<void> {
+  const { supabase } = await import("@/integrations/supabase/client");
+  const { data } = await supabase.auth.getSession();
+  const session = data.session;
+  if (!session) return;
+  await fetch("https://rizzlachat.com/api/public/payments/revenuecat/sync", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${session.access_token}` },
+    body: JSON.stringify({ userId: session.user.id, activeEntitlements }),
+  });
+}
+
 export async function purchaseRevenueCatPackage(pkg: RcPackage): Promise<RcPurchaseResult> {
   if (!isRevenueCatAvailable()) return { status: "error", message: "Store billing unavailable" };
   try {
     const Purchases = await plugin();
     const res = await Purchases.purchasePackage({ aPackage: pkg.raw as never });
+    const activeEntitlements = Object.keys(res.customerInfo?.entitlements?.active ?? {});
+    void notifyBackend(activeEntitlements).catch(() => {});
     return {
       status: "success",
-      activeEntitlements: Object.keys(res.customerInfo?.entitlements?.active ?? {}),
+      activeEntitlements,
     };
   } catch (err) {
     const e = err as { code?: string | number; userCancelled?: boolean; message?: string };
@@ -147,9 +174,11 @@ export async function restoreRevenueCatPurchases(): Promise<RcPurchaseResult> {
   try {
     const Purchases = await plugin();
     const res = await Purchases.restorePurchases();
+    const activeEntitlements = Object.keys(res.customerInfo?.entitlements?.active ?? {});
+    void notifyBackend(activeEntitlements).catch(() => {});
     return {
       status: "success",
-      activeEntitlements: Object.keys(res.customerInfo?.entitlements?.active ?? {}),
+      activeEntitlements,
     };
   } catch (err) {
     return { status: "error", message: (err as Error)?.message ?? "Restore failed" };

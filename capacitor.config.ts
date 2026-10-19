@@ -13,7 +13,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 const serverUrl = process.env.CAP_SERVER_URL ?? "https://rizzlachat.com";
 
 const config: CapacitorConfig = {
-    appId: "com.kolo.crush",
+    appId: "com.kolotechnology.crush",
     appName: "Crush",
     // Only used as a fallback shell; the app loads `server.url`.
     webDir: "public",
