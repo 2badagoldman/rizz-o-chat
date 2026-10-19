@@ -37,5 +37,16 @@
 
     <!-- Permissions -->
 
+    <!-- Core -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Camera & media (profile photos, KYC selfie, chat media) -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <!-- Push notifications (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Google Play in-app billing (RevenueCat subscriptions + coin packs) -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+    <!-- Vibration for haptic feedback -->
+    <uses-permission android:name="android.permission.VIBRATE" />
 </manifest>

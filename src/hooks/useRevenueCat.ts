@@ -7,6 +7,7 @@ import {
   purchaseRevenueCatPackage,
   restoreRevenueCatPurchases,
   RC_PRODUCTS,
+  RC_SUBSCRIPTION_PRODUCTS,
   type CrushPriceId,
   type RcPackage,
 } from "@/lib/revenuecat";
@@ -67,6 +68,9 @@ export function useRevenueCat() {
 
   return {
     available: isRevenueCatAvailable(),
+    // Offering availability only; this does not establish the user's paid entitlement.
+    hasActiveSubscription: RC_SUBSCRIPTION_PRODUCTS.some((id) => Boolean(packages[id])),
+    packages,
     ready,
     busy,
     packageFor,

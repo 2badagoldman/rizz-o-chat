@@ -104,6 +104,7 @@ import { Route as ApiPublicPaymentsEpochRouteImport } from './routes/api/public/
 import { Route as ApiPublicPaymentsCcbillRouteImport } from './routes/api/public/payments/ccbill'
 import { Route as ApiPublicHooksShowcaseBrainRouteImport } from './routes/api/public/hooks/showcase-brain'
 import { Route as ApiPublicHooksOpsManagersRouteImport } from './routes/api/public/hooks/ops-managers'
+import { Route as ApiPublicPaymentsRevenuecatSyncRouteImport } from './routes/api/public/payments/revenuecat/sync'
 
 const WhyCrushRoute = WhyCrushRouteImport.update({
   id: '/why-crush',
@@ -588,6 +589,12 @@ const ApiPublicHooksOpsManagersRoute =
     path: '/api/public/hooks/ops-managers',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPaymentsRevenuecatSyncRoute =
+  ApiPublicPaymentsRevenuecatSyncRouteImport.update({
+    id: '/sync',
+    path: '/sync',
+    getParentRoute: () => ApiPublicPaymentsRevenuecatRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -680,11 +687,12 @@ export interface FileRoutesByFullPath {
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/ccbill': typeof ApiPublicPaymentsCcbillRoute
   '/api/public/payments/epoch': typeof ApiPublicPaymentsEpochRoute
-  '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
+  '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRouteWithChildren
   '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/voice/transcribe': typeof ApiPublicVoiceTranscribeRoute
   '/api/public/voice/tts': typeof ApiPublicVoiceTtsRoute
+  '/api/public/payments/revenuecat/sync': typeof ApiPublicPaymentsRevenuecatSyncRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -776,11 +784,12 @@ export interface FileRoutesByTo {
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/ccbill': typeof ApiPublicPaymentsCcbillRoute
   '/api/public/payments/epoch': typeof ApiPublicPaymentsEpochRoute
-  '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
+  '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRouteWithChildren
   '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/voice/transcribe': typeof ApiPublicVoiceTranscribeRoute
   '/api/public/voice/tts': typeof ApiPublicVoiceTtsRoute
+  '/api/public/payments/revenuecat/sync': typeof ApiPublicPaymentsRevenuecatSyncRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -874,11 +883,12 @@ export interface FileRoutesById {
   '/api/public/hooks/showcase-brain': typeof ApiPublicHooksShowcaseBrainRoute
   '/api/public/payments/ccbill': typeof ApiPublicPaymentsCcbillRoute
   '/api/public/payments/epoch': typeof ApiPublicPaymentsEpochRoute
-  '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRoute
+  '/api/public/payments/revenuecat': typeof ApiPublicPaymentsRevenuecatRouteWithChildren
   '/api/public/payments/segpay': typeof ApiPublicPaymentsSegpayRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/api/public/voice/transcribe': typeof ApiPublicVoiceTranscribeRoute
   '/api/public/voice/tts': typeof ApiPublicVoiceTtsRoute
+  '/api/public/payments/revenuecat/sync': typeof ApiPublicPaymentsRevenuecatSyncRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -978,6 +988,7 @@ export interface FileRouteTypes {
     | '/api/public/payments/webhook'
     | '/api/public/voice/transcribe'
     | '/api/public/voice/tts'
+    | '/api/public/payments/revenuecat/sync'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1074,6 +1085,7 @@ export interface FileRouteTypes {
     | '/api/public/payments/webhook'
     | '/api/public/voice/transcribe'
     | '/api/public/voice/tts'
+    | '/api/public/payments/revenuecat/sync'
   id:
     | '__root__'
     | '/'
@@ -1171,6 +1183,7 @@ export interface FileRouteTypes {
     | '/api/public/payments/webhook'
     | '/api/public/voice/transcribe'
     | '/api/public/voice/tts'
+    | '/api/public/payments/revenuecat/sync'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1242,7 +1255,7 @@ export interface RootRouteChildren {
   ApiPublicHooksShowcaseBrainRoute: typeof ApiPublicHooksShowcaseBrainRoute
   ApiPublicPaymentsCcbillRoute: typeof ApiPublicPaymentsCcbillRoute
   ApiPublicPaymentsEpochRoute: typeof ApiPublicPaymentsEpochRoute
-  ApiPublicPaymentsRevenuecatRoute: typeof ApiPublicPaymentsRevenuecatRoute
+  ApiPublicPaymentsRevenuecatRoute: typeof ApiPublicPaymentsRevenuecatRouteWithChildren
   ApiPublicPaymentsSegpayRoute: typeof ApiPublicPaymentsSegpayRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   ApiPublicVoiceTranscribeRoute: typeof ApiPublicVoiceTranscribeRoute
@@ -1916,6 +1929,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksOpsManagersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/payments/revenuecat/sync': {
+      id: '/api/public/payments/revenuecat/sync'
+      path: '/sync'
+      fullPath: '/api/public/payments/revenuecat/sync'
+      preLoaderRoute: typeof ApiPublicPaymentsRevenuecatSyncRouteImport
+      parentRoute: typeof ApiPublicPaymentsRevenuecatRoute
+    }
   }
 }
 
@@ -1980,6 +2000,20 @@ const AdminRouteChildren: AdminRouteChildren = {
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface ApiPublicPaymentsRevenuecatRouteChildren {
+  ApiPublicPaymentsRevenuecatSyncRoute: typeof ApiPublicPaymentsRevenuecatSyncRoute
+}
+
+const ApiPublicPaymentsRevenuecatRouteChildren: ApiPublicPaymentsRevenuecatRouteChildren =
+  {
+    ApiPublicPaymentsRevenuecatSyncRoute: ApiPublicPaymentsRevenuecatSyncRoute,
+  }
+
+const ApiPublicPaymentsRevenuecatRouteWithChildren =
+  ApiPublicPaymentsRevenuecatRoute._addFileChildren(
+    ApiPublicPaymentsRevenuecatRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -2051,7 +2085,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksShowcaseBrainRoute: ApiPublicHooksShowcaseBrainRoute,
   ApiPublicPaymentsCcbillRoute: ApiPublicPaymentsCcbillRoute,
   ApiPublicPaymentsEpochRoute: ApiPublicPaymentsEpochRoute,
-  ApiPublicPaymentsRevenuecatRoute: ApiPublicPaymentsRevenuecatRoute,
+  ApiPublicPaymentsRevenuecatRoute:
+    ApiPublicPaymentsRevenuecatRouteWithChildren,
   ApiPublicPaymentsSegpayRoute: ApiPublicPaymentsSegpayRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   ApiPublicVoiceTranscribeRoute: ApiPublicVoiceTranscribeRoute,
