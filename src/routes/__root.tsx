@@ -25,6 +25,7 @@ import { PresenceProvider } from "../lib/presence";
 
 import { useShowcaseAvatarSync, registerCreatorIdentities } from "../lib/showcase-avatar-store";
 import { useInitPerfTier } from "../hooks/usePerfTier";
+import { DEFAULT_APP_TITLE, DEFAULT_APP_DESCRIPTION } from "@/lib/seo";
 
 function NotFoundComponent() {
   return (
@@ -106,12 +107,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "application-name", content: "Crush" },
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "format-detection", content: "telephone=no" },
-      { title: "Crush — Chat with verified creators" },
+      { title: DEFAULT_APP_TITLE },
       {
         name: "description",
         content:
-          "Meet your favorite exclusive creators on CRUSH. Members get 24/7 access to chat, connect, and enjoy one-on-one time with the creators they love.",
+          DEFAULT_APP_DESCRIPTION,
       },
+      { property: "og:title", content: DEFAULT_APP_TITLE },
+      { property: "og:description", content: DEFAULT_APP_DESCRIPTION },
       { property: "og:site_name", content: "Crush" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -9,6 +9,8 @@
 
 export const SITE_URL = "https://rizzlachat.com";
 export const SITE_NAME = "Crush";
+export const DEFAULT_APP_TITLE = "Crush — Real chats with real people";
+export const DEFAULT_APP_DESCRIPTION = "Meet verified people, join their Friends List, and talk in private chats or live group rooms.";
 export const TWITTER_HANDLE = "@rizzlachat";
 
 /** 1200x630 branded share card — the size every social platform crops from. */

@@ -12,3 +12,4 @@
 - RevenueCat purchase/restore sync authenticates the member and independently reads the server API; client entitlement lists never authorize grants.
 - RevenueCat event webhooks remain the only writer of new store subscription rows and coin grants; snapshot sync updates tiers/existing rows only to avoid duplicate purchase credits.
 - RevenueCat diagnostics reuse the protected admin-role check and mount the native billing hook only after authorization, keeping SDK work out of non-admin views.
+- Coins and Upgrade use the shared purchase-price resolver for platform-specific prices and a single page-level restore control; unavailable native products never fall back to web prices.

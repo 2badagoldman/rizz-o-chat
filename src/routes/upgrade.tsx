@@ -12,6 +12,9 @@ import { usePaymentRails } from '@/hooks/usePaymentRails';
 import { useRevenueCat } from '@/hooks/useRevenueCat';
 import type { CrushPriceId } from '@/lib/revenuecat';
 import { DemoChatProofs } from '@/components/DemoChatProofs';
+import { useNativePlatform } from '@/hooks/useNative';
+import { RestorePurchases } from '@/components/RestorePurchases';
+import { purchaseDisplayPrice } from '@/lib/purchase-price';
 
 
 export const Route = createFileRoute('/upgrade')({
@@ -127,7 +130,7 @@ function Bubbles() {
   );
 }
 
-function PlanCard({ plan, index, onSubscribe, hideCard = false, showPartners = false }: { plan: Plan; index: number; onSubscribe: () => void; hideCard?: boolean; showPartners?: boolean }) {
+function PlanCard({ plan, index, onSubscribe, hideCard = false, showPartners = false, native = false }: { plan: Plan; index: number; onSubscribe: () => void; hideCard?: boolean; showPartners?: boolean; native?: boolean }) {
   const Icon = plan.icon;
   const diamond = !!plan.diamond;
   return (
@@ -274,7 +277,7 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false, showPartners = f
         >
           {plan.price}
         </span>
-        <span className={`pb-1.5 text-xs font-semibold ${diamond ? 'text-slate-600' : 'text-muted-foreground'}`}>/week</span>
+        <span className={`pb-1.5 text-xs font-semibold ${diamond ? 'text-slate-600' : 'text-muted-foreground'}`}>{native && diamond ? '/month' : '/week'}</span>
       </div>
 
 
@@ -331,7 +334,7 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false, showPartners = f
           visible so members have a fast, international backup if card checkout
           is unavailable. */}
       <div className={hideCard ? 'mt-6' : 'mt-3'}>
-        <RevenueCatPurchase priceId={plan.id as CrushPriceId} label={`Get ${plan.name} with store billing`} />
+        <RevenueCatPurchase priceId={plan.id as CrushPriceId} label={`Get ${plan.name} with store billing`} showRestore={false} />
         {showPartners && <AltPaymentOptions priceId={plan.id} onCashApp={onSubscribe} />}
       </div>
 
@@ -345,11 +348,13 @@ function PlanCard({ plan, index, onSubscribe, hideCard = false, showPartners = f
 function UpgradePage() {
   const { openCheckout, checkoutElement } = useStripeCheckout();
   const iosRestricted = useIosBillingRestricted();
-  const { available: storeBilling } = useRevenueCat();
+  const billing = useRevenueCat();
+  const { available: storeBilling, packageFor } = billing;
+  const native = useNativePlatform() !== 'web';
   const { stripeCard } = usePaymentRails();
   // Card checkout is hidden inside the iOS build (Apple guideline 3.1.1) and
   // once a high-risk processor replaces Stripe as the primary rail.
-  const hideCard = iosRestricted || !stripeCard;
+  const hideCard = native || iosRestricted || !stripeCard;
   return (
     <AppShell>
       <div className="page-anim relative">
@@ -377,10 +382,11 @@ function UpgradePage() {
           {PLANS.map((p, i) => (
             <PlanCard
               key={p.id}
-              plan={p}
+              plan={{ ...p, price: purchaseDisplayPrice(native, p.price, packageFor(p.id as CrushPriceId)?.priceString) }}
               index={i}
               hideCard={hideCard}
-              showPartners={!iosRestricted}
+              showPartners={!native && !iosRestricted}
+              native={native}
               onSubscribe={() =>
                 iosRestricted ? undefined : openCheckout(
                   { kind: 'catalog', priceId: p.id },
@@ -391,6 +397,8 @@ function UpgradePage() {
 
           ))}
         </div>
+
+        {native && <RestorePurchases billing={billing} />}
 
         <DemoChatProofs
           limit={7}

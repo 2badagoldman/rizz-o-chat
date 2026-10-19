@@ -15,6 +15,7 @@ export function RevenueCatPurchase({
   label,
   onSuccess,
   webNote = true,
+  showRestore = true,
 }: {
   priceId: CrushPriceId;
   label: string;
@@ -22,6 +23,7 @@ export function RevenueCatPurchase({
   /** Show the "available in the mobile app" hint on web. Turn off when the
    *  page renders many purchase rows and only needs the hint once. */
   webNote?: boolean;
+  showRestore?: boolean;
 }) {
   const { available, ready, busy, packageFor, purchase, restore } = useRevenueCat();
 
@@ -58,7 +60,7 @@ export function RevenueCatPurchase({
         {working ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4 text-primary" />}
         {working ? "Processing…" : `${label}${pkg?.priceString ? ` · ${pkg.priceString}` : ""}`}
       </button>
-      <button
+      {showRestore && <button
         type="button"
         disabled={busy === "restore"}
         onClick={async () => {
@@ -69,7 +71,7 @@ export function RevenueCatPurchase({
         className="w-full text-center text-[11px] font-semibold text-muted-foreground underline-offset-2 hover:underline disabled:opacity-50"
       >
         Restore previous purchases
-      </button>
+      </button>}
     </div>
   );
 }
