@@ -1,5 +1,11 @@
 # Crush — Launch Roadmap
 
+## Mobile RevenueCat readiness
+- [ ] Standardize native identifiers and Android permissions.
+- [ ] Add authenticated, server-verified purchase sync and product metadata.
+- [ ] Add RevenueCat hook status and admin-only diagnostics.
+- [ ] Run focused payment tests and verify the available app flows.
+
 ## Security (done 2026-09-04)
 - [x] Server-side moderation gate (`requestModeratedUpload`) — avatars, profile media, chat media, stories
 - [x] signAvatars profile-media gated by owner / has_chat_access
