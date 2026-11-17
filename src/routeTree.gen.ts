@@ -19,6 +19,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as ExportPortraitsRouteImport } from './routes/export-portraits'
 import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CrushHomeRouteImport } from './routes/crush-home'
@@ -154,6 +155,11 @@ const ProfileRoute = ProfileRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExportPortraitsRoute = ExportPortraitsRouteImport.update({
+  id: '/export-portraits',
+  path: '/export-portraits',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DiscoverRoute = DiscoverRouteImport.update({
@@ -608,6 +614,7 @@ export interface FileRoutesByFullPath {
   '/crush-home': typeof CrushHomeRoute
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
+  '/export-portraits': typeof ExportPortraitsRoute
   '/mcp': typeof McpRoute
   '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -705,6 +712,7 @@ export interface FileRoutesByTo {
   '/crush-home': typeof CrushHomeRoute
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
+  '/export-portraits': typeof ExportPortraitsRoute
   '/mcp': typeof McpRoute
   '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -804,6 +812,7 @@ export interface FileRoutesById {
   '/crush-home': typeof CrushHomeRoute
   '/dashboard': typeof DashboardRoute
   '/discover': typeof DiscoverRoute
+  '/export-portraits': typeof ExportPortraitsRoute
   '/mcp': typeof McpRoute
   '/profile': typeof ProfileRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -904,6 +913,7 @@ export interface FileRouteTypes {
     | '/crush-home'
     | '/dashboard'
     | '/discover'
+    | '/export-portraits'
     | '/mcp'
     | '/profile'
     | '/reset-password'
@@ -1001,6 +1011,7 @@ export interface FileRouteTypes {
     | '/crush-home'
     | '/dashboard'
     | '/discover'
+    | '/export-portraits'
     | '/mcp'
     | '/profile'
     | '/reset-password'
@@ -1099,6 +1110,7 @@ export interface FileRouteTypes {
     | '/crush-home'
     | '/dashboard'
     | '/discover'
+    | '/export-portraits'
     | '/mcp'
     | '/profile'
     | '/reset-password'
@@ -1198,6 +1210,7 @@ export interface RootRouteChildren {
   CrushHomeRoute: typeof CrushHomeRoute
   DashboardRoute: typeof DashboardRoute
   DiscoverRoute: typeof DiscoverRoute
+  ExportPortraitsRoute: typeof ExportPortraitsRoute
   McpRoute: typeof McpRoute
   ProfileRoute: typeof ProfileRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -1332,6 +1345,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/export-portraits': {
+      id: '/export-portraits'
+      path: '/export-portraits'
+      fullPath: '/export-portraits'
+      preLoaderRoute: typeof ExportPortraitsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/discover': {
@@ -2027,6 +2047,7 @@ const rootRouteChildren: RootRouteChildren = {
   CrushHomeRoute: CrushHomeRoute,
   DashboardRoute: DashboardRoute,
   DiscoverRoute: DiscoverRoute,
+  ExportPortraitsRoute: ExportPortraitsRoute,
   McpRoute: McpRoute,
   ProfileRoute: ProfileRoute,
   ResetPasswordRoute: ResetPasswordRoute,
