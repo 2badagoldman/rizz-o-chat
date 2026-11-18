@@ -1,5 +1,9 @@
 # Crush — Launch Roadmap
 
+## Confirmed weekly membership displays
+- [x] Align public Gold/Diamond membership copy and displayed prices; preserve payment logic, native price handling, creator monthly pricing and coin packs.
+- [x] Verify eight public pages and audit stale membership references; the explicitly protected native Diamond /month label remains unchanged, as do admin-only copy and monthly coin-drop perks.
+
 ## October 19 RevenueCat and mobile updates
 - [ ] Configure coin products/packages in RevenueCat project 0582993e — saved key rejected: it belongs to another project.
 - [x] Use native store prices and native-only restore controls on Coins and Upgrade; signed-device verification remains below.

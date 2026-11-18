@@ -190,7 +190,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 {
                   "@type": "Offer",
                   name: "Crush Diamond VIP",
-                  price: "24.99",
+                  price: "19.99",
                   priceCurrency: "USD",
                   url: "https://rizzlachat.com/upgrade",
                 },

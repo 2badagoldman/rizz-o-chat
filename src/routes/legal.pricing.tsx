@@ -21,8 +21,8 @@ const COINS = [
 ];
 
 const PLANS = [
-  { name: "Crush Gold", billing: "Monthly, auto-renewing", price: "$9.99 / month" },
-  { name: "Crush Diamond VIP", billing: "Monthly, auto-renewing", price: "$24.99 / month" },
+  { name: "Crush Gold", billing: "Weekly, auto-renewing", price: "$9.99 / week" },
+  { name: "Crush Diamond VIP", billing: "Weekly, auto-renewing", price: "$19.99 / week" },
 ];
 
 function Table({
@@ -78,7 +78,7 @@ function Pricing() {
 
       <Section heading="2. Platform memberships (recurring)">
         <p>
-          Memberships renew automatically each month at the price shown until cancelled. You can cancel at any time from{" "}
+          Memberships renew automatically each week at the price shown until cancelled. You can cancel at any time from{" "}
           <Link to="/subscriptions" className="font-semibold text-primary">
             My subscriptions
           </Link>

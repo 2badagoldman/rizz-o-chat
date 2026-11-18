@@ -26,7 +26,7 @@ const FAQS = [
   },
   {
     q: "How much does Crush cost?",
-    a: "Joining is free. Crush Gold is $9.99 per month and unlocks any creator's Friends List. Crush Diamond VIP is $24.99 per month and adds a diamond badge plus monthly coin drops. Coins for gifts are bought separately.",
+    a: "Joining is free. Crush Gold is $9.99 per week and unlocks any creator's Friends List. Crush Diamond VIP is $19.99 per week and adds a diamond badge plus monthly coin drops. Coins for gifts are bought separately.",
   },
   {
     q: "Do creators send voice notes on Crush?",
@@ -38,7 +38,7 @@ const FAQS = [
   },
   {
     q: "Can I cancel my Crush membership any time?",
-    a: "Yes. Memberships are monthly and can be cancelled at any time from your subscriptions page; access continues to the end of the paid month.",
+    a: "Yes. Gold and Diamond VIP memberships are weekly and can be cancelled at any time from your subscriptions page; access continues to the end of the paid week.",
   },
   {
     q: "Is Crush available on iPhone and Android?",
@@ -370,7 +370,7 @@ function Home() {
               <Waveform active className="h-5 text-white/80" />
             </button>
             <p className="mt-2 text-center text-[11px] text-muted-foreground">
-              She's online right now. Free to start — Gold ($9.99/mo) unlocks any creator's Friends
+              She's online right now. Free to start — Gold ($9.99/week) unlocks any creator's Friends
               List.
             </p>
           </>
